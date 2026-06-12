@@ -1,0 +1,690 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YiQi Design System — Showcase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<!-- Bundle canónico del DS (tokens base + componentes) -->
+<link rel="stylesheet" href="../styles.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="../ds-components.js" defer></script>
+<style>
+  /* ── Layout de la página (solo composición; los estilos de componente vienen del DS) ── */
+  body { margin:0; background:var(--bg); color:var(--text); font-family:var(--sans,"Inter",sans-serif); min-height:100vh; }
+  .sc-split { display:grid; grid-template-columns:400px minmax(0,1fr); align-items:start; }
+  .sc-hero { position:sticky; top:56px; height:calc(100vh - 56px); display:flex; flex-direction:column; justify-content:center; padding:40px; border-right:1px solid var(--line); background:radial-gradient(130% 90% at 14% 12%, color-mix(in srgb, var(--cyan) 9%, transparent), transparent 58%); overflow:auto; }
+  .sc-right { padding:32px 30px 72px; min-width:0; }
+  .sc-right .sc-section { max-width:none; margin:0; padding:30px 0 4px; }
+  .sc-eyebrow { display:inline-flex; align-items:center; gap:7px; padding:5px 12px; border-radius:var(--radius-pill);
+    background:var(--cyan-soft); color:var(--cyan); font:600 11px var(--mono); letter-spacing:.06em; }
+  .sc-h1 { font:800 38px/1.04 var(--sans); letter-spacing:-.02em; margin:16px 0 12px; }
+  .sc-sub { color:var(--muted); font:400 13.5px/1.55 var(--sans); max-width:44ch; margin:0 0 16px; }
+  .sc-code { background:var(--bg-elev-2); border:1px solid var(--line); border-radius:var(--radius); padding:12px 14px;
+    font:500 11.5px/1.6 var(--mono); color:var(--muted); overflow-x:auto; margin-bottom:16px; }
+  .sc-code .k{color:var(--cyan)} .sc-code .s{color:var(--green)} .sc-code .c{color:var(--muted-2)}
+  .sc-cta { display:flex; gap:12px; flex-wrap:wrap; }
+  .sc-livelabel { margin-top:auto; padding-top:18px; color:var(--muted-2); font:700 10px var(--mono); letter-spacing:.16em; text-transform:uppercase; }
+
+  /* Grilla masonry de mockups */
+  .sc-grid { columns:2; column-gap:16px; }
+  .sc-card { break-inside:avoid; margin:0 0 16px; background:var(--bg-elev); border-radius:var(--radius-lg);
+    box-shadow:0 0 0 1px var(--line); padding:15px 16px; }
+  .sc-card-h { display:flex; align-items:center; justify-content:space-between; margin-bottom:4px; }
+  .sc-card-title { font:700 15px var(--sans); }
+  .sc-card-sub { color:var(--muted); font:400 12px/1.45 var(--sans); margin:0 0 12px; }
+  .sc-row { display:flex; align-items:center; gap:11px; padding:7px 0; }
+  .sc-row + .sc-row { border-top:1px solid var(--line); }
+  .sc-avatar { width:30px; height:30px; border-radius:50%; flex-shrink:0; display:grid; place-items:center;
+    font:700 11px var(--mono); color:var(--cyan); background:var(--cyan-soft); }
+  .sc-name { font:600 13px var(--sans); } .sc-mail { color:var(--muted); font:400 12px var(--mono); }
+  .sc-input { width:100%; height:38px; padding:0 12px; border:none; border-radius:var(--radius); background:var(--bg-elev-2);
+    box-shadow:0 0 0 1px var(--line); color:var(--text); font:400 13px var(--sans); }
+  .sc-input:focus{ outline:none; box-shadow:var(--glow); }
+  .sc-label { font:600 11px var(--mono); letter-spacing:.04em; color:var(--muted); text-transform:uppercase; }
+  .sc-kpis { display:grid; grid-template-columns:1fr 1fr; gap:14px 16px; }
+  .sc-kpi-l { display:flex; align-items:center; gap:7px; color:var(--muted); font:500 11px var(--sans); }
+  .sc-kpi-v { font:700 22px var(--kpi-num,var(--sans)); letter-spacing:-.01em; font-variant-numeric:tabular-nums; margin-top:2px; }
+  .sc-delta { font:600 10px var(--mono); padding:2px 6px; border-radius:var(--radius-pill); }
+  .up{ color:var(--green); background:var(--green-soft,rgba(0,196,140,.1)); }
+  .down{ color:var(--red); background:var(--red-soft,rgba(242,95,92,.1)); }
+  .flat{ color:var(--muted); background:var(--bg-soft); }
+  .sc-toggle-row{ display:flex; align-items:center; justify-content:space-between; padding:9px 0; }
+  .sc-toggle-row + .sc-toggle-row{ border-top:1px solid var(--line); }
+  .sw{ position:relative; width:38px; height:22px; border-radius:var(--radius-pill); background:var(--bg-soft); box-shadow:inset 0 0 0 1px var(--line); cursor:pointer; transition:background .18s; flex-shrink:0; border:none; }
+  .sw::after{ content:""; position:absolute; top:3px; left:3px; width:16px; height:16px; border-radius:50%; background:var(--muted); transition:transform .18s, background .18s; }
+  .sw.on{ background:var(--cyan-soft-2); box-shadow:inset 0 0 0 1px rgba(0,204,255,.28); }
+  .sw.on::after{ transform:translateX(16px); background:var(--cyan); }
+  .sc-feed-ico{ width:28px; height:28px; border-radius:var(--radius-sm); display:grid; place-items:center; background:var(--bg-soft); color:var(--muted); flex-shrink:0; }
+  .sc-paid{ text-align:center; padding:8px 4px; }
+  .sc-paid .chk{ width:44px; height:44px; border-radius:50%; display:grid; place-items:center; margin:0 auto 12px; background:var(--green-soft,rgba(0,196,140,.12)); color:var(--green); font-size:22px; }
+  .sc-price-grid{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+  .sc-plan{ border-radius:var(--radius); box-shadow:0 0 0 1px var(--line); padding:12px; }
+  .sc-plan.featured{ box-shadow:0 0 0 1px rgba(0,204,255,.28); background:var(--cyan-soft); }
+  .sc-plan .pn{ font:700 12px var(--sans); } .sc-plan .pp{ font:800 20px var(--kpi-num,var(--sans)); margin-top:6px; }
+  .sc-plan .pp small{ font:500 11px var(--mono); color:var(--muted); }
+  .sc-muted{ color:var(--muted); } .sc-mono{ font-family:var(--mono); }
+  @media (max-width:1024px){ .sc-split{ grid-template-columns:1fr; } .sc-hero{ position:static; height:auto; border-right:none; justify-content:flex-start; } .sc-right{ padding:24px 20px 56px; } .sc-grid{ columns:1; } .sc-h1{ font-size:34px; } .sc-livelabel{ margin-top:24px; } }
+
+  /* ── Secciones catálogo (tablas y gráficos) ── */
+  .sc-section { max-width:1320px; margin:0 auto; padding:26px 20px 4px; }
+  .sc-section-h { font:800 20px var(--sans); letter-spacing:-.01em; margin:0 0 3px; }
+  .sc-section-sub { color:var(--muted); font:400 12.5px var(--sans); margin:0 0 16px; }
+  .sc-tbl-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .sc-tbl-grid .wide { grid-column:1 / -1; }
+  .sc-chart-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; }
+  .sc-chart-box { position:relative; height:168px; }
+  .sc-chart-box.tall { height:196px; }
+  .sc-spark { position:relative; height:46px; margin-top:8px; }
+  .sc-card .data-table { width:100%; }
+  @media (max-width:880px){ .sc-tbl-grid{ grid-template-columns:1fr; } }
+  /* Header igual al catálogo (clases canónicas de ds-doc.css, copiadas para esta página) */
+  .ds-topbar{ position:sticky; top:0; z-index:99; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:0 28px; height:56px; background:var(--bg-elev); border-bottom:1px solid var(--line); backdrop-filter:blur(12px); }
+  .topbar-brand{ display:flex; align-items:center; gap:12px; text-decoration:none; }
+  .topbar-brand svg{ height:39px; width:auto; display:block; color:var(--text); }
+  .topbar-pill{ padding:4px 10px; border-radius:var(--radius-pill); background:var(--bg-elev-2); font:600 10px var(--mono); color:var(--muted-2); text-transform:uppercase; letter-spacing:.12em; }
+  .topbar-right{ display:flex; align-items:center; gap:14px; }
+  .theme-toggle{ display:flex; align-items:center; background:var(--bg-elev-2); border-radius:var(--radius-pill); padding:3px; gap:1px; }
+  .theme-opt{ display:flex; align-items:center; justify-content:center; padding:4px 10px; border:none; border-radius:var(--radius-pill); background:transparent; color:var(--muted-2); cursor:pointer; transition:background .18s, color .18s; }
+  .theme-opt svg{ width:13px; height:13px; }
+  .theme-opt:hover{ color:var(--text); } .theme-opt.active{ background:var(--bg-soft); color:var(--text); }
+  /* Tablas sortables (indicador de orden) */
+  .data-table th{ cursor:pointer; }
+  .data-table th::after{ content:" ↕"; font-size:9px; opacity:.45; }
+  .data-table th.sorted-asc::after{ content:" ↑"; opacity:1; color:var(--cyan); }
+  .data-table th.sorted-desc::after{ content:" ↓"; opacity:1; color:var(--cyan); }
+  .sc-chart-cap{ margin-top:10px; font:500 11px var(--mono); color:var(--muted); min-height:15px; }
+  .sc-iar .iar{ fill:var(--text); } .sc-iar .iar-a{ fill:var(--cyan); }
+  /* Modal de detalle (estilo Analytics Pro) */
+  .sc-modal{ position:fixed; inset:0; z-index:200; display:none; align-items:center; justify-content:center; padding:24px; background:rgba(0,0,0,.55); backdrop-filter:blur(4px); }
+  .sc-modal.open{ display:flex; }
+  .sc-modal-card{ width:min(100%,920px); max-height:88vh; display:flex; flex-direction:column; background:var(--bg-elev-2); border:1px solid var(--line-strong); border-radius:var(--radius-xl); box-shadow:0 24px 60px rgba(0,0,0,.45); overflow:hidden; }
+  .sc-modal-head{ display:flex; align-items:flex-start; justify-content:space-between; gap:16px; padding:18px 22px; border-bottom:1px solid var(--line); }
+  .sc-modal-kicker{ font:700 9px var(--mono); letter-spacing:.14em; text-transform:uppercase; color:var(--cyan); }
+  .sc-modal-title{ font:700 17px var(--sans); margin-top:4px; }
+  .sc-modal-close{ width:32px; height:32px; flex-shrink:0; border-radius:var(--radius-sm); background:var(--bg-elev); border:1px solid var(--line); color:var(--muted); cursor:pointer; font-size:14px; }
+  .sc-modal-close:hover{ background:var(--bg-soft); color:var(--text); }
+  .sc-modal-body{ padding:18px 22px; overflow:auto; display:grid; grid-template-columns:1fr 300px; gap:22px; }
+  .sc-modal-canvas-wrap{ position:relative; height:min(48vh,400px); background:var(--bg-elev); border-radius:var(--radius); padding:14px; }
+  .sc-modal-side{ display:flex; flex-direction:column; gap:14px; min-width:0; }
+  .sc-modal-stats{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .sc-modal-stat{ background:var(--bg-elev); border-radius:var(--radius-sm); padding:10px 12px; }
+  .sc-modal-stat .l{ font:600 9px var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--muted-2); }
+  .sc-modal-stat .v{ font:700 16px var(--kpi-num,var(--sans)); margin-top:3px; }
+  @media (max-width:760px){ .sc-modal-body{ grid-template-columns:1fr; } }
+  .page-switch{ display:inline-flex; align-items:center; background:var(--bg-elev-2); border-radius:var(--radius-pill); padding:3px; gap:1px; }
+  .ps-opt{ padding:4px 11px; border-radius:var(--radius-pill); font:600 11px var(--sans); color:var(--muted-2); text-decoration:none; white-space:nowrap; transition:background .18s,color .18s; }
+  .ps-opt:hover{ color:var(--text); } .ps-opt.active{ background:var(--bg-soft); color:var(--cyan); }
+  .sc-chips{ display:inline-flex; gap:6px; }
+  .sc-chip{ padding:5px 11px; border-radius:var(--radius-pill); border:none; background:var(--bg-elev-2); box-shadow:0 0 0 1px var(--line); color:var(--muted); font:600 11px var(--sans); cursor:pointer; transition:color .15s,background .15s; }
+  .sc-chip:hover{ color:var(--text); } .sc-chip.active{ background:var(--cyan-soft); color:var(--cyan); box-shadow:0 0 0 1px rgba(0,204,255,.28); }
+  /* Timeline de implementación (línea conectora canónica) */
+  .sc-tl{ display:grid; grid-template-columns:repeat(4,1fr); position:relative; }
+  .sc-tl-step{ display:flex; flex-direction:column; align-items:center; text-align:center; position:relative; padding:0 12px; }
+  .sc-tl-step:not(:last-child)::after{ content:''; position:absolute; top:15px; left:50%; width:100%; height:1.5px; background:linear-gradient(to right, var(--line-strong), var(--line)); z-index:0; }
+  .sc-tl-node{ width:32px; height:32px; border-radius:50%; background:var(--bg-elev); box-shadow:0 0 0 1.5px var(--cyan), 0 0 0 6px var(--bg-elev); color:var(--cyan); display:grid; place-items:center; font:700 12px var(--mono); position:relative; z-index:1; margin-bottom:14px; }
+  @media(max-width:760px){ .sc-tl{ grid-template-columns:1fr 1fr; gap:26px; } }
+  @media(max-width:480px){ .sc-tl{ grid-template-columns:1fr; gap:18px; } .sc-tl-step:not(:last-child)::after{ display:none; } }
+</style>
+</head>
+<body>
+
+<header class="ds-topbar">
+  <div style="display:flex;align-items:center;gap:12px"><a class="topbar-brand" href="https://yiqi.com.ar" aria-label="Ir a yiqi.com.ar"><svg viewBox="0 0 100 65" role="img" aria-label="YiQi"><path fill="currentColor" d="M20.44,48.34l2.57-6.15-6.79-16.91c-.14-.39.07-.61.46-.61h4.97c.29,0,.57.14.68.43l3.58,10.08,3.61-10.08c.11-.29.39-.43.68-.43h4.97c.39,0,.57.21.43.61l-9.26,23.27c-.11.29-.39.43-.68.43h-4.75c-.43,0-.68-.21-.47-.64Z"/><path fill="currentColor" d="M38.72,25.24c0-.32.25-.57.57-.57h4.89c.32,0,.57.25.57.57v16.24c0,.32-.25.57-.57.57h-4.89c-.32,0-.57-.25-.57-.57v-16.24Z"/><path fill="var(--cyan)" d="M57.91,44.78v-2.66c-2.18-.53-4.21-1.66-5.92-3.36-4.97-4.97-5.09-13.02-.03-18.08,5.09-5.09,13.14-4.97,18.11,0s5.09,13.02,0,18.11c-1.78,1.78-3.94,2.93-6.22,3.46v2.51c0,.35-.18.53-.58.53h-4.82c-.3,0-.55-.2-.55-.5ZM56.28,34.47c.5.5,1.05.9,1.65,1.2v-3.36c0-.35.18-.53.53-.53h4.87c.25,0,.53.18.53.53v3.36c.63-.33,1.23-.78,1.78-1.33,2.73-2.73,2.78-6.75.15-9.38s-6.67-2.61-9.41.13c-2.71,2.71-2.73,6.75-.1,9.38Z"/><path fill="currentColor" d="M77.44,25.24c0-.32.25-.57.57-.57h4.89c.32,0,.57.25.57.57v16.24c0,.32-.25.57-.57.57h-4.89c-.32,0-.57-.25-.57-.57v-16.24Z"/><path fill="currentColor" d="M38.5,18.99c0-1.77,1.35-3.19,3.23-3.19s3.23,1.42,3.23,3.19-1.38,3.23-3.23,3.23-3.23-1.42-3.23-3.23Z"/><path fill="currentColor" d="M77.22,18.99c0-1.77,1.35-3.19,3.23-3.19s3.23,1.42,3.23,3.19-1.38,3.23-3.23,3.23-3.23-1.42-3.23-3.23Z"/></svg></a><div class="page-switch" role="group" aria-label="Cambiar vista"><a class="ps-opt" href="../yiqi-design-system.html">Design System</a><a class="ps-opt active" href="showcase.html">Showcase</a></div></div>
+  <div class="topbar-right">
+    <span style="font:500 12px var(--mono);color:var(--muted-2)">ERP · Enterprise UI</span>
+    <div class="theme-toggle" role="group" aria-label="Apariencia">
+      <button class="theme-opt" data-val="dark" title="Oscuro" aria-label="Modo oscuro"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+      <button class="theme-opt" data-val="system" title="Sistema" aria-label="Modo sistema"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></button>
+      <button class="theme-opt" data-val="light" title="Claro" aria-label="Modo claro"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<div class="sc-split">
+  <!-- HERO -->
+  <section class="sc-hero">
+    <span class="sc-eyebrow"><i class="ph ph-sparkle"></i> YiQi DS · v1.2.7</span>
+    <div class="sc-h1" style="margin:16px 0 12px"><svg viewBox="0 0 256 68" xmlns="http://www.w3.org/2000/svg" aria-label="iA ready" class="sc-iar" style="height:50px;width:auto;max-width:100%">
+  <path class="iar" d="M225.626 67.89C224.75 67.89 224.239 67.452 224.677 66.576L229.933 54.02L216.063 19.491C215.771 18.688 216.209 18.25 217.012 18.25H227.159C227.743 18.25 228.327 18.542 228.546 19.126L235.846 39.712L243.219 19.126C243.438 18.542 244.022 18.25 244.606 18.25H254.753C255.556 18.25 255.921 18.688 255.629 19.491L236.722 67.014C236.503 67.598 235.919 67.89 235.335 67.89H225.626Z"/>
+  <path class="iar" d="M190.294 54.896C180.439 54.896 173.65 46.7199 173.65 36.1349C173.65 25.6229 180.439 17.3739 190.294 17.3739C194.747 17.3739 197.886 18.688 200.222 21.243V2.99295C200.222 2.33595 200.733 1.82495 201.39 1.82495H211.391C212.048 1.82495 212.559 2.33595 212.559 2.99295V52.852C212.559 53.509 211.975 54.02 211.318 54.02H202.339C201.682 54.02 201.171 53.509 201.171 52.852L201.025 49.8589C198.616 52.9979 195.185 54.896 190.294 54.896ZM185.622 36.1349C185.622 40.8069 188.834 43.7999 193.068 43.7999C197.375 43.7999 200.368 40.734 200.368 36.062C200.368 31.463 197.375 28.4699 193.068 28.4699C188.834 28.4699 185.622 31.5359 185.622 36.1349Z"/>
+  <path class="iar" d="M147.515 54.896C137.66 54.896 130.871 46.72 130.871 36.135C130.871 25.623 137.66 17.374 147.515 17.374C152.552 17.374 155.983 19.199 158.246 22.338L158.392 19.418C158.392 18.761 158.903 18.25 159.56 18.25H168.612C169.269 18.25 169.78 18.761 169.78 19.418V52.852C169.78 53.509 169.196 54.02 168.539 54.02H159.56C158.903 54.02 158.392 53.509 158.392 52.852L158.246 49.859C155.837 52.998 152.406 54.896 147.515 54.896ZM142.843 36.135C142.843 40.807 146.055 43.8 150.289 43.8C154.596 43.8 157.589 40.734 157.589 36.062C157.589 31.463 154.596 28.47 150.289 28.47C146.055 28.47 142.843 31.536 142.843 36.135Z"/>
+  <path class="iar" d="M112.868 54.896C101.115 54.896 93.0117 47.012 93.0117 35.989C93.0117 25.477 100.385 17.374 111.554 17.374C122.504 17.374 128.855 25.331 128.855 34.529C128.855 38.398 127.906 40.807 124.329 40.807H104.984C106.298 44.092 109.437 45.333 113.89 45.333C115.934 45.333 118.27 45.26 121.263 43.654C121.847 43.362 122.212 43.508 122.577 44.092L125.935 48.764C126.227 49.202 126.3 49.786 125.57 50.443C122.577 53.509 117.978 54.896 112.868 54.896ZM104.765 32.412H117.978C117.248 28.616 114.62 27.375 111.627 27.375C108.488 27.375 105.714 28.762 104.765 32.412Z"/>
+  <path class="iar" d="M69.2676 54.02C68.6106 54.02 68.0996 53.509 68.0996 52.852V19.418C68.0996 18.761 68.6106 18.25 69.2676 18.25H78.9036C79.4876 18.25 79.9256 18.542 79.9986 19.491L80.3636 24.309C81.5316 20.294 83.7216 17.374 87.8096 17.374C89.6346 17.374 90.5836 17.885 91.0946 18.323C91.6786 18.761 91.8246 19.272 91.8246 19.929V28.032C91.8246 28.908 91.3136 29.2 90.2916 28.981C89.5616 28.762 88.8316 28.616 87.5906 28.616C83.2836 28.616 80.3636 30.879 80.3636 36.427V52.852C80.3636 53.509 79.8526 54.02 79.1956 54.02H69.2676Z"/>
+  <path class="iar-a" d="M17.7429 54.0199C16.9399 54.0199 16.5019 53.5089 16.7939 52.7789L33.5839 3.79593C33.8029 3.21192 34.3869 2.91992 34.9709 2.91992H45.9939C46.5779 2.91992 47.2349 3.21192 47.4539 3.79593L64.2439 52.7789C64.5359 53.5089 64.0979 54.0199 63.2949 54.0199H52.4179C51.8339 54.0199 51.3229 53.8009 51.1039 53.1439L49.2059 47.0119H31.7589L29.8609 53.1439C29.6419 53.8009 29.2039 54.0199 28.6199 54.0199H17.7429ZM35.2629 35.7699H45.7019L40.5189 19.0529L35.2629 35.7699Z"/>
+  <path class="iar" d="M6.64301 13.213C2.774 13.213 0 10.293 0 6.57C0 2.92 2.774 0 6.64301 0C10.439 0 13.286 2.92 13.286 6.57C13.286 10.293 10.439 13.213 6.64301 13.213ZM0.438004 52.852V19.418C0.438004 18.761 0.949003 18.25 1.606 18.25H11.68C12.337 18.25 12.848 18.761 12.848 19.418V52.852C12.848 53.509 12.337 54.02 11.68 54.02H1.606C0.949003 54.02 0.438004 53.509 0.438004 52.852Z"/>
+</svg></div>
+    <p class="sc-sub">Librería de componentes canónica para apps del ERP: dark/light, borderless, accesible. Importás <code class="sc-mono">styles.css</code> y listo — sin configurar nada.</p>
+    <div class="sc-code">
+<span class="c">&lt;!-- 1 sola hoja: tokens base + componentes --&gt;</span>
+<span class="k">&lt;link</span> rel=<span class="s">"stylesheet"</span> href=<span class="s">"styles.css"</span><span class="k">&gt;</span>
+
+<span class="c">&lt;!-- usás las clases del DS --&gt;</span>
+<span class="k">&lt;button</span> class=<span class="s">"btn btn-primary"</span><span class="k">&gt;</span>Guardar<span class="k">&lt;/button&gt;</span>
+    </div>
+    <div class="sc-cta">
+      <a class="btn btn-primary" href="../yiqi-design-system.html"><i class="ph ph-squares-four"></i> Ver componentes</a>
+      <a class="btn" href="../template/INDEX.md"><i class="ph ph-copy"></i> Templates</a>
+      <a class="btn" href="../yiqi-design.md"><i class="ph ph-book-open"></i> Docs</a>
+    </div>
+    <div class="sc-livelabel">Ejemplos en vivo</div>
+  </section>
+
+  <div class="sc-right">
+  <!-- GRILLA DE MOCKUPS -->
+  <section class="sc-grid">
+
+    <!-- Panel Gerencial KPIs -->
+    <article class="sc-card">
+      <div class="sc-card-h"><span class="sc-card-title">Panel Gerencial</span><span class="badge badge-amber" style="font:600 9px var(--mono)">ANALYTICS PRO</span></div>
+      <p class="sc-card-sub">KPIs del período vs. el mes anterior.</p>
+      <div class="sc-kpis">
+        <div><div class="sc-kpi-l">Facturación</div><div class="sc-kpi-v"><span data-count="4.2" data-prefix="$" data-suffix="M" data-dec="1">$4,2M</span> <span class="sc-delta up">↑ 6,1%</span></div></div>
+        <div><div class="sc-kpi-l">Órdenes</div><div class="sc-kpi-v"><span data-count="1284">1.284</span> <span class="sc-delta up">↑ 3,4%</span></div></div>
+        <div><div class="sc-kpi-l">Cobranzas</div><div class="sc-kpi-v"><span data-count="3.1" data-prefix="$" data-suffix="M" data-dec="1">$3,1M</span> <span class="sc-delta down">↓ 2,2%</span></div></div>
+        <div><div class="sc-kpi-l">Margen</div><div class="sc-kpi-v"><span data-count="38.7" data-suffix="%" data-dec="1">38,7%</span> <span class="sc-delta flat">0,0%</span></div></div>
+      </div>
+    </article>
+
+    <!-- Tu equipo -->
+    <article class="sc-card">
+      <div class="sc-card-h"><span class="sc-card-title">Tu equipo</span></div>
+      <p class="sc-card-sub">Invitá y gestioná los usuarios del esquema.</p>
+      <div style="display:flex;gap:8px;margin-bottom:8px">
+        <input class="sc-input" placeholder="correo@empresa.com">
+        <button class="btn btn-primary" style="flex-shrink:0">Invitar</button>
+      </div>
+      <div class="sc-row"><span class="sc-avatar">ML</span><div style="flex:1"><div class="sc-name">Micaela López</div><div class="sc-mail">m.lopez@empresa.com</div></div><span class="badge badge-cyan" style="font:600 9px var(--mono)">ADMIN</span></div>
+      <div class="sc-row"><span class="sc-avatar">JP</span><div style="flex:1"><div class="sc-name">Javier Pérez</div><div class="sc-mail">j.perez@empresa.com</div></div></div>
+      <div class="sc-row"><span class="sc-avatar">RS</span><div style="flex:1"><div class="sc-name">Rocío Sánchez</div><div class="sc-mail">r.sanchez@empresa.com</div></div></div>
+    </article>
+
+    <!-- Acceso / Login -->
+    <article class="sc-card">
+      <div class="sc-card-h"><span class="sc-card-title">Acceso</span></div>
+      <p class="sc-card-sub">Pantalla de login canónica (§18).</p>
+      <div style="display:grid;gap:5px;margin-bottom:12px"><span class="sc-label">Usuario o correo</span><input class="sc-input" placeholder="usuario@empresa.com"></div>
+      <div style="display:grid;gap:5px;margin-bottom:12px"><span class="sc-label">Contraseña</span><input class="sc-input" type="password" value="········"></div>
+      <button class="btn btn-primary" style="width:100%">Iniciar sesión</button>
+    </article>
+
+    <!-- Notificaciones -->
+    <article class="sc-card">
+      <div class="sc-card-h"><span class="sc-card-title">Notificaciones</span></div>
+      <p class="sc-card-sub">Configurá cómo querés recibir avisos.</p>
+      <div class="sc-toggle-row"><div><div class="sc-name">Facturas aprobadas</div><div class="sc-mail sc-muted">Cuando se aprueba una factura.</div></div><button class="sw on" aria-pressed="true"></button></div>
+      <div class="sc-toggle-row"><div><div class="sc-name">Stock crítico</div><div class="sc-mail sc-muted">Cuando un ítem baja del mínimo.</div></div><button class="sw on" aria-pressed="true"></button></div>
+      <div class="sc-toggle-row"><div><div class="sc-name">Cobranzas vencidas</div><div class="sc-mail sc-muted">Resumen diario de vencidas.</div></div><button class="sw" aria-pressed="false"></button></div>
+    </article>
+
+    <!-- Factura pagada -->
+    <article class="sc-card">
+      <div class="sc-paid">
+        <div class="chk"><i class="ph ph-check-bold"></i></div>
+        <div style="font:700 16px var(--sans)">Factura pagada</div>
+        <div class="sc-mail sc-muted" style="margin-top:4px">Se registró el pago de <strong class="sc-muted" style="color:var(--text)">$223.850</strong> de la factura <span class="sc-mono">#58721</span>.</div>
+        <div style="display:flex;gap:8px;margin-top:16px"><button class="btn" style="flex:1">Ver recibo</button><button class="btn btn-primary" style="flex:1">Siguiente</button></div>
+      </div>
+    </article>
+
+    <!-- Actividad reciente -->
+    <article class="sc-card">
+      <div class="sc-card-h"><span class="sc-card-title">Actividad reciente</span></div>
+      <p class="sc-card-sub">Lo que pasó en las últimas horas.</p>
+      <div class="sc-row"><span class="sc-feed-ico"><i class="ph ph-receipt"></i></span><div style="flex:1"><div class="sc-name">Javier aprobó la factura #3461</div></div><span class="sc-mail">11:34</span></div>
+      <div class="sc-row"><span class="sc-feed-ico"><i class="ph ph-shopping-cart"></i></span><div style="flex:1"><div class="sc-name">Rocío cargó la orden de compra #7514</div></div><span class="sc-mail">09:41</span></div>
+      <div class="sc-row"><span class="sc-feed-ico"><i class="ph ph-user-plus"></i></span><div style="flex:1"><div class="sc-name">Se sumó Micaela al esquema</div></div><span class="sc-mail">08:20</span></div>
+    </article>
+
+    <!-- Planes -->
+    <article class="sc-card">
+      <div class="sc-card-h"><span class="sc-card-title">Planes</span></div>
+      <p class="sc-card-sub">Sin tarjeta. 30 días de prueba.</p>
+      <div class="sc-price-grid">
+        <div class="sc-plan"><div class="pn">Básico</div><div class="pp">$0<small>/mes</small></div></div>
+        <div class="sc-plan featured"><div class="pn" style="color:var(--cyan)">Pro</div><div class="pp">$49<small>/mes</small></div></div>
+        <div class="sc-plan"><div class="pn">Empresa</div><div class="pp">$99<small>/mes</small></div></div>
+      </div>
+    </article>
+
+
+    <!-- ▼ Componentes Analytics Pro ▼ -->
+<article class="sc-card">
+      <div style="font:700 9px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2)">Sesión activa</div>
+      <div style="font:700 30px var(--kpi-num,var(--sans));margin-top:6px;letter-spacing:-.01em" id="scClock">--:--</div>
+      <div class="sc-mail sc-muted" id="scDate">—</div>
+    </article>
+<article class="sc-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
+        <div><div style="font:700 9px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--cyan)">Conversión</div><div class="sc-card-title" style="margin-top:2px">Embudo operativo</div></div>
+        <div class="funnel-total"><div class="funnel-total-val">100%</div><div class="funnel-total-lbl">Entrega a tiempo</div></div>
+      </div>
+      <div class="funnel">
+        <div><div class="funnel-step-top"><span class="funnel-step-name">Pedidos del período</span><span class="funnel-step-count">10.000</span></div><div class="funnel-track"><div class="funnel-fill" style="width:100%"></div></div></div>
+        <div><div class="funnel-step-top"><span class="funnel-step-name">Entregados <span class="funnel-leak">−9</span></span><span class="funnel-step-count">9.991 · 100%</span></div><div class="funnel-track"><div class="funnel-fill" style="width:99.9%"></div></div></div>
+        <div><div class="funnel-step-top"><span class="funnel-step-name">Entregados a tiempo <span class="funnel-leak is-ok">−0</span></span><span class="funnel-step-count">9.991 · 100%</span></div><div class="funnel-track"><div class="funnel-fill is-end" style="width:99.9%"></div></div></div>
+      </div>
+      <p class="funnel-note">9 sin entregar y 0 demorados en el período. Mayor fuga: <strong>cancelados (9)</strong>.</p>
+    </article>
+<article class="sc-card">
+      <div class="sc-card-h"><span class="sc-card-title">Flujo por franja horaria</span><span class="badge" style="font:600 9px var(--mono);color:var(--muted);background:var(--bg-soft)">HOY</span></div>
+      <p class="sc-card-sub">Actividad horaria · pedidos.</p>
+      <div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px"><div><span style="font:600 12px var(--sans)">08-10</span> <span class="sc-mail sc-muted">15 pedidos</span></div><span class="sc-mail sc-muted">25% del flujo</span></div><div class="hourly-bar-track"><div class="hourly-bar-fill" style="width:25%"></div></div></div><div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px"><div><span style="font:600 12px var(--sans)">10-12</span> <span class="sc-mail sc-muted">20 pedidos</span></div><span class="sc-mail sc-muted">34% del flujo</span></div><div class="hourly-bar-track"><div class="hourly-bar-fill" style="width:34%"></div></div></div><div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px"><div><span style="font:600 12px var(--sans)">12-14</span> <span class="badge badge-cyan" style="font:600 8px var(--mono)">PICO</span> <span class="sc-mail sc-muted">24 pedidos</span></div><span class="sc-mail sc-muted">41% del flujo</span></div><div class="hourly-bar-track"><div class="hourly-bar-fill" style="width:41%"></div></div></div><div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px"><div><span style="font:600 12px var(--sans)">14-16</span> <span class="sc-mail sc-muted">0 pedidos</span></div><span class="sc-mail sc-muted">0% del flujo</span></div><div class="hourly-bar-track"><div class="hourly-bar-fill" style="width:0%"></div></div></div><div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px"><div><span style="font:600 12px var(--sans)">16-18</span> <span class="sc-mail sc-muted">0 pedidos</span></div><span class="sc-mail sc-muted">0% del flujo</span></div><div class="hourly-bar-track"><div class="hourly-bar-fill" style="width:0%"></div></div></div><div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px"><div><span style="font:600 12px var(--sans)">18-20</span> <span class="sc-mail sc-muted">0 pedidos</span></div><span class="sc-mail sc-muted">0% del flujo</span></div><div class="hourly-bar-track"><div class="hourly-bar-fill" style="width:0%"></div></div></div><div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px"><div><span style="font:600 12px var(--sans)">20-22</span> <span class="sc-mail sc-muted">0 pedidos</span></div><span class="sc-mail sc-muted">0% del flujo</span></div><div class="hourly-bar-track"><div class="hourly-bar-fill" style="width:0%"></div></div></div>
+    </article>
+<article class="sc-card" style="padding:12px 10px">
+      <div class="sc-card-h" style="padding:0 6px 8px"><span class="sc-card-title" style="font-size:13px">Sidebar de app</span></div>
+      <div class="nav"><span class="nav-lbl">Visión general</span><a class="nav-link" style="text-decoration:none"><span class="n-ico"><i class="ph ph-house"></i></span>Resumen ejecutivo</a><div class="nav-div"></div><span class="nav-lbl">Módulos</span><a class="nav-link is-active" style="text-decoration:none"><span class="n-ico"><i class="ph ph-chart-line-up"></i></span>Ventas</a><a class="nav-link" style="text-decoration:none"><span class="n-ico"><i class="ph ph-globe"></i></span>Canales</a><a class="nav-link" style="text-decoration:none"><span class="n-ico"><i class="ph ph-activity"></i></span>Operación</a><a class="nav-link" style="text-decoration:none"><span class="n-ico"><i class="ph ph-bank"></i></span>Finanzas</a><a class="nav-link" style="text-decoration:none"><span class="n-ico"><i class="ph ph-shield-check"></i></span>Calidad</a><a class="nav-link" style="text-decoration:none"><span class="n-ico"><i class="ph ph-chart-pie"></i></span>Rentabilidad</a><div class="nav-div"></div><span class="nav-lbl">Fuentes YiQi</span><a class="nav-link" style="text-decoration:none"><span class="n-ico"><i class="ph ph-receipt"></i></span>Reporte de ventas</a><a class="nav-link" style="text-decoration:none"><span class="n-ico"><i class="ph ph-package"></i></span>Reporte de pedidos</a><div class="nav-div"></div><span class="nav-lbl">Soporte</span><a class="nav-link" style="text-decoration:none"><span class="n-ico"><i class="ph ph-headset"></i></span>Ayuda ERP</a></div>
+    </article>
+    <article class="sc-card">
+      <div class="sc-card-h"><span class="sc-card-title">Breakpoints</span><span class="badge badge-cyan" id="bpNow" style="font:600 9px var(--mono)">—</span></div>
+      <p class="sc-card-sub">Puntos de quiebre responsive · redimensioná la ventana.</p>
+      <div class="table-wrap"><table class="data-table" id="bpTable"><thead><tr><th>Breakpoint</th><th>Comportamiento</th></tr></thead><tbody><tr data-min="1201"><td class="sc-mono">&gt; 1200px</td><td>3–4 columnas · KPIs completos</td></tr><tr data-min="981" data-max="1200"><td class="sc-mono">≤ 1200px</td><td>Grids 3 → 2 columnas</td></tr><tr data-min="641" data-max="980"><td class="sc-mono">≤ 980px</td><td>Sidebar off-canvas · 1 columna</td></tr><tr data-min="421" data-max="640"><td class="sc-mono">≤ 640px</td><td>Espaciados reducidos</td></tr><tr data-max="420"><td class="sc-mono">≤ 420px</td><td>Mobile chico · stacks totales</td></tr></tbody></table></div>
+    </article>
+    <article class="sc-card">
+      <div class="sc-card-h"><span class="sc-card-title">Load progress</span></div>
+      <p class="sc-card-sub">Estado de carga del sistema.</p>
+      <div class="load-progress"><div class="load-progress-track"><div class="load-progress-fill" style="width:65%"></div></div><div class="load-progress-meta"><span>Conectando con el servidor…</span><strong>65%</strong></div></div>
+      <div class="load-progress" style="margin-top:12px"><div class="load-progress-track"><div class="load-progress-fill" style="width:100%"></div></div><div class="load-progress-meta"><span>Listo</span><strong>100%</strong></div></div>
+    </article>
+    <article class="sc-card">
+      <div class="sc-card-h"><span class="sc-card-title">Notificación · badge</span></div>
+      <p class="sc-card-sub">Contador sobre el ícono.</p>
+      <div style="display:flex;gap:16px;align-items:center;padding:6px 0">
+        <span style="position:relative;width:40px;height:40px;border-radius:var(--radius);background:var(--bg-elev-2);box-shadow:0 0 0 1px var(--line);display:grid;place-items:center;color:var(--muted);font-size:18px"><i class="ph ph-bell"></i><span style="position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;border-radius:9px;background:var(--red);color:#fff;font:700 10px var(--mono);display:grid;place-items:center;padding:0 4px">3</span></span>
+        <span style="position:relative;width:40px;height:40px;border-radius:var(--radius);background:var(--cyan-soft);color:var(--cyan);display:grid;place-items:center;font-size:18px"><i class="ph ph-chat-circle"></i><span style="position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;border-radius:9px;background:var(--cyan);color:#06222b;font:700 10px var(--mono);display:grid;place-items:center;padding:0 4px">9</span></span>
+        <span style="position:relative;width:40px;height:40px;border-radius:var(--radius);background:var(--bg-soft);color:var(--muted);display:grid;place-items:center;font-size:18px"><i class="ph ph-envelope"></i></span>
+      </div>
+    </article>
+    <article class="sc-card">
+      <div class="sc-card-h"><span class="sc-card-title">Shell de app</span></div>
+      <p class="sc-card-sub">Topbar + sidebar + contenido.</p>
+      <div style="border:1px solid var(--line);border-radius:var(--radius);overflow:hidden">
+        <div style="display:flex;align-items:center;justify-content:space-between;height:36px;padding:0 12px;border-bottom:1px solid var(--line);background:var(--bg-elev-2)">
+          <span style="font:700 10px var(--mono);color:var(--muted);letter-spacing:.08em">MI APP</span>
+          <div style="display:flex;gap:6px;align-items:center">
+            <span style="width:22px;height:22px;border-radius:var(--radius-pill);background:var(--cyan-soft);color:var(--cyan);display:grid;place-items:center;font-size:11px"><i class="ph ph-arrows-clockwise"></i></span>
+            <span class="badge" style="font:600 9px var(--mono);color:var(--muted);background:var(--bg-soft)">Cerrar sesión</span>
+          </div>
+        </div>
+        <div style="display:flex;min-height:120px">
+          <div style="width:118px;border-right:1px solid var(--line);padding:10px 8px;display:flex;flex-direction:column;gap:3px">
+            <span style="font:700 8px var(--mono);letter-spacing:.12em;color:var(--muted-2);padding:0 6px 4px;text-transform:uppercase">Sección</span>
+            <span style="display:flex;align-items:center;gap:7px;padding:6px 8px;border-radius:var(--radius-sm);background:var(--cyan-soft);color:var(--cyan);font:600 11px var(--sans)"><i class="ph ph-house"></i> Inicio</span>
+            <span style="display:flex;align-items:center;gap:7px;padding:6px 8px;border-radius:var(--radius-sm);color:var(--muted);font:500 11px var(--sans)"><i class="ph ph-squares-four"></i> Otra vista</span>
+          </div>
+          <div style="flex:1;padding:14px;color:var(--muted);font:400 11.5px/1.5 var(--sans)">Área de contenido — acá va lo propio de cada app.</div>
+        </div>
+      </div>
+    </article>
+    <article class="sc-card">
+      <div class="sc-card-h"><span class="sc-card-title">Trust / Stats</span></div>
+      <p class="sc-card-sub">Indicadores de confianza.</p>
+      <div style="display:flex;gap:22px;flex-wrap:wrap;padding:4px 0">
+        <div><div style="font:800 26px var(--kpi-num,var(--sans))">+15<span style="font:600 12px var(--sans);color:var(--muted)"> años</span></div><div class="sc-mail sc-muted">de experiencia</div></div>
+        <div><div style="font:800 26px var(--kpi-num,var(--sans))">30<span style="color:var(--cyan)">+</span></div><div class="sc-mail sc-muted">integraciones</div></div>
+        <div><div style="font:800 26px var(--kpi-num,var(--sans))">API<span style="font:600 12px var(--sans);color:var(--muted)"> REST</span></div><div class="sc-mail sc-muted">completa y abierta</div></div>
+      </div>
+    </article>
+<article class="sc-card">
+      <div class="sc-card-h"><span class="sc-card-title">LLM FAB</span></div>
+      <p class="sc-card-sub">Botón flotante para copiar contexto · estados.</p>
+      <div style="display:flex;gap:26px;align-items:center;padding:8px 0;justify-content:center">
+        <div style="text-align:center"><span style="position:relative;display:grid;place-items:center;width:40px;height:40px;border-radius:999px;font-size:17px;background:var(--bg-elev-2);box-shadow:0 0 0 1px var(--line-strong);color:var(--muted)"><i class="ph ph-copy"></i></span><div class="sc-mail sc-muted sc-mono" style="margin-top:7px">default</div></div>
+        <div style="text-align:center"><span style="position:relative;display:grid;place-items:center;width:40px;height:40px;border-radius:999px;font-size:17px;background:var(--green-soft,rgba(0,196,140,.1));box-shadow:0 0 0 1px rgba(21,212,156,.28);color:var(--green)"><i class="ph ph-check"></i></span><div class="sc-mail sc-muted sc-mono" style="margin-top:7px">.copied</div></div>
+        <div style="text-align:center"><span style="position:relative;display:grid;place-items:center;width:40px;height:40px;border-radius:999px;font-size:17px;background:var(--red-soft,rgba(242,95,92,.08));box-shadow:0 0 0 1px rgba(242,95,92,.28);color:var(--red)"><i class="ph ph-warning-circle"></i></span><div class="sc-mail sc-muted sc-mono" style="margin-top:7px">.errored</div></div>
+      </div>
+    </article>
+<article class="sc-card" style="column-span:all;margin:0 0 16px">
+      <div class="sc-card-h"><span class="sc-card-title">Tabla de implementación</span><span class="badge badge-cyan" style="font:600 9px var(--mono)">PATRÓN</span></div>
+      <p class="sc-card-sub">Timeline de puesta en marcha · se usa en propuestas e informes.</p>
+      <div class="sc-tl" style="margin:20px 0 22px"><div class="sc-tl-step"><div class="sc-tl-node">01</div><div style="font:700 12.5px var(--sans);line-height:1.3">Entendemos tu operación</div><div style="font:400 11px/1.45 var(--sans);color:var(--muted);margin-top:5px">Revisamos canales, procesos, listas de precios y configuración impositiva para definir una base clara.</div></div><div class="sc-tl-step"><div class="sc-tl-node">02</div><div style="font:700 12.5px var(--sans);line-height:1.3">Adaptamos YiQi</div><div style="font:400 11px/1.45 var(--sans);color:var(--muted);margin-top:5px">Configuramos módulos, flujos y reglas por canal según cómo trabaja el cliente hoy.</div></div><div class="sc-tl-step"><div class="sc-tl-node">03</div><div style="font:700 12.5px var(--sans);line-height:1.3">Conectamos los canales</div><div style="font:400 11px/1.45 var(--sans);color:var(--muted);margin-top:5px">Integramos marketplaces y canales de venta, y dejamos lista la base para sumar nuevos.</div></div><div class="sc-tl-step"><div class="sc-tl-node">04</div><div style="font:700 12.5px var(--sans);line-height:1.3">Salís a operar acompañado</div><div style="font:400 11px/1.45 var(--sans);color:var(--muted);margin-top:5px">Puesta en marcha gradual con soporte: bot de ayuda, tickets, tutoriales y llamadas.</div></div></div></div>
+      </div>
+      <div style="background:var(--bg-soft);border-radius:var(--radius-lg);padding:16px 18px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:12px"><span style="font:700 9px var(--mono);letter-spacing:.14em;color:var(--cyan)">PLAZOS ORIENTATIVOS</span><span><strong style="font:800 18px var(--kpi-num,var(--sans))">10–12</strong> <span class="sc-mail sc-muted">semanas para implementación completa</span></span></div>
+        <div style="display:flex;gap:5px"><span style="flex:3;text-align:center;padding:6px 4px;border-radius:var(--radius-sm);background:var(--cyan-soft);color:var(--cyan);font:700 9px var(--mono);letter-spacing:.06em;text-transform:uppercase">Configuración</span><span style="flex:5;text-align:center;padding:6px 4px;border-radius:var(--radius-sm);background:rgba(0,196,140,.12);color:var(--green);font:700 9px var(--mono);letter-spacing:.06em;text-transform:uppercase">Módulos e integraciones</span><span style="flex:4;text-align:center;padding:6px 4px;border-radius:var(--radius-sm);background:rgba(246,166,35,.12);color:var(--amber);font:700 9px var(--mono);letter-spacing:.06em;text-transform:uppercase">Ajuste · Go live</span></div>
+        <div style="display:flex;justify-content:space-between;font:600 9px var(--mono);color:var(--muted-2);margin-top:6px"><span>Sem 1</span><span>Sem 3</span><span>Sem 5</span><span>Sem 8</span><span>Sem 12</span></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-top:16px;border-top:1px solid var(--line);padding-top:14px"><div><div style="font:700 9px var(--mono);letter-spacing:.08em;color:var(--cyan);text-transform:uppercase;margin-bottom:4px">Semanas 1-3</div><div style="font:400 11.5px/1.5 var(--sans);color:var(--muted)">Parámetros del sistema, catálogo de productos, configuración impositiva y usuarios.</div></div><div><div style="font:700 9px var(--mono);letter-spacing:.08em;color:var(--cyan);text-transform:uppercase;margin-bottom:4px">Semanas 4-8</div><div style="font:400 11.5px/1.5 var(--sans);color:var(--muted)">Activación de módulos, flujos de compra y venta, integraciones con canales.</div></div><div><div style="font:700 9px var(--mono);letter-spacing:.08em;color:var(--cyan);text-transform:uppercase;margin-bottom:4px">Semanas 9-12</div><div style="font:400 11.5px/1.5 var(--sans);color:var(--muted)">Pruebas en paralelo, capacitación del equipo y puesta en marcha gradual.</div></div></div>
+      </div>
+      <ul style="list-style:none;padding:0;margin:12px 0 0"><li style="display:flex;gap:8px;align-items:flex-start;margin-top:6px"><span style="color:var(--cyan)">›</span><span style="font:400 11.5px/1.5 var(--sans);color:var(--muted)">Los procesos simples se pueden habilitar antes.</span></li><li style="display:flex;gap:8px;align-items:flex-start;margin-top:6px"><span style="color:var(--cyan)">›</span><span style="font:400 11.5px/1.5 var(--sans);color:var(--muted)">El plazo final depende de la cantidad de módulos y la complejidad de los datos.</span></li><li style="display:flex;gap:8px;align-items:flex-start;margin-top:6px"><span style="color:var(--cyan)">›</span><span style="font:400 11.5px/1.5 var(--sans);color:var(--muted)">El plan específico de cada cliente se construye en las primeras reuniones.</span></li></ul>
+    </article>
+    </section>
+
+<!-- ══════════ CATÁLOGO: GRÁFICOS ══════════ -->
+<section class="sc-section">
+  <h2 class="sc-section-h">Gráficos</h2>
+  <p class="sc-section-sub">Tipos de gráfico (Chart.js 4.4.0, patrón de animación §20, paleta DS sin <code class="sc-mono">--blue</code>).</p>
+  <article class="sc-card" style="margin-bottom:16px">
+      <div class="sc-card-h"><span class="sc-card-title">Crecimiento de facturación</span><span class="badge badge-cyan" style="font:600 9px var(--mono)">INFORME</span></div>
+      <p class="sc-card-sub">Evolución mensual · May 2025 → Abr 2026.</p>
+      <div class="sc-chart-box" style="height:200px"><canvas id="scHist" aria-label="Histórico de tickets creados"></canvas></div>
+      <div class="sc-chart-cap" id="capHist">Tocá para ver el detalle</div>
+      <div style="margin-top:12px;padding:11px 13px;background:var(--bg-soft);border-radius:var(--radius);font:400 12px/1.5 var(--sans);color:var(--muted)"><strong style="color:var(--text)">Nota:</strong> el crecimiento sostenido refleja la incorporación de nuevos esquemas y la mayor adopción del ERP. <em>Datos simulados.</em></div>
+    </article>
+    <div class="sc-chart-grid">
+    <article class="sc-card">
+      <div class="sc-card-h"><span class="sc-card-title">Sectores</span><span class="sc-mail sc-muted">Áreas involucradas</span></div>
+      <div class="sc-chart-box"><canvas id="scSectores" aria-label="Donut de sectores"></canvas></div>
+      <div class="sc-chart-cap" id="capSectores">Tocá para ver el detalle</div>
+      <div class="table-wrap" style="margin-top:10px"><table class="data-table"><thead><tr><th>Categoría</th><th class="num">N</th><th class="num">%</th></tr></thead><tbody><tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#00c48c;margin-right:7px;vertical-align:middle"></span>Sucursales</td><td class="num">7</td><td class="num">26%</td></tr><tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#00ccff;margin-right:7px;vertical-align:middle"></span>Administración</td><td class="num">6</td><td class="num">22%</td></tr><tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#a78bfa;margin-right:7px;vertical-align:middle"></span>Compras</td><td class="num">3</td><td class="num">11%</td></tr><tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#f6a623;margin-right:7px;vertical-align:middle"></span>RRHH</td><td class="num">3</td><td class="num">11%</td></tr><tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#f25f5c;margin-right:7px;vertical-align:middle"></span>Servicios</td><td class="num">3</td><td class="num">11%</td></tr><tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#378add;margin-right:7px;vertical-align:middle"></span>Facturación</td><td class="num">2</td><td class="num">7%</td></tr><tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#8a8d94;margin-right:7px;vertical-align:middle"></span>Externo</td><td class="num">1</td><td class="num">4%</td></tr><tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#5a5d66;margin-right:7px;vertical-align:middle"></span>Cobranzas</td><td class="num">1</td><td class="num">4%</td></tr><tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#b4b2a9;margin-right:7px;vertical-align:middle"></span>Comercial</td><td class="num">1</td><td class="num">4%</td></tr></tbody></table></div>
+    </article>
+
+    <article class="sc-card"><div class="sc-card-h"><span class="sc-card-title">Participación por origen</span></div><div class="sc-chart-box"><canvas id="scDonut" aria-label="Donut de participación por origen"></canvas></div><div class="sc-chart-cap" id="capDonut">Tocá el gráfico para ver el detalle</div></article>
+    <article class="sc-card"><div class="sc-card-h"><span class="sc-card-title">Gasto por campaña</span></div><div class="sc-chart-box"><canvas id="scBar" aria-label="Barras de gasto por campaña"></canvas></div><div class="sc-chart-cap" id="capBar">Tocá el gráfico para ver el detalle</div></article>
+    <article class="sc-card"><div class="sc-card-h"><span class="sc-card-title">Evolución de facturación</span></div><div class="sc-chart-box"><canvas id="scLine" aria-label="Línea de evolución de facturación"></canvas></div><div class="sc-chart-cap" id="capLine">Tocá el gráfico para ver el detalle</div></article>
+    <article class="sc-card"><div class="sc-card-h"><span class="sc-card-title">Embudo de conversión</span></div><div class="sc-chart-box tall"><canvas id="scFunnel" aria-label="Embudo de conversión"></canvas></div><div class="sc-chart-cap" id="capFunnel">Tocá el gráfico para ver el detalle</div></article>
+    <article class="sc-card">
+      <div class="sc-card-h"><span class="sc-card-title">Cockpit · KPI con sparkline</span></div>
+      <div class="sc-kpi-l">Facturación del día</div>
+      <div class="sc-kpi-v"><span data-count="148" data-prefix="$" data-suffix="K">$148K</span> <span class="sc-delta up">↑ 4,8%</span></div>
+      <div class="sc-spark"><canvas id="scSpark" aria-label="Sparkline de facturación"></canvas></div>
+    </article>
+  </div>
+</section>
+
+<!-- ══════════ CATÁLOGO: TABLAS ══════════ -->
+<section class="sc-section">
+  <h2 class="sc-section-h">Tablas</h2>
+  <p class="sc-section-sub">Tipos de tabla usados en apps e informes (clase <code class="sc-mono">.data-table</code>, headers reales · <strong>datos simulados</strong>). Tocá una fila para ver el detalle.</p>
+  <div class="sc-tbl-grid">
+    <article class="sc-card wide">
+      <div class="sc-card-h"><span class="sc-card-title">Backlog · tickets</span><span class="badge badge-amber" style="font:600 9px var(--mono)">INFORME</span></div>
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap">
+        <input class="sc-input" id="blSearch" placeholder="Buscar por título, sector, tipo…" style="flex:1;min-width:200px">
+        <div class="sc-chips">
+          <button class="sc-chip active" data-filter="all">Todos (18)</button>
+          <button class="sc-chip" data-filter="ingenieria">Ingeniería (10)</button>
+          <button class="sc-chip" data-filter="soporte">Soporte (8)</button>
+        </div>
+      </div>
+      <div class="table-wrap"><table class="data-table" id="blTable">
+        <thead><tr><th>Título</th><th class="num">Sprint</th><th class="num">BL</th><th>Sector</th><th class="num">Ticket</th><th>Tipo</th><th class="num">Avance</th><th class="num">Esfuerzo</th></tr></thead>
+        <tbody><tr data-cat="ingenieria"><td>Agregar columna en detalle de solicitud de compra</td><td class="num sc-muted">—</td><td class="num sc-muted">—</td><td>Compras</td><td class="num">T-1001</td><td><span class="badge badge-cyan" style="font:600 9px var(--mono)">Desarrollo</span></td><td class="num"><span class="badge badge-green" style="font:600 9px var(--mono)">100%</span></td><td class="num"><span style="color:var(--cyan)">Media</span></td></tr><tr data-cat="ingenieria"><td>Factura cobrada con saldo pendiente</td><td class="num sc-muted">—</td><td class="num sc-muted">—</td><td>Cobranzas</td><td class="num">T-1002</td><td><span class="badge badge-amber" style="font:600 9px var(--mono)">Corrección</span></td><td class="num"><span class="badge badge-green" style="font:600 9px var(--mono)">100%</span></td><td class="num"><span class="sc-muted">Baja</span></td></tr><tr data-cat="ingenieria"><td>Moneda por defecto en notas de crédito</td><td class="num sc-muted">—</td><td class="num sc-muted">—</td><td>Facturación</td><td class="num">T-1003</td><td><span class="badge badge-cyan" style="font:600 9px var(--mono)">Desarrollo</span></td><td class="num"><span class="badge badge-green" style="font:600 9px var(--mono)">100%</span></td><td class="num"><span style="color:var(--cyan)">Media</span></td></tr><tr data-cat="soporte"><td>Comprobantes sin factura asociada</td><td class="num sc-muted">—</td><td class="num sc-muted">—</td><td>Administración</td><td class="num">T-1004</td><td><span class="badge" style="font:600 9px var(--mono);color:var(--muted);background:var(--bg-soft)">Soporte</span></td><td class="num"><span class="badge badge-green" style="font:600 9px var(--mono)">100%</span></td><td class="num"><span class="sc-muted">Baja</span></td></tr><tr data-cat="ingenieria"><td>Cuenta corriente de proveedor</td><td class="num sc-muted">—</td><td class="num sc-muted">—</td><td>Administración</td><td class="num">T-1005</td><td><span class="badge badge-amber" style="font:600 9px var(--mono)">Corrección</span></td><td class="num"><span class="badge badge-green" style="font:600 9px var(--mono)">100%</span></td><td class="num"><span style="color:var(--cyan)">Media</span></td></tr><tr data-cat="ingenieria"><td>Modificación de tipo de orden</td><td class="num sc-muted">—</td><td class="num sc-muted">—</td><td>Comercial</td><td class="num">T-1006</td><td><span class="badge" style="font:600 9px var(--mono);color:#378add;background:rgba(55,138,221,.12)">Edición de datos</span></td><td class="num"><span class="badge badge-green" style="font:600 9px var(--mono)">100%</span></td><td class="num"><span class="sc-muted">Baja</span></td></tr><tr data-cat="soporte"><td>No se ven los cheques en órdenes de pago</td><td class="num sc-muted">—</td><td class="num sc-muted">—</td><td>Administración</td><td class="num">T-1007</td><td><span class="badge" style="font:600 9px var(--mono);color:var(--muted);background:var(--bg-soft)">Soporte</span></td><td class="num"><span class="badge badge-green" style="font:600 9px var(--mono)">100%</span></td><td class="num"><span class="sc-muted">Baja</span></td></tr><tr data-cat="ingenieria"><td>Actualización por cambio normativo fiscal</td><td class="num sc-muted">—</td><td class="num sc-muted">—</td><td>Administración</td><td class="num">T-1008</td><td><span class="badge badge-green" style="font:600 9px var(--mono)">Mejora</span></td><td class="num"><span class="badge badge-green" style="font:600 9px var(--mono)">100%</span></td><td class="num"><span style="color:var(--amber);font-weight:600">Alta</span></td></tr><tr data-cat="ingenieria"><td>Opciones de esquema en servicios</td><td class="num sc-muted">—</td><td class="num sc-muted">—</td><td>Sucursales</td><td class="num">T-1009</td><td><span class="badge" style="font:600 9px var(--mono);color:#378add;background:rgba(55,138,221,.12)">Edición de datos</span></td><td class="num"><span class="badge badge-green" style="font:600 9px var(--mono)">100%</span></td><td class="num"><span class="sc-muted">Baja</span></td></tr><tr data-cat="soporte"><td>Nota de crédito sin IVA en PDF</td><td class="num sc-muted">—</td><td class="num sc-muted">—</td><td>Administración</td><td class="num">T-1010</td><td><span class="badge" style="font:600 9px var(--mono);color:var(--muted);background:var(--bg-soft)">Soporte</span></td><td class="num"><span class="badge badge-green" style="font:600 9px var(--mono)">100%</span></td><td class="num"><span class="sc-muted">Baja</span></td></tr><tr data-cat="soporte"><td>No emite factura</td><td class="num sc-muted">—</td><td class="num sc-muted">—</td><td>Sucursales</td><td class="num">T-1011</td><td><span class="badge" style="font:600 9px var(--mono);color:var(--muted);background:var(--bg-soft)">Soporte</span></td><td class="num"><span class="badge badge-green" style="font:600 9px var(--mono)">100%</span></td><td class="num"><span class="sc-muted">Baja</span></td></tr><tr data-cat="soporte"><td>Desconfirmar entrega de orden</td><td class="num sc-muted">—</td><td class="num sc-muted">—</td><td>Servicios</td><td class="num">T-1012</td><td><span class="badge" style="font:600 9px var(--mono);color:var(--muted);background:var(--bg-soft)">Soporte</span></td><td class="num"><span class="badge badge-green" style="font:600 9px var(--mono)">100%</span></td><td class="num"><span class="sc-muted">Baja</span></td></tr><tr data-cat="soporte"><td>Factura sin sucursal asignada</td><td class="num sc-muted">—</td><td class="num sc-muted">—</td><td>Sucursales</td><td class="num">T-1013</td><td><span class="badge" style="font:600 9px var(--mono);color:var(--muted);background:var(--bg-soft)">Soporte</span></td><td class="num"><span class="badge badge-green" style="font:600 9px var(--mono)">100%</span></td><td class="num"><span class="sc-muted">Baja</span></td></tr><tr data-cat="soporte"><td>Error en reporte de factura</td><td class="num sc-muted">—</td><td class="num sc-muted">—</td><td>Facturación</td><td class="num">T-1014</td><td><span class="badge" style="font:600 9px var(--mono);color:var(--muted);background:var(--bg-soft)">Soporte</span></td><td class="num"><span class="badge badge-green" style="font:600 9px var(--mono)">100%</span></td><td class="num"><span class="sc-muted">Baja</span></td></tr><tr data-cat="soporte"><td>Error al anular orden de pago</td><td class="num sc-muted">—</td><td class="num sc-muted">—</td><td>Administración</td><td class="num">T-1015</td><td><span class="badge" style="font:600 9px var(--mono);color:var(--muted);background:var(--bg-soft)">Soporte</span></td><td class="num"><span class="badge badge-green" style="font:600 9px var(--mono)">100%</span></td><td class="num"><span class="sc-muted">Baja</span></td></tr><tr data-cat="ingenieria"><td>Pasar a producción ticket de compras</td><td class="num sc-muted">—</td><td class="num sc-muted">—</td><td>Compras</td><td class="num">T-1016</td><td><span class="badge" style="font:600 9px var(--mono);color:#a78bfa;background:rgba(167,139,250,.12)">Implementación</span></td><td class="num"><span class="badge badge-green" style="font:600 9px var(--mono)">100%</span></td><td class="num"><span style="color:var(--cyan)">Media</span></td></tr><tr data-cat="ingenieria"><td>Mejora en lógica de pedido de retiro</td><td class="num sc-muted">—</td><td class="num sc-muted">—</td><td>Externo</td><td class="num">T-1017</td><td><span class="badge badge-cyan" style="font:600 9px var(--mono)">Desarrollo</span></td><td class="num"><span class="badge badge-green" style="font:600 9px var(--mono)">100%</span></td><td class="num"><span style="color:var(--cyan)">Media</span></td></tr><tr data-cat="ingenieria"><td>Desvincular solicitud de orden de compra</td><td class="num sc-muted">—</td><td class="num sc-muted">—</td><td>Compras</td><td class="num">T-1018</td><td><span class="badge badge-green" style="font:600 9px var(--mono)">Mejora</span></td><td class="num"><span class="badge badge-green" style="font:600 9px var(--mono)">100%</span></td><td class="num"><span style="color:var(--cyan)">Media</span></td></tr></tbody>
+      </table></div>
+    </article>
+
+
+    <article class="sc-card">
+      <div class="sc-card-h"><span class="sc-card-title">Ranking de productos</span><span class="badge badge-cyan" style="font:600 9px var(--mono)">ANALYTICS</span></div>
+      <div class="table-wrap"><table class="data-table">
+        <thead><tr><th>Producto</th><th class="num">Unidades</th><th class="num">Facturación</th><th class="num">Margen</th></tr></thead>
+        <tbody>
+          <tr><td>Servicio profesional</td><td class="num">1.240</td><td class="num">$842.300</td><td class="num">41,2%</td></tr>
+          <tr><td>Licencia anual</td><td class="num">312</td><td class="num">$613.900</td><td class="num">58,7%</td></tr>
+          <tr><td>Soporte premium</td><td class="num">198</td><td class="num">$221.050</td><td class="num">37,4%</td></tr>
+          <tr><td>Implementación</td><td class="num">44</td><td class="num">$198.700</td><td class="num">29,9%</td></tr>
+        </tbody>
+      </table></div>
+    </article>
+
+    <article class="sc-card">
+      <div class="sc-card-h"><span class="sc-card-title">Grupos / rubros</span></div>
+      <div class="table-wrap"><table class="data-table">
+        <thead><tr><th>Grupo</th><th class="num">Facturación</th><th class="num">Margen %</th><th class="num">Variación</th></tr></thead>
+        <tbody>
+          <tr><td>Ventas</td><td class="num">$2.1M</td><td class="num">39,1%</td><td class="num"><span class="badge badge-green" style="font:600 9px var(--mono)">↑ 6,1%</span></td></tr>
+          <tr><td>Servicios</td><td class="num">$1.3M</td><td class="num">52,0%</td><td class="num"><span class="badge badge-green" style="font:600 9px var(--mono)">↑ 2,4%</span></td></tr>
+          <tr><td>Repuestos</td><td class="num">$540K</td><td class="num">31,8%</td><td class="num"><span class="badge badge-red" style="font:600 9px var(--mono)">↓ 1,9%</span></td></tr>
+        </tbody>
+      </table></div>
+    </article>
+
+    <article class="sc-card wide">
+      <div class="sc-card-h"><span class="sc-card-title">Clientes</span><span class="sc-mail sc-muted">tabla sortable · click en columna</span></div>
+      <div class="table-wrap"><table class="data-table table-sortable">
+        <thead><tr><th>Cliente</th><th class="num">Facturación mes</th><th class="num">Pedidos</th><th class="num">Ticket prom.</th><th class="num">Margen</th><th>Estado</th></tr></thead>
+        <tbody>
+          <tr><td>Comercial Andes SA</td><td class="num">$418.200</td><td class="num">86</td><td class="num">$4.863</td><td class="num">42,1%</td><td><span class="badge badge-green" style="font:600 9px var(--mono)">AL DÍA</span></td></tr>
+          <tr><td>Distribuidora del Plata</td><td class="num">$311.540</td><td class="num">142</td><td class="num">$2.194</td><td class="num">28,7%</td><td><span class="badge badge-amber" style="font:600 9px var(--mono)">PARCIAL</span></td></tr>
+          <tr><td>MetroPlus</td><td class="num">$205.900</td><td class="num">53</td><td class="num">$3.885</td><td class="num">35,0%</td><td><span class="badge badge-red" style="font:600 9px var(--mono)">VENCIDO</span></td></tr>
+          <tr><td>Grupo Vega</td><td class="num">$162.300</td><td class="num">71</td><td class="num">$2.286</td><td class="num">39,4%</td><td><span class="badge badge-green" style="font:600 9px var(--mono)">AL DÍA</span></td></tr>
+        </tbody>
+      </table></div>
+    </article>
+
+    <article class="sc-card">
+      <div class="sc-card-h"><span class="sc-card-title">Leads</span></div>
+      <div class="table-wrap"><table class="data-table">
+        <thead><tr><th>Fecha creación</th><th>Origen</th><th>Empresa</th><th>Título</th></tr></thead>
+        <tbody>
+          <tr><td class="num">20/05</td><td>Web</td><td>Acme SRL</td><td>Consulta ERP</td></tr>
+          <tr><td class="num">19/05</td><td>Referido</td><td>Globex</td><td>Demo Analytics</td></tr>
+          <tr><td class="num">18/05</td><td>Ads</td><td>Initech</td><td>Integración TN</td></tr>
+        </tbody>
+      </table></div>
+    </article>
+
+    <article class="sc-card">
+      <div class="sc-card-h"><span class="sc-card-title">Implementaciones</span></div>
+      <div class="table-wrap"><table class="data-table">
+        <thead><tr><th>Empresa</th><th>Origen</th><th class="num">Importe impl.</th><th class="num">Anticipo</th><th class="num">Concreción</th></tr></thead>
+        <tbody>
+          <tr><td>Comercial Andes</td><td>Referido</td><td class="num">$1.2M</td><td class="num">$400K</td><td class="num">12/04</td></tr>
+          <tr><td>MetroPlus</td><td>Web</td><td class="num">$880K</td><td class="num">$300K</td><td class="num">28/04</td></tr>
+        </tbody>
+      </table></div>
+    </article>
+
+    <article class="sc-card wide">
+      <div class="sc-card-h"><span class="sc-card-title">Performance de campañas (Ads)</span></div>
+      <div class="table-wrap"><table class="data-table">
+        <thead><tr><th>Anuncio</th><th>Estado</th><th class="num">Gasto</th><th class="num">Resultado</th><th class="num">Costo/Res.</th><th class="num">Vistas</th></tr></thead>
+        <tbody>
+          <tr><td>ERP — Búsqueda</td><td><span class="badge badge-green" style="font:600 9px var(--mono)">ACTIVO</span></td><td class="num">$84.200</td><td class="num">312</td><td class="num">$270</td><td class="num">128K</td></tr>
+          <tr><td>Analytics — Retarget</td><td><span class="badge badge-green" style="font:600 9px var(--mono)">ACTIVO</span></td><td class="num">$41.800</td><td class="num">96</td><td class="num">$435</td><td class="num">54K</td></tr>
+          <tr><td>Demo — Display</td><td><span class="badge badge-amber" style="font:600 9px var(--mono)">PAUSADO</span></td><td class="num">$12.500</td><td class="num">18</td><td class="num">$694</td><td class="num">210K</td></tr>
+        </tbody>
+      </table></div>
+    </article>
+
+    <article class="sc-card">
+      <div class="sc-card-h"><span class="sc-card-title">Cohortes · retención</span></div>
+      <div class="table-wrap"><table class="data-table">
+        <thead><tr><th>Cohorte</th><th class="num">Clientes</th><th class="num">Mes 1</th><th class="num">Mes 2</th><th class="num">Mes 3</th><th class="num">LTV est.</th></tr></thead>
+        <tbody>
+          <tr><td>Ene</td><td class="num">120</td><td class="num">92%</td><td class="num">81%</td><td class="num">74%</td><td class="num">$8.4K</td></tr>
+          <tr><td>Feb</td><td class="num">98</td><td class="num">89%</td><td class="num">77%</td><td class="num">70%</td><td class="num">$7.9K</td></tr>
+        </tbody>
+      </table></div>
+    </article>
+
+    <article class="sc-card">
+      <div class="sc-card-h"><span class="sc-card-title">ATC · clusters</span><span class="badge badge-amber" style="font:600 9px var(--mono)">INFORME</span></div>
+      <div class="table-wrap"><table class="data-table">
+        <thead><tr><th>Cluster</th><th class="num">Tickets</th><th>Impacto</th><th>Lectura</th></tr></thead>
+        <tbody>
+          <tr><td>Facturación</td><td class="num">42</td><td><span class="badge badge-red" style="font:600 9px var(--mono)">ALTO</span></td><td>Reincidencia</td></tr>
+          <tr><td>Stock</td><td class="num">28</td><td><span class="badge badge-amber" style="font:600 9px var(--mono)">MEDIO</span></td><td>Capacitación</td></tr>
+          <tr><td>Reportes</td><td class="num">16</td><td><span class="badge badge-green" style="font:600 9px var(--mono)">BAJO</span></td><td>Mejora UX</td></tr>
+        </tbody>
+      </table></div>
+    </article>
+
+  </div>
+</section>
+
+</div></div>
+
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Tema (3 estados como el catálogo) */
+  var opts = document.querySelectorAll('.theme-opt');
+  function applyTheme(val){
+    var t = val==='system' ? ((window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) ? 'light':'dark') : val;
+    document.documentElement.setAttribute('data-theme', t);
+    opts.forEach(function(o){ o.classList.toggle('active', o.dataset.val===val); });
+    if(window.__buildCharts) window.__buildCharts();
+  }
+  opts.forEach(function(o){ o.addEventListener('click', function(){ applyTheme(o.dataset.val); }); });
+  applyTheme('dark');
+
+  /* Toggles de notificaciones */
+  document.querySelectorAll('.sc-toggle-row .sw').forEach(function(sw){
+    sw.addEventListener('click', function(){ sw.classList.toggle('on'); sw.setAttribute('aria-pressed', sw.classList.contains('on')); });
+  });
+
+  /* Cifras animadas (count-up) */
+  function countUp(el){
+    var target=parseFloat(el.dataset.count), pre=el.dataset.prefix||'', suf=el.dataset.suffix||'', dec=parseInt(el.dataset.dec||'0',10);
+    function fmt(v){ var n = dec>0 ? v.toFixed(dec).replace('.',',') : Math.round(v).toLocaleString('es-AR'); return pre+n+suf; }
+    if(reduce){ el.textContent=fmt(target); return; }
+    var start=null, dur=900;
+    el.textContent=fmt(0);
+    function step(ts){ if(!start)start=ts; var p=Math.min((ts-start)/dur,1); el.textContent=fmt((1-Math.pow(1-p,3))*target); if(p<1) requestAnimationFrame(step); }
+    requestAnimationFrame(step);
+  }
+  var counted=false;
+  function runCounts(){ if(counted) return; counted=true; document.querySelectorAll('[data-count]').forEach(countUp); }
+  var firstK=document.querySelector('[data-count]');
+  if('IntersectionObserver' in window && firstK){
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ runCounts(); io.disconnect(); } }); },{threshold:.2});
+    io.observe(firstK.closest('.sc-card'));
+  } else { runCounts(); }
+
+  /* ── Gráficos: registry + inline + modal de detalle (estilo Analytics Pro) ── */
+  var inst=[], modalChart=null;
+  function pal(){ var cs=getComputedStyle(document.documentElement); return {
+    cyan:(cs.getPropertyValue('--cyan').trim()||'#00ccff'), green:'#00c48c', amber:'#f6a623', purple:'#a78bfa',
+    muted:(cs.getPropertyValue('--muted-2').trim()||'#7d7c82'), tick:(cs.getPropertyValue('--muted').trim()||'#908e8e'), grid:'rgba(127,136,150,.12)'}; }
+  function registry(){ var p=pal(); return {
+    scDonut:{title:'Participación por origen', type:'doughnut', labels:['POS','Web','App','Mayorista','Otros'], data:[38,27,18,12,5], colors:[p.cyan,p.green,p.amber,p.purple,p.muted], fmt:function(v){return v+'%';}},
+    scBar:{title:'Gasto por campaña', type:'bar', labels:['ERP','Analytics','Demo','Retarget','Display'], data:[84,42,28,38,12], color:p.cyan, fmt:function(v){return '$'+v+'K';}},
+    scLine:{title:'Evolución de facturación', type:'line', labels:['E','F','M','A','M','J','J','A','S','O','N','D'], data:[2.1,2.3,2.2,2.6,2.8,3.0,3.1,3.4,3.2,3.6,3.8,4.2], color:p.cyan, dec:1, fmt:function(v){return '$'+String(v).replace('.',',')+'M';}},
+    scFunnel:{title:'Embudo de conversión', type:'bar', horizontal:true, labels:['Visitas','Leads','Demos','Propuestas','Cierres'], data:[12000,3200,860,340,120], colors:[p.cyan,'rgba(0,204,255,.82)','rgba(0,204,255,.60)','rgba(0,204,255,.42)','rgba(0,204,255,.28)'], fmt:function(v){return Math.round(v).toLocaleString('es-AR');}},
+    scSpark:{title:'Facturación · serie diaria', type:'line', spark:true, labels:['D1','D2','D3','D4','D5','D6','D7','D8','D9','D10','D11','D12','D13','D14'], data:[120,118,126,122,130,128,135,132,140,138,145,142,150,148], color:p.cyan, fmt:function(v){return '$'+Math.round(v)+'K';}},
+    scHist:{title:'Crecimiento de facturación', type:'line', labels:['May 25','Jun 25','Jul 25','Ago 25','Sep 25','Oct 25','Nov 25','Dic 25','Ene 26','Feb 26','Mar 26','Abr 26'], data:[180,205,228,250,277,305,340,372,410,445,488,520], color:p.cyan, fmt:function(v){return '$'+Math.round(v)+'K';}, ext:{labels:['May 24','Jun 24','Jul 24','Ago 24','Sep 24','Oct 24','Nov 24','Dic 24','Ene 25','Feb 25','Mar 25','Abr 25','May 25','Jun 25','Jul 25','Ago 25','Sep 25','Oct 25','Nov 25','Dic 25','Ene 26','Feb 26','Mar 26','Abr 26'], data:[95,102,110,118,125,132,140,150,160,168,172,176,180,205,228,250,277,305,340,372,410,445,488,520]}},
+    scSectores:{title:'Sectores · áreas involucradas', type:'doughnut', labels:['Sucursales','Administración','Compras','RRHH','Servicios','Facturación','Externo','Cobranzas','Comercial'], data:[7,6,3,3,3,2,1,1,1], colors:[p.green,p.cyan,p.purple,p.amber,'#f25f5c','#378add','#8a8d94','#5a5d66','#b4b2a9'], fmt:function(v){return v;}}
+  };}
+  function cfg(m, big){
+    var p=pal(); var anim={duration:reduce?0:900,easing:'easeOutQuart'}; var ds, opt;
+    var src_l=(big&&m.ext)?m.ext.labels:m.labels, src_d=(big&&m.ext)?m.ext.data:m.data;
+    if(m.type==='doughnut'){
+      ds=[{data:src_d,backgroundColor:m.colors,borderWidth:0,hoverOffset:8}];
+      opt={responsive:true,maintainAspectRatio:false,cutout:big?'60%':'68%',animation:anim,plugins:{legend:{position:'right',labels:{boxWidth:10,boxHeight:10,font:{size:big?12:11}}}}};
+    } else if(m.type==='bar'){
+      ds=[{data:src_d,backgroundColor:m.colors||m.color,borderRadius:6,maxBarThickness:m.horizontal?(big?34:22):34}];
+      opt={indexAxis:m.horizontal?'y':'x',responsive:true,maintainAspectRatio:false,animation:anim,plugins:{legend:{display:false}},scales:m.horizontal?{x:{grid:{color:p.grid}},y:{grid:{display:false}}}:{x:{grid:{display:false}},y:{grid:{color:p.grid}}}};
+    } else {
+      ds=[{data:src_d,borderColor:m.color,backgroundColor:'rgba(0,204,255,.10)',fill:true,tension:.35,pointRadius:m.spark&&!big?0:(big?2:0),pointHitRadius:14,borderWidth:m.spark&&!big?1.5:2}];
+      opt={responsive:true,maintainAspectRatio:false,animation:anim,plugins:{legend:{display:false},tooltip:{enabled:!(m.spark&&!big)}},scales:(m.spark&&!big)?{x:{display:false},y:{display:false}}:{x:{grid:{display:false}},y:{grid:{color:p.grid}}}};
+    }
+    return {type:m.type,data:{labels:src_l,datasets:ds},options:opt};
+  }
+  function buildCharts(){
+    if(!window.Chart) return;
+    inst.forEach(function(c){try{c.destroy();}catch(e){}}); inst=[];
+    var p=pal(); Chart.defaults.font.family='Inter, sans-serif'; Chart.defaults.color=p.tick;
+    var R=registry();
+    Object.keys(R).forEach(function(key){
+      var elc=document.getElementById(key); if(!elc) return;
+      var c=cfg(R[key],false); c.options.onClick=function(){ openModal(key); };
+      elc.style.cursor='pointer'; inst.push(new Chart(elc,c));
+    });
+  }
+  /* Modal de detalle */
+  var modal=document.getElementById('scModal');
+  function stat(l,v){ return '<div class="sc-modal-stat"><div class="l">'+l+'</div><div class="v">'+v+'</div></div>'; }
+  function openModal(key){
+    var m=registry()[key]; if(!m||!modal) return;
+    document.getElementById('scModalTitle').textContent=m.title;
+    if(modalChart){ try{modalChart.destroy();}catch(e){} }
+    modalChart=new Chart(document.getElementById('scModalCanvas'), cfg(m,true));
+    var L=m.ext?m.ext.labels:m.labels, D=m.ext?m.ext.data:m.data;
+    var total=D.reduce(function(a,b){return a+b;},0), max=Math.max.apply(null,D), avg=total/D.length;
+    document.getElementById('scModalStats').innerHTML =
+      stat('Total', m.fmt(total)) + stat('Máximo', m.fmt(max)) + stat('Promedio', m.fmt(avg)) + stat('Períodos', D.length);
+    var rows=L.map(function(l,i){ var v=D[i]; var sh=total?Math.round(v/total*1000)/10:0; return '<tr><td>'+l+'</td><td class="num">'+m.fmt(v)+'</td><td class="num">'+sh+'%</td></tr>'; }).join('');
+    document.getElementById('scModalTable').innerHTML='<thead><tr><th>Ítem</th><th class="num">Valor</th><th class="num">Share</th></tr></thead><tbody>'+rows+'</tbody>';
+    modal.classList.add('open'); modal.setAttribute('aria-hidden','false');
+  }
+  function closeModal(){ if(!modal)return; modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); if(modalChart){try{modalChart.destroy();}catch(e){} modalChart=null;} }
+  if(modal){
+    document.getElementById('scModalClose').addEventListener('click', closeModal);
+    modal.addEventListener('click', function(e){ if(e.target===modal) closeModal(); });
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeModal(); });
+  }
+  window.__buildCharts=buildCharts;
+  buildCharts();
+})();
+</script>
+<div class="sc-modal" id="scModal" aria-hidden="true">
+  <div class="sc-modal-card" role="dialog" aria-modal="true" aria-labelledby="scModalTitle">
+    <div class="sc-modal-head">
+      <div><div class="sc-modal-kicker">Detalle</div><div class="sc-modal-title" id="scModalTitle"></div></div>
+      <button class="sc-modal-close" id="scModalClose" aria-label="Cerrar">✕</button>
+    </div>
+    <div class="sc-modal-body">
+      <div class="sc-modal-canvas-wrap"><canvas id="scModalCanvas" aria-label="Gráfico ampliado"></canvas></div>
+      <div class="sc-modal-side">
+        <div class="sc-modal-stats" id="scModalStats"></div>
+        <div class="table-wrap"><table class="data-table" id="scModalTable"></table></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var search=document.getElementById('blSearch'); var table=document.getElementById('blTable'); if(!search||!table) return;
+  var rows=Array.prototype.slice.call(table.querySelectorAll('tbody tr'));
+  var chips=document.querySelectorAll('.sc-chip'); var cat='all';
+  function apply(){ var q=search.value.toLowerCase().trim();
+    rows.forEach(function(r){ var okC=(cat==='all'||r.dataset.cat===cat); var okQ=(!q||r.textContent.toLowerCase().indexOf(q)>=0); r.style.display=(okC&&okQ)?'':'none'; }); }
+  search.addEventListener('input', apply);
+  chips.forEach(function(c){ c.addEventListener('click', function(){ chips.forEach(function(x){x.classList.remove('active');}); c.classList.add('active'); cat=c.dataset.filter; apply(); }); });
+})();
+</script>
+<div class="sc-modal" id="scRowModal" aria-hidden="true">
+  <div class="sc-modal-card" style="width:min(100%,460px)" role="dialog" aria-modal="true" aria-labelledby="scRowTitle">
+    <div class="sc-modal-head"><div><div class="sc-modal-kicker">Detalle · datos simulados</div><div class="sc-modal-title" id="scRowTitle"></div></div><button class="sc-modal-close" id="scRowClose" aria-label="Cerrar">✕</button></div>
+    <div style="padding:18px 22px;display:grid;gap:2px" id="scRowBody"></div>
+  </div>
+</div>
+<script>
+(function(){
+  var rm=document.getElementById('scRowModal'); if(!rm) return;
+  function close(){ rm.classList.remove('open'); rm.setAttribute('aria-hidden','true'); }
+  document.getElementById('scRowClose').addEventListener('click', close);
+  rm.addEventListener('click', function(e){ if(e.target===rm) close(); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') close(); });
+  document.querySelectorAll('.data-table').forEach(function(t){
+    var ths=Array.prototype.slice.call(t.querySelectorAll('thead th')).map(function(h){return h.textContent.replace(/[\u2195\u2191\u2193]/g,'').trim();});
+    t.querySelectorAll('tbody tr').forEach(function(tr){
+      tr.style.cursor='pointer';
+      tr.addEventListener('click', function(){
+        var tds=tr.querySelectorAll('td');
+        document.getElementById('scRowTitle').textContent=(tds[0]?tds[0].textContent.trim():'Detalle');
+        var html='';
+        for(var i=1;i<tds.length;i++){ var label=ths[i]||(''); var val=tds[i].innerHTML.trim(); if(val==='—'||val==='') continue;
+          html+='<div style="display:flex;justify-content:space-between;align-items:center;gap:14px;border-bottom:1px solid var(--line);padding:8px 0"><span class="sc-mono" style="font-size:10px;color:var(--muted-2);text-transform:uppercase;letter-spacing:.06em">'+label+'</span><span style="font:500 13px var(--sans);text-align:right">'+val+'</span></div>'; }
+        document.getElementById('scRowBody').innerHTML=html;
+        rm.classList.add('open'); rm.setAttribute('aria-hidden','false');
+      });
+    });
+  });
+})();
+</script>
+<script>
+(function(){
+  var c=document.getElementById('scClock'), d=document.getElementById('scDate'); if(!c) return;
+  var dias=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+  var meses=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  function p2(n){return (n<10?'0':'')+n;}
+  function tick(){ var n=new Date(); c.textContent=p2(n.getHours())+':'+p2(n.getMinutes()); if(d) d.textContent=dias[n.getDay()]+', '+n.getDate()+' de '+meses[n.getMonth()]; }
+  tick(); setInterval(tick, 20000);
+})();
+</script>
+<script>
+(function(){
+  var t=document.getElementById('bpTable'), badge=document.getElementById('bpNow'); if(!t) return;
+  var rows=Array.prototype.slice.call(t.querySelectorAll('tbody tr'));
+  function upd(){ var w=window.innerWidth;
+    rows.forEach(function(r){ var mn=r.dataset.min?+r.dataset.min:0, mx=r.dataset.max?+r.dataset.max:Infinity; var act=(w>=mn&&w<=mx);
+      r.style.background=act?'var(--cyan-soft)':''; if(act&&badge) badge.textContent=r.children[0].textContent.trim()+' · '+w+'px'; }); }
+  upd(); window.addEventListener('resize', upd);
+})();
+</script>
+</body>
+</html>

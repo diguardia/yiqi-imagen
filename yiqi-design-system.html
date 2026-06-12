@@ -245,7 +245,7 @@ body.preview-open .ds-layout { display: none !important; }
 </g>
 </svg>
 </a>
-<div class="topbar-pill">Design System v1.2.7</div>
+<div class="page-switch" role="group" aria-label="Cambiar vista"><a class="ps-opt active" href="yiqi-design-system.html">Design System</a><a class="ps-opt" href="examples/showcase.html">Showcase</a></div>
 </div>
 <div class="topbar-search-wrap" id="topbar-search-wrap">
   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -288,6 +288,7 @@ body.preview-open .ds-layout { display: none !important; }
 <div class="ds-nav-section">
 <span class="ds-nav-label">Versión</span>
 <a class="ds-nav-item active" href="#release-notes"><span class="ds-nav-num">00</span> Novedades</a>
+<a class="ds-nav-item" href="examples/showcase.html" style="color:var(--cyan)"><span class="ds-nav-num"><i class="ph ph-squares-four"></i></span> Showcase de ejemplos <span class="ds-nav-badge">NEW</span></a>
 </div>
 <div class="ds-nav-section">
 <span class="ds-nav-label">Fundamentos</span>
@@ -308,18 +309,18 @@ body.preview-open .ds-layout { display: none !important; }
 <a class="ds-nav-item" href="#trust"><span class="ds-nav-num">12</span> Trust / Stats <span class="ds-nav-badge">NEW</span></a>
 <a class="ds-nav-item" href="#navigation"><span class="ds-nav-num">13</span> Navegación</a>
 <a class="ds-nav-item" href="#tables"><span class="ds-nav-num">14</span> Tablas</a>
-<a class="ds-nav-item" href="#implementacion"><span class="ds-nav-num">22</span> Tabla implementación <span class="ds-nav-badge">NEW</span></a>
-<a class="ds-nav-item" href="#counter"><span class="ds-nav-num">23</span> Contador animado <span class="ds-nav-badge">NEW</span></a>
-<a class="ds-nav-item" href="#icons"><span class="ds-nav-num">15</span> Iconografía Phosphor</a>
-<a class="ds-nav-item" href="#misc"><span class="ds-nav-num">16</span> Elementos varios</a>
+<a class="ds-nav-item" href="#implementacion"><span class="ds-nav-num">15</span> Tabla implementación <span class="ds-nav-badge">NEW</span></a>
+<a class="ds-nav-item" href="#counter"><span class="ds-nav-num">16</span> Contador animado <span class="ds-nav-badge">NEW</span></a>
+<a class="ds-nav-item" href="#icons"><span class="ds-nav-num">17</span> Iconografía Phosphor</a>
+<a class="ds-nav-item" href="#misc"><span class="ds-nav-num">18</span> Elementos varios</a>
 </div>
 <div class="ds-nav-section">
 <span class="ds-nav-label">Layout</span>
-<a class="ds-nav-item" href="#grid"><span class="ds-nav-num">17</span> Grid &amp; layout</a>
-<a class="ds-nav-item" href="#bg-grid"><span class="ds-nav-num">18</span> Grilla cuadriculada</a>
-<a class="ds-nav-item" href="#depth-stack"><span class="ds-nav-num">19</span> Depth stack <span class="ds-nav-badge">v1.2.6</span></a>
-<a class="ds-nav-item" href="#demo-form"><span class="ds-nav-num">21</span> Demo form</a>
-<a class="ds-nav-item" href="#llm-fab"><span class="ds-nav-num">20</span> LLM FAB</a>
+<a class="ds-nav-item" href="#grid"><span class="ds-nav-num">19</span> Grid &amp; layout</a>
+<a class="ds-nav-item" href="#bg-grid"><span class="ds-nav-num">20</span> Grilla cuadriculada</a>
+<a class="ds-nav-item" href="#depth-stack"><span class="ds-nav-num">21</span> Depth stack <span class="ds-nav-badge">v1.2.6</span></a>
+<a class="ds-nav-item" href="#demo-form"><span class="ds-nav-num">22</span> Demo form</a>
+<a class="ds-nav-item" href="#llm-fab"><span class="ds-nav-num">23</span> LLM FAB</a>
 </div>
 <div class="ds-nav-section">
 <span class="ds-nav-label">Aplicaciones</span>
@@ -341,7 +342,7 @@ body.preview-open .ds-layout { display: none !important; }
 <!-- ─── RELEASE NOTES ─── -->
 <section class="ds-section" id="release-notes">
 <div class="ds-section-header">
-<div class="ds-section-kicker">00 · 00 · Novedades</div>
+<div class="ds-section-kicker">00 · Novedades</div>
 <h2 class="ds-section-title">Novedades · v1.2.7</h2>
 <p class="ds-section-sub">Patrón <strong>Pantalla de acceso (Login §18)</strong> con logo animado en loop, sección <strong>Aplicaciones</strong> (kit base de apps), <strong>inputs borderless</strong> y consolidación de la <strong>fuente única</strong> del Design System.</p>
 </div>
@@ -364,6 +365,12 @@ body.preview-open .ds-layout { display: none !important; }
 <tr><th>Versión</th><th>Fecha</th><th>Tipo</th><th>Detalle</th></tr>
 </thead>
 <tbody>
+<tr>
+<td class="mono-cell">v1.2.7</td>
+<td class="mono-cell">12/06/2026</td>
+<td><span class="badge badge-green">SHOWCASE</span></td>
+<td><strong>Showcase de ejemplos</strong> (<code>examples/showcase.html</code>): galería estilo Radix con mockups del ERP, tablas sortables/filtrables con detalle por fila y gráficos clickeables con modal de datos extendidos. Accesible desde el nav y el toggle del header. Datos simulados.</td>
+</tr>
 <tr>
 <td class="mono-cell">v1.2.7</td>
 <td class="mono-cell">11/06/2026</td>
@@ -508,7 +515,7 @@ body.preview-open .ds-layout { display: none !important; }
 <!-- ─── BRAND ─── -->
 <section class="ds-section" id="brand">
 <div class="ds-section-header">
-<div class="ds-section-kicker">01 · 01 · Marca</div>
+<div class="ds-section-kicker">01 · Marca</div>
 <h2 class="ds-section-title">Logo &amp; Marca</h2>
 <p class="ds-section-sub">El logotipo de YiQi existe en dos variantes: wordmark completo y símbolo Q. Siempre usar SVG nativo.</p>
 </div>
@@ -594,7 +601,7 @@ body.preview-open .ds-layout { display: none !important; }
 <!-- ─── COLORS ─── -->
 <section class="ds-section" id="colors">
 <div class="ds-section-header">
-<div class="ds-section-kicker">02 · 02 · Colores</div>
+<div class="ds-section-kicker">02 · Colores</div>
 <h2 class="ds-section-title">Paleta de colores</h2>
 <p class="ds-section-sub">Sistema de variables CSS con dos modos. En Figma, crear como Variable Collection con grupos Dark y Light.</p>
 </div>
@@ -753,7 +760,7 @@ body.preview-open .ds-layout { display: none !important; }
 <!-- ─── TYPOGRAPHY ─── -->
 <section class="ds-section" id="typography">
 <div class="ds-section-header">
-<div class="ds-section-kicker">03 · 03 · Tipografía</div>
+<div class="ds-section-kicker">03 · Tipografía</div>
 <h2 class="ds-section-title">Escala tipográfica</h2>
 <p class="ds-section-sub">Tres familias: <strong>Greycliff CF</strong> para jerarquías mayores (display titles), <strong>Inter</strong> para texto de interfaz, <strong>IBM Plex Mono</strong> para labels, tokens, badges y valores numéricos.</p>
 </div>
@@ -860,7 +867,7 @@ body.preview-open .ds-layout { display: none !important; }
 <!-- ─── SPACING ─── -->
 <section class="ds-section" id="spacing">
 <div class="ds-section-header">
-<div class="ds-section-kicker">04 · 04 · Espaciado</div>
+<div class="ds-section-kicker">04 · Espaciado</div>
 <h2 class="ds-section-title">Escala de espaciado</h2>
 <p class="ds-section-sub">Base de 4px. Usar múltiplos de 4 para todo padding, margin y gap.</p>
 </div>
@@ -897,7 +904,7 @@ body.preview-open .ds-layout { display: none !important; }
 <!-- ─── RADIUS ─── -->
 <section class="ds-section" id="radius">
 <div class="ds-section-header">
-<div class="ds-section-kicker">05 · 05 · Border Radius</div>
+<div class="ds-section-kicker">05 · Border Radius</div>
 <h2 class="ds-section-title">Sistema de radios</h2>
 <p class="ds-section-sub">Escala progresiva desde controles pequeños hasta tarjetas grandes. Pill para badges y elementos circulares.</p>
 </div>
@@ -949,7 +956,7 @@ body.preview-open .ds-layout { display: none !important; }
 <!-- ─── EFFECTS ─── -->
 <section class="ds-section" id="effects">
 <div class="ds-section-header">
-<div class="ds-section-kicker">06 · 06 · Efectos</div>
+<div class="ds-section-kicker">06 · Efectos</div>
 <h2 class="ds-section-title">Sombras &amp; Bordes activos</h2>
 <p class="ds-section-sub">Sistema de glows y ring shadows. No usar box-shadow de desplazamiento — solo inset ring para depth.</p>
 </div>
@@ -996,7 +1003,7 @@ body.preview-open .ds-layout { display: none !important; }
 <!-- ─── MOTION ─── -->
 <section class="ds-section" id="motion">
 <div class="ds-section-header">
-<div class="ds-section-kicker">07 · 07 · Motion</div>
+<div class="ds-section-kicker">07 · Motion</div>
 <h2 class="ds-section-title">Animaciones &amp; Transiciones</h2>
 <p class="ds-section-sub">Sistema de timing minimalista. Hover sobre las cards para ver el efecto.</p>
 </div>
@@ -1033,7 +1040,7 @@ body.preview-open .ds-layout { display: none !important; }
 <!-- ─── BUTTONS ─── -->
 <section class="ds-section" id="buttons">
 <div class="ds-section-header">
-<div class="ds-section-kicker">08 · 08 · Componentes</div>
+<div class="ds-section-kicker">08 · Componentes</div>
 <h2 class="ds-section-title">Botones</h2>
 <p class="ds-section-sub">Se incorpora la variante ámbar para instalación y descarga operativa. Todos comparten radius-14 como base y admiten iconografía inline en SVG.</p>
 </div>
@@ -1089,7 +1096,7 @@ body.preview-open .ds-layout { display: none !important; }
 <!-- ─── BADGES ─── -->
 <section class="ds-section" id="badges">
 <div class="ds-section-header">
-<div class="ds-section-kicker">09 · 09 · Badges &amp; Tags</div>
+<div class="ds-section-kicker">09 · Badges &amp; Tags</div>
 <h2 class="ds-section-title">Badges, Tags &amp; Pills</h2>
 <p class="ds-section-sub">Sistema de etiquetas para estados, categorías y metadata. IBM Plex Mono en todos los casos.</p>
 </div>
@@ -1137,7 +1144,7 @@ body.preview-open .ds-layout { display: none !important; }
 <!-- ─── INPUTS ─── -->
 <section class="ds-section" id="inputs">
 <div class="ds-section-header">
-<div class="ds-section-kicker">10 · 10 · Inputs</div>
+<div class="ds-section-kicker">10 · Inputs</div>
 <h2 class="ds-section-title">Inputs &amp; Formularios</h2>
 <p class="ds-section-sub">Altura estándar 40px. Focus ring con cyan. Todos con border-radius-14.</p>
 </div>
@@ -1210,7 +1217,7 @@ body.preview-open .ds-layout { display: none !important; }
 <!-- ─── CARDS ─── -->
 <section class="ds-section" id="cards">
 <div class="ds-section-header">
-<div class="ds-section-kicker">11 · 11 · Cards</div>
+<div class="ds-section-kicker">11 · Cards</div>
 <h2 class="ds-section-title">Cards &amp; KPIs</h2>
 <p class="ds-section-sub">Tres niveles de elevación. Los KPI cards con delta indicator en mono.</p>
 </div>
@@ -1466,7 +1473,7 @@ body.preview-open .ds-layout { display: none !important; }
 <!-- ─── ICONS ─── -->
 <section class="ds-section" id="icons">
 <div class="ds-section-header">
-<div class="ds-section-kicker">15 · Iconografía</div>
+<div class="ds-section-kicker">17 · Iconografía</div>
 <h2 class="ds-section-title">Iconografía · Phosphor</h2>
 <p class="ds-section-sub">Biblioteca estándar para módulos, navegación, datos, operaciones y soporte. Base sugerida para implementación front-end en YiQi.</p>
 </div>
@@ -1522,7 +1529,7 @@ body.preview-open .ds-layout { display: none !important; }
 <!-- ─── MISC ─── -->
 <section class="ds-section" id="misc">
 <div class="ds-section-header">
-<div class="ds-section-kicker">16 · Varios</div>
+<div class="ds-section-kicker">18 · Varios</div>
 <h2 class="ds-section-title">Elementos varios</h2>
 <p class="ds-section-sub">Avatar, topbar icons, live indicator, search bar, integration card, tooltip.</p>
 </div>
@@ -1610,7 +1617,7 @@ body.preview-open .ds-layout { display: none !important; }
 <!-- ─── GRID ─── -->
 <section class="ds-section" id="grid">
 <div class="ds-section-header">
-<div class="ds-section-kicker">17 · Layout</div>
+<div class="ds-section-kicker">19 · Layout</div>
 <h2 class="ds-section-title">Grid &amp; Layout system</h2>
 <p class="ds-section-sub">App shell con CSS Grid. Sidebar fijo + topbar sticky + main scroll. Responsive collapsa sidebar en &lt;980px.</p>
 </div>
@@ -1700,7 +1707,7 @@ html[data-theme="light"] .bg-grid-demo-fade {
 
 </style>
 <section class="ds-section" id="bg-grid">
-<div class="ds-section-kicker">18 · Background Grid</div>
+<div class="ds-section-kicker">20 · Background Grid</div>
 <h2 class="ds-section-title">Grilla cuadriculada</h2>
 <p class="ds-section-sub">Patrón de fondo cuadriculado para cards de énfasis, heroes y banners. Siempre sutil — refuerza la estructura sin competir con el contenido.</p>
 
@@ -1803,7 +1810,7 @@ html[data-theme="light"] .bg-grid-demo-fade {
 <!-- ─── DEPTH STACK (v1.2.6) ─── -->
 <section class="ds-section" id="depth-stack">
 <div class="ds-section-header">
-<div class="ds-section-kicker">19 · Patrón</div>
+<div class="ds-section-kicker">21 · Patrón</div>
 <h2 class="ds-section-title">Depth stack <span class="badge badge-cyan" style="font:600 10px var(--mono);vertical-align:middle;margin-left:6px">NEW v1.2.6</span></h2>
 <p class="ds-section-sub">Patrón de profundidad para secciones de marketing (landing, leads). Tres capas decorativas no intrusivas + cards con sombra multi-stop. Pensado para grids densos donde el fondo plano se sentía vacío.</p>
 </div>
@@ -1931,10 +1938,10 @@ html[data-theme="light"] .bg-grid-demo-fade {
 </section>
 
 <section class="ds-section" id="llm-fab">
-<div class="ds-section-kicker">20 · Componentes</div>
+<div class="ds-section-kicker">23 · Componentes</div>
 <!-- ─── DEMO FORM ─── -->
 <div class="ds-section" id="demo-form">
-<div class="ds-section-kicker">21 · Patrón</div>
+<div class="ds-section-kicker">22 · Patrón</div>
 <h2 class="ds-section-title">Demo Form — Formulario multi-paso</h2>
 <p class="ds-section-sub">Formulario de solicitud de demo en 3 pasos. Borderless, chips de selección múltiple, validación inline y estado de éxito. Componente vivo — interactuable.</p>
 
@@ -2216,7 +2223,7 @@ html[data-theme="light"] .bg-grid-demo-fade {
 <!-- ─── IMPLEMENTACIÓN ─── -->
 <section class="ds-section" id="implementacion">
 <div class="ds-section-header">
-<div class="ds-section-kicker">22 · Patrón</div>
+<div class="ds-section-kicker">15 · Patrón</div>
 <h2 class="ds-section-title">Tabla de implementación</h2>
 <p class="ds-section-sub">Timeline de pasos numerados + infografía de plazos por fases. Se usa en propuestas e informes para comunicar el proceso de puesta en marcha.</p>
 </div>
@@ -2286,7 +2293,7 @@ html[data-theme="light"] .bg-grid-demo-fade {
 <!-- ─── CONTADOR ANIMADO ─── -->
 <section class="ds-section" id="counter">
 <div class="ds-section-header">
-<div class="ds-section-kicker">23 · Patrón</div>
+<div class="ds-section-kicker">16 · Patrón</div>
 <h2 class="ds-section-title">Contador animado</h2>
 <p class="ds-section-sub">Función <code>runCounters()</code> — anima cifras de 0 al valor destino con easing cúbico en 900 ms. Sin dependencias. Activación por <code>IntersectionObserver</code>.</p>
 </div>
@@ -3099,8 +3106,10 @@ navItems.forEach(item => {
       if (window.innerWidth <= 980) closeNav();
       return;
     }
+    const href = item.getAttribute('href');
+    if (!href || href.charAt(0) !== '#') { if (window.innerWidth <= 980) closeNav(); return; } /* link externo: navegar normal */
     e.preventDefault();
-    const target = document.querySelector(item.getAttribute('href'));
+    const target = document.querySelector(href);
     if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     if (window.innerWidth <= 980) closeNav();
   });
