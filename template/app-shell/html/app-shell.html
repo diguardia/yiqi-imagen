@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es" data-theme="system">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>YiQi app shell template</title>
+  <link rel="stylesheet" href="https://diguardia.github.io/yiqi-imagen/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Navegacion principal">
+      <div class="brand-block">
+        <div class="brand-wordmark">
+          <strong>YiQi</strong>
+          <span class="brand-kicker">Aplicacion</span>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="Modulos">
+        <section class="nav-section">
+          <p class="nav-label">Principal</p>
+          <a class="nav-item is-active" href="#dashboard">Dashboard</a>
+          <a class="nav-item" href="#operacion">Operacion</a>
+          <a class="nav-item" href="#reportes">Reportes</a>
+        </section>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <header class="topbar">
+        <div>
+          <p class="page-kicker">YiQi app</p>
+          <h1 class="page-title">Dashboard</h1>
+        </div>
+        <div class="topbar-actions">
+          <button class="btn btn-ghost" type="button">Actualizar</button>
+          <button class="btn btn-primary" type="button">Nueva accion</button>
+        </div>
+      </header>
+
+      <section class="panel" id="dashboard">
+        <div class="panel-header">
+          <div>
+            <p class="panel-kicker">Resumen</p>
+            <h2 class="panel-title">Estado operativo</h2>
+          </div>
+        </div>
+        <div class="kpi-grid">
+          <article class="kpi-card">
+            <span class="kpi-label">Ingresos</span>
+            <strong class="kpi-value">$ 0</strong>
+          </article>
+          <article class="kpi-card">
+            <span class="kpi-label">Pendientes</span>
+            <strong class="kpi-value">0</strong>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

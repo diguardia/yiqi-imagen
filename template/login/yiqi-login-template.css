@@ -1,183 +1,62 @@
-.yiqi-login-shell {
-  --yiqi-login-bg: var(--bg, #f4f2ee);
-  --yiqi-login-card: var(--bg-elev, #ffffff);
-  --yiqi-login-popover: var(--bg-elev-2, #ffffff);
-  --yiqi-login-text: var(--text, #15171c);
-  --yiqi-login-muted: var(--muted, #5f6673);
-  --yiqi-login-line: var(--line, rgba(21, 23, 28, 0.1));
-  --yiqi-login-primary: var(--cyan, #00aeea);
-  --yiqi-login-primary-soft: var(--cyan-soft, rgba(0, 174, 234, 0.1));
-  --yiqi-login-danger: var(--red, #ff637d);
-  --yiqi-login-radius: var(--radius, 14px);
-  --yiqi-login-font: var(--sans, Inter, system-ui, sans-serif);
+/* Adapter-only CSS for the reusable login template.
+   Visual system styles must come from:
+   https://diguardia.github.io/yiqi-imagen/styles.css
+   Keep this file small and move reusable visual rules to styles.css. */
 
-  position: relative;
-  display: grid;
-  min-height: 100vh;
-  place-items: center;
-  overflow: hidden;
-  padding: 24px;
-  background: var(--yiqi-login-bg);
-  color: var(--yiqi-login-text);
-  font-family: var(--yiqi-login-font);
-}
-
-.yiqi-login-shell,
-.yiqi-login-shell * {
-  box-sizing: border-box;
-}
-
-.yiqi-login-bg {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(circle at 72% 8%, color-mix(in srgb, var(--yiqi-login-primary) 7%, transparent), transparent 28%),
-    radial-gradient(circle at 12% 60%, color-mix(in srgb, var(--yiqi-login-primary) 4%, transparent), transparent 22%),
-    var(--yiqi-login-bg);
-}
-
-.yiqi-login-panel {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  width: 100%;
-  max-width: min(420px, calc(100vw - 48px));
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-
-.yiqi-login-logo {
-  width: min(230px, 100%);
-  height: auto;
-  color: var(--yiqi-login-text);
-  margin-bottom: -28px;
-}
-
-.yiqi-login-app-name {
-  margin: 0;
-  color: var(--yiqi-login-text);
-  font-size: 15px;
-  font-weight: 700;
-}
-
-.yiqi-login-description {
+.login-brand .yiqi-login-logo {
+  width: 260px;
   max-width: 100%;
-  margin: 0;
-  color: var(--yiqi-login-muted);
-  font-size: 14px;
-  line-height: 1.45;
-  overflow-wrap: break-word;
+  height: auto;
+  color: var(--text);
+}
+
+.login-brand .yiqi-login-description {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font: 400 12px var(--sans);
   text-align: center;
 }
 
-.yiqi-login-status {
-  min-height: 14px;
-  margin: -4px 0 -2px;
-  color: var(--yiqi-login-muted);
-  font-size: 14px;
-  line-height: 14px;
-  text-align: center;
-}
-
-.yiqi-login-status[data-state="idle"] {
+.auth-status[data-state="idle"] {
   visibility: hidden;
 }
 
-.yiqi-login-status[data-state="loading"] {
-  color: var(--yiqi-login-primary);
+.auth-status[data-state="loading"],
+.auth-status[data-state="info"] {
+  color: var(--cyan);
+  border-color: rgba(0, 204, 255, 0.28);
 }
 
-.yiqi-login-status[data-state="error"] {
-  color: var(--yiqi-login-danger);
-}
-
-.yiqi-login-card {
-  max-width: 100%;
-  display: grid;
-  width: 100%;
-  gap: 16px;
-  padding: 28px;
-  border-radius: calc(var(--yiqi-login-radius) + 2px);
-  background: var(--yiqi-login-card);
-  box-shadow:
-    0 0 0 1px var(--yiqi-login-line),
-    0 18px 44px rgba(20, 26, 34, 0.12);
-}
-
-.yiqi-login-field {
-  display: grid;
-  gap: 8px;
-  color: var(--yiqi-login-text);
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.yiqi-login-field input {
-  width: 100%;
-  min-width: 0;
-  height: 44px;
-  border: 1px solid transparent;
-  border-radius: 10px;
-  background: var(--yiqi-login-popover);
-  box-shadow: 0 0 0 1px var(--yiqi-login-line);
-  color: var(--yiqi-login-text);
-  font: inherit;
-  font-weight: 400;
-  outline: none;
-  padding: 0 12px;
-  transition: box-shadow 160ms ease, opacity 160ms ease;
-}
-
-.yiqi-login-field input:focus {
-  box-shadow:
-    0 0 0 1px var(--yiqi-login-primary),
-    0 0 0 4px color-mix(in srgb, var(--yiqi-login-primary) 18%, transparent);
-}
-
-.yiqi-login-field input::placeholder {
-  color: color-mix(in srgb, var(--yiqi-login-muted) 78%, transparent);
-}
-
-.yiqi-login-field input:disabled,
-.yiqi-login-submit:disabled,
-.yiqi-login-password button:disabled {
-  cursor: not-allowed;
-  opacity: 0.62;
-}
-
-.yiqi-login-password {
+.login-password {
   position: relative;
   display: block;
 }
 
-.yiqi-login-password input {
+.login-password .login-input {
   padding-right: 44px;
 }
 
-.yiqi-login-password button {
+.login-eye {
   position: absolute;
   top: 50%;
-  right: 10px;
+  right: 8px;
   display: grid;
-  width: 28px;
-  height: 28px;
+  width: 34px;
+  height: 34px;
   place-items: center;
   border: 0;
   background: transparent;
-  color: var(--yiqi-login-muted);
+  color: var(--muted-2);
   cursor: pointer;
   transform: translateY(-50%);
-  transition: color 160ms ease;
 }
 
-.yiqi-login-password button:hover {
-  color: var(--yiqi-login-text);
+.login-eye:hover {
+  color: var(--cyan);
 }
 
-.yiqi-login-password svg {
+.login-eye svg,
+.login-spinner {
   width: 18px;
   height: 18px;
   fill: none;
@@ -187,102 +66,53 @@
   stroke-width: 2;
 }
 
-.yiqi-login-remember {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--yiqi-login-muted);
-  cursor: pointer;
-  font-size: 14px;
-  user-select: none;
-}
-
-.yiqi-login-remember input {
-  width: 16px;
-  height: 16px;
-  accent-color: var(--yiqi-login-primary);
-}
-
-.yiqi-login-submit {
-  display: inline-flex;
-  width: 100%;
-  height: 44px;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  border: 1px solid color-mix(in srgb, var(--yiqi-login-primary) 30%, transparent);
-  border-radius: 10px;
-  background: var(--yiqi-login-primary-soft);
-  color: var(--yiqi-login-primary);
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 700;
-  transition: background 160ms ease, border-color 160ms ease;
-}
-
-.yiqi-login-submit:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--yiqi-login-primary) 15%, transparent);
-  border-color: color-mix(in srgb, var(--yiqi-login-primary) 42%, transparent);
-}
-
-.yiqi-login-spinner {
-  width: 18px;
-  height: 18px;
+.login-spinner {
   animation: yiqi-login-spin 760ms linear infinite;
-  fill: none;
-  stroke: currentColor;
-  stroke-linecap: round;
-  stroke-width: 2;
 }
 
-.yiqi-login-forgot,
-.yiqi-login-footer {
+.login-remember {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--muted);
+  cursor: pointer;
+  font: 500 12px var(--sans);
+}
+
+.login-remember input {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--cyan);
+}
+
+.login-footer {
+  color: var(--muted-2);
+  font: 500 11px var(--mono);
+  text-align: center;
+  text-decoration: none;
+}
+
+button.login-hint {
+  justify-self: start;
   border: 0;
   background: transparent;
-  color: var(--yiqi-login-muted);
   cursor: pointer;
   font: inherit;
-  font-size: 14px;
   padding: 0;
   text-align: left;
-  text-decoration: none;
-  transition: color 160ms ease;
 }
 
-.yiqi-login-forgot:hover,
-.yiqi-login-footer:hover {
-  color: var(--yiqi-login-text);
-}
-
-.yiqi-login-footer {
-  text-align: center;
-}
-
-.yiqi-login-shell input:-webkit-autofill,
-.yiqi-login-shell input:-webkit-autofill:hover,
-.yiqi-login-shell input:-webkit-autofill:focus {
-  -webkit-text-fill-color: var(--yiqi-login-text);
-  -webkit-box-shadow: 0 0 0 1000px var(--yiqi-login-popover) inset;
-  caret-color: var(--yiqi-login-text);
+.login-screen input:-webkit-autofill,
+.login-screen input:-webkit-autofill:hover,
+.login-screen input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--text);
+  -webkit-box-shadow: 0 0 0 1000px var(--bg-elev) inset;
+  caret-color: var(--text);
   transition: background-color 9999s ease-in-out 0s;
 }
 
 @keyframes yiqi-login-spin {
   to {
     transform: rotate(360deg);
-  }
-}
-
-@media (max-width: 520px) {
-  .yiqi-login-shell {
-    padding: 18px;
-  }
-
-  .yiqi-login-panel {
-    max-width: min(420px, calc(100vw - 36px));
-  }
-
-  .yiqi-login-card {
-    padding: 22px;
   }
 }

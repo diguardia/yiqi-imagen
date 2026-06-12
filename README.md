@@ -79,6 +79,16 @@ cero. La adaptacion esperada es conectar datos, rutas, copy del proyecto y
 detalles de integracion; no rehacer la estructura visual si el template cubre el
 caso de uso.
 
+Los templates copian estructura, no el stylesheet completo. Todo proyecto
+consumidor debe cargar:
+
+```html
+<link rel="stylesheet" href="https://diguardia.github.io/yiqi-imagen/styles.css">
+```
+
+Asi, cualquier mejora futura del DS publicada en este repo puede reflejarse en
+los proyectos que conservan las clases canonicas.
+
 Para login Next.js, empezar por [`template/login/README.md`](./template/login/README.md).
 
 Cuando este repo se use para iniciar o guiar otro proyecto, el agente tambien

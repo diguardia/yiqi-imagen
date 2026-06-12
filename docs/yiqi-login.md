@@ -27,8 +27,9 @@ Definir un patrón común de autenticación para todas las aplicaciones YiQi, de
 ## Template reutilizable
 
 Para apps Next.js, usar como punto de partida el template aprobado en
-`template/login/`. El template contiene componente, CSS, logo animado y preview
-visual. Esta recomendacion evita rehacer la estructura del login desde cero.
+`template/login/`. El template contiene componente, logo animado, preview visual
+y CSS adaptador minimo. Los estilos visuales deben venir de `styles.css` de este
+repositorio, no de una copia local del stylesheet completo.
 
 Usar el template cuando:
 

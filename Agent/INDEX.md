@@ -42,7 +42,8 @@ the task was trivial or file-local.
 | API integration security | `../docs/seguridad-integraciones-api.md` | Unrelated docs |
 | Error handling or messages | `../docs/politica-errores.md` | Unrelated docs |
 | Login or session | `../docs/yiqi-login.md` | Unrelated docs |
-| Login template | `../template/login/README.md`, `../template/INDEX.md` | API docs unless wiring auth behavior |
+| Login template | `../template/login/README.md`, `../template/shared/consume-styles.md`, `../template/INDEX.md` | API docs unless wiring auth behavior |
+| Template extraction or catalog split | `summaries/template-catalog.md`, `../template/INDEX.md`, `../template/shared/consume-styles.md`, `../yiqi-design-system.html` only for the specific component section | Full catalog unless extracting multiple templates |
 | Fixtures or sample data | `../docs/politica-fixtures.md`, `../fixtures/INDEX.md` | Unrelated docs |
 | Dependencies, packages, or audit | `../docs/politica-dependencias.md` | Unrelated docs |
 | Open a PR | `../docs/pr-checklist.md` | Unrelated docs |

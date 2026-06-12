@@ -1237,6 +1237,67 @@ html[data-theme="light"] .theme-switch-thumb { transform: translateX(22px); }
 .trend-day   { font-family: var(--mono); }
 
 /* ── 32. SKELETON / SHIMMER ───────────────────────────────── */
+/* Trust / Stats */
+.trust { --trust-num: 26px; }
+.trust-item { min-width: 0; }
+.trust-num {
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: var(--trust-num);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  font-feature-settings: "tnum" 1, "lnum" 1;
+  letter-spacing: -0.015em;
+  line-height: 1;
+  white-space: nowrap;
+}
+.trust-unit { color: var(--cyan); }
+.trust-label {
+  display: block;
+  margin-top: 6px;
+  color: var(--muted-2);
+  font: 500 11px var(--mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.trust-delta { display: block; margin-top: 6px; font: 600 11px var(--mono); }
+.trust-delta.is-up   { color: var(--green); }
+.trust-delta.is-down { color: var(--red); }
+.trust-delta.is-flat { color: var(--muted-2); }
+.trust--lg { --trust-num: 34px; }
+.trust--sm { --trust-num: 20px; }
+.trust--inline { display: flex; flex-wrap: wrap; gap: 18px 0; }
+.trust--inline .trust-item { padding: 0 26px; border-left: 1px solid var(--line); }
+.trust--inline .trust-item:first-child { padding-left: 0; border-left: 0; }
+.trust--cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; }
+.trust--cards .trust-item {
+  padding: 18px;
+  border-radius: var(--radius);
+  background: var(--bg-elev);
+  box-shadow: var(--shadow-sm);
+}
+.trust--grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px 20px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+.trust-item.has-media { display: flex; align-items: flex-start; gap: 12px; }
+.trust-icon {
+  display: flex;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  background: var(--cyan-soft);
+  color: var(--cyan);
+}
+.trust-icon svg { width: 18px; height: 18px; }
+.trust-spark { display: block; margin-top: 10px; opacity: 0.7; }
+
 .skeleton-card  { min-height: 156px; }
 
 .skeleton-line {
@@ -1422,6 +1483,7 @@ html[data-theme="light"] .skeleton-line {
 
   .content { padding: 20px; }
   .login-screen { padding: 20px 16px; }
+  .trust--grid { grid-template-columns: repeat(2, 1fr); }
 
   .topbar {
     align-items: flex-start;
@@ -1432,6 +1494,7 @@ html[data-theme="light"] .skeleton-line {
   .account-chip   { width: 100%; min-width: 0; }
   .schema-menu    { width: 100%; }
   .login-input    { min-width: 0; }
+  .trust--inline .trust-item { padding: 0 16px; }
 }
 
 @media (max-width: 720px) {

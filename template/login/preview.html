@@ -1,64 +1,63 @@
 <!doctype html>
-<html lang="es" data-theme="system">
+<html lang="es" data-theme="light">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>YiQi login template preview</title>
+  <link rel="stylesheet" href="../../styles.css">
   <link rel="stylesheet" href="./yiqi-login-template.css">
-  <style>
-    :root {
-      --bg: #f4f2ee;
-      --bg-elev: #ffffff;
-      --bg-elev-2: #ffffff;
-      --text: #15171c;
-      --muted: #5f6673;
-      --line: rgba(21, 23, 28, .10);
-      --cyan: #00aeea;
-      --cyan-soft: rgba(0, 174, 234, .10);
-      --red: #ff637d;
-      --sans: Inter, system-ui, sans-serif;
-    }
-  </style>
 </head>
 <body style="margin:0">
-  <main class="yiqi-login-shell">
-    <div class="yiqi-login-bg" aria-hidden="true"></div>
-    <section class="yiqi-login-panel" aria-label="Inicio de sesion YiQi">
-      <svg class="yiqi-login-logo" viewBox="0 0 100 65" role="img" aria-label="YiQi" focusable="false">
-        <g>
-          <path class="yq-y" fill="currentColor" d="M20.44,48.34l2.57-6.15-6.79-16.91c-.14-.39.07-.61.46-.61h4.97c.29,0,.57.14.68.43l3.58,10.08,3.61-10.08c.11-.29.39-.43.68-.43h4.97c.39,0,.57.21.43.61l-9.26,23.27c-.11.29-.39.43-.68.43h-4.75c-.43,0-.68-.21-.47-.64Z"></path>
-          <path class="yq-i1s" fill="currentColor" d="M38.72,25.24c0-.32.25-.57.57-.57h4.89c.32,0,.57.25.57.57v16.24c0,.32-.25.57-.57.57h-4.89c-.32,0-.57-.25-.57-.57v-16.24Z"></path>
-          <g class="yq-q"><path class="yqs" fill="var(--yiqi-login-primary, var(--cyan, #00ccff))" d="M57.91,44.78v-2.66c-2.18-.53-4.21-1.66-5.92-3.36-4.97-4.97-5.09-13.02-.03-18.08,5.09-5.09,13.14-4.97,18.11,0s5.09,13.02,0,18.11c-1.78,1.78-3.94,2.93-6.22,3.46v2.51c0,.35-.18.53-.58.53h-4.82c-.3,0-.55-.2-.55-.5ZM56.28,34.47c.5.5,1.05.9,1.65,1.2v-3.36c0-.35.18-.53.53-.53h4.87c.25,0,.53.18.53.53v3.36c.63-.33,1.23-.78,1.78-1.33,2.73-2.73,2.78-6.75.15-9.38s-6.67-2.61-9.41.13c-2.71,2.71-2.73,6.75-.1,9.38Z"></path></g>
-          <path class="yq-i2s" fill="currentColor" d="M77.44,25.24c0-.32.25-.57.57-.57h4.89c.32,0,.57.25.57.57v16.24c0,.32-.25.57-.57.57h-4.89c-.32,0-.57-.25-.57-.57v-16.24Z"></path>
-          <path class="yq-i1d" fill="currentColor" d="M38.5,18.99c0-1.77,1.35-3.19,3.23-3.19s3.23,1.42,3.23,3.19-1.38,3.23-3.23,3.23-3.23-1.42-3.23-3.23Z"></path>
-          <path class="yq-i2d" fill="currentColor" d="M77.22,18.99c0-1.77,1.35-3.19,3.23-3.19s3.23,1.42,3.23,3.19-1.38,3.23-3.23,3.23-3.23-1.42-3.23-3.23Z"></path>
-        </g>
-      </svg>
-      <p class="yiqi-login-app-name">Mi app YiQi</p>
-      <p class="yiqi-login-description">Ingresa con tu usuario YiQi para abrir la aplicacion.</p>
-      <p data-state="idle" aria-live="polite" class="yiqi-login-status"> </p>
-      <form class="yiqi-login-card">
-        <label class="yiqi-login-field">
-          <span>Usuario o correo electronico</span>
-          <input type="text" autocomplete="username" placeholder="usuario@empresa.com">
-        </label>
-        <label class="yiqi-login-field">
-          <span>Clave</span>
-          <span class="yiqi-login-password">
-            <input type="password" autocomplete="current-password" placeholder="Clave">
-            <button type="button" aria-label="Mostrar clave">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.1 12s3.2-6 9.9-6 9.9 6 9.9 6-3.2 6-9.9 6-9.9-6-9.9-6Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-            </button>
-          </span>
-        </label>
-        <label class="yiqi-login-remember">
-          <input type="checkbox">
-          <span>Recordar usuario</span>
-        </label>
-        <button class="yiqi-login-submit" type="button"><span>Iniciar sesion</span></button>
-        <button class="yiqi-login-forgot" type="button">Olvidaste tu clave?</button>
-      </form>
-      <a class="yiqi-login-footer" href="https://www.yiqi.com.ar">www.yiqi.com.ar</a>
+  <main class="login-screen">
+    <section class="login-stage" aria-label="Inicio de sesion YiQi">
+      <div class="login-brand">
+        <svg class="yiqi-login-logo" viewBox="0 0 100 65" role="img" aria-label="YiQi" focusable="false">
+          <g>
+            <path class="yq-y" fill="currentColor" d="M20.44,48.34l2.57-6.15-6.79-16.91c-.14-.39.07-.61.46-.61h4.97c.29,0,.57.14.68.43l3.58,10.08,3.61-10.08c.11-.29.39-.43.68-.43h4.97c.39,0,.57.21.43.61l-9.26,23.27c-.11.29-.39.43-.68.43h-4.75c-.43,0-.68-.21-.47-.64Z"></path>
+            <path class="yq-i1s" fill="currentColor" d="M38.72,25.24c0-.32.25-.57.57-.57h4.89c.32,0,.57.25.57.57v16.24c0,.32-.25.57-.57.57h-4.89c-.32,0-.57-.25-.57-.57v-16.24Z"></path>
+            <g class="yq-q"><path class="yqs" fill="var(--cyan)" d="M57.91,44.78v-2.66c-2.18-.53-4.21-1.66-5.92-3.36-4.97-4.97-5.09-13.02-.03-18.08,5.09-5.09,13.14-4.97,18.11,0s5.09,13.02,0,18.11c-1.78,1.78-3.94,2.93-6.22,3.46v2.51c0,.35-.18.53-.58.53h-4.82c-.3,0-.55-.2-.55-.5ZM56.28,34.47c.5.5,1.05.9,1.65,1.2v-3.36c0-.35.18-.53.53-.53h4.87c.25,0,.53.18.53.53v3.36c.63-.33,1.23-.78,1.78-1.33,2.73-2.73,2.78-6.75.15-9.38s-6.67-2.61-9.41.13c-2.71,2.71-2.73,6.75-.1,9.38Z"></path></g>
+            <path class="yq-i2s" fill="currentColor" d="M77.44,25.24c0-.32.25-.57.57-.57h4.89c.32,0,.57.25.57.57v16.24c0,.32-.25.57-.57.57h-4.89c-.32,0-.57-.25-.57-.57v-16.24Z"></path>
+            <path class="yq-i1d" fill="currentColor" d="M38.5,18.99c0-1.77,1.35-3.19,3.23-3.19s3.23,1.42,3.23,3.19-1.38,3.23-3.23,3.23-3.23-1.42-3.23-3.23Z"></path>
+            <path class="yq-i2d" fill="currentColor" d="M77.22,18.99c0-1.77,1.35-3.19,3.23-3.19s3.23,1.42,3.23,3.19-1.38,3.23-3.23,3.23-3.23-1.42-3.23-3.23Z"></path>
+          </g>
+        </svg>
+        <p class="yiqi-login-description"><strong>Mi app YiQi.</strong> Ingresa con tu usuario YiQi para abrir la aplicacion.</p>
+      </div>
+
+      <p data-state="idle" aria-live="polite" role="status" class="auth-status"> </p>
+
+      <div class="login-gate">
+        <form class="login-card" autocomplete="on">
+          <div class="login-form">
+            <label style="display:grid;gap:5px">
+              <span class="login-label">Usuario o correo electronico</span>
+              <input class="login-input" type="text" autocomplete="username" placeholder="usuario@empresa.com">
+            </label>
+            <label style="display:grid;gap:5px">
+              <span class="login-label">Contrasena</span>
+              <span class="login-password">
+                <input class="login-input" type="password" autocomplete="current-password" placeholder="Contrasena">
+                <button class="login-eye" type="button" aria-label="Mostrar contrasena">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.1 12s3.2-6 9.9-6 9.9 6 9.9 6-3.2 6-9.9 6-9.9-6-9.9-6Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </button>
+              </span>
+            </label>
+          </div>
+
+          <label class="login-remember">
+            <input type="checkbox">
+            <span>Mantener sesion iniciada</span>
+          </label>
+
+          <button class="btn btn-primary login-submit" type="button" style="width:100%">
+            <span>Iniciar sesion</span>
+          </button>
+
+          <button class="login-hint" type="button">Olvidaste tu contrasena?</button>
+        </form>
+      </div>
+
+      <a class="login-footer" href="https://www.yiqi.com.ar">www.yiqi.com.ar</a>
     </section>
   </main>
 </body>

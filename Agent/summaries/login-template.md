@@ -17,7 +17,8 @@ Do not read this when:
 `template/login/` provides a copy/paste Next.js client login screen with an
 animated inline YiQi logo, status slot without reflow, username/password fields,
 show password button, remember-user checkbox, submit state, forgot-password
-message, and footer link.
+message, and footer link. The component uses canonical DS classes from
+`styles.css` and a small adapter CSS file for behavior-only rules.
 
 The template is intentionally UI-only. The consuming project must wire
 `onSubmit` to its own backend or internal Next.js auth route.
@@ -49,7 +50,9 @@ rebuild the same layout from scratch unless the project documents a divergence.
 
 - Visual drift from the source login screen.
 - Accidental coupling to a specific app auth provider or route.
-- CSS dependency on Tailwind or shadcn. The template should stay plain CSS.
+- Duplicating DS visual styles in the template instead of consuming canonical
+  `styles.css`.
+- CSS dependency on Tailwind or shadcn. The template should stay framework-light.
 
 ## Verification
 

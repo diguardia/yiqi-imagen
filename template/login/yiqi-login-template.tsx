@@ -39,10 +39,10 @@ export function YiQiLoginTemplate({
   appName = 'YiQi',
   description = 'Ingresa con tu usuario YiQi para abrir la aplicacion.',
   usernameLabel = 'Usuario o correo electronico',
-  passwordLabel = 'Clave',
+  passwordLabel = 'Contrasena',
   usernamePlaceholder = 'usuario@empresa.com',
-  passwordPlaceholder = 'Clave',
-  rememberLabel = 'Recordar usuario',
+  passwordPlaceholder = 'Contrasena',
+  rememberLabel = 'Mantener sesion iniciada',
   submitLabel = 'Iniciar sesion',
   forgotPasswordLabel = 'Olvidaste tu clave?',
   forgotPasswordMessage = 'Para restablecer tu clave, contacta a tu administrador YiQi.',
@@ -119,79 +119,91 @@ export function YiQiLoginTemplate({
   }
 
   return (
-    <main className="yiqi-login-shell">
-      <div className="yiqi-login-bg" aria-hidden="true" />
-
-      <section className="yiqi-login-panel" aria-label="Inicio de sesion YiQi">
-        <YiQiLogoAnimated className="yiqi-login-logo" loop={2600} />
-        <p className="yiqi-login-app-name">{appName}</p>
-        <p className="yiqi-login-description">{description}</p>
+    <main className="login-screen">
+      <section className="login-stage" aria-label="Inicio de sesion YiQi">
+        <div className="login-brand">
+          <YiQiLogoAnimated className="yiqi-login-logo" loop={2600} />
+          <p className="yiqi-login-description">
+            <strong>{appName}.</strong> {description}
+          </p>
+        </div>
 
         <p
           data-state={status.state}
           aria-live="polite"
-          className="yiqi-login-status"
+          role="status"
+          className="auth-status"
         >
           {status.message || ' '}
         </p>
 
-        <form className="yiqi-login-card" onSubmit={handleSubmit}>
-          <label className="yiqi-login-field">
-            <span>{usernameLabel}</span>
-            <input
-              type="text"
-              autoComplete="username"
-              placeholder={usernamePlaceholder}
-              value={username}
-              onChange={(event) => setUsername(event.target.value)}
-              disabled={isLoading}
-            />
-          </label>
+        <div className="login-gate">
+          <form className="login-card" onSubmit={handleSubmit} autoComplete="on">
+            <div className="login-form">
+              <label style={{ display: 'grid', gap: 5 }}>
+                <span className="login-label">{usernameLabel}</span>
+                <input
+                  className="login-input"
+                  type="text"
+                  name="username"
+                  autoComplete="username"
+                  placeholder={usernamePlaceholder}
+                  value={username}
+                  onChange={(event) => setUsername(event.target.value)}
+                  disabled={isLoading}
+                />
+              </label>
 
-          <label className="yiqi-login-field">
-            <span>{passwordLabel}</span>
-            <span className="yiqi-login-password">
+              <label style={{ display: 'grid', gap: 5 }}>
+                <span className="login-label">{passwordLabel}</span>
+                <span className="login-password">
+                  <input
+                    className="login-input"
+                    type={showPassword ? 'text' : 'password'}
+                    name="password"
+                    autoComplete="current-password"
+                    placeholder={passwordPlaceholder}
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                    disabled={isLoading}
+                  />
+                  <button
+                    className="login-eye"
+                    type="button"
+                    onClick={() => setShowPassword((value) => !value)}
+                    aria-label={showPassword ? 'Ocultar contrasena' : 'Mostrar contrasena'}
+                    aria-pressed={showPassword}
+                    disabled={isLoading}
+                  >
+                    {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                  </button>
+                </span>
+              </label>
+            </div>
+
+            <label className="login-remember">
               <input
-                type={showPassword ? 'text' : 'password'}
-                autoComplete="current-password"
-                placeholder={passwordPlaceholder}
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
+                type="checkbox"
+                name="remember"
+                checked={remember}
+                onChange={(event) => setRemember(event.target.checked)}
                 disabled={isLoading}
               />
-              <button
-                type="button"
-                onClick={() => setShowPassword((value) => !value)}
-                aria-label={showPassword ? 'Ocultar clave' : 'Mostrar clave'}
-                aria-pressed={showPassword}
-                disabled={isLoading}
-              >
-                {showPassword ? <EyeOffIcon /> : <EyeIcon />}
-              </button>
-            </span>
-          </label>
+              <span>{rememberLabel}</span>
+            </label>
 
-          <label className="yiqi-login-remember">
-            <input
-              type="checkbox"
-              checked={remember}
-              onChange={(event) => setRemember(event.target.checked)}
-              disabled={isLoading}
-            />
-            <span>{rememberLabel}</span>
-          </label>
+            <button className="btn btn-primary login-submit" type="submit" disabled={isLoading}>
+              {isLoading ? <SpinnerIcon /> : null}
+              <span>{submitLabel}</span>
+            </button>
 
-          <button className="yiqi-login-submit" type="submit" disabled={isLoading}>
-            {isLoading ? <SpinnerIcon /> : null}
-            <span>{submitLabel}</span>
-          </button>
+            <button className="login-hint" type="button" onClick={handleForgotPassword}>
+              {forgotPasswordLabel}
+            </button>
+          </form>
+        </div>
 
-          <button className="yiqi-login-forgot" type="button" onClick={handleForgotPassword}>
-            {forgotPasswordLabel}
-          </button>
-        </form>
-
-        <a className="yiqi-login-footer" href={footerHref} target="_blank" rel="noreferrer">
+        <a className="login-footer" href={footerHref} target="_blank" rel="noreferrer">
           {footerLabel}
         </a>
       </section>
@@ -221,7 +233,7 @@ function EyeOffIcon() {
 
 function SpinnerIcon() {
   return (
-    <svg className="yiqi-login-spinner" viewBox="0 0 24 24" aria-hidden="true">
+    <svg className="login-spinner" viewBox="0 0 24 24" aria-hidden="true">
       <path d="M12 3a9 9 0 1 0 9 9" />
     </svg>
   )

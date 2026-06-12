@@ -24,7 +24,7 @@ Narrow viewport, light theme:
 | File | Purpose |
 |------|---------|
 | `yiqi-login-template.tsx` | Client React component for the login form and states. |
-| `yiqi-login-template.css` | Plain CSS for the login screen. Import it from your app layout or global CSS entry. |
+| `yiqi-login-template.css` | Adapter-only CSS for behavior not yet covered by `styles.css`. |
 | `yiqi-logo-animated.tsx` | Inline animated YiQi logo. No image asset required. |
 | `preview.html` | Static preview used for visual QA. |
 | `assets/login-template-preview.png` | Desktop light-theme screenshot. |
@@ -53,7 +53,14 @@ components/auth/yiqi-logo-animated.tsx
 styles/yiqi-login-template.css
 ```
 
-Import the CSS once from `app/layout.tsx` or your global CSS entry:
+Load the canonical YiQi stylesheet once from `app/layout.tsx` or your document
+head. Do not copy `styles.css` into the project:
+
+```tsx
+<link rel="stylesheet" href="https://diguardia.github.io/yiqi-imagen/styles.css" />
+```
+
+Import only the small adapter CSS from your app layout or global CSS entry:
 
 ```tsx
 import '@/styles/yiqi-login-template.css'
@@ -116,7 +123,8 @@ compras unless the project passes that copy explicitly.
 ## Visual QA
 
 The previews were generated from `preview.html` with the same CSS classes used
-by the template.
+by the template. The preview loads `../../styles.css`, matching the same
+canonical stylesheet that projects should consume from the published URL.
 
 - Desktop: 1280 x 900, light theme.
 - Narrow viewport: 520 x 844, light theme.
