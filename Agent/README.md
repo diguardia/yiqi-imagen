@@ -34,6 +34,24 @@ This repository is the **single home** of the YiQi Design System (since
 `diguardia/www.yiqi` site no longer hosts the DS. The catalog is an internal team
 reference, not a public page.
 
+## Design System consumption rule
+
+Golden rule for any derived project: use this repository as the style source.
+Load the published stylesheet from:
+
+```html
+<link rel="stylesheet" href="https://diguardia.github.io/yiqi-imagen/styles.css">
+```
+
+Do not copy the full stylesheet into another project. Do not fork tokens,
+theme rules, component classes, or visual CSS into the consuming app. Copy
+template markup and small project behavior only, keep the canonical class names,
+and let `styles.css` provide the visual language.
+
+If a reusable visual rule is missing, add it to this repository first and update
+the template documentation. Use adapter CSS only for behavior or project-specific
+details that are not part of the shared Design System.
+
 ## Minimal rules
 
 1. Classify the task before reading more; see `INDEX.md`.
@@ -66,6 +84,8 @@ reference, not a public page.
     legitimate starting point and adapt it to the project. Do not redesign the
     same component from scratch unless the route says not to use the template or
     the user gives a project-specific reason.
+14. In derived projects, always reference the canonical `styles.css` URL from
+    this repository. Never copy the full Design System CSS into the app.
 
 ## Next step
 

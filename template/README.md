@@ -10,8 +10,8 @@ matching template first, then adapt project copy, routes, data wiring, and
 integration details. Do not redesign an equivalent component from scratch when a
 template already covers the requested use case.
 
-Templates copy structure, not the full Design System stylesheet. Every consuming
-project must load the canonical CSS from this repository:
+Golden rule: templates copy structure, not the full Design System stylesheet.
+Every consuming project must load the canonical CSS from this repository:
 
 ```html
 <link rel="stylesheet" href="https://diguardia.github.io/yiqi-imagen/styles.css">
@@ -23,6 +23,10 @@ project must load the canonical CSS from this repository:
 - Agents should copy/paste the matching template before inventing new structure.
 - Copy HTML/TSX and small adapter code only.
 - Do not copy the full `styles.css` into another project.
+- Reference the published stylesheet from this repository so future DS updates
+  apply without copying CSS again.
+- If reusable visual CSS is missing, add it to this repository first instead of
+  creating a project-only fork.
 - Keep canonical class names so future DS updates apply automatically.
 - Keep project-specific copy configurable.
 - Do not include credentials, tokens, customer data, or private implementation details.

@@ -11,6 +11,11 @@ No hace falta leer la documentacion completa del repositorio para este caso.
 <!-- Evitar copiar el contenido localmente -->
 ```
 
+Regla de oro: el proyecto consumidor debe llamar esta hoja publicada desde el
+repo `yiqi-imagen`. No copies `styles.css`, tokens, temas ni clases visuales al
+proyecto consumidor. Si falta una regla visual reusable, agregala primero en
+este repo y luego consumila desde la URL publicada.
+
 ## 2. Activar tema
 
 ```html
