@@ -132,6 +132,7 @@ border: 1px solid var(--border);
 | `docs/application-best-practices.md` | Convenciones de código |
 | `docs/azure-nextjs-app-service.md` | Diagnóstico Azure App Service + Next.js |
 | `docs/copilot-global-guidelines.md` | Guías para IA/Copilot |
+| `docs/politica-dependencias.md` | npm, lockfile y version obligatoria de Node 24 |
 | `docs/pr-checklist.md` | Checklist de Pull Request |
 | `docs/testing-jest.md` | Testing cuando Jest está configurado |
 | `docs/convenciones-documentacion.md` | Encoding (UTF-8/LF) y estilo documental |

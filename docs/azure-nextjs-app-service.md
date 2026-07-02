@@ -28,6 +28,24 @@ En GitHub Actions con `actions/upload-artifact@v4`, los archivos y carpetas ocul
       .env.*
 ```
 
+## Runtime Node
+
+El runtime oficial para apps YiQi en Azure App Service es **Node.js 24 LTS**.
+
+- App Service Linux: configurar `linuxFxVersion` como `NODE|24-lts`.
+- GitHub Actions: usar `actions/setup-node@v4` con `node-version: '24.x'`.
+- Repo de aplicacion: declarar `"engines": { "node": "24.x" }`, `.nvmrc` y `.node-version`.
+- Si aparece un warning de deprecacion de Node 20 en una action, actualizar la action a una version compatible con Node 24 antes de habilitar flags inseguros.
+
+Comando de referencia:
+
+```bash
+az webapp config set \
+  --name <APP_NAME> \
+  --resource-group <RESOURCE_GROUP> \
+  --linux-fx-version "NODE|24-lts"
+```
+
 ## Turbopack en runtime
 
 Si el log muestra:

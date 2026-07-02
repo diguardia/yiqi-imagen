@@ -1,11 +1,14 @@
 {
+  "engines": {
+    "node": "24.x"
+  },
   "scripts": {
     "test:detail-navigation": "node scripts/check-detail-navigation.js",
     "test": "node scripts/check-detail-navigation.js",
     "sync": "node scripts/sync-from-www.mjs"
   },
   "devDependencies": {
-    "@types/node": "^25.7.0",
+    "@types/node": "^24.13.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@typescript-eslint/eslint-plugin": "^8.59.3",
