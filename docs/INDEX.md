@@ -23,6 +23,7 @@ Do not read this when:
 | `testing-jest.md` | Dev | The target project uses Jest or needs Jest-specific guidance |
 | `yiqi-api.md` | Dev / AI | YiQi API integration, auth, ids, and contracts |
 | `yiqi-login.md` | Dev / AI | Login and session flow |
+| `../template/INDEX.md` | Dev / AI | Approved copy/paste templates |
 
 ## Policies and checklists
 

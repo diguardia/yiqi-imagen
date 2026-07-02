@@ -7,7 +7,7 @@ Design System YiQi, más la documentación de componentes y las guías de implem
 ![Status](https://img.shields.io/badge/status-stable-green?style=flat-square)
 ![License](https://img.shields.io/badge/license-proprietary-blue?style=flat-square)
 
-> ⚠️ **Fuente canónica privada del DS:** repositorio **`www.yiqi`** (`diguardia/www.yiqi`) — ver [`LEEME-FUENTE-DS.md`](./LEEME-FUENTE-DS.md). Ese repositorio es privado y puede no estar disponible para todos los usuarios. Este repo **no es la fuente**: empaqueta y publica al CDN el `styles.css` de consumo. Si no tenés acceso a `www.yiqi`, usá los artefactos publicados y la documentación de este repo; no bloquees la implementación intentando leer la fuente privada.
+> ✅ **Fuente única del DS:** este repositorio **`yiqi-imagen`** (`diguardia/yiqi-imagen`) — ver [`LEEME-FUENTE-DS.md`](./LEEME-FUENTE-DS.md). Acá vive **todo** el Design System: tokens, componentes, catálogo, documentación y templates. Las apps consumen `styles.css` desde el CDN publicado. El catálogo es de uso interno del equipo (no es una página pública).
 
 ---
 
@@ -17,8 +17,9 @@ Design System YiQi, más la documentación de componentes y las guías de implem
 |---------|-----------|------|
 | 🧑‍💻 **Desarrollador que consume el DS** | [`docs/quickstart.md`](./docs/quickstart.md) + `styles.css` vía CDN | Incorporar estilos a tu app |
 | 🎨 **Quien implementa UI con el DS** | [`yiqi-design.md`](./yiqi-design.md) y [`execution.md`](./execution.md) | Componentes, tokens, patrones, checklist |
+| 🧩 **Quien necesita un template** | [`template/INDEX.md`](./template/INDEX.md) | Copiar pantallas o módulos base aprobados |
 | 🤖 **Agente de IA / Copilot** | [`Agent/README.md`](./Agent/README.md) → [`Agent/INDEX.md`](./Agent/INDEX.md) | Router de contexto: leer solo lo necesario |
-| 🛠️ **Mantenedor del repo** | [`LEEME-FUENTE-DS.md`](./LEEME-FUENTE-DS.md) + [`scripts/INDEX.md`](./scripts/INDEX.md) | Fuente única, sync y publicación |
+| 🛠️ **Mantenedor del repo** | [`LEEME-FUENTE-DS.md`](./LEEME-FUENTE-DS.md) + [`scripts/INDEX.md`](./scripts/INDEX.md) | Fuente única y publicación |
 | 📚 **Buscás un documento puntual** | [`docs/INDEX.md`](./docs/INDEX.md) | Índice de guías técnicas |
 
 ---
@@ -28,7 +29,7 @@ Design System YiQi, más la documentación de componentes y las guías de implem
 ```
 yiqi-imagen-1/
 ├── README.md                     # Este archivo (puerta de entrada)
-├── LEEME-FUENTE-DS.md            # ⚠️ La fuente del DS es www.yiqi
+├── LEEME-FUENTE-DS.md            # ✅ Este repo es la fuente del DS
 ├── version.json                  # { ds_version: "1.2.7" }
 │
 ├── styles.css                    # ★ Hoja de estilos de consumo (CDN)
@@ -41,9 +42,10 @@ yiqi-imagen-1/
 │   └── INDEX.md                  #    Router de documentación
 │
 ├── docs/        → docs/INDEX.md       # Guías técnicas para el equipo
+├── template/    → template/INDEX.md   # Templates copy/paste para proyectos
 ├── Fuentes/     → Fuentes/INDEX.md    # Logos, íconos y archivo histórico
 ├── fixtures/    → fixtures/INDEX.md   # Datos JSON de ejemplo
-└── scripts/     → scripts/INDEX.md    # Automatizaciones (test, sync)
+└── scripts/     → scripts/INDEX.md    # Automatizaciones (test)
 ```
 
 Cada carpeta tiene su propio `INDEX.md` con una tabla de contenido legible por humanos y agentes.
@@ -57,6 +59,7 @@ Cada carpeta tiene su propio `INDEX.md` con una tabla de contenido legible por h
 | `styles.css` | Desarrollador | Hoja de estilos completa — consumir vía CDN (no copiar) |
 | `yiqi-design.md` | IA / Claude | Guía maestra de componentes y patrones v1.2.7 |
 | `execution.md` | IA / Claude | Checklist de implementación paso a paso |
+| `template/` | Dev / IA | Templates reutilizables por pantalla o módulo |
 | `version.json` | CI / scripts | Versión legible por máquina |
 
 ---
@@ -64,6 +67,34 @@ Cada carpeta tiene su propio `INDEX.md` con una tabla de contenido legible por h
 ## Uso rápido
 
 Ver [`docs/quickstart.md`](./docs/quickstart.md).
+
+---
+
+## Templates reutilizables
+
+La carpeta [`template/`](./template/INDEX.md) contiene componentes aprobados para
+copiar y pegar en proyectos nuevos o existentes. Un agente debe usar estos
+templates como base legitima antes de inventar una pantalla equivalente desde
+cero. La adaptacion esperada es conectar datos, rutas, copy del proyecto y
+detalles de integracion; no rehacer la estructura visual si el template cubre el
+caso de uso.
+
+Los templates copian estructura, no el stylesheet completo. Todo proyecto
+consumidor debe cargar:
+
+```html
+<link rel="stylesheet" href="https://diguardia.github.io/yiqi-imagen/styles.css">
+```
+
+Asi, cualquier mejora futura del DS publicada en este repo puede reflejarse en
+los proyectos que conservan las clases canonicas.
+
+Para login Next.js, empezar por [`template/login/README.md`](./template/login/README.md).
+
+Cuando este repo se use para iniciar o guiar otro proyecto, el agente tambien
+debe importar el indice de errores de [`Agent/error-memory/errors/INDEX.md`](./Agent/error-memory/errors/INDEX.md)
+y solo las categorias relevantes. Eso evita repetir errores conocidos desde la
+primera tarea sin copiar logs, secretos ni historial innecesario.
 
 ---
 

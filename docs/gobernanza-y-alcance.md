@@ -10,8 +10,8 @@ El DS YiQi es una **base flexible**, no un molde rígido.
 - **Es la base recomendada** para toda app/landing/dashboard YiQi: tokens, componentes y patrones.
 - **Se puede extender:** un proyecto puede agregar componentes propios y variantes, siempre que respeten los tokens y la filosofía visual (borderless, dark/light, tipografía).
 - **Límites que no se tocan** (para no romper coherencia de marca ni el CDN):
-  - Tokens de color/tipografía/geometría base (se editan en la fuente `www.yiqi`, no por proyecto).
-  - `styles.css` / `ds-styles.css`: son **derivados generados**; no editar a mano (ver `LEEME-FUENTE-DS.md`).
+  - Tokens de color/tipografía/geometría base (se editan en la fuente `yiqi-imagen`, no por proyecto).
+  - `styles.css`: **fuente única** de tokens y componentes (se edita en `yiqi-imagen`); los proyectos la consumen por CDN, no la editan ni la forkean (ver `LEEME-FUENTE-DS.md`).
 - **Lo adaptable por proyecto:** composición de pantallas, layout específico, componentes nuevos de dominio, microcopy.
 
 Regla práctica: *consumí el DS por CDN, extendé encima, no forkees los tokens.*

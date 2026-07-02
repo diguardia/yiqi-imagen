@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es" data-theme="system">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>YiQi · KPI card template</title>
+  <!-- DS local del repo (refleja los cambios al instante). En producción: el CDN publicado -->
+  <link rel="stylesheet" href="../../../styles.css">
+  <!-- Producción: <link rel="stylesheet" href="https://diguardia.github.io/yiqi-imagen/styles.css"> -->
+</head>
+<body>
+  <main class="content">
+    <header>
+      <p class="panel-kicker">Resumen</p>
+      <h1 style="margin:2px 0 4px;font:700 18px var(--sans);letter-spacing:-.01em;color:var(--text)">Indicadores</h1>
+    </header>
+
+    <section class="kpi-grid" aria-label="Indicadores">
+      <article class="kpi-card">
+        <div class="kpi-label">Facturación MTD</div>
+        <div class="kpi-value" data-count="2.84" data-prefix="$" data-suffix="M" data-dec="2" style="color:var(--cyan)">$2,84M</div>
+        <div class="kpi-delta is-positive">↑ +12,4% vs período anterior</div>
+        <div class="kpi-note">Facturas menos notas de crédito del período.</div>
+      </article>
+
+      <article class="kpi-card">
+        <div class="kpi-label">Pedidos</div>
+        <div class="kpi-value" data-count="1247">1.247</div>
+        <div class="kpi-delta is-positive">↑ +6,2%</div>
+        <div class="kpi-note">Comprobantes de venta emitidos.</div>
+      </article>
+
+      <article class="kpi-card">
+        <div class="kpi-label">Margen bruto</div>
+        <div class="kpi-value" data-count="38.7" data-suffix="%" data-dec="1">38,7%</div>
+        <div class="kpi-delta is-neutral">→ Estable</div>
+        <div class="kpi-note">Sobre ventas netas.</div>
+      </article>
+
+      <article class="kpi-card">
+        <div class="kpi-label">Alertas</div>
+        <div class="kpi-value" data-count="7">7</div>
+        <div class="kpi-delta is-negative">↑ +3 sin resolver</div>
+        <div class="kpi-note">Requieren atención.</div>
+      </article>
+    </section>
+  </main>
+
+  <!-- Count-up de las cifras (IntersectionObserver · es-AR · respeta prefers-reduced-motion) -->
+  <script>
+    (function(){
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function fmt(el, v){
+        var pre = el.dataset.prefix || '', suf = el.dataset.suffix || '';
+        var dec = el.dataset.dec != null ? parseInt(el.dataset.dec, 10)
+                                         : (Number.isInteger(parseFloat(el.dataset.count)) ? 0 : 1);
+        var n = dec > 0 ? v.toFixed(dec).replace('.', ',') : Math.round(v).toLocaleString('es-AR');
+        return pre + n + suf;
+      }
+      function run(el){
+        var target = parseFloat(el.dataset.count);
+        if (reduce){ el.textContent = fmt(el, target); return; }
+        var dur = 900, start = null;
+        el.textContent = fmt(el, 0);
+        function step(ts){
+          if (!start) start = ts;
+          var p = Math.min((ts - start) / dur, 1);
+          el.textContent = fmt(el, (1 - Math.pow(1 - p, 3)) * target);
+          if (p < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      }
+      var cards = document.querySelectorAll('.kpi-value[data-count]');
+      if ('IntersectionObserver' in window){
+        var io = new IntersectionObserver(function(es){
+          es.forEach(function(e){ if (e.isIntersecting){ run(e.target); io.unobserve(e.target); } });
+        }, { threshold: 0.3 });
+        cards.forEach(function(el){ io.observe(el); });
+      } else {
+        cards.forEach(run);
+      }
+    })();
+  </script>
+</body>
+</html>

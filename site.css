@@ -37,6 +37,9 @@
   --muted-2:     #7d7c82;
   /* Marca */
   --cyan:        #00ccff;
+  --accent-rgb: 0,204,255;
+  --kpi-num: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --page-px:   28px;
   --cyan-soft:   rgba(0,204,255,.10);
   --cyan-soft-2: rgba(0,204,255,.16);
   --cyan-label:  rgba(0,204,255,.52);
@@ -47,8 +50,11 @@
   --amber:  #ffb020;  --amber-soft:  rgba(255,176,32,.10);
   --red:    #ff637d;  --red-soft:    rgba(255,99,125,.10);
   --blue:   #7ab7ff;  --blue-soft:   rgba(122,183,255,.10);
-  --purple: #a78bfa;  --purple-soft: rgba(167,139,250,.12);
   --warm:   #b5a090;  --warm-soft:   rgba(181,160,144,.10);
+  /* App brand (Marketplace) — uno por app, NO cyan */
+  --violet:  #8b5cf6;  --violet-soft:  rgba(139,92,246,.12);  --violet-soft-2:  rgba(139,92,246,.18);
+  --orange:  #ff8a3d;  --orange-soft:  rgba(255,138,61,.12);  --orange-soft-2:  rgba(255,138,61,.18);
+  --magenta: #ff5da2;  --magenta-soft: rgba(255,93,162,.12);  --magenta-soft-2: rgba(255,93,162,.18);
   /* tints tokenizados (sync panel) */
   --amber-a08: rgba(255, 176, 32, 0.08);
   --amber-a12: rgba(255, 176, 32, 0.12);
@@ -57,10 +63,10 @@
   --amber-a28: rgba(255, 176, 32, 0.28);
   --cyan-a12: rgba(0, 204, 255, 0.12);
   --cyan-a18: rgba(0, 204, 255, 0.18);
-  --cyan-a22: rgba(0, 204, 255, 0.22);
+  --cyan-a22: rgba(0,204,255,0.22);
   --cyan-a24: rgba(0, 204, 255, 0.24);
   --cyan-a25: rgba(0, 204, 255, 0.25);
-  --cyan-a28: rgba(0, 204, 255, 0.28);
+  --cyan-a28: rgba(0,204,255,0.28);
   --cyan-a38: rgba(0, 204, 255, 0.38);
   --green-a08: rgba(21, 212, 156, 0.08);
   --green-a12: rgba(21, 212, 156, 0.12);
@@ -71,7 +77,7 @@
   --cyan-chart-bar: rgba(0, 204, 255, 0.55);
   --cyan-chart-line: rgba(0, 204, 255, 0.16);
   /* Efectos — sombras navy/cyan suaves (no negro de desplazamiento) */
-  --glow:      0 0 0 3px rgba(0,204,255,.22);
+  --glow:      0 0 0 3px var(--cyan-a22);
   --shadow-sm: 0 1px 3px rgba(0,18,28,.30);
   --shadow-md: 0 4px 14px rgba(0,20,30,.26);
   --shadow-lg: 0 12px 40px rgba(0,26,40,.34), 0 2px 12px rgba(0,204,255,.06);
@@ -112,6 +118,7 @@ html[data-theme="light"] {
   --muted:       #5e5a57;
   --muted-2:     #636875;
   --cyan:        #009fc7;
+  --accent-rgb:  0,159,199;
   --cyan-soft:   rgba(0,159,199,.10);
   --cyan-soft-2: rgba(0,159,199,.14);
   --cyan-label:  rgba(0,159,199,.58);
@@ -121,8 +128,10 @@ html[data-theme="light"] {
   --amber:  #c78000;  --amber-soft:  rgba(199,128,0,.10);
   --red:    #d4485e;  --red-soft:    rgba(212,72,94,.10);
   --blue:   #347de6;  --blue-soft:   rgba(52,125,230,.10);
-  --purple: #7c3aed;  --purple-soft: rgba(124,58,237,.12);
   --warm:   #8b7260;  --warm-soft:   rgba(139,114,96,.10);
+  --violet:  #7c3aed;  --violet-soft:  rgba(124,58,237,.10);  --violet-soft-2:  rgba(124,58,237,.16);
+  --orange:  #e07628;  --orange-soft:  rgba(224,118,40,.10);  --orange-soft-2:  rgba(224,118,40,.16);
+  --magenta: #d6336c;  --magenta-soft: rgba(214,51,108,.10);  --magenta-soft-2: rgba(214,51,108,.16);
   /* tints tokenizados (sync panel) */
   --amber-a08: rgba(199, 128, 0, 0.08);
   --amber-a12: rgba(199, 128, 0, 0.12);
@@ -502,7 +511,7 @@ html[data-theme="light"] .topbar-search-kbd {
 .search-input::placeholder { color: var(--muted-2); }
 .search-input:focus {
   background: var(--bg-elev-2);
-  border-color: rgba(0,204,255,.3);
+  border-color: color-mix(in srgb, var(--cyan) 30%, transparent);
   box-shadow: 0 0 0 3px var(--cyan-soft);
 }
 html[data-theme="light"] .search-input { background: var(--bg-elev-2); }

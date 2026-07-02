@@ -4,8 +4,7 @@
   },
   "scripts": {
     "test:detail-navigation": "node scripts/check-detail-navigation.js",
-    "test": "node scripts/check-detail-navigation.js",
-    "sync": "node scripts/sync-from-www.mjs"
+    "test": "node scripts/check-detail-navigation.js"
   },
   "devDependencies": {
     "@types/node": "^24.13.2",

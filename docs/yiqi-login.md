@@ -24,6 +24,28 @@ Definir un patrón común de autenticación para todas las aplicaciones YiQi, de
 - Copy en espanol neutro, breve y accionable.
 - Responsive validado en `<= 980px`.
 
+## Template reutilizable
+
+Para apps Next.js, usar como punto de partida el template aprobado en
+`template/login/`. El template contiene componente, logo animado, preview visual
+y CSS adaptador minimo. Los estilos visuales deben venir de `styles.css` de este
+repositorio, no de una copia local del stylesheet completo.
+
+Usar el template cuando:
+
+- la app necesita login YiQi estandar;
+- el proyecto todavia no tiene una pantalla de acceso propia;
+- se busca mantener consistencia visual entre apps.
+
+No usarlo como obligacion cuando:
+
+- la app ya tiene un flujo de auth propio validado;
+- el login requiere una experiencia distinta por producto;
+- solo se necesita ajustar copy o conectar backend.
+
+El copy especifico del proyecto debe pasarse por props. El template no debe
+mencionar pedidos, facturas u otro modulo salvo que el proyecto lo configure.
+
 ## Campos y copy base
 
 - Título recomendado: `Iniciar sesión`.

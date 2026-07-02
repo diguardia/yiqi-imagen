@@ -1,0 +1,4 @@
+/* Adapter-only CSS for the reusable login template.
+   Todos los estilos visuales del login ahora viven en el canónico styles.css
+   (https://diguardia.github.io/yiqi-imagen/styles.css). Este archivo queda como
+   punto de extensión para overrides específicos del consumidor (hoy, ninguno). */

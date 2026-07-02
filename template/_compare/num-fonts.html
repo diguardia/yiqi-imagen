@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cifras · comparación de fuente</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0a0a0b;--bg-elev:#0f1013;--card-bg:#14161b;--bg-soft:#181b21;--text:#f3f5f7;--muted:#908e8e;--muted-2:#7d7c82;--cyan:#00ccff;--green:#15d49c;--radius-lg:18px;--sans:"Inter",sans-serif;--mono:"IBM Plex Mono",monospace;--jak:"Plus Jakarta Sans",sans-serif;}
+  html[data-theme="light"]{--bg:#eeece7;--bg-elev:#f6f4ef;--card-bg:#f9f7f2;--bg-soft:#ece9e2;--text:#17191c;--muted:#5e5a57;--muted-2:#636875;--cyan:#009fc7;--green:#0c9b6d;}
+  *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:400 14px var(--sans);padding:36px 28px 70px;transition:.2s}
+  .wrap{max-width:760px;margin:0 auto}h1{font:800 20px var(--sans);margin:0 0 4px;letter-spacing:-.02em}
+  .sub{color:var(--muted);font-size:13px;margin:0 0 24px}
+  .topbar{display:flex;justify-content:flex-end;margin-bottom:14px}
+  .tbtn{border:none;border-radius:999px;background:var(--card-bg);color:var(--text);font:600 12px var(--sans);padding:8px 14px;cursor:pointer}
+  .row{background:var(--card-bg);border-radius:var(--radius-lg);padding:18px 22px;margin:0 0 12px;display:grid;grid-template-columns:160px 1fr;align-items:center;gap:20px}
+  .meta b{font:700 13px var(--sans)} .meta small{display:block;color:var(--muted-2);font:500 11px var(--mono);margin-top:3px}
+  .nums{display:flex;align-items:baseline;gap:22px;flex-wrap:wrap}
+  .n1{font-size:30px;letter-spacing:-.02em} .n2{font-size:20px} .n3{font-size:16px;color:var(--green)}
+  .tnum{font-variant-numeric:tabular-nums}
+  .f-mono7{font-family:var(--mono);font-weight:700}
+  .f-mono6{font-family:var(--mono);font-weight:600}
+  .f-jak{font-family:var(--jak);font-weight:800}
+  .f-inter{font-family:var(--sans);font-weight:800}
+  .tag{font:700 9px var(--mono);text-transform:uppercase;letter-spacing:.06em;padding:3px 8px;border-radius:999px;background:var(--bg-soft);color:var(--muted)}
+  .tag.spec{color:var(--cyan)}
+</style></head>
+<body><div class="wrap">
+  <div class="topbar"><button class="tbtn" id="tg">&#9680; Cambiar tema</button></div>
+  <h1>Cifras grandes — ¿qué fuente?</h1>
+  <p class="sub">Mismo dato en 4 tratamientos. Mir&aacute; "$2.847.391" (alineaci&oacute;n), "1.247" y "38,7%".</p>
+
+  <div class="row"><div class="meta"><b>IBM Plex Mono 700</b><small>actual · spec DS</small> <span class="tag spec">vigente</span></div>
+    <div class="nums f-mono7 tnum"><span class="n1">$2.847.391</span><span class="n2">1.247</span><span class="n3">↑ 38,7%</span></div></div>
+  <div class="row"><div class="meta"><b>IBM Plex Mono 600</b><small>mono m&aacute;s liviana</small></div>
+    <div class="nums f-mono6 tnum"><span class="n1">$2.847.391</span><span class="n2">1.247</span><span class="n3">↑ 38,7%</span></div></div>
+  <div class="row"><div class="meta"><b>Plus Jakarta 800</b><small>display / como estaba antes</small></div>
+    <div class="nums f-jak tnum"><span class="n1">$2.847.391</span><span class="n2">1.247</span><span class="n3">↑ 38,7%</span></div></div>
+  <div class="row"><div class="meta"><b>Inter 800</b><small>UI sans</small></div>
+    <div class="nums f-inter tnum"><span class="n1">$2.847.391</span><span class="n2">1.247</span><span class="n3">↑ 38,7%</span></div></div>
+
+  <p class="sub" style="margin-top:18px">Mono: dígitos perfectamente alineados, look "dato/terminal". Jakarta/Inter: más suave y compacto, pero menos tabular.</p>
+</div>
+<script>var d=document.documentElement;document.getElementById('tg').onclick=function(){d.setAttribute('data-theme',d.getAttribute('data-theme')==='dark'?'light':'dark')}</script>
+</body></html>

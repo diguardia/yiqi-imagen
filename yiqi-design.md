@@ -1,8 +1,7 @@
 # YiQi Design System — Guía maestra v1.2.7
 
-> Fuente única de verdad para implementación de UI en productos YiQi ERP.
+> Guía de referencia para implementación de UI en productos YiQi ERP. **Deriva de** la fuente única `www.yiqi/site.css` (tokens) + `www.yiqi/yiqi-design-system.html` (catálogo). Este repo (`yiqi-imagen`) es downstream: empaqueta y publica al CDN; NO es canónico.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
-> Referencias completas: `YiQi_DS_v1_2_4.md` · `YiQi_DS_v1_2_4_Recipe.md` · `YiQi_DS_v1_2_5_Recipe.md`
 
 ---
 
@@ -26,8 +25,8 @@
 ### Logo
 
 - Siempre como **SVG inline** — nunca `<img src="logo.svg">` ni `<img src="logo.png">`
-- **Dark mode / negativo:** letras `#f2f0ef`, símbolo Q `#00ccff`
-- **Light mode / positivo:** letras `#231f20`, símbolo Q `#009fc7`
+- **Dark mode / negativo:** letras `#f3f5f7` (= `--text` dark), símbolo Q `#00ccff`
+- **Light mode / positivo:** letras `#17191c` (= `--text` light), símbolo Q `#009fc7`
 - **Topbar universal:** letras `var(--text)`, símbolo Q `var(--cyan)`
 - No rotar, deformar, recolorear ni aplicar efectos
 - **Tamaño canónico en topbar:** `height: 39px; width: auto` — nunca tamaño fijo por ancho
@@ -96,6 +95,10 @@
   --red-soft:    rgba(255,99,125,.10);
   --purple:      #a78bfa;
   --purple-soft: rgba(167,139,250,.12);
+  /* App brand (Marketplace) — uno por app, NO cyan */
+  --violet:       #8b5cf6;  --violet-soft:  rgba(139,92,246,.12);  --violet-soft-2:  rgba(139,92,246,.18);
+  --orange:       #ff8a3d;  --orange-soft:  rgba(255,138,61,.12);  --orange-soft-2:  rgba(255,138,61,.18);
+  --magenta:      #ff5da2;  --magenta-soft: rgba(255,93,162,.12);  --magenta-soft-2: rgba(255,93,162,.18);
 
   /* Focus glow */
   --glow: 0 0 0 3px rgba(0,204,255,.22);
@@ -181,6 +184,9 @@ html[data-theme="light"] {
   --red-soft:    rgba(212,72,94,.10);
   --purple:      #7c3aed;
   --purple-soft: rgba(124,58,237,.12);
+  --violet:       #7c3aed;  --violet-soft:  rgba(124,58,237,.10);  --violet-soft-2:  rgba(124,58,237,.16);
+  --orange:       #e07628;  --orange-soft:  rgba(224,118,40,.10);  --orange-soft-2:  rgba(224,118,40,.16);
+  --magenta:      #d6336c;  --magenta-soft: rgba(214,51,108,.10);  --magenta-soft-2: rgba(214,51,108,.16);
 
   /* Shadows (más suaves en fondo claro) */
   --shadow-sm: 0 1px 3px rgba(16,36,54,.06);
@@ -203,7 +209,7 @@ html[data-theme="light"] {
 
 ### Regla de uso
 
-- **Plus Jakarta Sans (`--display`)** → títulos de página, hero headlines, headings grandes
+- **Greycliff CF Heavy (`--display`)** → títulos de página, hero headlines, headings grandes (fallback: Plus Jakarta Sans)
 - **Inter (`--sans`)** → todo el texto de interfaz: body, labels, botones, nav
 - **IBM Plex Mono (`--mono`)** → tokens, badges, kickers, valores numéricos, IDs, atajos de teclado
 
@@ -266,6 +272,18 @@ sin borde     → cards, panels, KPIs, badges, tags, nav items, modales, accordi
 /* ❌ Incorrecto */
 .card { border: 1px solid var(--line); }
 .badge { border: 1px solid var(--line); }
+```
+
+### No permitido — borde de un solo lado
+
+Callouts, notas y cards con borde en **un solo lado** (`border-left` o `border-top` de acento) quedan **prohibidos**: rompen el sistema flat & borderless y combinan mal con esquinas redondeadas. El énfasis se logra con **fondo tonal** (`--amber-soft`, `--cyan-soft`, etc.), nunca con bordes parciales.
+
+```css
+/* ❌ No permitido — acento lateral */
+.callout { border-left: 3px solid var(--amber); border-radius: var(--radius-lg); }
+
+/* ✅ Correcto — fondo tonal borderless */
+.callout { background: var(--amber-soft); border-radius: var(--radius-lg); }
 ```
 
 ---
@@ -337,6 +355,18 @@ html[data-theme="light"] body {
 }
 ```
 
+
+### Scrollbars *(global)*
+
+Barras de scroll con **track oscuro** y **thumb sutil**, definidas en `styles.css`. Aplican a toda la página y a cualquier contenedor scrolleable; usan tokens, así que se adaptan a dark/light.
+
+```css
+* { scrollbar-width: thin; scrollbar-color: var(--line-strong) var(--bg); }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: var(--radius-pill); border: 2px solid var(--bg); }
+::-webkit-scrollbar-thumb:hover { background: var(--muted-2); }
+```
 
 ## 6. Layout shell
 
@@ -419,6 +449,12 @@ html, body { overflow-x: clip; }  /* clip en lugar de hidden — no rompe positi
 .kpi-grid, .table-wrap { min-width: 0; }
 img, svg { max-width: 100%; }
 ```
+
+### Menú mobile
+
+El botón hamburguesa (`.mobile-btn`) va **a la derecha** del topbar (`.topbar-r`), nunca a la izquierda. Solo visible en `≤ 960px`; abre el sidebar como drawer off-canvas con backdrop, **desde la derecha** (mismo lado que el botón).
+
+---
 
 ---
 
@@ -816,7 +852,153 @@ Componente de búsqueda borderless. Implementado en `site.css`.
 - `search-kbd` se oculta con `.hidden` cuando el input tiene foco
 - Sin borde por defecto, focus ring cyan
 
+### Selector de período / rango
+
+Filtro de rango temporal del topbar (Analytics Pro y paneles). Input compuesto: un solo botón activo a la vez. Documentado en catálogo §24 (Panel Gerencial) y showcase (Primitivos).
+
+```css
+/* Borderless — cápsula sin borde ni divisores (filosofía §3) */
+.range-filter {
+  display: inline-flex; align-items: center; gap: 2px;
+  padding: 2px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-elev-2);
+}
+.range-btn {
+  padding: 6px 14px;
+  font: 500 13px var(--sans); color: var(--muted);
+  background: transparent; border: none;
+  border-radius: var(--radius-pill);     /* pill, sin divisores */
+}
+.range-btn:hover         { background: var(--bg-soft); color: var(--text); }
+.range-btn.is-active     { background: var(--cyan-soft); color: var(--cyan); font-weight: 600; }
+.range-btn:focus-visible { outline: 2px solid var(--cyan-a28); outline-offset: -2px; }
+```
+
+```html
+<div class="range-filter" role="group" aria-label="Período de análisis">
+  <button class="range-btn is-active" type="button" data-range="last_7_days">Ult. 7 días</button>
+  <button class="range-btn" type="button" data-range="current_month">Mes en curso</button>
+  <button class="range-btn" type="button" data-range="last_30_days">Ult. 30 días</button>
+</div>
+```
+
+- Un solo `.is-active` a la vez; la app togglea según `data-range`
+- `role="group"` + `aria-label` en el contenedor; cada botón es `type="button"`
+- **Borderless**: sin borde ni divisores; activo como pill `--cyan-soft` (filosofía §3)
+- En el topbar se aplica `flex-wrap:nowrap` para que no rompa en 2 filas
+
 ---
+
+### Botón de cerrar / icon button
+
+Botón de ícono **borderless** (`.close-btn`) para cerrar menús, drawers y diálogos. Canónico en `styles.css` (y espejado en `site.css` para la web). Reemplaza las copias locales `.ds-nav-x`, `.sc-drawer-x`, `.mobile-nav-close`.
+
+```css
+.close-btn {
+  display: grid; place-items: center; width: 38px; height: 38px;
+  border: none; border-radius: var(--radius-sm);
+  background: transparent; color: var(--muted); cursor: pointer;
+}
+.close-btn:hover         { color: var(--text); background: var(--bg-soft); }
+.close-btn:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--cyan-soft); }
+```
+
+- Solo apariencia; el **posicionamiento** es contextual (absoluto en el nav, flex-end en el drawer)
+- Documentado en catálogo §08 (Botones) → ancla `#close-btn`
+
+---
+
+### Alert badge
+
+Badge rojo (`.alert-badge-dot`) sobre un ícono contenedor (`.alert-badge`) para notificaciones/alertas. Canónico en `styles.css`. Documentado en catálogo §08 → ancla `#alert-badge`.
+
+```html
+<button class="alert-badge" aria-label="Alertas (3)">
+  <svg>…campana…</svg>
+  <span class="alert-badge-dot">3</span>
+</button>
+```
+
+---
+
+### Favorito (star toggle)
+
+Estrella de favorito **borderless** (`.fav-star`): outline en reposo, **ámbar relleno** al marcar (`.is-active`). No es una alerta — no lleva badge. Canónico en `styles.css`, catálogo §09 → ancla `#fav-star`.
+
+```html
+<button class="fav-star" type="button" aria-pressed="false" aria-label="Marcar como favorito">
+  <svg>…estrella…</svg>
+</button>
+```
+
+- Toggle por JS: alterna `.is-active` + `aria-pressed`
+- Borderless, foco accesible (ring `--cyan-soft`)
+
+---
+
+### Avatar / Tag / Tooltip *(canónicos en styles.css)*
+
+**Avatar** (`.avatar`): círculo con **iniciales multicolor** (`.avatar--cyan|green|amber|red|blue`) y soporte de **imagen** (SVG) que cae a iniciales si falla:
+
+```html
+<span class="avatar avatar--green">
+  <img src="…avatar.svg" alt="" onerror="this.remove()"> LR
+</span>
+```
+
+- Imagen: **DiceBear `notionists`** — SVG vectorial por seed-URL (`api.dicebear.com/9.x/notionists/svg?seed=`). Para self-host real: guardar el `.svg` en `assets/` o inline-arlo en el markup (cero dependencia de CDN).
+- Tamaños: `.avatar--sm` (30px) / base 36px / `.avatar--lg` (44px). Borderless.
+
+**Tag** (`.tag`): pill borderless mono, `--cyan-soft`. **Tooltip** (`.tooltip-box` / `--elev`): caja borderless. Documentados en catálogo §18 → ancla `#avatar`.
+
+---
+
+### Inputs — canónico `.ds-input`
+
+Familia canónica en `styles.css`: `.ds-input`, `.ds-select`, `.ds-textarea`, con `.ds-input-wrap` + `.ds-input-icon` + `.ds-input-shortcut` (⌘K) y estado `.err` (fondo `--red-soft`). Borderless. Reposo **recessed** (`--bg`, contrasta dentro de cards `bg-elev-2`); **foco** se aclara a `--bg-soft` (sin ring); error con fondo `--red-soft`. Se usa `background-color` (no shorthand) para no pisar el chevron del `.ds-select`.
+
+```html
+<div class="ds-input-wrap">
+  <svg class="ds-input-icon">…</svg>
+  <input class="ds-input" placeholder="Buscar…">
+  <kbd class="ds-input-shortcut">⌘K</kbd>
+</div>
+<input class="ds-input err">
+```
+
+- Deprecadas: `.input` (estaba en `ds-doc.css`) y `.sc-input` (showcase) — son la misma cosa con otro nombre.
+- El buscador de tablas (`.table-toolbar-search`) usa este primitivo: `.ds-input-wrap` + `.ds-input-icon` + `.ds-input` (solo aporta `min-width`).
+
+---
+
+---
+
+### Banner de apps (Marketplace) *(nuevo en v1.2.7)*
+
+Banner promocional por app del Marketplace. Web component `<app-banner app="…">` (`ana | prov | inv | pos | pick | cons`), con variante `variant="vertical"`. Paleta invertida (tarjeta clara) como el banner de Analytics Pro; gradiente sutil con el acento. **El acento es 100% por token, uno por app, NUNCA cyan** (el cyan es la marca madre YiQi, presente solo en el logo del lockup).
+
+| App | Acento (token) | Estado |
+|---|---|---|
+| Analytics Pro | `--violet` | Disponible |
+| Front de Proveedores OCR | `--orange` | En desarrollo |
+| Inventariado Mobile | `--green` | En desarrollo |
+| YiQi POS | `--amber` | Disponible |
+| Picking List | `--magenta` | En desarrollo |
+| Consulta de pedidos | `--blue` | En desarrollo |
+
+```html
+<script src="components/app-banner.js" defer></script>
+<app-banner app="inv"></app-banner>
+<app-banner app="ana" variant="vertical"></app-banner>
+```
+
+Reglas:
+- Acento vía `var(--<token>)`; el logo YiQi usa `var(--cyan)`/`var(--text)` (paleta invertida del banner). Cero color suelto en el componente.
+- **CTA de color de app** (`.mb-cta` / `--accent`): fondo = color de la app; **tinta legible** `--accent-ink` (clara sobre acentos oscuros como violeta, oscura sobre los claros). Aplica a todas las apps (ficha, banner y bundles).
+- Lleva ícono de la app + lockup "Homologado por YiQi" + slot de ilustración (imagen Gemini), a altura completa.
+- Analytics Pro tiene **dos versiones**: el banner premium (`<analytics-pro-banner>`) y esta variante unificada.
+- Catálogo: §30 · Web → "Banners de apps" (`#app-banners`).
 
 ## 9. Iconografía
 
@@ -935,10 +1117,14 @@ applyTheme(resolveTheme());
 | Green | `--green` | Éxito, positivo, incremento |
 | Amber | `--amber` | Advertencia, instalación, acción secundaria |
 | Red | `--red` | Error, peligro, decremento, eliminación |
-| Purple | `--purple` | Acento decorativo secundario |
+| Indigo | `--indigo` | Acento — `created` en barra de coherencia + categorías decorativas (reemplaza al viejo `--purple`) |
 | Muted | `--muted` | Texto secundario, estados neutrales |
 
 **Regla:** el color es semántico, nunca decorativo. No hardcodear hex — siempre tokens.
+
+> **Excepción documentada — `--text-white`:** el contador de `.alert-badge-dot` (campanita) usa `color: var(--text-white)` (#ffffff fijo) porque va sobre el rojo sólido y no debe adaptarse al tema. Es la única utilidad de blanco constante; no se usa para texto general.
+
+> **Excepción documentada — `--text-on-amber`:** texto oscuro fijo (`#1a0d00`) para chips/badges ámbar (mejor contraste que blanco sobre ámbar). Constante en ambos temas, igual que `--text-white`.
 
 ---
 
@@ -951,7 +1137,7 @@ applyTheme(resolveTheme());
 5. **`data-theme="system"` como default** — nunca `"dark"` ni `"light"` hardcodeado.
 6. **Toggle 3 pasos** — `setTheme(v)` con `"dark" | "system" | "light"`. No `toggleTheme()`.
 7. **`--text-cyan-muted`** — para estados activos y labels con acento. Nunca `var(--cyan)` directo en texto de estado.
-8. **Plus Jakarta Sans** — importar y usar como `var(--display)` en títulos y heroes.
+8. **Greycliff CF Heavy** (`var(--display)`, fallback Plus Jakarta) en títulos y heroes; cifras en `--mono`/`--kpi-num` (IBM Plex Mono).
 9. **SVG inline para íconos** en HTML standalone — no Phosphor CDN sin fallback.
 10. **Spacing múltiplos de 4** — sin valores arbitrarios.
 11. **Archivos self-contained** — fuentes y scripts embebidos o desde CDN confiable.
@@ -1150,7 +1336,193 @@ Variante del motor `YiQiLogo` (§0): animar **solo el flip de la Q y los dos pun
 - Reproduce el flip al cargar y lo repite cada `~1450ms + gap`.
 - Respeta `prefers-reduced-motion` (no loopea).
 
+### Tamaño del logo — token `--login-logo-w` *(nuevo en v1.2.7)*
+
+El ancho del logo en la pantalla de acceso es **260px**, tokenizado (no hardcodear el valor):
+
+```css
+.yiqi-login-logo { width: var(--login-logo-w); }   /* --login-logo-w: 260px */
+```
+
+Definido en `styles.css` junto al resto de tokens `--login-*`.
+
+## 19. Patrón — Aplicaciones (App shell) *(nuevo en v1.2.7)*
+
+Marco común para todas las apps YiQi del marketplace: **topbar + sidebar + área de contenido**. Se toma del DS; cada app solo construye lo de adentro. Las apps comparten tokens, paleta, radios y sombras con la web; lo que cambia es intencional, no deriva.
+
+### Anatomía del shell
+
+| Parte | Clase | Notas |
+|-------|-------|-------|
+| Barra superior | `.topbar` | Sticky, alto 56px, fondo translúcido + `backdrop-filter: blur(16px)`, borde inferior `--line`. |
+| Pill de producto | `.t-pill` | Mono 10px mayúsculas, borde `--line`, fondo `--bg-elev-2`, color `--muted`. |
+| Chip de cuenta | `.account-chip` | Avatar inicial + usuario (`--muted`) + esquema (`--text`) en sans. |
+| Selector de esquema | `.schema-toggle` | Botón `aria-haspopup` con menú de esquemas borderless (apps multi-esquema). |
+| Actualizar | `.btn-refresh` | Botón **solo ícono** (`ph-arrows-clockwise`), pill `--cyan-soft-2`/`--cyan`; re-renderiza la vista. |
+| Cerrar sesión | `.btn-exit` | Pill `--bg-elev-2`/`--muted`; hover `--red`. |
+| Contenedor lateral | `.sidebar` | Sticky, altura `100vh − topbar`, scroll propio, flex column. |
+| Item de navegación | `.nav-item` | Alto 40px, sans 13px. Activo: fondo `--cyan-soft`, texto `--cyan`. |
+
+El área de contenido es lo único propio de cada app. El footer del shell muestra `© <año> YiQi S.A.` y la versión del DS.
+
+## 20. Patrón — Animación de gráficos *(nuevo en v1.2.7)*
+
+Animaciones de entrada consistentes para todos los charts (Chart.js 4.4.0). Los gráficos leen `--cyan` vía `getComputedStyle` y se adaptan al tema.
+
+```js
+// Patrón canónico — pegar en options{} de cualquier chart
+const chartAnim = {
+  duration: 900,               // 900 barras · 1000 línea · 1000 donut
+  easing:   'easeOutQuart'
+};
+
+// Respetar prefers-reduced-motion
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (reduce) chartAnim.duration = 0;
+
+// Uso en new Chart()
+options: {
+  animation: chartAnim,
+  // ...
+}
+```
+
+Regla: toda animación debe anularse (`duration: 0`) cuando el usuario pidió `prefers-reduced-motion: reduce`.
+
+## 21. Componente — Banner Analytics Pro *(nuevo en v1.2.7)*
+
+Componente promocional **para la web** (no es una app): banner de difusión de Analytics Pro con mock de dashboard (4 KPIs, chart con ejes, top categorías) y una sola CTA. Implementado como web component self-contained.
+
+```html
+<!-- Cargar el componente una vez -->
+<script src="components/analytics-pro-banner.js" defer></script>
+
+<!-- Usar -->
+<analytics-pro-banner base="./"></analytics-pro-banner>
+```
+
+- `base`: prefijo de rutas (por defecto `./`).
+- `preview` (opcional): ruta a un preview; si falta, el banner igual renderiza su mock inline.
+- Centrado, `max-width` ~1240px; el mock no se estira en pantallas anchas.
+- Requiere Chart.js disponible en la página.
+
+
+## 22. Patrón — Enlace cruzado (`ds-xref`) *(nuevo)*
+
+Afordance **meta** para navegar entre el catálogo y el showcase ("Ver fuente" / "Ver en vivo"). Es metalenguaje de documentación, **no** un componente de producto: por eso es deliberadamente distinto del `.btn`.
+
+### Anatomía
+
+- Sin caja: `inline-flex`, `border:none`, `background:transparent`.
+- `font:600 12.5px var(--sans)`, color `var(--muted-2)`, ícono `ph-arrow-square-out` (14px).
+- Hover/focus: color `var(--cyan)` + `background:var(--cyan-soft)`; focus-visible con ring `0 0 0 3px var(--cyan-soft)`.
+
+### Reglas
+
+- Usar **solo** para saltar entre superficies de documentación (catálogo ↔ showcase). Nunca como CTA de producto.
+- Viaja pegado al título del componente; no compite con el contenido.
+- 100% tokens existentes; definido una sola vez en `styles.css` (fuente única).
+- Catálogo: §33. Deep-link al showcase con `?tab=<vista>&card=<id>`.
+
+
+## 22b. `ds-doc.css` = solo chrome del catálogo *(limpieza)*
+
+`ds-doc.css` ya **no re-declara** componentes canónicos. Se eliminaron las copias de `.btn`, `.badge`, `.switch-track/thumb/label/text`, `.checkbox*`, `.card-accent` y la familia `.input` (todos viven en `styles.css`). Esto evita *drift* y override accidental — p. ej. el toggle del catálogo recupera su versión borderless.
+
+`ds-doc.css` conserva únicamente lo propio del catálogo: navegación, helpers de demo (`.ph-tag`, `.card-kicker/value/delta`) y posicionamiento de chrome. Regla: si un componente se usa fuera del catálogo, su fuente es `styles.css`; `ds-doc.css` no lo redefine.
+
+## 23. Primitivos interactivos en el catálogo (§32–§38) *(nuevo)*
+
+Los primitivos que vivían solo en el showcase ahora tienen **fuente canónica** en el catálogo, con demo en vivo y CSS en `styles.css` (fuente única de componentes):
+
+| Primitivo | Sección catálogo | Clases | JS (data-attr) |
+|---|---|---|---|
+| Slider | §32 `#prim-slider` | `.pr-slider`, `.pr-slider-val` | readout por id |
+| Tabs | §34 `#prim-tabs` | `.pr-tabbar`, `.pr-tabbtn`, `.pr-tabpanel`; variante `.pr-tabbar--flat` (estilo Nav item: sin track, `radius-sm`) | `[data-pr-tabs]` |
+| Dialog | §35 `#prim-dialog` | `.sc-modal*` | `[data-pr-dialog]` / `[data-pr-dialog-close]` |
+| Dropdown | §36 `#prim-dropdown` | `.pr-pop-wrap`, `.pr-menu*` | `[data-pr-menu]` |
+| Popover | §37 `#prim-popover` | `.pr-menu.pr-pop` | `[data-pr-menu]` |
+| Toast | §38 `#prim-toast` | `.pr-toasts`, `.pr-toast` | `[data-pr-toast]` + host `#prToasts` |
+
+Tres primitivos más se documentan en secciones existentes: **Switch/Check → §10 Inputs**, **Tooltip → §18 Varios**, **Accordion → §13 Navegación**.
+
+### Enlace cruzado
+
+Cada primitivo está unido a su demo con el afordance `.ds-xref` (§22) en los dos sentidos: "Ver fuente" (showcase → catálogo) y "Ver en vivo" (catálogo → showcase, con deep-link `?tab=primitivos&card=<id>` que abre la vista y centra la card).
+
+
+## 24. Aplicaciones — Picking (propuesta) *(nuevo)*
+
+Vocabulario de primitivos para la app de picking (lector de códigos + flujo de depósito). Catálogo **§29 · Aplicaciones** (`#apps-picking`); demo en el showcase (tab Mockups, `#card-picking`); enlazados en ambos sentidos con `.ds-xref`. **Datos simulados**, no toca producción — banner `DATOS SIMULADOS · PROPUESTA · NO MODIFICA YIQI`. 100% tokenizado (`var()` + `color-mix`).
+
+### Primitivos propuestos
+
+- **Flujo**: progress card (barra + % + ítems), status chips (pendiente / en proceso / completado), result state (éxito / error / not-found), key-value list, callout de ubicación.
+- **Escaneo**: scanner viewport (marco `var(--cyan)`, línea de escaneo `var(--red)`), stepper de zoom, input group.
+- **Estructura**: icon buttons, avatar chip, section header + contador, truncate "Leer más", list item card, banner / notice persistente.
+- **Estados**: skeleton, empty state, error de cámara.
+- **Finalización**: pantalla de cierre del flujo (`.pk-done`) cuando todos los scans están completos.
+
+Es una **propuesta visual**: nombres de clase, props y JS se formalizan cuando llegue el funcional de la app.
+
+### Pantalla de finalización (`.pk-done`)
+
+Hero de cierre del flujo de picking: se muestra cuando todos los artículos pendientes fueron procesados. **Borderless** — separa por fondo (`--bg-elev`) y sombra (`--shadow-lg`), nunca por borde de acento. El ícono reusa el idioma de éxito del DS (`--green-soft` / `--green`); el aviso superior es el primitivo `.pr-toast` (no se redefine). El título usa `--display` por ser un hero de cierre. CTA = botón primario del DS. Catálogo: **§36 · Picking → Finalización** (`#pk-done`); demo en el showcase (`#card-picking`).
+
+```css
+.pk-done{
+  display:flex; flex-direction:column; align-items:center; text-align:center;
+  gap:14px; max-width:380px; margin:0 auto; padding:36px 28px;
+  background:var(--bg-elev); border-radius:var(--radius-md); box-shadow:var(--shadow-lg);
+  animation:hfIn .3s ease;
+}
+.pk-done-icon{
+  width:72px; height:72px; border-radius:50%;
+  background:var(--green-soft); color:var(--green);
+  display:grid; place-items:center; margin-bottom:2px;
+}
+.pk-done-kicker{ font:700 10px var(--mono); letter-spacing:.14em; text-transform:uppercase; color:var(--green); margin:0; }
+.pk-done-title{ font:600 26px/1.2 var(--display); letter-spacing:-.02em; color:var(--text); margin:0; }
+.pk-done-sub{ font:400 13px/1.4 var(--sans); color:var(--muted); max-width:300px; margin:0; }
+.pk-done .btn{ width:100%; justify-content:center; margin-top:8px; }
+```
+
+```html
+<div class="pk-done">
+  <div class="pk-done-icon"><i class="ph ph-check"></i></div>
+  <p class="pk-done-kicker">Scans completos</p>
+  <h3 class="pk-done-title">Picking List terminada</h3>
+  <p class="pk-done-sub">Todos los artículos pendientes fueron procesados.</p>
+  <button class="btn btn-primary" type="button">Volver a Picking Lists</button>
+</div>
+```
+
+**Reglas**: solo tokens (cero hex); sin borde de acento ni franja lateral; `--display` solo en el título (hero); dark/light vía tokens; el toast de confirmación es la variante `.pr-toast.is-success` (ver abajo), no un componente nuevo.
+
+### Toast · variante success (`.pr-toast.is-success`)
+
+Variante tonal del primitivo de toast (§22) para confirmaciones de peso, como el cierre del flujo de picking. Fondo `--green-soft`, texto e ícono `--green`, **sin ring** (borderless, separa por fondo). Botón de cierre opcional `.pr-toast-close`. No altera el toast neutro ni el comportamiento de stack del primitivo; la posición la define la app. Pantalla compuesta (toast + `.pk-done`) en el showcase: `#card-picking-done`.
+
+```css
+.pr-toast.is-success{ align-items:flex-start; background:var(--green-soft); box-shadow:var(--shadow-lg); }
+.pr-toast.is-success .ph{ color:var(--green); }
+.pr-toast.is-success strong{ color:var(--green); }
+.pr-toast.is-success span{ color:var(--green); opacity:.8; }
+.pr-toast-close{ flex-shrink:0; margin-left:auto; width:22px; height:22px; display:grid; place-items:center; border:none; border-radius:var(--radius-sm); background:none; color:var(--muted); opacity:.65; cursor:pointer; font-size:13px; transition:opacity .15s; }
+.pr-toast-close:hover{ opacity:1; }
+.pr-toast.is-success .pr-toast-close{ color:var(--green); }
+```
+
+```html
+<div class="pr-toast is-success show">
+  <i class="ph ph-check-circle-fill"></i>
+  <strong>Picking List terminada. Todos los scans están completos.</strong>
+  <button class="pr-toast-close" type="button" aria-label="Cerrar">&times;</button>
+</div>
+```
+
+
 ---
 
-*YiQi ERP · Design System v1.2.7 · Última actualización: 04/06/2026*
+*YiQi ERP · Design System v1.2.7 · Última actualización: 14/06/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*

@@ -20,6 +20,9 @@ Do not read this when:
 4. Store root cause and final fix, not raw logs.
 5. Never store secrets, tokens, passwords, credentials, cookie values, or production customer data.
 6. If a legacy error-memory file exists, migrate useful entries gradually into category files instead of duplicating everything.
+7. When bootstrapping a derived project, copy this index and only the relevant
+   category files before implementation starts, so known mistakes are available
+   from the first task.
 
 ## Categories
 

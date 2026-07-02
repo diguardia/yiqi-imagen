@@ -28,11 +28,29 @@ loading too much documentation.
 
 ## Repository role
 
-This repository packages and publishes the YiQi Design System CDN stylesheet.
-The canonical DS source is the private repository `diguardia/www.yiqi`; see
-`../LEEME-FUENTE-DS.md`. If you do not have access to that private source, use
-the published artifacts and this repository's public documentation. Do not block
-the task trying to read the private source.
+This repository is the **single home** of the YiQi Design System (since
+2026-06-11): tokens, components, catalog, docs, and templates all live **here**; see
+`../LEEME-FUENTE-DS.md`. Apps consume the published `styles.css` from the CDN. The
+`diguardia/www.yiqi` site no longer hosts the DS. The catalog is an internal team
+reference, not a public page.
+
+## Design System consumption rule
+
+Golden rule for any derived project: use this repository as the style source.
+Load the published stylesheet from:
+
+```html
+<link rel="stylesheet" href="https://diguardia.github.io/yiqi-imagen/styles.css">
+```
+
+Do not copy the full stylesheet into another project. Do not fork tokens,
+theme rules, component classes, or visual CSS into the consuming app. Copy
+template markup and small project behavior only, keep the canonical class names,
+and let `styles.css` provide the visual language.
+
+If a reusable visual rule is missing, add it to this repository first and update
+the template documentation. Use adapter CSS only for behavior or project-specific
+details that are not part of the shared Design System.
 
 ## Minimal rules
 
@@ -59,6 +77,15 @@ the task trying to read the private source.
    external API limits, and actions that require explicit user approval.
 11. For recurring errors, start with `error-memory/errors/INDEX.md`. Do not read
     every error file by default.
+12. In derived projects, import the relevant `error-memory/` index and category
+    files at project setup so recurring mistakes are available before work
+    starts. Keep only root causes and fixes; never import secrets or raw logs.
+13. When a routed template exists in `../template/`, copy/paste it as the
+    legitimate starting point and adapt it to the project. Do not redesign the
+    same component from scratch unless the route says not to use the template or
+    the user gives a project-specific reason.
+14. In derived projects, always reference the canonical `styles.css` URL from
+    this repository. Never copy the full Design System CSS into the app.
 
 ## Next step
 
