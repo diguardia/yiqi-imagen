@@ -3284,8 +3284,8 @@ html[data-theme="light"] .bg-grid-demo-fade {
 <div class="subsection-title">Escaneo</div>
 <div style="display:grid;gap:14px;max-width:560px;margin-bottom:24px">
 <div style="background:var(--bg-elev-2);border-radius:var(--radius);height:200px;position:relative;overflow:hidden">
-    <div class="pk-reticle" style="position:absolute;inset:30px 24px;border:2px solid var(--cyan);border-radius:var(--radius)"><div class="pk-scanline"></div></div>
-    <div style="position:absolute;bottom:10px;left:0;right:0;text-align:center;color:var(--muted);font:400 12px var(--sans)">Scanner viewport · línea var(--red)</div>
+    <div class="pk-reticle" data-pk-scan style="position:absolute;inset:30px 24px;border:2px solid var(--cyan);border-radius:var(--radius)"><span class="pk-added-pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Agregado</span><div class="pk-scanline"></div></div>
+    <div style="position:absolute;bottom:10px;left:0;right:0;text-align:center;color:var(--muted);font:400 12px var(--sans)">Scanner viewport · barra fija · verde al agregar</div>
   </div>
 <div style="display:flex;gap:14px;flex-wrap:wrap">
     <style>
@@ -4022,5 +4022,6 @@ document.querySelectorAll('.table-sortable').forEach(table => {
   });
 })();
 </script>
+<script>(function(){var r=document.querySelectorAll("[data-pk-scan]");if(!r.length)return;if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)return;setInterval(function(){r.forEach(function(el){el.classList.add("is-added");setTimeout(function(){el.classList.remove("is-added");},1400);});},3600);})();</script>
 </body>
 </html>

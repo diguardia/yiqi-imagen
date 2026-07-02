@@ -2222,10 +2222,18 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
 
 
 /* ── Scanner · barrido (estado: escaneando) ── */
-.pk-reticle{ overflow:hidden; }
-.pk-scanline{ position:absolute; left:0; right:0; height:2px; background:var(--red); animation:pk-scan 2.2s ease-in-out infinite alternate; }
-@keyframes pk-scan{ from{ top:6%; } to{ top:94%; } }
-@media (prefers-reduced-motion: reduce){ .pk-scanline{ animation:none; top:50%; } }
+.pk-reticle{ overflow:hidden; transition:border-color .25s ease; }
+/* Barra de scan FIJA con un brillo claro que recorre en horizontal; verde al agregar */
+.pk-scanline{ position:absolute; left:0; right:0; top:50%; transform:translateY(-50%); height:3px; border-radius:2px; background:var(--red); overflow:hidden; transition:background .2s ease; }
+.pk-scanline::after{ content:""; position:absolute; top:0; bottom:0; width:45%; background:linear-gradient(90deg, transparent 0%, rgba(255,255,255,.55) 50%, transparent 100%); animation:pk-sheen 1.8s linear infinite; }
+@keyframes pk-sheen{ from{ transform:translateX(-130%); } to{ transform:translateX(360%); } }
+/* Estado "agregado": barra y contorno en verde + pill */
+.pk-reticle.is-added{ border-color:var(--green) !important; }
+.pk-reticle.is-added .pk-scanline{ background:var(--green); }
+.pk-added-pill{ position:absolute; top:14px; left:50%; transform:translateX(-50%) scale(.92); opacity:0; display:inline-flex; align-items:center; gap:7px; background:var(--bg-elev); color:var(--text); border-radius:var(--radius-pill); padding:8px 16px; font:700 13px var(--sans); box-shadow:var(--shadow-md); z-index:3; pointer-events:none; transition:opacity .2s ease, transform .2s ease; }
+.pk-added-pill svg{ color:var(--green); }
+.pk-reticle.is-added .pk-added-pill{ opacity:1; transform:translateX(-50%) scale(1); }
+@media (prefers-reduced-motion: reduce){ .pk-scanline::after{ animation:none; } }
 
 /* ── Picking · pantalla de finalización (estado: completado) ──
    Hero de cierre de flujo: ícono + kicker + título display + sub + CTA.

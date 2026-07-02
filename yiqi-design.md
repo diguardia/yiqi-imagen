@@ -1458,7 +1458,7 @@ Vocabulario de primitivos para la app de picking (lector de códigos + flujo de 
 ### Primitivos propuestos
 
 - **Flujo**: progress card (barra + % + ítems), status chips (pendiente / en proceso / completado), result state (éxito / error / not-found), key-value list, callout de ubicación.
-- **Escaneo**: scanner viewport (marco `var(--cyan)`, línea de escaneo `var(--red)`), stepper de zoom, input group.
+- **Escaneo**: scanner viewport (marco `var(--cyan)`) con **barra de scan fija** en `var(--red)` y brillo claro que recorre en horizontal (`.pk-scanline` + `@keyframes pk-sheen`); al confirmar un scan pasa a estado `.is-added` → barra y contorno en `var(--green)` y aparece el pill **“Agregado”** (`.pk-added-pill`). Además: stepper de zoom, input group.
 - **Estructura**: icon buttons, avatar chip, section header + contador, truncate "Leer más", list item card, banner / notice persistente.
 - **Estados**: skeleton, empty state, error de cámara.
 - **Finalización**: pantalla de cierre del flujo (`.pk-done`) cuando todos los scans están completos.
