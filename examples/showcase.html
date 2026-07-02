@@ -565,6 +565,36 @@
     <div style="color:var(--muted-2);font:400 11px var(--mono);margin-top:2px">error de cámara</div>
   </div>
 </div>
+<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin:18px 0 8px"><span style="font:600 11px var(--mono);color:var(--muted-2);text-transform:uppercase;letter-spacing:.06em">Finalización</span><a class="ds-xref" href="../yiqi-design-system.html#pk-done"><i class="ph ph-anchor-simple"></i> Ver fuente</a></div>
+<div style="background:var(--bg);border-radius:var(--radius-md);padding:28px 16px;max-width:560px;display:grid;place-items:center">
+  <div class="pk-done">
+    <div class="pk-done-icon"><i class="ph ph-check" style="font-size:34px"></i></div>
+    <p class="pk-done-kicker">Scans completos</p>
+    <h3 class="pk-done-title">Picking List terminada</h3>
+    <p class="pk-done-sub">Todos los artículos pendientes fueron procesados.</p>
+    <button class="btn btn-primary" type="button">Volver a Picking Lists</button>
+  </div>
+</div>
+    </article>
+
+    <!-- Picking · pantalla de finalización (toast success + pk-done) -->
+    <article class="sc-card" id="card-picking-done">
+      <div class="sc-card-h"><span style="display:inline-flex;align-items:center;gap:8px"><span class="sc-card-title">Picking · finalización</span><span class="badge badge-green" style="font:600 9px var(--mono)">NUEVO</span></span><a class="ds-xref" href="../yiqi-design-system.html#pk-done"><i class="ph ph-anchor-simple"></i> Ver fuente</a></div>
+      <p class="sc-card-sub">Pantalla de cierre: toast success (<code>.pr-toast.is-success</code>) + <code>.pk-done</code>.</p>
+      <div style="background:var(--bg);border-radius:var(--radius-lg);padding:16px 14px 24px;display:flex;flex-direction:column;gap:20px;align-items:center">
+        <div class="pr-toast is-success show" style="position:static;transform:none;align-self:stretch">
+          <i class="ph ph-check-circle-fill"></i>
+          <strong>Picking List terminada. Todos los scans están completos.</strong>
+          <button class="pr-toast-close" type="button" aria-label="Cerrar">&#10005;</button>
+        </div>
+        <div class="pk-done">
+          <div class="pk-done-icon"><i class="ph ph-check" style="font-size:34px"></i></div>
+          <p class="pk-done-kicker">Scans completos</p>
+          <h3 class="pk-done-title">Picking List terminada</h3>
+          <p class="pk-done-sub">Todos los artículos pendientes fueron procesados.</p>
+          <button class="btn btn-primary" type="button">Volver a Picking Lists</button>
+        </div>
+      </div>
     </article>
 
     <!-- Panel Gerencial KPIs -->

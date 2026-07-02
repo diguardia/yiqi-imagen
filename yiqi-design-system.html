@@ -356,6 +356,7 @@ body.preview-open .ds-layout { display: none !important; }
 <a class="ds-nav-item" href="#panel-gerencial"><span class="ds-nav-num">35</span> Panel Gerencial <span class="ds-nav-badge ds-nav-badge-amber">NEW</span></a>
 <a class="ds-nav-item" href="#period-filter" style="padding-left:30px"><span class="ds-nav-num" style="opacity:.55">↳</span> Selector de período</a>
 <a class="ds-nav-item" href="#apps-picking"><span class="ds-nav-num">36</span> Picking · primitivos <span class="ds-nav-badge">NEW</span></a>
+<a class="ds-nav-item" href="#pk-done" style="padding-left:30px"><span class="ds-nav-num" style="opacity:.55">↳</span> Finalización <span class="ds-nav-badge">NEW</span></a>
 </div>
 <div class="ds-nav-section">
 <span class="ds-nav-label">Web</span>
@@ -1802,6 +1803,23 @@ body.preview-open .ds-layout { display: none !important; }
 <button class="btn btn-primary" data-pr-toast="ok"><i class="ph ph-check"></i> Éxito</button>
 <button class="btn" data-pr-toast="info"><i class="ph ph-info"></i> Info</button>
 </div>
+
+<div class="subsection-title" id="prim-toast-success" style="margin-top:24px">Variante success (tonal)</div>
+<p style="font:400 13px/1.6 var(--sans);color:var(--muted);max-width:62ch;margin:-4px 0 14px">Confirmación de peso (cierre de flujo): fondo tonal <code>--green-soft</code>, texto e ícono <code>--green</code>, <strong>sin ring</strong> (borderless, separa por fondo). Botón de cierre opcional <code>.pr-toast-close</code>. La posición la define la app; el primitivo no cambia su comportamiento de stack.</p>
+<div style="max-width:480px;margin-bottom:16px">
+<div class="pr-toast is-success show" style="position:static;transform:none">
+  <i class="ph ph-check-circle-fill"></i>
+  <strong>Picking List terminada. Todos los scans están completos.</strong>
+  <button class="pr-toast-close" type="button" aria-label="Cerrar">&#10005;</button>
+</div>
+</div>
+
+<div class="subsection-title">Markup</div>
+<pre style="background:var(--bg-elev-2);border-radius:var(--radius-md);padding:20px 22px;font:13px/1.7 var(--mono);color:var(--muted);overflow-x:auto;border:1px solid var(--line)"><code><span style="color:var(--cyan)">&lt;div</span> <span style="color:var(--green)">class</span>=<span style="color:var(--amber)">"pr-toast is-success show"</span><span style="color:var(--cyan)">&gt;</span>
+  <span style="color:var(--cyan)">&lt;i</span> <span style="color:var(--green)">class</span>=<span style="color:var(--amber)">"ph ph-check-circle-fill"</span><span style="color:var(--cyan)">&gt;&lt;/i&gt;</span>
+  <span style="color:var(--cyan)">&lt;strong&gt;</span>Picking List terminada. Todos los scans están completos.<span style="color:var(--cyan)">&lt;/strong&gt;</span>
+  <span style="color:var(--cyan)">&lt;button</span> <span style="color:var(--green)">class</span>=<span style="color:var(--amber)">"pr-toast-close"</span> <span style="color:var(--green)">type</span>=<span style="color:var(--amber)">"button"</span> <span style="color:var(--green)">aria-label</span>=<span style="color:var(--amber)">"Cerrar"</span><span style="color:var(--cyan)">&gt;</span>&times;<span style="color:var(--cyan)">&lt;/button&gt;</span>
+<span style="color:var(--cyan)">&lt;/div&gt;</span></code></pre>
 </section>
 <div class="sc-modal" id="prDlg" aria-hidden="true">
 <div class="sc-modal-card" style="width:min(100%,440px)" role="dialog" aria-modal="true" aria-labelledby="prDlgT">
@@ -3342,6 +3360,41 @@ html[data-theme="light"] .bg-grid-demo-fade {
     <div style="color:var(--muted-2);font:400 11px var(--mono);margin-top:2px">error de cámara</div>
   </div>
 </div>
+
+<div class="subsection-title" id="pk-done">Finalización</div>
+<p style="font:400 13px/1.6 var(--sans);color:var(--muted);max-width:62ch;margin:-4px 0 18px">Pantalla de cierre del flujo cuando todos los scans están completos (<code>.pk-done</code>). Hero <strong>borderless</strong>: separa por fondo (<code>--bg-elev</code>) y sombra, sin borde de acento. El ícono reusa el idioma <code>--green-soft</code>/<code>--green</code>; el aviso superior es el primitivo <code>.pr-toast</code>. CTA = botón primario del DS. Datos simulados.</p>
+<div style="background:var(--bg);border-radius:var(--radius-md);padding:32px 20px;margin-bottom:24px;display:grid;place-items:center">
+  <div class="pk-done">
+    <div class="pk-done-icon"><i class="ph ph-check" style="font-size:34px"></i></div>
+    <p class="pk-done-kicker">Scans completos</p>
+    <h3 class="pk-done-title">Picking List terminada</h3>
+    <p class="pk-done-sub">Todos los artículos pendientes fueron procesados.</p>
+    <button class="btn btn-primary" type="button">Volver a Picking Lists</button>
+  </div>
+</div>
+
+<div class="subsection-title">Anatomía</div>
+<table class="table-demo" style="max-width:700px;margin-bottom:24px">
+<thead><tr><th>Parte</th><th>Clase</th><th>Regla</th></tr></thead>
+<tbody>
+<tr><td>Contenedor</td><td><code>.pk-done</code></td><td>Columna centrada, <strong>sin borde</strong>, fondo <code>--bg-elev</code> + <code>--shadow-lg</code>, radio <code>--radius-md</code>. Separa por fondo, no por línea.</td></tr>
+<tr><td>Ícono</td><td><code>.pk-done-icon</code></td><td>Círculo 72px, <code>--green-soft</code> / check <code>--green</code>. Idioma de éxito del DS.</td></tr>
+<tr><td>Kicker</td><td><code>.pk-done-kicker</code></td><td>Mono, mayúsculas, letter-spacing, color <code>--green</code>.</td></tr>
+<tr><td>Título</td><td><code>.pk-done-title</code></td><td>Display (Plus Jakarta) 26px, <code>-.02em</code>. Único uso de display por ser hero de cierre.</td></tr>
+<tr><td>Subtítulo</td><td><code>.pk-done-sub</code></td><td>Inter 13px, <code>--muted</code>, interlineado 1.4.</td></tr>
+<tr><td>CTA</td><td><code>.btn.btn-primary</code></td><td>Botón primario del DS, ancho completo dentro del contenedor.</td></tr>
+<tr><td>Aviso (opcional)</td><td><code>.pr-toast.is-success</code></td><td>Toast tonal verde de confirmación (variante del primitivo §22). Ver pantalla compuesta en el showcase (<code>#card-picking-done</code>).</td></tr>
+</tbody>
+</table>
+
+<div class="subsection-title">Markup</div>
+<pre style="background:var(--bg-elev-2);border-radius:var(--radius-md);padding:20px 22px;font:13px/1.7 var(--mono);color:var(--muted);overflow-x:auto;border:1px solid var(--line)"><code><span style="color:var(--cyan)">&lt;div</span> <span style="color:var(--green)">class</span>=<span style="color:var(--amber)">"pk-done"</span><span style="color:var(--cyan)">&gt;</span>
+  <span style="color:var(--cyan)">&lt;div</span> <span style="color:var(--green)">class</span>=<span style="color:var(--amber)">"pk-done-icon"</span><span style="color:var(--cyan)">&gt;</span><span style="color:var(--cyan)">&lt;i</span> <span style="color:var(--green)">class</span>=<span style="color:var(--amber)">"ph ph-check"</span><span style="color:var(--cyan)">&gt;&lt;/i&gt;</span><span style="color:var(--cyan)">&lt;/div&gt;</span>
+  <span style="color:var(--cyan)">&lt;p</span> <span style="color:var(--green)">class</span>=<span style="color:var(--amber)">"pk-done-kicker"</span><span style="color:var(--cyan)">&gt;</span>Scans completos<span style="color:var(--cyan)">&lt;/p&gt;</span>
+  <span style="color:var(--cyan)">&lt;h3</span> <span style="color:var(--green)">class</span>=<span style="color:var(--amber)">"pk-done-title"</span><span style="color:var(--cyan)">&gt;</span>Picking List terminada<span style="color:var(--cyan)">&lt;/h3&gt;</span>
+  <span style="color:var(--cyan)">&lt;p</span> <span style="color:var(--green)">class</span>=<span style="color:var(--amber)">"pk-done-sub"</span><span style="color:var(--cyan)">&gt;</span>Todos los artículos pendientes fueron procesados.<span style="color:var(--cyan)">&lt;/p&gt;</span>
+  <span style="color:var(--cyan)">&lt;button</span> <span style="color:var(--green)">class</span>=<span style="color:var(--amber)">"btn btn-primary"</span> <span style="color:var(--green)">type</span>=<span style="color:var(--amber)">"button"</span><span style="color:var(--cyan)">&gt;</span>Volver a Picking Lists<span style="color:var(--cyan)">&lt;/button&gt;</span>
+<span style="color:var(--cyan)">&lt;/div&gt;</span></code></pre>
 </section>
 <section class="ds-section" id="web-banner">
 <div class="ds-section-header">

@@ -2201,6 +2201,14 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
 .pr-toast .ph{ font-size:18px; color:var(--green); }
 .pr-toast strong{ font:600 12.5px var(--sans); color:var(--text); display:block; }
 .pr-toast span{ font:400 11.5px var(--sans); color:var(--muted); }
+/* Variante success — fondo tonal verde, borderless (sin ring), cierre opcional */
+.pr-toast.is-success{ align-items:flex-start; background:var(--green-soft); box-shadow:var(--shadow-lg); }
+.pr-toast.is-success .ph{ color:var(--green); }
+.pr-toast.is-success strong{ color:var(--green); }
+.pr-toast.is-success span{ color:var(--green); opacity:.8; }
+.pr-toast-close{ flex-shrink:0; margin-left:auto; width:22px; height:22px; display:grid; place-items:center; border:none; border-radius:var(--radius-sm); background:none; color:var(--muted); opacity:.65; cursor:pointer; font-size:13px; transition:opacity .15s; }
+.pr-toast-close:hover{ opacity:1; }
+.pr-toast.is-success .pr-toast-close{ color:var(--green); }
 
 /* ── Dialog · shell de modal (primitivo) ── */
 .sc-modal{ position:fixed; inset:0; z-index:200; display:none; align-items:center; justify-content:center; padding:24px; background:color-mix(in srgb, var(--bg) 72%, transparent); backdrop-filter:blur(4px); }
@@ -2218,6 +2226,33 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
 .pk-scanline{ position:absolute; left:0; right:0; height:2px; background:var(--red); animation:pk-scan 2.2s ease-in-out infinite alternate; }
 @keyframes pk-scan{ from{ top:6%; } to{ top:94%; } }
 @media (prefers-reduced-motion: reduce){ .pk-scanline{ animation:none; top:50%; } }
+
+/* ── Picking · pantalla de finalización (estado: completado) ──
+   Hero de cierre de flujo: ícono + kicker + título display + sub + CTA.
+   Borderless (fondo+sombra, sin borde de acento). El toast superior es
+   el primitivo .pr-toast; el ícono reusa el idioma --green-soft/--green. */
+.pk-done{
+  display:flex; flex-direction:column; align-items:center; text-align:center;
+  gap:14px; max-width:380px; margin:0 auto; padding:36px 28px;
+  background:var(--bg-elev); border-radius:var(--radius-md); box-shadow:var(--shadow-lg);
+  animation:hfIn .3s ease;
+}
+.pk-done-icon{
+  width:72px; height:72px; border-radius:50%;
+  background:var(--green-soft); color:var(--green);
+  display:grid; place-items:center; margin-bottom:2px;
+}
+.pk-done-kicker{
+  font:700 10px var(--mono); letter-spacing:.14em; text-transform:uppercase;
+  color:var(--green); margin:0;
+}
+.pk-done-title{
+  font:600 26px/1.2 var(--display); letter-spacing:-.02em; color:var(--text); margin:0;
+}
+.pk-done-sub{
+  font:400 13px/1.4 var(--sans); color:var(--muted); max-width:300px; margin:0;
+}
+.pk-done .btn{ width:100%; justify-content:center; margin-top:8px; }
 
 /* ═══════════════════════════════════════════════════════
    Marketplace · bundles (compuestos ficha + catálogo)

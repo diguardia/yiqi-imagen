@@ -1461,8 +1461,65 @@ Vocabulario de primitivos para la app de picking (lector de códigos + flujo de 
 - **Escaneo**: scanner viewport (marco `var(--cyan)`, línea de escaneo `var(--red)`), stepper de zoom, input group.
 - **Estructura**: icon buttons, avatar chip, section header + contador, truncate "Leer más", list item card, banner / notice persistente.
 - **Estados**: skeleton, empty state, error de cámara.
+- **Finalización**: pantalla de cierre del flujo (`.pk-done`) cuando todos los scans están completos.
 
 Es una **propuesta visual**: nombres de clase, props y JS se formalizan cuando llegue el funcional de la app.
+
+### Pantalla de finalización (`.pk-done`)
+
+Hero de cierre del flujo de picking: se muestra cuando todos los artículos pendientes fueron procesados. **Borderless** — separa por fondo (`--bg-elev`) y sombra (`--shadow-lg`), nunca por borde de acento. El ícono reusa el idioma de éxito del DS (`--green-soft` / `--green`); el aviso superior es el primitivo `.pr-toast` (no se redefine). El título usa `--display` por ser un hero de cierre. CTA = botón primario del DS. Catálogo: **§36 · Picking → Finalización** (`#pk-done`); demo en el showcase (`#card-picking`).
+
+```css
+.pk-done{
+  display:flex; flex-direction:column; align-items:center; text-align:center;
+  gap:14px; max-width:380px; margin:0 auto; padding:36px 28px;
+  background:var(--bg-elev); border-radius:var(--radius-md); box-shadow:var(--shadow-lg);
+  animation:hfIn .3s ease;
+}
+.pk-done-icon{
+  width:72px; height:72px; border-radius:50%;
+  background:var(--green-soft); color:var(--green);
+  display:grid; place-items:center; margin-bottom:2px;
+}
+.pk-done-kicker{ font:700 10px var(--mono); letter-spacing:.14em; text-transform:uppercase; color:var(--green); margin:0; }
+.pk-done-title{ font:600 26px/1.2 var(--display); letter-spacing:-.02em; color:var(--text); margin:0; }
+.pk-done-sub{ font:400 13px/1.4 var(--sans); color:var(--muted); max-width:300px; margin:0; }
+.pk-done .btn{ width:100%; justify-content:center; margin-top:8px; }
+```
+
+```html
+<div class="pk-done">
+  <div class="pk-done-icon"><i class="ph ph-check"></i></div>
+  <p class="pk-done-kicker">Scans completos</p>
+  <h3 class="pk-done-title">Picking List terminada</h3>
+  <p class="pk-done-sub">Todos los artículos pendientes fueron procesados.</p>
+  <button class="btn btn-primary" type="button">Volver a Picking Lists</button>
+</div>
+```
+
+**Reglas**: solo tokens (cero hex); sin borde de acento ni franja lateral; `--display` solo en el título (hero); dark/light vía tokens; el toast de confirmación es la variante `.pr-toast.is-success` (ver abajo), no un componente nuevo.
+
+### Toast · variante success (`.pr-toast.is-success`)
+
+Variante tonal del primitivo de toast (§22) para confirmaciones de peso, como el cierre del flujo de picking. Fondo `--green-soft`, texto e ícono `--green`, **sin ring** (borderless, separa por fondo). Botón de cierre opcional `.pr-toast-close`. No altera el toast neutro ni el comportamiento de stack del primitivo; la posición la define la app. Pantalla compuesta (toast + `.pk-done`) en el showcase: `#card-picking-done`.
+
+```css
+.pr-toast.is-success{ align-items:flex-start; background:var(--green-soft); box-shadow:var(--shadow-lg); }
+.pr-toast.is-success .ph{ color:var(--green); }
+.pr-toast.is-success strong{ color:var(--green); }
+.pr-toast.is-success span{ color:var(--green); opacity:.8; }
+.pr-toast-close{ flex-shrink:0; margin-left:auto; width:22px; height:22px; display:grid; place-items:center; border:none; border-radius:var(--radius-sm); background:none; color:var(--muted); opacity:.65; cursor:pointer; font-size:13px; transition:opacity .15s; }
+.pr-toast-close:hover{ opacity:1; }
+.pr-toast.is-success .pr-toast-close{ color:var(--green); }
+```
+
+```html
+<div class="pr-toast is-success show">
+  <i class="ph ph-check-circle-fill"></i>
+  <strong>Picking List terminada. Todos los scans están completos.</strong>
+  <button class="pr-toast-close" type="button" aria-label="Cerrar">&times;</button>
+</div>
+```
 
 
 ---
