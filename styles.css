@@ -399,7 +399,7 @@ html[data-theme="light"] .brand-logo-light { display: block; }
   white-space: nowrap;
 }
 
-.btn:hover { border-color: var(--line-strong); background: var(--bg-soft); }
+.btn:hover { background: var(--bg-soft); }
 
 .btn-primary {
   background: var(--cyan-soft);
@@ -413,7 +413,7 @@ html[data-theme="light"] .brand-logo-light { display: block; }
   border-color: transparent;
   color: var(--muted);
 }
-.btn-ghost:hover { background: var(--bg-soft); color: var(--text); }
+.btn-ghost:hover { background: var(--bg-soft); color: var(--text); border-color: transparent; }
 
 .btn-danger {
   background: color-mix(in srgb, var(--red) 8%, transparent);
