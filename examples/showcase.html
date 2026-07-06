@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>YiQi Design System — Showcase</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJZaVFpIj4KICA8cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHJ4PSIxNCIgZmlsbD0iIzA3MTMxYSIvPgogIDxwYXRoIHRyYW5zZm9ybT0idHJhbnNsYXRlKDMyIDMyKSBzY2FsZSgxLjQpIHRyYW5zbGF0ZSgtNjEuMDUgLTMxLjEpIiBkPSJNNTcuOTEsNDQuNzh2LTIuNjZjLTIuMTgtLjUzLTQuMjEtMS42Ni01LjkyLTMuMzYtNC45Ny00Ljk3LTUuMDktMTMuMDItLjAzLTE4LjA4LDUuMDktNS4wOSwxMy4xNC00Ljk3LDE4LjExLDBzNS4wOSwxMy4wMiwwLDE4LjExYy0xLjc4LDEuNzgtMy45NCwyLjkzLTYuMjIsMy40NnYyLjUxYzAsLjM1LS4xOC41My0uNTguNTNoLTQuODJjLS4zLDAtLjU1LS4yLS41NS0uNVpNNTYuMjgsMzQuNDdjLjUuNSwxLjA1LjksMS42NSwxLjJ2LTMuMzZjMC0uMzUuMTgtLjUzLjUzLS41M2g0Ljg3Yy4yNSwwLC41My4xOC41My41M3YzLjM2Yy42My0uMzMsMS4yMy0uNzgsMS43OC0xLjMzLDIuNzMtMi43MywyLjc4LTYuNzUuMTUtOS4zOHMtNi42Ny0yLjYxLTkuNDEuMTNjLTIuNzEsMi43MS0yLjczLDYuNzUtLjEsOS4zOFoiIGZpbGw9IiMwY2YiLz4KPC9zdmc+Cg==">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
@@ -2320,5 +2321,34 @@ window.__buildGallery=function(){var p=document.getElementById("tab-galeria");if
 })();
 </script>
 <script>(function(){var r=document.querySelectorAll("[data-pk-scan]");if(!r.length)return;if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)return;setInterval(function(){r.forEach(function(el){el.classList.add("is-added");setTimeout(function(){el.classList.remove("is-added");},1400);});},3600);})();</script>
+<!-- Export sin fondo (toggle en header) -->
+<style id="nobg-style">
+  .nobg-toggle{ box-sizing:border-box; width:28px; height:26px; display:flex; align-items:center; justify-content:center; padding:0; border:1px solid transparent; border-radius:var(--radius-pill); background:transparent; color:var(--muted-2); cursor:pointer; transition:background .18s ease, color .18s ease; }
+  .nobg-toggle svg{ width:14px; height:14px; display:block; }
+  .nobg-toggle:hover{ color:var(--text); }
+  .nobg-toggle[aria-pressed="true"]{ background:var(--cyan-soft); color:var(--cyan); }
+  /* Modo export: fondo de página transparente (los componentes conservan su bg) */
+  html.export-nobg, html.export-nobg body{ background:transparent !important; }
+</style>
+<script>
+(function(){
+  var tr = document.querySelector('.topbar-right');
+  if(!tr || tr.querySelector('.nobg-toggle')) return;
+  var b = document.createElement('button');
+  b.className = 'nobg-toggle';
+  b.type = 'button';
+  b.setAttribute('aria-pressed','false');
+  b.title = 'Exportar sin fondo';
+  b.setAttribute('aria-label','Exportar sin fondo (fondo transparente)');
+  b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 12v6a2 2 0 0 0 2 2h6z" fill="currentColor" opacity=".45"/><path d="M21 12V6a2 2 0 0 0-2-2h-6z" fill="currentColor" opacity=".45"/></svg>';
+  b.addEventListener('click', function(){
+    var on = document.documentElement.classList.toggle('export-nobg');
+    b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    b.title = on ? 'Restaurar fondo' : 'Exportar sin fondo';
+  });
+  var ysw = tr.querySelector('.yqsw');
+  if(ysw){ ysw.insertAdjacentElement('afterend', b); } else { tr.appendChild(b); }
+})();
+</script>
 </body>
 </html>
