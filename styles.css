@@ -1149,6 +1149,27 @@ button.login-hint {
   caret-color: var(--text);
   transition: background-color 9999s ease-in-out 0s;
 }
+/* Autofill — mantener la paleta del DS en cualquier form (canónico) */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--text);
+  -webkit-box-shadow: 0 0 0 1000px var(--bg-elev) inset;
+  caret-color: var(--text);
+  transition: background-color 9999s ease-in-out 0s;
+}
+html[data-theme="light"] input:-webkit-autofill,
+html[data-theme="light"] select:-webkit-autofill,
+html[data-theme="light"] textarea:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px var(--bg-soft) inset;
+}
+
 @keyframes yiqi-login-spin { to { transform: rotate(360deg); } }
 
 /* ── 29. PROGRESS BARS ────────────────────────────────────── */
