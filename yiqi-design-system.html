@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1.0" name="viewport"/>
-<title>YiQi ERP — Design System v1.2.7</title>
+<title>YiQi ERP — Design System v1.2.7.1</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJZaVFpIj4KICA8cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHJ4PSIxNCIgZmlsbD0iIzA3MTMxYSIvPgogIDxwYXRoIHRyYW5zZm9ybT0idHJhbnNsYXRlKDMyIDMyKSBzY2FsZSgxLjQpIHRyYW5zbGF0ZSgtNjEuMDUgLTMxLjEpIiBkPSJNNTcuOTEsNDQuNzh2LTIuNjZjLTIuMTgtLjUzLTQuMjEtMS42Ni01LjkyLTMuMzYtNC45Ny00Ljk3LTUuMDktMTMuMDItLjAzLTE4LjA4LDUuMDktNS4wOSwxMy4xNC00Ljk3LDE4LjExLDBzNS4wOSwxMy4wMiwwLDE4LjExYy0xLjc4LDEuNzgtMy45NCwyLjkzLTYuMjIsMy40NnYyLjUxYzAsLjM1LS4xOC41My0uNTguNTNoLTQuODJjLS4zLDAtLjU1LS4yLS41NS0uNVpNNTYuMjgsMzQuNDdjLjUuNSwxLjA1LjksMS42NSwxLjJ2LTMuMzZjMC0uMzUuMTgtLjUzLjUzLS41M2g0Ljg3Yy4yNSwwLC41My4xOC41My41M3YzLjM2Yy42My0uMzMsMS4yMy0uNzgsMS43OC0xLjMzLDIuNzMtMi43MywyLjc4LTYuNzUuMTUtOS4zOHMtNi42Ny0yLjYxLTkuNDEuMTNjLTIuNzEsMi43MS0yLjczLDYuNzUtLjEsOS4zOFoiIGZpbGw9IiMwY2YiLz4KPC9zdmc+Cg==">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -353,6 +353,7 @@ body.preview-open .ds-layout { display: none !important; }
 <a class="ds-nav-item" href="#app-overview"><span class="ds-nav-num">32</span> Apps · Overview</a>
 <a class="ds-nav-item" href="#app-shell"><span class="ds-nav-num">33</span> Apps · Shell</a>
 <a class="ds-nav-item" href="#theme-switch" style="padding-left:30px"><span class="ds-nav-num" style="opacity:.55">↳</span> Switch de tema</a>
+<a class="ds-nav-item" href="#sidebar-collapse" style="padding-left:30px"><span class="ds-nav-num" style="opacity:.55">↳</span> Sidebar colapsable</a>
 <a class="ds-nav-item" href="#login"><span class="ds-nav-num">34</span> Apps · Login <span class="ds-nav-badge">NEW</span></a>
 <a class="ds-nav-item" href="#panel-gerencial"><span class="ds-nav-num">35</span> Panel Gerencial <span class="ds-nav-badge ds-nav-badge-amber">NEW</span></a>
 <a class="ds-nav-item" href="#period-filter" style="padding-left:30px"><span class="ds-nav-num" style="opacity:.55">↳</span> Selector de período</a>
@@ -393,7 +394,7 @@ body.preview-open .ds-layout { display: none !important; }
 <section class="ds-section" id="release-notes">
 <div class="ds-section-header">
 <div class="ds-section-kicker">00 · Novedades</div>
-<h2 class="ds-section-title">Novedades · v1.2.7</h2>
+<h2 class="ds-section-title">Novedades · v1.2.7.1</h2>
 <p class="ds-section-sub">Patrón <strong>Pantalla de acceso (Login §16)</strong> con logo animado en loop, sección <strong>Aplicaciones</strong> (kit base de apps), <strong>inputs borderless</strong> y consolidación de la <strong>fuente única</strong> del Design System.</p>
 </div>
 <div class="token-grid-2">
@@ -421,6 +422,12 @@ body.preview-open .ds-layout { display: none !important; }
 <tr><th>Versión</th><th>Fecha</th><th>Tipo</th><th>Detalle</th></tr>
 </thead>
 <tbody>
+<tr>
+<td class="mono-cell">v1.2.7.1</td>
+<td class="mono-cell">13/07/2026</td>
+<td><span class="badge badge-cyan">NUEVO</span></td>
+<td><strong>Sidebar colapsable (rail)</strong>: el sidebar colapsa a un rail de solo iconos (240px → 68px) con botón al pie, etiquetas como tooltip y estado en <code>localStorage</code>. Ver <a class="ds-xref" href="#sidebar-collapse" style="display:inline-flex">§33 · Sidebar colapsable</a>.</td>
+</tr>
 <tr>
 <td class="mono-cell">v1.2.7</td>
 <td class="mono-cell">13/06/2026</td>
@@ -3010,6 +3017,93 @@ html[data-theme="light"] .bg-grid-demo-fade {
 <div class="comp-row" style="margin-top:10px">
   <button class="btn btn-primary btn-sm" onclick="animateLP()">Reiniciar demo</button>
 </div></div>
+
+<div class="subsection-title" id="sidebar-collapse">Sidebar colapsable (rail)</div>
+<p style="font:400 13px/1.4 var(--sans);color:var(--muted);max-width:64ch;margin:-4px 0 14px">El sidebar puede colapsar a un <strong>rail de solo iconos</strong> (240px → 68px). El botón al pie (<code>.sidebar-collapse</code>) alterna el estado en <code>.app-shell.nav-collapsed</code>; las etiquetas se ocultan y reaparecen como <strong>tooltip</strong> al pasar el mouse. El estado se recuerda en <code>localStorage['yiqi-nav-collapsed']</code>. Probalo — tocá el botón al pie del rail:</p>
+
+<style id="rail-demo-style">
+#rail-demo .app-shell{ min-height:0; height:360px; border-radius:var(--radius-md); overflow:hidden; background:var(--bg-elev); box-shadow:var(--shadow-md); }
+#rail-demo .sidebar{ position:static; top:auto; height:100%; background:var(--bg-elev-2); }
+#rail-demo .rail-content{ padding:24px 26px; min-width:0; }
+</style>
+<div id="rail-demo" style="max-width:720px">
+  <div class="app-shell nav-collapsed">
+    <nav class="sidebar" aria-label="Navegación de ejemplo">
+      <div class="nav">
+        <span class="nav-lbl">Informe</span>
+        <a class="nav-link is-active" href="#sidebar-collapse" onclick="return false" title="Planificación"><span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span><span>Planificación</span></a>
+        <a class="nav-link" href="#sidebar-collapse" onclick="return false" title="Resumen Meta"><span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span><span>Resumen Meta</span></a>
+        <a class="nav-link" href="#sidebar-collapse" onclick="return false" title="Anuncios"><span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span><span>Anuncios</span></a>
+        <a class="nav-link" href="#sidebar-collapse" onclick="return false" title="Funnel CRM"><span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></span><span>Funnel CRM</span></a>
+        <a class="nav-link" href="#sidebar-collapse" onclick="return false" title="Nuevas ONs"><span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span><span>Nuevas ONs</span></a>
+        <a class="nav-link" href="#sidebar-collapse" onclick="return false" title="ONs Concretadas"><span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span><span>ONs Concretadas</span></a>
+      </div>
+      <button class="sidebar-collapse" onclick="dsRailToggle(this)" aria-expanded="false" aria-label="Expandir menú" title="Expandir menú"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg></button>
+    </nav>
+    <div class="rail-content">
+      <div class="ds-section-kicker" style="margin:0 0 8px">Contenido</div>
+      <h3 style="font:600 18px var(--sans);letter-spacing:-.02em;color:var(--text);margin:0 0 8px">Área principal</h3>
+      <p style="font:400 13px/1.4 var(--sans);color:var(--muted);max-width:46ch;margin:0">Colapsá el rail con el botón inferior. En estado colapsado, cada icono muestra su etiqueta como tooltip al hover/focus.</p>
+    </div>
+  </div>
+</div>
+
+<div class="subsection-title" style="margin-top:24px">Anatomía y estados</div>
+<table style="width:100%;border-collapse:collapse;margin-top:10px;font:400 12.5px/1.6 var(--sans);color:var(--text)">
+<thead><tr style="text-align:left;color:var(--muted-2);font:700 10px var(--mono);text-transform:uppercase;letter-spacing:.08em"><th style="padding:6px 10px">Parte</th><th style="padding:6px 10px">Clase</th><th style="padding:6px 10px">Rol</th></tr></thead>
+<tbody>
+<tr><td style="padding:6px 10px">Wrapper</td><td style="padding:6px 10px"><code>.app-shell.nav-collapsed</code></td><td style="padding:6px 10px">Colapsa la grilla al ancho de rail (<code>--sidebar-w-collapsed</code> · 68px).</td></tr>
+<tr><td style="padding:6px 10px">Toggle</td><td style="padding:6px 10px"><code>.sidebar-collapse</code></td><td style="padding:6px 10px">Botón 30px al pie del sidebar (<code>margin-top:auto</code>); el chevron rota 180° al colapsar.</td></tr>
+<tr><td style="padding:6px 10px">Ítem</td><td style="padding:6px 10px"><code>.nav-link</code> + <code>.n-ico</code></td><td style="padding:6px 10px">Icono + etiqueta. Colapsado: centrado, etiqueta <em>sr-only</em> + tooltip por <code>title</code>. Activo: <code>--cyan-soft</code>.</td></tr>
+<tr><td style="padding:6px 10px">Grupo</td><td style="padding:6px 10px"><code>.nav-lbl</code></td><td style="padding:6px 10px">Etiqueta de sección; se oculta al colapsar.</td></tr>
+<tr><td style="padding:6px 10px">Persistencia</td><td style="padding:6px 10px"><code>localStorage</code></td><td style="padding:6px 10px">Clave <code>yiqi-nav-collapsed</code> (<code>'1'</code>/<code>'0'</code>), restaurada al cargar.</td></tr>
+<tr><td style="padding:6px 10px">Mobile ≤960px</td><td style="padding:6px 10px"><code>.sidebar.open</code></td><td style="padding:6px 10px">El rail no aplica; el sidebar entra como drawer lateral.</td></tr>
+</tbody>
+</table>
+
+<div class="subsection-title" style="margin-top:24px">Markup</div>
+<pre style="background:var(--bg-elev-2);border-radius:var(--radius-md);padding:20px 22px;font:12.5px/1.7 var(--mono);color:var(--muted);overflow-x:auto;border:1px solid var(--line)"><code>&lt;div class=&quot;app-shell&quot;&gt;
+  &lt;nav class=&quot;sidebar&quot;&gt;
+    &lt;div class=&quot;nav&quot;&gt;
+      &lt;span class=&quot;nav-lbl&quot;&gt;Informe&lt;/span&gt;
+      &lt;a class=&quot;nav-link is-active&quot; href=&quot;#planificacion&quot; title=&quot;Planificación&quot;&gt;
+        &lt;span class=&quot;n-ico&quot;&gt;&lt;svg&gt;…calendario…&lt;/svg&gt;&lt;/span&gt;&lt;span&gt;Planificación&lt;/span&gt;
+      &lt;/a&gt;
+      &lt;!-- …más ítems… --&gt;
+    &lt;/div&gt;
+    &lt;button class=&quot;sidebar-collapse&quot; onclick=&quot;toggleCollapse()&quot;
+            aria-expanded=&quot;true&quot; aria-label=&quot;Colapsar menú&quot; title=&quot;Colapsar menú&quot;&gt;
+      &lt;svg&gt;…chevron…&lt;/svg&gt;
+    &lt;/button&gt;
+  &lt;/nav&gt;
+  &lt;main class=&quot;content&quot;&gt; … &lt;/main&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+function applyCollapse(c){
+  document.querySelector(&#x27;.app-shell&#x27;).classList.toggle(&#x27;nav-collapsed&#x27;, c);
+  var b = document.querySelector(&#x27;.sidebar-collapse&#x27;);
+  b.setAttribute(&#x27;aria-expanded&#x27;, String(!c));
+  b.title = c ? &#x27;Expandir menú&#x27; : &#x27;Colapsar menú&#x27;;
+}
+function toggleCollapse(){
+  var c = !document.querySelector(&#x27;.app-shell&#x27;).classList.contains(&#x27;nav-collapsed&#x27;);
+  applyCollapse(c);
+  try { localStorage.setItem(&#x27;yiqi-nav-collapsed&#x27;, c ? &#x27;1&#x27; : &#x27;0&#x27;); } catch(e){}
+}
+applyCollapse(localStorage.getItem(&#x27;yiqi-nav-collapsed&#x27;) === &#x27;1&#x27;);
+&lt;/script&gt;</code></pre>
+
+<script>
+function dsRailToggle(btn){
+  var sh = btn.closest('.app-shell'); if(!sh) return;
+  var c = sh.classList.toggle('nav-collapsed');
+  btn.setAttribute('aria-expanded', String(!c));
+  btn.setAttribute('aria-label', c ? 'Expandir menú' : 'Colapsar menú');
+  btn.setAttribute('title', c ? 'Expandir menú' : 'Colapsar menú');
+}
+</script>
+
 </section>
 
 

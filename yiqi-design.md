@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.7
+# YiQi Design System — Guía maestra v1.2.7.1
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **Deriva de** la fuente única `www.yiqi/site.css` (tokens) + `www.yiqi/yiqi-design-system.html` (catálogo). Este repo (`yiqi-imagen`) es downstream: empaqueta y publica al CDN; NO es canónico.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -426,6 +426,80 @@ html[data-theme="light"] .topbar {
   </div>
 </body>
 ```
+
+### Sidebar colapsable (rail)
+
+El sidebar puede colapsar a un **rail de solo iconos** (240px → 68px). El botón al pie (`.sidebar-collapse`) alterna `.app-shell.nav-collapsed`; las etiquetas se ocultan (sr-only) y reaparecen como **tooltip** por `title`. Estado persistido en `localStorage['yiqi-nav-collapsed']`.
+
+```css
+:root { --sidebar-w-collapsed: 68px; }
+
+.sidebar { display: flex; flex-direction: column; }   /* el toggle va al pie con margin-top:auto */
+
+.sidebar-collapse {                     /* botón al pie */
+  width: 30px; height: 30px; margin: auto 0 0 auto;
+  position: sticky; bottom: 0;
+  background: transparent; border: 1px solid var(--line);
+  border-radius: var(--radius-sm); color: var(--muted); cursor: pointer;
+}
+.sidebar-collapse svg { transition: transform .18s ease; }
+
+.app-shell.nav-collapsed { grid-template-columns: var(--sidebar-w-collapsed) minmax(0,1fr); }
+.nav-collapsed .sidebar-collapse svg { transform: rotate(180deg); }
+.nav-collapsed .nav-lbl { visibility: hidden; height: 6px; padding: 0; }
+.nav-collapsed .nav-link { justify-content: center; padding: 8px; gap: 0; position: relative; }
+.nav-collapsed .nav-link span:not(.n-ico) {   /* etiqueta → sr-only */
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+.nav-collapsed .nav-link::after {             /* tooltip con la etiqueta */
+  content: attr(title);
+  position: absolute; left: calc(100% + 12px); top: 50%;
+  transform: translateY(-50%);
+  background: var(--bg-elev-2); color: var(--text);
+  border: 1px solid var(--line-strong); border-radius: var(--radius-sm);
+  padding: 5px 10px; font: 500 12px var(--sans); white-space: nowrap;
+  box-shadow: var(--shadow-md); opacity: 0; pointer-events: none;
+}
+.nav-collapsed .nav-link:hover::after,
+.nav-collapsed .nav-link:focus-visible::after { opacity: 1; }
+```
+
+```html
+<div class="app-shell">
+  <nav class="sidebar">
+    <div class="nav">
+      <span class="nav-lbl">Informe</span>
+      <a class="nav-link is-active" href="#..." title="Planificación">
+        <span class="n-ico"><svg>…</svg></span><span>Planificación</span>
+      </a>
+    </div>
+    <button class="sidebar-collapse" onclick="toggleCollapse()" aria-expanded="true" title="Colapsar menú">
+      <svg>…chevron…</svg>
+    </button>
+  </nav>
+  <main class="content"> … </main>
+</div>
+```
+
+```js
+function applyCollapse(c){
+  document.querySelector('.app-shell').classList.toggle('nav-collapsed', c);
+  var b = document.querySelector('.sidebar-collapse');
+  b.setAttribute('aria-expanded', String(!c));
+  b.title = c ? 'Expandir menú' : 'Colapsar menú';
+}
+function toggleCollapse(){
+  var c = !document.querySelector('.app-shell').classList.contains('nav-collapsed');
+  applyCollapse(c);
+  localStorage.setItem('yiqi-nav-collapsed', c ? '1' : '0');
+}
+applyCollapse(localStorage.getItem('yiqi-nav-collapsed') === '1');
+```
+
+**Reglas.** El `border-right` del `.sidebar` y el borde del botón son bordes completos estructurales (permitidos, no acento de un lado). Activo del ítem por fondo tonal `--cyan-soft`. En `≤ 960px` el rail no aplica: el sidebar entra como drawer off-canvas.
+
+---
 
 ---
 
@@ -1524,5 +1598,5 @@ Variante tonal del primitivo de toast (§22) para confirmaciones de peso, como e
 
 ---
 
-*YiQi ERP · Design System v1.2.7 · Última actualización: 14/06/2026*
+*YiQi ERP · Design System v1.2.7.1 · Última actualización: 14/06/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*

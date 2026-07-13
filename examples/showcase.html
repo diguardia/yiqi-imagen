@@ -407,7 +407,7 @@
   <!-- HERO -->
   <section class="sc-hero">
     <div class="sc-hero-main">
-    <span class="sc-eyebrow"><i class="ph ph-sparkle"></i> YiQi DS · v1.2.7</span>
+    <span class="sc-eyebrow"><i class="ph ph-sparkle"></i> YiQi DS · v1.2.7.1</span>
     <div class="sc-h1" style="margin:16px 0 12px"><a href="https://yiqi.com.ar/ia-ready.html" target="_blank" rel="noopener" aria-label="iA ready — ir a la landing" style="display:inline-block;line-height:0"><svg viewBox="0 0 256 68" xmlns="http://www.w3.org/2000/svg" aria-label="iA ready" class="sc-iar" style="height:50px;width:auto;max-width:100%">
   <path class="iar" d="M225.626 67.89C224.75 67.89 224.239 67.452 224.677 66.576L229.933 54.02L216.063 19.491C215.771 18.688 216.209 18.25 217.012 18.25H227.159C227.743 18.25 228.327 18.542 228.546 19.126L235.846 39.712L243.219 19.126C243.438 18.542 244.022 18.25 244.606 18.25H254.753C255.556 18.25 255.921 18.688 255.629 19.491L236.722 67.014C236.503 67.598 235.919 67.89 235.335 67.89H225.626Z"/>
   <path class="iar" d="M190.294 54.896C180.439 54.896 173.65 46.7199 173.65 36.1349C173.65 25.6229 180.439 17.3739 190.294 17.3739C194.747 17.3739 197.886 18.688 200.222 21.243V2.99295C200.222 2.33595 200.733 1.82495 201.39 1.82495H211.391C212.048 1.82495 212.559 2.33595 212.559 2.99295V52.852C212.559 53.509 211.975 54.02 211.318 54.02H202.339C201.682 54.02 201.171 53.509 201.171 52.852L201.025 49.8589C198.616 52.9979 195.185 54.896 190.294 54.896ZM185.622 36.1349C185.622 40.8069 188.834 43.7999 193.068 43.7999C197.375 43.7999 200.368 40.734 200.368 36.062C200.368 31.463 197.375 28.4699 193.068 28.4699C188.834 28.4699 185.622 31.5359 185.622 36.1349Z"/>
@@ -598,6 +598,42 @@
       </div>
     </article>
 
+    <!-- Sidebar colapsable (rail) -->
+    <article class="sc-card" id="card-sidebar-rail">
+      <div class="sc-card-h"><span style="display:inline-flex;align-items:center;gap:8px"><span class="sc-card-title">Sidebar colapsable</span><span class="badge badge-cyan" style="font:600 9px var(--mono)">NUEVO</span></span><a class="ds-xref" href="../yiqi-design-system.html#sidebar-collapse"><i class="ph ph-anchor-simple"></i> Ver fuente</a></div>
+      <p class="sc-card-sub">Rail de iconos que colapsa 240px → 68px (<code>.app-shell.nav-collapsed</code>). Botón al pie, etiquetas como tooltip, estado en <code>localStorage</code>.</p>
+      <style>
+        #sc-rail-demo .app-shell{ min-height:0; height:340px; border-radius:var(--radius-md); overflow:hidden; background:var(--bg-elev); }
+        #sc-rail-demo .sidebar{ position:static; top:auto; height:100%; background:var(--bg-elev-2); }
+        #sc-rail-demo .rail-content{ padding:22px 24px; min-width:0; }
+      </style>
+      <div id="sc-rail-demo">
+        <div class="app-shell">
+          <nav class="sidebar" aria-label="Navegación de ejemplo">
+            <div class="nav">
+              <span class="nav-lbl">Informe</span>
+              <a class="nav-link is-active" href="#" onclick="return false" title="Planificación"><span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span><span>Planificación</span></a>
+          <a class="nav-link" href="#" onclick="return false" title="Resumen Meta"><span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span><span>Resumen Meta</span></a>
+          <a class="nav-link" href="#" onclick="return false" title="Anuncios"><span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span><span>Anuncios</span></a>
+          <a class="nav-link" href="#" onclick="return false" title="Funnel CRM"><span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></span><span>Funnel CRM</span></a>
+          <a class="nav-link" href="#" onclick="return false" title="Nuevas ONs"><span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span><span>Nuevas ONs</span></a>
+          <a class="nav-link" href="#" onclick="return false" title="ONs Concretadas"><span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span><span>ONs Concretadas</span></a>
+            </div>
+            <button class="sidebar-collapse" onclick="scRailToggle(this)" aria-expanded="true" aria-label="Colapsar menú" title="Colapsar menú"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg></button>
+          </nav>
+          <div class="rail-content">
+            <div style="font:700 10px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted-2);margin-bottom:8px">Contenido</div>
+            <h3 style="font:600 18px var(--sans);letter-spacing:-.02em;color:var(--text);margin:0 0 8px">Área principal</h3>
+            <p style="font:400 13px/1.4 var(--sans);color:var(--muted);max-width:44ch;margin:0">Colapsá el rail con el botón inferior. En colapsado, los iconos muestran su etiqueta como tooltip.</p>
+          </div>
+        </div>
+      </div>
+      <script>
+      function scRailToggle(btn){var sh=btn.closest('.app-shell');if(!sh)return;var c=sh.classList.toggle('nav-collapsed');btn.setAttribute('aria-expanded',String(!c));btn.setAttribute('aria-label',c?'Expandir menú':'Colapsar menú');btn.setAttribute('title',c?'Expandir menú':'Colapsar menú');}
+      </script>
+    </article>
+
+
     <!-- Panel Gerencial KPIs -->
     <article class="sc-card" id="card-panel">
       <div class="sc-card-h"><span style="display:inline-flex;align-items:center;gap:8px"><span class="sc-card-title">Panel Gerencial</span><span class="badge badge-amber" style="font:600 9px var(--mono)">ANALYTICS PRO</span></span><a class="ds-xref" href="../yiqi-design-system.html#panel-gerencial"><i class="ph ph-anchor-simple"></i> Ver fuente</a></div>
@@ -786,8 +822,14 @@
       </div>
     </article>
     <article class="sc-card" id="card-appshell">
-      <div class="sc-card-h"><span class="sc-card-title">Shell de app</span><a class="ds-xref" href="../yiqi-design-system.html#app-shell"><i class="ph ph-anchor-simple"></i> Ver fuente</a></div>
-      <p class="sc-card-sub">Topbar + sidebar + contenido.</p>
+      <div class="sc-card-h"><span class="sc-card-title">Shell de app</span><a class="ds-xref" href="../yiqi-design-system.html#sidebar-collapse"><i class="ph ph-anchor-simple"></i> Ver fuente</a></div>
+      <p class="sc-card-sub">Topbar + <strong>sidebar colapsable</strong> + contenido. Tocá el botón al pie del rail.</p>
+      <style>
+        #sc-appshell-demo .app-shell{ min-height:0; height:158px; grid-template-columns:132px minmax(0,1fr); }
+        #sc-appshell-demo .app-shell.nav-collapsed{ grid-template-columns:var(--sidebar-w-collapsed) minmax(0,1fr); }
+        #sc-appshell-demo .sidebar{ position:static; top:auto; height:100%; padding:12px 10px; background:transparent; }
+        #sc-appshell-demo .rail-content{ padding:14px; min-width:0; }
+      </style>
       <div style="border:1px solid var(--line);border-radius:var(--radius);overflow:hidden">
         <div style="display:flex;align-items:center;justify-content:space-between;height:36px;padding:0 12px;border-bottom:1px solid var(--line);background:var(--bg-elev-2)">
           <span style="font:700 10px var(--mono);color:var(--muted);letter-spacing:.08em">MI APP</span>
@@ -796,13 +838,18 @@
             <span class="badge" style="font:600 9px var(--mono);color:var(--muted);background:var(--bg-soft)">Cerrar sesión</span>
           </div>
         </div>
-        <div style="display:flex;min-height:120px">
-          <div style="width:118px;border-right:1px solid var(--line);padding:10px 8px;display:flex;flex-direction:column;gap:3px">
-            <span style="font:700 8px var(--mono);letter-spacing:.12em;color:var(--muted-2);padding:0 6px 4px;text-transform:uppercase">Sección</span>
-            <span style="display:flex;align-items:center;gap:7px;padding:6px 8px;border-radius:var(--radius-sm);background:var(--cyan-soft);color:var(--cyan);font:600 11px var(--sans)"><i class="ph ph-house"></i> Inicio</span>
-            <span style="display:flex;align-items:center;gap:7px;padding:6px 8px;border-radius:var(--radius-sm);color:var(--muted);font:500 11px var(--sans)"><i class="ph ph-squares-four"></i> Otra vista</span>
+        <div id="sc-appshell-demo">
+          <div class="app-shell">
+            <nav class="sidebar" aria-label="Navegación de ejemplo">
+              <div class="nav">
+                <span class="nav-lbl">Sección</span>
+                <a class="nav-link is-active" href="#" onclick="return false" title="Inicio"><span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5 12 3l9 6.5"/><path d="M5 10v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V10"/></svg></span><span>Inicio</span></a>
+                <a class="nav-link" href="#" onclick="return false" title="Otra vista"><span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span><span>Otra vista</span></a>
+              </div>
+              <button class="sidebar-collapse" onclick="scRailToggle(this)" aria-expanded="true" aria-label="Colapsar menú" title="Colapsar menú"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg></button>
+            </nav>
+            <div class="rail-content" style="color:var(--muted);font:400 11.5px/1.5 var(--sans)">Área de contenido — acá va lo propio de cada app.</div>
           </div>
-          <div style="flex:1;padding:14px;color:var(--muted);font:400 11.5px/1.5 var(--sans)">Área de contenido — acá va lo propio de cada app.</div>
         </div>
       </div>
     </article>

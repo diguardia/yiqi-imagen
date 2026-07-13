@@ -1,6 +1,6 @@
 /* ============================================================
    YiQi Design System — styles.css
-   Versión: DS v1.2.7
+   Versión: DS v1.2.7.1
    Fecha: 9/6/2026
    Fuente canónica: este repo (diguardia/yiqi-imagen) · ver LEEME-FUENTE-DS.md
    Bundle de consumo (CDN) — FUENTE CANÓNICA en este repo, editar aquí
@@ -81,6 +81,7 @@
   /* Layout */
   --topbar-h:  56px;
   --sidebar-w: 240px;
+  --sidebar-w-collapsed: 68px;
   --page-px:   28px;
   /* Radios */
   --radius-xs:   6px;
@@ -268,6 +269,8 @@ h4 { font-size: 15px; letter-spacing: -0.02em; }
   position: sticky;
   top: 0;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
   padding: 28px 20px;
   border-right: 1px solid var(--line);
   background: linear-gradient(180deg, rgba(24, 24, 28, 0.96), rgba(17, 17, 20, 0.92));
@@ -1654,7 +1657,7 @@ html[data-theme="light"] .skeleton-line {
 .card-reveal.visible { opacity: 1; transform: none; }
 
 /* ── FOOTER CANÓNICO ──────────────────────────────────────── */
-/* © 2026 YiQi S.A. · styles.css · DS v1.2.7 · 04/06/2026  */
+/* © 2026 YiQi S.A. · styles.css · DS v1.2.7.1 · 04/06/2026  */
 
 /* ── 42. INPUTS — COMPONENTES DS (v1.2.5) ────────────────── */
 /* Borderless: sin border, fondo elevado, focus ring cyan.    */
@@ -2180,6 +2183,49 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
 .nav-link:hover .n-ico { color: var(--text); }
 .nav-link.is-active .n-ico { background: var(--cyan-soft-2); color: var(--cyan); }
 .n-ico svg { width: 13px; height: 13px; }
+
+/* ── Sidebar colapsable (rail) — capa opcional sobre .app-shell + .sidebar ──
+   Toggle .sidebar-collapse (pie) → estado .app-shell.nav-collapsed.
+   Colapsado: rail de iconos, etiquetas ocultas (sr-only) + tooltip por título.
+   Persistencia sugerida: localStorage 'yiqi-nav-collapsed'. */
+.sidebar-collapse {
+  display: flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px; margin: auto 0 0 auto; flex-shrink: 0;
+  position: sticky; bottom: 0;
+  background: transparent; border: 1px solid var(--line);
+  border-radius: var(--radius-sm); color: var(--muted); cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+.sidebar-collapse:hover { background: var(--bg-soft); color: var(--text); }
+.sidebar-collapse:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--cyan-soft); color: var(--text); }
+.sidebar-collapse svg { width: 16px; height: 16px; transition: transform 0.18s ease; }
+
+.app-shell.nav-collapsed { grid-template-columns: var(--sidebar-w-collapsed) minmax(0, 1fr); }
+.nav-collapsed .sidebar { padding: 20px 10px; overflow: visible; z-index: 96; }
+.nav-collapsed .sidebar-collapse { margin: auto auto 0; position: static; }
+.nav-collapsed .sidebar-collapse svg { transform: rotate(180deg); }
+.nav-collapsed .nav-lbl { visibility: hidden; height: 6px; padding: 0; margin: 0; }
+.nav-collapsed .nav-div { margin: 5px 6px; }
+.nav-collapsed .nav-link { justify-content: center; padding: 8px; gap: 0; position: relative; }
+.nav-collapsed .nav-link span:not(.n-ico) {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+/* Tooltip con la etiqueta (solo colapsado) */
+.nav-collapsed .nav-link::after {
+  content: attr(title);
+  position: absolute; left: calc(100% + 12px); top: 50%;
+  transform: translateY(-50%) scale(0.96); transform-origin: left center;
+  background: var(--bg-elev-2); color: var(--text);
+  border: 1px solid var(--line-strong);
+  padding: 5px 10px; border-radius: var(--radius-sm);
+  font: 500 12px var(--sans); white-space: nowrap;
+  box-shadow: var(--shadow-md);
+  opacity: 0; pointer-events: none; z-index: 200;
+  transition: opacity 0.14s ease, transform 0.14s ease;
+}
+.nav-collapsed .nav-link:hover::after,
+.nav-collapsed .nav-link:focus-visible::after { opacity: 1; transform: translateY(-50%) scale(1); }
 /* ── .ds-xref — enlace cruzado meta (catálogo ↔ showcase), distinto de .btn ── */
 .ds-xref{ display:inline-flex; align-items:center; gap:6px; padding:4px 8px; border:none; border-radius:var(--radius); background:transparent; color:var(--muted-2); font:600 11px var(--sans); text-decoration:none; cursor:pointer; transition:background .15s ease, color .15s ease; }
 .ds-xref .ph{ font-size:14px; }
