@@ -458,7 +458,7 @@ html[data-theme="light"] .brand-logo-light { display: block; }
 .btn:hover svg { transform: translateY(1px); }
 
 /* ── 12. BADGE ────────────────────────────────────────────── */
-/* v1.2.5: badges sin borde en dark, borde en light mode */
+/* v1.2.5: badges sin borde en dark; v1.2.7.2: sin borde tampoco en light (borderless en ambos temas) */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -514,14 +514,6 @@ html[data-theme="light"] .brand-logo-light { display: block; }
   border-color: transparent;
 }
 .badge-muted::before { background: var(--muted-2); }
-
-/* v1.2.5: borde visible en light mode */
-html[data-theme="light"] .badge-cyan   { border-color: rgba(0, 159, 199, 0.22); }
-html[data-theme="light"] .badge-green  { border-color: rgba(12, 155, 109, 0.22); }
-html[data-theme="light"] .badge-amber  { border-color: rgba(199, 128, 0, 0.22); }
-html[data-theme="light"] .badge-red    { border-color: rgba(212, 72, 94, 0.22); }
-html[data-theme="light"] .badge-blue   { border-color: rgba(52, 125, 230, 0.22); }
-html[data-theme="light"] .badge-muted  { border-color: var(--line); }
 
 /* ── 13. CARDS ────────────────────────────────────────────── */
 /* v1.2.5: cards sin borde por defecto */
