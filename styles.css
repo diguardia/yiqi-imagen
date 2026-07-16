@@ -441,6 +441,8 @@ html[data-theme="light"] .brand-logo-light { display: block; }
   font-size: 14px;
   border-radius: 16px;
 }
+.btn-xl { padding: 16px 32px; font-size: 15px; border-radius: var(--radius-md); }
+.btn-full { width: 100%; justify-content: center; }
 
 /* Ícono inline en botón */
 .btn svg {

@@ -23,3 +23,4 @@ Do not read this when:
 | `runtime-banner/` | HTML runtime banners | A project needs mock/error/unavailable state banners. |
 | `trust/` | HTML trust stat variants | A project needs trust metrics in inline, card, or grid form. |
 | `analytics-pro-banner/` | HTML host for web component | A page needs the canonical Analytics Pro promo banner. |
+| `email/` | HTML email base (Mailchimp) | Se arma un mail de campaña o transaccional. Estilos inline (excepción: no consume styles.css). |

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml">
+<!--
+  YiQi · Email base template (DS)
+  ────────────────────────────────────────────────────────────────────────
+  EXCEPCIÓN DEL DS: los clientes de correo eliminan hojas de estilo externas
+  y no soportan variables CSS. Por eso este template NO consume styles.css
+  del CDN: usa estilos inline con los hex canónicos horneados. Mantener los
+  valores en sync con styles.css.
+
+  Mapa de tokens canónicos usados (claro / oscuro):
+    --bg        #eeece7 / #0a0a0b        (fondo)
+    --text      #17191c / #f3f5f7        (.txt)
+    --muted     #5e5a57 / #908e8e        (.muted)
+    --cyan      #009fc7 / #00ccff        (kicker, links, CTA fill)
+    --bg-soft   #ece9e2 / #181b21        (fondo tonal de callout/destacado — borderless)
+    --amber     #ffb020                  (chip de alerta)
+    --text-on-amber #1a0d00              (texto sobre chip de alerta)
+    CTA ink     #ffffff / #06222b        (texto sobre CTA: blanco en claro, tinta oscura en oscuro
+                                          — el DS no tiene token; candidato a --ink-on-cyan)
+
+  Reglas del DS aplicadas:
+    · Titular (H1) en Inter, NO mono. El mono es para kickers/labels/chips.
+    · CTA sólido canónico = fondo var(--cyan). Texto blanco en claro (#009fc7) y tinta oscura #06222b en oscuro (#00ccff brillante).
+    · Callout/destacado permitido pero BORDERLESS con fondo tonal (nunca borde de un solo lado).
+    · Placeholders entre {{ }}. Merge tags de Mailchimp en el footer.
+-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="x-apple-disable-message-reformatting">
+  <meta name="color-scheme" content="light dark">
+  <meta name="supported-color-schemes" content="light dark">
+  <title>{{TITULO_DOCUMENTO}} — YiQi</title>
+  <style>
+    :root { color-scheme: light dark; supported-color-schemes: light dark; }
+    body { margin:0; padding:0; }
+    img { border:0; outline:none; text-decoration:none; }
+    .logo-dark { display:none; }
+    @media (prefers-color-scheme: dark) {
+      .bg      { background-color:#0a0a0b !important; }
+      .txt     { color:#f3f5f7 !important; }
+      .txt-soft{ color:#f3f5f7 !important; }
+      .muted   { color:#908e8e !important; }
+      .cyan    { color:#00ccff !important; }
+      .lnk     { color:#00ccff !important; }
+      .footer  { color:#5f5d5d !important; }
+      .chip    { background-color:#082932 !important; color:#00ccff !important; }
+      .chip-alert { background-color:#ffb020 !important; color:#1a0d00 !important; }
+      .code    { background-color:#181b21 !important; color:#00ccff !important; }
+      .callout { background-color:#181b21 !important; color:#f3f5f7 !important; }
+      .cta     { background-color:#00ccff !important; }
+      .cta a   { color:#06222b !important; }
+      .logo-light { display:none !important; }
+      .logo-dark  { display:inline-block !important; }
+    }
+  </style>
+</head>
+<body class="bg" style="margin:0;padding:0;background-color:#eeece7;">
+  <!-- Preheader (texto de vista previa, oculto) -->
+  <div style="display:none;max-height:0;overflow:hidden;opacity:0;font-size:1px;line-height:1px;color:#eeece7;">
+    {{PREHEADER}}
+  </div>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="bg" style="background-color:#eeece7;">
+    <tr>
+      <td align="center" style="padding:0;">
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" class="bg" style="width:600px;max-width:600px;background-color:#eeece7;">
+
+          <!-- Logo -->
+          <tr>
+            <td align="left" style="padding:36px 32px 0 11px;">
+              <a href="https://yiqi.com.ar" style="text-decoration:none;">
+                <img class="logo-light" src="https://mcusercontent.com/984311159bb65135aafa9fc68/images/9bfc1640-178b-d644-46fc-7ed064f5f4d8.png" alt="YiQi" width="132" style="display:inline-block;width:132px;height:auto;">
+                <img class="logo-dark"  src="https://mcusercontent.com/984311159bb65135aafa9fc68/images/1019fbae-619b-e9b6-6417-703978a1650f.png" alt="YiQi" width="132" style="width:132px;height:auto;">
+              </a>
+            </td>
+          </tr>
+
+          <!-- Tagline (mono) -->
+          <tr>
+            <td align="left" style="padding:0 32px 0 32px;">
+              <p class="txt" style="margin:-16px 0 0 0;font-family:'IBM Plex Mono','Courier New',Courier,monospace;font-size:15px;letter-spacing:0.02em;color:#17191c;">Se-conecta-con-todo.</p>
+            </td>
+          </tr>
+
+          <!-- Imagen hero (opcional): se muestra a 600px de ancho, esquinas redondeadas.
+               Tamaño sugerido del archivo: 1200px de ancho (2x para pantallas retina).
+               Alto según diseño; relación recomendada ~1.9:1 (1200×630) o 3:2 (1200×800).
+               Quitar toda la fila si no se usa. -->
+          <tr>
+            <td style="padding:20px 0 0 0;">
+              <img src="{{IMAGEN_URL}}" alt="{{IMAGEN_ALT}}" width="600" style="display:block;width:100%;max-width:600px;height:auto;border-radius:14px;">
+            </td>
+          </tr>
+
+          <!-- Kicker (mono, cyan) -->
+          <tr>
+            <td style="padding:32px 32px 0 32px;">
+              <p class="cyan" style="margin:0;font-family:'IBM Plex Mono','Courier New',Courier,monospace;font-size:13px;letter-spacing:0.04em;color:#009fc7;">{{KICKER}}</p>
+            </td>
+          </tr>
+
+          <!-- Título (Inter 600, NO mono). Partir en 2 líneas con <br> si conviene -->
+          <tr>
+            <td style="padding:10px 32px 0 32px;">
+              <h1 class="txt" style="margin:0;font-family:'Inter',Arial,Helvetica,sans-serif;font-weight:600;font-size:28px;line-height:1.3;color:#17191c;">{{TITULO_L1}}<br>{{TITULO_L2}}</h1>
+            </td>
+          </tr>
+
+          <!-- Chip (mono). Variante neutra por defecto.
+               Para ALERTA (deadlines, avisos): usar class="chip-alert" bgcolor="#ffb020" + color:#1a0d00 -->
+          <tr>
+            <td style="padding:12px 32px 0 32px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td class="chip" bgcolor="#cde1e3" style="background-color:#cde1e3;border-radius:999px;padding:7px 15px;font-family:'IBM Plex Mono','Courier New',Courier,monospace;font-size:13px;letter-spacing:0.02em;color:#00708c;">{{CHIP}}</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Cuerpo (Inter) -->
+          <tr>
+            <td style="padding:18px 32px 0 32px;">
+              <p class="txt-soft" style="margin:0 0 16px 0;font-family:'Inter',Arial,Helvetica,sans-serif;font-size:17px;line-height:1.6;color:#17191c;">{{PARRAFO_1}}</p>
+              <p class="txt-soft" style="margin:0;font-family:'Inter',Arial,Helvetica,sans-serif;font-size:17px;line-height:1.6;color:#17191c;">{{PARRAFO_2}}</p>
+            </td>
+          </tr>
+
+          <!-- Lista con guiones cyan (opcional) -->
+          <tr>
+            <td style="padding:26px 32px 0 32px;">
+              <p class="cyan" style="margin:0 0 12px 0;font-family:'IBM Plex Mono','Courier New',Courier,monospace;font-size:13px;letter-spacing:0.04em;color:#009fc7;">{{LISTA_TITULO}}</p>
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr><td class="txt-soft" style="padding:0 0 10px 0;font-family:'Inter',Arial,Helvetica,sans-serif;font-size:16px;line-height:1.5;color:#17191c;"><span class="cyan" style="color:#009fc7;">—&nbsp;&nbsp;</span>{{LISTA_ITEM_1}}</td></tr>
+                <tr><td class="txt-soft" style="padding:0 0 10px 0;font-family:'Inter',Arial,Helvetica,sans-serif;font-size:16px;line-height:1.5;color:#17191c;"><span class="cyan" style="color:#009fc7;">—&nbsp;&nbsp;</span>{{LISTA_ITEM_2}}</td></tr>
+                <tr><td class="txt-soft" style="padding:0;font-family:'Inter',Arial,Helvetica,sans-serif;font-size:16px;line-height:1.5;color:#17191c;"><span class="cyan" style="color:#009fc7;">—&nbsp;&nbsp;</span>{{LISTA_ITEM_3}}</td></tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Destacado / callout (opcional): BORDERLESS, fondo tonal, esquinas redondeadas.
+               Prohibido borde de un solo lado (border-left/border-top). -->
+          <tr>
+            <td style="padding:16px 32px 0 32px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td class="callout" bgcolor="#ece9e2" style="background-color:#ece9e2;border-radius:8px;padding:11px 15px;font-family:'IBM Plex Mono','Courier New',Courier,monospace;font-size:14px;color:#17191c;">{{DESTACADO}}</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- CTA canónico: fondo var(--cyan). Texto blanco en claro; tinta oscura #06222b en dark (cyan brillante) -->
+          <tr>
+            <td align="left" style="padding:28px 32px 8px 32px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td class="cta" align="center" bgcolor="#009fc7" style="border-radius:10px;background-color:#009fc7;">
+                    <a href="{{CTA_URL}}" style="display:inline-block;padding:15px 32px;font-family:'Inter',Arial,Helvetica,sans-serif;font-size:16px;font-weight:700;color:#ffffff;text-decoration:none;border-radius:10px;">{{CTA_TEXTO}} →</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Firma -->
+          <tr>
+            <td style="padding:26px 32px 0 32px;">
+              <p class="txt-soft" style="margin:0;font-family:'Inter',Arial,Helvetica,sans-serif;font-size:15px;line-height:1.6;color:#17191c;">{{FIRMA_LINEA}}<br><span class="muted" style="color:#5e5a57;">{{FIRMA_EQUIPO}}</span></p>
+            </td>
+          </tr>
+
+          <!-- Footer con merge tags -->
+          <tr>
+            <td style="padding:32px 32px 40px 32px;">
+              <p class="footer" style="margin:0;font-family:'Inter',Arial,Helvetica,sans-serif;font-size:12px;line-height:1.6;color:#8a8783;">YiQi · El ERP más completo del mercado. <a href="https://yiqi.com.ar" style="color:#8a8783;text-decoration:underline;">yiqi.com.ar</a><br>Recibes este correo porque eres parte de la comunidad YiQi.<br><a href="*|UNSUB|*" style="color:#8a8783;text-decoration:underline;">Cancelar suscripción</a><br><br>*|REWARDS|*</p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

@@ -547,6 +547,12 @@ El botón hamburguesa (`.mobile-btn`) va **a la derecha** del topbar (`.topbar-r
 .btn-secondary { background: var(--bg-elev-2);   color: var(--text); }
 .btn-ghost     { background: var(--bg-elev-2);   color: var(--muted); }
 .btn-danger    { background: var(--red-soft);     color: var(--red); }
+
+/* Tamaños y ancho */
+.btn-sm   { padding: 7px 12px;  font-size: 12px; }
+.btn-lg   { padding: 13px 20px; font-size: 14px; }
+.btn-xl   { padding: 16px 32px; font-size: 15px; }
+.btn-full { width: 100%; justify-content: center; }
 ```
 
 ### Badges / Tags / Pills — sin borde
