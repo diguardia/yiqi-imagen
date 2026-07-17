@@ -27,7 +27,7 @@
     background:var(--cyan-soft); color:var(--cyan); font:600 11px var(--mono); letter-spacing:.06em; }
   .sc-h1 { font:800 38px/1.04 var(--sans); letter-spacing:-.02em; margin:16px 0 12px; }
   .sc-sub { color:var(--muted); font:400 13.5px/1.55 var(--sans); max-width:44ch; margin:0 0 16px; }
-  .sc-code { background:var(--bg-elev-2); border:1px solid var(--line); border-radius:var(--radius); padding:12px 14px;
+  .sc-code { background:var(--bg-elev-2); border-radius:var(--radius); padding:12px 14px;
     font:500 11.5px/1.6 var(--mono); color:var(--muted); overflow-x:auto; margin-bottom:16px; }
   .sc-code .k{color:var(--cyan)} .sc-code .s{color:var(--green)} .sc-code .c{color:var(--muted-2)}
   .sc-cta { display:flex; gap:12px; flex-wrap:wrap; }
@@ -36,7 +36,7 @@
   /* Grilla masonry de mockups */
   .sc-grid { columns:1; }
   .sc-card { break-inside:avoid; margin:0 0 16px; background:var(--bg-elev); border-radius:var(--radius-lg);
-    box-shadow:0 0 0 1px var(--line); padding:15px 16px; }
+    box-shadow:var(--shadow-sm); padding:15px 16px; }
   .sc-card-h { display:flex; align-items:center; justify-content:space-between; margin-bottom:4px; }
   .sc-card-title { font:700 15px var(--sans); }
   .sc-card-sub { color:var(--muted); font:400 12px/1.45 var(--sans); margin:0 0 12px; }
@@ -380,6 +380,7 @@
     <span class="sc-drawer-label">Secciones</span>
     <button class="sc-drawer-link" data-tab="tab-primitivos"><i class="ph ph-cube"></i> Primitivos</button>
     <button class="sc-drawer-link" data-tab="tab-mockups"><i class="ph ph-squares-four"></i> Mockups</button>
+    <button class="sc-drawer-link" data-tab="tab-analytics"><i class="ph ph-gauge"></i> Analytics Pro</button>
     <button class="sc-drawer-link" data-tab="tab-graficos"><i class="ph ph-chart-line"></i> Gráficos</button>
     <button class="sc-drawer-link" data-tab="tab-galeria"><i class="ph ph-chart-donut"></i> Galería</button>
     <button class="sc-drawer-link" data-tab="tab-tablas"><i class="ph ph-table"></i> Tablas</button>
@@ -442,6 +443,7 @@
     <div class="sc-tabs-inner">
     <button class="sc-tab" role="tab" id="sctab-primitivos" aria-controls="tab-primitivos" data-target="tab-primitivos" aria-selected="false"><i class="ph ph-cube"></i> Primitivos</button>
     <button class="sc-tab" role="tab" id="sctab-mockups" aria-controls="tab-mockups" data-target="tab-mockups" aria-selected="true"><i class="ph ph-squares-four"></i> Mockups</button>
+    <button class="sc-tab" role="tab" id="sctab-analytics" aria-controls="tab-analytics" data-target="tab-analytics" aria-selected="false"><i class="ph ph-gauge"></i> Analytics Pro</button>
     <button class="sc-tab" role="tab" id="sctab-graficos" aria-controls="tab-graficos" data-target="tab-graficos" aria-selected="false"><i class="ph ph-chart-line"></i> Gráficos</button>
     <button class="sc-tab" role="tab" id="sctab-galeria" aria-controls="tab-galeria" data-target="tab-galeria" aria-selected="false"><i class="ph ph-chart-donut"></i> Galería</button>
     <button class="sc-tab" role="tab" id="sctab-tablas" aria-controls="tab-tablas" data-target="tab-tablas" aria-selected="false"><i class="ph ph-table"></i> Tablas</button>
@@ -449,6 +451,179 @@
     </div>
   </div>
   <div class="sc-carousel-track" id="scTrack">
+  <div class="sc-panel" id="tab-analytics" role="tabpanel" aria-labelledby="sctab-analytics">
+    <style>
+      #tab-analytics .ap-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px; align-items:start; max-width:1180px; margin:0 auto; }
+      #tab-analytics .sc-card{ margin:0; }
+      #tab-analytics .ap-note{ font:600 9px var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--amber); background:var(--amber-soft); padding:2px 7px; border-radius:var(--radius-pill); }
+      /* branch-list (aún no promovido al DS) */
+      #tab-analytics .branch-list{ display:grid; gap:12px; }
+      #tab-analytics .branch-row{ display:grid; grid-template-columns:1fr auto; grid-template-areas:"meta rev" "bar bar"; gap:4px 10px; align-items:center; }
+      #tab-analytics .branch-meta{ grid-area:meta; min-width:0; }
+      #tab-analytics .branch-name{ font:600 12px var(--sans); color:var(--text); }
+      #tab-analytics .branch-detail{ font:400 11px var(--mono); color:var(--muted-2); }
+      #tab-analytics .branch-revenue{ grid-area:rev; font:600 11px var(--mono); color:var(--text); font-variant-numeric:tabular-nums; }
+      #tab-analytics .branch-bar{ grid-area:bar; height:8px; border-radius:var(--radius-pill); background:var(--bg-soft); overflow:hidden; }
+      #tab-analytics .branch-fill{ height:100%; background:var(--cyan); border-radius:var(--radius-pill); }
+      /* cph — headline de facturación (aún no promovido al DS) */
+      #tab-analytics .ap-cph-kicker{ font:700 9px var(--mono); letter-spacing:.14em; text-transform:uppercase; color:var(--muted-2); }
+      #tab-analytics .ap-cph-val{ font:800 34px var(--display,var(--sans)); letter-spacing:-.02em; color:var(--text); line-height:1.05; margin-top:6px; }
+      /* reloj de sesión */
+      #tab-analytics .ap-analog{ width:96px; height:96px; flex-shrink:0; }
+      #tab-analytics .ap-analog .ap-tick-min{ stroke:var(--muted-2); stroke-width:1; opacity:.5; }
+      #tab-analytics .ap-analog .ap-tick-hr{ stroke:var(--text); stroke-width:2.4; stroke-linecap:round; }
+      #tab-analytics .ap-analog .ap-hand{ stroke:var(--text); stroke-linecap:round; transform-origin:100px 100px; }
+      #tab-analytics .ap-analog .ap-hour{ stroke-width:6.5; } #tab-analytics .ap-analog .ap-min{ stroke-width:4.5; }
+      #tab-analytics .ap-analog .ap-sec-g{ transform-origin:100px 100px; transition:transform .18s cubic-bezier(.34,1.56,.64,1); }
+      #tab-analytics .ap-analog .ap-sec{ stroke:var(--amber); stroke-width:2; stroke-linecap:round; }
+      #tab-analytics .ap-analog .ap-sec-dot{ fill:var(--amber); } #tab-analytics .ap-analog .ap-cap{ fill:var(--text); } #tab-analytics .ap-analog .ap-cap-dot{ fill:var(--amber); }
+      #tab-analytics .ap-clk-tog{ display:inline-flex; gap:1px; padding:2px; border-radius:var(--radius-pill); background:var(--bg-elev-2); }
+      #tab-analytics .ap-clk-tog button{ width:26px; height:24px; display:grid; place-items:center; border:none; border-radius:var(--radius-pill); background:transparent; color:var(--muted-2); cursor:pointer; transition:all .18s ease; }
+      #tab-analytics .ap-clk-tog button i{ font-size:13px; }
+      #tab-analytics .ap-clk-tog button.active{ background:var(--cyan-soft); color:var(--cyan); }
+    </style>
+    <section class="sc-section" style="margin-top:0">
+      <h2 class="sc-section-h">Analytics Pro</h2>
+      <p class="sc-section-sub">Los componentes que arman el panel gerencial · un ejemplo de cada uno, sin repetir · <strong>datos simulados</strong>.</p>
+      <div class="ap-grid">
+
+        <article class="sc-card">
+          <div class="sc-card-h"><span class="sc-card-title">KPI card</span></div>
+          <p class="sc-card-sub">Cifra neutra · color solo en el chip de delta.</p>
+          <div class="kpi-card" style="margin-top:6px">
+            <div class="kpi-label"><span class="metric-label">Facturación neta</span></div>
+            <div class="kpi-value">$126.749.743</div>
+            <div class="kpi-delta positive">Últimos 7 días</div>
+          </div>
+        </article>
+
+        <article class="sc-card">
+          <div class="sc-card-h"><span class="sc-card-title">Headline de facturación</span><span class="ap-note">pendiente DS</span></div>
+          <p class="sc-card-sub">Cifra grande del cockpit. Notas van a tooltip.</p>
+          <div style="margin-top:6px">
+            <div class="ap-cph-kicker">Facturación total del período <button type="button" class="kpi-help" aria-label="Detalle"><span aria-hidden="true">i</span><span class="kpi-help-pop" role="tooltip">Dato real del período seleccionado.</span></button></div>
+            <div class="ap-cph-val">$126.749.743</div>
+          </div>
+        </article>
+
+        <article class="sc-card">
+          <div class="sc-card-h"><span class="sc-card-title">Panel + header</span></div>
+          <div class="panel" style="margin-top:6px;padding:16px">
+            <div class="panel-header"><div><div class="panel-kicker">Productos</div><h3 style="margin:2px 0 0">Más vendidos</h3></div><span class="badge badge-muted">Top 5</span></div>
+          </div>
+        </article>
+
+        <article class="sc-card">
+          <div class="sc-card-h"><span class="sc-card-title">Tooltip de ayuda</span></div>
+          <p class="sc-card-sub">Ícono <code class="sc-mono">i</code> · leyenda al pasar el cursor.</p>
+          <div style="margin-top:8px;font:600 13px var(--sans);color:var(--text)">Margen bruto <button type="button" class="kpi-help" aria-label="Detalle"><span aria-hidden="true">i</span><span class="kpi-help-pop" role="tooltip">Calculado sobre ventas reales de YiQi.</span></button></div>
+        </article>
+
+        <article class="sc-card">
+          <div class="sc-card-h"><span class="sc-card-title">Chips de delta</span></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+            <span class="kpi-delta positive">↑ 12,4%</span>
+            <span class="kpi-delta negative">↓ 3,2%</span>
+            <span class="kpi-delta neutral">Sin cambios</span>
+          </div>
+        </article>
+
+        <article class="sc-card">
+          <div class="sc-card-h"><span class="sc-card-title">Tabla sortable</span></div>
+          <p class="sc-card-sub">Ordena por columna · numérico y texto.</p>
+          <div class="table-wrap"><table class="data-table table-sortable"><thead><tr><th>Producto</th><th class="num">Unidades</th><th class="num">Facturación</th></tr></thead><tbody>
+            <tr><td>CREMA -ACC</td><td class="num">29</td><td class="num">$195.300</td></tr>
+            <tr><td>MEDIA CLASSIC</td><td class="num">11</td><td class="num">$96.300</td></tr>
+            <tr><td>SALDO A FAVOR</td><td class="num">10</td><td class="num">$585.000</td></tr>
+          </tbody></table></div>
+        </article>
+
+        <article class="sc-card">
+          <div class="sc-card-h"><span class="sc-card-title">Semáforo operativo</span></div>
+          <ul class="signal-list" style="margin-top:6px">
+            <li><span class="signal signal-green"></span><div class="signal-body"><div class="signal-head"><strong>Facturación consolidada</strong><span class="signal-metric">$126,2 M</span></div><p>1241 pedidos procesados.</p></div></li>
+            <li><span class="signal signal-cyan"></span><div class="signal-body"><div class="signal-head"><strong>Franja de mayor actividad</strong><span class="signal-metric">38%</span></div><p>10-12 concentra el flujo.</p></div></li>
+          </ul>
+        </article>
+
+        <article class="sc-card">
+          <div class="sc-card-h"><span class="sc-card-title">Embudo operativo</span></div>
+          <div class="funnel" style="margin-top:6px">
+            <div><div class="funnel-step-top"><span class="funnel-step-name">Pedidos del período</span><span class="funnel-step-count">10.000</span></div><div class="funnel-track"><div class="funnel-fill" style="width:100%"></div></div></div>
+            <div><div class="funnel-step-top"><span class="funnel-step-name">Entregados</span><span class="funnel-step-count">9.991 · 100%</span></div><div class="funnel-track"><div class="funnel-fill" style="width:99.9%"></div></div></div>
+            <div><div class="funnel-step-top"><span class="funnel-step-name">A tiempo</span><span class="funnel-step-count">9.991 · 100%</span></div><div class="funnel-track"><div class="funnel-fill is-end" style="width:99.9%"></div></div></div>
+          </div>
+        </article>
+
+        <article class="sc-card">
+          <div class="sc-card-h"><span class="sc-card-title">Barras de sucursal</span><span class="ap-note">pendiente DS</span></div>
+          <div class="branch-list" style="margin-top:6px">
+            <div class="branch-row"><div class="branch-meta"><div class="branch-name">FW2026</div><div class="branch-detail">312 pedidos</div></div><div class="branch-revenue">$64.430.750</div><div class="branch-bar"><div class="branch-fill" style="width:100%"></div></div></div>
+            <div class="branch-row"><div class="branch-meta"><div class="branch-name">FW2025</div><div class="branch-detail">96 pedidos</div></div><div class="branch-revenue">$14.657.950</div><div class="branch-bar"><div class="branch-fill" style="width:23%"></div></div></div>
+            <div class="branch-row"><div class="branch-meta"><div class="branch-name">SS2026</div><div class="branch-detail">41 pedidos</div></div><div class="branch-revenue">$6.884.500</div><div class="branch-bar"><div class="branch-fill" style="width:11%"></div></div></div>
+          </div>
+        </article>
+
+        <article class="sc-card">
+          <div class="sc-card-h"><span class="sc-card-title">Watchlist</span></div>
+          <div class="watchlist-grid watchlist-grid-compact" style="margin-top:6px">
+            <div class="watchlist-card"><div class="watchlist-title">Cobranzas vencidas</div><div class="watchlist-metric">$2,4 M</div></div>
+          </div>
+        </article>
+
+        <article class="sc-card">
+          <div class="sc-card-h"><span class="sc-card-title">Filtro de período</span></div>
+          <div class="range-filter" role="group" aria-label="Período" style="margin-top:8px">
+            <button class="range-btn is-active" type="button">Últ. 7 días</button>
+            <button class="range-btn" type="button">Mes en curso</button>
+            <button class="range-btn" type="button">Últ. 30 días</button>
+          </div>
+        </article>
+
+        <article class="sc-card">
+          <div class="sc-card-h"><span class="sc-card-title">Toggle de tipo de gráfico</span></div>
+          <div class="spark-toggle" aria-label="Tipo de gráfico" style="margin-top:8px">
+            <button type="button" class="spark-opt" aria-label="Línea"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="3 17 9 11 13 15 21 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button type="button" class="spark-opt is-active" aria-label="Barras"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="4" height="10" fill="currentColor"/><rect x="10" y="5" width="4" height="15" fill="currentColor"/><rect x="16" y="13" width="4" height="7" fill="currentColor"/></svg></button>
+          </div>
+        </article>
+
+        <article class="sc-card">
+          <div class="sc-card-h"><span class="sc-card-title">Switch de tema</span><a class="ds-xref" href="../yiqi-design-system.html#theme-switch"><i class="ph ph-anchor-simple"></i> Ver fuente</a></div>
+          <div class="sb-theme-switch" role="group" aria-label="Tema de color" style="max-width:180px;margin-top:8px">
+            <button class="theme-opt" type="button" data-val="dark" aria-label="Tema oscuro"><svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg></button>
+            <button class="theme-opt" type="button" data-val="system" aria-label="Tema del sistema"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></button>
+            <button class="theme-opt" type="button" data-val="light" aria-label="Tema claro"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2"/></svg></button>
+          </div>
+        </article>
+
+        <article class="sc-card" id="apSession">
+          <div class="sc-card-h"><span class="sc-card-title">Reloj de sesión</span></div>
+          <div style="display:flex;justify-content:flex-end"><div class="ap-clk-tog" role="group" aria-label="Tipo de reloj"><button type="button" data-clk="analog" class="active" aria-label="Analógico"><i class="ph ph-clock"></i></button><button type="button" data-clk="digital" aria-label="Digital"><i class="ph ph-watch"></i></button></div></div>
+          <div class="ap-clk-view" data-view="analog" style="display:flex;align-items:center;gap:16px;margin-top:10px">
+            <svg class="ap-analog" viewBox="0 0 200 200" role="img" aria-label="Reloj"><g id="apTicks"></g><line class="ap-hand ap-hour" id="apHour" x1="100" y1="112" x2="100" y2="60"></line><line class="ap-hand ap-min" id="apMin" x1="100" y1="115" x2="100" y2="42"></line><g class="ap-sec-g" id="apSecG"><line class="ap-sec" x1="100" y1="120" x2="100" y2="46"></line><circle class="ap-sec-dot" cx="100" cy="58" r="4.5"></circle></g><circle class="ap-cap" cx="100" cy="100" r="4.6"></circle><circle class="ap-cap-dot" cx="100" cy="100" r="1.8"></circle></svg>
+            <div style="min-width:0"><div style="font:800 20px var(--display,var(--sans));letter-spacing:-.02em;color:var(--text);line-height:1.1" id="apDayA">—</div><div class="sc-muted" style="margin-top:4px;font:400 12px var(--sans)" id="apDateA">—</div></div>
+          </div>
+          <div class="ap-clk-view" data-view="digital" style="margin-top:10px" hidden>
+            <div style="font:800 34px var(--display,var(--sans));letter-spacing:-.01em;color:var(--text)" id="apClock">--:--</div>
+            <div class="sc-muted" style="margin-top:4px;font:400 12px var(--sans)" id="apDateD">—</div>
+          </div>
+        </article>
+
+        <article class="sc-card">
+          <div class="sc-card-h"><span class="sc-card-title">Sidebar de app</span><a class="ds-xref" href="../yiqi-design-system.html#sidebar-collapse"><i class="ph ph-anchor-simple"></i> Ver fuente</a></div>
+          <div class="nav" style="margin-top:6px"><span class="nav-lbl">Visión general</span><a class="nav-link" style="text-decoration:none"><span class="n-ico"><i class="ph ph-house"></i></span>Resumen</a><div class="nav-div"></div><span class="nav-lbl">Módulos</span><a class="nav-link is-active" style="text-decoration:none"><span class="n-ico"><i class="ph ph-chart-line-up"></i></span>Ventas</a><a class="nav-link" style="text-decoration:none"><span class="n-ico"><i class="ph ph-activity"></i></span>Operación</a></div>
+        </article>
+
+        <article class="sc-card">
+          <div class="sc-card-h"><span class="sc-card-title">Gráficos y modal</span></div>
+          <p class="sc-card-sub">Donut, barras y línea con Chart.js viven en el tab <strong>Gráficos</strong> — no se repiten acá.</p>
+          <button type="button" class="sc-chip" onclick="document.getElementById('sctab-graficos').click()" style="margin-top:8px">Ir a Gráficos <i class="ph ph-arrow-right"></i></button>
+        </article>
+
+      </div>
+    </section>
+  </div>
   <div class="sc-panel is-active" id="tab-mockups" role="tabpanel" aria-labelledby="sctab-mockups">
   <!-- GRILLA DE MOCKUPS -->
   <section class="sc-grid">
@@ -2395,6 +2570,44 @@ window.__buildGallery=function(){var p=document.getElementById("tab-galeria");if
   });
   var ysw = tr.querySelector('.yqsw');
   if(ysw){ ysw.insertAdjacentElement('afterend', b); } else { tr.appendChild(b); }
+})();
+</script>
+<script>
+/* Reloj de sesión — sección Analytics Pro (IDs propios) */
+(function(){
+  var card=document.getElementById('apSession'); if(!card) return;
+  var c=document.getElementById('apClock'), dD=document.getElementById('apDateD');
+  var dayA=document.getElementById('apDayA'), dateA=document.getElementById('apDateA');
+  var H=document.getElementById('apHour'), M=document.getElementById('apMin'), Sg=document.getElementById('apSecG'), ticks=document.getElementById('apTicks');
+  var secDeg=null;
+  var dias=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  var meses=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  if(ticks && !ticks.childElementCount){
+    for(var i=0;i<60;i++){ var a=i*6*Math.PI/180, hr=(i%5===0), r1=hr?78:84, r2=90;
+      var ln=document.createElementNS('http://www.w3.org/2000/svg','line');
+      ln.setAttribute('x1',(100+r1*Math.sin(a)).toFixed(2)); ln.setAttribute('y1',(100-r1*Math.cos(a)).toFixed(2));
+      ln.setAttribute('x2',(100+r2*Math.sin(a)).toFixed(2)); ln.setAttribute('y2',(100-r2*Math.cos(a)).toFixed(2));
+      ln.setAttribute('class', hr?'ap-tick-hr':'ap-tick-min'); ticks.appendChild(ln); }
+  }
+  function p2(n){return (n<10?'0':'')+n;}
+  function tick(){ var n=new Date(), s=n.getSeconds(), m=n.getMinutes(), hh=n.getHours();
+    var dia=dias[n.getDay()], fecha=n.getDate()+' de '+meses[n.getMonth()];
+    if(c) c.textContent=p2(hh)+':'+p2(m);
+    if(dD) dD.textContent=dia.toLowerCase()+', '+fecha;
+    if(dayA) dayA.textContent=dia;
+    if(dateA) dateA.textContent=fecha;
+    if(Sg){ var sd=s*6; if(secDeg===null){ secDeg=sd; } else { while(sd<secDeg) sd+=360; secDeg=sd; } Sg.style.transform='rotate('+secDeg+'deg)'; }
+    if(M) M.style.transform='rotate('+(m*6+s*0.1)+'deg)';
+    if(H) H.style.transform='rotate('+((hh%12)*30+m*0.5)+'deg)';
+  }
+  tick(); setInterval(tick, 1000);
+  card.querySelectorAll('.ap-clk-tog button').forEach(function(b){
+    b.addEventListener('click', function(){
+      var mode=b.dataset.clk;
+      card.querySelectorAll('.ap-clk-tog button').forEach(function(x){ x.classList.toggle('active', x===b); });
+      card.querySelectorAll('.ap-clk-view').forEach(function(v){ v.hidden=(v.dataset.view!==mode); });
+    });
+  });
 })();
 </script>
 </body>
