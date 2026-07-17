@@ -129,8 +129,8 @@
   .ps-opt{ padding:4px 11px; border-radius:var(--radius-pill); font:600 11px var(--sans); color:var(--muted-2); text-decoration:none; white-space:nowrap; transition:background .18s,color .18s; }
   .ps-opt:hover{ color:var(--text); } .ps-opt.active{ background:var(--bg-soft); color:var(--cyan); }
   .sc-chips{ display:inline-flex; gap:6px; }
-  .sc-chip{ padding:5px 11px; border-radius:var(--radius-pill); border:none; background:var(--bg-elev-2); box-shadow:0 0 0 1px var(--line); color:var(--muted); font:600 11px var(--sans); cursor:pointer; transition:color .15s,background .15s; }
-  .sc-chip:hover{ color:var(--text); } .sc-chip.active{ background:var(--cyan-soft); color:var(--cyan); box-shadow:0 0 0 1px var(--cyan-a28); }
+  .sc-chip{ padding:5px 11px; border-radius:var(--radius-pill); border:none; background:var(--bg-elev-2); color:var(--muted); font:600 11px var(--sans); cursor:pointer; transition:color .15s,background .15s; }
+  .sc-chip:hover{ color:var(--text); } .sc-chip.active{ background:var(--cyan-soft); color:var(--cyan); }
   /* Timeline de implementación (línea conectora canónica) */
   .sc-tl{ display:grid; grid-template-columns:repeat(4,1fr); position:relative; }
   .sc-tl-step{ display:flex; flex-direction:column; align-items:center; text-align:center; position:relative; padding:0 12px; }
@@ -178,10 +178,10 @@
   #tab-mockups > .sc-grid > .sc-card, #tab-graficos .sc-chart-grid > .sc-card, #tab-tablas .sc-tbl-grid > .sc-card, #tab-primitivos .pr-card{
     flex:0 0 var(--cw); max-width:var(--cw); margin:0; scroll-snap-align:center; }
   /* Iconos: misma posicion (card centrada), galeria con scroll interno */
-  #tab-iconos{ --cw:720px; }
+  #tab-iconos{ --cw:780px; }
   #tab-iconos.is-active{ display:flex; justify-content:center; overflow:hidden; padding:24px; }
   #tab-iconos .sc-section{ width:var(--cw); max-width:100%; height:100%; margin:0; display:flex; flex-direction:column;
-    background:var(--bg-elev); border-radius:var(--radius-lg); box-shadow:0 0 0 1px var(--line); padding:18px; overflow:hidden; }
+    background:var(--bg-elev); border-radius:var(--radius-lg); box-shadow:var(--shadow-sm); padding:18px; overflow:hidden; }
   #tab-iconos .sc-section-h, #tab-iconos .sc-section-sub{ display:none; }
   #tab-iconos .ic-grid{ flex:1; min-height:0; overflow-y:auto; }
   /* Navegacion del carrusel */
@@ -453,7 +453,8 @@
   <div class="sc-carousel-track" id="scTrack">
   <div class="sc-panel" id="tab-analytics" role="tabpanel" aria-labelledby="sctab-analytics">
     <style>
-      #tab-analytics .ap-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px; align-items:start; max-width:1180px; margin:0 auto; }
+      #tab-analytics .sc-section{ max-width:780px; margin:0 auto; }
+      #tab-analytics .ap-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px; align-items:start; }
       #tab-analytics .sc-card{ margin:0; }
       #tab-analytics .ap-note{ font:600 9px var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--amber); background:var(--amber-soft); padding:2px 7px; border-radius:var(--radius-pill); }
       /* branch-list (aún no promovido al DS) */
@@ -492,7 +493,7 @@
           <p class="sc-card-sub">Cifra neutra · color solo en el chip de delta.</p>
           <div class="kpi-card" style="margin-top:6px">
             <div class="kpi-label"><span class="metric-label">Facturación neta</span></div>
-            <div class="kpi-value">$126.749.743</div>
+            <div class="kpi-value"><span data-apcount="4850000" data-apprefix="$">$4.850.000</span></div>
             <div class="kpi-delta positive">Últimos 7 días</div>
           </div>
         </article>
@@ -501,8 +502,8 @@
           <div class="sc-card-h"><span class="sc-card-title">Headline de facturación</span><span class="ap-note">pendiente DS</span></div>
           <p class="sc-card-sub">Cifra grande del cockpit. Notas van a tooltip.</p>
           <div style="margin-top:6px">
-            <div class="ap-cph-kicker">Facturación total del período <button type="button" class="kpi-help" aria-label="Detalle"><span aria-hidden="true">i</span><span class="kpi-help-pop" role="tooltip">Dato real del período seleccionado.</span></button></div>
-            <div class="ap-cph-val">$126.749.743</div>
+            <div class="ap-cph-kicker">Facturación total del período <button type="button" class="kpi-help" aria-label="Detalle"><span aria-hidden="true">i</span><span class="kpi-help-pop" role="tooltip">Dato del período seleccionado · demo simulada.</span></button></div>
+            <div class="ap-cph-val"><span data-apcount="12300000" data-apprefix="$">$12.300.000</span></div>
           </div>
         </article>
 
@@ -532,17 +533,17 @@
           <div class="sc-card-h"><span class="sc-card-title">Tabla sortable</span></div>
           <p class="sc-card-sub">Ordena por columna · numérico y texto.</p>
           <div class="table-wrap"><table class="data-table table-sortable"><thead><tr><th>Producto</th><th class="num">Unidades</th><th class="num">Facturación</th></tr></thead><tbody>
-            <tr><td>CREMA -ACC</td><td class="num">29</td><td class="num">$195.300</td></tr>
-            <tr><td>MEDIA CLASSIC</td><td class="num">11</td><td class="num">$96.300</td></tr>
-            <tr><td>SALDO A FAVOR</td><td class="num">10</td><td class="num">$585.000</td></tr>
+            <tr><td>Producto Alfa</td><td class="num">42</td><td class="num">$520.000</td></tr>
+            <tr><td>Producto Beta</td><td class="num">28</td><td class="num">$310.000</td></tr>
+            <tr><td>Producto Gamma</td><td class="num">15</td><td class="num">$180.000</td></tr>
           </tbody></table></div>
         </article>
 
         <article class="sc-card">
           <div class="sc-card-h"><span class="sc-card-title">Semáforo operativo</span></div>
           <ul class="signal-list" style="margin-top:6px">
-            <li><span class="signal signal-green"></span><div class="signal-body"><div class="signal-head"><strong>Facturación consolidada</strong><span class="signal-metric">$126,2 M</span></div><p>1241 pedidos procesados.</p></div></li>
-            <li><span class="signal signal-cyan"></span><div class="signal-body"><div class="signal-head"><strong>Franja de mayor actividad</strong><span class="signal-metric">38%</span></div><p>10-12 concentra el flujo.</p></div></li>
+            <li><span class="signal signal-green"></span><div class="signal-body"><div class="signal-head"><strong>Facturación consolidada</strong><span class="signal-metric">$8,4 M</span></div><p>1.020 pedidos procesados.</p></div></li>
+            <li><span class="signal signal-cyan"></span><div class="signal-body"><div class="signal-head"><strong>Franja de mayor actividad</strong><span class="signal-metric">42%</span></div><p>10-12 concentra el flujo.</p></div></li>
           </ul>
         </article>
 
@@ -558,16 +559,16 @@
         <article class="sc-card">
           <div class="sc-card-h"><span class="sc-card-title">Barras de sucursal</span><span class="ap-note">pendiente DS</span></div>
           <div class="branch-list" style="margin-top:6px">
-            <div class="branch-row"><div class="branch-meta"><div class="branch-name">FW2026</div><div class="branch-detail">312 pedidos</div></div><div class="branch-revenue">$64.430.750</div><div class="branch-bar"><div class="branch-fill" style="width:100%"></div></div></div>
-            <div class="branch-row"><div class="branch-meta"><div class="branch-name">FW2025</div><div class="branch-detail">96 pedidos</div></div><div class="branch-revenue">$14.657.950</div><div class="branch-bar"><div class="branch-fill" style="width:23%"></div></div></div>
-            <div class="branch-row"><div class="branch-meta"><div class="branch-name">SS2026</div><div class="branch-detail">41 pedidos</div></div><div class="branch-revenue">$6.884.500</div><div class="branch-bar"><div class="branch-fill" style="width:11%"></div></div></div>
+            <div class="branch-row"><div class="branch-meta"><div class="branch-name">Sucursal Centro</div><div class="branch-detail">210 pedidos</div></div><div class="branch-revenue">$3.200.000</div><div class="branch-bar"><div class="branch-fill" style="width:100%"></div></div></div>
+            <div class="branch-row"><div class="branch-meta"><div class="branch-name">Sucursal Norte</div><div class="branch-detail">124 pedidos</div></div><div class="branch-revenue">$1.850.000</div><div class="branch-bar"><div class="branch-fill" style="width:58%"></div></div></div>
+            <div class="branch-row"><div class="branch-meta"><div class="branch-name">Sucursal Sur</div><div class="branch-detail">61 pedidos</div></div><div class="branch-revenue">$920.000</div><div class="branch-bar"><div class="branch-fill" style="width:29%"></div></div></div>
           </div>
         </article>
 
         <article class="sc-card">
           <div class="sc-card-h"><span class="sc-card-title">Watchlist</span></div>
           <div class="watchlist-grid watchlist-grid-compact" style="margin-top:6px">
-            <div class="watchlist-card"><div class="watchlist-title">Cobranzas vencidas</div><div class="watchlist-metric">$2,4 M</div></div>
+            <div class="watchlist-card"><div class="watchlist-title">Cobranzas vencidas</div><div class="watchlist-metric"><span data-apcount="1.8" data-apdec="1" data-apprefix="$" data-apsuffix=" M">$1,8 M</span></div></div>
           </div>
         </article>
 
@@ -1087,7 +1088,7 @@
 </div>
 <div class="sc-panel" id="tab-galeria" role="tabpanel" aria-labelledby="sctab-galeria">
 <style id="gx-style">
-#tab-galeria .sc-section{ max-width:1180px; margin:0 auto; padding:28px clamp(20px,4vw,40px) 72px; }
+#tab-galeria .sc-section{ max-width:780px; margin:0 auto; padding:28px clamp(20px,4vw,40px) 72px; }
 #tab-galeria .sc-section-h{ white-space:nowrap; }
 #tab-galeria .sec-h{font:800 16px var(--display);letter-spacing:-.02em;margin:30px 0 4px;white-space:nowrap}
 #tab-galeria .sec-d{color:var(--muted);font-size:13px;margin:0 0 16px}
@@ -2608,6 +2609,31 @@ window.__buildGallery=function(){var p=document.getElementById("tab-galeria");if
       card.querySelectorAll('.ap-clk-view').forEach(function(v){ v.hidden=(v.dataset.view!==mode); });
     });
   });
+})();
+</script>
+<script>
+/* Count-in de cifras — sección Analytics Pro (se repite al entrar a la pestaña) */
+(function(){
+  var panel=document.getElementById('tab-analytics'); if(!panel) return;
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)');
+  function fmt(v,dec){ return new Intl.NumberFormat('es-AR',{minimumFractionDigits:dec,maximumFractionDigits:dec}).format(v); }
+  function countUp(el){
+    var target=parseFloat(el.dataset.apcount), dec=parseInt(el.dataset.apdec||'0',10),
+        pre=el.dataset.apprefix||'', suf=el.dataset.apsuffix||'';
+    if(!isFinite(target)) return;
+    if(reduce.matches){ el.textContent=pre+fmt(target,dec)+suf; return; }
+    var dur=900, t0=performance.now();
+    function step(now){ var p=Math.min(1,(now-t0)/dur), e=1-Math.pow(1-p,3);
+      el.textContent=pre+fmt(target*e,dec)+suf;
+      if(p<1) requestAnimationFrame(step); else el.textContent=pre+fmt(target,dec)+suf; }
+    requestAnimationFrame(step);
+  }
+  function run(){ panel.querySelectorAll('[data-apcount]').forEach(countUp); }
+  // al activarse la pestaña
+  new MutationObserver(function(){ if(panel.classList.contains('is-active')) run(); })
+    .observe(panel,{attributes:true,attributeFilter:['class']});
+  // al cargar, si ya está activa
+  if(panel.classList.contains('is-active')) run();
 })();
 </script>
 </body>
