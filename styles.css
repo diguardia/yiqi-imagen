@@ -1592,22 +1592,6 @@ html[data-theme="light"] .skeleton-line {
 .theme-opt:hover  { color: var(--text); }
 .theme-opt.active { background: var(--cyan-soft); color: var(--cyan); }
 
-/* ── 39. MÓDULO ACCORDION BORDERLESS (v1.2.5) ────────────── */
-.module-demo {
-  border: none;
-  border-radius: var(--radius-md);
-  background: var(--bg-elev-2);
-  overflow: hidden;
-}
-
-.module-demo.open {
-  background: var(--cyan-soft);
-}
-
-/* Estado open: texto usa text-cyan-muted, no cyan puro */
-.module-demo.open .module-title-text { color: var(--text-cyan-muted); }
-.module-demo.open .module-icon       { color: var(--text-cyan-muted); }
-
 /* ── 40. MOD-CARD CON ZONAS SEPARADAS (v1.2.5) ───────────── */
 .mod-card        { border: none; border-radius: var(--radius-lg); background: var(--bg-elev-2); overflow: hidden; }
 .mod-card:hover  { box-shadow: 0 0 0 1px rgba(0, 204, 255, 0.14) inset; }
@@ -2103,7 +2087,8 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
 .topbar-l{ display:flex; align-items:center; gap:10px; min-width:0; }
 .topbar-r{ display:flex; align-items:center; gap:8px; min-width:0; margin-left:auto; }
 
-.t-pill{ display:inline-flex; align-items:center; height:30px; padding:0 12px; border:none; border-radius:var(--radius-pill); background:var(--bg-elev-2); color:var(--muted); font:700 10px var(--mono); letter-spacing:.12em; text-transform:uppercase; white-space:nowrap; }
+/* v1.2.7.3: borderless — sin fondo ni cápsula, tracking canónico .15em */
+.t-pill{ display:inline-flex; align-items:center; height:30px; border:none; background:none; color:var(--muted); font:700 10px var(--mono); letter-spacing:.15em; text-transform:uppercase; white-space:nowrap; }
 
 .btn-refresh{ height:32px; padding:0 12px; display:inline-flex; align-items:center; gap:6px; border:none; border-radius:var(--radius-pill); background:var(--cyan-soft-2); color:var(--cyan); font:600 12px var(--sans); cursor:pointer; transition:all .18s ease; white-space:nowrap; }
 .btn-refresh:hover{ background:var(--cyan-soft); }
@@ -2112,7 +2097,8 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
 .btn-refresh.is-loading .rico{ animation: ricospin .7s linear infinite; }
 @keyframes ricospin{ to{ transform:rotate(360deg); } }
 
-.btn-exit{ height:32px; padding:0 14px; display:inline-flex; align-items:center; border:none; border-radius:var(--radius-pill); background:var(--bg-elev-2); color:var(--muted); font:600 12px var(--sans); cursor:pointer; transition:all .18s ease; }
+/* v1.2.7.3: borderless — texto, sin pill de fondo */
+.btn-exit{ height:32px; padding:0 4px; display:inline-flex; align-items:center; border:none; background:none; color:var(--muted); font:500 11px var(--sans); cursor:pointer; transition:all .18s ease; }
 .btn-exit:hover{ color:var(--red); }
 
 /* ── Botón de cerrar / icon button (borderless, canónico) ── */
@@ -2151,10 +2137,11 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
 .tooltip-box{ padding:6px 10px; border:none; background:var(--bg-elev-2); border-radius:var(--radius-sm); font:500 11px var(--sans); color:var(--text); white-space:nowrap; }
 .tooltip-box--elev{ background:var(--bg-elev); }
 
-.nav-icon{ width:26px; height:26px; border-radius:var(--radius-xs); background:var(--bg-soft); color:var(--muted); display:grid; place-items:center; transition:background .15s, color .15s; }
+/* v1.2.7.3: icono suelto — sin caja de fondo; el estado va por color */
+.nav-icon{ width:26px; height:26px; color:var(--muted); display:grid; place-items:center; transition:color .15s; }
 .nav-icon svg{ width:14px; height:14px; }
 .nav-item:hover .nav-icon{ color:var(--text); }
-.nav-item.active .nav-icon, .nav-item.is-active .nav-icon{ background:var(--cyan-soft-2); color:var(--cyan); }
+.nav-item.active .nav-icon, .nav-item.is-active .nav-icon{ color:var(--cyan); }
 
 .sb-footer{ margin-top:auto; padding-top:14px; border-top:1px solid var(--line); }
 .sb-theme-switch{ display:flex; width:100%; gap:2px; padding:3px; border:none; background:var(--bg-elev-2); border-radius:var(--radius-pill); margin-bottom:10px; }  /* borderless (§3) */

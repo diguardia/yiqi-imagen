@@ -164,28 +164,6 @@ button{font:inherit;cursor:pointer}
 }
 .nav-item-demo span { font: 600 14px var(--sans); }
 
-/* Module item */
-.module-head-demo {
-  display: flex; align-items: center; gap: 10px; padding: 12px 14px;
-}
-.module-icon { width: 28px; height: 28px; border-radius: 10px; background: var(--cyan-soft); display: grid; place-items: center; color: var(--cyan); flex-shrink: 0; }
-.module-icon svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.module-title-text { font: 600 13px var(--sans); }
-.module-meta-text { font: 400 11px var(--sans); color: var(--muted); margin-top: 2px; }
-.module-count-badge { padding: 3px 7px; border-radius: var(--radius-pill); background: var(--bg-soft); border: none; font: 700 10px var(--mono); color: var(--muted); margin-left: auto; }
-.chev { color: var(--muted-2); transition: transform .18s ease; margin-left: 4px; font-size: 14px; }
-.module-body-demo { padding: 0 12px 12px 56px; }
-.sub-item-demo {
-  display: flex; align-items: center; gap: 8px;
-  padding: 9px 10px; border-radius: var(--radius-sm);
-  color: var(--muted); font: 500 13px var(--sans); cursor: pointer;
-  transition: all .15s ease;
-}
-.sub-item-demo:hover { background: var(--bg-soft); color: var(--text); }
-.sub-item-demo.active { background: var(--cyan-soft); color: var(--cyan); }
-.sub-item-demo svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
-.sub-count { margin-left: auto; padding: 2px 6px; border-radius: var(--radius-pill); border: none; background: var(--bg-soft); font: 700 10px var(--mono); color: var(--muted); }
-
 /* Table */
 .table-demo { width: 100%; border-collapse: collapse; }
 .table-demo th {
