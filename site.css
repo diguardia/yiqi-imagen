@@ -1,3 +1,5 @@
+/* Tokens del chrome del catálogo. El resto los provee el DS (styles.css),
+   que se carga después y ya los pisaba: la copia local era código muerto. */
 /* ============================================================
    YiQi Site CSS — estilos compartidos de landing pages
    Topbar, nav, mobile menu, footer
@@ -19,144 +21,8 @@
 
 /* Token global — Greycliff primero, fallbacks intactos */
 :root {
-  /* ════════════════════════════════════════════════════════════
-     YiQi Design System — TOKENS CANÓNICOS (fuente única)
-     No redefinir :root en páginas; consumir estos tokens vía var().
-     ════════════════════════════════════════════════════════════ */
-  /* Backgrounds */
-  --bg:          #0a0a0b;
-  --bg-elev:     #0f1013;
-  --bg-elev-2:   #14161b;
-  --bg-soft:     #181b21;
-  /* Bordes */
-  --line:        rgba(255,255,255,.08);
-  --line-strong: rgba(255,255,255,.14);
-  /* Texto */
-  --text:        #f3f5f7;
-  --muted:       #908e8e;
-  --muted-2:     #7d7c82;
-  /* Marca */
-  --cyan:        #00ccff;
-  --accent-rgb: 0,204,255;
-  --kpi-num: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
-  --page-px:   28px;
-  --cyan-soft:   rgba(0,204,255,.10);
-  --cyan-soft-2: rgba(0,204,255,.16);
-  --cyan-label:  rgba(0,204,255,.52);
-  --text-cyan-muted: rgba(0,195,240,.62);
-  --gridline:    rgba(0,204,255,.16);
-  /* Semánticos */
-  --green:  #15d49c;  --green-soft:  rgba(21,212,156,.10);
-  --amber:  #ffb020;  --amber-soft:  rgba(255,176,32,.10);
-  --red:    #ff637d;  --red-soft:    rgba(255,99,125,.10);
-  --blue:   #7ab7ff;  --blue-soft:   rgba(122,183,255,.10);
-  --warm:   #b5a090;  --warm-soft:   rgba(181,160,144,.10);
-  /* App brand (Marketplace) — uno por app, NO cyan */
-  --violet:  #8b5cf6;  --violet-soft:  rgba(139,92,246,.12);  --violet-soft-2:  rgba(139,92,246,.18);
-  --orange:  #ff8a3d;  --orange-soft:  rgba(255,138,61,.12);  --orange-soft-2:  rgba(255,138,61,.18);
-  --magenta: #ff5da2;  --magenta-soft: rgba(255,93,162,.12);  --magenta-soft-2: rgba(255,93,162,.18);
-  /* tints tokenizados (sync panel) */
-  --amber-a08: rgba(255, 176, 32, 0.08);
-  --amber-a12: rgba(255, 176, 32, 0.12);
-  --amber-a20: rgba(255, 176, 32, 0.20);
-  --amber-a25: rgba(255, 176, 32, 0.25);
-  --amber-a28: rgba(255, 176, 32, 0.28);
-  --cyan-a12: rgba(0, 204, 255, 0.12);
-  --cyan-a18: rgba(0, 204, 255, 0.18);
-  --cyan-a22: rgba(0,204,255,0.22);
-  --cyan-a24: rgba(0, 204, 255, 0.24);
-  --cyan-a25: rgba(0, 204, 255, 0.25);
-  --cyan-a28: rgba(0,204,255,0.28);
-  --cyan-a38: rgba(0, 204, 255, 0.38);
-  --green-a08: rgba(21, 212, 156, 0.08);
-  --green-a12: rgba(21, 212, 156, 0.12);
-  --green-a25: rgba(21, 212, 156, 0.25);
-  --green-a28: rgba(21, 212, 156, 0.28);
-  --red-a28: rgba(255, 99, 125, 0.28);
-  --red-a30: rgba(255, 99, 125, 0.30);
-  --cyan-chart-bar: rgba(0, 204, 255, 0.55);
-  --cyan-chart-line: rgba(0, 204, 255, 0.16);
-  /* Efectos — sombras navy/cyan suaves (no negro de desplazamiento) */
-  --glow:      0 0 0 3px var(--cyan-a22);
-  --shadow-sm: 0 1px 3px rgba(0,18,28,.30);
-  --shadow-md: 0 4px 14px rgba(0,20,30,.26);
-  --shadow-lg: 0 12px 40px rgba(0,26,40,.34), 0 2px 12px rgba(0,204,255,.06);
-  /* Tipografía */
-  --font-display: "Greycliff CF", "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
-  --display: var(--font-display);
-  --sans:    "Inter", ui-sans-serif, system-ui, sans-serif;
-  --mono:    "IBM Plex Mono", ui-monospace, monospace;
-  /* Layout */
-  --topbar-h:  56px;
-  --sidebar-w: 240px;
-  /* Radios */
-  --radius-xs:   6px;
-  --radius-sm:   10px;
-  --radius:      14px;
-  --radius-md:   16px;
-  --radius-lg:   18px;
-  --radius-xl:   24px;
-  --radius-pill: 999px;
-  --tr: 180ms ease;
-  /* Escala tipográfica */
-  --fs-section-hero: 24px;
-  --fs-panel-title:  14px;
-  --fs-module-title: 13px;
-  --fs-body:         13px;
-  --fs-meta:         12px;
-  --fs-caption:      11px;
-  --fs-placeholder-title: 30px;
 }
 html[data-theme="light"] {
-  --bg:          #eeece7;
-  --bg-elev:     #f6f4ef;
-  --bg-elev-2:   #ffffff;
-  --bg-soft:     #ece9e2;
-  --line:        rgba(0,0,0,.08);
-  --line-strong: rgba(0,0,0,.13);
-  --text:        #17191c;
-  --muted:       #5e5a57;
-  --muted-2:     #636875;
-  --cyan:        #009fc7;
-  --accent-rgb:  0,159,199;
-  --cyan-soft:   rgba(0,159,199,.10);
-  --cyan-soft-2: rgba(0,159,199,.14);
-  --cyan-label:  rgba(0,159,199,.58);
-  --text-cyan-muted: rgba(0,140,175,.58);
-  --gridline:    rgba(0,159,199,.18);
-  --green:  #0c9b6d;  --green-soft:  rgba(12,155,109,.10);
-  --amber:  #c78000;  --amber-soft:  rgba(199,128,0,.10);
-  --red:    #d4485e;  --red-soft:    rgba(212,72,94,.10);
-  --blue:   #347de6;  --blue-soft:   rgba(52,125,230,.10);
-  --warm:   #8b7260;  --warm-soft:   rgba(139,114,96,.10);
-  --violet:  #7c3aed;  --violet-soft:  rgba(124,58,237,.10);  --violet-soft-2:  rgba(124,58,237,.16);
-  --orange:  #e07628;  --orange-soft:  rgba(224,118,40,.10);  --orange-soft-2:  rgba(224,118,40,.16);
-  --magenta: #d6336c;  --magenta-soft: rgba(214,51,108,.10);  --magenta-soft-2: rgba(214,51,108,.16);
-  /* tints tokenizados (sync panel) */
-  --amber-a08: rgba(199, 128, 0, 0.08);
-  --amber-a12: rgba(199, 128, 0, 0.12);
-  --amber-a20: rgba(199, 128, 0, 0.20);
-  --amber-a25: rgba(199, 128, 0, 0.25);
-  --amber-a28: rgba(199, 128, 0, 0.28);
-  --cyan-a12: rgba(0, 159, 199, 0.12);
-  --cyan-a18: rgba(0, 159, 199, 0.18);
-  --cyan-a22: rgba(0, 159, 199, 0.22);
-  --cyan-a24: rgba(0, 159, 199, 0.24);
-  --cyan-a25: rgba(0, 159, 199, 0.25);
-  --cyan-a28: rgba(0, 159, 199, 0.28);
-  --cyan-a38: rgba(0, 159, 199, 0.38);
-  --green-a08: rgba(12, 155, 109, 0.08);
-  --green-a12: rgba(12, 155, 109, 0.12);
-  --green-a25: rgba(12, 155, 109, 0.25);
-  --green-a28: rgba(12, 155, 109, 0.28);
-  --red-a28: rgba(212, 72, 94, 0.28);
-  --red-a30: rgba(212, 72, 94, 0.30);
-  --cyan-chart-bar: rgba(0, 159, 199, 0.55);
-  --cyan-chart-line: rgba(0, 159, 199, 0.16);
-  --glow:      0 0 0 3px rgba(0,159,199,.22);
-  --shadow-sm: 0 1px 3px rgba(16,36,54,.06);
-  --shadow-md: 0 4px 14px rgba(16,36,54,.08);
-  --shadow-lg: 0 8px 24px rgba(0,80,110,.09), 0 1px 4px rgba(0,80,110,.05);
 }
 
 /* Jerarquías mayores: h1, h2 y display titles del DS — usan Greycliff por default.
@@ -257,14 +123,8 @@ html[data-theme="light"] .site-topbar {
   background: none; border: none;
   border-radius: var(--radius-pill, 999px); padding: 3px; gap: 1px; flex-shrink: 0;
 }
-.theme-opt {
-  width: 28px; height: 26px; border-radius: var(--radius-pill, 999px);
-  display: grid; place-items: center; font-size: 13px;
-  color: var(--muted-2); transition: all var(--tr, 180ms ease);
-  background: none; border: none; cursor: pointer;
-}
-.theme-opt:hover:not(.active) { color: var(--muted); }
-.theme-opt.active { background: var(--bg-elev-2); color: var(--text); }
+/* v1.2.7.3: .theme-opt lo define el DS (styles.css). No redefinir acá:
+   la copia local pisaba el estado activo con fondo gris en vez de cyan. */
 
 /* Hamburger */
 .mobile-menu-btn {

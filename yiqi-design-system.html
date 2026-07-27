@@ -376,6 +376,7 @@ body.preview-open .ds-layout { display: none !important; }
 <a class="ds-nav-item" href="#mb-reviews"><span class="ds-nav-num">45</span> Reseñas <span class="ds-nav-badge">NEW</span></a>
 <a class="ds-nav-item" href="#mb-homo"><span class="ds-nav-num">46</span> Homologación <span class="ds-nav-badge">NEW</span></a>
 <a class="ds-nav-item" href="#app-banners"><span class="ds-nav-num">47</span> Banners de apps <span class="ds-nav-badge">NEW</span></a>
+<a class="ds-nav-item" href="#theme-toggle"><span class="ds-nav-num">48</span> Toggle de tema <span class="ds-nav-badge">NEW</span></a>
 </div>
 <div class="ds-nav-section ds-nav-appearance">
 <span class="ds-nav-label">Apariencia</span>
@@ -3668,6 +3669,54 @@ ana · prov · inv · pos · pick · cons
 
 <span style="color:var(--muted-2)">// versión vertical:</span>
 &lt;app-banner app="ana" <span style="color:var(--cyan)">variant</span>=<span style="color:var(--green)">"vertical"</span>&gt;&lt;/app-banner&gt;</pre>
+</div>
+</div>
+
+<section class="ds-section" id="theme-toggle">
+<div class="ds-section-header">
+<div class="ds-section-kicker">48 · Tema</div>
+<h2 class="ds-section-title">Toggle de tema — 3 pasos</h2>
+<p class="ds-section-sub"><strong>Oscuro · Sistema · Claro</strong>, con <code>Sistema</code> por defecto. Desde <strong>v1.2.7.3</strong> es <strong>borderless</strong>: el contenedor no lleva fondo ni sombra y el estado activo se marca con <code>--cyan-soft</code>. Unifica el toggle del topbar con el del sidebar (<code>.sb-theme-switch</code>), que ya usaba cyan.</p>
+<a class="ds-xref" style="margin-top:12px" href="examples/showcase.html?tab=primitivos&amp;card=card-theme-toggle"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
+</div>
+
+<div class="subsection-title">Componente</div>
+<div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;margin-bottom:24px">
+<div class="theme-toggle" role="group" aria-label="Tema de color">
+<button class="theme-opt" type="button" data-val="dark" onclick="setTheme('dark')" aria-label="Oscuro" title="Oscuro"><svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg></button>
+<button class="theme-opt" type="button" data-val="system" onclick="setTheme('system')" aria-label="Sistema" title="Sistema"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></button>
+<button class="theme-opt" type="button" data-val="light" onclick="setTheme('light')" aria-label="Claro" title="Claro"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg></button>
+</div>
+<span style="font:500 12px var(--sans);color:var(--muted-2)">Funciona: cambia el tema de esta página</span>
+</div>
+
+<div class="subsection-title">Anatomía</div>
+<table class="table-demo" style="max-width:720px;margin-bottom:24px">
+<thead><tr><th>Parte</th><th>Clase</th><th>Regla</th></tr></thead>
+<tbody>
+<tr><td>Contenedor</td><td><code>.theme-toggle</code></td><td><strong>Sin fondo ni sombra</strong>. <code>inline-flex</code>, <code>padding: 3px</code>, <code>gap: 1px</code>. Los tres íconos quedan sueltos sobre la barra. <em>(v1.2.7.3)</em></td></tr>
+<tr><td>Opción</td><td><code>.theme-opt</code></td><td>28×26px, <code>radius-pill</code>, ícono 13px, color <code>--muted-2</code>. Sin borde.</td></tr>
+<tr><td>Hover</td><td><code>.theme-opt:hover</code></td><td>Solo cambia el color a <code>--text</code>. Sin fondo.</td></tr>
+<tr><td>Activo</td><td><code>.theme-opt.active</code></td><td>Fondo <code>--cyan-soft</code> y color <code>--cyan</code>. <strong>Nunca</strong> fondo gris ni borde. <em>(v1.2.7.3)</em></td></tr>
+<tr><td>Variante sidebar</td><td><code>.sb-theme-switch</code></td><td>Mismo lenguaje, ancho completo al pie del sidebar. Los tres botones con <code>flex: 1</code>.</td></tr>
+</tbody>
+</table>
+
+<div class="subsection-title">Markup</div>
+<pre><code>&lt;div class="theme-toggle" role="group" aria-label="Tema de color"&gt;
+  &lt;button class="theme-opt" onclick="setTheme('dark')" aria-label="Oscuro"&gt;…&lt;/button&gt;
+  &lt;button class="theme-opt" onclick="setTheme('system')" aria-label="Sistema"&gt;…&lt;/button&gt;
+  &lt;button class="theme-opt" onclick="setTheme('light')" aria-label="Claro"&gt;…&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+
+<div class="token-grid-2" style="margin-top:24px">
+<div class="card">
+<div class="card-kicker">Sí</div>
+<div style="margin-top:10px;font-size:13px;color:var(--muted);line-height:1.7">Íconos sueltos sobre la barra. Estado activo por fondo tonal cyan. <code>data-theme="system"</code> como default en <code>&lt;html&gt;</code>. <code>aria-label</code> en cada botón y <code>aria-pressed</code> en el activo.</div>
+</div>
+<div class="card">
+<div class="card-kicker">No</div>
+<div style="margin-top:10px;font-size:13px;color:var(--muted);line-height:1.7">Encapsular el grupo en una pastilla con fondo o sombra. Marcar el activo con fondo gris o con borde. Hardcodear <code>"dark"</code> o <code>"light"</code> en <code>&lt;html&gt;</code>.</div>
 </div>
 </div>
 </section>
