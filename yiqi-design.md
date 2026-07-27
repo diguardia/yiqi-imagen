@@ -1144,9 +1144,11 @@ YiQi Design no es estética. Es diseño de **superficies de decisión sobre dato
 
 ---
 
-## 11. Toggle de tema — 3 pasos *(actualizado en v1.2.5)*
+## 11. Toggle de tema — 3 pasos *(actualizado en v1.2.7.3)*
 
 El toggle tiene tres estados: **Oscuro / Sistema / Claro**. `Sistema` es el default — respeta la preferencia del sistema operativo del usuario.
+
+**v1.2.7.3 — borderless.** El contenedor `.theme-toggle` va sin fondo ni sombra: los tres íconos quedan sueltos sobre la barra. El estado activo se marca con `--cyan-soft` y texto `--cyan`, no con un fondo gris. Unifica el toggle de topbar con el del sidebar (`.sb-theme-switch`), que ya usaba cyan.
 
 ```html
 <html data-theme="system" lang="es">

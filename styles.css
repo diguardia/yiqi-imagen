@@ -1551,16 +1551,16 @@ html[data-theme="light"] .skeleton-line {
   .coherence-bars { width: 100%; }
 }
 
-/* ── 38. TOGGLE TEMA 3 PASOS (v1.2.5) ────────────────────── */
+/* ── 38. TOGGLE TEMA 3 PASOS (v1.2.5; borderless v1.2.7.3) ── */
 /* Oscuro | Sistema | Claro — Sistema por defecto            */
+/* v1.2.7.3: contenedor sin fondo ni sombra; el estado activo  */
+/* se marca con cyan tonal, igual que .sb-theme-switch.      */
 .theme-toggle {
   display: inline-flex;
   align-items: center;
-  background: var(--bg-elev-2);
   border-radius: var(--radius-pill);
   padding: 3px;
   gap: 1px;
-  box-shadow: var(--shadow-sm);
 }
 
 .theme-opt {
@@ -1590,7 +1590,7 @@ html[data-theme="light"] .skeleton-line {
 }
 
 .theme-opt:hover  { color: var(--text); }
-.theme-opt.active { background: var(--bg-soft); color: var(--text); }
+.theme-opt.active { background: var(--cyan-soft); color: var(--cyan); }
 
 /* ── 39. MÓDULO ACCORDION BORDERLESS (v1.2.5) ────────────── */
 .module-demo {
