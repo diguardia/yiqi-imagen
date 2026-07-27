@@ -548,7 +548,6 @@ html[data-theme="light"] .watchlist-card,
 html[data-theme="light"] .pulse-card,
 html[data-theme="light"] .highlight-card,
 html[data-theme="light"] .runtime-banner,
-html[data-theme="light"] .account-chip,
 html[data-theme="light"] .login-card {
   background: rgba(255, 255, 255, 0.92);
 }
@@ -887,14 +886,15 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
 
 /* ── 23. ACCOUNT CHIP ─────────────────────────────────────── */
 /* v1.2.5: inputs mantienen borde — account chip es un control */
+/* v1.2.7.3: borderless — el chip de cuenta no lleva fondo ni borde en la barra */
 .account-chip {
   position: relative;
   display: grid;
   gap: 6px;
   padding: 10px 12px;
-  border: 1px solid transparent;
+  border: none;
   border-radius: var(--radius);
-  background: var(--bg-elev-2);
+  background: none;
   min-width: 260px;
 }
 
