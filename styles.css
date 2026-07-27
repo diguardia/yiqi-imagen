@@ -529,7 +529,8 @@ html[data-theme="light"] .brand-logo-light { display: block; }
 .watchlist-card,
 .pulse-card,
 .highlight-card {
-  border: 1px solid transparent;
+  /* v1.2.7.3: borderless — sube desde Analytics Pro */
+  border: none;
   background: var(--card-bg);
   border-radius: var(--radius-lg);
 }
@@ -811,7 +812,7 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
   width: 24px;
   height: 24px;
   border-radius: 8px;
-  border: 1px solid var(--cyan-a22);
+  border: none;
   background: var(--cyan-soft);
   color: var(--cyan);
   display: inline-flex;
@@ -820,9 +821,9 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
   flex-shrink: 0;
 }
 
-.watchlist-card.tone-green .metric-icon { color: var(--green); border-color: rgba(0, 196, 140, 0.25); background: rgba(0, 196, 140, 0.12); }
-.watchlist-card.tone-amber .metric-icon { color: var(--amber); border-color: color-mix(in srgb, var(--amber) 25%, transparent);  background: color-mix(in srgb, var(--amber) 12%, transparent); }
-.watchlist-card.tone-blue  .metric-icon { color: var(--cyan);  border-color: rgba(0, 204, 255, 0.25); background: rgba(0, 204, 255, 0.12); }
+.watchlist-card.tone-green .metric-icon { color: var(--green); background: rgba(0, 196, 140, 0.12); }
+.watchlist-card.tone-amber .metric-icon { color: var(--amber); background: color-mix(in srgb, var(--amber) 12%, transparent); }
+.watchlist-card.tone-blue  .metric-icon { color: var(--cyan);  background: rgba(0, 204, 255, 0.12); }
 
 /* ── 19. MOCK CHIP ────────────────────────────────────────── */
 .mock-chip {
@@ -913,7 +914,7 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
   gap: 8px;
   border: none;
   border-radius: var(--radius-sm);
-  background: var(--bg-elev-2);
+  background: none;
   color: var(--text);
   padding: 8px 10px;
   cursor: pointer;
@@ -928,7 +929,7 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
   width: min(320px, 84vw);
   max-height: 260px;
   overflow-y: auto;
-  border: 1px solid var(--line-strong);
+  border: none;
   border-radius: var(--radius-md);
   background: var(--bg-elev);
   box-shadow: var(--shadow-lg);
@@ -977,7 +978,7 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
   gap: 16px;
   padding: 16px 18px;
   border-radius: var(--radius-lg);
-  border: 1px solid transparent;
+  border: none;
   background: rgba(24, 24, 28, 0.78);
 }
 
@@ -2160,7 +2161,7 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
 .nav-link { display: flex; width: 100%; align-items: center; gap: 8px; min-height: 40px; padding: 7px 9px; border: 0; border-radius: var(--radius-sm); background: transparent; color: var(--muted); cursor: pointer; font: 500 12.5px var(--sans); text-align: left; text-decoration: none; transition: background 0.18s ease, color 0.18s ease; }
 .nav-link:hover { background: var(--bg-soft); color: var(--text); }
 .nav-link.is-active { background: var(--cyan-soft); color: var(--cyan); }
-.n-ico { display: grid; width: 26px; height: 26px; flex-shrink: 0; place-items: center; border-radius: var(--radius-xs); background: var(--bg-soft); color: var(--muted); transition: background 0.18s ease, color 0.18s ease; }
+.n-ico { display: grid; width: 26px; height: 26px; flex-shrink: 0; place-items: center; border-radius: var(--radius-xs); background: transparent; color: var(--muted); transition: background 0.18s ease, color 0.18s ease; }
 .nav-link:hover .n-ico { color: var(--text); }
 .nav-link.is-active .n-ico { background: var(--cyan-soft-2); color: var(--cyan); }
 .n-ico svg { width: 13px; height: 13px; }
