@@ -242,12 +242,6 @@ h4 { font-size: 15px; letter-spacing: -0.02em; }
 
 /* ── 4. TIPOGRAFÍA HERO — v1.2.5 ─────────────────────────── */
 /* .hero-claim: claim de marca, énfasis medio */
-.hero-claim {
-  font-size: 17px;
-  font-weight: 500;
-  line-height: 1.35;
-  color: var(--text);
-}
 
 /* .hero-sub: descripción funcional, tono apagado */
 .hero-sub {
@@ -727,7 +721,6 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
 .summary-grid     { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
 .watchlist-grid   { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
 .decision-grid,
-.backlog-columns  { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
 .highlight-cards  { display: grid; gap: 10px; }
 .progress-list    { display: grid; gap: 12px; }
 
@@ -1124,11 +1117,6 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
 }
 .login-eye:hover { color: var(--cyan); }
 .login-eye svg,
-.login-spinner {
-  width: 18px; height: 18px; fill: none; stroke: currentColor;
-  stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;
-}
-.login-spinner { animation: yiqi-login-spin 760ms linear infinite; }
 .login-remember {
   display: flex; align-items: center; gap: 9px;
   color: var(--muted); cursor: pointer; font: 500 12px var(--sans);
@@ -1217,12 +1205,6 @@ html[data-theme="light"] textarea:-webkit-autofill {
 @media (prefers-reduced-motion: reduce) { .channel-fill, .hourly-bar-fill, .branch-fill { animation: none; } }
 
 /* Coherence bars */
-.coherence-bar              { display: block; height: 6px; min-width: 4px; border-radius: var(--radius-pill); }
-.coherence-bar.is-orders    { background: var(--cyan); }
-.coherence-bar.is-created   { background: var(--indigo); }
-.coherence-bar.is-issued    { background: var(--green); }
-.coherence-bar.is-remitos   { background: var(--amber); }
-.coherence-bar.is-collections { background: var(--blue); }
 
 /* ── 30. FUNNEL (v2: barras sobre ancho original + fuga + total) ── */
 @keyframes funnelGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
@@ -1390,9 +1372,6 @@ html[data-theme="light"] .skeleton-line {
 .coherence-badge.is-good  { color: var(--green); background: rgba(0, 196, 140, 0.12); border-color: rgba(0, 196, 140, 0.24); }
 .coherence-badge.is-alert { color: var(--amber); background: color-mix(in srgb, var(--amber) 12%, transparent);  border-color: color-mix(in srgb, var(--amber) 24%, transparent); }
 
-.coherence-bars  { width: 170px; display: grid; gap: 4px; }
-.coherence-empty { color: var(--muted); text-align: center; padding: 18px; }
-.coherence-gap   { margin-top: 4px; color: var(--muted); font-size: 11px; }
 
 /* ── 34. PRODUCT META ─────────────────────────────────────── */
 .product-title { font-weight: 600; }
@@ -1496,7 +1475,6 @@ html[data-theme="light"] .skeleton-line {
 
 
 .source-row     { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.channel-share  { font-family: var(--mono); font-size: 11px; color: var(--muted); }
 .branch-revenue { font-family: var(--mono); font-size: 12px; color: var(--text); }
 .branch-empty   { color: var(--muted); font-size: 13px; }
 .watchlist-title { color: var(--muted); font-size: 12px; display: inline-flex; align-items: center; gap: 8px; }
@@ -1550,7 +1528,6 @@ html[data-theme="light"] .skeleton-line {
   .channel-row,
   .branch-row { grid-template-columns: 1fr; }
 
-  .coherence-bars { width: 100%; }
 }
 
 /* ── 38. TOGGLE TEMA 3 PASOS (v1.2.5; borderless v1.2.7.3) ── */
@@ -1857,8 +1834,6 @@ html[data-theme="light"] .bg-grid-lg {
 /* Máscara de fade — para suavizar bordes de la grilla         */
 /* Usar junto con .bg-grid en un ::before                      */
 .bg-grid-fade-b  { mask-image: linear-gradient(180deg, rgba(0,0,0,.55), transparent 80%); }
-.bg-grid-fade-t  { mask-image: linear-gradient(0deg,   rgba(0,0,0,.55), transparent 80%); }
-.bg-grid-fade-c  { mask-image: radial-gradient(ellipse at center, rgba(0,0,0,.55), transparent 72%); }
 
 /* Convención: usar como overlay en ::before del contenedor     */
 /*                                                              */
@@ -2059,20 +2034,11 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
 .status-pill.pill-muted { background: var(--bg-elev-2); color: var(--muted); }
 .status-pill.pill-amber { background: var(--amber-soft); color: var(--amber); }
 .status-pill.pill-cyan { background: var(--cyan-soft); color: var(--cyan); }
-.backlog-card-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.backlog-card-top h4 { margin: 0; }
 
 
 /* Actividad horaria — mini-histograma vertical (sync panel) */
 @keyframes ribGrow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
 .heat-ribbon { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
-.rib-col { display: grid; grid-template-rows: auto 1fr auto; gap: 6px; justify-items: center; }
-.rib-val { font: 600 11px var(--mono); color: var(--muted-2); font-variant-numeric: tabular-nums; }
-.rib-val.is-peak { color: var(--text); }
-.rib-track { width: 100%; height: 84px; display: flex; align-items: flex-end; background: var(--line-strong); border-radius: var(--radius-sm); overflow: hidden; }
-.rib-fill { width: 100%; min-height: 4px; background: var(--cyan-chart-bar); border-radius: var(--radius-sm); transform-origin: bottom center; animation: ribGrow 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) both; }
-.rib-fill.is-peak { background: var(--cyan); }
-.rib-lbl { font: 600 9px var(--mono); color: var(--muted-2); text-transform: uppercase; letter-spacing: 0.04em; text-align: center; }
 @media (prefers-reduced-motion: reduce) { .rib-fill { animation: none; } }
 
 
@@ -2420,6 +2386,77 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
 .mb-cta:hover{filter:brightness(1.06)}
 
 
+
+
+/* ── DS-01 · FIELD ─────────────────────────────────────────────
+   Unidad de formulario: label + control + error. Antes cada
+   pantalla lo resolvia con estilos sueltos. */
+.ds-field { display: grid; gap: 6px; }
+.ds-field .ds-label { margin-bottom: 0; }
+
+/* ── DS-03 · ENCABEZADOS DE PAGINA Y PANEL ─────────────────────
+   Titulos con rol tipografico definido, en vez de escribirlos a
+   mano en cada vista. */
+.page-header { display: grid; gap: 6px; margin-bottom: 18px; }
+.page-title {
+  margin: 0;
+  font: 700 var(--fs-section-hero)/1.2 var(--sans);
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+.panel-title {
+  margin: 0;
+  font: 600 var(--fs-panel-title)/1.35 var(--sans);
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+.panel-description {
+  margin: 0;
+  font: 400 var(--fs-body)/1.5 var(--sans);
+  color: var(--muted);
+  max-width: 64ch;
+}
+
+/* ── DS-04 · ESTADO VACIO ──────────────────────────────────────
+   Generico, promovido desde Panel Gerencial (.schema-empty).
+   Reemplaza a los vacios especificos de cada modulo. */
+.empty-state {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 10px;
+  padding: 28px 20px;
+  max-width: 46ch;
+  margin-inline: auto;
+}
+.empty-state[hidden] { display: none; }
+.empty-state-ico {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--cyan-soft);
+  color: var(--cyan);
+}
+.empty-state-ico svg { width: 22px; height: 22px; }
+.empty-state-title {
+  margin: 0;
+  font: 600 16px var(--sans);
+  color: var(--text);
+}
+.empty-state-msg {
+  margin: 0;
+  font: 400 var(--fs-body)/1.55 var(--sans);
+  color: var(--muted);
+  max-width: 40ch;
+}
+.empty-state-cta { margin-top: 6px; }
+
+/* Variantes de tono: el estado se marca por fondo, no por borde. */
+.empty-state[data-kind="error"]  .empty-state-ico { background: var(--red-soft);   color: var(--red); }
+.empty-state[data-kind="warn"]   .empty-state-ico { background: var(--amber-soft); color: var(--amber); }
+.empty-state[data-kind="neutral"] .empty-state-ico { background: var(--bg-soft);   color: var(--muted); }
 
 /* ── TOPBAR DE APP · piezas del chip de cuenta ─────────────────
    Promovidas desde Panel Gerencial (ya en produccion). Antes cada

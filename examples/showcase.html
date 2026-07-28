@@ -1072,12 +1072,14 @@
       </div>
       <script>
         (function () {
-          var f = document.querySelector('#sc-shellmob iframe');
+          var frames = document.querySelectorAll('#sc-shellmob-phones iframe');
           function sync() {
             var t = document.documentElement.getAttribute('data-theme') || 'system';
-            try { f.contentWindow.postMessage({ theme: t }, '*'); } catch (e) {}
+            frames.forEach(function (f) {
+              try { f.contentWindow.postMessage({ theme: t }, '*'); } catch (e) {}
+            });
           }
-          f.addEventListener('load', sync);
+          frames.forEach(function (f) { f.addEventListener('load', sync); });
           new MutationObserver(sync).observe(document.documentElement,
             { attributes: true, attributeFilter: ['data-theme'] });
         })();
