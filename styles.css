@@ -32,6 +32,8 @@
   --accent-rgb:  0,204,255;
   --cyan-soft:   rgba(0,204,255,.10);
   --cyan-soft-2: rgba(0,204,255,.16);
+  --accent:      var(--cyan);
+  --accent-ink:  var(--text-white);
   --cyan-label:  rgba(0,204,255,.52);
   --text-cyan-muted: rgba(0,195,240,.62);
   --gridline:    rgba(0,204,255,.16);
@@ -890,34 +892,41 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
 /* v1.2.7.3: borderless — el chip de cuenta no lleva fondo ni borde en la barra */
 .account-chip {
   position: relative;
-  display: grid;
-  gap: 6px;
-  padding: 10px 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  height: 32px;
+  min-width: 0;
+  flex-shrink: 0;
   border: none;
-  border-radius: var(--radius);
-  background: none;
-  min-width: 260px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-soft);
+  overflow: visible;
 }
 
 .account-user {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.04em;
+  font: 500 11px var(--sans);
   color: var(--muted);
+  white-space: nowrap;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ── 24. SCHEMA SELECTOR ──────────────────────────────────── */
 .schema-toggle {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 8px;
+  gap: 6px;
+  height: 100%;
+  padding: 0 12px;
   border: none;
-  border-radius: var(--radius-sm);
+  border-radius: 0 var(--radius-pill) var(--radius-pill) 0;
   background: none;
   color: var(--text);
-  padding: 8px 10px;
+  font: 600 12px var(--sans);
   cursor: pointer;
+  transition: background 0.18s ease;
 }
 
 .schema-toggle:hover { background: var(--bg-soft); }
@@ -1517,7 +1526,7 @@ html[data-theme="light"] .skeleton-line {
   .trust--grid { grid-template-columns: repeat(2, 1fr); }
 
   .topbar-actions { flex-wrap: nowrap; }
-  .account-chip   { width: 100%; min-width: 0; }
+  .account-chip   { min-width: 0; }
   .schema-menu    { width: 100%; }
   .trust--inline .trust-item { padding: 0 16px; }
 }
@@ -2205,20 +2214,20 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
 .sidebar-collapse svg { width: 16px; height: 16px; transition: transform 0.18s ease; }
 
 .app-shell.nav-collapsed { grid-template-columns: var(--sidebar-w-collapsed) minmax(0, 1fr); }
-.nav-collapsed .sidebar { padding: 20px 10px; overflow: visible; z-index: 96; }
-.nav-collapsed .sidebar-collapse { margin: auto auto 0; position: static; }
+.app-shell.nav-collapsed .sidebar { padding: 20px 10px; overflow: visible; z-index: 96; }
+.app-shell.nav-collapsed .sidebar-collapse { margin: auto auto 0; position: static; }
 /* Solo el chevron se da vuelta al colapsar. El candado cambia de icono
    (abierto/cerrado), no de orientacion: rotarlo lo deja al reves. */
-.nav-collapsed .sidebar-collapse svg:not(.ico-locked):not(.ico-unlocked) { transform: rotate(180deg); }
-.nav-collapsed .nav-lbl { visibility: hidden; height: 6px; padding: 0; margin: 0; }
-.nav-collapsed .nav-div { margin: 5px 6px; }
-.nav-collapsed .nav-link { justify-content: center; padding: 8px; gap: 0; position: relative; }
-.nav-collapsed .nav-link span:not(.n-ico) {
+.app-shell.nav-collapsed .sidebar-collapse svg:not(.ico-locked):not(.ico-unlocked) { transform: rotate(180deg); }
+.app-shell.nav-collapsed .nav-lbl { visibility: hidden; height: 6px; padding: 0; margin: 0; }
+.app-shell.nav-collapsed .nav-div { margin: 5px 6px; }
+.app-shell.nav-collapsed .nav-link { justify-content: center; padding: 8px; gap: 0; position: relative; }
+.app-shell.nav-collapsed .nav-link span:not(.n-ico) {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
   overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
 /* Tooltip con la etiqueta (solo colapsado) */
-.nav-collapsed .nav-link::after {
+.app-shell.nav-collapsed .nav-link::after {
   content: attr(title);
   position: absolute; left: calc(100% + 12px); top: 50%;
   transform: translateY(-50%) scale(0.96); transform-origin: left center;
@@ -2230,8 +2239,8 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
   opacity: 0; pointer-events: none; z-index: 200;
   transition: opacity 0.14s ease, transform 0.14s ease;
 }
-.nav-collapsed .nav-link:hover::after,
-.nav-collapsed .nav-link:focus-visible::after { opacity: 1; transform: translateY(-50%) scale(1); }
+.app-shell.nav-collapsed .nav-link:hover::after,
+.app-shell.nav-collapsed .nav-link:focus-visible::after { opacity: 1; transform: translateY(-50%) scale(1); }
 /* ── .ds-xref — enlace cruzado meta (catálogo ↔ showcase), distinto de .btn ── */
 .ds-xref{ display:inline-flex; align-items:center; gap:6px; padding:4px 8px; border:none; border-radius:var(--radius); background:transparent; color:var(--muted-2); font:600 11px var(--sans); text-decoration:none; cursor:pointer; transition:background .15s ease, color .15s ease; }
 .ds-xref .ph{ font-size:14px; }
@@ -2411,6 +2420,47 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
 .mb-cta:hover{filter:brightness(1.06)}
 
 
+
+/* ── TOPBAR DE APP · piezas del chip de cuenta ─────────────────
+   Promovidas desde Panel Gerencial (ya en produccion). Antes cada
+   app las reescribia local: por eso el template no podia consumir
+   el canonico. Solo tokens, sin color fijo. */
+
+/* Topbar en grilla de 3 zonas para apps con selector de esquema. */
+.app-topbar { grid-column: 1 / -1; display: grid;
+  grid-template-columns: auto minmax(280px, 1fr) auto; align-items: center;
+  gap: 14px; padding: 8px 28px 10px; }
+
+.topbar-logo { display: inline-flex; align-items: center; line-height: 0; }
+.topbar-logo-svg { height: 39px; width: auto; display: block; }
+
+/* Bloque usuario dentro de .account-chip */
+.account-user-block { display: flex; align-items: center; gap: 7px;
+  height: 100%; padding: 0 10px 0 8px; }
+.account-avatar { width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%;
+  background: var(--cyan-soft); border: 1px solid var(--cyan-a24);
+  display: grid; place-items: center; font: 700 9px var(--mono);
+  color: var(--cyan); text-transform: uppercase; }
+
+/* Chevron del selector de esquema: gira al abrir el menu. */
+.schema-chev { display: flex; flex-shrink: 0; color: var(--muted-2);
+  transition: transform 0.18s ease; }
+.schema-toggle[aria-expanded="true"] .schema-chev { transform: rotate(180deg); }
+
+
+/* Dentro de la topbar, los contenedores van SIN fondo: la barra ya los
+   separa y el relleno los hace ver pesados. El estado activo sigue
+   marcandose (pill cyan del periodo). Promovido desde Panel Gerencial. */
+.topbar-c .account-chip,
+.topbar-c .range-filter,
+.topbar-r .btn-exit { background: transparent; }
+
+.topbar-c .range-filter { flex-wrap: nowrap; flex-shrink: 0; }
+.topbar-c .range-btn { font-size: 11px; }
+
+/* El chevron necesita medida propia: el SVG no la trae. */
+.schema-chev svg { width: 14px; height: 14px; }
+
 /* ── SHELL RESPONSIVE ──────────────────────────────────────────
    Va al final a proposito: tiene que ganarle a las reglas base
    del shell, que se declaran mas arriba en el archivo. */
@@ -2442,6 +2492,11 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
     transition: transform .26s cubic-bezier(.4, 0, .2, 1);
   }
   .sidebar.is-open { transform: translateX(0); }
+
+  .app-topbar { position: relative; grid-template-columns: 1fr auto;
+    align-items: center; padding: 12px 16px; }
+  /* En celular la topbar lleva solo logo y menu: el resto vive en el drawer. */
+  .app-topbar > .topbar-c { display: none; }
 
   .nav-hamburger { display: inline-flex; }
   .nav-close { display: inline-flex; }

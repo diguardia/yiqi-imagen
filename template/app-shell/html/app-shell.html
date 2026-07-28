@@ -3,307 +3,133 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>YiQi · App shell template</title>
-  <!-- Sistema de diseño YiQi (fuente única) -->
-  <!-- DS local del repo (refleja los cambios al instante). En producción: el CDN publicado -->
+  <title>YiQi · Template de shell de app</title>
+
+  <!-- ────────────────────────────────────────────────────────────
+       UNICA dependencia de estilos. Este template NO define CSS
+       propio: todo sale del canonico. Si algo que necesitas no
+       esta aca, se agrega al DS, no a la app.
+
+       En el repo:    ../../../styles.css
+       En produccion: https://diguardia.github.io/yiqi-imagen/styles.css
+       ──────────────────────────────────────────────────────────── -->
   <link rel="stylesheet" href="../../../styles.css">
-  <!-- Producción: <link rel="stylesheet" href="https://diguardia.github.io/yiqi-imagen/styles.css"> -->
-
-  <style>
-    /* ───────────────────────────────────────────────────────────
-       Layout de la app (estructura real, compuesta con tokens del DS)
-       Topbar fija full-width · sidebar fijo · contenido desplazado
-       ─────────────────────────────────────────────────────────── */
-    body{ margin:0; }
-
-    /* Topbar fija arriba de todo */
-    .topbar{
-      position:fixed; top:0; left:0; right:0; z-index:100;
-      height:var(--topbar-h); min-height:0;
-      display:flex; flex-direction:row; align-items:center; gap:10px; flex-wrap:nowrap;
-      padding:0 20px;
-      background:color-mix(in srgb, var(--bg-elev) 84%, transparent);
-      backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
-      border-bottom:1px solid var(--line);
-    }
-    .topbar-l{ display:flex; align-items:center; gap:10px; flex-shrink:0; }
-    .topbar-c{ display:flex; align-items:center; gap:8px; flex:1; justify-content:center; min-width:0; }
-    .topbar-r{ display:flex; align-items:center; gap:8px; flex-shrink:0; margin-left:0; }
-
-    /* Sidebar fijo bajo la topbar */
-    .sidebar{
-      position:fixed; top:var(--topbar-h); left:0; z-index:50;
-      width:var(--sidebar-w); height:calc(100dvh - var(--topbar-h));
-      overflow-y:auto; overflow-x:hidden;
-      display:flex; flex-direction:column; gap:2px;
-      padding:18px 14px;
-      border-right:1px solid var(--line); border-bottom:none;
-      background:var(--bg-elev-2);
-    }
-
-    /* Zona de contenido desplazada */
-    .ds-layout{
-      margin-left:var(--sidebar-w); margin-top:var(--topbar-h);
-      min-height:calc(100dvh - var(--topbar-h));
-    }
-    .content{ padding:24px 32px 60px; display:grid; gap:20px; min-width:0; }
-
-    /* Pie del sidebar: switch de tema + sello de versión */
-    .sidebar-foot{ margin-top:auto; padding-top:14px; }
-    .sidebar-ver{ margin:8px 0 0; font:600 9px/1.6 var(--mono); letter-spacing:.04em; color:var(--muted-2); }
-
-    /* Superficie de panel/tarjeta a partir de tokens */
-    .app-surface{ background:var(--bg-elev); border-radius:var(--radius-lg); }
-    .panel.app-surface{ border-radius:var(--radius-xl); }
-    .panel-heading{ margin:2px 0 0; font:700 18px var(--sans); letter-spacing:-.01em; color:var(--text); }
-
-    /* Chip de identidad + esquema (compuesto con tokens) */
-    .schema-chip{ position:relative; height:32px; display:inline-flex; align-items:center; background:var(--bg-elev-2); border-radius:var(--radius-pill); flex-shrink:0; }
-    .schema-user-block{ display:flex; align-items:center; gap:7px; padding:0 10px 0 8px; height:100%; border-right:1px solid var(--line); }
-    .schema-user-avatar{ display:grid; place-items:center; width:22px; height:22px; flex-shrink:0; border-radius:50%; background:var(--cyan-soft); border:1px solid var(--cyan-a22); color:var(--cyan); font:700 9px var(--mono); text-transform:uppercase; }
-    .schema-user-name{ font:500 11px var(--sans); color:var(--muted); white-space:nowrap; }
-    .schema-trigger{ display:flex; align-items:center; gap:6px; padding:0 10px; height:100%; cursor:pointer; background:none; border:none; border-radius:0 var(--radius-pill) var(--radius-pill) 0; transition:background var(--tr); }
-    .schema-trigger:hover{ background:var(--bg-soft); }
-    .schema-trigger-name{ font:600 11px var(--mono); color:var(--text); letter-spacing:.02em; white-space:nowrap; }
-    .schema-trigger-chevron{ display:flex; flex-shrink:0; color:var(--muted-2); }
-
-    /* Selector de período → componente canónico del DS (.range-filter / .range-btn, catálogo §24) */
-    .range-filter{ flex-wrap:nowrap; flex-shrink:0; }   /* en el topbar: una sola fila, no romper */
-    .schema-chip{ min-width:0; }   /* el chip de identidad cede ancho antes que el selector */
-
-    /* Botón circular de solo icono (Actualizar) */
-    .icon-btn{ display:inline-grid; place-items:center; width:34px; height:34px; flex-shrink:0; border:none; border-radius:50%; background:var(--cyan-soft-2); color:var(--cyan); cursor:pointer; transition:background var(--tr); }
-    .icon-btn:hover{ background:var(--cyan-soft); }
-    .icon-btn .rico{ width:15px; height:15px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
-    .icon-btn.is-loading .rico{ animation:ricospin .7s linear infinite; }
-
-
-    /* Botón hamburguesa (solo mobile) + backdrop del drawer */
-    .mobile-btn{ display:none; place-items:center; width:34px; height:34px; flex-shrink:0; border:none; border-radius:var(--radius-sm); background:var(--bg-elev-2); color:var(--text); cursor:pointer; }
-    .mobile-btn svg{ width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; }
-    .sb-backdrop{ display:none; position:fixed; inset:var(--topbar-h) 0 0 0; z-index:40; background:rgba(0,0,0,.5); }
-
-    /* ── Animaciones y foco ───────────────────────────────────── */
-    /* Transición suave al cambiar de tema (oscuro/claro) */
-    .topbar, .sidebar, .app-surface, .t-pill, .schema-chip, .schema-trigger{
-      transition: background-color var(--tr), border-color var(--tr), color var(--tr);
-    }
-    /* Entrada escalonada de las KPI (solo opacidad: no choca con el hover) */
-    @keyframes appFade{ from{ opacity:0; } to{ opacity:1; } }
-    @keyframes appRise{ from{ opacity:0; transform:translateY(8px); } to{ opacity:1; transform:none; } }
-    .panel{ animation: appRise .42s cubic-bezier(.22,1,.36,1) both; }
-    .kpi-card{ animation: appFade .45s ease both; transition: border-color var(--tr), transform var(--tr); }
-    .kpi-card:nth-child(1){ animation-delay:.05s; }
-    .kpi-card:nth-child(2){ animation-delay:.12s; }
-    .kpi-card:nth-child(3){ animation-delay:.19s; }
-    .kpi-card:nth-child(4){ animation-delay:.26s; }
-    .kpi-card:hover{ transform:translateY(-2px); border-color:var(--cyan-a22); }
-
-    /* Anillos de foco accesibles (teclado) */
-    .nav-link:focus-visible, .icon-btn:focus-visible,
-    .mobile-btn:focus-visible, .schema-trigger:focus-visible, .btn-exit:focus-visible,
-    .sb-theme-switch .theme-opt:focus-visible{
-      outline:2px solid var(--cyan-a28); outline-offset:2px;
-    }
-
-    /* Respeto por movimiento reducido */
-    @media (prefers-reduced-motion: reduce){
-      .panel, .kpi-card{ animation:none; }
-      .kpi-card, .sidebar{ transition:none; }
-      .kpi-card:hover{ transform:none; }
-      .icon-btn.is-loading .rico{ animation:none; }
-    }
-
-    /* ── Responsive ───────────────────────────────────────────── */
-    @media (max-width:1280px){
-      .topbar-c{ gap:6px; }
-      .schema-user-name{ display:none; }            /* queda avatar + esquema */
-      .schema-trigger-name{ max-width:150px; overflow:hidden; text-overflow:ellipsis; }
-    }
-    @media (max-width:1080px){
-      .schema-user-block{ padding-right:8px; }
-      .schema-trigger-name{ max-width:110px; }
-    }
-    @media (max-width:960px){
-      .mobile-btn{ display:inline-grid; }
-      .topbar-c{ display:none; }            /* el bloque central se simplifica */
-      /* Drawer desde la DERECHA (alineado con el botón hamburguesa) */
-      .sidebar{ left:auto; right:0; border-right:none; border-left:1px solid var(--line);
-                transform:translateX(100%); transition:transform var(--tr); box-shadow:var(--shadow-lg); }
-      .sidebar.is-open{ transform:translateX(0); }
-      .sb-backdrop.is-open{ display:block; }
-      .ds-layout{ margin-left:0; }
-      .content{ padding:18px 16px 48px; }
-      .kpi-grid{ grid-template-columns:repeat(2, minmax(0,1fr)); }
-    }
-    @media (max-width:520px){
-      .topbar{ padding:0 12px; gap:8px; }
-      .kpi-grid{ grid-template-columns:1fr; }
-    }
-  </style>
 </head>
 <body>
 
-  <!-- ── Topbar (full-width, fija) ───────────────────────────── -->
-  <header class="topbar">
-    <div class="topbar-l">
-      <svg class="brand-logo" viewBox="0 0 100 65" role="img" aria-label="YiQi" style="width:54px;height:auto"><path fill="var(--text)" d="M20.44,48.34l2.57-6.15-6.79-16.91c-.14-.39.07-.61.46-.61h4.97c.29,0,.57.14.68.43l3.58,10.08,3.61-10.08c.11-.29.39-.43.68-.43h4.97c.39,0,.57.21.43.61l-9.26,23.27c-.11.29-.39.43-.68.43h-4.75c-.43,0-.68-.21-.47-.64Z"/><path fill="var(--text)" d="M38.72,25.24c0-.32.25-.57.57-.57h4.89c.32,0,.57.25.57.57v16.24c0,.32-.25.57-.57.57h-4.89c-.32,0-.57-.25-.57-.57v-16.24Z"/><path fill="var(--cyan)" d="M57.91,44.78v-2.66c-2.18-.53-4.21-1.66-5.92-3.36-4.97-4.97-5.09-13.02-.03-18.08,5.09-5.09,13.14-4.97,18.11,0s5.09,13.02,0,18.11c-1.78,1.78-3.94,2.93-6.22,3.46v2.51c0,.35-.18.53-.58.53h-4.82c-.3,0-.55-.2-.55-.5ZM56.28,34.47c.5.5,1.05.9,1.65,1.2v-3.36c0-.35.18-.53.53-.53h4.87c.25,0,.53.18.53.53v3.36c.63-.33,1.23-.78,1.78-1.33,2.73-2.73,2.78-6.75.15-9.38s-6.67-2.61-9.41.13c-2.71,2.71-2.73,6.75-.1,9.38Z"/><path fill="var(--text)" d="M77.44,25.24c0-.32.25-.57.57-.57h4.89c.32,0,.57.25.57.57v16.24c0,.32-.25.57-.57.57h-4.89c-.32,0-.57-.25-.57-.57v-16.24Z"/><path fill="var(--text)" d="M38.5,18.99c0-1.77,1.35-3.19,3.23-3.19s3.23,1.42,3.23,3.19-1.38,3.23-3.23,3.23-3.23-1.42-3.23-3.23Z"/><path fill="var(--text)" d="M77.22,18.99c0-1.77,1.35-3.19,3.23-3.19s3.23,1.42,3.23,3.19-1.38,3.23-3.23,3.23-3.23-1.42-3.23-3.23Z"/></svg>
-      <span class="t-pill">Nombre app</span>
-    </div>
+<!-- Topbar: cruza de lado a lado, por encima del sidebar. -->
+<header class="topbar app-topbar">
+  <div class="topbar-l">
+    <a class="topbar-logo" href="#" onclick="return false" aria-label="Ir al inicio"><svg class="yqlogo-anim topbar-logo-svg" style="color:var(--text)" data-yiqi-logo data-axis="y"  viewBox="0 0 100 65" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="YiQi (animado)"><g class="yq-all anim"><path style="fill:currentColor" class="yq-y yql anim" d="M20.44,48.34l2.57-6.15-6.79-16.91c-.14-.39.07-.61.46-.61h4.97c.29,0,.57.14.68.43l3.58,10.08,3.61-10.08c.11-.29.39-.43.68-.43h4.97c.39,0,.57.21.43.61l-9.26,23.27c-.11.29-.39.43-.68.43h-4.75c-.43,0-.68-.21-.47-.64Z"/><path style="fill:currentColor" class="yq-i1s yql anim" d="M38.72,25.24c0-.32.25-.57.57-.57h4.89c.32,0,.57.25.57.57v16.24c0,.32-.25.57-.57.57h-4.89c-.32,0-.57-.25-.57-.57v-16.24Z"/><g class="yq-q anim"><path style="fill:var(--cyan)" class="yqs" d="M57.91,44.78v-2.66c-2.18-.53-4.21-1.66-5.92-3.36-4.97-4.97-5.09-13.02-.03-18.08,5.09-5.09,13.14-4.97,18.11,0s5.09,13.02,0,18.11c-1.78,1.78-3.94,2.93-6.22,3.46v2.51c0,.35-.18.53-.58.53h-4.82c-.3,0-.55-.2-.55-.5ZM56.28,34.47c.5.5,1.05.9,1.65,1.2v-3.36c0-.35.18-.53.53-.53h4.87c.25,0,.53.18.53.53v3.36c.63-.33,1.23-.78,1.78-1.33,2.73-2.73,2.78-6.75.15-9.38s-6.67-2.61-9.41.13c-2.71,2.71-2.73,6.75-.1,9.38Z"/></g><path style="fill:currentColor" class="yq-i2s yql anim" d="M77.44,25.24c0-.32.25-.57.57-.57h4.89c.32,0,.57.25.57.57v16.24c0,.32-.25.57-.57.57h-4.89c-.32,0-.57-.25-.57-.57v-16.24Z"/><path style="fill:currentColor" class="yq-i1d yql anim" d="M38.5,18.99c0-1.77,1.35-3.19,3.23-3.19s3.23,1.42,3.23,3.19-1.38,3.23-3.23,3.23-3.23-1.42-3.23-3.23Z"/><path style="fill:currentColor" class="yq-i2d yql anim" d="M77.22,18.99c0-1.77,1.35-3.19,3.23-3.19s3.23,1.42,3.23,3.19-1.38,3.23-3.23,3.23-3.23-1.42-3.23-3.23Z"/></g></svg></a>
+    <span class="t-pill">Nombre app</span>
+  </div>
 
-    <div class="topbar-c">
-      <!-- Identidad + esquema (placeholders) -->
-      <div class="schema-chip">
-        <div class="schema-user-block">
-          <span class="schema-user-avatar" aria-hidden="true">NA</span>
-          <span class="schema-user-name">Nombre y Apellido</span>
-        </div>
-        <button class="schema-trigger" type="button" aria-haspopup="true" aria-expanded="false">
-          <span class="schema-trigger-name">Esquema Empresa</span>
-          <span class="schema-trigger-chevron"><svg width="11" height="11" viewBox="0 0 256 256" fill="none"><polyline points="48 96 128 176 208 96" stroke="currentColor" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        </button>
+  <div class="topbar-c">
+    <div class="account-chip">
+      <div class="account-user-block">
+        <div class="account-avatar" aria-hidden="true">NA</div>
+        <span class="account-user">Nombre y Apellido</span>
       </div>
-      <!-- Selector de período · componente canónico del DS (catálogo §24) -->
-      <div class="range-filter" role="group" aria-label="Período de análisis">
-        <button class="range-btn is-active" type="button" data-range="today">Hoy</button>
-        <button class="range-btn" type="button" data-range="last_7_days">Ult. 7 días</button>
-        <button class="range-btn" type="button" data-range="current_month">Mes en curso</button>
-        <button class="range-btn" type="button" data-range="last_30_days">Ult. 30 días</button>
-      </div>
+      <button class="schema-toggle" type="button" aria-haspopup="true" aria-expanded="false">
+        <span>Esquema Empresa</span>
+        <span class="schema-chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></span>
+      </button>
+      <div class="schema-menu" hidden></div>
     </div>
 
-    <div class="topbar-r">
-      <button class="icon-btn" type="button" aria-label="Actualizar" title="Actualizar">
-        <svg class="rico" viewBox="0 0 24 24"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.5 9a9 9 0 0 1 14.9-3.4L23 10M1 14l4.6 4.4A9 9 0 0 0 20.5 15"/></svg>
-      </button>
-      <button class="btn-exit" type="button">Cerrar sesión</button>
-      <button class="mobile-btn" type="button" aria-label="Abrir menú" aria-expanded="false" id="navToggle">
-        <svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-      </button>
+    <div class="range-filter" role="group" aria-label="Periodo de analisis">
+      <button class="range-btn is-active" type="button" data-range="today">Hoy</button>
+      <button class="range-btn" type="button" data-range="last_7_days">Ult. 7 dias</button>
+      <button class="range-btn" type="button" data-range="current_month">Mes en curso</button>
+      <button class="range-btn" type="button" data-range="last_30_days">Ult. 30 dias</button>
     </div>
-  </header>
+  </div>
 
-  <!-- ── Sidebar (fijo) ──────────────────────────────────────── -->
-  <aside class="sidebar" aria-label="Navegación principal">
-    <nav class="nav" aria-label="Módulos">
+  <div class="topbar-r">
+    <button class="btn-refresh" type="button" aria-label="Actualizar" title="Actualizar"><svg class="rico" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 3v6h-6"/></svg></button>
+    <button class="btn-exit" type="button">Cerrar sesion</button>
+    <!-- Solo visible en <=980px: abre el drawer desde la derecha. -->
+    <button class="nav-hamburger" type="button" aria-label="Abrir menu"
+      aria-expanded="false" aria-controls="app-sidebar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+  </div>
+</header>
+
+<div class="app-shell">
+
+  <aside class="sidebar" id="app-sidebar" aria-label="Navegacion principal">
+    <!-- Solo visible en <=980px. -->
+    <button class="nav-close" type="button" aria-label="Cerrar menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+
+    <nav class="nav" aria-label="Modulos">
       <section class="nav-section">
-        <p class="nav-label">Visión general</p>
-        <a class="nav-link is-active" href="#resumen" aria-current="page">
-          <span class="n-ico"><svg viewBox="0 0 256 256" fill="currentColor"><path d="M219 103.8l-80-75.5a16 16 0 0 0-22 0l-80 75.5A16 16 0 0 0 32 115.6V208a16 16 0 0 0 16 16h48a16 16 0 0 0 16-16v-48h32v48a16 16 0 0 0 16 16h48a16 16 0 0 0 16-16v-92.4a16 16 0 0 0-5.2-11.8Z"/></svg></span>
-          Resumen ejecutivo
-        </a>
-        <a class="nav-link" href="#ventas">
-          <span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 9l-5 5-3-3-4 4"/></svg></span>
-          Ventas
-        </a>
-        <a class="nav-link" href="#canales">
-          <span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg></span>
-          Canales
-        </a>
-        <a class="nav-link" href="#operacion">
-          <span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>
-          Operación
-        </a>
+        <p class="nav-label">Vision general</p>
+        <a class="nav-link is-active" href="#" onclick="return false" aria-current="page"><span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5 12 3l9 6.5"/><path d="M5 10v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V10"/></svg></span><span>Resumen</span></a>
+        <a class="nav-link" href="#" onclick="return false"><span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-7"/><path d="M22 20H2"/></svg></span><span>Analisis</span></a>
+      </section>
+      <section class="nav-section">
+        <p class="nav-label">Operacion</p>
+        <a class="nav-link" href="#" onclick="return false"><span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/></svg></span><span>Documentos</span></a>
+        <a class="nav-link" href="#" onclick="return false"><span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span><span>Otra vista</span></a>
       </section>
     </nav>
 
-    <div class="sidebar-foot">
+    <div class="sb-footer">
       <div class="sb-theme-switch" role="group" aria-label="Tema de color">
-        <button class="theme-opt active" type="button" data-theme-set="dark" aria-label="Tema oscuro" aria-pressed="true"><svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg></button>
-        <button class="theme-opt" type="button" data-theme-set="system" aria-label="Tema del sistema" aria-pressed="false"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></button>
-        <button class="theme-opt" type="button" data-theme-set="light" aria-label="Tema claro" aria-pressed="false"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg></button>
+        <button class="theme-opt" type="button" data-val="dark" aria-label="Tema oscuro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg></button>
+        <button class="theme-opt" type="button" data-val="system" aria-label="Tema del sistema"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></button>
+        <button class="theme-opt" type="button" data-val="light" aria-label="Tema claro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg></button>
       </div>
-      <p class="sidebar-ver">YiQi DS v1.2.7<br>Esquema Empresa · 2026</p>
+      <div class="sb-copy">&copy; 2026 YiQi S.A.<br>Nombre app &middot; DS v1.2.7.4</div>
     </div>
   </aside>
 
-  <div class="sb-backdrop" id="sbBackdrop" hidden></div>
+  <main class="content">
+    <div class="kpi-grid">
+      <article class="kpi-card">
+        <div class="kpi-label">Facturacion del periodo</div>
+        <div class="kpi-value">$ 4.284.900</div>
+        <div class="kpi-delta is-positive">+12,4%</div>
+      </article>
+      <article class="kpi-card">
+        <div class="kpi-label">Ticket promedio</div>
+        <div class="kpi-value">$ 18.400</div>
+        <div class="kpi-delta is-negative">-3,1%</div>
+      </article>
+      <article class="kpi-card">
+        <div class="kpi-label">Ordenes</div>
+        <div class="kpi-value">231</div>
+        <div class="kpi-delta is-positive">+8,0%</div>
+      </article>
+    </div>
 
-  <!-- ── Contenido ───────────────────────────────────────────── -->
-  <div class="ds-layout">
-    <main class="content">
-      <section class="panel app-surface" id="resumen" aria-labelledby="resumen-t">
-        <div class="panel-header">
-          <div>
-            <p class="panel-kicker">Resumen</p>
-            <h1 class="panel-heading" id="resumen-t">Resumen ejecutivo</h1>
-          </div>
+    <section class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-kicker">Detalle</div>
+          <h3>Movimientos del periodo</h3>
         </div>
+        <span class="badge">Hoy</span>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Concepto</th><th class="num">Unidades</th><th class="num">Importe</th></tr></thead>
+          <tbody>
+            <tr><td>Ejemplo A</td><td class="num">128</td><td class="num">$ 412.900</td></tr>
+            <tr><td>Ejemplo B</td><td class="num">64</td><td class="num">$ 198.400</td></tr>
+            <tr><td>Ejemplo C</td><td class="num">31</td><td class="num">$ 92.150</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
 
-        <div class="kpi-grid">
-          <article class="kpi-card app-surface">
-            <div class="kpi-label">Facturación MTD</div>
-            <div class="kpi-value" style="color:var(--cyan)">$2,84M</div>
-            <div class="kpi-delta is-positive">↑ +18,4% vs mes anterior</div>
-          </article>
-          <article class="kpi-card app-surface">
-            <div class="kpi-label">Pedidos activos</div>
-            <div class="kpi-value">1.247</div>
-            <div class="kpi-delta is-positive">↑ +6,2%</div>
-          </article>
-          <article class="kpi-card app-surface">
-            <div class="kpi-label">Margen bruto</div>
-            <div class="kpi-value">38,7%</div>
-            <div class="kpi-delta is-negative">↓ −2,2%</div>
-          </article>
-          <article class="kpi-card app-surface">
-            <div class="kpi-label">Clientes activos</div>
-            <div class="kpi-value">342</div>
-            <div class="kpi-delta is-positive">↑ +3,4%</div>
-          </article>
-        </div>
-      </section>
-    </main>
-  </div>
+</div>
 
-  <!-- ── Interacción (tema + período) ────────────────────────── -->
-  <script>
-    (function(){
-      var root=document.documentElement;
-      function applyTheme(v){
-        root.setAttribute('data-theme', v);
-        document.querySelectorAll('.sb-theme-switch .theme-opt').forEach(function(b){
-          var on=b.dataset.themeSet===v;
-          b.classList.toggle('active', on);
-          b.setAttribute('aria-pressed', on?'true':'false');
-        });
-      }
-      document.querySelectorAll('.sb-theme-switch .theme-opt').forEach(function(b){
-        b.addEventListener('click', function(){ applyTheme(b.dataset.themeSet); });
-      });
-      // Drawer mobile
-      var nav=document.getElementById('navToggle');
-      var sb=document.querySelector('.sidebar');
-      var bd=document.getElementById('sbBackdrop');
-      function setNav(open){
-        sb.classList.toggle('is-open', open);
-        bd.classList.toggle('is-open', open);
-        bd.hidden=!open;
-        nav.setAttribute('aria-expanded', open?'true':'false');
-      }
-      if(nav){ nav.addEventListener('click', function(){ setNav(!sb.classList.contains('is-open')); }); }
-      if(bd){ bd.addEventListener('click', function(){ setNav(false); }); }
-      document.querySelectorAll('.sidebar .nav-link').forEach(function(l){
-        l.addEventListener('click', function(){ if(window.matchMedia('(max-width:960px)').matches) setNav(false); });
-      });
+<!-- Fondo del drawer. Solo visible en <=980px. -->
+<div class="nav-overlay" id="app-overlay"></div>
 
-      // Giro del botón Actualizar
-      var refresh=document.querySelector('.topbar-r .icon-btn');
-      if(refresh){
-        refresh.addEventListener('click', function(){
-          if(refresh.classList.contains('is-loading')) return;
-          refresh.classList.add('is-loading');
-          setTimeout(function(){ refresh.classList.remove('is-loading'); }, 800);
-        });
-      }
+<!-- Runtime del DS: tema, drawer mobile, tablas ordenables, toasts. -->
+<script src="../../../yiqi-runtime.js"></script>
 
-      document.querySelectorAll('.range-filter .range-btn').forEach(function(b){
-        b.addEventListener('click', function(){
-          b.parentNode.querySelectorAll('.range-btn').forEach(function(x){ x.classList.remove('is-active'); });
-          b.classList.add('is-active');
-        });
-      });
-    })();
-  </script>
 </body>
 </html>
