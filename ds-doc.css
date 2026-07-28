@@ -544,3 +544,40 @@ img, svg { max-width: 100%; height: auto; }
   .ds-nav .close-btn { display: grid; position: absolute; top: 0; right: 0; width: 32px; height: 32px; z-index: 2; }
   .ds-nav .close-btn svg { width: 16px; height: 16px; }
 }
+
+/* ── Índice colapsable: flecha (colapsar/expandir) + candado (lockear estado) — solo desktop ── */
+.ds-nav-ctrls { display: none; }
+.ds-nav-ctrls .ds-nav-btn { display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: var(--radius-sm); background: var(--bg-elev); border: none; cursor: pointer; color: var(--muted); transition: background .15s ease, color .15s ease; }
+.ds-nav-ctrls .ds-nav-btn:hover { background: var(--bg-soft); color: var(--text); }
+.ds-nav-ctrls .ds-nav-btn svg { width: 16px; height: 16px; transition: transform .18s ease; }
+.ds-nav-lock .ico-locked { display: none; }
+
+@media (min-width: 981px) {
+  .ds-layout { transition: grid-template-columns .18s ease; }
+  .ds-nav, .ds-layout::before { transition: width .18s ease; }
+  .ds-nav-ctrls { display: flex; gap: 6px; justify-content: flex-end; position: sticky; bottom: 0; margin-top: 12px; padding-top: 8px; background: var(--bg-elev); }
+
+  /* Colapsado: rail de solo números (68px) */
+  .ds-layout.nav-collapsed { grid-template-columns: 68px 1fr; }
+  .ds-layout.nav-collapsed::before { width: 68px; }
+  .nav-collapsed .ds-nav { padding: 20px 8px; }
+  .nav-collapsed .ds-nav-label { display: none; }
+  .nav-collapsed .ds-nav-section { margin-bottom: 12px; }
+  .nav-collapsed .ds-nav-item { font-size: 0; text-align: center; padding: 8px 0 !important; }
+  .nav-collapsed .ds-nav-badge { display: none; }
+  .nav-collapsed .ds-nav-ctrls { flex-direction: column; align-items: center; gap: 8px; }
+  .nav-collapsed .ds-nav-arrow svg { transform: rotate(180deg); }  /* chevron ">" en el rail */
+
+  /* Peek: hover despliega como overlay, sin reflow (solo si NO está lockeado) */
+  .ds-layout.nav-collapsed.nav-peek .ds-nav { width: 240px; padding: 20px 14px; z-index: 20; box-shadow: var(--shadow-lg); }
+  .nav-collapsed.nav-peek .ds-nav-label { display: block; }
+  .nav-collapsed.nav-peek .ds-nav-section { margin-bottom: 22px; }
+  .nav-collapsed.nav-peek .ds-nav-item { font-size: 12px; text-align: left; padding: 8px 10px !important; }
+  .nav-collapsed.nav-peek .ds-nav-badge { display: inline-block; }
+  .nav-collapsed.nav-peek .ds-nav-ctrls { flex-direction: row; align-items: center; }
+
+  /* Candado lockeado */
+  .nav-locked .ds-nav-lock { color: var(--cyan); }
+  .nav-locked .ds-nav-lock .ico-unlocked { display: none; }
+  .nav-locked .ds-nav-lock .ico-locked { display: block; }
+}
