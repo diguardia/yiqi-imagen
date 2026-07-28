@@ -347,27 +347,28 @@ body.preview-open .ds-layout { display: none !important; }
 <span class="ds-nav-label">Aplicaciones</span>
 <a class="ds-nav-item" href="#app-overview"><span class="ds-nav-num">32</span> Apps · Overview</a>
 <a class="ds-nav-item" href="#app-shell"><span class="ds-nav-num">33</span> Apps · Shell</a>
-<a class="ds-nav-item" href="#login"><span class="ds-nav-num">34</span> Apps · Login</a>
-<a class="ds-nav-item" href="#panel-gerencial"><span class="ds-nav-num">35</span> Panel Gerencial</a>
-<a class="ds-nav-item" href="#apps-picking"><span class="ds-nav-num">36</span> Picking · primitivos</a>
+<a class="ds-nav-item" href="#shell-mobile"><span class="ds-nav-num">34</span> Apps · Shell celular</a>
+<a class="ds-nav-item" href="#login"><span class="ds-nav-num">35</span> Apps · Login</a>
+<a class="ds-nav-item" href="#panel-gerencial"><span class="ds-nav-num">36</span> Panel Gerencial</a>
+<a class="ds-nav-item" href="#apps-picking"><span class="ds-nav-num">37</span> Picking · primitivos</a>
 </div>
 <div class="ds-nav-section">
 <span class="ds-nav-label">Web</span>
-<a class="ds-nav-item" href="#web-banner"><span class="ds-nav-num">37</span> Banner Analytics Pro</a>
-<a class="ds-nav-item" href="#scrollbars"><span class="ds-nav-num">38</span> Scrollbars</a>
+<a class="ds-nav-item" href="#web-banner"><span class="ds-nav-num">38</span> Banner Analytics Pro</a>
+<a class="ds-nav-item" href="#scrollbars"><span class="ds-nav-num">39</span> Scrollbars</a>
 </div>
 <div class="ds-nav-section">
 <span class="ds-nav-label">Marketplace</span>
-<a class="ds-nav-item" href="#mb-fhead"><span class="ds-nav-num">39</span> Header de ficha</a>
-<a class="ds-nav-item" href="#mb-price"><span class="ds-nav-num">40</span> Card de pricing</a>
-<a class="ds-nav-item" href="#mb-details"><span class="ds-nav-num">41</span> Card de detalles</a>
-<a class="ds-nav-item" href="#mb-dev"><span class="ds-nav-num">42</span> Card de desarrollador</a>
-<a class="ds-nav-item" href="#mb-share"><span class="ds-nav-num">43</span> Menú de compartir</a>
-<a class="ds-nav-item" href="#mb-appcard"><span class="ds-nav-num">44</span> Card de catálogo</a>
-<a class="ds-nav-item" href="#mb-reviews"><span class="ds-nav-num">45</span> Reseñas</a>
-<a class="ds-nav-item" href="#mb-homo"><span class="ds-nav-num">46</span> Homologación</a>
-<a class="ds-nav-item" href="#app-banners"><span class="ds-nav-num">47</span> Banners de apps</a>
-<a class="ds-nav-item" href="#theme-toggle"><span class="ds-nav-num">48</span> Toggle de tema</a>
+<a class="ds-nav-item" href="#mb-fhead"><span class="ds-nav-num">40</span> Header de ficha</a>
+<a class="ds-nav-item" href="#mb-price"><span class="ds-nav-num">41</span> Card de pricing</a>
+<a class="ds-nav-item" href="#mb-details"><span class="ds-nav-num">42</span> Card de detalles</a>
+<a class="ds-nav-item" href="#mb-dev"><span class="ds-nav-num">43</span> Card de desarrollador</a>
+<a class="ds-nav-item" href="#mb-share"><span class="ds-nav-num">44</span> Menú de compartir</a>
+<a class="ds-nav-item" href="#mb-appcard"><span class="ds-nav-num">45</span> Card de catálogo</a>
+<a class="ds-nav-item" href="#mb-reviews"><span class="ds-nav-num">46</span> Reseñas</a>
+<a class="ds-nav-item" href="#mb-homo"><span class="ds-nav-num">47</span> Homologación</a>
+<a class="ds-nav-item" href="#app-banners"><span class="ds-nav-num">48</span> Banners de apps</a>
+<a class="ds-nav-item" href="#theme-toggle"><span class="ds-nav-num">49</span> Toggle de tema</a>
 </div>
 <div class="ds-nav-section ds-nav-appearance">
 <span class="ds-nav-label">Apariencia</span>
@@ -2904,7 +2905,15 @@ html[data-theme="light"] .bg-grid-demo-fade {
   </div>
 </div>
 
-<div class="subsection-title" id="shell-mobile">El shell en celular</div>
+</section>
+
+<section class="ds-section" id="shell-mobile">
+<div class="ds-section-header">
+<div class="ds-section-kicker">34 · Aplicaciones · Kit base</div>
+<h2 class="ds-section-title">Shell de app en celular</h2>
+<p class="ds-section-sub">El mismo shell bajo <strong>980px</strong>: el nombre de la app se centra y el menú entra como drawer <strong>desde la derecha</strong>, a pantalla completa.</p>
+</div>
+
 <p style="font:400 13px/1.6 var(--sans);color:var(--muted);max-width:64ch;margin:-4px 0 14px">Bajo <strong>980px</strong> el sidebar pasa a drawer y entra <strong>desde la derecha</strong>, el mismo lado del botón. El logo queda a la izquierda y el <strong>nombre de la app se centra</strong>. Sale de <code>examples/shell-mobile.html</code>, que consume <code>styles.css</code>: acá no hay estilos del componente.</p>
 <style>
   /* Mockup de telefono en CSS: sin imagenes. Proporcion 9:16 (390x693).
@@ -2953,7 +2962,7 @@ html[data-theme="light"] .bg-grid-demo-fade {
 <tr><td>Nombre de app</td><td><code>.t-pill</code></td><td><strong>Borderless</strong>: mono 10px mayúsculas, <code>letter-spacing:.15em</code>, color <code>--muted</code>. Sin fondo ni cápsula — encapsularlo es anti-patrón. <em>(v1.2.7.3)</em></td></tr>
 <tr><td>Chip de cuenta</td><td><code>.account-chip</code></td><td>Avatar inicial en <code>--cyan-soft</code> + usuario (<code>--muted</code>), <strong>sin fondo</strong>. No repetir el esquema acá: ya está en el selector. <em>(v1.2.7.3)</em></td></tr>
 <tr><td>Selector de esquema</td><td><code>.schema-toggle</code></td><td>Botón <code>aria-haspopup</code> con menú de esquemas borderless. Para apps multi-esquema (ej. panel). <em>(compartido)</em></td></tr>
-<tr><td>Selector de período</td><td><code>.range-filter</code> + <code>.range-btn</code></td><td>Filtro de rango temporal (hoy / 7 días / mes / 30 días). <strong>Borderless</strong>, pill activo <code>--cyan-soft</code>. En el topbar usa <code>flex-wrap:nowrap</code> (una sola fila). Documentado en §35.</td></tr>
+<tr><td>Selector de período</td><td><code>.range-filter</code> + <code>.range-btn</code></td><td>Filtro de rango temporal (hoy / 7 días / mes / 30 días). <strong>Borderless</strong>, pill activo <code>--cyan-soft</code>. En el topbar usa <code>flex-wrap:nowrap</code> (una sola fila). Documentado en §36.</td></tr>
 <tr><td>Actualizar</td><td><code>.btn-refresh</code></td><td>Botón <strong>solo ícono</strong> (<code>ph-arrows-clockwise</code>), pill <code>--cyan-soft-2</code>/<code>--cyan</code>; re-renderiza la vista. <em>(nuevo)</em></td></tr>
 <tr><td>Cerrar sesión</td><td><code>.btn-exit</code></td><td><strong>Texto</strong> en <code>--muted</code>, sin fondo; hover <code>--red</code>. <em>(v1.2.7.3)</em></td></tr>
 <tr><td>Toggle de tema</td><td><code>.theme-toggle</code> + <code>.theme-opt</code></td><td>Tres pasos (Oscuro / Sistema / Claro), <strong>sin contenedor</strong>: ni fondo ni sombra. Activo en <code>--cyan-soft</code> con texto <code>--cyan</code>. <em>(v1.2.7.3)</em></td></tr>
@@ -3185,9 +3194,11 @@ function dsNavLock(){
   #login-demo input[type="checkbox"]:focus-visible{ outline:none; box-shadow:0 0 0 3px var(--cyan-soft); }
 #login-demo input:-webkit-autofill,#login-demo input:-webkit-autofill:hover,#login-demo input:-webkit-autofill:focus{-webkit-text-fill-color:var(--text);-webkit-box-shadow:0 0 0 1000px var(--bg-elev) inset;caret-color:var(--text);transition:background-color 9999s ease-in-out 0s}
 </style>
+</section>
+
 <section class="ds-section" id="login">
 <div class="ds-section-header">
-<div class="ds-section-kicker">34 · Aplicaciones · Login</div>
+<div class="ds-section-kicker">35 · Aplicaciones · Login</div>
 <h2 class="ds-section-title">Pantalla de acceso</h2>
 <p class="ds-section-sub">Login centrado para apps YiQi (ERP, Analytics Pro). Card única con tokens <code>--login-*</code>, logo animado en loop y estado de acceso sin reflow. Patrón §16 de <code>yiqi-design.md</code>.</p>
 <a class="ds-xref" style="margin-top:12px" href="examples/showcase.html?tab=mockups&amp;card=card-login"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
@@ -3253,7 +3264,7 @@ function dsNavLock(){
 <!-- ▲ fin Login ▲ -->
 <section class="ds-section" id="panel-gerencial">
 <div class="ds-section-header">
-<div class="ds-section-kicker">35 · Aplicación</div>
+<div class="ds-section-kicker">36 · Aplicación</div>
 <h2 class="ds-section-title">Panel Gerencial · Componentes</h2>
 <p class="ds-section-sub">Componentes sueltos de <strong>YiQi Analytics Pro</strong>. Cada pieza vive acá como fuente única: si cambia en la app, se actualiza en el DS.</p>
 <a class="ds-xref" style="margin-top:12px" href="examples/showcase.html?tab=mockups&amp;card=card-panel"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
@@ -3403,7 +3414,7 @@ function dsNavLock(){
 </style>
 <section class="ds-section" id="apps-picking">
 <div class="ds-section-header">
-<div class="ds-section-kicker">36 · Aplicaciones</div>
+<div class="ds-section-kicker">37 · Aplicaciones</div>
 <h2 class="ds-section-title">Picking · primitivos (propuesta)</h2>
 <p class="ds-section-sub">Vocabulario propuesto para la app de picking (lector de códigos + flujo de depósito). Tokenizado, datos simulados. Se formaliza con el funcional.</p>
 <a class="ds-xref" style="margin-top:12px" href="examples/showcase.html?tab=mockups&amp;card=card-picking"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
@@ -3558,7 +3569,7 @@ function dsNavLock(){
 </section>
 <section class="ds-section" id="web-banner">
 <div class="ds-section-header">
-<div class="ds-section-kicker">37 · Web</div>
+<div class="ds-section-kicker">38 · Web</div>
 <h2 class="ds-section-title">Banner Analytics Pro</h2>
 <p class="ds-section-sub">Componente promocional para la <strong>web</strong> (no es una app). Banner de difusión de Analytics Pro con mock de dashboard y CTA. Web component <code>&lt;analytics-pro-banner&gt;</code>.</p>
 </div>
@@ -3566,7 +3577,7 @@ function dsNavLock(){
 </section>
 <section class="ds-section" id="scrollbars">
 <div class="ds-section-header">
-<div class="ds-section-kicker">38 · Base</div>
+<div class="ds-section-kicker">39 · Base</div>
 <h2 class="ds-section-title">Scrollbars</h2>
 <p class="ds-section-sub">Barras de scroll globales: <strong>track oscuro</strong> (<code>var(--bg)</code>) y <strong>thumb sutil</strong> (<code>var(--line-strong)</code>). Definidas en <code>styles.css</code> (fuente única); usan tokens y se adaptan a dark/light.</p>
 </div>
@@ -3588,7 +3599,7 @@ function dsNavLock(){
 </section>
 <section class="ds-section" id="mb-fhead">
 <div class="ds-section-header">
-<div class="ds-section-kicker">39 · Marketplace</div>
+<div class="ds-section-kicker">40 · Marketplace</div>
 <h2 class="ds-section-title">Header de ficha</h2>
 <p class="ds-section-sub">Encabezado de la ficha de app. Compone <code>.btn</code> + <code>.badge</code> + estructura <code>.mb-fhead</code>. Ícono de app, categoría, nombre, proveedor, badge de homologación y rating. <strong>CTA de color de app</strong> (<code>.mb-cta</code>): fondo <code>var(--accent)</code> con <strong>tinta legible</strong> <code>var(--accent-ink)</code> — clara sobre acentos oscuros (violeta), oscura sobre los claros.</p>
 </div>
@@ -3606,7 +3617,7 @@ function dsNavLock(){
 </section>
 <section class="ds-section" id="mb-price">
 <div class="ds-section-header">
-<div class="ds-section-kicker">40 · Marketplace</div>
+<div class="ds-section-kicker">41 · Marketplace</div>
 <h2 class="ds-section-title">Card de pricing + estimador</h2>
 <p class="ds-section-sub">Bloque comercial de la ficha. Trial, filas Activación/Abono, <strong>estimador</strong> con el primitivo <em>Slider</em> (§17) y output, CTAs (<code>.btn</code>) y nota de consulta gratis / operación paga.</p>
 </div>
@@ -3630,7 +3641,7 @@ function dsNavLock(){
 </section>
 <section class="ds-section" id="mb-details">
 <div class="ds-section-header">
-<div class="ds-section-kicker">41 · Marketplace</div>
+<div class="ds-section-kicker">42 · Marketplace</div>
 <h2 class="ds-section-title">Card de detalles</h2>
 <p class="ds-section-sub">Ficha técnica de la app: lista de pares clave-valor (<code>.mb-meta-row</code>).</p>
 </div>
@@ -3648,7 +3659,7 @@ function dsNavLock(){
 </section>
 <section class="ds-section" id="mb-dev">
 <div class="ds-section-header">
-<div class="ds-section-kicker">42 · Marketplace</div>
+<div class="ds-section-kicker">43 · Marketplace</div>
 <h2 class="ds-section-title">Card de desarrollador</h2>
 <p class="ds-section-sub">Identidad del proveedor + acción de compartir. Usa el lockup de proveedor y un <code>.btn</code>.</p>
 </div>
@@ -3660,7 +3671,7 @@ function dsNavLock(){
 </section>
 <section class="ds-section" id="mb-share">
 <div class="ds-section-header">
-<div class="ds-section-kicker">43 · Marketplace</div>
+<div class="ds-section-kicker">44 · Marketplace</div>
 <h2 class="ds-section-title">Menú de compartir</h2>
 <p class="ds-section-sub">Menú enriquecido de compartir (instancia del primitivo <em>Popover</em>): compartir nativo, copiar enlace y redes.</p>
 </div>
@@ -3679,7 +3690,7 @@ function dsNavLock(){
 </section>
 <section class="ds-section" id="mb-appcard">
 <div class="ds-section-header">
-<div class="ds-section-kicker">44 · Marketplace</div>
+<div class="ds-section-kicker">45 · Marketplace</div>
 <h2 class="ds-section-title">Card de catálogo</h2>
 <p class="ds-section-sub">Card del catálogo del Marketplace. Thumb con ícono en el color de la app + badge de estado, categoría, nombre, descripción y pie (Ver app + proveedor). El acento se mapea al token de la app (acá <code>--green</code>).</p>
 </div>
@@ -3695,7 +3706,7 @@ function dsNavLock(){
 </section>
 <section class="ds-section" id="mb-reviews">
 <div class="ds-section-header">
-<div class="ds-section-kicker">45 · Marketplace</div>
+<div class="ds-section-kicker">46 · Marketplace</div>
 <h2 class="ds-section-title">Reseñas</h2>
 <p class="ds-section-sub">Resumen de rating + reseñas con badge <strong>Cliente verificado</strong>. Solo de clientes que usan la app.</p>
 </div>
@@ -3707,7 +3718,7 @@ function dsNavLock(){
 </section>
 <section class="ds-section" id="mb-homo">
 <div class="ds-section-header">
-<div class="ds-section-kicker">46 · Marketplace</div>
+<div class="ds-section-kicker">47 · Marketplace</div>
 <h2 class="ds-section-title">Bloque de homologación</h2>
 <p class="ds-section-sub">Sello de homologación + datos de seguridad/acceso (clave-valor). Central al concepto de homologación del Marketplace.</p>
 </div>
@@ -3724,9 +3735,9 @@ function dsNavLock(){
 </section>
 <section class="ds-section" id="app-banners">
 <div class="ds-section-header">
-<div class="ds-section-kicker">47 · Marketplace</div>
+<div class="ds-section-kicker">48 · Marketplace</div>
 <h2 class="ds-section-title">Banners de apps</h2>
-<p class="ds-section-sub">Banner promocional por app del Marketplace. Web component <code>&lt;app-banner app="…"&gt;</code>. Acento <strong>100%% por token</strong> (uno por app, nunca cyan); paleta invertida y gradiente como el banner de Analytics Pro. Cada banner lleva <strong>ícono de la app + logo YiQi</strong> (homologación) y un <strong>slot de ilustración</strong>. Analytics Pro tiene <strong>dos versiones</strong>: el premium (§37) y esta variante unificada.</p>
+<p class="ds-section-sub">Banner promocional por app del Marketplace. Web component <code>&lt;app-banner app="…"&gt;</code>. Acento <strong>100%% por token</strong> (uno por app, nunca cyan); paleta invertida y gradiente como el banner de Analytics Pro. Cada banner lleva <strong>ícono de la app + logo YiQi</strong> (homologación) y un <strong>slot de ilustración</strong>. Analytics Pro tiene <strong>dos versiones</strong>: el premium (§38) y esta variante unificada.</p>
 </div>
 <app-banner app="prov"></app-banner>
 <app-banner app="inv"></app-banner>
@@ -3766,7 +3777,7 @@ ana · prov · inv · pos · pick · cons
 
 <section class="ds-section" id="theme-toggle">
 <div class="ds-section-header">
-<div class="ds-section-kicker">48 · Tema</div>
+<div class="ds-section-kicker">49 · Tema</div>
 <h2 class="ds-section-title">Toggle de tema — 3 pasos</h2>
 <p class="ds-section-sub"><strong>Oscuro · Sistema · Claro</strong>, con <code>Sistema</code> por defecto. Desde <strong>v1.2.7.3</strong> es <strong>borderless</strong>: el contenedor no lleva fondo ni sombra y el estado activo se marca con <code>--cyan-soft</code>. Unifica el toggle del topbar con el del sidebar (<code>.sb-theme-switch</code>), que ya usaba cyan.</p>
 <a class="ds-xref" style="margin-top:12px" href="examples/showcase.html?tab=primitivos&amp;card=card-theme-toggle"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>

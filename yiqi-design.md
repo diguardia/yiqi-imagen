@@ -937,7 +937,7 @@ Componente de búsqueda borderless. Implementado en `site.css`.
 Filtro de rango temporal del topbar (Analytics Pro y paneles). Input compuesto: un solo botón activo a la vez. Documentado en catálogo §24 (Panel Gerencial) y showcase (Primitivos).
 
 ```css
-/* Borderless — cápsula sin borde ni divisores (filosofía §3) */
+/* Borderless — cápsula sin borde ni divisores (filosofía §03) */
 .range-filter {
   display: inline-flex; align-items: center; gap: 2px;
   padding: 2px;
@@ -965,7 +965,7 @@ Filtro de rango temporal del topbar (Analytics Pro y paneles). Input compuesto: 
 
 - Un solo `.is-active` a la vez; la app togglea según `data-range`
 - `role="group"` + `aria-label` en el contenedor; cada botón es `type="button"`
-- **Borderless**: sin borde ni divisores; activo como pill `--cyan-soft` (filosofía §3)
+- **Borderless**: sin borde ni divisores; activo como pill `--cyan-soft` (filosofía §03)
 - En el topbar se aplica `flex-wrap:nowrap` para que no rompa en 2 filas
 
 ---
@@ -1513,18 +1513,18 @@ Afordance **meta** para navegar entre el catálogo y el showcase ("Ver fuente" /
 
 `ds-doc.css` conserva únicamente lo propio del catálogo: navegación, helpers de demo (`.ph-tag`, `.card-kicker/value/delta`) y posicionamiento de chrome. Regla: si un componente se usa fuera del catálogo, su fuente es `styles.css`; `ds-doc.css` no lo redefine.
 
-## 23. Primitivos interactivos en el catálogo (§32–§38) *(nuevo)*
+## 23. Primitivos interactivos en el catálogo (§32–§39) *(nuevo)*
 
 Los primitivos que vivían solo en el showcase ahora tienen **fuente canónica** en el catálogo, con demo en vivo y CSS en `styles.css` (fuente única de componentes):
 
 | Primitivo | Sección catálogo | Clases | JS (data-attr) |
 |---|---|---|---|
 | Slider | §32 `#prim-slider` | `.pr-slider`, `.pr-slider-val` | readout por id |
-| Tabs | §34 `#prim-tabs` | `.pr-tabbar`, `.pr-tabbtn`, `.pr-tabpanel`; variante `.pr-tabbar--flat` (estilo Nav item: sin track, `radius-sm`) | `[data-pr-tabs]` |
-| Dialog | §35 `#prim-dialog` | `.sc-modal*` | `[data-pr-dialog]` / `[data-pr-dialog-close]` |
-| Dropdown | §36 `#prim-dropdown` | `.pr-pop-wrap`, `.pr-menu*` | `[data-pr-menu]` |
-| Popover | §37 `#prim-popover` | `.pr-menu.pr-pop` | `[data-pr-menu]` |
-| Toast | §38 `#prim-toast` | `.pr-toasts`, `.pr-toast` | `[data-pr-toast]` + host `#prToasts` |
+| Tabs | §35 `#prim-tabs` | `.pr-tabbar`, `.pr-tabbtn`, `.pr-tabpanel`; variante `.pr-tabbar--flat` (estilo Nav item: sin track, `radius-sm`) | `[data-pr-tabs]` |
+| Dialog | §36 `#prim-dialog` | `.sc-modal*` | `[data-pr-dialog]` / `[data-pr-dialog-close]` |
+| Dropdown | §37 `#prim-dropdown` | `.pr-pop-wrap`, `.pr-menu*` | `[data-pr-menu]` |
+| Popover | §38 `#prim-popover` | `.pr-menu.pr-pop` | `[data-pr-menu]` |
+| Toast | §39 `#prim-toast` | `.pr-toasts`, `.pr-toast` | `[data-pr-toast]` + host `#prToasts` |
 
 Tres primitivos más se documentan en secciones existentes: **Switch/Check → §10 Inputs**, **Tooltip → §18 Varios**, **Accordion → §13 Navegación**.
 
@@ -1549,7 +1549,7 @@ Es una **propuesta visual**: nombres de clase, props y JS se formalizan cuando l
 
 ### Pantalla de finalización (`.pk-done`)
 
-Hero de cierre del flujo de picking: se muestra cuando todos los artículos pendientes fueron procesados. **Borderless** — separa por fondo (`--bg-elev`) y sombra (`--shadow-lg`), nunca por borde de acento. El ícono reusa el idioma de éxito del DS (`--green-soft` / `--green`); el aviso superior es el primitivo `.pr-toast` (no se redefine). El título usa `--display` por ser un hero de cierre. CTA = botón primario del DS. Catálogo: **§36 · Picking → Finalización** (`#pk-done`); demo en el showcase (`#card-picking`).
+Hero de cierre del flujo de picking: se muestra cuando todos los artículos pendientes fueron procesados. **Borderless** — separa por fondo (`--bg-elev`) y sombra (`--shadow-lg`), nunca por borde de acento. El ícono reusa el idioma de éxito del DS (`--green-soft` / `--green`); el aviso superior es el primitivo `.pr-toast` (no se redefine). El título usa `--display` por ser un hero de cierre. CTA = botón primario del DS. Catálogo: **§37 · Picking → Finalización** (`#pk-done`); demo en el showcase (`#card-picking`).
 
 ```css
 .pk-done{
