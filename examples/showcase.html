@@ -997,37 +997,92 @@
       </div>
     </article>
     <article class="sc-card" id="card-appshell">
-      <div class="sc-card-h"><span class="sc-card-title">Shell de app</span><a class="ds-xref" href="../yiqi-design-system.html#sidebar-collapse"><i class="ph ph-anchor-simple"></i> Ver fuente</a></div>
-      <p class="sc-card-sub">Topbar + <strong>sidebar colapsable</strong> + contenido. Tocá el botón al pie del rail.</p>
+      <div class="sc-card-h"><span class="sc-card-title">Shell de app</span><a class="ds-xref" href="../yiqi-design-system.html#app-shell"><i class="ph ph-anchor-simple"></i> Ver fuente</a></div>
+      <p class="sc-card-sub">Topbar + sidebar + contenido, con las mismas partes que el catálogo. El rail colapsable tiene su propia demo más arriba.</p>
       <style>
-        #sc-appshell-demo .app-shell{ min-height:0; height:158px; grid-template-columns:132px minmax(0,1fr); }
+        #sc-appshell-demo{ border-radius:var(--radius); overflow:hidden; background:var(--bg); }
+        #sc-appshell-demo .app-shell{ min-height:0; height:218px;
+          grid-template-columns:172px minmax(0,1fr); }
         #sc-appshell-demo .app-shell.nav-collapsed{ grid-template-columns:var(--sidebar-w-collapsed) minmax(0,1fr); }
-        #sc-appshell-demo .sidebar{ position:static; top:auto; height:100%; padding:12px 10px; background:transparent; }
-        #sc-appshell-demo .rail-content{ padding:14px; min-width:0; }
+        #sc-appshell-demo .sidebar{ position:static; top:auto; height:100%; padding:12px 10px;
+          background:var(--bg-elev-2); }
+        #sc-appshell-demo .content{ padding:0; gap:0; }
+        #sc-appshell-demo .topbar{ min-height:44px; padding:0 14px; flex-wrap:nowrap;
+          border-bottom:1px solid var(--line); background:var(--bg-elev-2); }
+        #sc-appshell-demo .account-chip{ min-width:0; padding:0; }
+        #sc-appshell-demo .rail-content{ padding:14px; min-width:0;
+          color:var(--muted); font:400 11.5px/1.5 var(--sans); }
       </style>
-      <div style="border:1px solid var(--line);border-radius:var(--radius);overflow:hidden">
-        <div style="display:flex;align-items:center;justify-content:space-between;height:36px;padding:0 12px;border-bottom:1px solid var(--line);background:var(--bg-elev-2)">
-          <span style="font:700 10px var(--mono);color:var(--muted);letter-spacing:.08em">MI APP</span>
-          <div style="display:flex;gap:6px;align-items:center">
-            <span style="width:22px;height:22px;border-radius:var(--radius-pill);background:var(--cyan-soft);color:var(--cyan);display:grid;place-items:center;font-size:11px"><i class="ph ph-arrows-clockwise"></i></span>
-            <span class="badge" style="font:600 9px var(--mono);color:var(--muted);background:var(--bg-soft)">Cerrar sesión</span>
-          </div>
-        </div>
-        <div id="sc-appshell-demo">
-          <div class="app-shell">
-            <nav class="sidebar" aria-label="Navegación de ejemplo">
-              <div class="nav">
-                <span class="nav-lbl">Sección</span>
-                <a class="nav-link is-active" href="#" onclick="return false" title="Inicio"><span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5 12 3l9 6.5"/><path d="M5 10v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V10"/></svg></span><span>Inicio</span></a>
-                <a class="nav-link" href="#" onclick="return false" title="Otra vista"><span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span><span>Otra vista</span></a>
+      <div id="sc-appshell-demo">
+        <div class="topbar">
+              <div class="topbar-l"><svg class="yqlogo-anim" data-yiqi-logo data-axis="y" style="height:24px;width:auto;color:var(--text)" viewBox="0 0 100 65" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="YiQi (animado)"><g class="yq-all anim"><path class="yq-y yql anim" d="M20.44,48.34l2.57-6.15-6.79-16.91c-.14-.39.07-.61.46-.61h4.97c.29,0,.57.14.68.43l3.58,10.08,3.61-10.08c.11-.29.39-.43.68-.43h4.97c.39,0,.57.21.43.61l-9.26,23.27c-.11.29-.39.43-.68.43h-4.75c-.43,0-.68-.21-.47-.64Z"/><path class="yq-i1s yql anim" d="M38.72,25.24c0-.32.25-.57.57-.57h4.89c.32,0,.57.25.57.57v16.24c0,.32-.25.57-.57.57h-4.89c-.32,0-.57-.25-.57-.57v-16.24Z"/><g class="yq-q anim"><path class="yqs" d="M57.91,44.78v-2.66c-2.18-.53-4.21-1.66-5.92-3.36-4.97-4.97-5.09-13.02-.03-18.08,5.09-5.09,13.14-4.97,18.11,0s5.09,13.02,0,18.11c-1.78,1.78-3.94,2.93-6.22,3.46v2.51c0,.35-.18.53-.58.53h-4.82c-.3,0-.55-.2-.55-.5ZM56.28,34.47c.5.5,1.05.9,1.65,1.2v-3.36c0-.35.18-.53.53-.53h4.87c.25,0,.53.18.53.53v3.36c.63-.33,1.23-.78,1.78-1.33,2.73-2.73,2.78-6.75.15-9.38s-6.67-2.61-9.41.13c-2.71,2.71-2.73,6.75-.1,9.38Z"/></g><path class="yq-i2s yql anim" d="M77.44,25.24c0-.32.25-.57.57-.57h4.89c.32,0,.57.25.57.57v16.24c0,.32-.25.57-.57.57h-4.89c-.32,0-.57-.25-.57-.57v-16.24Z"/><path class="yq-i1d yql anim" d="M38.5,18.99c0-1.77,1.35-3.19,3.23-3.19s3.23,1.42,3.23,3.19-1.38,3.23-3.23,3.23-3.23-1.42-3.23-3.23Z"/><path class="yq-i2d yql anim" d="M77.22,18.99c0-1.77,1.35-3.19,3.23-3.19s3.23,1.42,3.23,3.19-1.38,3.23-3.23,3.23-3.23-1.42-3.23-3.23Z"/></g></svg><span class="t-pill">Mi App</span></div>
+              <div class="topbar-r">
+                <span class="account-chip"><span class="account-user">Dev Externo</span></span>
+                <button class="btn-refresh" type="button" aria-label="Actualizar" title="Actualizar"><svg class="rico" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 3v6h-6"/></svg></button>
+                <button class="btn btn-ghost btn-sm" type="button">Cerrar sesión</button>
               </div>
-              <button class="sidebar-collapse" onclick="scRailToggle(this)" aria-expanded="true" aria-label="Colapsar menú" title="Colapsar menú"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg></button>
-            </nav>
-            <div class="rail-content" style="color:var(--muted);font:400 11.5px/1.5 var(--sans)">Área de contenido — acá va lo propio de cada app.</div>
+        </div>
+        <div class="app-shell">
+          <nav class="sidebar" aria-label="Navegación de ejemplo">
+            <div class="nav">
+              <span class="nav-lbl">Sección</span>
+              <a class="nav-link is-active" href="#" onclick="return false" title="Inicio"><span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5 12 3l9 6.5"/><path d="M5 10v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V10"/></svg></span><span>Inicio</span></a>
+              <a class="nav-link" href="#" onclick="return false" title="Otra vista"><span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span><span>Otra vista</span></a>
+            </div>
+            <div class="sb-footer">
+              <div class="sb-theme-switch" role="group" aria-label="Tema de color">
+                <button class="theme-opt" type="button" data-val="dark" aria-label="Tema oscuro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg></button>
+                <button class="theme-opt" type="button" data-val="system" aria-label="Tema del sistema"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></button>
+                <button class="theme-opt" type="button" data-val="light" aria-label="Tema claro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg></button>
+              </div>
+              <div class="sb-copy">© 2026 YiQi S.A.<br>Mi App · DS v1.2.7.3</div>
+            </div>
+          </nav>
+          <div class="content">
+        <div class="rail-content">Área de contenido — acá va lo propio de cada app.</div>
           </div>
         </div>
       </div>
-    </article>
+          <div class="sc-card-h" style="margin-top:18px"><span class="sc-card-title">Shell en celular</span></div>
+      <p class="sc-card-sub">Mismo shell bajo 980px: el nombre de la app se centra y el menú entra desde la derecha con el botón. Sale de <code class="sc-mono">shell-mobile.html</code>, que consume <code class="sc-mono">styles.css</code>.</p>
+      <style>
+        /* Mockup de telefono en CSS: sin imagenes. Proporcion 9:16 (390x693).
+           Es cromo de la documentacion, no del Design System. */
+        #sc-shellmob-phones{ display:flex; gap:26px; flex-wrap:wrap; align-items:flex-start;
+          margin-bottom:26px; }
+        #sc-shellmob-phones .ph-h{ font:600 12px var(--sans); color:var(--text); margin-bottom:9px; }
+        #sc-shellmob-phones .phone{ position:relative; width:414px; max-width:100%; padding:12px;
+          border-radius:48px; background:var(--bg-elev-2);
+          box-shadow:0 0 0 1px var(--line-strong), 0 18px 40px rgba(0,0,0,.28); }
+        #sc-shellmob-phones .screen{ position:relative; border-radius:37px; overflow:hidden; isolation:isolate;
+          background:var(--bg); }
+        #sc-shellmob-phones .island{ position:absolute; z-index:2; pointer-events:none; top:8px; left:50%; transform:translateX(-50%);
+          width:104px; height:24px; border-radius:12px; background:rgba(0,0,0,.88); }
+        #sc-shellmob-phones iframe{ width:390px; height:844px; border:0; display:block; border-radius:37px; }
+        #sc-shellmob-phones .phone::before, #sc-shellmob-phones .phone::after{ content:""; position:absolute;
+          left:-2px; width:2px; border-radius:2px; background:var(--line-strong); }
+        #sc-shellmob-phones .phone::before{ top:120px; height:32px; }
+        #sc-shellmob-phones .phone::after{ top:166px; height:56px; }
+      </style>
+      <div id="sc-shellmob-phones">
+        <div><div class="ph-h">Menú cerrado</div>
+          <div class="phone"><div class="screen"><span class="island" aria-hidden="true"></span><iframe src="shell-mobile.html?notch=47" title="Shell de app en celular · menú cerrado"></iframe></div></div></div>
+        <div><div class="ph-h">Menú abierto</div>
+          <div class="phone"><div class="screen"><span class="island" aria-hidden="true"></span><iframe src="shell-mobile.html?notch=47&amp;open=1" title="Shell de app en celular · menú abierto"></iframe></div></div></div>
+      </div>
+      <script>
+        (function () {
+          var f = document.querySelector('#sc-shellmob iframe');
+          function sync() {
+            var t = document.documentElement.getAttribute('data-theme') || 'system';
+            try { f.contentWindow.postMessage({ theme: t }, '*'); } catch (e) {}
+          }
+          f.addEventListener('load', sync);
+          new MutationObserver(sync).observe(document.documentElement,
+            { attributes: true, attributeFilter: ['data-theme'] });
+        })();
+      </script>
+</article>
     <article class="sc-card" id="card-trust">
       <div class="sc-card-h"><span class="sc-card-title">Trust / Stats</span><a class="ds-xref" href="../yiqi-design-system.html#trust"><i class="ph ph-anchor-simple"></i> Ver fuente</a></div>
       <p class="sc-card-sub">Indicadores de confianza.</p>

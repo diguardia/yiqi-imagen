@@ -88,6 +88,39 @@
 
   var _toastContainer = null;
 
+
+  /* ── Drawer de navegación (mobile) ─────────────────────────────
+     Conecta .nav-hamburger + .sidebar + .nav-overlay. Idempotente. */
+  function initNavDrawer(root) {
+    var scope  = root || document;
+    var btn    = scope.querySelector('.nav-hamburger');
+    var side   = scope.querySelector('.sidebar');
+    var scrim  = scope.querySelector('.nav-overlay');
+    var close  = scope.querySelector('.nav-close');
+    if (!btn || !side || !scrim || btn.dataset.navDrawer) return;
+    btn.dataset.navDrawer = '1';
+
+    function set(open) {
+      side.classList.toggle('is-open', open);
+      scrim.classList.toggle('is-open', open);
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    btn.addEventListener('click', function () {
+      set(!side.classList.contains('is-open'));
+    });
+    scrim.addEventListener('click', function () { set(false); });
+    if (close) close.addEventListener('click', function () { set(false); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') set(false);
+    });
+    side.addEventListener('click', function (e) {
+      if (e.target.closest('.nav-link')) set(false);
+    });
+    return set;
+  }
+
+  document.addEventListener('DOMContentLoaded', function () { initNavDrawer(); });
+
   function _ensureToastContainer() {
     if (_toastContainer) return _toastContainer;
     _toastContainer = document.createElement('div');
@@ -342,6 +375,7 @@
     /* UI */
     toast:          toast,
     initSortable:   initSortable,
+    initNavDrawer:  initNavDrawer,
     initScrollSpy:  initScrollSpy,
 
     /* Formato */

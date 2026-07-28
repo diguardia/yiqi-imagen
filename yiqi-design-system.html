@@ -2904,6 +2904,46 @@ html[data-theme="light"] .bg-grid-demo-fade {
   </div>
 </div>
 
+<div class="subsection-title" id="shell-mobile">El shell en celular</div>
+<p style="font:400 13px/1.6 var(--sans);color:var(--muted);max-width:64ch;margin:-4px 0 14px">Bajo <strong>980px</strong> el sidebar pasa a drawer y entra <strong>desde la derecha</strong>, el mismo lado del botón. El logo queda a la izquierda y el <strong>nombre de la app se centra</strong>. Sale de <code>examples/shell-mobile.html</code>, que consume <code>styles.css</code>: acá no hay estilos del componente.</p>
+<style>
+  /* Mockup de telefono en CSS: sin imagenes. Proporcion 9:16 (390x693).
+     Es cromo de la documentacion, no del Design System. */
+  #ds-shellmob-phones{ display:flex; gap:26px; flex-wrap:wrap; align-items:flex-start;
+    margin-bottom:26px; }
+  #ds-shellmob-phones .ph-h{ font:600 12px var(--sans); color:var(--text); margin-bottom:9px; }
+  #ds-shellmob-phones .phone{ position:relative; width:414px; max-width:100%; padding:12px;
+    border-radius:48px; background:var(--bg-elev-2);
+    box-shadow:0 0 0 1px var(--line-strong), 0 18px 40px rgba(0,0,0,.28); }
+  #ds-shellmob-phones .screen{ position:relative; border-radius:37px; overflow:hidden; isolation:isolate;
+    background:var(--bg); }
+  #ds-shellmob-phones .island{ position:absolute; z-index:2; pointer-events:none; top:8px; left:50%; transform:translateX(-50%);
+    width:104px; height:24px; border-radius:12px; background:rgba(0,0,0,.88); }
+  #ds-shellmob-phones iframe{ width:390px; height:844px; border:0; display:block; border-radius:37px; }
+  #ds-shellmob-phones .phone::before, #ds-shellmob-phones .phone::after{ content:""; position:absolute;
+    left:-2px; width:2px; border-radius:2px; background:var(--line-strong); }
+  #ds-shellmob-phones .phone::before{ top:120px; height:32px; }
+  #ds-shellmob-phones .phone::after{ top:166px; height:56px; }
+</style>
+<div id="ds-shellmob-phones">
+  <div><div class="ph-h">Menú cerrado</div>
+    <div class="phone"><div class="screen"><span class="island" aria-hidden="true"></span><iframe src="examples/shell-mobile.html?notch=47" title="Shell de app en celular · menú cerrado"></iframe></div></div></div>
+  <div><div class="ph-h">Menú abierto</div>
+    <div class="phone"><div class="screen"><span class="island" aria-hidden="true"></span><iframe src="examples/shell-mobile.html?notch=47&amp;open=1" title="Shell de app en celular · menú abierto"></iframe></div></div></div>
+</div>
+<script>
+  (function () {
+    var f = document.querySelector('#ds-shellmob iframe');
+    function sync() {
+      var t = document.documentElement.getAttribute('data-theme') || 'system';
+      try { f.contentWindow.postMessage({ theme: t }, '*'); } catch (e) {}
+    }
+    f.addEventListener('load', sync);
+    new MutationObserver(sync).observe(document.documentElement,
+      { attributes: true, attributeFilter: ['data-theme'] });
+  })();
+</script>
+
 <div class="subsection-title">Topbar</div>
 <table class="table-demo" style="max-width:720px;margin-bottom:24px">
 <thead><tr><th>Parte</th><th>Clase</th><th>Regla</th></tr></thead>
