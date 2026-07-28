@@ -31,6 +31,7 @@ Do not read this when:
 |-----------|-----------|---------------|
 | `convenciones-documentacion.md` | All | Encoding, line endings, and documentation style |
 | `seguridad-integraciones-api.md` | Dev / AI | Operational security for YiQi API consumers |
+| `seguridad-aplicaciones.md` | Dev / AI / Security | Mandatory application-wide controls, evidence, exceptions, and release gates |
 | `politica-errores.md` | Dev / AI | User-facing errors vs technical logs |
 | `politica-dependencias.md` | Dev / Maintainer | npm, dependencies, and audit policy |
 | `politica-fixtures.md` | Dev / AI | Fixture usage and update policy |

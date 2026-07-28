@@ -43,8 +43,9 @@ Los scripts (`scripts/`) usan solo módulos nativos de Node (`node:fs`, `node:pa
 ## Auditoría de seguridad
 
 - Correr `npm audit` antes de cada release y de forma periódica.
-- Resolver vulnerabilidades **high/critical** antes de mergear; `npm audit fix` para las automáticas.
-- Documentar en el PR cualquier vulnerabilidad aceptada conscientemente (con motivo y plan).
+- Un hallazgo **critical** abierto bloquea merge y deploy.
+- Resolver vulnerabilidades **high** antes de mergear o registrar una excepción formal vigente según `docs/seguridad-aplicaciones.md`; usar `npm audit fix` para las correcciones automáticas revisadas.
+- Toda vulnerabilidad aceptada debe incluir responsable, justificación, mitigación y vencimiento.
 - Revisar `npm outdated` periódicamente para evitar deuda de versiones.
 
 ## Comandos de referencia

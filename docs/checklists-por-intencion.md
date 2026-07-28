@@ -109,3 +109,15 @@ Cuando no usar checklist completo:
 - [ ] Si hubo un error repetible o una suposicion incorrecta, se reviso `Agent/error-memory/errors/INDEX.md`.
 - [ ] Si se registro un error, se guardo causa raiz y fix final, no logs crudos.
 - [ ] Si existe memoria legacy, se migro solo la entrada util al archivo de categoria correspondiente.
+
+## 14. Cierre de seguridad de aplicaciones
+- [ ] Se revisaron los controles `SEC-APP` aplicables de `docs/seguridad-aplicaciones.md` y se justificaron los no aplicables.
+- [ ] La autorizacion se verifica en servidor por operacion y recurso, con pruebas negativas entre identidades y roles.
+- [ ] Inputs y respuestas externas se validan con esquemas allowlist; consultas y ejecucion usan APIs seguras y parametrizadas.
+- [ ] Se verificaron limites de recursos, rate limiting y proteccion contra replay en los flujos alcanzados.
+- [ ] No hay credenciales predeterminadas, secretos versionados ni datos sensibles en logs o artefactos.
+- [ ] SAST, analisis de dependencias y deteccion de secretos se ejecutaron en el PR con resultados enlazados.
+- [ ] No quedan hallazgos criticos abiertos; los altos se resolvieron o tienen excepcion formal vigente.
+- [ ] Toda excepcion declara responsable, justificacion, mitigacion y vencimiento; los falsos positivos tienen evidencia local.
+- [ ] Datos simulados, endpoints de debug y documentacion interna estan deshabilitados o inaccesibles en produccion.
+- [ ] Se definieron DAST y pruebas de penetracion proporcionales al riesgo y se registraron los riesgos residuales.

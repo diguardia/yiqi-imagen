@@ -32,4 +32,7 @@ Add category files only when there is a real recurring error class.
 |------|-----------|
 | `tooling-errors.md` | PowerShell, npm, Node, test runner, generated folder, lockfile, or local tooling failures. |
 | `api-contract-errors.md` | API fields, schema ids, endpoint contracts, auth context, or data mapping assumptions fail. |
-| `deploy-errors.md` | Build, packaging, CI, hosting, or generated deploy output fails. |
+| `authentication-errors.md` | Login, session, MFA, OAuth/OIDC, recovery, logout, or identity verification fails. |
+| `authorization-errors.md` | A role, tenant, operation, object, field, or message is allowed or denied incorrectly. |
+| `secret-handling-errors.md` | A credential, token, password, cookie, key, log, fixture, or artifact risks disclosure. |
+| `secure-deploy-errors.md` | Security gates, CI permissions, containers, SBOM, provenance, production debug exposure, or release controls fail. |

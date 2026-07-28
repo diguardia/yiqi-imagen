@@ -22,6 +22,7 @@ No todo pesa igual. Se distinguen dos niveles:
 
 ### Obligatorias (bloquean un PR)
 - Sin secretos/credenciales en el código ni en el repo.
+- Seguridad transversal de aplicaciones y gates crítico/alto (ver `seguridad-aplicaciones.md`).
 - Seguridad de integraciones API (ver `seguridad-integraciones-api.md`).
 - Navegación a detalle con `item.id` (ver `yiqi-api.md`); `npm run test:detail-navigation` en verde si hay listados/detalle.
 - Encoding UTF-8 / LF (ver `convenciones-documentacion.md`).

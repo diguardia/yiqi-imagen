@@ -46,6 +46,7 @@
 
 ## Seguridad
 
+- Cumplir la política transversal y los gates de `docs/seguridad-aplicaciones.md`.
 - No exponer secretos en cliente.
 - Validar entradas y salidas.
 - Sanitizar datos visibles al usuario cuando corresponda.

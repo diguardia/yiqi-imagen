@@ -32,6 +32,7 @@ Every consuming project must load the canonical CSS from this repository:
 - Do not include credentials, tokens, customer data, or private implementation details.
 - Prefer small files that can be copied independently.
 - Each template must include a README, usage notes, and a visual preview when possible.
+- Server-backed projects start from `security/` defaults and must satisfy `docs/seguridad-aplicaciones.md`.
 
 ## Available templates
 
@@ -43,3 +44,4 @@ Every consuming project must load the canonical CSS from this repository:
 | `runtime-banner/` | A view needs mock/error/unavailable runtime state. |
 | `trust/` | A section needs trust metrics. |
 | `analytics-pro-banner/` | A web page needs the Analytics Pro promo banner. |
+| `security/` | A server-backed app needs secure API route, Docker and CI starting points. |

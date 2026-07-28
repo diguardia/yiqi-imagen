@@ -3,6 +3,9 @@
 Complementa `docs/yiqi-api.md` con el foco puesto en **seguridad**. Aplica a toda app
 que consuma la API YiQi.
 
+Esta guía detalla el caso de integración. La política transversal, los controles
+`SEC-APP` y los gates obligatorios están en `docs/seguridad-aplicaciones.md`.
+
 ## 1. Credenciales y secretos
 
 - **Nunca** hardcodear usuario, contraseña, token ni `schemaId` en el código ni en el repo.

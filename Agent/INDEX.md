@@ -41,6 +41,7 @@ the task was trivial or file-local.
 | Consume DS styles in another project | `../template/shared/consume-styles.md`, `../LEEME-FUENTE-DS.md` | Full catalog unless changing a visual component |
 | API integration | `../docs/yiqi-api.md` | DS docs |
 | API integration security | `../docs/seguridad-integraciones-api.md` | Unrelated docs |
+| Seguridad de aplicaciones | `../docs/seguridad-aplicaciones.md` | API-specific details unless the task also changes an integration |
 | Error handling or messages | `../docs/politica-errores.md` | Unrelated docs |
 | Login or session | `../docs/yiqi-login.md` | Unrelated docs |
 | Login template | `../template/login/README.md`, `../template/shared/consume-styles.md`, `../template/INDEX.md` | API docs unless wiring auth behavior |

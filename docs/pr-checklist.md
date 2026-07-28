@@ -17,6 +17,15 @@ ver `docs/checklists-por-intencion.md`.
 - [ ] Error memory actualizado si hubo una falla repetible o una suposicion incorrecta.
 - [ ] El resumen al usuario indica en lenguaje simple que se verifico, que riesgo queda y que no se pudo verificar.
 
+## Gate de seguridad
+
+- [ ] Controles `SEC-APP` aplicables revisados según `docs/seguridad-aplicaciones.md`, con evidencia o justificación de no aplicabilidad.
+- [ ] SAST, análisis de dependencias y detección de secretos ejecutados en este PR.
+- [ ] No hay hallazgos críticos abiertos; un hallazgo crítico bloquea merge y deploy.
+- [ ] Los hallazgos altos están resueltos o tienen una excepción formal vigente con responsable, justificación, mitigación y vencimiento.
+- [ ] Los falsos positivos están documentados con alcance y evidencia, sin silenciamientos globales.
+- [ ] La revisión automática fue complementada con revisión humana y pruebas negativas de los flujos sensibles modificados.
+
 ## API
 
 - [ ] Contratos OpenAPI respetados

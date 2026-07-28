@@ -24,3 +24,4 @@ Do not read this when:
 | `trust/` | HTML trust stat variants | A project needs trust metrics in inline, card, or grid form. |
 | `analytics-pro-banner/` | HTML host for web component | A page needs the canonical Analytics Pro promo banner. |
 | `email/` | HTML email base (Mailchimp) | Se arma un mail de campaña o transaccional. Estilos inline (excepción: no consume styles.css). |
+| `security/` | API route, Docker and CI defaults | A server-backed application is created or gains a new runtime/deployment pipeline. |
