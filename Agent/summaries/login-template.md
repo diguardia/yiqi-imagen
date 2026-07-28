@@ -45,6 +45,8 @@ rebuild the same layout from scratch unless the project documents a divergence.
   `description`.
 - The template must not mention a business module such as pedidos unless the
   consuming project passes that copy.
+- Visual constants use canonical classes from `styles.css`; the TSX and preview
+  contain no embedded or static inline styles.
 
 ## Risks and regressions
 
@@ -57,10 +59,11 @@ rebuild the same layout from scratch unless the project documents a divergence.
 ## Verification
 
 - Run repo tests.
+- Run `npm run test:consumer-css -- template/login`.
 - Run visual QA from `template/login/preview.html` in light theme for desktop
   and a narrow viewport.
 - Search for credentials or project-specific copy before publishing.
 
 ## Last reviewed
 
-2026-06-11
+2026-07-28

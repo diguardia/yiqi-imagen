@@ -22,6 +22,25 @@
 - Reservar MAYÚSCULAS para siglas técnicas o de negocio (API, POS, SLA, SKU).
 - Redactar en español neutro latinoamericano, sin voseo ni regionalismos.
 
+## Estilos en aplicaciones consumidoras
+
+- Cargar la hoja canónica remota una sola vez:
+  `https://diguardia.github.io/yiqi-imagen/styles.css`.
+- No incluir bloques `<style>`, CSS-in-JS visual, cadenas `cssText` ni hojas
+  locales que dupliquen tokens, componentes o decisiones visuales del Design
+  System.
+- Mantener el CSS local únicamente para adaptadores pequeños de comportamiento
+  o integración, siempre en archivos `.css` separados. Un adaptador no puede
+  redefinir el lenguaje visual ni convertirse en un fork de `styles.css`.
+- Si una regla visual puede reutilizarse, incorporarla primero al `styles.css`
+  canónico y consumir su clase publicada.
+- Usar `style` inline sólo para valores calculados en runtime, por ejemplo el
+  ancho de un progreso, una coordenada o un color proveniente de datos. Las
+  constantes de layout, tipografía, color y espaciado deben expresarse mediante
+  clases canónicas.
+- Ejecutar `npm run test:consumer-css -- <rutas>` sobre las raíces de la app
+  (`app`, `src`, `pages` o equivalentes) antes de integrar el cambio.
+
 ## Aplicaciones orientadas a datos e indicadores
 
 - Todo KPI o indicador visible debe declarar origen validable en el propio componente o en su ayuda contextual.

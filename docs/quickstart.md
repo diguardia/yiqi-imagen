@@ -38,18 +38,25 @@ El toggle tiene 3 estados: `"dark"` -> `"system"` -> `"light"`.
   <!-- El fondo radial se aplica automaticamente desde styles.css -->
 ```
 
-**Marketing y landing**: radiales + grilla 52x52px.
+**Marketing y landing**: usar la clase canónica publicada para la variante de
+fondo correspondiente. No recrear la grilla en una hoja local. Si la variante
+necesaria todavía no existe, debe agregarse primero a `styles.css`.
 
-```css
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background-image:
-    linear-gradient(var(--grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-  background-size: 52px 52px;
-}
+## 4. CSS permitido en la app
+
+La app no debe contener CSS visual embebido (`<style>`, CSS-in-JS visual o
+`cssText`). El CSS local se limita a adaptadores pequeños de comportamiento o
+integración y vive en archivos `.css` separados.
+
+Los estilos inline se reservan para valores realmente calculados en runtime:
+
+```tsx
+<div className="load-progress-fill" style={{ width: `${progress}%` }} />
+```
+
+No usar inline para constantes visuales:
+
+```tsx
+{/* Incorrecto: debe ser una clase de styles.css */}
+<div style={{ display: 'grid', gap: 12 }} />
 ```

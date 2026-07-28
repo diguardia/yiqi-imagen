@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="../../styles.css">
   <link rel="stylesheet" href="./yiqi-login-template.css">
 </head>
-<body style="margin:0">
+<body>
   <main class="login-screen">
     <section class="login-stage" aria-label="Inicio de sesion YiQi">
       <div class="login-brand">
@@ -29,11 +29,11 @@
       <div class="login-gate">
         <form class="login-card" autocomplete="on">
           <div class="login-form">
-            <label style="display:grid;gap:5px">
+            <label class="login-field">
               <span class="login-label">Usuario o correo electronico</span>
               <input class="ds-input" type="text" autocomplete="username" placeholder="usuario@empresa.com">
             </label>
-            <label style="display:grid;gap:5px">
+            <label class="login-field">
               <span class="login-label">Contrasena</span>
               <span class="login-password">
                 <input class="ds-input" type="password" autocomplete="current-password" placeholder="Contrasena">
@@ -49,7 +49,7 @@
             <span>Mantener sesion iniciada</span>
           </label>
 
-          <button class="btn btn-primary login-submit" type="button" style="width:100%">
+          <button class="btn btn-primary login-submit" type="button">
             <span>Iniciar sesion</span>
           </button>
 

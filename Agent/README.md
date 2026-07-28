@@ -48,6 +48,11 @@ theme rules, component classes, or visual CSS into the consuming app. Copy
 template markup and small project behavior only, keep the canonical class names,
 and let `styles.css` provide the visual language.
 
+Consumer apps must not embed visual CSS in `<style>`, CSS-in-JS, or `cssText`.
+Local CSS is limited to small behavior/integration adapters in separate files.
+Inline styles are reserved for values calculated at runtime. Run
+`npm run test:consumer-css -- <app roots>` when reviewing a consuming app.
+
 If a reusable visual rule is missing, add it to this repository first and update
 the template documentation. Use adapter CSS only for behavior or project-specific
 details that are not part of the shared Design System.

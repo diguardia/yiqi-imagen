@@ -4,7 +4,8 @@
   },
   "scripts": {
     "test:detail-navigation": "node scripts/check-detail-navigation.js",
-    "test": "node scripts/check-detail-navigation.js"
+    "test:consumer-css": "node scripts/check-consumer-css.js",
+    "test": "node scripts/check-detail-navigation.js && node scripts/check-consumer-css.js"
   },
   "devDependencies": {
     "@types/node": "^24.13.2",

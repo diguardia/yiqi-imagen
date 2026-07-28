@@ -36,6 +36,11 @@ ver `docs/checklists-por-intencion.md`.
 ## UI/UX
 
 - [ ] Tokens YiQi usados (sin hardcode innecesario)
+- [ ] La app carga el `styles.css` canónico remoto y no mantiene una copia o fork local
+- [ ] No hay bloques de CSS visual embebido (`<style>`, CSS-in-JS visual o `cssText`)
+- [ ] El CSS local se limita a adaptadores pequeños de comportamiento/integración en archivos separados
+- [ ] Los estilos inline contienen únicamente valores calculados en runtime
+- [ ] `npm run test:consumer-css -- <rutas de la app>` ejecutado correctamente
 - [ ] Tipografia y estilo alineados
 - [ ] Responsive <= 980px validado
 - [ ] Copy en espanol neutro

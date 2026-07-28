@@ -1057,6 +1057,7 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
 }
 
 .login-form { display: grid; gap: 10px; }
+.login-field { display: grid; gap: 5px; }
 
 .login-label {
   font-size: 12px;
@@ -1066,7 +1067,7 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
   letter-spacing: 0.08em;
 }
 
-.login-submit              { margin-top: 6px; }
+.login-submit              { width: 100%; margin-top: 6px; }
 .login-hint                { margin-top: 6px; font-size: 13px; color: var(--muted); }
 
 .auth-status {
@@ -1088,6 +1089,12 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
   max-width: 100%;
   height: auto;
   color: var(--text);
+}
+.login-brand .yiqi-login-logo .yq-q,
+.login-brand .yiqi-login-logo .yq-i1d,
+.login-brand .yiqi-login-logo .yq-i2d {
+  transform-box: fill-box;
+  transform-origin: center;
 }
 .login-brand .yiqi-login-description {
   margin: 8px 0 0;

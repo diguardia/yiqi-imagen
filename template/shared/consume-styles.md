@@ -61,10 +61,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 ## Adapter CSS
 
-Adapter CSS is allowed only for small behavior rules that are not part of the
-global Design System yet, such as a password-eye button or a template-only
-preview wrapper. If the rule is visual and reusable, move it to canonical
-`styles.css` instead of keeping it in a template.
+Adapter CSS is allowed only for small behavior or integration rules that are
+not part of the global Design System. It must live in a separate `.css` file;
+never embed it in `<style>`, CSS-in-JS, or a `cssText` string. If the rule is
+visual and reusable, move it to canonical `styles.css` instead of keeping it in
+a template.
+
+Inline styles are allowed only when their values are calculated at runtime
+(progress, coordinates, data-driven colors, and similar values). Static layout,
+spacing, typography, and colors must use canonical classes.
 
 If a published stylesheet does not yet include a new reusable class, document
 that dependency and update this repository before relying on the class in a

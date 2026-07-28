@@ -140,7 +140,7 @@ export function YiQiLoginTemplate({
         <div className="login-gate">
           <form className="login-card" onSubmit={handleSubmit} autoComplete="on">
             <div className="login-form">
-              <label style={{ display: 'grid', gap: 5 }}>
+              <label className="login-field">
                 <span className="login-label">{usernameLabel}</span>
                 <input
                   className="login-input"
@@ -154,7 +154,7 @@ export function YiQiLoginTemplate({
                 />
               </label>
 
-              <label style={{ display: 'grid', gap: 5 }}>
+              <label className="login-field">
                 <span className="login-label">{passwordLabel}</span>
                 <span className="login-password">
                   <input
