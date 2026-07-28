@@ -581,7 +581,3 @@ img, svg { max-width: 100%; height: auto; }
   .nav-locked .ds-nav-lock .ico-unlocked { display: none; }
   .nav-locked .ds-nav-lock .ico-locked { display: block; }
 }
-
-/* Sub-entradas del nav del catalogo (subsecciones dentro de una seccion). */
-.ds-nav-item--sub { padding-left: 26px !important; }
-.ds-nav-item--sub .ds-nav-num { min-width: 2.4em; }
