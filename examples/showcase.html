@@ -17,18 +17,15 @@
   body { margin:0; background:var(--bg); color:var(--text); font-family:var(--sans,"Inter",sans-serif); height:100vh; display:flex; flex-direction:column; overflow:hidden; }
   html[data-theme="light"] body, html[data-theme="dark"] body { background:var(--bg); }
   .sc-split { flex:1; min-height:0; display:grid; grid-template-columns:300px minmax(0,1fr); overflow:hidden; }
-  .sc-hero { display:flex; flex-direction:column; height:100%; overflow:auto; padding:28px 22px; border-right:1px solid var(--line); background:var(--bg-elev); }
-  .sc-hero-main{ display:flex; flex-direction:column; align-items:flex-start; }
-  .sc-hero-aside{ display:flex; flex-direction:column; margin-top:20px; }
-  .sc-hero .sc-livelabel{ margin-top:14px; }
   .sc-right { min-width:0; height:100%; overflow:hidden; display:flex; flex-direction:column; }
   .sc-right .sc-section { max-width:none; margin:0; padding:14px 18px 16px; }
   .sc-eyebrow { display:inline-flex; align-items:center; gap:7px; padding:5px 12px; border-radius:var(--radius-pill);
     background:var(--cyan-soft); color:var(--cyan); font:600 11px var(--mono); letter-spacing:.06em; }
   .sc-h1 { font:800 38px/1.04 var(--sans); letter-spacing:-.02em; margin:16px 0 12px; }
   .sc-sub { color:var(--muted); font:400 13.5px/1.55 var(--sans); max-width:44ch; margin:0 0 16px; }
-  .sc-code { background:var(--bg-elev-2); border-radius:var(--radius); padding:12px 14px;
-    font:500 11.5px/1.6 var(--mono); color:var(--muted); overflow-x:auto; margin-bottom:16px; }
+  .sc-code { background:var(--bg-elev-2); border-radius:var(--radius); padding:14px 16px;
+    font:500 11.5px/1.7 var(--mono); color:var(--muted); overflow-x:auto; margin-bottom:16px;
+    white-space:pre-wrap; }   /* sin esto los saltos de linea del snippet se colapsan */
   .sc-code .k{color:var(--cyan)} .sc-code .s{color:var(--green)} .sc-code .c{color:var(--muted-2)}
   .sc-cta { display:flex; gap:12px; flex-wrap:wrap; }
   .sc-livelabel { margin-top:auto; padding-top:18px; color:var(--muted-2); font:700 10px var(--mono); letter-spacing:.16em; text-transform:uppercase; }
@@ -66,10 +63,10 @@
   .sc-plan .pn{ font:700 12px var(--sans); } .sc-plan .pp{ font:800 20px var(--kpi-num,var(--sans)); margin-top:6px; }
   .sc-plan .pp small{ font:500 11px var(--mono); color:var(--muted); }
   .sc-muted{ color:var(--muted); } .sc-mono{ font-family:var(--mono); }
-  @media (max-width:820px){ .sc-split{ display:flex; flex-direction:column; } .sc-hero{ height:auto; overflow:visible; border-right:none; border-bottom:1px solid var(--line); padding:18px; } .sc-h1{ font-size:34px; } }
+  @media (max-width:820px){ .sc-split{ display:flex; flex-direction:column; } }
 
   /* ── Secciones catálogo (tablas y gráficos) ── */
-  .sc-section { max-width:1320px; margin:0 auto; padding:26px 20px 4px; }
+  .sc-section { max-width:none; margin:0; padding:26px clamp(20px,2.5vw,44px) 4px; }
   .sc-section-h { font:800 20px var(--sans); letter-spacing:-.01em; margin:0 0 3px; white-space:nowrap; }
   .sc-section-sub { color:var(--muted); font:400 12.5px var(--sans); margin:0 0 16px; }
   .sc-tbl-grid { display:grid; grid-template-columns:1fr; gap:14px; }
@@ -102,7 +99,7 @@
   .data-table th.sorted-desc::after{ content:" ↓"; opacity:1; color:var(--cyan); }
   .sc-chart-cap{ margin-top:10px; font:500 11px var(--mono); color:var(--muted); min-height:15px; }
   .sc-iar .iar{ fill:var(--text); } .sc-iar .iar-a{ fill:var(--cyan); }
-  /* Logo YiQi animado (login §18) — librería YiQiLogo */
+  /* Logo YiQi animado (login §22) — librería YiQiLogo */
   [data-yiqi-logo]{ cursor:pointer; }
   [data-yiqi-logo] .yql{ fill:currentColor; }
   [data-yiqi-logo] .yqs{ fill:var(--cyan); }
@@ -138,9 +135,28 @@
   .sc-tl-node{ width:32px; height:32px; border-radius:50%; background:var(--bg-elev); box-shadow:0 0 0 1.5px var(--cyan), 0 0 0 6px var(--bg-elev); color:var(--cyan); display:grid; place-items:center; font:700 12px var(--mono); position:relative; z-index:1; margin-bottom:14px; }
   @media(max-width:760px){ .sc-tl{ grid-template-columns:1fr 1fr; gap:26px; } }
   @media(max-width:480px){ .sc-tl{ grid-template-columns:1fr; gap:18px; } .sc-tl-step:not(:last-child)::after{ display:none; } }
+  /* Recursos del DS, promovidos del hero que se elimino: eran cuatro
+     links de navegacion que ocupaban 400px de alto en el medio de la pagina. */
+  .sc-toplinks{ display:flex; align-items:center; gap:2px; flex-shrink:0; }
+  .sc-toplink{ display:inline-flex; align-items:center; gap:6px; padding:6px 10px;
+    border-radius:var(--radius-sm); background:transparent; color:var(--muted);
+    font:600 12px var(--sans); text-decoration:none; white-space:nowrap;
+    transition:background .16s, color .16s; }
+  .sc-toplink:hover{ color:var(--text); background:var(--bg-soft); }
+  .sc-toplink .ph{ font-size:14px; }
+  /* En la barra de tabs entran hasta ~1020px; abajo de eso viven en el drawer. */
+  @media (max-width:1020px){ .sc-toplinks{ display:none; } }
+
   /* ── Tabs multi-vista ── */
-  .sc-tabs{ z-index:40; flex-shrink:0; margin:0; background:var(--bg); border-bottom:1px solid var(--line); }
-  .sc-tabs-inner{ display:flex; gap:4px; flex-wrap:wrap; max-width:780px; margin:0 auto; padding:11px 14px; }
+  /* Va pegado al header, no despues del hero: es navegacion, y la navegacion
+     tiene que estar donde el ojo la busca. Sticky para no perderla al scrollear. */
+  .sc-tabs{ position:sticky; top:56px; z-index:40; flex-shrink:0; margin:0;
+    background:var(--bg); border-bottom:1px solid var(--line); }
+  /* Una sola linea: pestanas a la izquierda, recursos a la derecha.
+     Antes eran dos barras apiladas y sumaban 112px de cromo. */
+  .sc-tabs{ display:flex; align-items:center; justify-content:space-between; gap:20px;
+    padding:0 clamp(14px,2.5vw,44px); }
+  .sc-tabs-inner{ display:flex; gap:4px; flex-wrap:wrap; max-width:none; margin:0; padding:9px 0; }
   .sc-tab{ display:inline-flex; align-items:center; gap:7px; padding:8px 12px; border:none; cursor:pointer;
     border-radius:var(--radius-sm); background:transparent; color:var(--muted);
     font:600 12.5px var(--sans); transition:background .16s,color .16s; }
@@ -178,8 +194,8 @@
   #tab-mockups > .sc-grid > .sc-card, #tab-graficos .sc-chart-grid > .sc-card, #tab-tablas .sc-tbl-grid > .sc-card, #tab-primitivos .pr-card{
     flex:0 0 var(--cw); max-width:var(--cw); margin:0; scroll-snap-align:center; }
   /* Iconos: misma posicion (card centrada), galeria con scroll interno */
-  #tab-iconos{ --cw:780px; }
-  #tab-iconos.is-active{ display:flex; justify-content:center; overflow:hidden; padding:24px; }
+  #tab-iconos{ --cw:100%; }
+  #tab-iconos.is-active{ display:flex; justify-content:stretch; overflow:hidden; padding:24px clamp(20px,2.5vw,44px); }
   #tab-iconos .sc-section{ width:var(--cw); max-width:100%; height:100%; margin:0; display:flex; flex-direction:column;
     background:var(--bg-elev); border-radius:var(--radius-lg); box-shadow:var(--shadow-sm); padding:18px; overflow:hidden; }
   #tab-iconos .sc-section-h, #tab-iconos .sc-section-sub{ display:none; }
@@ -247,7 +263,9 @@
   .ic-search{ position:relative; flex:1; min-width:220px; }
   .ic-search .ph{ position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--muted); font-size:16px; }
   .ic-count{ font:500 12px var(--mono); color:var(--muted); white-space:nowrap; }
-  .ic-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(96px,1fr)); gap:10px; }
+  /* Con la seccion a todo el ancho hay lugar: 96px cortaba nombres como
+     "presentation-chart" en la mitad de una palabra. */
+  .ic-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(116px,1fr)); gap:10px; }
   .ic-cell{ display:flex; flex-direction:column; align-items:center; gap:9px; padding:14px 8px 10px; cursor:pointer; border:none; appearance:none; -webkit-appearance:none;
     border-radius:var(--radius); background:transparent; box-shadow:none;
     transition:transform .12s, background .14s, color .14s; }
@@ -259,7 +277,7 @@
   .ic-cell.copied .ic-name{ color:var(--green); }
   .ic-empty{ padding:40px; text-align:center; color:var(--muted); font:400 13px var(--sans); }
 
-  /* Login demo (scopeado a #login-demo) — idéntico al §27 del catálogo */
+  /* Login demo (scopeado a #login-demo) — idéntico al §51 del catálogo */
   #login-demo .auth-status[data-state="idle"]{ visibility:hidden; }
   #login-demo .auth-status[data-state="loading"]{ color:var(--cyan); border-color:var(--cyan-a28); }
   #login-demo .login-eye{ position:absolute; right:8px; top:50%; transform:translateY(-50%); width:34px; height:34px; display:grid; place-items:center; border:none; background:none; color:var(--muted-2); cursor:pointer; font-size:18px; }
@@ -316,14 +334,13 @@
   .sc-split{ flex:none; display:block; }
   .sc-right{ display:block; }
   /* el documento es el UNICO scroller: ningun contenedor intermedio atrapa el toque */
-  .sc-split, .sc-right, .sc-hero, .sc-carousel-track,
+  .sc-split, .sc-right, .sc-carousel-track,
   .sc-panel, .sc-panel.is-active,
   #tab-mockups.is-active, #tab-graficos.is-active, #tab-galeria.is-active, #tab-tablas.is-active, #tab-primitivos.is-active, #tab-iconos.is-active,
   .sc-grid, .sc-chart-grid, .sc-tbl-grid, .pr-grid, #tab-iconos .ic-grid, #tab-iconos .sc-section{
     overflow:visible !important; height:auto !important; max-height:none !important; min-height:0 !important;
     -webkit-overflow-scrolling:auto; touch-action:pan-y; }
   .sc-split{ overflow:visible; }
-  .sc-hero{ height:auto; overflow:visible; }
   .sc-right{ height:auto; overflow:visible; scroll-margin-top:56px; }
   .sc-carousel-track{ flex:none; min-height:0; overflow:visible; }
   .sc-panel.is-active{ height:auto; overflow:visible; overscroll-behavior:auto; }
@@ -340,12 +357,18 @@
   #tab-iconos .sc-section{ height:auto; overflow:visible; }
   #tab-iconos .ic-grid{ flex:none; min-height:0; overflow:visible; }
   .sc-noscroll, .sc-noscroll body{ overflow:hidden; }
-/* desktop: cards en columna centrada, no estiradas */
+
+/* desktop: la grilla usa todo el ancho. Las cards conservan su ancho de
+   lectura (~420px) y se acomodan en las columnas que entren. */
 @media (min-width:821px){
-  .sc-grid, .sc-chart-grid, .sc-tbl-grid, .pr-grid,
-  #tab-mockups > .sc-grid, #tab-graficos .sc-chart-grid, #tab-tablas .sc-tbl-grid, #tab-primitivos .pr-grid{ max-width:780px; margin-left:auto; margin-right:auto; }
-  .sc-hero{ max-width:780px; margin-left:auto; margin-right:auto; }
+  .sc-grid,
+  #tab-mockups > .sc-grid{ max-width:none; margin:0; columns:420px auto; column-gap:16px; }
+  .sc-chart-grid, .sc-tbl-grid, .pr-grid,
+  #tab-graficos .sc-chart-grid, #tab-tablas .sc-tbl-grid, #tab-primitivos .pr-grid{
+    max-width:none; margin:0;
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(420px, 1fr)); gap:16px; }
 }
+
 @media (max-width:720px){
   .topbar-brand svg{ width:72px; height:auto; }
 }
@@ -367,6 +390,25 @@
     <button class="sc-burger" id="scBurger" aria-label="Abrir menú" aria-expanded="false" aria-controls="scDrawer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
 </div>
 </header>
+
+  <div class="sc-tabs" id="scTabs" role="tablist" aria-label="Vistas del showcase">
+    <div class="sc-tabs-inner">
+    <button class="sc-tab" role="tab" id="sctab-primitivos" aria-controls="tab-primitivos" data-target="tab-primitivos" aria-selected="false"><i class="ph ph-cube"></i> Primitivos</button>
+    <button class="sc-tab" role="tab" id="sctab-mockups" aria-controls="tab-mockups" data-target="tab-mockups" aria-selected="true"><i class="ph ph-squares-four"></i> Mockups</button>
+    <button class="sc-tab" role="tab" id="sctab-analytics" aria-controls="tab-analytics" data-target="tab-analytics" aria-selected="false"><i class="ph ph-gauge"></i> Analytics Pro</button>
+    <button class="sc-tab" role="tab" id="sctab-graficos" aria-controls="tab-graficos" data-target="tab-graficos" aria-selected="false"><i class="ph ph-chart-line"></i> Gráficos</button>
+    <button class="sc-tab" role="tab" id="sctab-galeria" aria-controls="tab-galeria" data-target="tab-galeria" aria-selected="false"><i class="ph ph-chart-donut"></i> Galería</button>
+    <button class="sc-tab" role="tab" id="sctab-tablas" aria-controls="tab-tablas" data-target="tab-tablas" aria-selected="false"><i class="ph ph-table"></i> Tablas</button>
+    <button class="sc-tab" role="tab" id="sctab-iconos" aria-controls="tab-iconos" data-target="tab-iconos" aria-selected="false"><i class="ph ph-smiley"></i> Iconos</button>
+    </div>
+    <nav class="sc-toplinks" aria-label="Recursos del Design System">
+    <a class="sc-toplink" href="../template/INDEX.md"><i class="ph ph-copy"></i> Templates</a>
+    <a class="sc-toplink" href="../yiqi-design.md"><i class="ph ph-book-open"></i> Docs</a>
+    <a class="sc-toplink" href="https://yiqi.com.ar/api-docs.html" target="_blank" rel="noopener"><i class="ph ph-brackets-curly"></i> API docs</a>
+    <a class="sc-toplink" href="https://github.com/diguardia/yiqi-imagen" target="_blank" rel="noopener"><i class="ph ph-github-logo"></i> GitHub</a>
+  </nav>
+  </div>
+
 
 <!-- Drawer mobile -->
 <div class="sc-drawer-ov" id="scOv" hidden></div>
@@ -390,7 +432,7 @@
     <a class="sc-drawer-link" href="../yiqi-design-system.html"><i class="ph ph-squares-four"></i> Ver componentes</a>
     <a class="sc-drawer-link" href="../template/INDEX.md"><i class="ph ph-copy"></i> Templates</a>
     <a class="sc-drawer-link" href="../yiqi-design.md"><i class="ph ph-book-open"></i> Docs</a>
-    <a class="sc-drawer-link" href="../api-docs.html"><i class="ph ph-brackets-curly"></i> API docs</a>
+    <a class="sc-drawer-link" href="https://yiqi.com.ar/api-docs.html" target="_blank" rel="noopener"><i class="ph ph-brackets-curly"></i> API docs</a>
     <a class="sc-drawer-link" href="https://github.com/diguardia/yiqi-imagen" target="_blank" rel="noopener"><i class="ph ph-github-logo"></i> GitHub</a>
   </div>
   <div class="sc-drawer-group">
@@ -405,54 +447,14 @@
 
 <div class="sc-split">
   <!-- HERO -->
-  <section class="sc-hero">
-    <div class="sc-hero-main">
-    <span class="sc-eyebrow"><i class="ph ph-sparkle"></i> YiQi DS · v1.2.7.2</span>
-    <div class="sc-h1" style="margin:16px 0 12px"><a href="https://yiqi.com.ar/ia-ready.html" target="_blank" rel="noopener" aria-label="iA ready — ir a la landing" style="display:inline-block;line-height:0"><svg viewBox="0 0 256 68" xmlns="http://www.w3.org/2000/svg" aria-label="iA ready" class="sc-iar" style="height:50px;width:auto;max-width:100%">
-  <path class="iar" d="M225.626 67.89C224.75 67.89 224.239 67.452 224.677 66.576L229.933 54.02L216.063 19.491C215.771 18.688 216.209 18.25 217.012 18.25H227.159C227.743 18.25 228.327 18.542 228.546 19.126L235.846 39.712L243.219 19.126C243.438 18.542 244.022 18.25 244.606 18.25H254.753C255.556 18.25 255.921 18.688 255.629 19.491L236.722 67.014C236.503 67.598 235.919 67.89 235.335 67.89H225.626Z"/>
-  <path class="iar" d="M190.294 54.896C180.439 54.896 173.65 46.7199 173.65 36.1349C173.65 25.6229 180.439 17.3739 190.294 17.3739C194.747 17.3739 197.886 18.688 200.222 21.243V2.99295C200.222 2.33595 200.733 1.82495 201.39 1.82495H211.391C212.048 1.82495 212.559 2.33595 212.559 2.99295V52.852C212.559 53.509 211.975 54.02 211.318 54.02H202.339C201.682 54.02 201.171 53.509 201.171 52.852L201.025 49.8589C198.616 52.9979 195.185 54.896 190.294 54.896ZM185.622 36.1349C185.622 40.8069 188.834 43.7999 193.068 43.7999C197.375 43.7999 200.368 40.734 200.368 36.062C200.368 31.463 197.375 28.4699 193.068 28.4699C188.834 28.4699 185.622 31.5359 185.622 36.1349Z"/>
-  <path class="iar" d="M147.515 54.896C137.66 54.896 130.871 46.72 130.871 36.135C130.871 25.623 137.66 17.374 147.515 17.374C152.552 17.374 155.983 19.199 158.246 22.338L158.392 19.418C158.392 18.761 158.903 18.25 159.56 18.25H168.612C169.269 18.25 169.78 18.761 169.78 19.418V52.852C169.78 53.509 169.196 54.02 168.539 54.02H159.56C158.903 54.02 158.392 53.509 158.392 52.852L158.246 49.859C155.837 52.998 152.406 54.896 147.515 54.896ZM142.843 36.135C142.843 40.807 146.055 43.8 150.289 43.8C154.596 43.8 157.589 40.734 157.589 36.062C157.589 31.463 154.596 28.47 150.289 28.47C146.055 28.47 142.843 31.536 142.843 36.135Z"/>
-  <path class="iar" d="M112.868 54.896C101.115 54.896 93.0117 47.012 93.0117 35.989C93.0117 25.477 100.385 17.374 111.554 17.374C122.504 17.374 128.855 25.331 128.855 34.529C128.855 38.398 127.906 40.807 124.329 40.807H104.984C106.298 44.092 109.437 45.333 113.89 45.333C115.934 45.333 118.27 45.26 121.263 43.654C121.847 43.362 122.212 43.508 122.577 44.092L125.935 48.764C126.227 49.202 126.3 49.786 125.57 50.443C122.577 53.509 117.978 54.896 112.868 54.896ZM104.765 32.412H117.978C117.248 28.616 114.62 27.375 111.627 27.375C108.488 27.375 105.714 28.762 104.765 32.412Z"/>
-  <path class="iar" d="M69.2676 54.02C68.6106 54.02 68.0996 53.509 68.0996 52.852V19.418C68.0996 18.761 68.6106 18.25 69.2676 18.25H78.9036C79.4876 18.25 79.9256 18.542 79.9986 19.491L80.3636 24.309C81.5316 20.294 83.7216 17.374 87.8096 17.374C89.6346 17.374 90.5836 17.885 91.0946 18.323C91.6786 18.761 91.8246 19.272 91.8246 19.929V28.032C91.8246 28.908 91.3136 29.2 90.2916 28.981C89.5616 28.762 88.8316 28.616 87.5906 28.616C83.2836 28.616 80.3636 30.879 80.3636 36.427V52.852C80.3636 53.509 79.8526 54.02 79.1956 54.02H69.2676Z"/>
-  <path class="iar-a" d="M17.7429 54.0199C16.9399 54.0199 16.5019 53.5089 16.7939 52.7789L33.5839 3.79593C33.8029 3.21192 34.3869 2.91992 34.9709 2.91992H45.9939C46.5779 2.91992 47.2349 3.21192 47.4539 3.79593L64.2439 52.7789C64.5359 53.5089 64.0979 54.0199 63.2949 54.0199H52.4179C51.8339 54.0199 51.3229 53.8009 51.1039 53.1439L49.2059 47.0119H31.7589L29.8609 53.1439C29.6419 53.8009 29.2039 54.0199 28.6199 54.0199H17.7429ZM35.2629 35.7699H45.7019L40.5189 19.0529L35.2629 35.7699Z"/>
-  <path class="iar" d="M6.64301 13.213C2.774 13.213 0 10.293 0 6.57C0 2.92 2.774 0 6.64301 0C10.439 0 13.286 2.92 13.286 6.57C13.286 10.293 10.439 13.213 6.64301 13.213ZM0.438004 52.852V19.418C0.438004 18.761 0.949003 18.25 1.606 18.25H11.68C12.337 18.25 12.848 18.761 12.848 19.418V52.852C12.848 53.509 12.337 54.02 11.68 54.02H1.606C0.949003 54.02 0.438004 53.509 0.438004 52.852Z"/>
-</svg></a></div>
-    <p class="sc-sub">Librería canónica de componentes para las apps del ERP: dark/light, borderless y accesible. Una sola importación de <code class="sc-mono">styles.css</code> y listo, sin configurar nada.</p>
-    </div>
-    <div class="sc-hero-aside">
-    <div class="sc-code">
-<span class="c">&lt;!-- 1 sola hoja: tokens base + componentes --&gt;</span>
-<span class="k">&lt;link</span> rel=<span class="s">"stylesheet"</span> href=<span class="s">"styles.css"</span><span class="k">&gt;</span>
-
-<span class="c">&lt;!-- usás las clases del DS --&gt;</span>
-<span class="k">&lt;button</span> class=<span class="s">"btn btn-primary"</span><span class="k">&gt;</span>Guardar<span class="k">&lt;/button&gt;</span>
-    </div>
-    <div class="sc-cta">
-      <a class="btn btn-primary" href="../yiqi-design-system.html"><i class="ph ph-squares-four"></i> Ver componentes</a>
-      <a class="btn" href="../template/INDEX.md"><i class="ph ph-copy"></i> Templates</a>
-      <a class="btn" href="../yiqi-design.md"><i class="ph ph-book-open"></i> Docs</a>
-      <a class="btn" href="../api-docs.html"><i class="ph ph-brackets-curly"></i> API docs</a>
-      <a class="btn" href="https://github.com/diguardia/yiqi-imagen" target="_blank" rel="noopener"><i class="ph ph-github-logo"></i> GitHub</a>
-    </div>
-    </div>
-  </section>
+  
 
   <div class="sc-right">
-  <div class="sc-tabs" id="scTabs" role="tablist" aria-label="Vistas del showcase">
-    <div class="sc-tabs-inner">
-    <button class="sc-tab" role="tab" id="sctab-primitivos" aria-controls="tab-primitivos" data-target="tab-primitivos" aria-selected="false"><i class="ph ph-cube"></i> Primitivos</button>
-    <button class="sc-tab" role="tab" id="sctab-mockups" aria-controls="tab-mockups" data-target="tab-mockups" aria-selected="true"><i class="ph ph-squares-four"></i> Mockups</button>
-    <button class="sc-tab" role="tab" id="sctab-analytics" aria-controls="tab-analytics" data-target="tab-analytics" aria-selected="false"><i class="ph ph-gauge"></i> Analytics Pro</button>
-    <button class="sc-tab" role="tab" id="sctab-graficos" aria-controls="tab-graficos" data-target="tab-graficos" aria-selected="false"><i class="ph ph-chart-line"></i> Gráficos</button>
-    <button class="sc-tab" role="tab" id="sctab-galeria" aria-controls="tab-galeria" data-target="tab-galeria" aria-selected="false"><i class="ph ph-chart-donut"></i> Galería</button>
-    <button class="sc-tab" role="tab" id="sctab-tablas" aria-controls="tab-tablas" data-target="tab-tablas" aria-selected="false"><i class="ph ph-table"></i> Tablas</button>
-    <button class="sc-tab" role="tab" id="sctab-iconos" aria-controls="tab-iconos" data-target="tab-iconos" aria-selected="false"><i class="ph ph-smiley"></i> Iconos</button>
-    </div>
-  </div>
+  
   <div class="sc-carousel-track" id="scTrack">
   <div class="sc-panel" id="tab-analytics" role="tabpanel" aria-labelledby="sctab-analytics">
     <style>
-      #tab-analytics .sc-section{ max-width:780px; margin:0 auto; }
+      #tab-analytics .sc-section{ max-width:none; margin:0; }
       #tab-analytics .ap-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px; align-items:start; }
       #tab-analytics .sc-card{ margin:0; }
       #tab-analytics .ap-note{ font:600 9px var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--amber); background:var(--amber-soft); padding:2px 7px; border-radius:var(--radius-pill); }
@@ -834,7 +836,7 @@
       <div class="sc-row"><span class="avatar avatar--sm">RS</span><div style="flex:1"><div class="sc-name">Rocío Sánchez</div><div class="sc-mail">r.sanchez@empresa.com</div></div></div>
     </article>
 
-    <!-- Acceso / Login (§18 — idéntico al §27 del catálogo) -->
+    <!-- Acceso / Login (§22 — idéntico al §51 del catálogo) -->
     <article class="sc-card" id="card-login" style="padding:0;background:transparent;box-shadow:none">
     <div style="display:flex;justify-content:flex-end;margin-bottom:10px"><a class="ds-xref" href="../yiqi-design-system.html#login"><i class="ph ph-anchor-simple"></i> Ver fuente</a></div>
     <div id="login-demo" style="display:grid;place-items:center;padding:28px 20px;border-radius:var(--radius-xl);background:var(--bg-soft);border:1px solid var(--line)">
@@ -862,7 +864,7 @@
         <label style="display:flex;align-items:center;gap:9px;font:500 12px var(--sans);color:var(--muted);cursor:pointer">
           <input type="checkbox" name="remember"> Mantener sesión iniciada
         </label>
-        <button class="btn btn-primary login-submit" type="submit" id="login-submit" style="width:100%">Iniciar sesión</button>
+        <button class="btn btn-primary login-submit" type="submit" id="login-submit">Iniciar sesión</button>
         <a class="login-hint" href="#login" onclick="return false" style="justify-self:start;text-decoration:none">¿Olvidaste tu contraseña?</a>
       </form>
     </div>
@@ -1050,6 +1052,7 @@
            Es cromo de la documentacion, no del Design System. */
         #sc-shellmob-phones{ display:flex; gap:26px; flex-wrap:wrap; align-items:flex-start;
           margin-bottom:26px; }
+        #sc-shellmob-phones > div{ max-width:100%; min-width:0; }   /* el wrapper del titulo no tenia tope y desbordaba el flex */
         #sc-shellmob-phones .ph-h{ font:600 12px var(--sans); color:var(--text); margin-bottom:9px; }
         #sc-shellmob-phones .phone{ position:relative; width:414px; max-width:100%; padding:12px;
           border-radius:48px; background:var(--bg-elev-2);
@@ -1058,7 +1061,9 @@
           background:var(--bg); }
         #sc-shellmob-phones .island{ position:absolute; z-index:2; pointer-events:none; top:8px; left:50%; transform:translateX(-50%);
           width:104px; height:24px; border-radius:12px; background:rgba(0,0,0,.88); }
-        #sc-shellmob-phones iframe{ width:390px; height:844px; border:0; display:block; border-radius:37px; }
+        #sc-shellmob-phones iframe{ /* fluido: el ancho fijo de 390 desbordaba el marco cuando la card
+     era mas angosta que 414px. La proporcion 390x844 la sostiene aspect-ratio. */
+    width:100%; aspect-ratio:390/844; height:auto; border:0; display:block; border-radius:37px; }
         #sc-shellmob-phones .phone::before, #sc-shellmob-phones .phone::after{ content:""; position:absolute;
           left:-2px; width:2px; border-radius:2px; background:var(--line-strong); }
         #sc-shellmob-phones .phone::before{ top:120px; height:32px; }
@@ -1111,7 +1116,7 @@
 <!-- ══════════ CATÁLOGO: GRÁFICOS ══════════ -->
 <section class="sc-section">
   <h2 class="sc-section-h">Gráficos</h2>
-  <p class="sc-section-sub">Tipos de gráfico (Chart.js 4.4.0, patrón de animación §20, paleta DS sin <code class="sc-mono">--blue</code>).</p>
+  <p class="sc-section-sub">Tipos de gráfico (Chart.js 4.4.0, patrón de animación §24, paleta DS sin <code class="sc-mono">--blue</code>).</p>
 
     <div class="sc-chart-grid">
       <article class="sc-card">
@@ -1144,7 +1149,7 @@
 </div>
 <div class="sc-panel" id="tab-galeria" role="tabpanel" aria-labelledby="sctab-galeria">
 <style id="gx-style">
-#tab-galeria .sc-section{ max-width:780px; margin:0 auto; padding:28px clamp(20px,4vw,40px) 72px; }
+#tab-galeria .sc-section{ max-width:none; margin:0; padding:28px clamp(20px,2.5vw,44px) 72px; }
 #tab-galeria .sc-section-h{ white-space:nowrap; }
 #tab-galeria .sec-h{font:800 16px var(--display);letter-spacing:-.02em;margin:30px 0 4px;white-space:nowrap}
 #tab-galeria .sec-d{color:var(--muted);font-size:13px;margin:0 0 16px}

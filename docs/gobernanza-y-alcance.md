@@ -30,7 +30,7 @@ No todo pesa igual. Se distinguen dos niveles:
 - Copy en español neutro; marca escrita **YiQi**.
 
 ### Recomendadas (adaptables por proyecto, justificar si se desvían)
-- Estructura de carpetas de referencia (ver §3).
+- Estructura de carpetas de referencia (ver §04).
 - Runner de testing y umbrales de cobertura (ver `testing-jest.md`).
 - Convenciones de estilo de código y patrones de arquitectura más allá del mínimo.
 - Uso de TypeScript como default (recomendado fuerte, no bloqueante en legacy JS).

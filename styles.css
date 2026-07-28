@@ -70,7 +70,8 @@
   --cyan-chart-bar: rgba(0, 204, 255, 0.55);
   --cyan-chart-line: rgba(0, 204, 255, 0.16);
   /* Efectos — sombras navy/cyan suaves (no negro de desplazamiento) */
-  --glow:      0 0 0 3px var(--cyan-a22);
+  --focus-ring: 0 0 0 3px var(--cyan-a22);
+  --glow:      var(--focus-ring);   /* alias historico: no usar en codigo nuevo */
   --shadow-sm: 0 1px 3px rgba(0,18,28,.30);
   --shadow-md: 0 4px 14px rgba(0,20,30,.26);
   --shadow-lg: 0 12px 40px rgba(0,26,40,.34), 0 2px 12px rgba(0,204,255,.06);
@@ -102,6 +103,10 @@
   --fs-meta:         12px;
   --fs-caption:      11px;
   --fs-placeholder-title: 30px;
+  /* Piso de fuente para campos en pantalla tactil. Safari en iOS hace zoom
+     automatico al enfocar un campo con menos de 16px y no lo revierte. No es
+     una preferencia de diseno: es el umbral del navegador. */
+  --fs-input-touch:  16px;
 }
 
 html[data-theme="light"] {
@@ -152,7 +157,8 @@ html[data-theme="light"] {
   --red-a30: rgba(212, 72, 94, 0.30);
   --cyan-chart-bar: rgba(0, 159, 199, 0.55);
   --cyan-chart-line: rgba(0, 159, 199, 0.16);
-  --glow:      0 0 0 3px rgba(0,159,199,.22);
+  --focus-ring: 0 0 0 3px rgba(0,159,199,.22);
+  --glow:      var(--focus-ring);   /* alias historico */
   --shadow-sm: 0 1px 3px rgba(16,36,54,.06);
   --shadow-md: 0 4px 14px rgba(16,36,54,.08);
   --shadow-lg: 0 8px 24px rgba(0,80,110,.09), 0 1px 4px rgba(0,80,110,.05);
@@ -241,8 +247,6 @@ h3 { font-size: 18px; letter-spacing: -0.02em; }
 h4 { font-size: 15px; letter-spacing: -0.02em; }
 
 /* ── 4. TIPOGRAFÍA HERO — v1.2.5 ─────────────────────────── */
-/* .hero-claim: claim de marca, énfasis medio */
-
 /* .hero-sub: descripción funcional, tono apagado */
 .hero-sub {
   font-size: 16px;
@@ -324,10 +328,11 @@ html[data-theme="light"] .brand-logo-light { display: block; }
 }
 
 .nav-item.is-active {
+  /* Sin anillo: el estado activo se marca con fondo tonal. El box-shadow
+     que habia aca era el unico glow decorativo del DS. */
   color: var(--nav-item-active-text);
   border-color: var(--nav-item-active-border);
   background: var(--nav-item-active-bg);
-  box-shadow: var(--glow);
 }
 
 /* ── 8. TOPBAR ────────────────────────────────────────────── */
@@ -518,7 +523,6 @@ html[data-theme="light"] .brand-logo-light { display: block; }
 .kpi-card,
 .panel,
 .hero-card,
-.backlog-card,
 .decision-card,
 .status-panel,
 .summary-card,
@@ -537,7 +541,6 @@ html[data-theme="light"] .source-card,
 html[data-theme="light"] .kpi-card,
 html[data-theme="light"] .panel,
 html[data-theme="light"] .hero-card,
-html[data-theme="light"] .backlog-card,
 html[data-theme="light"] .decision-card,
 html[data-theme="light"] .status-panel,
 html[data-theme="light"] .summary-card,
@@ -848,7 +851,7 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
 .signal-list li { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: start; }
 
 /* ── 21. RANGE FILTER ─────────────────────────────────────── */
-/* Selector de período/rango del topbar (Analytics Pro). Documentado en catálogo §24. */
+/* Selector de período/rango del topbar (Analytics Pro). Documentado en catálogo §27. */
 /* v1.2.7: rediseñado BORDERLESS — cápsula sin borde ni divisores, pill activo en --cyan-soft. */
 .range-filter {
   display: inline-flex;
@@ -923,6 +926,16 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
 }
 
 .schema-toggle:hover { background: var(--bg-soft); }
+
+/* Etiqueta del selector de esquema. Promovida desde Panel Gerencial
+   (#schema-label), que ya la tenia en mono 11 en produccion. El sans 12
+   del toggle la hacia leer mas pesada que el resto de la topbar. */
+.schema-label {
+  font: 600 11px var(--mono);
+  letter-spacing: 0.02em;
+  color: var(--text);
+  white-space: nowrap;
+}
 
 .schema-menu {
   position: absolute;
@@ -1002,7 +1015,7 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
 
 .load-progress-track {
   width: 100%;
-  height: 8px;
+  height: 4px;
   border-radius: var(--radius-pill);
   border: none;
   background: var(--line-strong);
@@ -1027,6 +1040,20 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
 }
 
 .load-progress-meta strong { color: var(--text); font-family: var(--mono); font-size: 11px; }
+
+/* Variante topline: linea fina anclada al borde inferior de la topbar.
+   Promovida desde Analytics Pro, que la tenia como override local.
+   Sin glow (§04): la barra va plana. El contenedor necesita position:relative. */
+.load-progress--topline {
+  position: absolute; left: 0; right: 0; bottom: -1px;
+  display: block; gap: 0; padding: 0;
+  border-radius: 0; background: none;
+}
+.load-progress--topline .load-progress-meta { display: none; }
+.load-progress--topline .load-progress-track {
+  height: 2px; border-radius: 0; background: transparent;
+}
+.load-progress--topline .load-progress-fill { transition: width 0.25s ease; }
 
 /* ── 28. LOGIN / AUTH ─────────────────────────────────────── */
 .login-screen {
@@ -1069,7 +1096,7 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
   letter-spacing: 0.08em;
 }
 
-.login-submit              { width: 100%; margin-top: 6px; }
+.login-submit              { width: 100%; justify-content: center; margin-top: 6px; }
 .login-hint                { margin-top: 6px; font-size: 13px; color: var(--muted); }
 
 .auth-status {
@@ -1200,9 +1227,9 @@ html[data-theme="light"] textarea:-webkit-autofill {
 }
 
 /* Barras horizontales unificadas (canal/franja/sucursal) — track visible, fill animado */
-.channel-bar, .hourly-bar-track, .branch-bar { height: 8px; border-radius: var(--radius-pill); background: var(--line-strong); overflow: hidden; }
-.channel-fill, .hourly-bar-fill, .branch-fill { height: 100%; min-width: 5px; border-radius: inherit; background: var(--cyan); transform-origin: left center; animation: funnelGrow 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) both; }
-@media (prefers-reduced-motion: reduce) { .channel-fill, .hourly-bar-fill, .branch-fill { animation: none; } }
+.hourly-bar-track, .branch-bar { height: 8px; border-radius: var(--radius-pill); background: var(--line-strong); overflow: hidden; }
+.hourly-bar-fill, .branch-fill { height: 100%; min-width: 5px; border-radius: inherit; background: var(--cyan); transform-origin: left center; animation: funnelGrow 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) both; }
+@media (prefers-reduced-motion: reduce) { .hourly-bar-fill, .branch-fill { animation: none; } }
 
 /* Coherence bars */
 
@@ -1283,7 +1310,8 @@ html[data-theme="light"] textarea:-webkit-autofill {
   line-height: 1;
   white-space: nowrap;
 }
-.trust-unit { color: var(--cyan); }
+/* La cifra va en un solo color: la unidad no se pinta aparte. */
+.trust-unit { color: inherit; }
 .trust-label {
   display: block;
   margin-top: 6px;
@@ -1292,10 +1320,13 @@ html[data-theme="light"] textarea:-webkit-autofill {
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
-.trust-delta { display: block; margin-top: 6px; font: 600 11px var(--mono); }
-.trust-delta.is-up   { color: var(--green); }
-.trust-delta.is-down { color: var(--red); }
-.trust-delta.is-flat { color: var(--muted-2); }
+/* El delta acompana, no compite con la cifra: peso 500 en --muted.
+   El color de estado se queda solo en la flecha. */
+.trust-delta { display: block; margin-top: 6px; font: 500 11px var(--mono); color: var(--muted); }
+.trust-arrow { font-weight: 700; }
+.trust-delta.is-up   .trust-arrow { color: var(--green); }
+.trust-delta.is-down .trust-arrow { color: var(--red); }
+.trust-delta.is-flat .trust-arrow { color: var(--muted-2); }
 .trust--lg { --trust-num: 34px; }
 .trust--sm { --trust-num: 20px; }
 .trust--inline { display: flex; flex-wrap: wrap; gap: 18px 0; }
@@ -1488,8 +1519,7 @@ html[data-theme="light"] .skeleton-line {
   .dashboard-grid,
   .summary-grid,
   .decision-grid,
-  .backlog-columns,
-  .watchlist-grid {
+    .watchlist-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -1515,8 +1545,7 @@ html[data-theme="light"] .skeleton-line {
   .dashboard-grid,
   .summary-grid,
   .decision-grid,
-  .backlog-columns,
-  .watchlist-grid {
+    .watchlist-grid {
     grid-template-columns: 1fr;
   }
 
@@ -1525,8 +1554,7 @@ html[data-theme="light"] .skeleton-line {
 
   .progress-row,
   .hourly-row,
-  .channel-row,
-  .branch-row { grid-template-columns: 1fr; }
+    .branch-row { grid-template-columns: 1fr; }
 
 }
 
@@ -1920,14 +1948,19 @@ html[data-theme="light"] .hf-chip { background: var(--bg-soft); }
   transition: color .15s, background .15s; white-space: nowrap; flex-shrink: 0;
 }
 .hf-btn-autofill:hover { color: var(--cyan); background: var(--cyan-soft); }
+/* CTA del formulario. Version aprobada: la del sitio publico.
+   Antes usaba un cyan que no era token (rgba(127,231,250,.07)) y
+   texto en --muted, asi que la accion principal quedaba apagada. */
 .hf-btn-cta {
-  height: 34px; padding: 0 18px;
-  background: rgba(127,231,250,.07); border: none; border-radius: var(--radius-sm);
-  color: var(--muted); font: 600 12px var(--sans); letter-spacing: .01em;
-  cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
-  transition: background .16s, color .16s; margin-left: auto;
+  padding: 10px 16px;
+  background: var(--bg-elev-2); border: none; border-radius: var(--radius);
+  color: var(--text); font: 600 13px var(--sans);
+  cursor: pointer; display: inline-flex; align-items: center; gap: 7px;
+  transition: background .16s ease, color .16s ease; margin-left: auto;
 }
-.hf-btn-cta:hover { background: rgba(127,231,250,.14); color: var(--text); }
+.hf-btn-cta:hover { background: var(--bg-soft); }
+.hf-btn-cta.hf-primary { background: var(--cyan-soft); color: var(--cyan); }
+.hf-btn-cta.hf-primary:hover { background: var(--cyan-soft-2); }
 .hf-btn-ghost {
   width: 100%; height: 32px; background: none; border: none;
   color: var(--muted-2); font: 500 11px var(--sans);
@@ -2039,7 +2072,6 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
 /* Actividad horaria — mini-histograma vertical (sync panel) */
 @keyframes ribGrow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
 .heat-ribbon { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
-@media (prefers-reduced-motion: reduce) { .rib-fill { animation: none; } }
 
 
 /* Toggle de tipo de gráfico (línea / barras) — sync panel */
@@ -2050,7 +2082,7 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
 
 /* ════════════════════════════════════════════════════════════════════
    App shell · componentes de aplicación (v1.2.7)
-   Catálogo: yiqi-design-system.html §27 (Aplicaciones · Kit base)
+   Catálogo: yiqi-design-system.html §51 (Aplicaciones · Kit base)
    ════════════════════════════════════════════════════════════════════ */
 .topbar-l{ display:flex; align-items:center; gap:10px; min-width:0; }
 .topbar-r{ display:flex; align-items:center; gap:8px; min-width:0; margin-left:auto; }
@@ -2139,7 +2171,7 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
 
 .sb-footer{ margin-top:auto; padding-top:14px; border-top:1px solid var(--line); }
 .sb-theme-switch{ display:flex; width:max-content; max-width:100%; gap:1px; padding:3px;
-  border:none; background:none; border-radius:var(--radius-pill); margin-bottom:10px; }  /* borderless (§3) */
+  border:none; background:none; border-radius:var(--radius-pill); margin-bottom:10px; }  /* borderless (§04) */
 .sb-theme-switch .theme-opt, .sb-theme-switch .theme-option{ flex:0 0 auto; width:28px;
   height:26px; padding:0; display:inline-flex; align-items:center; justify-content:center;
   border:0; border-radius:var(--radius-pill); background:transparent; color:var(--muted-2);
@@ -2318,7 +2350,6 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
 .mb-stack{display:grid;gap:16px;max-width:360px}
 .mb-k{font:700 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted-2);margin-bottom:12px}
 .mb-stars{color:var(--amber);font:600 13px var(--mono)}
-.mb-prov-logo .ia-logo{height:15px;width:auto;color:var(--text)}
 /* Header de ficha */
 .mb-fhead{display:flex;gap:18px;align-items:flex-start}
 .mb-ficon{width:72px;height:72px;border-radius:18px;flex-shrink:0;display:grid;place-items:center;background:var(--green-soft);color:var(--green);border:1px solid var(--line)}
@@ -2498,6 +2529,28 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
 /* El chevron necesita medida propia: el SVG no la trae. */
 .schema-chev svg { width: 14px; height: 14px; }
 
+/* ── INPUTS EN TACTIL · anti-zoom de Safari iOS ────────────────
+   Safari en iPhone hace zoom automatico al enfocar un campo con
+   fuente menor a 16px, y no lo revierte al salir. En escritorio
+   la medida sigue siendo --fs-body. */
+@media (hover: none) and (pointer: coarse) {
+  .ds-input,
+  .ds-textarea,
+  .ds-select,
+  .topbar-search-input,
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="url"],
+  input[type="search"],
+  input[type="password"],
+  input[type="number"],
+  input[type="date"],
+  input:not([type]),
+  textarea,
+  select { font-size: var(--fs-input-touch); }
+}
+
 /* ── SHELL RESPONSIVE ──────────────────────────────────────────
    Va al final a proposito: tiene que ganarle a las reglas base
    del shell, que se declaran mas arriba en el archivo. */
@@ -2570,3 +2623,19 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
 @media (prefers-reduced-motion: reduce) {
   .sidebar, .nav-overlay { transition: none; }
 }
+
+
+/* ── REGLAS · fila de si / no ──────────────────────────────────
+   Promovida del patron que ya se repetia inline en el catalogo
+   (depth stack, banners de apps). Borderless: separa por fondo. */
+.rule-list { display: grid; gap: 8px; }
+.rule-row {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 12px; border-radius: var(--radius-sm);
+  background: var(--bg-soft);
+  font: 400 12px/1.6 var(--sans); color: var(--muted);
+}
+.rule-row strong { color: var(--text); }
+.rule-row svg { width: 14px; height: 14px; flex-shrink: 0; margin-top: 3px; }
+.rule-row--ok svg { color: var(--green); }
+.rule-row--no svg { color: var(--red); }

@@ -44,4 +44,4 @@ a la app**. Un `<style>` local en una app es lo que hace que el sistema diverja.
 
 ## Referencia
 
-Catalogo del DS, **§33 Apps · Shell** y **§34 Apps · Shell celular**.
+Catalogo del DS, **§34 Apps · Shell** y **§35 Apps · Shell celular**.

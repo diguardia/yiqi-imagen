@@ -934,10 +934,10 @@ Componente de búsqueda borderless. Implementado en `site.css`.
 
 ### Selector de período / rango
 
-Filtro de rango temporal del topbar (Analytics Pro y paneles). Input compuesto: un solo botón activo a la vez. Documentado en catálogo §24 (Panel Gerencial) y showcase (Primitivos).
+Filtro de rango temporal del topbar (Analytics Pro y paneles). Input compuesto: un solo botón activo a la vez. Documentado en catálogo §27 (Panel Gerencial) y showcase (Primitivos).
 
 ```css
-/* Borderless — cápsula sin borde ni divisores (filosofía §03) */
+/* Borderless — cápsula sin borde ni divisores (filosofía §04) */
 .range-filter {
   display: inline-flex; align-items: center; gap: 2px;
   padding: 2px;
@@ -965,7 +965,7 @@ Filtro de rango temporal del topbar (Analytics Pro y paneles). Input compuesto: 
 
 - Un solo `.is-active` a la vez; la app togglea según `data-range`
 - `role="group"` + `aria-label` en el contenedor; cada botón es `type="button"`
-- **Borderless**: sin borde ni divisores; activo como pill `--cyan-soft` (filosofía §03)
+- **Borderless**: sin borde ni divisores; activo como pill `--cyan-soft` (filosofía §04)
 - En el topbar se aplica `flex-wrap:nowrap` para que no rompa en 2 filas
 
 ---
@@ -985,13 +985,13 @@ Botón de ícono **borderless** (`.close-btn`) para cerrar menús, drawers y di�
 ```
 
 - Solo apariencia; el **posicionamiento** es contextual (absoluto en el nav, flex-end en el drawer)
-- Documentado en catálogo §08 (Botones) → ancla `#close-btn`
+- Documentado en catálogo §10 (Botones) → ancla `#close-btn`
 
 ---
 
 ### Alert badge
 
-Badge rojo (`.alert-badge-dot`) sobre un ícono contenedor (`.alert-badge`) para notificaciones/alertas. Canónico en `styles.css`. Documentado en catálogo §08 → ancla `#alert-badge`.
+Badge rojo (`.alert-badge-dot`) sobre un ícono contenedor (`.alert-badge`) para notificaciones/alertas. Canónico en `styles.css`. Documentado en catálogo §10 → ancla `#alert-badge`.
 
 ```html
 <button class="alert-badge" aria-label="Alertas (3)">
@@ -1004,7 +1004,7 @@ Badge rojo (`.alert-badge-dot`) sobre un ícono contenedor (`.alert-badge`) para
 
 ### Favorito (star toggle)
 
-Estrella de favorito **borderless** (`.fav-star`): outline en reposo, **ámbar relleno** al marcar (`.is-active`). No es una alerta — no lleva badge. Canónico en `styles.css`, catálogo §09 → ancla `#fav-star`.
+Estrella de favorito **borderless** (`.fav-star`): outline en reposo, **ámbar relleno** al marcar (`.is-active`). No es una alerta — no lleva badge. Canónico en `styles.css`, catálogo §11 → ancla `#fav-star`.
 
 ```html
 <button class="fav-star" type="button" aria-pressed="false" aria-label="Marcar como favorito">
@@ -1030,7 +1030,7 @@ Estrella de favorito **borderless** (`.fav-star`): outline en reposo, **ámbar r
 - Imagen: **DiceBear `notionists`** — SVG vectorial por seed-URL (`api.dicebear.com/9.x/notionists/svg?seed=`). Para self-host real: guardar el `.svg` en `assets/` o inline-arlo en el markup (cero dependencia de CDN).
 - Tamaños: `.avatar--sm` (30px) / base 36px / `.avatar--lg` (44px). Borderless.
 
-**Tag** (`.tag`): pill borderless mono, `--cyan-soft`. **Tooltip** (`.tooltip-box` / `--elev`): caja borderless. Documentados en catálogo §18 → ancla `#avatar`.
+**Tag** (`.tag`): pill borderless mono, `--cyan-soft`. **Tooltip** (`.tooltip-box` / `--elev`): caja borderless. Documentados en catálogo §22 → ancla `#avatar`.
 
 ---
 
@@ -1504,7 +1504,7 @@ Afordance **meta** para navegar entre el catálogo y el showcase ("Ver fuente" /
 - Usar **solo** para saltar entre superficies de documentación (catálogo ↔ showcase). Nunca como CTA de producto.
 - Viaja pegado al título del componente; no compite con el contenido.
 - 100% tokens existentes; definido una sola vez en `styles.css` (fuente única).
-- Catálogo: §33. Deep-link al showcase con `?tab=<vista>&card=<id>`.
+- Catálogo: §34. Deep-link al showcase con `?tab=<vista>&card=<id>`.
 
 
 ## 22b. `ds-doc.css` = solo chrome del catálogo *(limpieza)*
@@ -1513,24 +1513,24 @@ Afordance **meta** para navegar entre el catálogo y el showcase ("Ver fuente" /
 
 `ds-doc.css` conserva únicamente lo propio del catálogo: navegación, helpers de demo (`.ph-tag`, `.card-kicker/value/delta`) y posicionamiento de chrome. Regla: si un componente se usa fuera del catálogo, su fuente es `styles.css`; `ds-doc.css` no lo redefine.
 
-## 23. Primitivos interactivos en el catálogo (§32–§39) *(nuevo)*
+## 23. Primitivos interactivos en el catálogo (§33–§18) *(nuevo)*
 
 Los primitivos que vivían solo en el showcase ahora tienen **fuente canónica** en el catálogo, con demo en vivo y CSS en `styles.css` (fuente única de componentes):
 
 | Primitivo | Sección catálogo | Clases | JS (data-attr) |
 |---|---|---|---|
-| Slider | §32 `#prim-slider` | `.pr-slider`, `.pr-slider-val` | readout por id |
-| Tabs | §35 `#prim-tabs` | `.pr-tabbar`, `.pr-tabbtn`, `.pr-tabpanel`; variante `.pr-tabbar--flat` (estilo Nav item: sin track, `radius-sm`) | `[data-pr-tabs]` |
-| Dialog | §36 `#prim-dialog` | `.sc-modal*` | `[data-pr-dialog]` / `[data-pr-dialog-close]` |
-| Dropdown | §37 `#prim-dropdown` | `.pr-pop-wrap`, `.pr-menu*` | `[data-pr-menu]` |
-| Popover | §38 `#prim-popover` | `.pr-menu.pr-pop` | `[data-pr-menu]` |
-| Toast | §39 `#prim-toast` | `.pr-toasts`, `.pr-toast` | `[data-pr-toast]` + host `#prToasts` |
+| Slider | §33 `#prim-slider` | `.pr-slider`, `.pr-slider-val` | readout por id |
+| Tabs | §36 `#prim-tabs` | `.pr-tabbar`, `.pr-tabbtn`, `.pr-tabpanel`; variante `.pr-tabbar--flat` (estilo Nav item: sin track, `radius-sm`) | `[data-pr-tabs]` |
+| Dialog | §37 `#prim-dialog` | `.sc-modal*` | `[data-pr-dialog]` / `[data-pr-dialog-close]` |
+| Dropdown | §38 `#prim-dropdown` | `.pr-pop-wrap`, `.pr-menu*` | `[data-pr-menu]` |
+| Popover | §39 `#prim-popover` | `.pr-menu.pr-pop` | `[data-pr-menu]` |
+| Toast | §18 `#prim-toast` | `.pr-toasts`, `.pr-toast` | `[data-pr-toast]` + host `#prToasts` |
 
-Tres primitivos más se documentan en secciones existentes: **Switch/Check → §10 Inputs**, **Tooltip → §18 Varios**, **Accordion → §13 Navegación**.
+Tres primitivos más se documentan en secciones existentes: **Switch/Check → §12 Inputs**, **Tooltip → §22 Varios**, **Accordion → §15 Navegación**.
 
 ### Enlace cruzado
 
-Cada primitivo está unido a su demo con el afordance `.ds-xref` (§22) en los dos sentidos: "Ver fuente" (showcase → catálogo) y "Ver en vivo" (catálogo → showcase, con deep-link `?tab=primitivos&card=<id>` que abre la vista y centra la card).
+Cada primitivo está unido a su demo con el afordance `.ds-xref` (§26) en los dos sentidos: "Ver fuente" (showcase → catálogo) y "Ver en vivo" (catálogo → showcase, con deep-link `?tab=primitivos&card=<id>` que abre la vista y centra la card).
 
 
 ## 24. Aplicaciones — Picking (propuesta) *(nuevo)*
@@ -1549,7 +1549,7 @@ Es una **propuesta visual**: nombres de clase, props y JS se formalizan cuando l
 
 ### Pantalla de finalización (`.pk-done`)
 
-Hero de cierre del flujo de picking: se muestra cuando todos los artículos pendientes fueron procesados. **Borderless** — separa por fondo (`--bg-elev`) y sombra (`--shadow-lg`), nunca por borde de acento. El ícono reusa el idioma de éxito del DS (`--green-soft` / `--green`); el aviso superior es el primitivo `.pr-toast` (no se redefine). El título usa `--display` por ser un hero de cierre. CTA = botón primario del DS. Catálogo: **§37 · Picking → Finalización** (`#pk-done`); demo en el showcase (`#card-picking`).
+Hero de cierre del flujo de picking: se muestra cuando todos los artículos pendientes fueron procesados. **Borderless** — separa por fondo (`--bg-elev`) y sombra (`--shadow-lg`), nunca por borde de acento. El ícono reusa el idioma de éxito del DS (`--green-soft` / `--green`); el aviso superior es el primitivo `.pr-toast` (no se redefine). El título usa `--display` por ser un hero de cierre. CTA = botón primario del DS. Catálogo: **§38 · Picking → Finalización** (`#pk-done`); demo en el showcase (`#card-picking`).
 
 ```css
 .pk-done{
@@ -1583,7 +1583,7 @@ Hero de cierre del flujo de picking: se muestra cuando todos los artículos pend
 
 ### Toast · variante success (`.pr-toast.is-success`)
 
-Variante tonal del primitivo de toast (§22) para confirmaciones de peso, como el cierre del flujo de picking. Fondo `--green-soft`, texto e ícono `--green`, **sin ring** (borderless, separa por fondo). Botón de cierre opcional `.pr-toast-close`. No altera el toast neutro ni el comportamiento de stack del primitivo; la posición la define la app. Pantalla compuesta (toast + `.pk-done`) en el showcase: `#card-picking-done`.
+Variante tonal del primitivo de toast (§26) para confirmaciones de peso, como el cierre del flujo de picking. Fondo `--green-soft`, texto e ícono `--green`, **sin ring** (borderless, separa por fondo). Botón de cierre opcional `.pr-toast-close`. No altera el toast neutro ni el comportamiento de stack del primitivo; la posición la define la app. Pantalla compuesta (toast + `.pk-done`) en el showcase: `#card-picking-done`.
 
 ```css
 .pr-toast.is-success{ align-items:flex-start; background:var(--green-soft); box-shadow:var(--shadow-lg); }
