@@ -1,4 +1,4 @@
-# YiQi Design System — Master Recipe + Prompt v1.2.7
+# YiQi Design System — Master Recipe + Prompt v1.2.7.6
 
 Fuente única de verdad para:
 - Generación de UI con IA
@@ -109,7 +109,7 @@ Opcionales: prioridad · responsable · fecha_creacion · fecha_cierre
 ## 4 · Core JS obligatorio
 
 ```js
-/* ── Theme system DS v1.2.7 ── */
+/* ── Theme system DS v1.2.7.6 ── */
 function resolveTheme() {
   const s = localStorage.getItem('yiqi-theme') || 'system';
   return s === 'system'
@@ -236,29 +236,118 @@ html[data-theme="light"] body {
 
 ## 8 · Tokens
 
+> **Bloque generado desde `styles.css`.** No editarlo a mano: es copia literal de los
+> `:root` del canónico. Si algo tiene que cambiar, se cambia en `styles.css` y se
+> regenera esta sección. Antes de v1.2.7.6 estaba escrito a mano y **los valores no
+> coincidian** con el canónico (`--bg` decia `#0c0c0e` en vez de `#0a0a0b`, entre otros):
+> todo lo generado con este prompt salia con colores que no eran los del sistema.
+
 ### Dark (`:root`)
 
 ```css
 :root {
-  --bg: #0c0c0e;  --bg-elev: #111114;  --bg-elev-2: #18181c;
-  --bg-soft: rgba(255,255,255,.04);
-  --line: rgba(255,255,255,.08);  --line-strong: rgba(255,255,255,.14);
-  --text: #f0f1f3;  --muted: #908e8e;  --muted-2: #625f5f;
-  --cyan: #00ccff;  --cyan-soft: rgba(0,204,255,.12);
-  --cyan-soft-2: rgba(0,204,255,.18);
-  --text-cyan-muted: rgba(0,195,240,.45);
-  --green: #00c48c;  --green-soft: rgba(0,196,140,.12);
-  --amber: #f6a623;  --amber-soft: rgba(246,166,35,.12);
-  --red: #f25f5c;    --red-soft: rgba(242,95,92,.12);
-  --purple: #a78bfa; --purple-soft: rgba(167,139,250,.12);
-  --glow: 0 0 0 3px rgba(0,204,255,.22);
-  --shadow-sm: 0 1px 3px rgba(0,0,0,.35), 0 1px 8px rgba(0,0,0,.18);
-  --shadow-md: 0 4px 16px rgba(0,0,0,.4), 0 1px 4px rgba(0,0,0,.2);
-  --radius: 10px;  --radius-sm: 7px;  --radius-pill: 99px;
-  --sans: "Inter", system-ui, sans-serif;
-  --display: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
-  --mono: "IBM Plex Mono", monospace;
-  --topbar-h: 56px;  --sidebar-w: 240px;
+  /* ════════════════════════════════════════════════════════════
+     YiQi Design System — TOKENS CANÓNICOS (fuente única)
+     No redefinir :root en páginas; consumir estos tokens vía var().
+     ════════════════════════════════════════════════════════════ */
+  /* Backgrounds */
+  --bg:          #0a0a0b;
+  --bg-elev:     #0f1013;
+  --bg-elev-2:   #14161b;
+  --card-bg:     #14161b;
+  --bg-soft:     #181b21;
+  /* Bordes */
+  --line:        rgba(255,255,255,.08);
+  --line-strong: rgba(255,255,255,.14);
+  /* Texto */
+  --text:        #f3f5f7;
+  --muted:       #908e8e;
+  --muted-2:     #7d7c82;
+  --text-white:  #ffffff;  /* excepción: texto fijo sobre chips de color sólido (no adapta a tema) */
+  --text-on-amber: #1a0d00;  /* excepción: texto oscuro fijo sobre chips ámbar */
+  /* Marca */
+  --cyan:        #00ccff;
+  --accent-rgb:  0,204,255;
+  --cyan-soft:   rgba(0,204,255,.10);
+  --cyan-soft-2: rgba(0,204,255,.16);
+  --accent:      var(--cyan);
+  --accent-ink:  var(--text-white);
+  --cyan-label:  rgba(0,204,255,.52);
+  --cyan-night:  #0b7f9e;   /* cyan apagado para barras de dato (§56, embudo, franja) */
+  --text-cyan-muted: rgba(0,195,240,.62);
+  --gridline:    rgba(0,204,255,.16);
+  /* Semánticos */
+  --green:  #15d49c;  --green-soft:  rgba(21,212,156,.10);
+  --amber:  #ffb020;  --amber-soft:  rgba(255,176,32,.10);
+  --red:    #ff637d;  --red-soft:    rgba(255,99,125,.10);
+  --blue:   #4d9fff;  --blue-soft:   rgba(77,159,255,.10);
+  --indigo: #6366f1;  --indigo-soft: rgba(99,102,241,.12);
+  --warm:   #b5a090;  --warm-soft:   rgba(181,160,144,.10);
+  /* App brand (Marketplace) — uno por app, NO cyan */
+  --violet:  #8b5cf6;  --violet-soft:  rgba(139,92,246,.12);  --violet-soft-2:  rgba(139,92,246,.18);
+  --orange:  #ff8a3d;  --orange-soft:  rgba(255,138,61,.12);  --orange-soft-2:  rgba(255,138,61,.18);
+  --magenta: #ff5da2;  --magenta-soft: rgba(255,93,162,.12);  --magenta-soft-2: rgba(255,93,162,.18);
+  /* tints tokenizados (sync panel) */
+  --amber-a08: rgba(255, 176, 32, 0.08);
+  --amber-a12: rgba(255, 176, 32, 0.12);
+  --amber-a20: rgba(255, 176, 32, 0.20);
+  --amber-a25: rgba(255, 176, 32, 0.25);
+  --amber-a28: rgba(255, 176, 32, 0.28);
+  --cyan-a12: rgba(0, 204, 255, 0.12);
+  --cyan-a18: rgba(0, 204, 255, 0.18);
+  --cyan-a22: rgba(0,204,255,0.22);
+  --cyan-a24: rgba(0, 204, 255, 0.24);
+  --cyan-a25: rgba(0, 204, 255, 0.25);
+  --cyan-a28: rgba(0,204,255,0.28);
+  --cyan-a38: rgba(0, 204, 255, 0.38);
+  --green-a08: rgba(21, 212, 156, 0.08);
+  --green-a12: rgba(21, 212, 156, 0.12);
+  --green-a25: rgba(21, 212, 156, 0.25);
+  --green-a28: rgba(21, 212, 156, 0.28);
+  --red-a28: rgba(255, 99, 125, 0.28);
+  --red-a30: rgba(255, 99, 125, 0.30);
+  --cyan-chart-bar: rgba(0, 204, 255, 0.55);
+  --cyan-chart-line: rgba(0, 204, 255, 0.16);
+  /* Efectos — sombras navy/cyan suaves (no negro de desplazamiento) */
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--cyan-night);   /* WCAG 1.4.11: 3:1 minimo */
+  --glow:      var(--focus-ring);   /* alias historico: no usar en codigo nuevo */
+  --shadow-sm: 0 1px 3px rgba(0,18,28,.30);
+  --shadow-md: 0 4px 14px rgba(0,20,30,.26);
+  --shadow-lg: 0 12px 40px rgba(0,26,40,.34), 0 2px 12px rgba(0,204,255,.06);
+  --shadow:    var(--shadow-lg);   /* alias de conveniencia */
+  /* Tipografía */
+  --font-display: "Greycliff CF", "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --display: var(--font-display);
+  --sans:    "Inter", ui-sans-serif, system-ui, sans-serif;
+  --mono:    "IBM Plex Mono", ui-monospace, monospace;
+  --kpi-num: "IBM Plex Mono", ui-monospace, monospace;  /* v1.2.7.6: cifras en mono, coincide con el spec de tipografía */
+  /* Layout */
+  --topbar-h:  56px;
+  --statusbar-h: 28px;   /* barra de estado inferior (§44) */
+  --sidebar-w: 240px;
+  --sidebar-w-collapsed: 68px;
+  --page-px:   28px;
+  /* Radios */
+  --radius-xs:   6px;
+  --radius-sm:   10px;
+  --radius:      14px;
+  --radius-md:   16px;
+  --radius-lg:   18px;
+  --radius-xl:   24px;
+  --radius-pill: 999px;
+  --tr: 180ms ease;
+  /* Escala tipográfica */
+  --fs-section-hero: 24px;
+  --fs-panel-title:  14px;
+  --fs-module-title: 13px;
+  --fs-body:         13px;
+  --fs-meta:         12px;
+  --fs-caption:      11px;
+  --fs-placeholder-title: 30px;
+  /* Piso de fuente para campos en pantalla tactil. Safari en iOS hace zoom
+     automatico al enfocar un campo con menos de 16px y no lo revierte. No es
+     una preferencia de diseno: es el umbral del navegador. */
+  --fs-input-touch:  16px;
 }
 ```
 
@@ -266,19 +355,59 @@ html[data-theme="light"] body {
 
 ```css
 html[data-theme="light"] {
-  --bg: #f5f4f0;  --bg-elev: #eeece7;  --bg-elev-2: #e6e4df;
-  --bg-soft: rgba(0,0,0,.04);
-  --line: rgba(0,0,0,.08);  --line-strong: rgba(0,0,0,.14);
-  --text: #1a1a1e;  --muted: #6b6e78;  --muted-2: #9b9ea8;
-  --cyan: #009fc7;  --cyan-soft: rgba(0,159,199,.1);
-  --cyan-soft-2: rgba(0,159,199,.16);
-  --text-cyan-muted: rgba(0,140,175,.48);
-  --green: #007a58;  --green-soft: rgba(0,122,88,.1);
-  --amber: #c47c00;  --amber-soft: rgba(196,124,0,.1);
-  --red: #c93c39;    --red-soft: rgba(201,60,57,.1);
-  --purple: #7c3aed; --purple-soft: rgba(124,58,237,.1);
-  --shadow-sm: 0 1px 3px rgba(0,0,0,.08), 0 1px 8px rgba(0,0,0,.05);
-  --shadow-md: 0 4px 16px rgba(0,0,0,.1), 0 1px 4px rgba(0,0,0,.06);
+  --bg:          #eeece7;
+  --bg-elev:     #f6f4ef;
+  --bg-elev-2:   #ffffff;
+  --card-bg:     #f9f7f2;
+  --bg-soft:     #ece9e2;
+  --line:        rgba(0,0,0,.08);
+  --line-strong: rgba(0,0,0,.13);
+  --text:        #17191c;
+  --muted:       #5e5a57;
+  --muted-2:     #636875;
+  --cyan:        #009fc7;
+  --accent-rgb:  0,159,199;
+  --cyan-soft:   rgba(0,159,199,.10);
+  --cyan-soft-2: rgba(0,159,199,.14);
+  --cyan-label:  rgba(0,159,199,.58);
+  --cyan-night:  var(--cyan);   /* en claro el cyan ya viene apagado: no hace falta bajarlo mas */
+  --text-cyan-muted: rgba(0,140,175,.58);
+  --gridline:    rgba(0,159,199,.18);
+  --green:  #0c9b6d;  --green-soft:  rgba(12,155,109,.10);
+  --amber:  #c78000;  --amber-soft:  rgba(199,128,0,.10);
+  --red:    #d4485e;  --red-soft:    rgba(212,72,94,.10);
+  --blue:   #4d9fff;  --blue-soft:   rgba(77,159,255,.10);
+  --indigo: #4f46e5;  --indigo-soft: rgba(79,70,229,.12);
+  --warm:   #8b7260;  --warm-soft:   rgba(139,114,96,.10);
+  --violet:  #7c3aed;  --violet-soft:  rgba(124,58,237,.10);  --violet-soft-2:  rgba(124,58,237,.16);
+  --orange:  #e07628;  --orange-soft:  rgba(224,118,40,.10);  --orange-soft-2:  rgba(224,118,40,.16);
+  --magenta: #d6336c;  --magenta-soft: rgba(214,51,108,.10);  --magenta-soft-2: rgba(214,51,108,.16);
+  /* tints tokenizados (sync panel) */
+  --amber-a08: rgba(199, 128, 0, 0.08);
+  --amber-a12: rgba(199, 128, 0, 0.12);
+  --amber-a20: rgba(199, 128, 0, 0.20);
+  --amber-a25: rgba(199, 128, 0, 0.25);
+  --amber-a28: rgba(199, 128, 0, 0.28);
+  --cyan-a12: rgba(0, 159, 199, 0.12);
+  --cyan-a18: rgba(0, 159, 199, 0.18);
+  --cyan-a22: rgba(0, 159, 199, 0.22);
+  --cyan-a24: rgba(0, 159, 199, 0.24);
+  --cyan-a25: rgba(0, 159, 199, 0.25);
+  --cyan-a28: rgba(0, 159, 199, 0.28);
+  --cyan-a38: rgba(0, 159, 199, 0.38);
+  --green-a08: rgba(12, 155, 109, 0.08);
+  --green-a12: rgba(12, 155, 109, 0.12);
+  --green-a25: rgba(12, 155, 109, 0.25);
+  --green-a28: rgba(12, 155, 109, 0.28);
+  --red-a28: rgba(212, 72, 94, 0.28);
+  --red-a30: rgba(212, 72, 94, 0.30);
+  --cyan-chart-bar: rgba(0, 159, 199, 0.55);
+  --cyan-chart-line: rgba(0, 159, 199, 0.16);
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--cyan-night);   /* WCAG 1.4.11: 3:1 minimo */
+  --glow:      var(--focus-ring);   /* alias historico */
+  --shadow-sm: 0 1px 3px rgba(16,36,54,.06);
+  --shadow-md: 0 4px 14px rgba(16,36,54,.08);
+  --shadow-lg: 0 8px 24px rgba(0,80,110,.09), 0 1px 4px rgba(0,80,110,.05);
 }
 ```
 
@@ -296,8 +425,10 @@ KPI value: `font: 700 28px/1 var(--display); letter-spacing: -.03em;`
 
 ## 10 · Componentes base
 
+Valores tomados del canónico. Si difieren de `styles.css`, manda `styles.css`.
+
 ```css
-/* Card — borderless */
+/* Card — borderless: separa por fondo, no por borde */
 .card {
   padding: 20px;
   border-radius: var(--radius);
@@ -305,28 +436,56 @@ KPI value: `font: 700 28px/1 var(--display); letter-spacing: -.03em;`
   box-shadow: var(--shadow-sm);
 }
 
-/* Button — borderless */
-.btn-primary {
-  background: var(--cyan-soft-2);
-  color: var(--cyan);
-  border: none;
+/* Botón — el primario lleva borde tonal por decisión de marca */
+.btn         { border: 1px solid transparent; background: var(--bg-elev-2); color: var(--text); }
+.btn-primary { background: var(--cyan-soft); border-color: var(--cyan-a28); color: var(--cyan); }
+.btn-ghost   { background: transparent; border-color: transparent; color: var(--muted); }
+
+/* Input — BORDERLESS. Se marca por fondo, no por borde. */
+.ds-input {
+  background-color: var(--bg);
+  border: 1px solid transparent;
+  border-radius: 14px;
+  height: 40px;
+  padding: 0 14px;
 }
 
-/* Input — excepción: controles interactivos llevan borde */
-.input {
-  border: 1px solid var(--line);
-  background: var(--bg-elev-2);
+/* Foco — anillo separado, y nada más. No cambia el fondo. */
+.ds-input:focus-visible,
+.ds-select:focus-visible,
+.ds-textarea:focus-visible,
+.btn:focus-visible,
+.card-clickable:focus-visible {
+  outline: 2px solid var(--cyan-night);
+  outline-offset: 2px;
 }
+/* Dentro de un segmentado (.range-btn, .tab-item en píldora): offset -2px */
 
 /* Table headers */
-.table th::after  { content: " ↕"; color: var(--muted-2); }
-.table th.sorted-asc::after  { content: " ↑"; color: var(--cyan); }
-.table th.sorted-desc::after { content: " ↓"; color: var(--cyan); }
+.data-table th::after  { content: " ↕"; color: var(--muted-2); }
+.data-table th.sorted-asc::after  { content: " ↑"; color: var(--cyan); }
+.data-table th.sorted-desc::after { content: " ↓"; color: var(--cyan); }
 
 /* Badge — sin borde */
-.badge { border: none; background: var(--bg-elev-2); color: var(--muted); }
+.badge      { border: none; background: var(--bg-elev-2); color: var(--muted); }
 .badge-cyan { background: var(--cyan-soft); color: var(--cyan); }
+
+/* Barras de dato — 4px, relleno en --cyan-night */
+.funnel-track, .hourly-bar-track, .branch-bar { height: 4px; border-radius: var(--radius-pill); }
+.funnel-fill, .hourly-bar-fill, .branch-fill  { background: var(--cyan-night); }
 ```
+
+**Reglas que no se negocian:**
+
+- **Borderless por defecto.** La profundidad se construye con elevación de fondo y `box-shadow`. El input **no** es excepción: antes de v1.2.7.6 este documento decía que sí, y era falso.
+- **Borde de un solo lado: prohibido.** Nada de `border-left` de acento en callouts, notas o cards.
+- **El estado activo se marca con fondo tonal** (`--cyan-soft`), nunca con anillo.
+- **El anillo de color es solo para foco**, y con `:focus-visible` (teclado), nunca `:focus`.
+- **Contraste del foco ≥ 3:1** (WCAG 2.2 §1.4.11).
+
+### Kit de panel (v1.2.7.5)
+
+Para dashboards y paneles gerenciales, el canónico ya trae: `.statusbar` + `.ldot`, `.sidebar-tools`, navegación en tabs (`.app-shell.nav-tabs` / `.tab-item` / `.btn-layout`), acordeón de fuente de datos (`.src-*`), ranking con barra (`.branch-list`), watchlist tonal (`.wl-bar` / `.tone-*`), card clickeable, estados sin dato (`.kpi-na`, `.trend-empty`) y carrusel de KPIs (`.more-kpis`). **No reimplementarlos.**
 
 ---
 
@@ -352,7 +511,7 @@ KPI value: `font: 700 28px/1 var(--display); letter-spacing: -.03em;`
 Incluir en footer:
 
 ```
-© 2026 YiQi S.A. · [Nombre entregable] · DS v1.2.7
+© 2026 YiQi S.A. · [Nombre entregable] · DS v1.2.7.6
 ```
 
 ---
@@ -397,7 +556,7 @@ Si algo no está definido:
 
 ---
 
-*YiQi ERP · Design System v1.2.7 · Master Recipe · 30/04/2026*
+*YiQi ERP · Design System v1.2.7.6 · Master Recipe · 29/07/2026*
 
 
 ---

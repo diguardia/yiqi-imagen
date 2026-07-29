@@ -457,16 +457,12 @@
       #tab-analytics .sc-section{ max-width:none; margin:0; }
       #tab-analytics .ap-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px; align-items:start; }
       #tab-analytics .sc-card{ margin:0; }
+      /* Overrides acotados a las demos de este tab (no son DS) */
+      #tab-analytics .demo-statusbar .statusbar{ position:static; height:auto; padding:6px 12px; border-radius:var(--radius-sm); }
+      #tab-analytics .demo-tabnav .tab-nav{ display:flex; position:static; margin:0; background:transparent; }
+      #tab-analytics .demo-sidebar-tools{ max-width:260px; }
+      #tab-analytics .demo-sidebar-tools .sidebar-tools{ margin:0; padding:0; }
       #tab-analytics .ap-note{ font:600 9px var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--amber); background:var(--amber-soft); padding:2px 7px; border-radius:var(--radius-pill); }
-      /* branch-list (aún no promovido al DS) */
-      #tab-analytics .branch-list{ display:grid; gap:12px; }
-      #tab-analytics .branch-row{ display:grid; grid-template-columns:1fr auto; grid-template-areas:"meta rev" "bar bar"; gap:4px 10px; align-items:center; }
-      #tab-analytics .branch-meta{ grid-area:meta; min-width:0; }
-      #tab-analytics .branch-name{ font:600 12px var(--sans); color:var(--text); }
-      #tab-analytics .branch-detail{ font:400 11px var(--mono); color:var(--muted-2); }
-      #tab-analytics .branch-revenue{ grid-area:rev; font:600 11px var(--mono); color:var(--text); font-variant-numeric:tabular-nums; }
-      #tab-analytics .branch-bar{ grid-area:bar; height:8px; border-radius:var(--radius-pill); background:var(--bg-soft); overflow:hidden; }
-      #tab-analytics .branch-fill{ height:100%; background:var(--cyan); border-radius:var(--radius-pill); }
       /* cph — headline de facturación (aún no promovido al DS) */
       #tab-analytics .ap-cph-kicker{ font:700 9px var(--mono); letter-spacing:.14em; text-transform:uppercase; color:var(--muted-2); }
       #tab-analytics .ap-cph-val{ font:800 34px var(--display,var(--sans)); letter-spacing:-.02em; color:var(--text); line-height:1.05; margin-top:6px; }
@@ -558,7 +554,7 @@
         </article>
 
         <article class="sc-card">
-          <div class="sc-card-h"><span class="sc-card-title">Barras de sucursal</span><span class="ap-note">pendiente DS</span></div>
+          <div class="sc-card-h"><span class="sc-card-title">Barras de sucursal</span><a class="ds-xref" href="../yiqi-design-system.html#branch-list"><i class="ph ph-anchor-simple"></i> §48</a></div>
           <div class="branch-list" style="margin-top:6px">
             <div class="branch-row"><div class="branch-meta"><div class="branch-name">Sucursal Centro</div><div class="branch-detail">210 pedidos</div></div><div class="branch-revenue">$3.200.000</div><div class="branch-bar"><div class="branch-fill" style="width:100%"></div></div></div>
             <div class="branch-row"><div class="branch-meta"><div class="branch-name">Sucursal Norte</div><div class="branch-detail">124 pedidos</div></div><div class="branch-revenue">$1.850.000</div><div class="branch-bar"><div class="branch-fill" style="width:58%"></div></div></div>
@@ -615,6 +611,158 @@
         <article class="sc-card">
           <div class="sc-card-h"><span class="sc-card-title">Sidebar de app</span><a class="ds-xref" href="../yiqi-design-system.html#sidebar-collapse"><i class="ph ph-anchor-simple"></i> Ver fuente</a></div>
           <div class="nav" style="margin-top:6px"><span class="nav-lbl">Visión general</span><a class="nav-link" style="text-decoration:none"><span class="n-ico"><i class="ph ph-house"></i></span>Resumen</a><div class="nav-div"></div><span class="nav-lbl">Módulos</span><a class="nav-link is-active" style="text-decoration:none"><span class="n-ico"><i class="ph ph-chart-line-up"></i></span>Ventas</a><a class="nav-link" style="text-decoration:none"><span class="n-ico"><i class="ph ph-activity"></i></span>Operación</a></div>
+        </article>
+
+        <article class="sc-card">
+          <div class="sc-card-h"><span class="sc-card-title">Barra de carga · topline</span><a class="ds-xref" href="../yiqi-design-system.html#load-progress-topline"><i class="ph ph-anchor-simple"></i> 17 &middot; Varios</a></div>
+          <p class="sc-card-sub">Linea de 2px al pie de la topbar &middot; sin caja, sin porcentaje, sin glow.</p>
+          <div style="margin-top:10px">
+            <div class="topbar" style="position:relative;padding:10px 14px;border-radius:var(--radius-md);background:var(--bg-elev)">
+              <span class="t-pill">Analytics Pro</span>
+              <div class="load-progress load-progress--topline">
+                <div class="load-progress-track"><div class="load-progress-fill" style="width:62%"></div></div>
+                <div class="load-progress-meta"><span>Cargando</span><strong>62%</strong></div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="sc-card">
+          <div class="sc-card-h"><span class="sc-card-title">Recuperar contrase&ntilde;a</span><a class="ds-xref" href="../yiqi-design-system.html#login-recovery"><i class="ph ph-anchor-simple"></i> 36 &middot; Login</a></div>
+          <p class="sc-card-sub">Segunda card del login, en la misma caja.</p>
+          <div class="login-card" style="margin-top:8px;padding:16px">
+            <h2 class="recovery-title">Recuperar contrase&ntilde;a</h2>
+            <p class="login-copy">Te enviaremos un enlace para restablecerla.</p>
+            <div class="login-form" style="margin-top:10px">
+              <input class="ds-input" type="email" placeholder="usuario@ejemplo.com">
+              <p class="recovery-msg">Listo. Revisa tu correo.</p>
+            </div>
+            <div class="recovery-actions">
+              <button class="btn btn-primary" type="button">Enviar</button>
+              <button class="btn btn-back" type="button">Volver</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="sc-card">
+          <div class="sc-card-h"><span class="sc-card-title">Sidebar · rail y peek</span><a class="ds-xref" href="../yiqi-design-system.html#sidebar-peek"><i class="ph ph-anchor-simple"></i> 34 &middot; Shell</a></div>
+          <p class="sc-card-sub">Colapsado muestra solo iconos; al pasar el mouse se despliega como overlay. El candado lo fija.</p>
+          <div class="app-shell nav-collapsed" style="grid-template-columns:var(--sidebar-w-collapsed);min-height:0;margin-top:8px" onmouseenter="this.classList.contains('nav-locked')||this.classList.add('nav-peek')" onmouseleave="this.classList.remove('nav-peek')">
+            <nav class="sidebar" style="position:static;height:auto;padding:12px 8px;background:var(--bg-soft);border-radius:var(--radius-md)">
+              <div class="nav">
+                <span class="nav-lbl">Secci&oacute;n</span>
+                <a class="nav-link is-active" title="Resumen" style="text-decoration:none"><span class="n-ico"><i class="ph ph-house"></i></span><span>Resumen</span></a>
+                <a class="nav-link" title="Ventas" style="text-decoration:none"><span class="n-ico"><i class="ph ph-chart-line-up"></i></span><span>Ventas</span></a>
+              </div>
+              <div class="sidebar-ctrls">
+                <button class="sidebar-collapse sb-lock" type="button" aria-label="Fijar" onclick="this.closest('.app-shell').classList.toggle('nav-locked')"><i class="ph ph-lock-simple-open ico-unlocked"></i><i class="ph ph-lock-simple ico-locked"></i></button>
+              </div>
+            </nav>
+          </div>
+        </article>
+
+        <article class="sc-card demo-statusbar">
+          <div class="sc-card-h"><span class="sc-card-title">Statusbar</span><a class="ds-xref" href="../yiqi-design-system.html#statusbar"><i class="ph ph-anchor-simple"></i> §44</a></div>
+          <p class="sc-card-sub">Barra de estado inferior · fija abajo en la app, se oculta bajo 980px.</p>
+          <div style="margin-top:8px">
+            <div class="statusbar">
+              <div class="statusbar-left" data-state="ok"><span class="ldot ldot-g"></span><strong>Datos reales</strong><span class="statusbar-desc">Conectado a YiQi ERP.</span></div>
+              <div class="statusbar-right"><span>DS v1.2.7.4</span></div>
+            </div>
+          </div>
+          <div style="margin-top:10px;display:flex;gap:14px;align-items:center">
+            <span style="display:inline-flex;align-items:center;gap:7px;font:500 11px var(--sans);color:var(--muted)"><span class="ldot ldot-g"></span> ok</span>
+            <span style="display:inline-flex;align-items:center;gap:7px;font:500 11px var(--sans);color:var(--muted)"><span class="ldot ldot-a"></span> cargando</span>
+            <span style="display:inline-flex;align-items:center;gap:7px;font:500 11px var(--sans);color:var(--muted)"><span class="ldot ldot-r"></span> error</span>
+          </div>
+        </article>
+
+        <article class="sc-card demo-tabnav">
+          <div class="sc-card-h"><span class="sc-card-title">Navegación en tabs</span><a class="ds-xref" href="../yiqi-design-system.html#tab-nav"><i class="ph ph-anchor-simple"></i> §46</a></div>
+          <p class="sc-card-sub">Alternativa al sidebar · <code class="sc-mono">.app-shell.nav-tabs</code> · el botón alterna los dos modos.</p>
+          <div class="tab-nav" style="margin-top:8px">
+            <button class="tab-item is-active" type="button"><span class="n-ico"><i class="ph ph-house"></i></span>Resumen</button>
+            <button class="tab-item" type="button"><span class="n-ico"><i class="ph ph-chart-line-up"></i></span>Ventas</button>
+            <button class="tab-item" type="button"><span class="n-ico"><i class="ph ph-activity"></i></span>Operación</button>
+          </div>
+          <div style="margin-top:10px;display:flex;align-items:center;gap:10px">
+            <button class="btn-layout" type="button" aria-label="Cambiar disposición"><svg class="ic-sidebar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg><svg class="ic-tabs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg></button>
+            <span class="sc-muted" style="font:400 12px var(--sans)">Alterna sidebar ↔ tabs</span>
+          </div>
+        </article>
+
+        <article class="sc-card demo-sidebar-tools">
+          <div class="sc-card-h"><span class="sc-card-title">Herramientas en el sidebar</span><a class="ds-xref" href="../yiqi-design-system.html#sidebar-tools"><i class="ph ph-anchor-simple"></i> §45</a></div>
+          <p class="sc-card-sub">Baja al sidebar los controles de la topbar cuando no hay ancho.</p>
+          <div class="sidebar-tools" style="margin-top:8px">
+            <div class="account-chip">
+              <div class="account-user-block"><div class="account-avatar">SM</div><span class="account-user">Sebastián Menéndez</span></div>
+              <button class="schema-toggle" type="button" aria-expanded="false"><span class="schema-label">Febo</span><span class="schema-chev"><svg width="11" height="11" viewBox="0 0 256 256" fill="none"><polyline points="48 96 128 176 208 96" stroke="currentColor" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+            </div>
+            <div class="range-filter" role="group" aria-label="Período">
+              <button class="range-btn is-active" type="button">7 días</button>
+              <button class="range-btn" type="button">Este mes</button>
+              <button class="range-btn" type="button">30 días</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="sc-card">
+          <div class="sc-card-h"><span class="sc-card-title">Fuente de datos</span><a class="ds-xref" href="../yiqi-design-system.html#src-card"><i class="ph ph-anchor-simple"></i> §47</a></div>
+          <p class="sc-card-sub">Item del sidebar que despliega el origen del dato.</p>
+          <div class="nav" style="margin-top:6px">
+            <div class="src-item is-open">
+              <a class="nav-link" style="text-decoration:none"><span class="n-ico"><i class="ph ph-database"></i></span>Reporte de ventas<svg class="src-chev" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></a>
+              <div class="src-body"><div class="src-card">
+                <div class="src-card-top"><span class="src-card-title">Ventas POS</span><span class="badge badge-green">Conectado</span></div>
+                <p class="src-card-desc">Montos, ticket promedio y cortes por sucursal.</p>
+              </div></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="sc-card">
+          <div class="sc-card-h"><span class="sc-card-title">Watchlist tonal</span><a class="ds-xref" href="../yiqi-design-system.html#watchlist-tonal"><i class="ph ph-anchor-simple"></i> §49</a></div>
+          <p class="sc-card-sub">Barra de avance y acento del ícono por tono · fondo tonal, sin bordes.</p>
+          <div class="watchlist-grid watchlist-grid-compact" style="margin-top:6px">
+            <div class="watchlist-card tone-green"><div style="display:flex;gap:10px"><span class="metric-icon"><i class="ph ph-check-circle"></i></span><span class="wl-label">Cobranzas al día</span></div><div class="watchlist-metric">$4,2 M</div><div class="wl-bar"><span style="width:78%"></span></div></div>
+            <div class="watchlist-card tone-amber"><div style="display:flex;gap:10px"><span class="metric-icon"><i class="ph ph-clock-countdown"></i></span><span class="wl-label">Por vencer</span></div><div class="watchlist-metric">$1,8 M</div><div class="wl-bar"><span style="width:41%"></span></div></div>
+            <div class="watchlist-card tone-blue"><div style="display:flex;gap:10px"><span class="metric-icon"><i class="ph ph-arrow-down-left"></i></span><span class="wl-label">Cobrado hoy</span></div><div class="watchlist-metric">$620 K</div><div class="wl-bar"><span style="width:22%"></span></div></div>
+          </div>
+        </article>
+
+        <article class="sc-card">
+          <div class="sc-card-h"><span class="sc-card-title">Card clickeable</span><a class="ds-xref" href="../yiqi-design-system.html#card-clickable"><i class="ph ph-anchor-simple"></i> §50</a></div>
+          <p class="sc-card-sub">Abre el detalle · cambia fondo y elevación al pasar, sin bordes.</p>
+          <div class="kpi-card kpi-clickable" tabindex="0" role="button" style="margin-top:6px">
+            <div class="kpi-label"><span class="metric-label">Pedidos del período</span></div>
+            <div class="kpi-value">1.020</div>
+            <div class="kpi-delta positive">↑ 8,1%</div>
+          </div>
+        </article>
+
+        <article class="sc-card">
+          <div class="sc-card-h"><span class="sc-card-title">Sin dato</span><a class="ds-xref" href="../yiqi-design-system.html#sin-dato"><i class="ph ph-anchor-simple"></i> §51</a></div>
+          <p class="sc-card-sub">Reemplaza la cifra cuando la métrica no tiene valor. El vacío de página completa usa <code class="sc-mono">.empty-state</code>.</p>
+          <div class="kpi-card" style="margin-top:6px">
+            <div class="kpi-label"><span class="metric-label">Margen bruto</span></div>
+            <div class="kpi-na">Sin datos en el período</div>
+          </div>
+        </article>
+
+        <article class="sc-card">
+          <div class="sc-card-h"><span class="sc-card-title">Carrusel de KPIs</span><a class="ds-xref" href="../yiqi-design-system.html#more-kpis"><i class="ph ph-anchor-simple"></i> §52</a></div>
+          <p class="sc-card-sub">Métricas secundarias · scroll horizontal con snap.</p>
+          <div class="more-kpis" style="margin-top:6px">
+            <div class="more-kpis-carousel">
+              <div class="kpi-grid">
+                <div class="kpi-card"><div class="kpi-label"><span class="metric-label">Ticket promedio</span></div><div class="kpi-value">$8.240</div></div>
+                <div class="kpi-card"><div class="kpi-label"><span class="metric-label">Unidades</span></div><div class="kpi-value">3.410</div></div>
+                <div class="kpi-card"><div class="kpi-label"><span class="metric-label">Devoluciones</span></div><div class="kpi-value">12</div></div>
+                <div class="kpi-card"><div class="kpi-label"><span class="metric-label">Clientes nuevos</span></div><div class="kpi-value">58</div></div>
+              </div>
+            </div>
+          </div>
         </article>
 
         <article class="sc-card">
@@ -876,7 +1024,7 @@
     <!-- Notificaciones -->
     <article class="sc-card">
       <div class="sc-card-h"><span class="sc-card-title">Notificaciones</span></div>
-      <p class="sc-card-sub">Configurá cómo querés recibir avisos.</p>
+      <p class="sc-card-sub">Configura cómo quieres recibir avisos.</p>
       <div class="sc-toggle-row"><div><div class="sc-name">Facturas aprobadas</div><div class="sc-mail sc-muted">Cuando se aprueba una factura.</div></div><button class="sw on" aria-pressed="true"></button></div>
       <div class="sc-toggle-row"><div><div class="sc-name">Stock crítico</div><div class="sc-mail sc-muted">Cuando un ítem baja del mínimo.</div></div><button class="sw on" aria-pressed="true"></button></div>
       <div class="sc-toggle-row"><div><div class="sc-name">Cobranzas vencidas</div><div class="sc-mail sc-muted">Resumen diario de vencidas.</div></div><button class="sw" aria-pressed="false"></button></div>
@@ -1123,20 +1271,20 @@
       <div class="sc-card-h"><span class="sc-card-title">Crecimiento de facturación</span><span class="badge badge-cyan" style="font:600 9px var(--mono)">INFORME</span></div>
       <p class="sc-card-sub">Evolución mensual · May 2025 → Abr 2026.</p>
       <div class="sc-chart-box" style="height:200px"><canvas id="scHist" aria-label="Histórico de tickets creados"></canvas></div>
-      <div class="sc-chart-cap" id="capHist">Tocá para ver el detalle</div>
+      <div class="sc-chart-cap" id="capHist">Toca para ver el detalle</div>
       <div style="margin-top:12px;padding:11px 13px;background:var(--bg-soft);border-radius:var(--radius);font:400 12px/1.5 var(--sans);color:var(--muted)"><strong style="color:var(--text)">Nota:</strong> el crecimiento sostenido refleja la incorporación de nuevos esquemas y la mayor adopción del ERP. <em>Datos simulados.</em></div>
     </article>
     <article class="sc-card">
       <div class="sc-card-h"><span class="sc-card-title">Sectores</span><span class="sc-mail sc-muted">Áreas involucradas</span></div>
       <div class="sc-chart-box"><canvas id="scSectores" aria-label="Donut de sectores"></canvas></div>
-      <div class="sc-chart-cap" id="capSectores">Tocá para ver el detalle</div>
+      <div class="sc-chart-cap" id="capSectores">Toca para ver el detalle</div>
       <div class="table-wrap" style="margin-top:10px"><table class="data-table"><thead><tr><th>Categoría</th><th class="num">N</th><th class="num">%</th></tr></thead><tbody><tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:7px;vertical-align:middle"></span>Sucursales</td><td class="num">7</td><td class="num">26%</td></tr><tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--cyan);margin-right:7px;vertical-align:middle"></span>Administración</td><td class="num">6</td><td class="num">22%</td></tr><tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--indigo);margin-right:7px;vertical-align:middle"></span>Compras</td><td class="num">3</td><td class="num">11%</td></tr><tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--amber);margin-right:7px;vertical-align:middle"></span>RRHH</td><td class="num">3</td><td class="num">11%</td></tr><tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--red);margin-right:7px;vertical-align:middle"></span>Servicios</td><td class="num">3</td><td class="num">11%</td></tr><tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--blue);margin-right:7px;vertical-align:middle"></span>Facturación</td><td class="num">2</td><td class="num">7%</td></tr><tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--muted-2);margin-right:7px;vertical-align:middle"></span>Externo</td><td class="num">1</td><td class="num">4%</td></tr><tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--muted);margin-right:7px;vertical-align:middle"></span>Cobranzas</td><td class="num">1</td><td class="num">4%</td></tr><tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:color-mix(in srgb, var(--indigo) 50%, transparent);margin-right:7px;vertical-align:middle"></span>Comercial</td><td class="num">1</td><td class="num">4%</td></tr></tbody></table></div>
     </article>
     
-    <article class="sc-card"><div class="sc-card-h"><span class="sc-card-title">Participación por origen</span></div><div class="sc-chart-box"><canvas id="scDonut" aria-label="Donut de participación por origen"></canvas></div><div class="sc-chart-cap" id="capDonut">Tocá el gráfico para ver el detalle</div></article>
-    <article class="sc-card"><div class="sc-card-h"><span class="sc-card-title">Gasto por campaña</span></div><div class="sc-chart-box"><canvas id="scBar" aria-label="Barras de gasto por campaña"></canvas></div><div class="sc-chart-cap" id="capBar">Tocá el gráfico para ver el detalle</div></article>
-    <article class="sc-card"><div class="sc-card-h"><span class="sc-card-title">Evolución de facturación</span></div><div class="sc-chart-box"><canvas id="scLine" aria-label="Línea de evolución de facturación"></canvas></div><div class="sc-chart-cap" id="capLine">Tocá el gráfico para ver el detalle</div></article>
-    <article class="sc-card"><div class="sc-card-h"><span class="sc-card-title">Embudo de conversión</span></div><div class="sc-chart-box tall"><canvas id="scFunnel" aria-label="Embudo de conversión"></canvas></div><div class="sc-chart-cap" id="capFunnel">Tocá el gráfico para ver el detalle</div></article>
+    <article class="sc-card"><div class="sc-card-h"><span class="sc-card-title">Participación por origen</span></div><div class="sc-chart-box"><canvas id="scDonut" aria-label="Donut de participación por origen"></canvas></div><div class="sc-chart-cap" id="capDonut">Toca el gráfico para ver el detalle</div></article>
+    <article class="sc-card"><div class="sc-card-h"><span class="sc-card-title">Gasto por campaña</span></div><div class="sc-chart-box"><canvas id="scBar" aria-label="Barras de gasto por campaña"></canvas></div><div class="sc-chart-cap" id="capBar">Toca el gráfico para ver el detalle</div></article>
+    <article class="sc-card"><div class="sc-card-h"><span class="sc-card-title">Evolución de facturación</span></div><div class="sc-chart-box"><canvas id="scLine" aria-label="Línea de evolución de facturación"></canvas></div><div class="sc-chart-cap" id="capLine">Toca el gráfico para ver el detalle</div></article>
+    <article class="sc-card"><div class="sc-card-h"><span class="sc-card-title">Embudo de conversión</span></div><div class="sc-chart-box tall"><canvas id="scFunnel" aria-label="Embudo de conversión"></canvas></div><div class="sc-chart-cap" id="capFunnel">Toca el gráfico para ver el detalle</div></article>
     <article class="sc-card">
       <div class="sc-card-h"><span class="sc-card-title">Cockpit · KPI con sparkline</span></div>
       <div class="sc-kpi-l">Facturación del día</div>
@@ -1394,7 +1542,7 @@
 <!-- ══════════ CATÁLOGO: TABLAS ══════════ -->
 <section class="sc-section">
   <h2 class="sc-section-h">Tablas</h2>
-  <p class="sc-section-sub">Tipos de tabla usados en apps e informes (clase <code class="sc-mono">.data-table</code>, headers reales · <strong>datos simulados</strong>). Tocá una fila para ver el detalle.</p>
+  <p class="sc-section-sub">Tipos de tabla usados en apps e informes (clase <code class="sc-mono">.data-table</code>, headers reales · <strong>datos simulados</strong>). Toca una fila para ver el detalle.</p>
   <div class="sc-tbl-grid">
     <article class="sc-card wide">
       <div class="sc-card-h"><span class="sc-card-title">Backlog · tickets</span><span class="badge badge-amber" style="font:600 9px var(--mono)">INFORME</span></div>
@@ -1517,7 +1665,7 @@
 <div class="sc-panel" id="tab-iconos" role="tabpanel" aria-labelledby="sctab-iconos">
 <section class="sc-section" style="margin-top:0">
   <h2 class="sc-section-h">Galería de iconos</h2>
-  <p class="sc-section-sub">Set <strong>Phosphor</strong> usado en el DS (clase <code class="sc-mono">ph ph-*</code>). Buscá y tocá un icono para copiar su etiqueta.</p>
+  <p class="sc-section-sub">Set <strong>Phosphor</strong> usado en el DS (clase <code class="sc-mono">ph ph-*</code>). Busca y toca un icono para copiar su etiqueta.</p>
   <div class="ic-toolbar">
     <div class="ds-input-wrap ic-search"><i class="ph ph-magnifying-glass"></i><input class="ds-input" type="text" id="icSearch" placeholder="Buscar icono… (factura, usuario, gráfico)" aria-label="Buscar icono"></div>
     <span class="ic-count" id="icCount"></span><a class="ds-xref" href="../yiqi-design-system.html#icons"><i class="ph ph-anchor-simple"></i> Ver fuente</a>

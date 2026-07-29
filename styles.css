@@ -35,6 +35,7 @@
   --accent:      var(--cyan);
   --accent-ink:  var(--text-white);
   --cyan-label:  rgba(0,204,255,.52);
+  --cyan-night:  #0b7f9e;   /* cyan apagado para barras de dato (§56, embudo, franja) */
   --text-cyan-muted: rgba(0,195,240,.62);
   --gridline:    rgba(0,204,255,.16);
   /* Semánticos */
@@ -70,11 +71,12 @@
   --cyan-chart-bar: rgba(0, 204, 255, 0.55);
   --cyan-chart-line: rgba(0, 204, 255, 0.16);
   /* Efectos — sombras navy/cyan suaves (no negro de desplazamiento) */
-  --focus-ring: 0 0 0 3px var(--cyan-a22);
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--cyan-night);   /* WCAG 1.4.11: 3:1 minimo */
   --glow:      var(--focus-ring);   /* alias historico: no usar en codigo nuevo */
   --shadow-sm: 0 1px 3px rgba(0,18,28,.30);
   --shadow-md: 0 4px 14px rgba(0,20,30,.26);
   --shadow-lg: 0 12px 40px rgba(0,26,40,.34), 0 2px 12px rgba(0,204,255,.06);
+  --shadow:    var(--shadow-lg);   /* alias de conveniencia */
   /* Tipografía */
   --font-display: "Greycliff CF", "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
   --display: var(--font-display);
@@ -83,6 +85,7 @@
   --kpi-num: "IBM Plex Mono", ui-monospace, monospace;  /* v1.2.7: cifras en mono, coincide con el spec de tipografía */
   /* Layout */
   --topbar-h:  56px;
+  --statusbar-h: 28px;   /* barra de estado inferior (§44) */
   --sidebar-w: 240px;
   --sidebar-w-collapsed: 68px;
   --page-px:   28px;
@@ -125,6 +128,7 @@ html[data-theme="light"] {
   --cyan-soft:   rgba(0,159,199,.10);
   --cyan-soft-2: rgba(0,159,199,.14);
   --cyan-label:  rgba(0,159,199,.58);
+  --cyan-night:  var(--cyan);   /* en claro el cyan ya viene apagado: no hace falta bajarlo mas */
   --text-cyan-muted: rgba(0,140,175,.58);
   --gridline:    rgba(0,159,199,.18);
   --green:  #0c9b6d;  --green-soft:  rgba(12,155,109,.10);
@@ -157,7 +161,7 @@ html[data-theme="light"] {
   --red-a30: rgba(212, 72, 94, 0.30);
   --cyan-chart-bar: rgba(0, 159, 199, 0.55);
   --cyan-chart-line: rgba(0, 159, 199, 0.16);
-  --focus-ring: 0 0 0 3px rgba(0,159,199,.22);
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--cyan-night);   /* WCAG 1.4.11: 3:1 minimo */
   --glow:      var(--focus-ring);   /* alias historico */
   --shadow-sm: 0 1px 3px rgba(16,36,54,.06);
   --shadow-md: 0 4px 14px rgba(16,36,54,.08);
@@ -411,6 +415,7 @@ html[data-theme="light"] .brand-logo-light { display: block; }
   color: var(--cyan);
 }
 .btn-primary:hover { background: var(--cyan-soft-2); }
+.btn:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: 2px; }
 
 .btn-ghost {
   background: transparent;
@@ -880,7 +885,7 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
 
 .range-btn:hover       { background: var(--bg-soft); color: var(--text); }
 .range-btn.is-active   { background: var(--cyan-soft); color: var(--cyan); font-weight: 600; }
-.range-btn:focus-visible { outline: 2px solid var(--cyan-a28); outline-offset: -2px; }
+.range-btn:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: -2px; }
 
 
 /* ── 23. ACCOUNT CHIP ─────────────────────────────────────── */
@@ -896,7 +901,9 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
   flex-shrink: 0;
   border: none;
   border-radius: var(--radius-pill);
-  background: var(--bg-soft);
+  /* Sin fondo en la barra (v1.2.7.6): el chip no es un control, es un dato.
+     En .sidebar-tools si lleva fondo, porque ahi funciona como card. */
+  background: none;
   overflow: visible;
 }
 
@@ -966,7 +973,7 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
 }
 
 .schema-option:hover,
-.schema-option:focus-visible { outline: none; background: var(--cyan-soft); }
+.schema-option:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: -2px; background: var(--cyan-soft); }
 .schema-option.is-active     { background: rgba(0, 196, 140, 0.10); }
 
 .schema-option-name { font-size: 13px; font-weight: 600; }
@@ -1143,7 +1150,10 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
   cursor: pointer; transform: translateY(-50%);
 }
 .login-eye:hover { color: var(--cyan); }
-.login-eye svg,
+/* El SVG del ojo estaba agrupado con .login-remember y heredaba su display:flex
+   sin recibir tamano: cualquier <svg> sin width/height explicitos se dibujaba a
+   300x150. Bug detectado el 29/07/2026 al migrar Analytics Pro. */
+.login-eye svg { width: 18px; height: 18px; display: block; }
 .login-remember {
   display: flex; align-items: center; gap: 9px;
   color: var(--muted); cursor: pointer; font: 500 12px var(--sans);
@@ -1161,7 +1171,7 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2300ccff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
   background-repeat: no-repeat; background-position: center;
 }
-.login-remember input:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--cyan-soft); }
+.login-remember input:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: 2px; }
 .login-footer {
   color: var(--muted-2); font: 500 11px var(--mono);
   text-align: center; text-decoration: none;
@@ -1201,6 +1211,19 @@ html[data-theme="light"] textarea:-webkit-autofill {
 
 @keyframes yiqi-login-spin { to { transform: rotate(360deg); } }
 
+
+/* Recuperar contrasena — segunda card del login, misma caja.
+   Promovida desde Analytics Pro (v1.2.7.6). */
+.login-card.is-card-hidden { visibility: hidden; pointer-events: none; }
+.login-copy { margin: 0; font-size: 13px; color: var(--muted); }
+.recovery-title { margin: 0; font-size: 20px; font-weight: 700; color: var(--text); }
+.recovery-msg { margin: 0; font-size: 12px; color: var(--green); }
+.recovery-msg[data-state="error"] { color: var(--red); }
+.recovery-actions { display: flex; gap: 10px; margin-top: 6px; }
+.recovery-actions .btn { flex: 1; margin-top: 0; }
+.btn-back { background: var(--bg-soft); color: var(--text); }
+.btn-back:hover { background: var(--bg-elev); }
+
 /* ── 29. PROGRESS BARS ────────────────────────────────────── */
 .progress-row {
   display: grid;
@@ -1227,8 +1250,8 @@ html[data-theme="light"] textarea:-webkit-autofill {
 }
 
 /* Barras horizontales unificadas (canal/franja/sucursal) — track visible, fill animado */
-.hourly-bar-track, .branch-bar { height: 8px; border-radius: var(--radius-pill); background: var(--line-strong); overflow: hidden; }
-.hourly-bar-fill, .branch-fill { height: 100%; min-width: 5px; border-radius: inherit; background: var(--cyan); transform-origin: left center; animation: funnelGrow 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) both; }
+.hourly-bar-track, .branch-bar { height: 4px; border-radius: var(--radius-pill); background: var(--line-strong); overflow: hidden; }
+.hourly-bar-fill, .branch-fill { height: 100%; min-width: 5px; border-radius: inherit; background: var(--cyan-night); transform-origin: left center; animation: funnelGrow 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) both; }
 @media (prefers-reduced-motion: reduce) { .hourly-bar-fill, .branch-fill { animation: none; } }
 
 /* Coherence bars */
@@ -1244,8 +1267,8 @@ html[data-theme="light"] textarea:-webkit-autofill {
 .funnel-step-count { font: 500 11px var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
 .funnel-leak { font: 600 10px var(--mono); color: var(--red); }
 .funnel-leak.is-ok { color: var(--green); }
-.funnel-track { height: 8px; border-radius: var(--radius-pill); background: var(--line-strong); overflow: hidden; }
-.funnel-fill { height: 100%; min-width: 5px; border-radius: var(--radius-pill); background: var(--cyan); transform-origin: left center; animation: funnelGrow 0.85s cubic-bezier(0.22, 0.61, 0.36, 1) both; }
+.funnel-track { height: 4px; border-radius: var(--radius-pill); background: var(--line-strong); overflow: hidden; }
+.funnel-fill { height: 100%; min-width: 5px; border-radius: var(--radius-pill); background: var(--cyan-night); transform-origin: left center; animation: funnelGrow 0.85s cubic-bezier(0.22, 0.61, 0.36, 1) both; }
 .funnel-fill.is-end { background: var(--green); }
 @media (prefers-reduced-motion: reduce) { .funnel-fill { animation: none; } }
 .funnel-note { margin: 4px 0 0; font-size: 11px; line-height: 1.5; color: var(--muted-2); }
@@ -1441,8 +1464,8 @@ html[data-theme="light"] .skeleton-line {
 }
 .kpi-help:focus-visible {
   color: var(--text);
-  outline: none;
-  box-shadow: 0 0 0 3px var(--cyan-soft);
+  outline: 2px solid var(--cyan-night);
+  outline-offset: 2px;
 }
 .kpi-help-pop {
   position: absolute;
@@ -1488,7 +1511,7 @@ html[data-theme="light"] .skeleton-line {
 }
 .kpi-collapse svg { width: 14px; height: 14px; }
 .kpi-collapse:hover,
-.kpi-collapse:focus-visible { color: var(--text); outline: none; }
+.kpi-collapse:focus-visible { color: var(--text); outline: 2px solid var(--cyan-night); outline-offset: 2px; }
 .kpi-card.is-collapsed .kpi-collapse { transform: rotate(-90deg); }
 .kpi-body {
   display: grid;
@@ -1670,10 +1693,16 @@ html[data-theme="light"] .skeleton-line {
 
 .ds-input::placeholder { color: var(--muted-2); }
 
-.ds-input:focus,
-.ds-select:focus,
-.ds-textarea:focus {
-  background-color: var(--bg-soft);
+/* El foco no cambia el fondo: el anillo ya lo dice. Dos senales para
+   lo mismo se leen como dos estados distintos. (v1.2.7.6) */
+
+/* Foco por teclado: anillo separado del campo. El offset es lo que lo hace
+   leer como estado y no como borde del componente. (v1.2.7.6) */
+.ds-input:focus-visible,
+.ds-select:focus-visible,
+.ds-textarea:focus-visible {
+  outline: 2px solid var(--cyan-night);
+  outline-offset: 2px;
 }
 
 .ds-input.err,
@@ -2098,7 +2127,7 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
   background:var(--bg-soft); color:var(--text); cursor:pointer;
   transition:background .18s ease, color .18s ease; }
 .nav-hamburger:hover{ background:var(--bg-elev-2); }
-.nav-hamburger:focus-visible{ outline:none; box-shadow:0 0 0 3px var(--cyan-soft); }
+.nav-hamburger:focus-visible{ outline: 2px solid var(--cyan-night); outline-offset: 2px; }
 .nav-hamburger svg{ width:18px; height:18px; }
 
 /* Fondo oscurecido del drawer. Oculto en escritorio. */
@@ -2110,7 +2139,7 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
   border-radius:var(--radius-sm); background:transparent; color:var(--muted);
   cursor:pointer; transition:background .18s ease, color .18s ease; }
 .nav-close:hover{ background:var(--bg-soft); color:var(--text); }
-.nav-close:focus-visible{ outline:none; box-shadow:0 0 0 3px var(--cyan-soft); }
+.nav-close:focus-visible{ outline: 2px solid var(--cyan-night); outline-offset: 2px; }
 .nav-close svg{ width:16px; height:16px; }
 
 /* v1.2.7.3: borderless — sin fondo ni cápsula, tracking canónico .15em */
@@ -2130,7 +2159,7 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
 /* ── Botón de cerrar / icon button (borderless, canónico) ── */
 .close-btn{ display:grid; place-items:center; width:38px; height:38px; flex-shrink:0; border:none; border-radius:var(--radius-sm); background:transparent; color:var(--muted); cursor:pointer; font-size:18px; line-height:0; transition:color .18s ease, background .18s ease; }
 .close-btn:hover{ color:var(--text); background:var(--bg-soft); }
-.close-btn:focus-visible{ outline:none; box-shadow:0 0 0 3px var(--cyan-soft); }
+.close-btn:focus-visible{ outline: 2px solid var(--cyan-night); outline-offset: 2px; }
 .close-btn svg{ width:20px; height:20px; }
 
 /* ── Alert badge (badge sobre íconos: campanita, etc.) ── */
@@ -2144,7 +2173,7 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
 .fav-star svg{ width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round; }
 .fav-star.is-active{ color:var(--amber); }
 .fav-star.is-active svg{ fill:var(--amber); stroke:var(--amber); }
-.fav-star:focus-visible{ outline:none; box-shadow:0 0 0 3px var(--cyan-soft); }
+.fav-star:focus-visible{ outline: 2px solid var(--cyan-night); outline-offset: 2px; }
 
 /* ── Avatar (iniciales multicolor + imagen/memoji con fallback) ── */
 .avatar{ position:relative; width:36px; height:36px; flex-shrink:0; border-radius:50%; overflow:hidden; display:grid; place-items:center; background:var(--cyan-soft); color:var(--cyan); font:700 12px var(--mono); text-transform:uppercase; }
@@ -2208,7 +2237,7 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
   transition: background 0.18s ease, color 0.18s ease;
 }
 .sidebar-collapse:hover { background: var(--bg-soft); color: var(--text); }
-.sidebar-collapse:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--cyan-soft); color: var(--text); }
+.sidebar-collapse:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: 2px; color: var(--text); }
 .sidebar-collapse svg { width: 16px; height: 16px; transition: transform 0.18s ease; }
 
 .app-shell.nav-collapsed { grid-template-columns: var(--sidebar-w-collapsed) minmax(0, 1fr); }
@@ -2243,7 +2272,7 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
 .ds-xref{ display:inline-flex; align-items:center; gap:6px; padding:4px 8px; border:none; border-radius:var(--radius); background:transparent; color:var(--muted-2); font:600 11px var(--sans); text-decoration:none; cursor:pointer; transition:background .15s ease, color .15s ease; }
 .ds-xref .ph{ font-size:14px; }
 .ds-xref:hover{ color:var(--cyan); background:var(--cyan-soft); }
-.ds-xref:focus-visible{ outline:none; box-shadow:0 0 0 3px var(--cyan-soft); color:var(--cyan); }
+.ds-xref:focus-visible{ outline: 2px solid var(--cyan-night); outline-offset: 2px; color:var(--cyan); }
 /* ── Slider (primitivo) — fuente canónica ── */
 .pr-slider{ width:100%; max-width:220px; }
 .pr-slider input[type=range]{ -webkit-appearance:none; appearance:none; width:100%; height:5px; border-radius:var(--radius-pill); background:var(--line-strong); outline:none; }
@@ -2256,7 +2285,7 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
 .pr-tabbtn{ padding:6px 14px; border:none; cursor:pointer; border-radius:var(--radius-pill); background:transparent; color:var(--muted); font:500 13px var(--sans); transition:background var(--tr), color var(--tr); }
 .pr-tabbtn:hover{ background:var(--bg-soft); color:var(--text); }
 .pr-tabbtn[aria-selected="true"]{ background:var(--cyan-soft); color:var(--cyan); font-weight:600; }
-.pr-tabbtn:focus-visible{ outline:2px solid var(--cyan-a28); outline-offset:-2px; }
+.pr-tabbtn:focus-visible{ outline: 2px solid var(--cyan-night); outline-offset: -2px; }
 .pr-tabpanel{ margin-top:14px; font:400 12.5px/1.6 var(--sans); color:var(--muted); text-align:center; }
 /* Variante plana — estilo Nav item: sin track segmentado, radius-sm, plano */
 .pr-tabbar--flat{ background:transparent; padding:0; gap:4px; border-radius:0; }
@@ -2639,3 +2668,289 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
 .rule-row svg { width: 14px; height: 14px; flex-shrink: 0; margin-top: 3px; }
 .rule-row--ok svg { color: var(--green); }
 .rule-row--no svg { color: var(--red); }
+
+/* ── 44. STATUSBAR — BARRA DE ESTADO INFERIOR ─────────────── */
+/* Promovida desde Analytics Pro. Estilo barra de estado de editor:
+   fija abajo, alto --statusbar-h, sin bordes. Se oculta bajo 980px. */
+.statusbar {
+  position: fixed; left: 0; right: 0; bottom: 0;
+  z-index: 97;
+  height: var(--statusbar-h);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; padding: 0 16px;
+  background: var(--bg-elev);
+  box-shadow: var(--shadow-sm);
+  font: 500 11px var(--sans);
+  color: var(--muted);
+}
+.statusbar-left {
+  display: flex; align-items: center; gap: 8px;
+  min-width: 0; overflow: hidden; white-space: nowrap;
+}
+.statusbar-left strong { color: var(--text); font: 600 11px var(--sans); }
+.statusbar-desc { color: var(--muted); overflow: hidden; text-overflow: ellipsis; }
+.statusbar-right {
+  display: flex; align-items: center; gap: 8px;
+  flex-shrink: 0; color: var(--muted-2);
+}
+.statusbar .sb-sep { color: var(--muted-2); }
+.statusbar .ldot { width: 8px; height: 8px; flex-shrink: 0; }
+.statusbar-left[data-state="loading"] .ldot { background: var(--amber); }
+
+/* Punto de estado. Reutilizable fuera de la statusbar. */
+.ldot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.ldot-g { background: var(--green); box-shadow: 0 0 0 3px var(--green-soft); }
+.ldot-a { background: var(--amber); box-shadow: 0 0 0 3px var(--amber-soft); }
+.ldot-r { background: var(--red);   box-shadow: 0 0 0 3px var(--red-soft); }
+
+/* ── 45. SIDEBAR-TOOLS — HERRAMIENTAS EN EL SIDEBAR ───────── */
+/* Contenedor que baja al sidebar los controles de la topbar
+   (cuenta, esquema, período, refrescar, salir) cuando hay lugar. */
+.sidebar-tools {
+  display: flex; flex-flow: row wrap; gap: 8px;
+  margin-bottom: 16px; padding-bottom: 16px;
+}
+.sidebar-tools:empty { display: none; }
+.nav-collapsed .sidebar-tools { display: none; }
+.sidebar-tools .account-chip,
+.sidebar-tools .auth-status,
+.sidebar-tools .range-filter { flex: 1 1 100%; width: auto; }
+.sidebar-tools .btn-refresh,
+.sidebar-tools .btn-exit { flex: 1 1 0; width: auto; justify-content: center; }
+.sidebar-tools .account-chip {
+  display: grid; gap: 10px; width: 100%; height: auto;
+  padding: 12px; border-radius: var(--radius-md);
+  background: var(--bg-soft); overflow: visible;
+}
+.sidebar-tools .account-user-block { height: auto; padding: 0; }
+.sidebar-tools .schema-toggle {
+  width: 100%; height: 36px; padding: 0 10px;
+  justify-content: space-between; border: none;
+  background: transparent; border-radius: var(--radius-sm);
+}
+.sidebar-tools .schema-menu {
+  position: static; width: 100%; max-height: none;
+  overflow: visible; box-shadow: none; margin-top: 0;
+}
+.sidebar-tools .range-filter {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 4px; height: auto; padding: 3px; flex-wrap: nowrap;
+  background: var(--bg-soft); border-radius: var(--radius-pill);
+}
+.sidebar-tools .range-btn {
+  justify-content: center; height: 34px; padding: 0 6px;
+  border: none; border-radius: var(--radius-pill);
+  background: transparent; font-size: 11px; white-space: nowrap;
+}
+.sidebar-tools .range-btn.is-active { background: var(--cyan-soft); }
+
+/* ── 46. NAVEGACIÓN EN TABS — ALTERNATIVA AL SIDEBAR ──────── */
+/* .app-shell.nav-tabs cambia el shell de sidebar a barra de tabs.
+   El botón .btn-layout alterna entre los dos modos. */
+.tab-nav {
+  display: none;
+  position: sticky; top: var(--topbar-h); z-index: 40;
+  gap: 4px; align-items: stretch;
+  margin: 0 0 8px; padding: 6px 0;
+  overflow-x: auto; scrollbar-width: none;
+  background: var(--bg);
+}
+.tab-nav::-webkit-scrollbar { display: none; }
+.tab-nav .sb-theme-switch { margin-left: auto; }
+.tab-item {
+  display: inline-flex; align-items: center; gap: 8px; flex-shrink: 0;
+  padding: 8px 14px; border: none; background: transparent;
+  cursor: pointer; color: var(--muted);
+  font: 500 13px var(--sans); white-space: nowrap;
+  border-radius: var(--radius-pill);
+  transition: background var(--tr), color var(--tr);
+}
+.tab-item .n-ico { width: 22px; height: 22px; background: transparent; }
+.tab-item .n-ico svg { width: 14px; height: 14px; }
+.tab-item:hover { color: var(--text); background: var(--bg-soft); }
+.tab-item.is-active { color: var(--cyan); background: var(--cyan-soft); font-weight: 600; }
+
+.btn-layout {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; padding: 0;
+  border: none; cursor: pointer;
+  border-radius: var(--radius-pill);
+  background: var(--bg-soft); color: var(--muted);
+  transition: background var(--tr), color var(--tr);
+}
+.btn-layout:hover { background: var(--cyan-soft); color: var(--cyan); }
+.btn-layout svg { width: 16px; height: 16px; }
+.btn-layout .ic-tabs { display: none; }
+
+.app-shell.nav-tabs { grid-template-columns: minmax(0, 1fr); }
+.app-shell.nav-tabs .sidebar,
+.app-shell.nav-tabs .nav-overlay { display: none; }
+.app-shell.nav-tabs .tab-nav { display: flex; }
+.app-shell.nav-tabs .content { padding-top: 10px; }
+.app-shell.nav-tabs .btn-layout { background: var(--cyan-soft); color: var(--cyan); }
+.app-shell.nav-tabs .btn-layout .ic-sidebar { display: none; }
+.app-shell.nav-tabs .btn-layout .ic-tabs { display: block; }
+
+/* ── 47. SRC — ACORDEÓN DE FUENTE DE DATOS ───────────────── */
+/* Item del sidebar que despliega una tarjeta describiendo el origen. */
+.src-item { display: flex; flex-direction: column; }
+.src-chev, .nav-chevron {
+  width: 14px; height: 14px; margin-left: auto; flex-shrink: 0;
+  color: var(--muted-2); fill: none; stroke: currentColor;
+  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+  transition: transform var(--tr);
+}
+.src-item.is-open .src-chev { transform: rotate(180deg); }
+.src-body { display: none; padding: 4px 4px 6px 8px; }
+.src-item.is-open .src-body { display: block; }
+.src-card {
+  display: flex; flex-direction: column; gap: 8px;
+  padding: 12px 14px; border: none;
+  border-radius: var(--radius); background: var(--bg-soft);
+}
+.src-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.src-card-title { color: var(--text); font: 600 13px var(--sans); line-height: 1.3; }
+.src-card-desc { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.45; }
+.nav-collapsed .src-body,
+.nav-collapsed .src-item.is-open .src-body,
+.nav-collapsed .src-chev { display: none; }
+
+/* ── 48. BRANCH LIST — RANKING CON BARRA ─────────────────── */
+/* Lista comparativa: nombre + detalle, cifra a la derecha, barra abajo. */
+.branch-list { display: grid; gap: 12px; }
+.branch-row {
+  display: grid; grid-template-columns: 1fr auto;
+  grid-template-areas: "meta rev" "bar bar";
+  gap: 4px 10px; align-items: center;
+}
+.branch-meta { grid-area: meta; min-width: 0; }
+.branch-name { font: 600 12px var(--sans); color: var(--text); }
+.branch-detail { font: 400 11px var(--mono); color: var(--muted-2); }
+.branch-revenue {
+  grid-area: rev; font: 600 11px var(--mono); color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+.branch-bar {
+  grid-area: bar; height: 4px; border-radius: var(--radius-pill);
+  background: var(--bg-soft); overflow: hidden;
+}
+.branch-fill { height: 100%; background: var(--cyan-night); border-radius: var(--radius-pill); }
+.branch-empty { color: var(--muted-2); font-size: 12px; }
+
+/* ── 49. WATCHLIST TONAL — BARRA Y ACENTO POR TONO ───────── */
+.wl-label {
+  flex: 1; min-width: 0; padding-top: 4px;
+  font: 700 10px var(--mono); letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--muted-2); line-height: 1.35;
+}
+.wl-bar {
+  height: 6px; margin-top: 2px; border-radius: var(--radius-pill);
+  background: var(--bg-elev); overflow: hidden;
+}
+.wl-bar span { display: block; height: 100%; border-radius: inherit; background: var(--cyan); }
+.watchlist-card.tone-green .wl-bar span { background: var(--green); }
+.watchlist-card.tone-amber .wl-bar span { background: var(--amber); }
+.watchlist-card.tone-blue  .wl-bar span { background: var(--cyan); }
+/* Acento del ícono: fondo tonal, sin borde (§03 borderless). */
+.watchlist-card.tone-green .metric-icon { color: var(--green); background: var(--green-soft); }
+.watchlist-card.tone-amber .metric-icon { color: var(--amber); background: var(--amber-soft); }
+.watchlist-card.tone-blue  .metric-icon { color: var(--cyan);  background: var(--cyan-soft); }
+
+/* ── 50. CARD CLICKEABLE ─────────────────────────────────── */
+.kpi-card.kpi-clickable,
+.card-clickable { cursor: pointer; transition: background var(--tr), box-shadow var(--tr); }
+.kpi-card.kpi-clickable:hover,
+.card-clickable:hover { background: var(--bg-soft); box-shadow: var(--shadow-md); }
+.kpi-card.kpi-clickable:focus-visible,
+.card-clickable:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: 2px; }
+
+/* ── 51. SIN DATO — ESTADOS VACÍOS EN CARDS ──────────────── */
+/* Texto que reemplaza la cifra cuando la métrica no tiene valor.
+   Para el vacío de página completa usar .empty-state. */
+.kpi-na, .pulse-na, .highlight-na, .watchlist-na {
+  margin-top: 6px; font: 500 13px var(--sans);
+  color: var(--muted-2); line-height: 1.4;
+}
+.trend-empty {
+  grid-column: 1 / -1; display: grid; place-items: center;
+  min-height: 180px; color: var(--muted); font-size: 13px;
+}
+
+/* ── 52. CARRUSEL DE KPIs ────────────────────────────────── */
+/* Fila de KPIs con scroll horizontal y snap, para métricas secundarias. */
+.more-kpis-carousel {
+  display: flex; flex-wrap: nowrap;
+  overflow-x: auto; overflow-y: hidden;
+  gap: 12px; padding-bottom: 8px;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin; touch-action: pan-x;
+  -webkit-overflow-scrolling: touch;
+}
+.more-kpis .kpi-grid, .more-kpis .pulse-grid { display: contents; }
+.more-kpis .kpi-grid > *, .more-kpis .pulse-grid > * { flex: 0 0 210px; scroll-snap-align: start; }
+
+@media (max-width: 980px) {
+  .statusbar { display: none; }
+  .btn-layout { display: none; }
+  .app-shell.nav-tabs { grid-template-columns: 1fr; }
+  .app-shell.nav-tabs .sidebar { display: flex; }
+  .app-shell.nav-tabs .tab-nav { display: none; }
+}
+
+/* ── 53. SIDEBAR — CONTROLES, HOVER-PEEK Y FIJADO ────────── */
+/* Promovido desde informes-yiqi/comercial.html (v1.2.7.6).
+   El rail (.nav-collapsed) ya estaba canonizado; esto agrega los tres
+   comportamientos que le faltaban: controles al pie, despliegue temporal
+   al pasar el mouse, y fijado con candado. */
+
+/* Controles al pie del sidebar: colapsar y fijar. */
+.sidebar-ctrls {
+  position: sticky; bottom: 0;
+  margin-top: 12px; padding-top: 8px;
+  display: flex; justify-content: flex-end; gap: 6px;
+  flex-shrink: 0;
+}
+.nav-collapsed .sidebar-ctrls { flex-direction: column; align-items: center; gap: 8px; }
+
+/* Candado: sin fijar muestra el abierto, fijado muestra el cerrado en cyan. */
+.sb-lock .ico-locked   { display: none; }
+.sb-lock .ico-unlocked { display: block; }
+.nav-locked .sb-lock .ico-unlocked { display: none; }
+.nav-locked .sb-lock .ico-locked   { display: block; }
+.nav-locked .sb-lock { color: var(--cyan); }
+
+/* Flecha del colapsar: apunta al lado al que va a moverse. */
+.nav-collapsed .sb-arrow svg { transform: rotate(180deg); }
+
+/* Tooltip del rail: la etiqueta aparece al pasar el mouse o al enfocar. */
+.app-shell.nav-collapsed .nav-link:hover::after { opacity: 1; transform: translateY(-50%) scale(1); }
+
+/* Hover-peek: colapsado, al pasar el mouse el sidebar se despliega como
+   overlay sin empujar el contenido. Se cancela si el sidebar esta fijado. */
+.app-shell.nav-collapsed .sidebar { transition: width var(--tr), padding var(--tr); }
+.app-shell.nav-collapsed.nav-peek .sidebar {
+  width: var(--sidebar-w); padding: 16px 12px;
+  z-index: 97; box-shadow: var(--shadow-lg);
+}
+.nav-collapsed.nav-peek .nav-lbl { visibility: visible; height: auto; padding: 12px 8px 6px; }
+.nav-collapsed.nav-peek .nav-link {
+  justify-content: flex-start; padding: 8px 10px; gap: 8px;
+  width: auto; height: auto; margin: 0 0 6px;
+}
+.nav-collapsed.nav-peek .nav-link span:not(.n-ico) {
+  position: static; width: auto; height: auto;
+  padding: 0; margin: 0; overflow: visible; clip: auto; white-space: nowrap;
+}
+.nav-collapsed.nav-peek .nav-link::after { display: none; }
+.nav-collapsed.nav-peek .sidebar-ctrls { flex-direction: row; align-items: center; }
+
+/* Toggle de tema: columna en rail, fila al desplegarse. */
+.nav-collapsed .sb-theme-switch { flex-direction: column; background: transparent; padding: 0; gap: 4px; }
+.nav-collapsed .sb-theme-switch .theme-opt { flex: none; width: 40px; height: 40px; margin: 0 auto; }
+.nav-collapsed.nav-peek .sb-theme-switch { flex-direction: row; padding: 3px; gap: 2px; }
+.nav-collapsed.nav-peek .sb-theme-switch .theme-opt { flex: 1; width: 28px; height: 28px; margin: 0; }
+
+@media (max-width: 980px) {
+  /* En celular no hay rail: el sidebar es drawer y los controles no aplican. */
+  .sidebar-ctrls { display: none; }
+}

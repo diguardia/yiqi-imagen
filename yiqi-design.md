@@ -1,6 +1,6 @@
-# YiQi Design System — Guía maestra v1.2.7.1
+# YiQi Design System — Guía maestra v1.2.7.6
 
-> Guía de referencia para implementación de UI en productos YiQi ERP. **Deriva de** la fuente única `www.yiqi/site.css` (tokens) + `www.yiqi/yiqi-design-system.html` (catálogo). Este repo (`yiqi-imagen`) es downstream: empaqueta y publica al CDN; NO es canónico.
+> Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
 
 ---
@@ -84,6 +84,7 @@
   --cyan-soft:       rgba(0,204,255,.10);
   --cyan-soft-2:     rgba(0,204,255,.16);
   --cyan-label:      rgba(0,204,255,.52);
+  --cyan-night:      #0b7f9e;              /* barras de dato — ver §26 */
   --text-cyan-muted: rgba(0,195,240,.45);  /* subtítulos activos, labels acento */
 
   /* Semantic */
@@ -141,8 +142,9 @@
   --transition-slow: 240ms ease;
 
   /* Layout */
-  --sidebar-w: 240px;
-  --topbar-h:  56px;
+  --sidebar-w:   240px;
+  --topbar-h:    56px;
+  --statusbar-h: 28px;   /* barra de estado inferior — ver §25 */
 
   /* Nav active border — borderless por defecto */
   --nav-item-active-border: transparent;
@@ -173,6 +175,7 @@ html[data-theme="light"] {
   --cyan-soft:       rgba(0,159,199,.1);
   --cyan-soft-2:     rgba(0,159,199,.16);
   --cyan-label:      rgba(0,159,199,.52);
+  --cyan-night:      var(--cyan);          /* en claro no baja: el cyan ya viene apagado */
   --text-cyan-muted: rgba(0,140,175,.48);
 
   /* Semantic */
@@ -755,7 +758,7 @@ Banner de estado que ocupa el ancho completo de un panel. Dos variantes según e
   <div>
     <span>Sin conexión</span>
     <strong>No se pudo alcanzar el servidor</strong>
-    <p>Revisá tu conexión o intentá más tarde.</p>
+    <p>Revisa tu conexión o intenta más tarde.</p>
   </div>
 </div>
 ```
@@ -1606,5 +1609,152 @@ Variante tonal del primitivo de toast (§26) para confirmaciones de peso, como e
 
 ---
 
-*YiQi ERP · Design System v1.2.7.1 · Última actualización: 14/06/2026*
+## 25. Kit de panel *(nuevo en v1.2.7.5)*
+
+Nueve componentes promovidos desde **Analytics Pro**, que los tenía como CSS local. Catálogo **§52–§60** (grupo *Kit de panel*); un ejemplo de cada uno en el showcase, pestaña **Analytics Pro**. En `styles.css` son las secciones **§44–§52** — el catálogo y el CSS numeran distinto.
+
+| Catálogo | CSS | Componente | Clase raíz |
+|---|---|---|---|
+| §52 | §44 | Statusbar | `.statusbar` + `.ldot` |
+| §53 | §45 | Herramientas del sidebar | `.sidebar-tools` |
+| §54 | §46 | Navegación en tabs | `.app-shell.nav-tabs`, `.tab-item`, `.btn-layout` |
+| §55 | §47 | Fuente de datos | `.src-item` / `.src-card` |
+| §56 | §48 | Ranking con barra | `.branch-list` |
+| §57 | §49 | Watchlist tonal | `.wl-bar`, `.tone-*` |
+| §58 | §50 | Card clickeable | `.kpi-clickable` / `.card-clickable` |
+| §59 | §51 | Sin dato | `.kpi-na`, `.trend-empty` |
+| §60 | §52 | Carrusel de KPIs | `.more-kpis` |
+
+### Statusbar
+
+Barra de estado fija al pie, alto `--statusbar-h` (28px), fondo `--bg-elev`, `--shadow-sm`. **Borderless.** Se oculta bajo 980px. El layout tiene que descontarla:
+
+```css
+.sidebar { height: calc(100vh - var(--topbar-h) - var(--statusbar-h)); }
+.content { padding-bottom: calc(40px + var(--statusbar-h)); }
+```
+
+El bloque izquierdo trunca con elipsis (solo `.statusbar-desc`); el derecho nunca se recorta. El punto de estado `.ldot` con `-g` / `-a` / `-r` es reutilizable fuera de la barra.
+
+### Al canonizar se limpiaron cuatro cosas
+
+Lo que venía de Analytics Pro no entró tal cual:
+
+- `.watchlist-card.tone-* .metric-icon` perdió el `border-color` — el acento va por **fondo tonal**, no por borde (§3).
+- `.kpi-clickable` perdió `transition: border-color`, que no tenía efecto: la card no lleva borde.
+- `.tab-nav` tenía `padding` declarado dos veces; quedó uno.
+- `#runtime-description` (un ID de la app) pasó a la clase `.statusbar-desc`.
+
+### Qué NO se promovió
+
+- **`.login-input` y familia** — traen `border: 1px solid var(--line)` y chocan con `.ds-input` borderless. Sin resolver: o la app usa `.ds-input`, o el DS acepta un input con borde.
+- **`styles-cockpit.css` y `styles-chart-modal.css`** de Analytics Pro (~115 bloques) — son una vista específica del producto, no biblioteca.
+
+---
+
+## 26. Token `--cyan-night` *(nuevo en v1.2.7.5)*
+
+Relleno de las **barras de dato**: embudo, franja horaria y ranking de sucursal. El `--cyan` pleno compite con el verde de estado cuando hay varias barras juntas; el noche baja el volumen sin salirse de la marca.
+
+**En modo claro vale `var(--cyan)`** — ahí el cyan ya viene apagado y bajarlo más lo dejaba pesando como si fuera texto. Es el mismo token con distinto valor por tema, así que los componentes no se enteran.
+
+```css
+/* ✅ Uso correcto — relleno de barra de dato */
+.funnel-fill      { background: var(--cyan-night); }
+.hourly-bar-fill  { background: var(--cyan-night); }
+.branch-fill      { background: var(--cyan-night); }
+
+/* ❌ Incorrecto — acentos, texto y estados siguen con --cyan */
+.nav-link.is-active { color: var(--cyan-night); }
+```
+
+### Altura de barras
+
+Las tres barras horizontales están unificadas en un mismo bloque del canónico y **se cambian juntas**:
+
+| Barra | Alto | Clase |
+|---|---|---|
+| Dato (embudo, franja, sucursal) | **4px** | `.funnel-track`, `.hourly-bar-track`, `.branch-bar` |
+| Watchlist | 6px | `.wl-bar` |
+| Carga en la topbar | 2px | `.load-progress--topline` |
+
+---
+
+## 27. Foco por teclado *(nuevo en v1.2.7.6)*
+
+**Anillo separado, y nada más.** El componente no cambia de fondo al enfocarse: el anillo ya dice "estás acá", y dos señales para lo mismo se leen como dos estados distintos.
+
+```css
+.ds-input:focus-visible,
+.ds-select:focus-visible,
+.ds-textarea:focus-visible,
+.btn:focus-visible,
+.kpi-clickable:focus-visible,
+.card-clickable:focus-visible {
+  outline: 2px solid var(--cyan-night);
+  outline-offset: 2px;
+}
+```
+
+| Regla | Valor | Por qué |
+|---|---|---|
+| Color | `--cyan-night` | El mismo cyan apagado de las barras de dato. **4.1:1** en oscuro, **3.1:1** en claro. |
+| Grosor | 2px | |
+| Separación | `outline-offset: 2px` | Sin el aire, el anillo se lee como **borde del componente** en vez de como estado — y contra el borde de `.btn-primary` se ve doble. |
+| Fondo | No cambia | Antes `.ds-input:focus` pasaba a `--bg-soft`: redundante y confuso. |
+| Disparador | `:focus-visible` | El anillo aparece al navegar con teclado, no al hacer clic. |
+
+**Mínimo obligatorio: 3:1** (WCAG 2.2 §1.4.11, indicadores no textuales). Medido sobre la card, lo que había antes no llegaba: solo cambio de fondo **1.53:1**, `--focus-ring` al 22% **1.53:1**, `outline` en `--cyan-a38` **2.35:1**. Un foco que no se ve es un formulario inoperable sin mouse.
+
+**Alcance:** es el anillo de todo el sistema. Campos, `.btn`, cards clickeables, `.nav-hamburger`, `.nav-close`, `.close-btn`, `.fav-star`, `.sidebar-collapse`, `.ds-xref`, `.kpi-help`, `.kpi-collapse` y el checkbox de `.login-remember`. Antes cada uno lo resolvia por su cuenta con `box-shadow: 0 0 0 3px var(--cyan-soft)` (~1.2:1).
+
+**Excepcion — controles dentro de un segmentado.** `.range-btn`, `.pr-tabbtn` y `.schema-option` llevan el mismo anillo con `outline-offset: -2px`: con offset positivo se saldria de la pildora contenedora.
+
+### Guiar el próximo paso ≠ marcar el foco
+
+El anillo es **reactivo**: dice dónde estás. Guiar hacia adelante es comportamiento, no estilo:
+
+- `autofocus` en el primer campo vacío.
+- `tabindex="-1"` en controles auxiliares que no van en el recorrido (el ojo de mostrar contraseña).
+- `autocomplete` correcto, para que el navegador ofrezca la credencial guardada.
+- Al fallar, devolver el foco al campo del error en lugar de dejarlo en el botón.
+
+---
+
+## 28. Recuperar contraseña *(nuevo en v1.2.7.6)*
+
+Segunda card del login, en la **misma caja**. Catálogo: **36 · Login → Recuperar contraseña** (`#login-recovery`).
+
+```css
+.login-card.is-card-hidden { visibility: hidden; pointer-events: none; }
+.login-copy      { margin: 0; font-size: 13px; color: var(--muted); }
+.recovery-title  { margin: 0; font-size: 20px; font-weight: 700; color: var(--text); }
+.recovery-msg    { margin: 0; font-size: 12px; color: var(--green); }
+.recovery-msg[data-state="error"] { color: var(--red); }
+.recovery-actions { display: flex; gap: 10px; margin-top: 6px; }
+.recovery-actions .btn { flex: 1; margin-top: 0; }
+.btn-back        { background: var(--bg-soft); color: var(--text); }
+```
+
+**La alternancia va por `visibility`, no por `display`.** Con `display:none` la caja cambia de alto al conmutar entre login y recuperación, y el formulario salta.
+
+---
+
+## 29. Sidebar — controles, hover-peek y fijado *(nuevo en v1.2.7.6)*
+
+Promovido desde `informes-yiqi/comercial.html`. El rail (`.nav-collapsed`) ya estaba canonizado; esto agrega lo que le faltaba. Catálogo: **34 · Shell → Controles, hover-peek y fijado** (`#sidebar-peek`).
+
+| Comportamiento | Clase | Regla |
+|---|---|---|
+| Controles al pie | `.sidebar-ctrls` | Sticky abajo. En rail pasan a columna. Ocultos bajo 980px. |
+| Fijar | `.sb-lock` + `.nav-locked` | Candado; fijado muestra `.ico-locked` en `--cyan` y cancela el peek. |
+| Flecha | `.sb-arrow` | Rota 180° en rail. |
+| Hover-peek | `.nav-peek` | El sidebar se despliega **como overlay** (`z-index: 97` + `--shadow-lg`): no empuja el contenido. |
+| Tooltip | `.nav-link::after` | `attr(title)` en hover y en `:focus-visible`. Oculto en peek. |
+
+**Nombres:** `comercial.html` usa `.ds-layout`, `.nav-section-label`, `.nav-icon` y `.sidebar-theme`. El canónico usa `.app-shell`, `.nav-lbl`, `.n-ico` y `.sb-theme-switch`. Se promovió con los nombres canónicos; **comercial tiene que renombrar** para consumirlo.
+
+---
+
+*YiQi ERP · Design System v1.2.7.6 · Última actualización: 29/07/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
