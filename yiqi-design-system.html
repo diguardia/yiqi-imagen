@@ -4726,24 +4726,29 @@ const dsNavAll = document.querySelectorAll('.ds-nav-item');
 function topbarSearch(q) {
   const term = q.toLowerCase().trim();
   tsClear.classList.toggle('visible', term.length > 0);
-  tsKbd.classList.toggle('hidden',   term.length > 0);
 
   if (!term) {
+    tsHits = []; tsHitIdx = 0;
+    tsKbd.textContent = '\u2318K';
+    tsKbd.classList.remove('hidden');
     dsSecs.forEach(s => { s.classList.remove('search-match','search-dim'); });
     dsNavAll.forEach(n => { n.style.opacity = ''; n.style.fontWeight = ''; });
     return;
   }
 
   if (!tsIndex) tsBuildIndex();
-  let firstMatch = null, firstChip = null;
+  tsHits = []; tsHitIdx = 0;
   dsSecs.forEach(s => {
     const ix = tsIndex.get(s);
     const headMatch = ix.head.includes(term);
-    const chip = headMatch ? null : ix.codes.find(c => c.text.includes(term));
-    const match = headMatch || !!chip;
+    const chips = ix.codes.filter(c => c.text.includes(term));
+    const match = headMatch || chips.length > 0;
     s.classList.toggle('search-match', match);
     s.classList.toggle('search-dim',  !match);
-    if (match && !firstMatch) { firstMatch = s; firstChip = chip ? chip.el : null; }
+    /* Hits navegables: el titulo si matcheo por titulo; cada aparicion
+       de clase documentada si matcheo por chip/<code>. */
+    if (headMatch) tsHits.push({ el: s, center: false });
+    chips.forEach(c => tsHits.push({ el: c.el, center: true }));
   });
 
   dsNavAll.forEach(n => {
@@ -4752,11 +4757,19 @@ function topbarSearch(q) {
     n.style.fontWeight = match ? '600' : '';
   });
 
-  if (firstMatch) {
-    /* Si lo que matcheo es una clase documentada (chip o <code>), saltar
-       al lugar exacto dentro de la seccion, no al titulo. */
-    (firstChip || firstMatch).scrollIntoView({ behavior: 'smooth', block: firstChip ? 'center' : 'start' });
-  }
+  tsGoTo(0);
+}
+
+/* Navegacion entre resultados: Enter avanza, Shift+Enter retrocede.
+   El contador ocupa el lugar del atajo (⌘K) mientras hay busqueda. */
+let tsHits = [], tsHitIdx = 0;
+function tsGoTo(i) {
+  if (!tsHits.length) { tsKbd.textContent = '0'; tsKbd.classList.remove('hidden'); return; }
+  tsHitIdx = ((i % tsHits.length) + tsHits.length) % tsHits.length;
+  const h = tsHits[tsHitIdx];
+  h.el.scrollIntoView({ behavior: 'smooth', block: h.center ? 'center' : 'start' });
+  tsKbd.textContent = (tsHitIdx + 1) + '/' + tsHits.length;
+  tsKbd.classList.remove('hidden');
 }
 
 /* Indice de busqueda: titulo + kicker + clases documentadas de cada seccion
@@ -4782,6 +4795,10 @@ function topbarClearSearch() {
 tsInput.addEventListener('input', e => topbarSearch(e.target.value));
 tsInput.addEventListener('keydown', e => {
   if (e.key === 'Escape') { topbarClearSearch(); tsInput.blur(); }
+  if (e.key === 'Enter' && tsHits.length) {
+    e.preventDefault();
+    tsGoTo(tsHitIdx + (e.shiftKey ? -1 : 1));
+  }
 });
 
 // ⌘K / Ctrl+K — foco al input
