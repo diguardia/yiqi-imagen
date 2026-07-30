@@ -56,7 +56,9 @@ button{font:inherit;cursor:pointer}
 .ds-nav-num { display:inline-block; min-width:1.4em; font:600 10px var(--mono); color:var(--muted-2); }
 
 /* ── CONTENT ── */
-.ds-content { padding: 36px 40px 80px; max-width: min(1440px, 100%); }
+/* El padding inferior descuenta la statusbar fija: si no, la barra tapa
+   el final de la última sección. Misma regla que documenta §52. */
+.ds-content { padding: 36px 40px calc(80px + var(--statusbar-h)); max-width: min(1440px, 100%); }
 /* La prosa mantiene su ancho de lectura aunque la columna crezca. */
 .ds-section-sub, .ds-section-header > p { max-width: 78ch; }
 .ds-section { margin-bottom: 64px; scroll-margin-top: calc(var(--topbar-h, 56px) + 20px); }

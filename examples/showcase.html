@@ -14,7 +14,9 @@
 <script src="../ds-components.js" defer></script>
 <style>
   /* ── Layout de la página (solo composición; los estilos de componente vienen del DS) ── */
-  body { margin:0; background:var(--bg); color:var(--text); font-family:var(--sans,"Inter",sans-serif); height:100vh; display:flex; flex-direction:column; overflow:hidden; }
+  /* El alto descuenta la statusbar fija: si no, la barra tapa el contenido.
+     Bajo 980px la statusbar se oculta y el body vuelve a alto automático. */
+  body { margin:0; background:var(--bg); color:var(--text); font-family:var(--sans,"Inter",sans-serif); height:calc(100vh - var(--statusbar-h)); display:flex; flex-direction:column; overflow:hidden; }
   html[data-theme="light"] body, html[data-theme="dark"] body { background:var(--bg); }
   .sc-split { flex:1; min-height:0; display:grid; grid-template-columns:300px minmax(0,1fr); overflow:hidden; }
   .sc-right { min-width:0; height:100%; overflow:hidden; display:flex; flex-direction:column; }
@@ -699,7 +701,7 @@
           <div style="margin-top:8px">
             <div class="statusbar">
               <div class="statusbar-left" data-state="ok"><span class="ldot ldot-g"></span><strong>Datos reales</strong><span class="statusbar-desc">Conectado a YiQi ERP.</span></div>
-              <div class="statusbar-right"><span>DS v1.2.7.4</span></div>
+              <div class="statusbar-right"><span class="sb-item">Mi App</span><span class="sb-sep">&middot;</span><span class="sb-item" data-ds-version="DS v{v}">DS v1.2.7.4</span><span class="sb-sep">&middot;</span><span class="sb-item sb-clock" id="sc-clock">--:--</span></div>
             </div>
           </div>
           <div style="margin-top:10px;display:flex;gap:14px;align-items:center">
@@ -1217,7 +1219,7 @@
                 <button class="theme-opt" type="button" data-val="system" aria-label="Tema del sistema"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></button>
                 <button class="theme-opt" type="button" data-val="light" aria-label="Tema claro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg></button>
               </div>
-              <div class="sb-copy">© 2026 YiQi S.A.<br>Mi App · DS v1.2.7.4</div>
+              <div class="sb-copy">© 2026 YiQi S.A.<br>Mi App · <span data-ds-version="DS v{v}">DS v1.2.7.4</span></div>
             </div>
           </nav>
           <div class="content">
@@ -2890,5 +2892,55 @@ window.__buildGallery=function(){var p=document.getElementById("tab-galeria");if
   if(panel.classList.contains('is-active')) run();
 })();
 </script>
+
+<!-- ── Versión del DS: fuente única = version.json ──────────────────────
+     Todo lugar que muestre la versión vigente lleva data-ds-version.
+     El texto escrito es el fallback si el fetch falla (file://, offline).
+     No tocar los badges del menú: esos marcan en qué versión nació cada
+     componente, son historia, no la versión actual. -->
+<script>
+(function () {
+  fetch('../version.json', { cache: 'no-store' })
+    .then(r => r.ok ? r.json() : null)
+    .then(v => {
+      if (!v || !v.ds_version) return;
+      const n = v.ds_version;
+      document.querySelectorAll('[data-ds-version]').forEach(el => {
+        const tpl = el.getAttribute('data-ds-version');
+        el.textContent = tpl ? tpl.replace('{v}', n) : 'v' + n;
+      });
+      document.title = document.title.replace(/v\d+(?:\.\d+)+/, 'v' + n);
+    })
+    .catch(() => {});
+})();
+</script>
+<script>
+/* En DOMContentLoaded: la statusbar se escribe al final del body. */
+document.addEventListener('DOMContentLoaded', function(){
+  var els = [document.getElementById('sc-statusbar-clock'), document.getElementById('sc-clock')].filter(Boolean);
+  if (!els.length) return;
+  function t(){ var n=new Date(), h=('0'+n.getHours()).slice(-2)+':'+('0'+n.getMinutes()).slice(-2);
+                els.forEach(function(e){ e.textContent = h; }); }
+  t(); setInterval(t, 15000);
+});
+</script>
+
+<!-- ── Barra de estado del showcase ────────────────────────────────────
+     El showcase consume su propio sistema: .statusbar canónica, igual que
+     Analytics Pro y el catálogo. La versión sale de version.json. -->
+<footer class="statusbar">
+  <div class="statusbar-left">
+    <span class="ldot ldot-g" aria-hidden="true"></span>
+    <strong>Showcase de ejemplos</strong>
+    <span class="statusbar-desc">Componentes del Design System en contexto de uso real.</span>
+  </div>
+  <div class="statusbar-right">
+    <span class="sb-item">Showcase</span>
+    <span class="sb-sep" aria-hidden="true">&middot;</span>
+    <span class="sb-item" data-ds-version="DS v{v}">DS v1.2.7.9</span>
+    <span class="sb-sep" aria-hidden="true">&middot;</span>
+    <span class="sb-item sb-clock" id="sc-statusbar-clock">--:--</span>
+  </div>
+</footer>
 </body>
 </html>

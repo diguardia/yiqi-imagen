@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1.0" name="viewport"/>
-<title>YiQi ERP — Design System v1.2.7.2</title>
+<title>YiQi ERP — Design System v1.2.7.9</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJZaVFpIj4KICA8cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHJ4PSIxNCIgZmlsbD0iIzA3MTMxYSIvPgogIDxwYXRoIHRyYW5zZm9ybT0idHJhbnNsYXRlKDMyIDMyKSBzY2FsZSgxLjQpIHRyYW5zbGF0ZSgtNjEuMDUgLTMxLjEpIiBkPSJNNTcuOTEsNDQuNzh2LTIuNjZjLTIuMTgtLjUzLTQuMjEtMS42Ni01LjkyLTMuMzYtNC45Ny00Ljk3LTUuMDktMTMuMDItLjAzLTE4LjA4LDUuMDktNS4wOSwxMy4xNC00Ljk3LDE4LjExLDBzNS4wOSwxMy4wMiwwLDE4LjExYy0xLjc4LDEuNzgtMy45NCwyLjkzLTYuMjIsMy40NnYyLjUxYzAsLjM1LS4xOC41My0uNTguNTNoLTQuODJjLS4zLDAtLjU1LS4yLS41NS0uNVpNNTYuMjgsMzQuNDdjLjUuNSwxLjA1LjksMS42NSwxLjJ2LTMuMzZjMC0uMzUuMTgtLjUzLjUzLS41M2g0Ljg3Yy4yNSwwLC41My4xOC41My41M3YzLjM2Yy42My0uMzMsMS4yMy0uNzgsMS43OC0xLjMzLDIuNzMtMi43MywyLjc4LTYuNzUuMTUtOS4zOHMtNi42Ny0yLjYxLTkuNDEuMTNjLTIuNzEsMi43MS0yLjczLDYuNzUtLjEsOS4zOFoiIGZpbGw9IiMwY2YiLz4KPC9zdmc+Cg==">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -361,8 +361,8 @@ body.preview-open .ds-layout { display: none !important; }
 <section class="ds-section" id="release-notes">
 <div class="ds-section-header">
 <div class="ds-section-kicker">00 · Novedades</div>
-<h2 class="ds-section-title">Novedades · v1.2.7.6</h2>
-<p class="ds-section-sub"><strong>Foco accesible</strong>: anillo con <code>outline-offset</code>, el unico esquema que llega a los 3:1 que pide WCAG 1.4.11. El foco deja de cambiar el fondo del campo. Antes, en v1.2.7.6: nuevo grupo <strong>Kit de panel (§52–§60)</strong> con nueve componentes promovidos desde Analytics Pro, y los tokens <code>--statusbar-h</code>, <code>--shadow</code> y <code>--cyan-night</code>.</p>
+<h2 class="ds-section-title" data-ds-version="Novedades · v{v}">Novedades · v1.2.7.9</h2>
+<p class="ds-section-sub"><strong>La versión del DS se lee de <code>version.json</code></strong>: el catálogo y el showcase la tenían escrita a mano y divergían. Se canoniza la statusbar como corre en Analytics Pro (<code>.sb-item</code>, <code>.sb-clock</code>, reloj). Antes, en v1.2.7.9: se publica la tabla de <code>z-index</code> y el drawer mobile sube a 115, que estaba tapado por la topbar. Antes, en v1.2.7.8: <strong>Greycliff CF entra al bundle</strong> — el canónico nunca cargaba la tipografía de marca — con las clases de título <code>.ds-title-hero</code>, <code>.ds-title-page</code> y <code>.ds-title-section</code>. Y en v1.2.7.7: el DS deja de imponer tamaño a <code>h1</code>–<code>h4</code>, y se publica <code>.ds-note</code>.</p>
 </div>
 <div class="token-grid-2">
 <div class="card">
@@ -389,6 +389,32 @@ body.preview-open .ds-layout { display: none !important; }
 <tr><th>Versión</th><th>Fecha</th><th>Tipo</th><th>Detalle</th></tr>
 </thead>
 <tbody>
+
+<tr>
+<td class="mono-cell">v1.2.7.9</td>
+<td class="mono-cell">30/07/2026</td>
+<td><span class="badge badge-cyan">CAMBIO</span></td>
+<td><strong>La versi&oacute;n del DS se lee de <code>version.json</code>.</strong> El cat&aacute;logo y el showcase la ten&iacute;an escrita a mano y dec&iacute;an tres n&uacute;meros distintos (1.2.7.2 en el t&iacute;tulo, 1.2.7.4 y 1.2.7.6 en las demos) mientras <code>version.json</code> iba en 1.2.7.9. Ahora todo lugar que muestre la versi&oacute;n vigente lleva <code>data-ds-version</code> y se completa al cargar &mdash; una sola fuente. Se canoniza la statusbar tal como corre en Analytics Pro: se publican <code>.sb-item</code> y <code>.sb-clock</code>, que se usaban sin existir en el CSS, y la demo de <a class="ds-xref" href="#statusbar" style="display:inline-flex">&sect;52</a> suma el reloj. Se documenta que el n&uacute;mero se lee del CDN y nunca se escribe: es lo que le permite al homologador saber si una app est&aacute; atrasada.</td>
+</tr>
+<tr>
+<td class="mono-cell">v1.2.7.9</td>
+<td class="mono-cell">30/07/2026</td>
+<td><span class="badge badge-cyan">CAMBIO</span></td>
+<td><strong>Orden de apilamiento y drawer.</strong> El drawer mobile estaba en <code>z-index: 90</code> y quedaba tapado por cualquier topbar de app: sube a <strong>115</strong>, con el backdrop en 110. Se publica la tabla completa de apilamiento en <a class="ds-xref" href="#stacking" style="display:inline-flex">&sect;01 &middot; Orden de apilamiento</a> &mdash; modal 200, toasts 120, drawer 115, backdrop 110, topbar 100, statusbar 97, sidebar colapsado 96, popovers 60, nav pegajosa 40. Se corrige la documentaci&oacute;n del men&uacute; mobile: las clases son <code>.nav-hamburger</code>, <code>.nav-overlay</code> y <code>.nav-close</code> a 980px, no <code>.mobile-btn</code> a 960px &mdash; ese nombre nunca existi&oacute; en <code>styles.css</code>.</td>
+</tr>
+<tr>
+<td class="mono-cell">v1.2.7.8</td>
+<td class="mono-cell">30/07/2026</td>
+<td><span class="badge badge-cyan">NUEVO</span></td>
+<td><strong>Greycliff CF en el bundle.</strong> El canónico nunca cargaba la tipografía de marca: no había ningún <code>@font-face</code> en <code>styles.css</code> y todo caía al fallback. Se agregan los cuatro pesos en <code>.woff2</code> (Medium 500, Demi-Bold 600, Bold 700, Heavy 800) servidos desde <code>fonts/</code>. Se publican las clases de título display <code>.ds-title-hero</code> (40px), <code>.ds-title-page</code> (30px) y <code>.ds-title-section</code> (24px), todas en peso 700. Ver <a class="ds-xref" href="#typography" style="display:inline-flex">&sect;04 &middot; Tipograf&iacute;a</a>.</td>
+</tr>
+<tr>
+<td class="mono-cell">v1.2.7.7</td>
+<td class="mono-cell">30/07/2026</td>
+<td><span class="badge badge-cyan">CAMBIO</span></td>
+<td><strong>El DS deja de imponer tama&ntilde;o a las etiquetas HTML.</strong> <code>h1</code>&ndash;<code>h4</code> y <code>p</code> conservan solo <code>margin: 0</code>: el tama&ntilde;o lo da la clase, no la etiqueta. Antes, una app pod&iacute;a escribir <code>&lt;h1&gt;</code> desnudo y heredar 30px del can&oacute;nico sin saberlo. Se publica <a class="ds-xref" href="#ds-note" style="display:inline-flex">&sect;64 &middot; <code>.ds-note</code></a>, la nota/callout borderless con fondo tonal, que se usaba en el cat&aacute;logo sin existir en el CSS. Se corrige <code>.product-sku</code>, que llevaba <code>margin-top</code> sobre un elemento en l&iacute;nea: ahora es <code>display: block</code>.</td>
+</tr>
+
 <tr>
 <td class="mono-cell">v1.2.7.6</td>
 <td class="mono-cell">29/07/2026</td>
@@ -3252,7 +3278,7 @@ html[data-theme="light"] .bg-grid-demo-fade {
           <button class="theme-opt" type="button" data-val="system" aria-label="Tema del sistema"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></button>
           <button class="theme-opt" type="button" data-val="light" aria-label="Tema claro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg></button>
         </div>
-        <div class="sb-copy">&copy; 2026 YiQi S.A.<br>Mi App &middot; DS v1.2.7.4</div>
+        <div class="sb-copy">&copy; 2026 YiQi S.A.<br>Mi App &middot; <span data-ds-version="DS v{v}">DS v1.2.7.4</span></div>
       </div>
     </nav>
     <div class="content">Área de contenido — acá va lo propio de cada app.</div>
@@ -4178,7 +4204,7 @@ ana · prov · inv · pos · pick · cons
 <div style="max-width:760px;margin-bottom:20px">
   <div class="statusbar" style="position:static;height:auto;padding:7px 14px;border-radius:var(--radius-sm)">
     <div class="statusbar-left"><span class="ldot ldot-g"></span><strong>Datos reales</strong><span class="statusbar-desc">Conectado a YiQi ERP. Periodo actual seleccionado.</span></div>
-    <div class="statusbar-right"><span>Analytics Pro</span><span class="sb-sep">&middot;</span><span>DS v1.2.7.6</span></div>
+    <div class="statusbar-right"><span class="sb-item">Analytics Pro</span><span class="sb-sep">&middot;</span><span class="sb-item" data-ds-version="DS v{v}">DS v1.2.7.6</span><span class="sb-sep">&middot;</span><span class="sb-item sb-clock" id="ds-demo-clock">--:--</span></div>
   </div>
 </div>
 
@@ -4196,10 +4222,21 @@ ana · prov · inv · pos · pick · cons
 <tr><td>Bloque izquierdo</td><td><code>.statusbar-left</code></td><td>Estado y descripcion. Trunca con elipsis; nunca crece la barra.</td></tr>
 <tr><td>Descripcion</td><td><code>.statusbar-desc</code></td><td>Texto secundario en <code>--muted</code>. Es el unico que se recorta.</td></tr>
 <tr><td>Bloque derecho</td><td><code>.statusbar-right</code></td><td>Metadatos fijos (app, version). No se recorta.</td></tr>
+<tr><td>Dato suelto</td><td><code>.sb-item</code></td><td>Cada metadato de la derecha: nombre de app, versi&oacute;n del DS, hora. No se corta nunca. <em>(nuevo en v1.2.7.9)</em></td></tr>
 <tr><td>Separador</td><td><code>.sb-sep</code></td><td>Punto medio en <code>--muted-2</code> entre metadatos.</td></tr>
+<tr><td>Hora</td><td><code>.sb-clock</code></td><td>Opcional. Va en mono con <code>tabular-nums</code>: el ancho fijo evita que la barra salte cada minuto. <em>(nuevo en v1.2.7.9)</em></td></tr>
 <tr><td>Punto de estado</td><td><code>.ldot</code> + <code>-g</code> / <code>-a</code> / <code>-r</code></td><td>7px con halo de 3px en el tono soft. Reutilizable fuera de la statusbar.</td></tr>
 <tr><td>Carga</td><td><code>data-state="loading"</code></td><td>En <code>.statusbar-left</code>; pinta el punto de ambar sin cambiar la clase.</td></tr>
 </tbody></table>
+
+<div class="subsection-title" id="statusbar-version">La versi&oacute;n del DS se lee, no se escribe</div>
+<p class="ds-section-sub" style="margin-bottom:14px">La statusbar es el lugar can&oacute;nico donde una app declara con qu&eacute; versi&oacute;n del Design System corre. <strong>Ese n&uacute;mero nunca se escribe a mano</strong>: se lee de <code>version.json</code> del CDN al cargar. Un n&uacute;mero escrito a mano queda viejo el d&iacute;a que el DS avanza, y el homologador no puede distinguir una app al d&iacute;a de una atrasada.</p>
+<pre class="code-block" style="max-width:760px;margin-bottom:24px"><code>const DS_VERSION_URL = "https://diguardia.github.io/yiqi-imagen/version.json";
+
+fetch(DS_VERSION_URL, { cache: "no-cache" })
+  .then(r =&gt; r.ok ? r.json() : null)
+  .then(v =&gt; { if (v?.ds_version) target.textContent = `DS v${v.ds_version}`; })
+  .catch(() =&gt; {});   // sin red: queda el valor del HTML como fallback</code></pre>
 
 <p class="ds-note">El layout tiene que descontar la barra: <code>calc(100vh - var(--topbar-h) - var(--statusbar-h))</code> en el alto del sidebar y <code>calc(40px + var(--statusbar-h))</code> en el padding inferior del contenido.</p>
 </section>
@@ -5141,5 +5178,57 @@ document.querySelectorAll('.table-sortable').forEach(table => {
   if(ysw){ ysw.insertAdjacentElement('afterend', b); } else { tr.appendChild(b); }
 })();
 </script>
+
+<!-- ── Versión del DS: fuente única = version.json ──────────────────────
+     Todo lugar que muestre la versión vigente lleva data-ds-version.
+     El texto escrito es el fallback si el fetch falla (file://, offline).
+     No tocar los badges del menú: esos marcan en qué versión nació cada
+     componente, son historia, no la versión actual. -->
+<script>
+(function () {
+  fetch('version.json', { cache: 'no-store' })
+    .then(r => r.ok ? r.json() : null)
+    .then(v => {
+      if (!v || !v.ds_version) return;
+      const n = v.ds_version;
+      document.querySelectorAll('[data-ds-version]').forEach(el => {
+        const tpl = el.getAttribute('data-ds-version');
+        el.textContent = tpl ? tpl.replace('{v}', n) : 'v' + n;
+      });
+      document.title = document.title.replace(/v\d+(?:\.\d+)+/, 'v' + n);
+    })
+    .catch(() => {});
+})();
+</script>
+<script>
+/* Relojes: la barra del catálogo y la demo de §52. Mismo patrón que la app real. */
+/* En DOMContentLoaded: la statusbar del catálogo se escribe al final del
+   body, después de este script. */
+document.addEventListener('DOMContentLoaded', function(){
+  var els = [document.getElementById('ds-statusbar-clock'), document.getElementById('ds-demo-clock')].filter(Boolean);
+  if (!els.length) return;
+  function t(){ var n=new Date(), h=('0'+n.getHours()).slice(-2)+':'+('0'+n.getMinutes()).slice(-2);
+                els.forEach(function(e){ e.textContent = h; }); }
+  t(); setInterval(t, 15000);
+});
+</script>
+
+<!-- ── Barra de estado del catálogo ────────────────────────────────────
+     El catálogo consume su propio sistema: usa .statusbar canónica, igual
+     que Analytics Pro. La versión se lee de version.json (data-ds-version). -->
+<footer class="statusbar">
+  <div class="statusbar-left">
+    <span class="ldot ldot-g" aria-hidden="true"></span>
+    <strong>Design System de YiQi</strong>
+    <span class="statusbar-desc">Tokens, componentes y patrones &middot; fuente canónica de todas las apps.</span>
+  </div>
+  <div class="statusbar-right">
+    <span class="sb-item">Catálogo</span>
+    <span class="sb-sep" aria-hidden="true">&middot;</span>
+    <span class="sb-item" data-ds-version="DS v{v}">DS v1.2.7.9</span>
+    <span class="sb-sep" aria-hidden="true">&middot;</span>
+    <span class="sb-item sb-clock" id="ds-statusbar-clock">--:--</span>
+  </div>
+</footer>
 </body>
 </html>

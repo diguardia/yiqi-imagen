@@ -2761,6 +2761,11 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
   flex-shrink: 0; color: var(--muted-2);
 }
 .statusbar .sb-sep { color: var(--muted-2); }
+/* Dato suelto de la zona derecha: nombre de app, version del DS, hora.
+   Sin fondo ni borde; no se corta nunca. (v1.2.7.9) */
+.statusbar .sb-item { flex-shrink: 0; white-space: nowrap; }
+/* La hora va en mono: cambia cada minuto y el ancho fijo evita el salto. */
+.statusbar .sb-clock { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 .statusbar .ldot { width: 8px; height: 8px; flex-shrink: 0; }
 .statusbar-left[data-state="loading"] .ldot { background: var(--amber); }
 
