@@ -28,3 +28,7 @@ desktop.ini
 # Entorno local
 .env
 .env.local
+
+# Scratch de agentes
+.claude/
+_tmp-*/
