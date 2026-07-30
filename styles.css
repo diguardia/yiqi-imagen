@@ -2664,7 +2664,9 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
     right: 0;
     left: auto;
     bottom: 0;
-    z-index: 90;
+    /* El drawer cubre la pantalla entera, topbar incluida. Por encima de
+       cualquier topbar de app (100) y por debajo de toasts (120) y modal (200). */
+    z-index: 115;
     width: min(var(--sidebar-w), 86vw);
     height: 100dvh;
     padding: 20px;
@@ -2689,7 +2691,7 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
     display: block;
     position: fixed;
     inset: 0;
-    z-index: 80;
+    z-index: 110;
     background: rgba(0,0,0,.55);
     opacity: 0;
     pointer-events: none;
