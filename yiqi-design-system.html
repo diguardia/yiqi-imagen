@@ -204,6 +204,12 @@ body.preview-open .ds-layout { display: none !important; }
   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
   <input class="topbar-search-input" id="topbar-search" type="text" placeholder="Buscar sección…" autocomplete="off" aria-label="Buscar en el Design System">
   <kbd class="topbar-search-kbd" id="topbar-search-kbd">⌘K</kbd>
+  <button class="topbar-search-clear" id="topbar-search-prev" aria-label="Resultado anterior" title="Anterior (⇧Enter · ⇧⌘G)">
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+  <button class="topbar-search-clear" id="topbar-search-next" aria-label="Resultado siguiente" title="Siguiente (Enter · ⌘G)">
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+  </button>
   <button class="topbar-search-clear" id="topbar-search-clear" aria-label="Limpiar">
     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
   </button>
@@ -609,6 +615,10 @@ body.preview-open .ds-layout { display: none !important; }
   <div class="rule-row rule-row--ok">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
     <span><strong>Llevan borde —</strong> solo los controles interactivos: <code>input</code>, <code>select</code>, <code>textarea</code>, switch, checkbox y buscador. Ahí el borde comunica "esto se puede tocar".</span>
+  </div>
+  <div class="rule-row rule-row--no">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    <span><strong>Las clases <code>ds-*</code> no son componentes —</strong> son el chrome de esta documentación (menú, buscador, secciones del catálogo). Ninguna app las consume y ninguna auditoría debe contarlas como parte del sistema. Excepción: los componentes canónicos publicados con prefijo <code>ds-</code> en <code>styles.css</code> (<code>.ds-input</code>, <code>.ds-note</code>, <code>.ds-title-*</code>), que sí son DS.</span>
   </div>
   <div class="rule-row rule-row--no">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -4719,6 +4729,8 @@ function animateLP() {
 // ── Topbar search ──
 const tsInput  = document.getElementById('topbar-search');
 const tsClear  = document.getElementById('topbar-search-clear');
+const tsPrev   = document.getElementById('topbar-search-prev');
+const tsNext   = document.getElementById('topbar-search-next');
 const tsKbd    = document.getElementById('topbar-search-kbd');
 const dsSecs   = document.querySelectorAll('.ds-section');
 const dsNavAll = document.querySelectorAll('.ds-nav-item');
@@ -4726,6 +4738,8 @@ const dsNavAll = document.querySelectorAll('.ds-nav-item');
 function topbarSearch(q) {
   const term = q.toLowerCase().trim();
   tsClear.classList.toggle('visible', term.length > 0);
+  tsPrev.classList.toggle('visible',  term.length > 0);
+  tsNext.classList.toggle('visible',  term.length > 0);
 
   if (!term) {
     tsHits = []; tsHitIdx = 0;
@@ -4811,6 +4825,16 @@ document.addEventListener('keydown', e => {
 });
 
 tsClear.addEventListener('click', topbarClearSearch);
+tsPrev.addEventListener('click', () => tsGoTo(tsHitIdx - 1));
+tsNext.addEventListener('click', () => tsGoTo(tsHitIdx + 1));
+
+// ⌘G / ⇧⌘G — siguiente / anterior resultado, aun sin foco en el input
+document.addEventListener('keydown', e => {
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'g' && tsHits.length) {
+    e.preventDefault();
+    tsGoTo(tsHitIdx + (e.shiftKey ? -1 : 1));
+  }
+});
 document.getElementById('topbar-search-wrap').addEventListener('click', () => tsInput.focus());
 
 // Nav active on scroll
