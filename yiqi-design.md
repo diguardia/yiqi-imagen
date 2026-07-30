@@ -218,16 +218,66 @@ html[data-theme="light"] {
 
 ### Escala tipográfica
 
-| Uso | Fuente | Tamaño | Peso | Letter-spacing |
-|---|---|---|---|---|
-| Hero / Page title | `--display` | 40–52px | 800 | -0.03em a -0.04em |
-| Título de sección | `--display` | 24–28px | 700 | -0.025em |
-| Subtítulo / card heading | `--sans` | 16–20px | 600 | -0.02em |
-| Panel title | `--sans` | 14px | 700 | — |
-| Body / celdas | `--sans` | 13–14px | 400 | — |
-| Label / meta | `--sans` | 12px | 500 | — |
-| Kicker / section label | `--mono` | 10–11px | 600–700 | .10em–.16em, uppercase |
-| Valor numérico / ID | `--mono` | 10–13px | 500 | — |
+La escala display se pide **siempre con su clase**. La etiqueta desnuda entrega Inter, no Greycliff.
+
+```css
+.ds-title-hero    { font: 800 40px/1.05 var(--display); letter-spacing: -0.028em; }
+.ds-title-page    { font: 800 30px/1.1  var(--display); letter-spacing: -0.028em; }
+.ds-title-section { font: 800 24px/1.15 var(--display); letter-spacing: -0.024em; }
+```
+
+
+| Uso | Clase | Fuente | Tamaño | Peso | Letter-spacing |
+|---|---|---|---|---|---|
+| Hero title | `.ds-title-hero` | `--display` | 40px | 800 | -0.028em |
+| Placeholder title | `.ds-title-page` | `--display` | 30px | 800 | -0.028em |
+| Section hero | `.ds-title-section` | `--display` | 24px | 800 | -0.024em |
+| Subtítulo / card heading | — | `--sans` | 16–20px | 600 | -0.02em |
+| Panel title | — | `--sans` | 14px | 700 | — |
+| Body / celdas | — | `--sans` | 13–14px | 400 | — |
+| Label / meta | — | `--sans` | 12px | 500 | — |
+| KPI value · cifras | `.kpi-value` | `--kpi-num` | clamp(32–42px) | 500 | -0.02em · `tabular-nums` |
+| Kicker / section label | `.brand-kicker` `.section-kicker` `.panel-kicker` | `--mono` | 10px | 700 | .15em, uppercase, color cyan |
+| Delta de KPI | `.kpi-delta` | `--mono` | 11px | 600 | .02em |
+| Atajo de teclado | `.ds-input-shortcut` | `--mono` | 10px | 600 | — |
+| Label de sección del nav | `.nav-label` | `--mono` | 9px | 700 | .15em, uppercase |
+| Texto de badge y tag | `.badge` `.tag` | `--mono` | 10px | 700 | — |
+
+Los valores de la columna **Clase** son los que la clase entrega de verdad, medidos sobre `styles.css`. Antes esta tabla describía la escala Mono con rangos (`10–13px`, `.10em–.16em`) que no correspondían a ningún selector: el KPI figuraba como 28px/700 cuando `.kpi-value` es `clamp(32–42px)`/500.
+
+Dos filas estaban mal planteadas y se corrigieron: `Label de sección del nav` decía 10px/.12em cuando `.nav-label` es 9px/.15em; e `ID / código` no era un rol tipográfico suelto sino la tipografía interna de `.badge` y `.tag`, así que ahora se llama por lo que es.
+
+**Duplicación abierta:** `.nav-label` (9px, `.15em`, `var(--nav-label-color)`) y `.nav-lbl` (9px, `.14em`, `var(--muted-2)`, con padding propio) cumplen el mismo rol con `.01em` de diferencia. `.nav-label` se usa 13 veces en el catálogo; `.nav-lbl`, 2 en el catálogo y 9 en el showcase. Unificarlas toca 24 usos — sin resolver.
+
+### Etiquetas HTML sin clase
+
+Las escalas de arriba se piden con una clase o con estilo propio. Estas reglas **no se piden**: `styles.css` las aplica a toda etiqueta del documento, tenga clase del sistema o no. Es lo que entrega el canónico si escribís la etiqueta sola.
+
+**El DS no le impone tamaño a ninguna etiqueta.** La única regla es el reseteo de margen; todo lo demás es el default del navegador.
+
+| Etiqueta | Tamaño | Peso | Letter-spacing |
+|---|---|---|---|
+| `<h1>` | 32px | 700 | normal |
+| `<h2>` | 24px | 700 | normal |
+| `<h3>` | 18.7px | 700 | normal |
+| `<p>` | 16px | 400 | normal |
+| `<h4>` | 13.3px | 700 | normal |
+
+```css
+h1, h2, h3, h4, p { margin: 0; }
+```
+
+Todas heredan `font-family: var(--sans)` y `line-height: 1.4` de `html`.
+
+`h1`, `h2`, `h3` y `h4` **ya no llevan tamaño impuesto**. `h1` y `h2` eran `font-size: 30px; letter-spacing: -0.04em`, y el `h2` además `max-width: 12ch`, que recortaba cualquier título de más de doce caracteres en un sitio que adoptara el DS. Medido al sacarlas: de 98 headings entre catálogo y showcase, **solo 3 cambiaron de render** — las dos muestras de esta sección y `.recovery-title`, que perdió un `letter-spacing` que heredaba sin declararlo. El `max-width` limitaba 78 títulos y no hacía envolver a ninguno: estaba inerte adentro y rompía afuera.
+
+`h3` (18px) y `h4` (15px) se sacaron después, por simetría: costaron 9 elementos que perdieron el tracking de -0.02em y un `<h3>` sin clase del showcase que pasó de 18 a 18.72px. El alto de catálogo y showcase quedó idéntico.
+
+**Las etiquetas entregan Inter, no Greycliff.** La familia viene de `html { font-family: var(--sans) }`. La escala display de la tabla anterior **no se obtiene con `<h1>`**.
+
+**Anti-patrón:** apoyarse en la etiqueta desnuda para maquetar. El tamaño y el recorte del `<h2>` están pensados para el contexto del sistema, no para texto arbitrario.
+
+> Documentado en el catálogo: **04 · Tipografía**, bloque *"Etiquetas HTML sin clase"*.
 
 ### Interlinea (line-height) — escala canónica
 
@@ -247,6 +297,46 @@ body { line-height: 1.4; }  /* compact — default del sistema */
 ```
 
 **Anti-patrón:** usar `1.6` o `1.7` en texto de interfaz estándar — se ve con demasiado aire.
+
+---
+
+### Nota / callout — `.ds-note`
+
+Bloque de aclaración dentro de una sección. **Borderless:** se separa por fondo elevado, nunca por borde ni franja lateral (§3). El tono es opcional y va **solo en el fondo** — el texto no cambia de color.
+
+```css
+.ds-note {
+  background: var(--bg-elev);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  font: 400 13px/1.55 var(--sans);
+  color: var(--muted);
+}
+.ds-note strong { color: var(--text); font-weight: 600; }
+.ds-note + .ds-note { margin-top: 9px; }
+.ds-note--info  { background: var(--cyan-soft); }
+.ds-note--warn  { background: var(--amber-soft); }
+.ds-note--alert { background: var(--red-soft); }
+```
+
+```html
+<div class="ds-note ds-note--warn">
+  <strong>Atención.</strong> Condición de uso del componente.
+</div>
+```
+
+| Variante | Fondo | Para qué |
+|---|---|---|
+| `.ds-note` | `--bg-elev` | Explicación de contexto. El default. |
+| `.ds-note--info` | `--cyan-soft` | Referencia cruzada o decisión ya tomada. |
+| `.ds-note--warn` | `--amber-soft` | Advertencia o condición de uso. |
+| `.ds-note--alert` | `--red-soft` | Anti-patrón del sistema. |
+
+**Contraste medido:** el texto `--muted` da entre 5,13:1 y 6,21:1 sobre los cuatro fondos, en los dos temas.
+
+**Anti-patrones:** poner botones o links de acción dentro de una nota — la nota explica, no pide (para eso está el runtime banner). Y usar el mismo tono en todas las notas de una sección: si todo es ámbar, no hay jerarquía.
+
+> Documentado en el catálogo: **64 · Nota / callout**, ancla `#ds-note`.
 
 ---
 
