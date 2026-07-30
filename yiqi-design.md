@@ -609,6 +609,32 @@ applyCollapse(localStorage.getItem('yiqi-nav-collapsed') === '1');
 
 ---
 
+## 6.9 Orden de apilamiento — z-index
+
+Toda superposición del sistema usa esta escala. **Antes de inventar un `z-index`, buscar acá dónde entra.** Un número nuevo fuera de la tabla es un síntoma: significa que el componente está peleando con otro en vez de ocupar su lugar.
+
+| z-index | Qué | Clases |
+|---|---|---|
+| **200** | Modal y tooltip del rail colapsado | `.sc-modal`, `.nav-collapsed .nav-link::after` |
+| **120** | Toasts | `.pr-toasts` |
+| **115** | **Drawer mobile** | `.sidebar` en `≤980px` |
+| **110** | **Backdrop del drawer** | `.nav-overlay` en `≤980px` |
+| **~100** | Topbar de la app | *la declara cada app; el canónico no la fija* |
+| **97** | Statusbar · sidebar en peek | `.statusbar`, `.nav-collapsed.nav-peek .sidebar` |
+| **96** | Sidebar colapsado | `.nav-collapsed .sidebar` |
+| **60** | Popovers y menús | `.kpi-help-pop` |
+| **40** | Navegación pegajosa | `.tab-nav` |
+| **20** | Menú de esquema | `.schema-menu` |
+| **5** | Menú de fila | `.pr-menu` |
+
+**El drawer va por encima de la topbar, no por debajo.** En celular ocupa la pantalla entera: si la topbar lo tapa, el botón de cerrar queda inalcanzable y el drawer se ve recortado. Por eso el drawer está en 115 y su backdrop en 110, por encima del 100 que suelen usar las topbars fijas.
+
+**Corregido el 30/07/2026.** El drawer estaba en 90 y el backdrop en 80 — por debajo de cualquier topbar `fixed`. Apareció al migrar Mi Cuenta, cuya topbar es `z-index: 100`: el drawer entraba desde la derecha pero quedaba cortado bajo el header y su `.nav-close` no recibía clicks.
+
+**Pendiente:** el canónico **no declara `position` ni `z-index` en `.topbar`**, así que cada app lo inventa. Y los 15 valores de la tabla se eligieron de a uno, sin escala. Publicarlos como tokens (`--z-drawer`, `--z-overlay`, `--z-topbar`…) es la salida, pero renumerar exige barrer catálogo, showcase, Analytics Pro y Mi Cuenta buscando solapamientos. Sin resolver.
+
+---
+
 ## 7. Responsive
 
 ### Breakpoints
