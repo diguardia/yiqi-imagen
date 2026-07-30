@@ -389,6 +389,12 @@ body.preview-open .ds-layout { display: none !important; }
 <tr><th>Versión</th><th>Fecha</th><th>Tipo</th><th>Detalle</th></tr>
 </thead>
 <tbody>
+<tr>
+<td class="mono-cell">v1.2.7.9</td>
+<td class="mono-cell">30/07/2026</td>
+<td><span class="badge badge-cyan">CAMBIO</span></td>
+<td><strong>La topbar centra su contenido.</strong> <code>.topbar</code> ten&iacute;a <code>align-items: flex-start</code>: toda app que no lo pisara con su propio CSS quedaba con logo, chips y botones pegados al borde superior de la barra. Pasa a <code>center</code>, que es lo que las apps ya escrib&iacute;an a mano. Adem&aacute;s, el buscador del cat&aacute;logo resalta el resultado activo con fondo tonal: antes saltaba al lugar correcto pero no se ve&iacute;a cu&aacute;l de los N resultados era.</td>
+</tr>
 
 <tr>
 <td class="mono-cell">v1.2.7.9</td>
@@ -4779,6 +4785,7 @@ function topbarSearch(q) {
   tsNext.classList.toggle('visible',  term.length > 0);
 
   if (!term) {
+    tsClearHit();
     tsHits = []; tsHitIdx = 0;
     tsKbd.textContent = '\u2318K';
     tsKbd.classList.remove('hidden');
@@ -4814,10 +4821,14 @@ function topbarSearch(q) {
 /* Navegacion entre resultados: Enter avanza, Shift+Enter retrocede.
    El contador ocupa el lugar del atajo (⌘K) mientras hay busqueda. */
 let tsHits = [], tsHitIdx = 0;
+function tsClearHit() { document.querySelectorAll('.ts-hit').forEach(e => e.classList.remove('ts-hit')); }
 function tsGoTo(i) {
+  tsClearHit();
   if (!tsHits.length) { tsKbd.textContent = '0'; tsKbd.classList.remove('hidden'); return; }
   tsHitIdx = ((i % tsHits.length) + tsHits.length) % tsHits.length;
   const h = tsHits[tsHitIdx];
+  /* Resaltar el hit activo: sin esto no se ve CUÁL de los N resultados es. */
+  if (h.center) h.el.classList.add('ts-hit');
   h.el.scrollIntoView({ behavior: 'smooth', block: h.center ? 'center' : 'start' });
   tsKbd.textContent = (tsHitIdx + 1) + '/' + tsHits.length;
   tsKbd.classList.remove('hidden');

@@ -304,6 +304,17 @@ html[data-theme="light"] .topbar-search-kbd {
 .topbar-search-clear.visible { display: flex; }
 .topbar-search-kbd.hidden { display: none; }
 
+/* Resultado activo del buscador: fondo tonal, borderless.
+   Marca CUÁL de los hits estás viendo, no solo la sección. */
+.ts-hit {
+  border-radius: var(--radius-sm);
+  box-shadow: 0 0 0 4px var(--cyan-soft);
+  background: var(--cyan-soft);
+  transition: background 200ms ease, box-shadow 200ms ease;
+}
+/* Si el hit es un chip o <code>, ya trae su fondo: se refuerza el halo. */
+code.ts-hit, .wf-role.ts-hit { background: var(--cyan-soft); color: var(--cyan); }
+
 /* Highlight de sección cuando matchea búsqueda */
 .ds-section.search-match .ds-section-title {
   color: var(--cyan);
