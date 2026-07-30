@@ -221,17 +221,30 @@ html[data-theme="light"] {
 La escala display se pide **siempre con su clase**. La etiqueta desnuda entrega Inter, no Greycliff.
 
 ```css
-.ds-title-hero    { font: 800 40px/1.05 var(--display); letter-spacing: -0.028em; }
-.ds-title-page    { font: 800 30px/1.1  var(--display); letter-spacing: -0.028em; }
-.ds-title-section { font: 800 24px/1.15 var(--display); letter-spacing: -0.024em; }
+.ds-title-hero    { font: 700 40px/1.05 var(--display); letter-spacing: -0.028em; }
+.ds-title-page    { font: 700 30px/1.1  var(--display); letter-spacing: -0.028em; }
+.ds-title-section { font: 700 24px/1.15 var(--display); letter-spacing: -0.024em; }
 ```
+
+**Greycliff CF se publica con el CDN.** Cuatro pesos en `woff2`, ~30K cada uno, declarados con cuatro `@font-face` en `styles.css` y servidos desde `fonts/`:
+
+| Peso | Archivo |
+|---|---|
+| 500 · Medium | `fonts/Greycliff-CF-Medium.woff2` |
+| 600 · Demi-Bold | `fonts/Greycliff-CF-Demi-Bold.woff2` |
+| 700 · Bold | `fonts/Greycliff-CF-Bold.woff2` |
+| 800 · Heavy | `fonts/Greycliff-CF-Heavy.woff2` |
+
+**Corregido el 30/07/2026.** Antes el canónico **no cargaba la fuente**: no tenía ningún `@font-face` y confiaba en que Greycliff estuviera instalada en la máquina. El único `@font-face` vivía en `site.css` (chrome del catálogo) y apuntaba a `system/fonts/`, una carpeta que no existe en este repo. Cualquier app que consumiera `styles.css` mostraba Plus Jakarta Sans.
+
+**Las tres clases display bajaron de 800 a 700.** El Heavy se empastaba a 24px; el Bold mantiene la presencia de título y respira. Cambiar el peso de una clase es una línea, y los cuatro pesos están disponibles.
 
 
 | Uso | Clase | Fuente | Tamaño | Peso | Letter-spacing |
 |---|---|---|---|---|---|
-| Hero title | `.ds-title-hero` | `--display` | 40px | 800 | -0.028em |
-| Placeholder title | `.ds-title-page` | `--display` | 30px | 800 | -0.028em |
-| Section hero | `.ds-title-section` | `--display` | 24px | 800 | -0.024em |
+| Hero title | `.ds-title-hero` | `--display` | 40px | 700 | -0.028em |
+| Placeholder title | `.ds-title-page` | `--display` | 30px | 700 | -0.028em |
+| Section hero | `.ds-title-section` | `--display` | 24px | 700 | -0.024em |
 | Subtítulo / card heading | — | `--sans` | 16–20px | 600 | -0.02em |
 | Panel title | — | `--sans` | 14px | 700 | — |
 | Body / celdas | — | `--sans` | 13–14px | 400 | — |

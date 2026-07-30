@@ -10,14 +10,9 @@
    Sustituye a Inter en jerarquías mayores. Solo cargamos Heavy (800)
    pero declaramos rango 700-900 — el browser usa el archivo para
    cualquier peso en ese rango. Pesos <700 caen al fallback. */
-@font-face {
-  font-family: "Greycliff CF";
-  src: url("system/fonts/Greycliff-CF-Heavy.woff2") format("woff2"),
-       url("system/fonts/Greycliff-CF-Heavy.otf")   format("opentype");
-  font-weight: 700 900;
-  font-style: normal;
-  font-display: swap;
-}
+/* El @font-face de Greycliff CF vive ahora en styles.css (canonico),
+   con los cuatro pesos publicados en fonts/. El que estaba aca apuntaba
+   a system/fonts/, una carpeta que no existe en este repo. */
 
 /* Token global — Greycliff primero, fallbacks intactos */
 :root {
