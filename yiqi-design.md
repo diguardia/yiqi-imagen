@@ -772,6 +772,31 @@ Etiquetas de capacidad del producto. Usan `cyan-soft` background sin dot. Para m
 .table tr:hover td { background: var(--bg-soft); }
 ```
 
+### Celda de dos niveles — `.product-title` / `.product-sku`
+
+Identificador y descripción apilados dentro de **una sola celda**, no en dos columnas.
+
+```css
+.product-title { font-weight: 600; }
+.product-sku   { display: block; margin-top: 2px; font-size: 11px;
+                 color: var(--muted-2); font-family: var(--mono); }
+```
+
+```html
+<td>
+  <strong class="product-title">A-0004-00012847</strong>
+  <span class="product-sku">Abono mensual julio</span>
+</td>
+```
+
+El `display: block` de `.product-sku` **es parte del componente**. Sin él, el `<span>` renderiza inline, el `margin-top` no aplica y la descripción queda pegada al identificador en la misma línea. Fue un defecto real: la regla existía desde antes con el `margin-top` pero sin el `display`, y salió a la luz cuando Mi Cuenta se volvió el primer consumidor de estas dos clases (30/07/2026).
+
+**Anti-patrón:** separar el código y la descripción en columnas distintas. Duplica el ancho de la tabla y rompe el apilado en mobile.
+
+> Documentado en el catálogo: **16 · Tablas**, ancla `#product-meta`.
+
+---
+
 ### Nav item
 
 ```css

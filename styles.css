@@ -1461,7 +1461,7 @@ html[data-theme="light"] .skeleton-line {
 
 /* ── 34. PRODUCT META ─────────────────────────────────────── */
 .product-title { font-weight: 600; }
-.product-sku   { margin-top: 2px; font-size: 11px; color: var(--muted-2); font-family: var(--mono); }
+.product-sku   { display: block; margin-top: 2px; font-size: 11px; color: var(--muted-2); font-family: var(--mono); }
 
 /* ── 35. ACCENT VARIANT ───────────────────────────────────── */
 .accent-cyan {
