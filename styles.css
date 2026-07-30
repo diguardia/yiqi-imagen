@@ -116,6 +116,13 @@
   --sans:    "Inter", ui-sans-serif, system-ui, sans-serif;
   --mono:    "IBM Plex Mono", ui-monospace, monospace;
   --kpi-num: "IBM Plex Mono", ui-monospace, monospace;  /* v1.2.7: cifras en mono, coincide con el spec de tipografía */
+  /* Version del DS. Viaja dentro de la hoja para que una app pueda mostrarla
+     sin pedirle nada a la red: las que tienen connect-src 'self' —como el
+     homologador, que audita codigo local— no pueden leer version.json.
+     Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
+     DEBE coincidir con version.json. Ver §52. */
+  --ds-version: "1.2.7.9";
+
   /* Layout */
   --topbar-h:  56px;
   --statusbar-h: 28px;   /* barra de estado inferior (§44) */

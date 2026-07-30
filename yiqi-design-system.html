@@ -400,7 +400,7 @@ body.preview-open .ds-layout { display: none !important; }
 <td class="mono-cell">v1.2.7.9</td>
 <td class="mono-cell">30/07/2026</td>
 <td><span class="badge badge-cyan">CAMBIO</span></td>
-<td><strong>La versi&oacute;n del DS se lee de <code>version.json</code>.</strong> El cat&aacute;logo y el showcase la ten&iacute;an escrita a mano y dec&iacute;an tres n&uacute;meros distintos (1.2.7.2 en el t&iacute;tulo, 1.2.7.4 y 1.2.7.6 en las demos) mientras <code>version.json</code> iba en 1.2.7.9. Ahora todo lugar que muestre la versi&oacute;n vigente lleva <code>data-ds-version</code> y se completa al cargar &mdash; una sola fuente. Se canoniza la statusbar tal como corre en Analytics Pro: se publican <code>.sb-item</code> y <code>.sb-clock</code>, que se usaban sin existir en el CSS, y la demo de <a class="ds-xref" href="#statusbar" style="display:inline-flex">&sect;52</a> suma el reloj. Se documenta que el n&uacute;mero se lee del CDN y nunca se escribe: es lo que le permite al homologador saber si una app est&aacute; atrasada.</td>
+<td><strong>La versi&oacute;n del DS se lee de <code>version.json</code>.</strong> El cat&aacute;logo y el showcase la ten&iacute;an escrita a mano y dec&iacute;an tres n&uacute;meros distintos (1.2.7.2 en el t&iacute;tulo, 1.2.7.4 y 1.2.7.6 en las demos) mientras <code>version.json</code> iba en 1.2.7.9. Ahora todo lugar que muestre la versi&oacute;n vigente lleva <code>data-ds-version</code> y se completa al cargar &mdash; una sola fuente. Se canoniza la statusbar tal como corre en Analytics Pro: se publican <code>.sb-item</code> y <code>.sb-clock</code>, que se usaban sin existir en el CSS, y la demo de <a class="ds-xref" href="#statusbar" style="display:inline-flex">&sect;52</a> suma el reloj. Se documenta que el n&uacute;mero se lee del CDN y nunca se escribe: es lo que le permite al homologador saber si una app est&aacute; atrasada. Y se publica el token <code>--ds-version</code> dentro de <code>styles.css</code>, para las apps con <code>connect-src 'self'</code> que no pueden pedir <code>version.json</code> por red.</td>
 </tr>
 <tr>
 <td class="mono-cell">v1.2.7.9</td>
@@ -4230,6 +4230,7 @@ ana · prov · inv · pos · pick · cons
 <tr><td>Bloque derecho</td><td><code>.statusbar-right</code></td><td>Metadatos fijos (app, version). No se recorta.</td></tr>
 <tr><td>Dato suelto</td><td><code>.sb-item</code></td><td>Cada metadato de la derecha: nombre de app, versi&oacute;n del DS, hora. No se corta nunca. <em>(nuevo en v1.2.7.9)</em></td></tr>
 <tr><td>Separador</td><td><code>.sb-sep</code></td><td>Punto medio en <code>--muted-2</code> entre metadatos.</td></tr>
+<tr><td>Versi&oacute;n del DS</td><td><code>--ds-version</code></td><td>Token con el n&uacute;mero vigente, dentro de <code>styles.css</code>. Alternativa a <code>version.json</code> para apps sin acceso a red. <em>(nuevo en v1.2.7.9)</em></td></tr>
 <tr><td>Hora</td><td><code>.sb-clock</code></td><td>Opcional. Va en mono con <code>tabular-nums</code>: el ancho fijo evita que la barra salte cada minuto. <em>(nuevo en v1.2.7.9)</em></td></tr>
 <tr><td>Punto de estado</td><td><code>.ldot</code> + <code>-g</code> / <code>-a</code> / <code>-r</code></td><td>7px con halo de 3px en el tono soft. Reutilizable fuera de la statusbar.</td></tr>
 <tr><td>Carga</td><td><code>data-state="loading"</code></td><td>En <code>.statusbar-left</code>; pinta el punto de ambar sin cambiar la clase.</td></tr>
@@ -4237,12 +4238,18 @@ ana · prov · inv · pos · pick · cons
 
 <div class="subsection-title" id="statusbar-version">La versi&oacute;n del DS se lee, no se escribe</div>
 <p class="ds-section-sub" style="margin-bottom:14px">La statusbar es el lugar can&oacute;nico donde una app declara con qu&eacute; versi&oacute;n del Design System corre. <strong>Ese n&uacute;mero nunca se escribe a mano</strong>: se lee de <code>version.json</code> del CDN al cargar. Un n&uacute;mero escrito a mano queda viejo el d&iacute;a que el DS avanza, y el homologador no puede distinguir una app al d&iacute;a de una atrasada.</p>
-<pre class="code-block" style="max-width:760px;margin-bottom:24px"><code>const DS_VERSION_URL = "https://diguardia.github.io/yiqi-imagen/version.json";
+<pre class="code-block" style="max-width:760px;margin-bottom:16px"><code>const DS_VERSION_URL = "https://diguardia.github.io/yiqi-imagen/version.json";
 
 fetch(DS_VERSION_URL, { cache: "no-cache" })
   .then(r =&gt; r.ok ? r.json() : null)
   .then(v =&gt; { if (v?.ds_version) target.textContent = `DS v${v.ds_version}`; })
   .catch(() =&gt; {});   // sin red: queda el valor del HTML como fallback</code></pre>
+
+<p class="ds-section-sub" style="margin-bottom:14px"><strong>Si la app no puede salir a la red</strong> &mdash; pol&iacute;tica <code>connect-src 'self'</code>, como el homologador, que audita c&oacute;digo local y no debe telefonear afuera &mdash; la versi&oacute;n igual llega: viaja como token dentro de <code>styles.css</code>, la hoja que la app ya carga. Cero pedidos de red.</p>
+<pre class="code-block" style="max-width:760px;margin-bottom:24px"><code>const v = getComputedStyle(document.documentElement)
+  .getPropertyValue("--ds-version").trim().replace(/^["']|["']$/g, "");
+
+if (v) target.textContent = `DS v${v}`;</code></pre>
 
 <p class="ds-note">El layout tiene que descontar la barra: <code>calc(100vh - var(--topbar-h) - var(--statusbar-h))</code> en el alto del sidebar y <code>calc(40px + var(--statusbar-h))</code> en el padding inferior del contenido.</p>
 </section>
