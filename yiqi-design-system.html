@@ -4734,14 +4734,16 @@ function topbarSearch(q) {
     return;
   }
 
-  let firstMatch = null;
+  if (!tsIndex) tsBuildIndex();
+  let firstMatch = null, firstChip = null;
   dsSecs.forEach(s => {
-    const title  = s.querySelector('.ds-section-title,h2')?.textContent.toLowerCase() || '';
-    const kicker = s.querySelector('.ds-section-kicker')?.textContent.toLowerCase() || '';
-    const match  = title.includes(term) || kicker.includes(term);
+    const ix = tsIndex.get(s);
+    const headMatch = ix.head.includes(term);
+    const chip = headMatch ? null : ix.codes.find(c => c.text.includes(term));
+    const match = headMatch || !!chip;
     s.classList.toggle('search-match', match);
     s.classList.toggle('search-dim',  !match);
-    if (match && !firstMatch) firstMatch = s;
+    if (match && !firstMatch) { firstMatch = s; firstChip = chip ? chip.el : null; }
   });
 
   dsNavAll.forEach(n => {
@@ -4751,8 +4753,24 @@ function topbarSearch(q) {
   });
 
   if (firstMatch) {
-    firstMatch.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    /* Si lo que matcheo es una clase documentada (chip o <code>), saltar
+       al lugar exacto dentro de la seccion, no al titulo. */
+    (firstChip || firstMatch).scrollIntoView({ behavior: 'smooth', block: firstChip ? 'center' : 'start' });
   }
+}
+
+/* Indice de busqueda: titulo + kicker + clases documentadas de cada seccion
+   (chips .wf-role y <code>). Se construye una sola vez, en la primera
+   busqueda, para no recorrer el DOM en cada tecla. */
+let tsIndex = null;
+function tsBuildIndex() {
+  tsIndex = new Map();
+  dsSecs.forEach(s => {
+    const title  = s.querySelector('.ds-section-title,h2')?.textContent.toLowerCase() || '';
+    const kicker = s.querySelector('.ds-section-kicker')?.textContent.toLowerCase() || '';
+    const codes  = Array.from(s.querySelectorAll('code, .wf-role')).map(el => ({ el, text: el.textContent.toLowerCase() }));
+    tsIndex.set(s, { head: title + ' ' + kicker, codes });
+  });
 }
 
 function topbarClearSearch() {
