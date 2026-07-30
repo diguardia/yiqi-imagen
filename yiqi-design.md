@@ -619,7 +619,18 @@ img, svg { max-width: 100%; }
 
 ### Menú mobile
 
-El botón hamburguesa (`.mobile-btn`) va **a la derecha** del topbar (`.topbar-r`), nunca a la izquierda. Solo visible en `≤ 960px`; abre el sidebar como drawer off-canvas con backdrop, **desde la derecha** (mismo lado que el botón).
+El botón hamburguesa es **`.nav-hamburger`** (36×36). Va **a la derecha** del topbar (`.topbar-r`), nunca a la izquierda. Solo visible en **`≤ 980px`**; abre el sidebar como drawer off-canvas **desde la derecha** (mismo lado que el botón), con `.nav-overlay` de backdrop y `.nav-close` para cerrarlo desde adentro.
+
+```html
+<button class="nav-hamburger" aria-label="Abrir navegación" aria-expanded="false">…</button>
+<div class="nav-overlay"></div>
+<aside class="sidebar">
+  <button class="nav-close" aria-label="Cerrar navegación">…</button>
+  …
+</aside>
+```
+
+**Corregido el 30/07/2026.** Esta sección decía `.mobile-btn` y `≤ 960px`. Ninguna de las dos cosas era cierta: `.mobile-btn` **nunca existió en `styles.css`** y el breakpoint publicado siempre fue 980px. El error hizo que Mi Cuenta implementara el botón a mano, siguiendo la documentación. Las tres clases canónicas son `.nav-hamburger`, `.nav-overlay` y `.nav-close`.
 
 ---
 

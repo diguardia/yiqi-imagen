@@ -2009,7 +2009,6 @@ body.preview-open .ds-layout { display: none !important; }
 <tr><td>Apilamiento</td><td>&mdash;</td><td><strong>Sin <code>z-index</code>.</strong> Vive en el mismo contexto que los desplegables de la topbar; darle z-index la pone por encima de ellos.</td></tr>
 </tbody></table>
 
-</div>
 <div class="comp-row" style="margin-top:10px">
   <button class="btn btn-primary btn-sm" onclick="animateLP()">Reiniciar demo</button>
 </div>
@@ -3247,7 +3246,7 @@ html[data-theme="light"] .bg-grid-demo-fade {
 <tr><td>Actualizar</td><td><code>.btn-refresh</code></td><td>Botón <strong>solo ícono</strong> (<code>ph-arrows-clockwise</code>), pill <code>--cyan-soft-2</code>/<code>--cyan</code>; re-renderiza la vista. <em>(nuevo)</em></td></tr>
 <tr><td>Cerrar sesión</td><td><code>.btn-exit</code></td><td><strong>Texto</strong> en <code>--muted</code>, sin fondo; hover <code>--red</code>. <em>(v1.2.7.4)</em></td></tr>
 <tr><td>Toggle de tema</td><td><code>.theme-toggle</code> + <code>.theme-opt</code></td><td>Tres pasos (Oscuro / Sistema / Claro), <strong>sin contenedor</strong>: ni fondo ni sombra. Activo en <code>--cyan-soft</code> con texto <code>--cyan</code>. <em>(v1.2.7.4)</em></td></tr>
-<tr><td>Menú mobile</td><td><code>.mobile-btn</code></td><td>Botón hamburguesa; va a la <strong>derecha</strong> del topbar (<code>.topbar-r</code>). Solo ≤960px; abre el drawer del sidebar <strong>desde la derecha</strong> (mismo lado que el botón). <em>(nuevo)</em></td></tr>
+<tr><td>Menú mobile</td><td><code>.nav-hamburger</code> · <code>.nav-overlay</code> · <code>.nav-close</code></td><td>Botón hamburguesa de 36×36; va a la <strong>derecha</strong> del topbar (<code>.topbar-r</code>). Solo ≤980px; abre el drawer del sidebar <strong>desde la derecha</strong> (mismo lado que el botón), con <code>.nav-overlay</code> de backdrop y <code>.nav-close</code> adentro. <em>(nuevo)</em></td></tr>
 </tbody>
 </table>
 
