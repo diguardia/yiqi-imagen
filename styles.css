@@ -1030,7 +1030,10 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
   background: var(--bg-elev);
   box-shadow: var(--shadow-lg);
   padding: 8px;
-  z-index: 20;
+  /* v1.2.7.9: 20 no estaba en la tabla de apilamiento publicada en §01, y
+     cualquier elemento posicionado del contenido le pasaba por encima. Los
+     popovers viven en 60. */
+  z-index: 60;
 }
 
 .schema-option {
@@ -2221,6 +2224,13 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
 
 /* v1.2.7.3: borderless — sin fondo ni cápsula, tracking canónico .15em */
 .t-pill{ display:inline-flex; align-items:center; height:30px; border:none; background:none; color:var(--muted); font:700 10px var(--mono); letter-spacing:.15em; text-transform:uppercase; white-space:nowrap; }
+/* v1.2.7.9: el nombre de la app vuelve al inicio. Cuando .t-pill es un <a>,
+   el unico cambio es el color en hover —el enlace tiene que leerse como
+   enlace— y el anillo de foco para quien navega con teclado. Tamaño, peso,
+   tracking y caja no se tocan. */
+a.t-pill{ cursor:pointer; transition:color .15s ease; }
+a.t-pill:hover{ color:var(--text); }
+a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px; border-radius:var(--radius-sm); }
 
 .btn-refresh{ height:32px; padding:0 12px; display:inline-flex; align-items:center; gap:6px; border:none; border-radius:var(--radius-pill); background:var(--cyan-soft-2); color:var(--cyan); font:600 12px var(--sans); cursor:pointer; transition:all .18s ease; white-space:nowrap; }
 .btn-refresh:hover{ background:var(--cyan-soft); }
