@@ -2308,6 +2308,10 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
 .sb-footer{ margin-top:auto; padding-top:14px; border-top:1px solid var(--line); }
 .sb-theme-switch{ display:flex; width:max-content; max-width:100%; gap:1px; padding:3px;
   border:none; background:none; border-radius:var(--radius-pill); margin-bottom:10px; }  /* borderless (§04) */
+/* v1.2.7.9: el margin-bottom de arriba es del pie del sidebar, su casa
+   original. En la topbar ese margen corre el toggle 5px del centro optico
+   de la barra — medido. Aca se anula. */
+.topbar .sb-theme-switch{ margin-bottom:0; }
 .sb-theme-switch .theme-opt, .sb-theme-switch .theme-option{ flex:0 0 auto; width:28px;
   height:26px; padding:0; display:inline-flex; align-items:center; justify-content:center;
   border:0; border-radius:var(--radius-pill); background:transparent; color:var(--muted-2);
