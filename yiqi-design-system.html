@@ -728,10 +728,10 @@ body.preview-open .ds-layout { display: none !important; }
 <tr><td>Espacio fino después del signo</td><td><code>$&nbsp;295.220,00</code></td><td><code>$&nbsp;295.220,00</code></td></tr>
 <tr><td>Espacio antes de la unidad</td><td><code>$&nbsp;2,84&nbsp;M</code></td><td><code>$&nbsp;2,84M</code></td></tr>
 <tr><td>Símbolo pegado al número</td><td><code>18,4%</code></td><td><code>18,4 %</code></td></tr>
-<tr><td>Sin <strong>K</strong>: número completo</td><td><code>$&nbsp;341.000</code></td><td><code>$&nbsp;341&nbsp;K</code></td></tr>
+<tr><td><strong>K</strong> y <strong>M</strong> como unidad, con espacio</td><td><code>$&nbsp;620&nbsp;K</code> &middot; <code>$&nbsp;2,84&nbsp;M</code> &middot; o el número completo</td><td><code>$620K</code> &middot; mezclar ambos en una misma card</td></tr>
 <tr><td>En código, nunca a mano</td><td><code>Intl.NumberFormat('es-AR')</code></td><td>concatenar strings</td></tr>
 </tbody></table>
-<p class="ds-note"><strong>Única excepción: las etiquetas de eje de un gráfico.</strong> Ahí el mismo orden de magnitud se repite cuatro o seis veces y abreviar es la función del eje — <code>$&nbsp;900&nbsp;K</code>, <code>$&nbsp;2&nbsp;M</code>. El número completo ensancha la columna del eje y le come ancho al gráfico. La excepción vale <em>solo</em> para el eje: la misma cifra en un KPI o en una celda va completa.</p>
+<p class="ds-note"><strong>Abreviar o no es decisión por componente, no por cifra.</strong> Una card puede mostrar <code>$&nbsp;620&nbsp;K</code> y una tabla el número completo — lo que no se mezcla es el criterio dentro del mismo componente. En ejes de gráfico se abrevia siempre: el número completo ensancha la columna del eje y le come ancho al gráfico.</p>
 
 <div class="subsection-title" id="stacking" style="margin-top:40px">Orden de apilamiento — z-index</div>
 <p class="ds-section-sub" style="margin-bottom:14px">Toda superposición del sistema usa esta escala. <strong>Antes de inventar un <code>z-index</code>, buscar acá dónde entra.</strong> Un número fuera de la tabla es un síntoma: el componente está peleando con otro en vez de ocupar su lugar.</p>
@@ -4428,7 +4428,7 @@ if (v) target.textContent = `DS v${v}`;</code></pre>
 <div class="watchlist-grid watchlist-grid-compact" style="max-width:760px;margin-bottom:20px">
   <div class="watchlist-card tone-green"><div style="display:flex;gap:10px"><span class="metric-icon"><i class="ph ph-check-circle"></i></span><span class="wl-label">Cobranzas al dia</span></div><div class="watchlist-metric">$&nbsp;4,2 M</div><div class="wl-bar"><span style="width:78%"></span></div></div>
   <div class="watchlist-card tone-amber"><div style="display:flex;gap:10px"><span class="metric-icon"><i class="ph ph-clock-countdown"></i></span><span class="wl-label">Por vencer</span></div><div class="watchlist-metric">$&nbsp;1,8 M</div><div class="wl-bar"><span style="width:41%"></span></div></div>
-  <div class="watchlist-card tone-blue"><div style="display:flex;gap:10px"><span class="metric-icon"><i class="ph ph-arrow-down-left"></i></span><span class="wl-label">Cobrado hoy</span></div><div class="watchlist-metric">$&nbsp;620.000</div><div class="wl-bar"><span style="width:22%"></span></div></div>
+  <div class="watchlist-card tone-blue"><div style="display:flex;gap:10px"><span class="metric-icon"><i class="ph ph-arrow-down-left"></i></span><span class="wl-label">Cobrado hoy</span></div><div class="watchlist-metric">$&nbsp;620 K</div><div class="wl-bar"><span style="width:22%"></span></div></div>
 </div>
 
 <div class="subsection-title">Anatomia y reglas</div>
