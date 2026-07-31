@@ -718,6 +718,21 @@ body.preview-open .ds-layout { display: none !important; }
 </div>
 
 
+<div class="subsection-title" id="formato-numerico" style="margin-top:40px">Formato numérico — es-AR</div>
+<p class="ds-section-sub" style="margin-bottom:14px">Todo número visible se escribe en español de Argentina. <strong>No es preferencia: un mismo tablero con las dos convenciones se lee mal y se audita peor.</strong></p>
+<table class="table-demo" style="max-width:760px;margin-bottom:14px">
+<thead><tr><th>Regla</th><th>Bien</th><th>Mal</th></tr></thead>
+<tbody>
+<tr><td>Miles con <strong>punto</strong></td><td><code>$&nbsp;2.847.391</code></td><td><code>$2,847,391</code></td></tr>
+<tr><td>Decimales con <strong>coma</strong></td><td><code>18,4%</code> &middot; <code>$&nbsp;2,84&nbsp;M</code></td><td><code>18.4%</code> &middot; <code>$2.84M</code></td></tr>
+<tr><td>Espacio fino después del signo</td><td><code>$&nbsp;295.220,00</code></td><td><code>$295.220,00</code></td></tr>
+<tr><td>Espacio antes de la unidad</td><td><code>$&nbsp;2,84&nbsp;M</code></td><td><code>$&nbsp;2,84M</code></td></tr>
+<tr><td>Símbolo pegado al número</td><td><code>18,4%</code></td><td><code>18,4 %</code></td></tr>
+<tr><td>Sin <strong>K</strong>: número completo</td><td><code>$&nbsp;341.000</code></td><td><code>$&nbsp;341&nbsp;K</code></td></tr>
+<tr><td>En código, nunca a mano</td><td><code>Intl.NumberFormat('es-AR')</code></td><td>concatenar strings</td></tr>
+</tbody></table>
+<p class="ds-note"><strong>Única excepción: las etiquetas de eje de un gráfico.</strong> Ahí el mismo orden de magnitud se repite cuatro o seis veces y abreviar es la función del eje — <code>$&nbsp;900&nbsp;K</code>, <code>$&nbsp;2&nbsp;M</code>. El número completo ensancha la columna del eje y le come ancho al gráfico. La excepción vale <em>solo</em> para el eje: la misma cifra en un KPI o en una celda va completa.</p>
+
 <div class="subsection-title" id="stacking" style="margin-top:40px">Orden de apilamiento — z-index</div>
 <p class="ds-section-sub" style="margin-bottom:14px">Toda superposición del sistema usa esta escala. <strong>Antes de inventar un <code>z-index</code>, buscar acá dónde entra.</strong> Un número fuera de la tabla es un síntoma: el componente está peleando con otro en vez de ocupar su lugar.</p>
 <table class="table-demo" style="max-width:720px;margin-bottom:14px">
@@ -1725,7 +1740,7 @@ body.preview-open .ds-layout { display: none !important; }
 </div>
 <div class="kpi-card">
   <div class="kpi-label">Pagos pendientes</div>
-  <div class="kpi-value">$341K</div>
+  <div class="kpi-value">$&nbsp;341.000</div>
   <div class="kpi-delta is-negative">↑ +12% (atención)</div>
 </div>
 </div>
@@ -1769,7 +1784,7 @@ body.preview-open .ds-layout { display: none !important; }
   <div class="trust-item"><div class="trust-num">$&nbsp;2,84 M</div><span class="trust-label">Facturación MTD</span><span class="trust-delta is-up"><span class="trust-arrow">↑</span> +18,4%</span></div>
   <div class="trust-item"><div class="trust-num">1.247</div><span class="trust-label">Pedidos activos</span><span class="trust-delta is-up"><span class="trust-arrow">↑</span> +6,2%</span></div>
   <div class="trust-item"><div class="trust-num">68,3<span class="trust-unit">%</span></div><span class="trust-label">Tasa conversión</span><span class="trust-delta is-flat"><span class="trust-arrow">→</span> sin cambio</span></div>
-  <div class="trust-item"><div class="trust-num">$341K</div><span class="trust-label">Pagos pendientes</span><span class="trust-delta is-down"><span class="trust-arrow">↑</span> +12%</span></div>
+  <div class="trust-item"><div class="trust-num">$&nbsp;341.000</div><span class="trust-label">Pagos pendientes</span><span class="trust-delta is-down"><span class="trust-arrow">↑</span> +12%</span></div>
 </div>
 
 <div class="subsection-title">C · Grid compacto (borde superior)</div>
@@ -2344,7 +2359,7 @@ body.preview-open .ds-layout { display: none !important; }
   </div>
 
   <div class="kpi-card" style="min-width:130px;text-align:center">
-    <div class="kpi-value" data-count="320" data-prefix="$" data-suffix="M" style="font:700 32px var(--mono);letter-spacing:-.02em;color:var(--cyan);font-variant-numeric:tabular-nums">$0M</div>
+    <div class="kpi-value" data-count="320" data-prefix="$" data-suffix="M" style="font:700 32px var(--mono);letter-spacing:-.02em;color:var(--cyan);font-variant-numeric:tabular-nums">$&nbsp;0 M</div>
     <div class="kpi-label" style="font:600 10px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2);margin-top:6px">Facturado</div>
   </div>
 
@@ -2410,7 +2425,17 @@ document.querySelectorAll(<span style="color:var(--green)">'.kpi-block'</span>).
       var isInt  = Number.isInteger(target);
       var dur    = 900;
       var start  = null;
-      function fmt(v){ return isInt ? prefix+Math.round(v)+suffix : prefix+v.toFixed(1).replace('.',',')+suffix; }
+      /* v1.2.7.9: formato es-AR. Miles con punto via toLocaleString, decimal con
+         coma, espacio fino despues del signo y antes de la unidad —M, K— pero
+         no antes de un simbolo como %, que va pegado. */
+      function fmt(v){
+        var esp = '\u00a0';
+        var uni = /^[A-Za-z]/.test(suffix || '') ? esp + suffix : (suffix || '');
+        var pre = prefix ? prefix + esp : '';
+        var num = isInt ? Math.round(v).toLocaleString('es-AR')
+                        : v.toLocaleString('es-AR', {minimumFractionDigits:1, maximumFractionDigits:2});
+        return pre + num + uni;
+      }
       el.textContent = fmt(0);
       function step(ts){
         if(!start) start=ts;
@@ -3707,13 +3732,13 @@ function dsNavLock(){
 <div class="kpi-grid" style="margin-bottom:28px">
   <div class="kpi-card">
     <div class="kpi-label"><span class="metric-label">Facturación total</span><button type="button" class="kpi-help" aria-label="Detalle de Facturación total" aria-expanded="false"><span aria-hidden="true">i</span><span class="kpi-help-pop" role="tooltip">Reporte de ventas: facturas + notas de débito, menos notas de crédito, del período seleccionado.</span></button></div>
-    <div class="kpi-value" data-count="2.84" data-prefix="$" data-suffix="M" style="color:var(--cyan)">$0M</div>
+    <div class="kpi-value" data-count="2.84" data-prefix="$" data-suffix="M" style="color:var(--cyan)">$&nbsp;0 M</div>
     <div class="kpi-delta is-positive">↑ +18,4% vs período anterior</div>
     <div class="kpi-note">Facturas + NDs − NCs del período seleccionado.</div>
   </div>
   <div class="kpi-card">
     <div class="kpi-label"><span class="metric-label">Ticket promedio</span></div>
-    <div class="kpi-value" data-count="48.2" data-prefix="$" data-suffix="K">$0K</div>
+    <div class="kpi-value" data-count="48.2" data-prefix="$" data-suffix="K">$&nbsp;0 K</div>
     <div class="kpi-delta is-neutral">→ Estable vs período anterior</div>
     <div class="kpi-note">Facturación total / cantidad de comprobantes.</div>
   </div>
@@ -3725,7 +3750,7 @@ function dsNavLock(){
   </div>
   <div class="kpi-card">
     <div class="kpi-label"><span class="metric-label">Pagos pendientes</span></div>
-    <div class="kpi-value" data-count="341" data-prefix="$" data-suffix="K">$0K</div>
+    <div class="kpi-value" data-count="341" data-prefix="$" data-suffix="K">$&nbsp;0 K</div>
     <div class="kpi-delta is-negative">↑ +12% — requiere atención</div>
     <div class="kpi-note">Saldo por cobrar a la fecha de corte.</div>
   </div>
@@ -3759,7 +3784,7 @@ function dsNavLock(){
       <span style="color:var(--cyan)">&lt;span</span> <span style="color:var(--green)">class</span>=<span style="color:var(--amber)">"kpi-help-pop"</span> <span style="color:var(--green)">role</span>=<span style="color:var(--amber)">"tooltip"</span><span style="color:var(--cyan)">&gt;</span>Detalle del indicador…<span style="color:var(--cyan)">&lt;/span&gt;</span>
     <span style="color:var(--cyan)">&lt;/button&gt;</span>
   <span style="color:var(--cyan)">&lt;/div&gt;</span>
-  <span style="color:var(--cyan)">&lt;div</span> <span style="color:var(--green)">class</span>=<span style="color:var(--amber)">"kpi-value"</span> <span style="color:var(--green)">data-count</span>=<span style="color:var(--amber)">"2.84"</span> <span style="color:var(--green)">data-prefix</span>=<span style="color:var(--amber)">"$"</span> <span style="color:var(--green)">data-suffix</span>=<span style="color:var(--amber)">"M"</span><span style="color:var(--cyan)">&gt;</span>$0M<span style="color:var(--cyan)">&lt;/div&gt;</span>
+  <span style="color:var(--cyan)">&lt;div</span> <span style="color:var(--green)">class</span>=<span style="color:var(--amber)">"kpi-value"</span> <span style="color:var(--green)">data-count</span>=<span style="color:var(--amber)">"2.84"</span> <span style="color:var(--green)">data-prefix</span>=<span style="color:var(--amber)">"$"</span> <span style="color:var(--green)">data-suffix</span>=<span style="color:var(--amber)">"M"</span><span style="color:var(--cyan)">&gt;</span>$&nbsp;0 M<span style="color:var(--cyan)">&lt;/div&gt;</span>
   <span style="color:var(--cyan)">&lt;div</span> <span style="color:var(--green)">class</span>=<span style="color:var(--amber)">"kpi-delta is-positive"</span><span style="color:var(--cyan)">&gt;</span>↑ +18,4% vs período anterior<span style="color:var(--cyan)">&lt;/div&gt;</span>
   <span style="color:var(--cyan)">&lt;div</span> <span style="color:var(--green)">class</span>=<span style="color:var(--amber)">"kpi-note"</span><span style="color:var(--cyan)">&gt;</span>Facturas + NDs − NCs del período.<span style="color:var(--cyan)">&lt;/div&gt;</span>
 <span style="color:var(--cyan)">&lt;/article&gt;</span></code></pre>
@@ -3812,7 +3837,17 @@ function dsNavLock(){
     document.querySelectorAll('#panel-gerencial [data-count]').forEach(function(el){
       var target=parseFloat(el.dataset.count), prefix=el.dataset.prefix||'', suffix=el.dataset.suffix||'';
       var isInt=Number.isInteger(target), dur=900, start=null;
-      function fmt(v){ return isInt ? prefix+Math.round(v).toLocaleString('es-AR')+suffix : prefix+v.toFixed(1).replace('.',',')+suffix; }
+      /* v1.2.7.9: formato es-AR. Miles con punto via toLocaleString, decimal con
+         coma, espacio fino despues del signo y antes de la unidad —M, K— pero
+         no antes de un simbolo como %, que va pegado. */
+      function fmt(v){
+        var esp = '\u00a0';
+        var uni = /^[A-Za-z]/.test(suffix || '') ? esp + suffix : (suffix || '');
+        var pre = prefix ? prefix + esp : '';
+        var num = isInt ? Math.round(v).toLocaleString('es-AR')
+                        : v.toLocaleString('es-AR', {minimumFractionDigits:1, maximumFractionDigits:2});
+        return pre + num + uni;
+      }
       el.textContent=fmt(0);
       function step(ts){ if(!start)start=ts; var p=Math.min((ts-start)/dur,1); el.textContent=fmt((1-Math.pow(1-p,3))*target); if(p<1)requestAnimationFrame(step); }
       requestAnimationFrame(step);
