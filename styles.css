@@ -1046,7 +1046,10 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
   gap: 4px;
 }
 
-.schema-option:hover,
+/* v1.2.7.9: hover y foco dejan de compartir tratamiento. El anillo comunica
+   la posicion del teclado; si el mouse lo dibuja igual, quien navega con
+   teclado pierde la referencia. Hover: solo fondo tonal. */
+.schema-option:hover { background: var(--cyan-soft); }
 .schema-option:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: -2px; background: var(--cyan-soft); }
 .schema-option.is-active     { background: rgba(0, 196, 140, 0.10); }
 
