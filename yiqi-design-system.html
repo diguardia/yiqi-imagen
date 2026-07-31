@@ -1402,9 +1402,10 @@ body.preview-open .ds-layout { display: none !important; }
 <div class="ds-section-header">
 <div class="ds-section-kicker">09 · Iconografía</div>
 <h2 class="ds-section-title">Iconografía · Phosphor</h2>
-<p class="ds-section-sub">Biblioteca estándar para módulos, navegación, datos, operaciones y soporte. Base sugerida para implementación front-end en YiQi.</p>
+<p class="ds-section-sub">Biblioteca estándar para módulos, navegación, datos, operaciones y soporte. <strong>Es el set canónico, no una sugerencia</strong>: todo icono nuevo sale de acá.</p>
 <a class="ds-xref" style="margin-top:12px" href="examples/showcase.html?tab=iconos"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
+<p class="ds-note" style="max-width:72ch"><strong>Cómo se consume (v1.2.7.9).</strong> En las <strong>apps</strong>, cada icono va como <strong>SVG inline</strong>: se copia el <code>&lt;path&gt;</code> del peso <em>regular</em> desde <code>@phosphor-icons/core</code>, con <code>viewBox="0 0 256 256"</code> y <code>fill: currentColor</code> — sin stroke, así dibuja Phosphor. Cero dependencia de red: vale para apps con <code>connect-src 'self'</code> como el homologador. El <em>icon font</em> (<code>ph ph-*</code>) queda solo para documentación — este catálogo y el showcase. Dibujar glifos a mano es anti-patrón: si el icono no existe en Phosphor, se elige el más cercano o se propone excepción. Referencia viva: el set de Mi cuenta YiQi.</p>
 <div class="subsection-title">Set base del sistema</div>
 <div class="icon-grid">
   <div class="icon-card"><div class="icon-box"><i class="ph ph-gear-six"></i></div><div class="icon-meta"><span>Configuración</span><code>GearSix</code></div></div>
