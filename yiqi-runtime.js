@@ -365,6 +365,78 @@
      EXPORTAR API GLOBAL
      ══════════════════════════════════════════════════════════ */
 
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     LOGO YiQi — animacion (v1.2.7.9)
+     Promovido desde el catalogo, donde vivia inline y duplicado en dos
+     archivos mientras cada app copiaba el suyo o lo dejaba estatico.
+     Es el primer componente del DS con comportamiento distribuible: la
+     conducta viaja por el CDN igual que el CSS.
+
+     Uso:
+       1. El SVG lleva data-yiqi-logo y las clases de parte
+          (.yq-y .yq-i1s .yq-q .yq-i2s .yq-i1d .yq-i2d, mas .yql/.yqs/.anim).
+          El marcado canonico esta en el catalogo, seccion 08 - Logo.
+       2. Cargar este archivo. Los logos presentes se animan solos al cargar.
+       3. Para repetir:  YiQi.logo.play(svg, { force:true })
+          data-axis="y" | "x" | "z" cambia el giro de la Q.
+     Respeta prefers-reduced-motion salvo force:true.
+     ═══════════════════════════════════════════════════════════════════════ */
+  var LogoAPI = (function (global) {
+  'use strict';
+    if (global.YiQiLogo) return global.YiQiLogo;
+  const PARTS = { all:'yq-all', y:'yq-y', i1s:'yq-i1s', i2s:'yq-i2s', q:'yq-q', i1d:'yq-i1d', i2d:'yq-i2d' };
+  const T = { body:520, qDur:820, yDelay:0, i1sDelay:90, i2sDelay:160, qDelay:260, dotGap1:90, dotGap2:170 };
+  const reduceMotion = () => global.matchMedia && global.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = (svg, cls) => svg.querySelector('.' + cls);
+  function qFrames(axis) {
+    if (axis === 'z') {
+      return { easing:'cubic-bezier(.18,.7,.2,1)', frames:[
+        { opacity:0, transform:'rotate(360deg) scale(.3)',  offset:0 },
+        { opacity:1, transform:'rotate(10deg) scale(1.05)', offset:.72 },
+        { opacity:1, transform:'rotate(0deg) scale(1)',     offset:1 } ]};
+    }
+    const f = axis === 'x' ? (a,b)=>'scaleX('+b+') scaleY('+a+')' : (a,b)=>'scaleX('+a+') scaleY('+b+')';
+    return { easing:'cubic-bezier(.45,.02,.25,1)', frames:[
+      { opacity:0,   transform:f(.82,.82),  offset:0   },
+      { opacity:1,   transform:f(1,.84),    offset:.12 },
+      { opacity:.30, transform:f(0,.88),    offset:.32 },
+      { opacity:1,   transform:f(-.92,.92), offset:.5  },
+      { opacity:.30, transform:f(0,.96),    offset:.7  },
+      { opacity:1,   transform:f(1.05,1),   offset:.88 },
+      { opacity:1,   transform:f(1,1),      offset:1   } ]};
+  }
+  function clear(svg){ Object.values(PARTS).forEach(c=>{ const el=$(svg,c); if(el) el.getAnimations().forEach(a=>a.cancel()); }); }
+  function reset(svg){ clear(svg); Object.values(PARTS).forEach(c=>{ const el=$(svg,c); if(el){ el.style.opacity=''; el.style.transform=''; } }); }
+  function play(svg, opts){
+    opts = opts || {};
+    const axis = (opts.axis || svg.dataset.axis || 'y').toLowerCase();
+    const rate = opts.rate != null ? +opts.rate : 1;
+    const k = 1 / rate;
+    clear(svg);
+    if (reduceMotion() && !opts.force) { reset(svg); return; }
+    const ease = 'cubic-bezier(.22,1,.36,1)';
+    const A = (c, frames, o) => $(svg,c) && $(svg,c).animate(frames, Object.assign({fill:'both'}, o));
+    const rise = [{opacity:0,transform:'translateY(7px)'},{opacity:1,transform:'translateY(0)'}];
+    A(PARTS.y,   rise, {duration:T.body*k, delay:T.yDelay*k,   easing:ease});
+    A(PARTS.i1s, rise, {duration:T.body*k, delay:T.i1sDelay*k, easing:ease});
+    A(PARTS.i2s, rise, {duration:T.body*k, delay:T.i2sDelay*k, easing:ease});
+    const qf = qFrames(axis);
+    A(PARTS.q,   qf.frames, {duration:T.qDur*k, delay:T.qDelay*k, easing:qf.easing});
+    A(PARTS.i1d, qf.frames, {duration:T.qDur*k, delay:(T.qDelay+T.dotGap1)*k, easing:qf.easing});
+    A(PARTS.i2d, qf.frames, {duration:T.qDur*k, delay:(T.qDelay+T.dotGap2)*k, easing:qf.easing});
+  }
+    /* autoInit sirve para HTML estatico. En una SPA —React, Vue— el script
+       corre antes de que el framework monte: no encuentra ningun logo y no
+       pasa nada. Por eso init() es publico: la app lo llama despues del
+       primer render. Es idempotente. */
+    function init(root){ (root || document).querySelectorAll('[data-yiqi-logo]').forEach(function(svg){ play(svg); }); }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function(){ init(); });
+    else init();
+    global.YiQiLogo = { play: play, reset: reset, init: init };
+    return global.YiQiLogo;
+  }(window));
+
   global.YiQi = {
     /* Tema */
     setTheme:     setTheme,
@@ -381,8 +453,11 @@
     /* Formato */
     fmt: fmt,
 
+    /* Logo animado */
+    logo: LogoAPI,
+
     /* Meta */
-    version: '1.2.7',
+    version: '1.2.7.9',
   };
 
 }(window));

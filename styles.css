@@ -338,6 +338,17 @@ h1, h2, h3, h4, p { margin: 0; }
 .ds-note--warn  { background: var(--amber-soft); }
 .ds-note--alert { background: var(--red-soft); }
 
+/* ── LOGO YiQi — clases de parte (v1.2.7.9) ───────────────────
+   Vivian en un <style> del catalogo, asi que una app que copiaba el SVG se
+   quedaba sin el color del simbolo y sin origen de transformacion — el motor
+   animaba desde la esquina. Ahora viajan con la hoja. El comportamiento esta
+   en yiqi-runtime.js; ver catalogo §02 · Logo animado. */
+[data-yiqi-logo] { cursor: pointer; }
+[data-yiqi-logo] .yql { fill: currentColor; }
+[data-yiqi-logo] .yqs { fill: var(--cyan); }
+[data-yiqi-logo] .anim { transform-box: fill-box; transform-origin: center; }
+@media (prefers-reduced-motion: reduce) { [data-yiqi-logo] .anim { transform: none; } }
+
 /* ── 5. LAYOUT — APP SHELL ────────────────────────────────── */
 .app-shell {
   display: grid;
@@ -1177,6 +1188,11 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
   background: var(--login-gate-bg);
   overflow: hidden;
 }
+/* v1.2.7.9: las dos cards —acceso y recuperar— comparten la MISMA celda de
+   la grilla. .is-card-hidden usa visibility, que conserva el espacio: sin
+   apilarlas, la card oculta empujaba a la visible hacia abajo y la caja
+   medía el doble. El alto lo fija la mas alta, asi que al alternar no salta. */
+.login-gate > * { grid-area: 1 / 1; width: 100%; }
 
 .login-card {
   width: 100%;

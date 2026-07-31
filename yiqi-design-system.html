@@ -847,6 +847,22 @@ body.preview-open .ds-layout { display: none !important; }
 </p>
 </div>
 </div>
+
+<div class="subsection-title" id="logo-animado" style="margin-top:36px">Logo animado — comportamiento distribuible</div>
+<p class="ds-section-sub" style="margin-bottom:14px"><strong>Desde v1.2.7.9 la animación del logo viaja por el CDN</strong>, dentro de <code>yiqi-runtime.js</code>. Antes vivía <em>inline</em> y duplicada en el catálogo y el showcase, mientras cada app copiaba la suya o se quedaba con un SVG plano. Es el primer componente del sistema que publica <strong>conducta</strong>, no solo CSS: quien lo consume no reimplementa nada.</p>
+
+<table class="table-demo" style="max-width:780px;margin-bottom:16px">
+<thead><tr><th>Paso</th><th>Qué hacer</th></tr></thead>
+<tbody>
+<tr><td><strong>1 · Marcado</strong></td><td>El <code>&lt;svg&gt;</code> lleva <code>data-yiqi-logo</code> y cada parte su clase: <code>.yq-y</code>, <code>.yq-i1s</code>, <code>.yq-q</code>, <code>.yq-i2s</code>, <code>.yq-i1d</code>, <code>.yq-i2d</code>, envueltas en <code>.yq-all</code>. Cada trazo suma <code>.yql</code> (letras) o <code>.yqs</code> (símbolo) y <code>.anim</code>. <strong>Sin esas clases no hay nada que animar.</strong></td></tr>
+<tr><td><strong>2 · Script</strong></td><td><code>&lt;script src="https://diguardia.github.io/yiqi-imagen/yiqi-runtime.js"&gt;&lt;/script&gt;</code>. Los logos presentes se animan solos al cargar.</td></tr>
+<tr><td><strong>3 · Repetir</strong></td><td><code>YiQi.logo.play(svg, { force: true })</code>. También <code>YiQi.logo.reset(svg)</code>.</td></tr>
+<tr><td><strong>Eje de la Q</strong></td><td><code>data-axis="y"</code> (default), <code>"x"</code> o <code>"z"</code>. Cambia el giro del símbolo.</td></tr>
+<tr><td><strong>Accesibilidad</strong></td><td>Respeta <code>prefers-reduced-motion</code> automáticamente: sin <code>force</code>, no anima. El <code>role="img"</code> y <code>aria-label="YiQi"</code> son obligatorios.</td></tr>
+</tbody></table>
+
+<p class="ds-note"><strong>Anti-patrón: copiar el motor.</strong> Vivía duplicado en dos archivos y divergió. Si una app no puede cargar el script —CSP restrictiva, entorno sin red— la respuesta correcta es <strong>logo estático sin las clases de parte</strong>, declarado como excepción; nunca una copia propia del motor que después nadie mantiene.</p>
+
 </section>
 
 <!-- ─── COLORS ─── -->
