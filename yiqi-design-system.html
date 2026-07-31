@@ -7,7 +7,7 @@
 <title>YiQi ERP — Design System v1.2.7.9</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJZaVFpIj4KICA8cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHJ4PSIxNCIgZmlsbD0iIzA3MTMxYSIvPgogIDxwYXRoIHRyYW5zZm9ybT0idHJhbnNsYXRlKDMyIDMyKSBzY2FsZSgxLjQpIHRyYW5zbGF0ZSgtNjEuMDUgLTMxLjEpIiBkPSJNNTcuOTEsNDQuNzh2LTIuNjZjLTIuMTgtLjUzLTQuMjEtMS42Ni01LjkyLTMuMzYtNC45Ny00Ljk3LTUuMDktMTMuMDItLjAzLTE4LjA4LDUuMDktNS4wOSwxMy4xNC00Ljk3LDE4LjExLDBzNS4wOSwxMy4wMiwwLDE4LjExYy0xLjc4LDEuNzgtMy45NCwyLjkzLTYuMjIsMy40NnYyLjUxYzAsLjM1LS4xOC41My0uNTguNTNoLTQuODJjLS4zLDAtLjU1LS4yLS41NS0uNVpNNTYuMjgsMzQuNDdjLjUuNSwxLjA1LjksMS42NSwxLjJ2LTMuMzZjMC0uMzUuMTgtLjUzLjUzLS41M2g0Ljg3Yy4yNSwwLC41My4xOC41My41M3YzLjM2Yy42My0uMzMsMS4yMy0uNzgsMS43OC0xLjMzLDIuNzMtMi43MywyLjc4LTYuNzUuMTUtOS4zOHMtNi42Ny0yLjYxLTkuNDEuMTNjLTIuNzEsMi43MS0yLjczLDYuNzUtLjEsOS4zOFoiIGZpbGw9IiMwY2YiLz4KPC9zdmc+Cg==">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
 <link rel="stylesheet" href="site.css">
 <link rel="stylesheet" href="styles.css">
@@ -98,15 +98,12 @@ body.preview-open .ds-layout { display: none !important; }
   background: var(--bg);
 }
 
-/* ─── Tipografía v1.2.6: Greycliff CF para headers · IBM Plex Mono tabular para cifras ─── */
-
-/* Si tienes licencia/Adobe Fonts/Typekit, agrega el <link> respectivo en <head>.
-   El fallback es Plus Jakarta Sans, ya en uso para .page-hero-title. */
-
-:root {
-  --font-display: "Greycliff CF", "GreycliffCF", "Plus Jakarta Sans",
-                  "Inter", ui-sans-serif, system-ui, sans-serif;
-}
+/* ─── Tipografía ───────────────────────────────────────────────────────────
+   v1.2.7.9: se elimina el :root propio que esta pagina tenia acá. Redefinia
+   --font-display con Greycliff CF y le ganaba al canonico, asi que el catalogo
+   mostraba una tipografia distinta a la que documenta —y ademas violaba su
+   propia regla de "no redefinir :root en paginas". La familia display ahora
+   sale de styles.css: Plus Jakarta Sans, self-hosteada. */
 
 .ds-section-title,
 .page-hero-title,
@@ -1019,12 +1016,12 @@ body.preview-open .ds-layout { display: none !important; }
 <div class="ds-section-header">
 <div class="ds-section-kicker">04 · Tipografía</div>
 <h2 class="ds-section-title">Escala tipográfica</h2>
-<p class="ds-section-sub">Tres familias, tres trabajos. <strong>Greycliff CF</strong> para las jerarquías mayores, <strong>Inter</strong> para todo el texto de interfaz, <strong>IBM Plex Mono</strong> para labels, tokens, IDs y cifras. Una familia no invade el trabajo de otra.</p>
+<p class="ds-section-sub">Tres familias, tres trabajos. <strong>Plus Jakarta Sans</strong> para las jerarquías mayores <em>y las cifras</em>, <strong>Inter</strong> para todo el texto de interfaz, <strong>IBM Plex Mono</strong> para labels, tokens, IDs y códigos. Una familia no invade el trabajo de otra.</p>
 </div>
 
 <div class="wf-head">
-<div class="wf-family">Greycliff CF <span>500 · 600 · 700 · 800</span></div>
-<p class="wf-note"><strong>Cuatro pesos publicados con el CDN</strong> — Medium 500, Demi-Bold 600, Bold 700 y Heavy 800 — en <code>woff2</code>, ~30K cada uno. Se declaran en <code>styles.css</code> con cuatro <code>@font-face</code>, así que la fuente ya no depende de estar instalada en la máquina del usuario. Los tres tamaños display usan <strong>700</strong> y se piden con su clase canónica — el chip cyan de cada fila. <strong>La etiqueta desnuda no sirve</strong>: <code>&lt;h1&gt;</code> entrega Inter, no Greycliff.</p>
+<div class="wf-family">Plus Jakarta Sans <span>títulos y cifras · 400 · 500 · 600 · 700 · 800</span></div>
+<p class="wf-note"><strong>Desde v1.2.7.9 reemplaza a Greycliff CF.</strong> Cinco pesos en <code>woff2</code>, subset latin, ~12K cada uno, declarados con <code>@font-face</code> en <code>styles.css</code>: viajan con la hoja, así que ninguna app depende de un link externo. Los tres tamaños display usan <strong>700</strong> y se piden con su clase canónica — el chip cyan de cada fila. <strong>La etiqueta desnuda no sirve</strong>: <code>&lt;h1&gt;</code> entrega Inter. <strong>Las cifras también viven acá</strong>: <code>--kpi-num</code> ahora apunta a <code>--display</code>.</p>
 </div>
 <div class="wf">
 <div class="wf-row">
@@ -1038,6 +1035,10 @@ body.preview-open .ds-layout { display: none !important; }
 <div class="wf-row">
 <div class="wf-meta"><div class="wf-role">Section hero<span style="font:600 10px var(--mono);color:var(--cyan);background:var(--cyan-soft);border-radius:var(--radius-pill);padding:2px 7px;margin-left:6px;display:inline-block;white-space:nowrap">.ds-title-section</span></div><div class="wf-spec">24 · 700 · ls -.024em · lh 1.15</div></div>
 <div class="wf-sample"><div class="ds-title-section">Facturación mensual</div></div>
+</div>
+<div class="wf-row">
+<div class="wf-meta"><div class="wf-role">KPI value · cifras<span style="font:600 10px var(--mono);color:var(--cyan);background:var(--cyan-soft);border-radius:var(--radius-pill);padding:2px 7px;margin-left:6px;display:inline-block;white-space:nowrap">.kpi-value</span></div><div class="wf-spec">clamp(32–42) · 500 · ls -.02em · lh 1 · <span style="color:var(--amber)">proportional-nums</span></div></div>
+<div class="wf-sample" style="font-family:var(--kpi-num);font-size:32px;font-weight:500;letter-spacing:-.02em;line-height:1;text-transform:none;font-variant-numeric:proportional-nums;">$&nbsp;2.847.391</div>
 </div>
 </div>
 
@@ -1089,14 +1090,10 @@ body.preview-open .ds-layout { display: none !important; }
 </div>
 
 <div class="wf-head">
-<div class="wf-family">IBM Plex Mono <span>labels, tokens, cifras</span></div>
-<p class="wf-note">El ancho fijo es funcional, no estético: alinea columnas de números y hace legibles los IDs. Las cifras van con <code>tabular-nums</code>. El chip cyan es la clase canónica que entrega cada fila.</p>
+<div class="wf-family">IBM Plex Mono <span>labels, tokens, códigos</span></div>
+<p class="wf-note">El ancho fijo es funcional, no estético: hace legibles los IDs y mantiene el ancho de la hora, que cambia cada minuto. <strong>Desde v1.2.7.9 la mono ya no lleva plata ni cantidades</strong>: su cero tiene un punto adentro que a 32px es lo único que se ve, y no hay set estilístico para apagarlo. La alineación no era argumento — medido, las tres familias dan ancho fijo con <code>tabular-nums</code>. Se queda en códigos de comprobante, SKU, hora, kickers y encabezados de tabla. El chip cyan es la clase canónica que entrega cada fila.</p>
 </div>
 <div class="wf">
-<div class="wf-row">
-<div class="wf-meta"><div class="wf-role">KPI value · cifras<span style="font:600 10px var(--mono);color:var(--cyan);background:var(--cyan-soft);border-radius:var(--radius-pill);padding:2px 7px;margin-left:6px;display:inline-block;white-space:nowrap">.kpi-value</span></div><div class="wf-spec">clamp(32–42) · 500 · ls -.02em · lh 1 · tabular-nums</div></div>
-<div class="wf-sample" style="font-family:var(--kpi-num);font-size:32px;font-weight:500;letter-spacing:-.02em;line-height:1;text-transform:none;font-variant-numeric:tabular-nums;">$2,847,391</div>
-</div>
 <div class="wf-row">
 <div class="wf-meta"><div class="wf-role">Kicker · label de seccion<span style="font:600 10px var(--mono);color:var(--cyan);background:var(--cyan-soft);border-radius:var(--radius-pill);padding:2px 7px;margin-left:6px;display:inline-block;white-space:nowrap">.brand-kicker</span><span style="font:600 10px var(--mono);color:var(--cyan);background:var(--cyan-soft);border-radius:var(--radius-pill);padding:2px 7px;margin-left:6px;display:inline-block;white-space:nowrap">.section-kicker</span><span style="font:600 10px var(--mono);color:var(--cyan);background:var(--cyan-soft);border-radius:var(--radius-pill);padding:2px 7px;margin-left:6px;display:inline-block;white-space:nowrap">.panel-kicker</span></div><div class="wf-spec">10 · 700 · ls .15em · uppercase · color cyan</div></div>
 <div class="wf-sample" style="font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.15em;line-height:1.4;text-transform:uppercase;color:var(--cyan);">Inventario 2024</div>
@@ -1713,17 +1710,17 @@ body.preview-open .ds-layout { display: none !important; }
 <div class="kpi-grid" style="margin-bottom:24px">
 <div class="kpi-card">
   <div class="kpi-label">Facturación MTD</div>
-  <div class="kpi-value" style="color:var(--cyan)">$2.84M</div>
-  <div class="kpi-delta is-positive">↑ +18.4% vs mes anterior</div>
+  <div class="kpi-value" style="color:var(--cyan)">$&nbsp;2,84 M</div>
+  <div class="kpi-delta is-positive">↑ +18,4% vs mes anterior</div>
 </div>
 <div class="kpi-card">
   <div class="kpi-label">Pedidos activos</div>
   <div class="kpi-value">1,247</div>
-  <div class="kpi-delta is-positive">↑ +6.2%</div>
+  <div class="kpi-delta is-positive">↑ +6,2%</div>
 </div>
 <div class="kpi-card">
   <div class="kpi-label">Tasa conversión</div>
-  <div class="kpi-value">68.3%</div>
+  <div class="kpi-value">68,3%</div>
   <div class="kpi-delta is-neutral">→ Sin cambio</div>
 </div>
 <div class="kpi-card">
@@ -1769,8 +1766,8 @@ body.preview-open .ds-layout { display: none !important; }
 <div class="subsection-title">B · Cards (borderless + sombra)</div>
 <p style="font:400 12px/1.55 var(--sans);color:var(--muted);margin:-4px 0 14px;max-width:640px">Para secciones con más respiro, con delta opcional. <code>.trust.trust--cards</code></p>
 <div class="trust trust--cards" style="margin-bottom:24px">
-  <div class="trust-item"><div class="trust-num">$2.84M</div><span class="trust-label">Facturación MTD</span><span class="trust-delta is-up"><span class="trust-arrow">↑</span> +18.4%</span></div>
-  <div class="trust-item"><div class="trust-num">1.247</div><span class="trust-label">Pedidos activos</span><span class="trust-delta is-up"><span class="trust-arrow">↑</span> +6.2%</span></div>
+  <div class="trust-item"><div class="trust-num">$&nbsp;2,84 M</div><span class="trust-label">Facturación MTD</span><span class="trust-delta is-up"><span class="trust-arrow">↑</span> +18,4%</span></div>
+  <div class="trust-item"><div class="trust-num">1.247</div><span class="trust-label">Pedidos activos</span><span class="trust-delta is-up"><span class="trust-arrow">↑</span> +6,2%</span></div>
   <div class="trust-item"><div class="trust-num">68,3<span class="trust-unit">%</span></div><span class="trust-label">Tasa conversión</span><span class="trust-delta is-flat"><span class="trust-arrow">→</span> sin cambio</span></div>
   <div class="trust-item"><div class="trust-num">$341K</div><span class="trust-label">Pagos pendientes</span><span class="trust-delta is-down"><span class="trust-arrow">↑</span> +12%</span></div>
 </div>
@@ -1791,7 +1788,7 @@ body.preview-open .ds-layout { display: none !important; }
 <div class="trust trust--cards" style="margin-bottom:8px">
   <div class="trust-item has-media"><div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div><div class="trust-num">99,9<span class="trust-unit">%</span></div><span class="trust-label">Uptime</span></div></div>
   <div class="trust-item has-media"><div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2v6M15 2v6M6 8h12v3a6 6 0 0 1-12 0z"/><path d="M12 17v5"/></svg></div><div><div class="trust-num">30<span class="trust-unit">+</span></div><span class="trust-label">Integraciones</span></div></div>
-  <div class="trust-item"><div class="trust-num">$2.84M</div><span class="trust-label">Facturación MTD</span><svg class="trust-spark" width="86" height="22" viewBox="0 0 86 22" fill="none" aria-hidden="true"><polyline points="0,18 14,14 28,16 42,8 56,11 70,4 86,6" stroke="var(--cyan)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div class="trust-item"><div class="trust-num">$&nbsp;2,84 M</div><span class="trust-label">Facturación MTD</span><svg class="trust-spark" width="86" height="22" viewBox="0 0 86 22" fill="none" aria-hidden="true"><polyline points="0,18 14,14 28,16 42,8 56,11 70,4 86,6" stroke="var(--cyan)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
 </div>
 
 <div class="subsection-title" style="margin-top:28px">Migración</div>
@@ -3212,7 +3209,7 @@ html[data-theme="light"] .bg-grid-demo-fade {
 <table class="table-demo" style="max-width:720px;margin-bottom:28px">
 <thead><tr><th>Aspecto</th><th>Web (www.yiqi)</th><th>Apps (marketplace)</th></tr></thead>
 <tbody>
-<tr><td>Display font (<code>--display</code>)</td><td>Greycliff CF</td><td><strong>Plus Jakarta Sans</strong></td></tr>
+<tr><td>Display font (<code>--display</code>)</td><td colspan="2" style="text-align:center"><strong>Plus Jakarta Sans</strong> — unificada en v1.2.7.9</td></tr>
 <tr><td>Sans / Mono</td><td colspan="2" style="text-align:center">Inter / IBM Plex Mono (compartidos)</td></tr>
 <tr><td>Tokens · paleta · radios · sombras</td><td colspan="2" style="text-align:center">compartidos — mismos <code>var(--*)</code>, <strong>no redefinir</strong></td></tr>
 <tr><td>Fondo</td><td>radiales + grilla</td><td>solo radiales</td></tr>

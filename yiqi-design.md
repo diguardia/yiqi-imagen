@@ -966,10 +966,10 @@ Badge de estado para tablas de coherencia contable — compara totales entre com
 
 ```html
 <!-- Datos coherentes -->
-<span class="coherence-badge is-good">98.2%</span>
+<span class="coherence-badge is-good">98,2%</span>
 
 <!-- Diferencia detectada -->
-<span class="coherence-badge is-alert">87.4%</span>
+<span class="coherence-badge is-alert">87,4%</span>
 ```
 
 - `.is-good` → verde, diferencia < umbral aceptable
