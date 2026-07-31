@@ -670,7 +670,9 @@ html[data-theme="light"] .login-card {
   text-align: center;
 }
 
+/* v1.2.7.9: el delta es una cifra (+18,4%), no un codigo: --kpi-num. */
 .kpi-delta {
+  font-family: var(--kpi-num);
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -750,12 +752,16 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
   gap: 8px;
 }
 
+/* v1.2.7.9: cifra — --kpi-num peso 500 como todas. Sin familia heredaba
+   Inter; 26 no esta en la escala, pasa a 24. */
 .pulse-value {
   margin-top: 12px;
   margin-bottom: 8px;
-  font-size: 26px;
-  font-weight: 700;
-  letter-spacing: -0.04em;
+  font-family: var(--kpi-num);
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  font-variant-numeric: proportional-nums;
 }
 
 /* Watchlist card */
@@ -1328,7 +1334,8 @@ html[data-theme="light"] textarea:-webkit-autofill {
    Promovida desde Analytics Pro (v1.2.7.6). */
 .login-card.is-card-hidden { visibility: hidden; pointer-events: none; }
 .login-copy { margin: 0; font-size: 13px; color: var(--muted); }
-.recovery-title { margin: 0; font-size: 20px; font-weight: 700; color: var(--text); }
+/* v1.2.7.9: titulo de card — display 600, el mismo rol que .panel-title. */
+.recovery-title { margin: 0; font: 600 20px var(--display); letter-spacing: -0.02em; color: var(--text); }
 .recovery-msg { margin: 0; font-size: 12px; color: var(--green); }
 .recovery-msg[data-state="error"] { color: var(--red); }
 .recovery-actions { display: flex; gap: 10px; margin-top: 6px; }
@@ -1346,7 +1353,7 @@ html[data-theme="light"] textarea:-webkit-autofill {
 
 .progress-name   { font-size: 13px; font-weight: 600; }
 .progress-detail,
-.progress-value  { color: var(--muted); font-size: 12px; }
+.progress-value  { color: var(--muted); font-size: 12px; font-family: var(--kpi-num); font-variant-numeric: tabular-nums; }
 
 .progress-bar {
   height: 12px;
@@ -1428,7 +1435,7 @@ html[data-theme="light"] textarea:-webkit-autofill {
 
 .trend-value,
 .trend-day { text-align: center; font-size: 11px; }
-.trend-value { color: var(--muted); }
+.trend-value { color: var(--muted); font-family: var(--kpi-num); font-variant-numeric: tabular-nums; }
 .trend-day   { font-family: var(--mono); }
 
 /* ── 32. SKELETON / SHIMMER ───────────────────────────────── */
@@ -1459,7 +1466,8 @@ html[data-theme="light"] textarea:-webkit-autofill {
 }
 /* El delta acompana, no compite con la cifra: peso 500 en --muted.
    El color de estado se queda solo en la flecha. */
-.trust-delta { display: block; margin-top: 6px; font: 500 11px var(--mono); color: var(--muted); }
+/* v1.2.7.9: la variacion es cifra, no codigo. */
+.trust-delta { display: block; margin-top: 6px; font: 500 11px var(--kpi-num); color: var(--muted); }
 .trust-arrow { font-weight: 700; }
 .trust-delta.is-up   .trust-arrow { color: var(--green); }
 .trust-delta.is-down .trust-arrow { color: var(--red); }
@@ -2205,7 +2213,8 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
 .legend-row { display: grid; grid-template-columns: 10px 1fr auto; gap: 6px 12px; align-items: center; }
 .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
 .legend-label { font: 400 12px var(--sans); color: var(--muted); }
-.legend-pct { font: 600 12px var(--mono); color: var(--text); font-variant-numeric: tabular-nums; }
+/* v1.2.7.9: porcentaje de leyenda — es cifra. */
+.legend-pct { font: 600 12px var(--kpi-num); color: var(--text); font-variant-numeric: tabular-nums; }
 @media (max-width: 640px) { .donut-block { grid-template-columns: 1fr; gap: 16px; justify-items: center; } .donut-legend { width: 100%; max-width: 320px; } }
 
 .status-pill { flex-shrink: 0; font: 700 9px var(--mono); letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 8px; border-radius: var(--radius-pill); white-space: nowrap; }
@@ -2413,7 +2422,8 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
 .pr-slider input[type=range]::-webkit-slider-thumb{ -webkit-appearance:none; width:18px; height:18px; border-radius:50%; background:var(--cyan); cursor:pointer; box-shadow:0 0 0 4px var(--cyan-soft); border:none; }
 .pr-slider input[type=range]::-moz-range-thumb{ width:18px; height:18px; border-radius:50%; background:var(--cyan); cursor:pointer; box-shadow:0 0 0 4px var(--cyan-soft); border:none; }
 .pr-slider input[type=range]::-moz-range-track{ height:5px; border-radius:var(--radius-pill); background:var(--line-strong); }
-.pr-slider-val{ font:600 26px var(--kpi-num,var(--sans)); font-variant-numeric:tabular-nums; margin-bottom:8px; }
+/* v1.2.7.9: 26 no esta en la escala; 24 si. Peso 500, el de las cifras. */
+.pr-slider-val{ font:500 24px var(--kpi-num); font-variant-numeric:tabular-nums; letter-spacing:-.02em; margin-bottom:8px; }
 /* ── Tabs (primitivo) — fuente canónica ── */
 .pr-tabbar{ display:inline-flex; align-items:center; gap:2px; padding:2px; border-radius:var(--radius-pill); background:var(--bg-elev-2); }  /* borderless, igual que .range-filter */
 .pr-tabbtn{ padding:6px 14px; border:none; cursor:pointer; border-radius:var(--radius-pill); background:transparent; color:var(--muted); font:500 13px var(--sans); transition:background var(--tr), color var(--tr); }
