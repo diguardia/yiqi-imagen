@@ -305,15 +305,20 @@ html[data-theme="light"] .ds-pro-mock {
   margin-bottom: 6px;
 }
 .ds-pro-kpi-value {
-  font: 700 15px var(--mono);
+  /* DS v1.2.7.9: las cifras dejan la mono — --kpi-num. */
+  font: 600 15px var(--kpi-num, var(--display));
   letter-spacing: -.015em;
   font-variant-numeric: tabular-nums;
   line-height: 1;
   color: var(--text);
 }
-.ds-pro-kpi-suffix { font-size: 10px; opacity: .55; margin-left: 1px; }
+/* La unidad (M, K) va en su propio span, asi que el espacio antes de ella no
+   lo puede poner el texto: lo pone el margen. 4px ≈ el espacio fino de §01.
+   El % es simbolo y va pegado — de ahi la variante. */
+.ds-pro-kpi-suffix { font-size: 10px; opacity: .55; margin-left: 4px; }
+.ds-pro-kpi-suffix.is-symbol { margin-left: 0; }
 .ds-pro-kpi-delta {
-  font: 600 9px var(--mono);
+  font: 600 9px var(--kpi-num, var(--display));
   color: var(--green);
   margin-top: 5px;
 }
@@ -370,13 +375,13 @@ html[data-theme="light"] .ds-pro-mock {
   border-radius: inherit;
 }
 .ds-pro-bar-value {
-  font: 600 10px var(--mono);
+  font: 600 10px var(--kpi-num, var(--display));
   font-variant-numeric: tabular-nums;
   color: var(--text);
   text-align: right;
 }
 .ds-pro-bar-delta {
-  font: 600 9px var(--mono);
+  font: 600 9px var(--kpi-num, var(--display));
   color: var(--green);
   text-align: right;
 }
@@ -514,7 +519,7 @@ html[data-theme="light"] .ds-pro-mock {
           <div class="ds-pro-kpis">
             <div class="ds-pro-kpi">
               <div class="ds-pro-kpi-label">INGRESOS</div>
-              <div class="ds-pro-kpi-value"><span class="ds-pro-count" data-to="2.84" data-dec="2" data-prefix="$" data-delay="120">$2,84</span><span class="ds-pro-kpi-suffix">M</span></div>
+              <div class="ds-pro-kpi-value"><span class="ds-pro-count" data-to="2.84" data-dec="2" data-prefix="$" data-delay="120">$&nbsp;2,84</span><span class="ds-pro-kpi-suffix">M</span></div>
               <div class="ds-pro-kpi-delta ds-pro-count" data-to="18.4" data-dec="1" data-prefix="↑ " data-suffix="%" data-delay="180">↑ 18,4%</div>
             </div>
             <div class="ds-pro-kpi">
@@ -524,12 +529,12 @@ html[data-theme="light"] .ds-pro-mock {
             </div>
             <div class="ds-pro-kpi">
               <div class="ds-pro-kpi-label">MARGEN</div>
-              <div class="ds-pro-kpi-value"><span class="ds-pro-count" data-to="24.1" data-dec="1" data-delay="280">24,1</span><span class="ds-pro-kpi-suffix">%</span></div>
+              <div class="ds-pro-kpi-value"><span class="ds-pro-count" data-to="24.1" data-dec="1" data-delay="280">24,1</span><span class="ds-pro-kpi-suffix is-symbol">%</span></div>
               <div class="ds-pro-kpi-delta ds-pro-count" data-to="1.8" data-dec="1" data-prefix="↑ " data-suffix=" pp" data-delay="340">↑ 1,8 pp</div>
             </div>
             <div class="ds-pro-kpi">
               <div class="ds-pro-kpi-label">CONV.</div>
-              <div class="ds-pro-kpi-value"><span class="ds-pro-count" data-to="68.3" data-dec="1" data-delay="360">68,3</span><span class="ds-pro-kpi-suffix">%</span></div>
+              <div class="ds-pro-kpi-value"><span class="ds-pro-count" data-to="68.3" data-dec="1" data-delay="360">68,3</span><span class="ds-pro-kpi-suffix is-symbol">%</span></div>
               <div class="ds-pro-kpi-delta is-neutral ds-pro-count" data-to="0.1" data-dec="1" data-prefix="→ " data-suffix="%" data-delay="420">→ 0,1%</div>
             </div>
           </div>
@@ -568,19 +573,19 @@ html[data-theme="light"] .ds-pro-mock {
               <div class="ds-pro-bar-row">
                 <span class="ds-pro-bar-label">Indumentaria</span>
                 <span class="ds-pro-bar-track"><span class="ds-pro-bar-fill" style="width:92%"></span></span>
-                <span class="ds-pro-bar-value ds-pro-count" data-to="1.21" data-dec="2" data-prefix="$" data-suffix="M" data-delay="650">$1,21M</span>
+                <span class="ds-pro-bar-value ds-pro-count" data-to="1.21" data-dec="2" data-prefix="$" data-suffix="M" data-delay="650">$&nbsp;1,21&nbsp;M</span>
                 <span class="ds-pro-bar-delta">↑12%</span>
               </div>
               <div class="ds-pro-bar-row">
                 <span class="ds-pro-bar-label">Calzado</span>
                 <span class="ds-pro-bar-track"><span class="ds-pro-bar-fill" style="width:64%"></span></span>
-                <span class="ds-pro-bar-value ds-pro-count" data-to="842" data-dec="0" data-prefix="$" data-suffix="K" data-delay="760">$842K</span>
+                <span class="ds-pro-bar-value ds-pro-count" data-to="842" data-dec="0" data-prefix="$" data-suffix="K" data-delay="760">$&nbsp;842&nbsp;K</span>
                 <span class="ds-pro-bar-delta">↑8%</span>
               </div>
               <div class="ds-pro-bar-row">
                 <span class="ds-pro-bar-label">Accesorios</span>
                 <span class="ds-pro-bar-track"><span class="ds-pro-bar-fill" style="width:38%"></span></span>
-                <span class="ds-pro-bar-value ds-pro-count" data-to="418" data-dec="0" data-prefix="$" data-suffix="K" data-delay="870">$418K</span>
+                <span class="ds-pro-bar-value ds-pro-count" data-to="418" data-dec="0" data-prefix="$" data-suffix="K" data-delay="870">$&nbsp;418&nbsp;K</span>
                 <span class="ds-pro-bar-delta">↑4%</span>
               </div>
             </div>
@@ -610,8 +615,16 @@ html[data-theme="light"] .ds-pro-mock {
       const nf = (n, dec) => new Intl.NumberFormat('es-AR', {
         minimumFractionDigits: dec, maximumFractionDigits: dec
       }).format(n);
-      const render = (el, n) =>
-        el.textContent = (el.dataset.prefix || '') + nf(n, +(el.dataset.dec || 0)) + (el.dataset.suffix || '');
+      /* Formato es-AR (DS §01 · Formato numerico): espacio duro tras el signo
+         y antes de unidad alfabetica (M, K, pp). El % va pegado. */
+      const NB = '\u00a0';
+      const render = (el, n) => {
+        let pre = el.dataset.prefix || '';
+        let suf = el.dataset.suffix || '';
+        if (pre === '$') pre = '$' + NB;
+        if (/^\s*[A-Za-z]/.test(suf)) suf = NB + suf.trim();
+        el.textContent = pre + nf(n, +(el.dataset.dec || 0)) + suf;
+      };
 
       const counts = bannerEl.querySelectorAll('.ds-pro-count');
       /* Arranque en 0 (sin flash) salvo reduced-motion, que deja el valor final */
