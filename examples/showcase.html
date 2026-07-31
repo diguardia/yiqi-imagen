@@ -467,7 +467,8 @@
       #tab-analytics .ap-note{ font:600 9px var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--amber); background:var(--amber-soft); padding:2px 7px; border-radius:var(--radius-pill); }
       /* cph — headline de facturación (aún no promovido al DS) */
       #tab-analytics .ap-cph-kicker{ font:700 9px var(--mono); letter-spacing:.14em; text-transform:uppercase; color:var(--muted-2); }
-      #tab-analytics .ap-cph-val{ font:800 34px var(--display,var(--sans)); letter-spacing:-.02em; color:var(--text); line-height:1.05; margin-top:6px; }
+      /* v1.2.7.9: 500/40 en vez de 800/34 — mas grande que el KPI (500/32) para leerse como titular, mas liviano para no gritar. 34 no esta en la escala. */
+      #tab-analytics .ap-cph-val{ font:500 40px var(--display,var(--sans)); letter-spacing:-.028em; color:var(--text); line-height:1.05; margin-top:6px; font-variant-numeric:proportional-nums; }
       /* reloj de sesión */
       #tab-analytics .ap-analog{ width:96px; height:96px; flex-shrink:0; }
       #tab-analytics .ap-analog .ap-tick-min{ stroke:var(--muted-2); stroke-width:1; opacity:.5; }
@@ -524,7 +525,7 @@
           <p class="sc-card-sub">Cifra neutra · color solo en el chip de delta.</p>
           <div class="kpi-card" style="margin-top:6px">
             <div class="kpi-label"><span class="metric-label">Facturación neta</span></div>
-            <div class="kpi-value"><span data-apcount="4850000" data-apprefix="$">$4.850.000</span></div>
+            <div class="kpi-value"><span data-apcount="4850000" data-apprefix="$">$&nbsp;4.850.000</span></div>
             <div class="kpi-delta positive">Últimos 7 días</div>
           </div>
         </article>
@@ -534,7 +535,7 @@
           <p class="sc-card-sub">Cifra grande del cockpit. Notas van a tooltip.</p>
           <div style="margin-top:6px">
             <div class="ap-cph-kicker">Facturación total del período <button type="button" class="kpi-help" aria-label="Detalle"><span aria-hidden="true">i</span><span class="kpi-help-pop" role="tooltip">Dato del período seleccionado · demo simulada.</span></button></div>
-            <div class="ap-cph-val"><span data-apcount="12300000" data-apprefix="$">$12.300.000</span></div>
+            <div class="ap-cph-val"><span data-apcount="12300000" data-apprefix="$">$&nbsp;12.300.000</span></div>
           </div>
         </article>
 
@@ -564,16 +565,16 @@
           <div class="sc-card-h"><span class="sc-card-title">Tabla sortable</span></div>
           <p class="sc-card-sub">Ordena por columna · numérico y texto.</p>
           <div class="table-wrap"><table class="data-table table-sortable"><thead><tr><th>Producto</th><th class="num">Unidades</th><th class="num">Facturación</th></tr></thead><tbody>
-            <tr><td>Producto Alfa</td><td class="num">42</td><td class="num">$520.000</td></tr>
-            <tr><td>Producto Beta</td><td class="num">28</td><td class="num">$310.000</td></tr>
-            <tr><td>Producto Gamma</td><td class="num">15</td><td class="num">$180.000</td></tr>
+            <tr><td>Producto Alfa</td><td class="num">42</td><td class="num">$&nbsp;520.000</td></tr>
+            <tr><td>Producto Beta</td><td class="num">28</td><td class="num">$&nbsp;310.000</td></tr>
+            <tr><td>Producto Gamma</td><td class="num">15</td><td class="num">$&nbsp;180.000</td></tr>
           </tbody></table></div>
         </article>
 
         <article class="sc-card">
           <div class="sc-card-h"><span class="sc-card-title">Semáforo operativo</span></div>
           <ul class="signal-list" style="margin-top:6px">
-            <li><span class="signal signal-green"></span><div class="signal-body"><div class="signal-head"><strong>Facturación consolidada</strong><span class="signal-metric">$8,4 M</span></div><p>1.020 pedidos procesados.</p></div></li>
+            <li><span class="signal signal-green"></span><div class="signal-body"><div class="signal-head"><strong>Facturación consolidada</strong><span class="signal-metric">$&nbsp;8,4 M</span></div><p>1.020 pedidos procesados.</p></div></li>
             <li><span class="signal signal-cyan"></span><div class="signal-body"><div class="signal-head"><strong>Franja de mayor actividad</strong><span class="signal-metric">42%</span></div><p>10-12 concentra el flujo.</p></div></li>
           </ul>
         </article>
@@ -590,16 +591,16 @@
         <article class="sc-card">
           <div class="sc-card-h"><span class="sc-card-title">Barras de sucursal</span><a class="ds-xref" href="../yiqi-design-system.html#branch-list"><i class="ph ph-anchor-simple"></i> §48</a></div>
           <div class="branch-list" style="margin-top:6px">
-            <div class="branch-row"><div class="branch-meta"><div class="branch-name">Sucursal Centro</div><div class="branch-detail">210 pedidos</div></div><div class="branch-revenue">$3.200.000</div><div class="branch-bar"><div class="branch-fill" style="width:100%"></div></div></div>
-            <div class="branch-row"><div class="branch-meta"><div class="branch-name">Sucursal Norte</div><div class="branch-detail">124 pedidos</div></div><div class="branch-revenue">$1.850.000</div><div class="branch-bar"><div class="branch-fill" style="width:58%"></div></div></div>
-            <div class="branch-row"><div class="branch-meta"><div class="branch-name">Sucursal Sur</div><div class="branch-detail">61 pedidos</div></div><div class="branch-revenue">$920.000</div><div class="branch-bar"><div class="branch-fill" style="width:29%"></div></div></div>
+            <div class="branch-row"><div class="branch-meta"><div class="branch-name">Sucursal Centro</div><div class="branch-detail">210 pedidos</div></div><div class="branch-revenue">$&nbsp;3.200.000</div><div class="branch-bar"><div class="branch-fill" style="width:100%"></div></div></div>
+            <div class="branch-row"><div class="branch-meta"><div class="branch-name">Sucursal Norte</div><div class="branch-detail">124 pedidos</div></div><div class="branch-revenue">$&nbsp;1.850.000</div><div class="branch-bar"><div class="branch-fill" style="width:58%"></div></div></div>
+            <div class="branch-row"><div class="branch-meta"><div class="branch-name">Sucursal Sur</div><div class="branch-detail">61 pedidos</div></div><div class="branch-revenue">$&nbsp;920.000</div><div class="branch-bar"><div class="branch-fill" style="width:29%"></div></div></div>
           </div>
         </article>
 
         <article class="sc-card">
           <div class="sc-card-h"><span class="sc-card-title">Watchlist</span></div>
           <div class="watchlist-grid watchlist-grid-compact" style="margin-top:6px">
-            <div class="watchlist-card"><div class="watchlist-title">Cobranzas vencidas</div><div class="watchlist-metric"><span data-apcount="1.8" data-apdec="1" data-apprefix="$" data-apsuffix=" M">$1,8 M</span></div></div>
+            <div class="watchlist-card"><div class="watchlist-title">Cobranzas vencidas</div><div class="watchlist-metric"><span data-apcount="1.8" data-apdec="1" data-apprefix="$" data-apsuffix=" M">$&nbsp;1,8 M</span></div></div>
           </div>
         </article>
 
@@ -759,9 +760,9 @@
           <div class="sc-card-h"><span class="sc-card-title">Watchlist tonal</span><a class="ds-xref" href="../yiqi-design-system.html#watchlist-tonal"><i class="ph ph-anchor-simple"></i> §49</a></div>
           <p class="sc-card-sub">Barra de avance y acento del ícono por tono · fondo tonal, sin bordes.</p>
           <div class="watchlist-grid watchlist-grid-compact" style="margin-top:6px">
-            <div class="watchlist-card tone-green"><div style="display:flex;gap:10px"><span class="metric-icon"><i class="ph ph-check-circle"></i></span><span class="wl-label">Cobranzas al día</span></div><div class="watchlist-metric">$4,2 M</div><div class="wl-bar"><span style="width:78%"></span></div></div>
-            <div class="watchlist-card tone-amber"><div style="display:flex;gap:10px"><span class="metric-icon"><i class="ph ph-clock-countdown"></i></span><span class="wl-label">Por vencer</span></div><div class="watchlist-metric">$1,8 M</div><div class="wl-bar"><span style="width:41%"></span></div></div>
-            <div class="watchlist-card tone-blue"><div style="display:flex;gap:10px"><span class="metric-icon"><i class="ph ph-arrow-down-left"></i></span><span class="wl-label">Cobrado hoy</span></div><div class="watchlist-metric">$620 K</div><div class="wl-bar"><span style="width:22%"></span></div></div>
+            <div class="watchlist-card tone-green"><div style="display:flex;gap:10px"><span class="metric-icon"><i class="ph ph-check-circle"></i></span><span class="wl-label">Cobranzas al día</span></div><div class="watchlist-metric">$&nbsp;4,2 M</div><div class="wl-bar"><span style="width:78%"></span></div></div>
+            <div class="watchlist-card tone-amber"><div style="display:flex;gap:10px"><span class="metric-icon"><i class="ph ph-clock-countdown"></i></span><span class="wl-label">Por vencer</span></div><div class="watchlist-metric">$&nbsp;1,8 M</div><div class="wl-bar"><span style="width:41%"></span></div></div>
+            <div class="watchlist-card tone-blue"><div style="display:flex;gap:10px"><span class="metric-icon"><i class="ph ph-arrow-down-left"></i></span><span class="wl-label">Cobrado hoy</span></div><div class="watchlist-metric">$&nbsp;620.000</div><div class="wl-bar"><span style="width:22%"></span></div></div>
           </div>
         </article>
 
@@ -790,7 +791,7 @@
           <div class="more-kpis" style="margin-top:6px">
             <div class="more-kpis-carousel">
               <div class="kpi-grid">
-                <div class="kpi-card"><div class="kpi-label"><span class="metric-label">Ticket promedio</span></div><div class="kpi-value">$8.240</div></div>
+                <div class="kpi-card"><div class="kpi-label"><span class="metric-label">Ticket promedio</span></div><div class="kpi-value">$&nbsp;8.240</div></div>
                 <div class="kpi-card"><div class="kpi-label"><span class="metric-label">Unidades</span></div><div class="kpi-value">3.410</div></div>
                 <div class="kpi-card"><div class="kpi-label"><span class="metric-label">Devoluciones</span></div><div class="kpi-value">12</div></div>
                 <div class="kpi-card"><div class="kpi-label"><span class="metric-label">Clientes nuevos</span></div><div class="kpi-value">58</div></div>
@@ -1069,7 +1070,7 @@
       <div class="sc-paid">
         <div class="chk"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
         <div style="font:700 16px var(--sans)">Factura pagada</div>
-        <div class="sc-mail sc-muted" style="margin-top:4px">Se registró el pago de <strong class="sc-muted" style="color:var(--text)">$223.850</strong> de la factura <span class="sc-mono">#58721</span>.</div>
+        <div class="sc-mail sc-muted" style="margin-top:4px">Se registró el pago de <strong class="sc-muted" style="color:var(--text)">$&nbsp;223.850</strong> de la factura <span class="sc-mono">#58721</span>.</div>
         <div style="display:flex;gap:8px;margin-top:16px"><button class="btn" style="flex:1">Ver recibo</button><button class="btn btn-primary" style="flex:1">Siguiente</button></div>
       </div>
     </article>
@@ -1088,9 +1089,9 @@
       <div class="sc-card-h"><span class="sc-card-title">Planes</span></div>
       <p class="sc-card-sub">Sin tarjeta. 30 días de prueba.</p>
       <div class="sc-price-grid">
-        <div class="sc-plan"><div class="pn">Básico</div><div class="pp">$0<small>/mes</small></div></div>
-        <div class="sc-plan featured"><div class="pn" style="color:var(--cyan)">Pro</div><div class="pp">$49<small>/mes</small></div></div>
-        <div class="sc-plan"><div class="pn">Empresa</div><div class="pp">$99<small>/mes</small></div></div>
+        <div class="sc-plan"><div class="pn">Básico</div><div class="pp">$&nbsp;0<small>/mes</small></div></div>
+        <div class="sc-plan featured"><div class="pn" style="color:var(--cyan)">Pro</div><div class="pp">$&nbsp;49<small>/mes</small></div></div>
+        <div class="sc-plan"><div class="pn">Empresa</div><div class="pp">$&nbsp;99<small>/mes</small></div></div>
       </div>
     </article>
 
@@ -1519,7 +1520,7 @@
   <div class="grid">
     <div class="card"><div class="card-h"><span class="card-t">Tarjeta de valor</span><span class="pill">Hero</span></div>
       <div class="card-when">Métrica principal destacada, estilo balance.</div>
-      <div class="gx-hero"><span class="l">Saldo disponible</span><span class="v">$847.200</span><span class="d">↑ $112.400 esta semana</span></div></div>
+      <div class="gx-hero"><span class="l">Saldo disponible</span><span class="v">$&nbsp;847.200</span><span class="d">↑ $&nbsp;112.400 esta semana</span></div></div>
     <div class="card"><div class="card-h"><span class="card-t">Tiles de stat</span><span class="pill">Compacto</span></div>
       <div class="card-when">Mini-indicadores con ícono, número y variación.</div>
       <div class="gx-tiles">
@@ -1600,10 +1601,10 @@
       <div class="table-wrap"><table class="data-table">
         <thead><tr><th>Producto</th><th class="num">Unidades</th><th class="num">Facturación</th><th class="num">Margen</th></tr></thead>
         <tbody>
-          <tr><td>Servicio profesional</td><td class="num">1.240</td><td class="num">$842.300</td><td class="num">41,2%</td></tr>
-          <tr><td>Licencia anual</td><td class="num">312</td><td class="num">$613.900</td><td class="num">58,7%</td></tr>
-          <tr><td>Soporte premium</td><td class="num">198</td><td class="num">$221.050</td><td class="num">37,4%</td></tr>
-          <tr><td>Implementación</td><td class="num">44</td><td class="num">$198.700</td><td class="num">29,9%</td></tr>
+          <tr><td>Servicio profesional</td><td class="num">1.240</td><td class="num">$&nbsp;842.300</td><td class="num">41,2%</td></tr>
+          <tr><td>Licencia anual</td><td class="num">312</td><td class="num">$&nbsp;613.900</td><td class="num">58,7%</td></tr>
+          <tr><td>Soporte premium</td><td class="num">198</td><td class="num">$&nbsp;221.050</td><td class="num">37,4%</td></tr>
+          <tr><td>Implementación</td><td class="num">44</td><td class="num">$&nbsp;198.700</td><td class="num">29,9%</td></tr>
         </tbody>
       </table></div>
     </article>
@@ -1625,10 +1626,10 @@
       <div class="table-wrap"><table class="data-table table-sortable">
         <thead><tr><th>Cliente</th><th class="num">Facturación mes</th><th class="num">Pedidos</th><th class="num">Ticket prom.</th><th class="num">Margen</th><th>Estado</th></tr></thead>
         <tbody>
-          <tr><td>Comercial Andes SA</td><td class="num">$418.200</td><td class="num">86</td><td class="num">$4.863</td><td class="num">42,1%</td><td><span class="badge badge-green" style="font:600 9px var(--mono)">AL DÍA</span></td></tr>
-          <tr><td>Distribuidora del Plata</td><td class="num">$311.540</td><td class="num">142</td><td class="num">$2.194</td><td class="num">28,7%</td><td><span class="badge badge-amber" style="font:600 9px var(--mono)">PARCIAL</span></td></tr>
-          <tr><td>MetroPlus</td><td class="num">$205.900</td><td class="num">53</td><td class="num">$3.885</td><td class="num">35,0%</td><td><span class="badge badge-red" style="font:600 9px var(--mono)">VENCIDO</span></td></tr>
-          <tr><td>Grupo Vega</td><td class="num">$162.300</td><td class="num">71</td><td class="num">$2.286</td><td class="num">39,4%</td><td><span class="badge badge-green" style="font:600 9px var(--mono)">AL DÍA</span></td></tr>
+          <tr><td>Comercial Andes SA</td><td class="num">$&nbsp;418.200</td><td class="num">86</td><td class="num">$&nbsp;4.863</td><td class="num">42,1%</td><td><span class="badge badge-green" style="font:600 9px var(--mono)">AL DÍA</span></td></tr>
+          <tr><td>Distribuidora del Plata</td><td class="num">$&nbsp;311.540</td><td class="num">142</td><td class="num">$&nbsp;2.194</td><td class="num">28,7%</td><td><span class="badge badge-amber" style="font:600 9px var(--mono)">PARCIAL</span></td></tr>
+          <tr><td>MetroPlus</td><td class="num">$&nbsp;205.900</td><td class="num">53</td><td class="num">$&nbsp;3.885</td><td class="num">35,0%</td><td><span class="badge badge-red" style="font:600 9px var(--mono)">VENCIDO</span></td></tr>
+          <tr><td>Grupo Vega</td><td class="num">$&nbsp;162.300</td><td class="num">71</td><td class="num">$&nbsp;2.286</td><td class="num">39,4%</td><td><span class="badge badge-green" style="font:600 9px var(--mono)">AL DÍA</span></td></tr>
         </tbody>
       </table></div>
     </article>
@@ -1661,9 +1662,9 @@
       <div class="table-wrap"><table class="data-table">
         <thead><tr><th>Anuncio</th><th>Estado</th><th class="num">Gasto</th><th class="num">Resultado</th><th class="num">Costo/Res.</th><th class="num">Vistas</th></tr></thead>
         <tbody>
-          <tr><td>ERP — Búsqueda</td><td><span class="badge badge-green" style="font:600 9px var(--mono)">ACTIVO</span></td><td class="num">$84.200</td><td class="num">312</td><td class="num">$270</td><td class="num">128K</td></tr>
-          <tr><td>Analytics — Retarget</td><td><span class="badge badge-green" style="font:600 9px var(--mono)">ACTIVO</span></td><td class="num">$41.800</td><td class="num">96</td><td class="num">$435</td><td class="num">54K</td></tr>
-          <tr><td>Demo — Display</td><td><span class="badge badge-amber" style="font:600 9px var(--mono)">PAUSADO</span></td><td class="num">$12.500</td><td class="num">18</td><td class="num">$694</td><td class="num">210K</td></tr>
+          <tr><td>ERP — Búsqueda</td><td><span class="badge badge-green" style="font:600 9px var(--mono)">ACTIVO</span></td><td class="num">$&nbsp;84.200</td><td class="num">312</td><td class="num">$&nbsp;270</td><td class="num">128K</td></tr>
+          <tr><td>Analytics — Retarget</td><td><span class="badge badge-green" style="font:600 9px var(--mono)">ACTIVO</span></td><td class="num">$&nbsp;41.800</td><td class="num">96</td><td class="num">$&nbsp;435</td><td class="num">54K</td></tr>
+          <tr><td>Demo — Display</td><td><span class="badge badge-amber" style="font:600 9px var(--mono)">PAUSADO</span></td><td class="num">$&nbsp;12.500</td><td class="num">18</td><td class="num">$&nbsp;694</td><td class="num">210K</td></tr>
         </tbody>
       </table></div>
     </article>
@@ -2877,6 +2878,11 @@ window.__buildGallery=function(){var p=document.getElementById("tab-galeria");if
     var target=parseFloat(el.dataset.apcount), dec=parseInt(el.dataset.apdec||'0',10),
         pre=el.dataset.apprefix||'', suf=el.dataset.apsuffix||'';
     if(!isFinite(target)) return;
+    /* Formato es-AR (§01): espacio duro tras el signo y antes de unidad
+       alfabetica; % queda pegado. */
+    var esp='\u00a0';
+    if(pre) pre=pre+esp;
+    if(suf && /^[A-Za-z]/.test(suf)) suf=esp+suf;
     if(reduce.matches){ el.textContent=pre+fmt(target,dec)+suf; return; }
     var dur=900, t0=performance.now();
     function step(now){ var p=Math.min(1,(now-t0)/dur), e=1-Math.pow(1-p,3);

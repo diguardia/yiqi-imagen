@@ -723,9 +723,9 @@ body.preview-open .ds-layout { display: none !important; }
 <table class="table-demo" style="max-width:760px;margin-bottom:14px">
 <thead><tr><th>Regla</th><th>Bien</th><th>Mal</th></tr></thead>
 <tbody>
-<tr><td>Miles con <strong>punto</strong></td><td><code>$&nbsp;2.847.391</code></td><td><code>$2,847,391</code></td></tr>
-<tr><td>Decimales con <strong>coma</strong></td><td><code>18,4%</code> &middot; <code>$&nbsp;2,84&nbsp;M</code></td><td><code>18.4%</code> &middot; <code>$2.84M</code></td></tr>
-<tr><td>Espacio fino después del signo</td><td><code>$&nbsp;295.220,00</code></td><td><code>$295.220,00</code></td></tr>
+<tr><td>Miles con <strong>punto</strong></td><td><code>$&nbsp;2.847.391</code></td><td><code>$&nbsp;2,847,391</code></td></tr>
+<tr><td>Decimales con <strong>coma</strong></td><td><code>18,4%</code> &middot; <code>$&nbsp;2,84&nbsp;M</code></td><td><code>18.4%</code> &middot; <code>$&nbsp;2.84M</code></td></tr>
+<tr><td>Espacio fino después del signo</td><td><code>$&nbsp;295.220,00</code></td><td><code>$&nbsp;295.220,00</code></td></tr>
 <tr><td>Espacio antes de la unidad</td><td><code>$&nbsp;2,84&nbsp;M</code></td><td><code>$&nbsp;2,84M</code></td></tr>
 <tr><td>Símbolo pegado al número</td><td><code>18,4%</code></td><td><code>18,4 %</code></td></tr>
 <tr><td>Sin <strong>K</strong>: número completo</td><td><code>$&nbsp;341.000</code></td><td><code>$&nbsp;341&nbsp;K</code></td></tr>
@@ -3193,8 +3193,11 @@ html[data-theme="light"] .bg-grid-demo-fade {
 .impl-plazos-card{background:var(--bg-elev-2);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);padding:28px 30px;margin-top:28px}
 .impl-plazos-top{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap}
 .impl-plazos-title{font:600 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--cyan)}
-.impl-plazos-total{font:700 13px var(--mono);color:var(--muted);letter-spacing:.04em}
-.impl-plazos-total b{color:var(--text);font-size:18px;letter-spacing:-.02em;margin-right:4px}
+/* v1.2.7.9: la cifra (10–12) es cantidad, no codigo: display. La frase que
+   la acompaña es prosa: sans, sin tracking de label. El 18 del <b> baja a 16,
+   que si esta en la escala. */
+.impl-plazos-total{font:500 12px var(--sans);color:var(--muted)}
+.impl-plazos-total b{font:600 16px var(--display);color:var(--text);letter-spacing:-.01em;margin-right:4px}
 .impl-plazos-bar{display:flex;height:28px;border-radius:var(--radius-sm);overflow:hidden;gap:2px}
 .impl-plazos-ph{display:flex;align-items:center;justify-content:center;font:600 11px var(--mono);letter-spacing:.04em;border-radius:var(--radius-xs);transition:filter var(--tr)}
 .impl-plazos-ph:hover{filter:brightness(1.15)}
@@ -3738,7 +3741,7 @@ function dsNavLock(){
   </div>
   <div class="kpi-card">
     <div class="kpi-label"><span class="metric-label">Ticket promedio</span></div>
-    <div class="kpi-value" data-count="48.2" data-prefix="$" data-suffix="K">$&nbsp;0 K</div>
+    <div class="kpi-value" data-count="48200" data-prefix="$">$&nbsp;0</div>
     <div class="kpi-delta is-neutral">→ Estable vs período anterior</div>
     <div class="kpi-note">Facturación total / cantidad de comprobantes.</div>
   </div>
@@ -3750,7 +3753,7 @@ function dsNavLock(){
   </div>
   <div class="kpi-card">
     <div class="kpi-label"><span class="metric-label">Pagos pendientes</span></div>
-    <div class="kpi-value" data-count="341" data-prefix="$" data-suffix="K">$&nbsp;0 K</div>
+    <div class="kpi-value" data-count="341000" data-prefix="$">$&nbsp;0</div>
     <div class="kpi-delta is-negative">↑ +12% — requiere atención</div>
     <div class="kpi-note">Saldo por cobrar a la fecha de corte.</div>
   </div>
@@ -4395,9 +4398,9 @@ if (v) target.textContent = `DS v${v}`;</code></pre>
 
 <div style="max-width:420px;margin-bottom:20px">
   <div class="branch-list">
-    <div class="branch-row"><div class="branch-meta"><div class="branch-name">Sucursal Centro</div><div class="branch-detail">210 pedidos</div></div><div class="branch-revenue">$3.200.000</div><div class="branch-bar"><div class="branch-fill" style="width:100%"></div></div></div>
-    <div class="branch-row"><div class="branch-meta"><div class="branch-name">Sucursal Norte</div><div class="branch-detail">124 pedidos</div></div><div class="branch-revenue">$1.850.000</div><div class="branch-bar"><div class="branch-fill" style="width:58%"></div></div></div>
-    <div class="branch-row"><div class="branch-meta"><div class="branch-name">Sucursal Sur</div><div class="branch-detail">61 pedidos</div></div><div class="branch-revenue">$920.000</div><div class="branch-bar"><div class="branch-fill" style="width:29%"></div></div></div>
+    <div class="branch-row"><div class="branch-meta"><div class="branch-name">Sucursal Centro</div><div class="branch-detail">210 pedidos</div></div><div class="branch-revenue">$&nbsp;3.200.000</div><div class="branch-bar"><div class="branch-fill" style="width:100%"></div></div></div>
+    <div class="branch-row"><div class="branch-meta"><div class="branch-name">Sucursal Norte</div><div class="branch-detail">124 pedidos</div></div><div class="branch-revenue">$&nbsp;1.850.000</div><div class="branch-bar"><div class="branch-fill" style="width:58%"></div></div></div>
+    <div class="branch-row"><div class="branch-meta"><div class="branch-name">Sucursal Sur</div><div class="branch-detail">61 pedidos</div></div><div class="branch-revenue">$&nbsp;920.000</div><div class="branch-bar"><div class="branch-fill" style="width:29%"></div></div></div>
   </div>
 </div>
 
@@ -4423,9 +4426,9 @@ if (v) target.textContent = `DS v${v}`;</code></pre>
 </div>
 
 <div class="watchlist-grid watchlist-grid-compact" style="max-width:760px;margin-bottom:20px">
-  <div class="watchlist-card tone-green"><div style="display:flex;gap:10px"><span class="metric-icon"><i class="ph ph-check-circle"></i></span><span class="wl-label">Cobranzas al dia</span></div><div class="watchlist-metric">$4,2 M</div><div class="wl-bar"><span style="width:78%"></span></div></div>
-  <div class="watchlist-card tone-amber"><div style="display:flex;gap:10px"><span class="metric-icon"><i class="ph ph-clock-countdown"></i></span><span class="wl-label">Por vencer</span></div><div class="watchlist-metric">$1,8 M</div><div class="wl-bar"><span style="width:41%"></span></div></div>
-  <div class="watchlist-card tone-blue"><div style="display:flex;gap:10px"><span class="metric-icon"><i class="ph ph-arrow-down-left"></i></span><span class="wl-label">Cobrado hoy</span></div><div class="watchlist-metric">$620 K</div><div class="wl-bar"><span style="width:22%"></span></div></div>
+  <div class="watchlist-card tone-green"><div style="display:flex;gap:10px"><span class="metric-icon"><i class="ph ph-check-circle"></i></span><span class="wl-label">Cobranzas al dia</span></div><div class="watchlist-metric">$&nbsp;4,2 M</div><div class="wl-bar"><span style="width:78%"></span></div></div>
+  <div class="watchlist-card tone-amber"><div style="display:flex;gap:10px"><span class="metric-icon"><i class="ph ph-clock-countdown"></i></span><span class="wl-label">Por vencer</span></div><div class="watchlist-metric">$&nbsp;1,8 M</div><div class="wl-bar"><span style="width:41%"></span></div></div>
+  <div class="watchlist-card tone-blue"><div style="display:flex;gap:10px"><span class="metric-icon"><i class="ph ph-arrow-down-left"></i></span><span class="wl-label">Cobrado hoy</span></div><div class="watchlist-metric">$&nbsp;620.000</div><div class="wl-bar"><span style="width:22%"></span></div></div>
 </div>
 
 <div class="subsection-title">Anatomia y reglas</div>
@@ -4505,7 +4508,7 @@ if (v) target.textContent = `DS v${v}`;</code></pre>
 <div class="more-kpis" style="max-width:700px;margin-bottom:20px">
   <div class="more-kpis-carousel">
     <div class="kpi-grid">
-      <div class="kpi-card"><div class="kpi-label"><span class="metric-label">Ticket promedio</span></div><div class="kpi-value">$8.240</div></div>
+      <div class="kpi-card"><div class="kpi-label"><span class="metric-label">Ticket promedio</span></div><div class="kpi-value">$&nbsp;8.240</div></div>
       <div class="kpi-card"><div class="kpi-label"><span class="metric-label">Unidades</span></div><div class="kpi-value">3.410</div></div>
       <div class="kpi-card"><div class="kpi-label"><span class="metric-label">Devoluciones</span></div><div class="kpi-value">12</div></div>
       <div class="kpi-card"><div class="kpi-label"><span class="metric-label">Clientes nuevos</span></div><div class="kpi-value">58</div></div>
