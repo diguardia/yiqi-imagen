@@ -456,6 +456,11 @@ html[data-theme="light"] .brand-logo-light { display: block; }
 .content {
   padding: 28px 36px 40px;
   display: grid;
+  /* minmax(0,1fr), no 1fr: el track implicito de un grid se dimensiona a
+     max-content, asi que una tabla ancha estiraba la columna y desbordaba
+     el viewport. Con html/body en overflow-x:clip eso no da scroll: recorta.
+     Medido en informes-yiqi/comercial.html a 430px — la columna daba 699px. */
+  grid-template-columns: minmax(0, 1fr);
   gap: 20px;
   min-width: 0;
 }
