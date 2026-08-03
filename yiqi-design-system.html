@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="site.css">
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="ds-doc.css">
+<script src="yiqi-runtime.js" defer></script>
 <script src="components/analytics-pro-banner.js" defer></script>
 <script src="components/app-banner.js" defer></script>
 <script src="components/carousel.js" defer></script>
@@ -333,6 +334,7 @@ body.preview-open .ds-layout { display: none !important; }
 <a class="ds-nav-item" href="#ds-xref"><span class="ds-nav-num">62</span> Enlace cruzado</a>
 <a class="ds-nav-item" href="#llm-fab"><span class="ds-nav-num">63</span> LLM FAB</a>
 <a class="ds-nav-item" href="#ds-note"><span class="ds-nav-num">64</span> Nota / callout</a>
+<a class="ds-nav-item" href="#ds-copy"><span class="ds-nav-num">65</span> Copiar al portapapeles <span class="ds-nav-badge">v1.2.7.9</span></a>
 </div>
 <div class="ds-nav-section ds-nav-appearance">
 <span class="ds-nav-label">Apariencia</span>
@@ -386,6 +388,13 @@ body.preview-open .ds-layout { display: none !important; }
 <tr><th>Versión</th><th>Fecha</th><th>Tipo</th><th>Detalle</th></tr>
 </thead>
 <tbody>
+<tr>
+<td class="mono-cell">v1.2.7.9</td>
+<td class="mono-cell">03/08/2026</td>
+<td><span class="badge badge-cyan">NUEVO</span></td>
+<td><strong>Copiar al portapapeles &mdash; <code>.ds-copy</code> (&sect;65).</strong> El bot&oacute;n de copiar exist&iacute;a solo dentro del <code>&lt;style&gt;</code> del cat&aacute;logo como <code>.code-copy-btn</code>, y llamaba a <code>dsCopyCode()</code>, una funci&oacute;n <strong>que no estaba definida en ning&uacute;n archivo del repositorio</strong>: los tres botones tiraban <code>ReferenceError</code> al hacer clic. Ahora la clase vive en <code>styles.css</code> y la conducta en <code>yiqi-runtime.js</code> (<code>YiQi.copy</code>), enganchada por delegaci&oacute;n sobre <code>[data-ds-copy]</code>. El showcase suma el bot&oacute;n en las <strong>119 cards de los siete tabs</strong>, al lado de &ldquo;Ver fuente&rdquo;. No copia el demo: copia la <strong>estructura</strong> &mdash; texto de ejemplo reemplazado por <code>&hellip;</code>, repeticiones colapsadas con el conteo en un comentario, e indentado propio. La galer&iacute;a de iconos deja de tener su copia local de <code>navigator.clipboard</code> y pasa a <code>YiQi.copy.text()</code>.</td>
+</tr>
+
 <tr>
 <td class="mono-cell">v1.2.7.9</td>
 <td class="mono-cell">30/07/2026</td>
@@ -726,6 +735,8 @@ body.preview-open .ds-layout { display: none !important; }
 <tr><td><strong>Search Input</strong><br><code>.search-wrap</code> <code>.search-icon</code> <code>.search-input</code> <code>.search-clear</code> <code>.search-kbd</code></td><td>Anunciado en el catálogo, <strong>implementado solo en <code>www.yiqi/site.css</code></strong></td><td>Promover a <code>styles.css</code>. <strong>Bloqueado por colisión:</strong> <code>.search-wrap</code> ya existe con tres definiciones incompatibles — la web (<code>display:block</code>, input 44px), el homologador (<code>display:flex</code>, <code>.ds-input</code> 220px) e <code>informes/comercial.html</code> (<code>inline-flex</code>, 34px). Promover sin adaptar las dos apps las rompe. Los nueve tokens que usa el bloque ya existen en el canónico.</td></tr>
 <tr><td><strong>Topbar search</strong><br><code>.topbar-search-wrap</code> <code>.topbar-search-kbd</code> <code>.topbar-search-clear</code></td><td>Solo en <code>www.yiqi/site.css</code></td><td>Mismo caso. <code>styles.css</code> menciona <code>.topbar-search-input</code> dentro de una media query, sin la regla base.</td></tr>
 <tr><td><strong>Logo animado</strong> — motor</td><td><strong>Resuelto en v1.2.7.9</strong></td><td>Vivía inline y duplicado; ahora en <code>yiqi-runtime.js</code>. Ver §02 · Logo animado.</td></tr>
+<tr><td><strong>Copiar al portapapeles</strong> &mdash; <code>.ds-copy</code></td><td><strong>Resuelto en v1.2.7.9</strong></td><td>El CSS viv&iacute;a en el <code>&lt;style&gt;</code> del cat&aacute;logo y la conducta no exist&iacute;a: <code>dsCopyCode()</code> se llamaba tres veces y no estaba definida en ning&uacute;n archivo. Ahora en <code>styles.css</code> + <code>yiqi-runtime.js</code>. Ver &sect;65.</td></tr>
+<tr><td><strong>Motor del logo</strong> &mdash; duplicado inline</td><td>Documentado como resuelto, <strong>todav&iacute;a duplicado</strong></td><td>&sect;01 y &sect;02 dicen que el motor viaja en <code>yiqi-runtime.js</code>, pero el cat&aacute;logo y el showcase siguen cargando su copia inline y ninguno de los dos cargaba el runtime hasta v1.2.7.9. Ahora ambos lo cargan: falta borrar las dos copias inline y verificar que la animaci&oacute;n sigue igual.</td></tr>
 <tr><td><strong>Rail del sidebar</strong> — comportamiento</td><td>El CSS es canónico; el JS de colapsar/fijar/hover-peek está reescrito app por app</td><td>Publicarlo en <code>yiqi-runtime.js</code>, igual que el motor del logo.</td></tr>
 <tr><td><strong>Clases duplicadas</strong></td><td>Definidas dos o tres veces en <code>styles.css</code></td><td><code>.ds-select</code> ×3, <code>.branch-revenue</code> ×2, <code>.highlight-metric</code> ×2. Gana la última por cascada, así que editar la primera no tiene efecto.</td></tr>
 <tr><td><strong>Dos shells publicados</strong></td><td>Ninguno deprecado</td><td><code>.topbar</code> (flex, en flujo) vs <code>.app-topbar</code> (grid de 3 zonas); <code>.nav-item</code> vs <code>.nav-link</code>. Cualquier app que elija uno incumple contra el otro. Decisión pendiente.</td></tr>
@@ -2644,7 +2655,7 @@ document.querySelectorAll(<span style="color:var(--green)">'.kpi-block'</span>).
   </tbody>
 </table>
 
-<div class="code-block-wrap"><button class="code-copy-btn" onclick="dsCopyCode(this)" aria-label="Copiar código"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg><span class="copy-lbl">Copiar</span></button>
+<div class="code-block-wrap"><button type="button" class="ds-copy" data-ds-copy="block" aria-label="Copiar código"><i class="ph ph-copy"></i> Copiar</button>
 <pre style="background:var(--bg-elev-2);border-radius:var(--radius-md);padding:20px 22px;font:13px/1.7 var(--mono);color:var(--muted);overflow-x:auto;border:1px solid var(--line);margin-top:16px"><code><span style="color:var(--muted-2)">// Patrón canónico — pegar en options{} de cualquier chart</span>
 <span style="color:var(--cyan)">const</span> chartAnim = {
   duration: 900,               <span style="color:var(--muted-2)">// 900 barras · 1000 línea · 1000 donut</span>
@@ -2665,7 +2676,7 @@ options: {
 <div class="subsection-title" style="margin-top:32px">Activación diferida — IntersectionObserver</div>
 <p class="ds-section-sub" style="margin-bottom:12px">Los gráficos <strong>no se inicializan al cargar</strong>. Se crean solo cuando el contenedor entra en el viewport (threshold 0.25). Evita animar charts fuera de pantalla.</p>
 
-<div class="code-block-wrap"><button class="code-copy-btn" onclick="dsCopyCode(this)" aria-label="Copiar código"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg><span class="copy-lbl">Copiar</span></button>
+<div class="code-block-wrap"><button type="button" class="ds-copy" data-ds-copy="block" aria-label="Copiar código"><i class="ph ph-copy"></i> Copiar</button>
 <pre style="background:var(--bg-elev-2);border-radius:var(--radius-md);padding:20px 22px;font:13px/1.7 var(--mono);color:var(--muted);overflow-x:auto;border:1px solid var(--line)"><code><span style="color:var(--cyan)">let</span> played = <span style="color:var(--amber)">false</span>;
 <span style="color:var(--cyan)">const</span> io = <span style="color:var(--cyan)">new</span> IntersectionObserver(entries => {
   <span style="color:var(--cyan)">if</span> (entries[0].isIntersecting &amp;&amp; !played) {
@@ -2681,7 +2692,7 @@ io.observe(document.querySelector(<span style="color:var(--green)">'#dashboard-s
 <div class="subsection-title" style="margin-top:32px">Sparklines SVG — animación CSS</div>
 <p class="ds-section-sub" style="margin-bottom:12px">Líneas SVG animadas con <code>stroke-dashoffset</code>. Solo se activan si <code>prefers-reduced-motion: no-preference</code>.</p>
 
-<div class="code-block-wrap"><button class="code-copy-btn" onclick="dsCopyCode(this)" aria-label="Copiar código"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg><span class="copy-lbl">Copiar</span></button>
+<div class="code-block-wrap"><button type="button" class="ds-copy" data-ds-copy="block" aria-label="Copiar código"><i class="ph ph-copy"></i> Copiar</button>
 <pre style="background:var(--bg-elev-2);border-radius:var(--radius-md);padding:20px 22px;font:13px/1.7 var(--mono);color:var(--muted);overflow-x:auto;border:1px solid var(--line)"><code><span style="color:var(--muted-2)">/* Estado inicial */</span>
 <span style="color:var(--cyan)">@media</span> (prefers-reduced-motion: no-preference) {
   .sparkline polyline {
@@ -3906,14 +3917,7 @@ function dsNavLock(){
 
 
 <!-- ▼ Migrado desde www.yiqi (2026-06-11): catálogo consolidado ▼ -->
-<style id="code-copy-style">
-.code-block-wrap{position:relative}
-.code-copy-btn{position:absolute;top:10px;right:10px;display:inline-flex;align-items:center;gap:5px;font:600 11px var(--mono);color:var(--muted-2);background:var(--bg-elev-2);border:1px solid var(--line);padding:3px 10px;border-radius:var(--radius-pill);cursor:pointer;transition:all var(--tr);opacity:0;pointer-events:none;white-space:nowrap;z-index:2}
-.code-block-wrap:hover .code-copy-btn{opacity:1;pointer-events:auto}
-.code-copy-btn:hover{color:var(--text);border-color:var(--line-strong)}
-.code-copy-btn.copied{color:var(--green);border-color:rgba(21,212,156,.28);background:var(--green-soft)}
-.code-copy-btn svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-</style>
+<!-- .code-block-wrap y .ds-copy migraron a styles.css (v1.2.7.9) · §65 -->
 
 <section class="ds-section" id="apps-picking">
 <div class="ds-section-header">
@@ -4755,6 +4759,102 @@ if (v) target.textContent = `DS v${v}`;</code></pre>
 &lt;/div&gt;</code></pre>
 
 <div class="ds-note ds-note--warn" style="max-width:820px;margin-top:18px"><strong>No usar para acciones.</strong> La nota explica, no pide nada: no lleva botones ni links de acción. Para eso está el banner de runtime. Y el tono no es decorativo — si todas las notas de una sección son ámbar, no hay jerarquía.</div>
+</section>
+
+
+
+<!-- 65 · COPIAR AL PORTAPAPELES -->
+<section class="ds-section" id="ds-copy">
+<div class="ds-section-kicker">65 · Enlace cruzado</div>
+<h2 class="ds-section-title">Copiar al portapapeles &middot; ds-copy</h2>
+<p class="ds-section-sub">Hermano de <code>.ds-xref</code>: misma caja, mismo tono, mismo hover. Tampoco es un botón de producto &mdash; es afordance de documentación, y por eso viaja pegado al título de la card o flotando sobre el bloque de código. <strong>El sistema publica el CSS y la conducta</strong>: quien lo consume no reimplementa <code>navigator.clipboard</code> ni cablea un <code>onclick</code>.</p>
+
+<div class="subsection-title">Ejemplo</div>
+<div style="display:flex;flex-wrap:wrap;gap:18px;align-items:center;margin-bottom:22px">
+<button type="button" class="ds-copy" data-ds-copy="#ds-copy-demo" aria-label="Copiar markup de ejemplo" title="Copiar markup"><i class="ph ph-copy"></i></button>
+<button type="button" class="ds-copy" data-ds-copy="#ds-copy-demo" aria-label="Copiar código"><i class="ph ph-copy"></i> Copiar</button>
+<span class="ds-copy is-copied"><i class="ph ph-check"></i> Copiado</span>
+<span class="ds-copy is-failed"><i class="ph ph-x"></i> Falló</span>
+</div>
+<div id="ds-copy-demo" hidden>&lt;div class="kpi-card"&gt;&lt;/div&gt;</div>
+
+<div class="subsection-title">Los tres modos de <code>data-ds-copy</code></div>
+<table class="table-demo" style="max-width:820px;margin-bottom:22px">
+<thead><tr><th>Valor</th><th>Qué copia</th><th>Dónde se usa</th></tr></thead>
+<tbody>
+<tr><td><code>"block"</code></td><td>El <code>&lt;pre&gt;</code> / <code>&lt;code&gt;</code> que esté dentro del <code>.code-block-wrap</code> contenedor.</td><td>Catálogo &middot; bloques de código.</td></tr>
+<tr><td><code>"card"</code></td><td><strong>La estructura del componente</strong>: clona la card contenedora (<code>.sc-card</code>, <code>.pr-card</code>, <code>.card</code> o <code>[data-ds-copy-src]</code>), le saca el andamiaje de la página y la convierte en plantilla &mdash; ver abajo.</td><td>Showcase &middot; las 119 cards de los siete tabs.</td></tr>
+<tr><td>Un selector CSS</td><td>El primer nodo que matchee, con el mismo tratamiento de plantilla. Con <code>data-ds-copy-raw</code> se copia tal cual, sin transformar.</td><td>Cualquier fuente explícita.</td></tr>
+</tbody>
+</table>
+
+<div class="subsection-title">El snippet es una plantilla, no una captura</div>
+<p class="ds-section-sub" style="margin-bottom:14px">Lo que sirve del showcase es la <strong>estructura</strong>: las clases, el anidado y el orden. &ldquo;Sucursal Centro&rdquo; y &ldquo;$&nbsp;3.200.000&rdquo; son relleno del demo &mdash; si viajan en el snippet, el que lo pega tiene que borrarlos a mano uno por uno. El modo <code>"card"</code> aplica tres transformaciones:</p>
+<table class="table-demo" style="max-width:820px;margin-bottom:18px">
+<thead><tr><th>Transformación</th><th>Regla</th></tr></thead>
+<tbody>
+<tr><td>Texto &rarr; <code>&hellip;</code></td><td>Todo nodo de texto se reemplaza por una elipsis. Las clases ya dicen qué va en cada lugar. Excepción: <code>svg</code>, <code>canvas</code>, <code>script</code> y <code>style</code>, donde el contenido <em>es</em> la estructura.</td></tr>
+<tr><td>Repeticiones colapsadas</td><td>Hermanos consecutivos con la misma etiqueta y las mismas clases se reducen al primero, seguido de un comentario que dice cuántos había. Variantes distintas (<code>.kpi-delta positive</code> / <code>negative</code> / <code>neutral</code>) <strong>no</strong> se colapsan: son estados, no repeticiones.</td></tr>
+<tr><td>Indentado</td><td>Se serializa con sangría propia. <code>innerHTML</code> devuelve el HTML tal como estaba escrito, y después de podar la sangría vieja ya no corresponde.</td></tr>
+</tbody>
+</table>
+<pre style="background:var(--bg-elev-2);border-radius:var(--radius-md);padding:18px 20px;font:12.5px/1.7 var(--mono);color:var(--muted);overflow-x:auto;max-width:820px"><code><span style="color:var(--muted-2)">// §48 · Ranking con barra, copiado del showcase</span>
+&lt;div class="branch-list"&gt;
+  &lt;div class="branch-row"&gt;
+    &lt;div class="branch-meta"&gt;
+      &lt;div class="branch-name"&gt;&hellip;&lt;/div&gt;
+      &lt;div class="branch-detail"&gt;&hellip;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="branch-revenue"&gt;&hellip;&lt;/div&gt;
+    &lt;div class="branch-bar"&gt;
+      &lt;div class="branch-fill" style="width:100%"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  <span style="color:var(--muted-2)">&lt;!-- × 3 en el demo · repetir .branch-row --&gt;</span>
+&lt;/div&gt;</code></pre>
+
+<div class="subsection-title">Anatomía</div>
+<table class="table-demo" style="max-width:820px;margin-bottom:22px">
+<thead><tr><th>Parte</th><th>Regla</th></tr></thead>
+<tbody>
+<tr><td>Caja</td><td>Idéntica a <code>.ds-xref</code>: padding <code>4px 8px</code>, <code>--radius</code>, sin borde, fondo transparente, texto <code>600 11px</code> en <code>--muted-2</code>.</td></tr>
+<tr><td>Ícono</td><td><code>ph-copy</code> a 14px. En una grilla de cards va <strong>solo el ícono</strong> con <code>aria-label</code> y <code>title</code>: 119 etiquetas &ldquo;Copiar&rdquo; compiten con los títulos. Sobre un bloque de código, donde el botón es uno solo, lleva texto.</td></tr>
+<tr><td><code>.is-copied</code></td><td>Verde tonal 1,4 s. El runtime cambia el glifo a <code>ph-check</code> y lo devuelve solo.</td></tr>
+<tr><td><code>.is-failed</code></td><td>Rojo tonal, mismo tiempo, glifo <code>ph-x</code>. El clipboard puede fallar y el botón lo dice.</td></tr>
+<tr><td><code>.code-block-wrap</code></td><td>Contenedor <code>position:relative</code>. El botón se ancla arriba a la derecha y aparece al pasar el cursor &mdash; salvo en <code>&le;768px</code>, donde queda visible siempre porque en touch no hay hover.</td></tr>
+</tbody>
+</table>
+
+<div class="subsection-title">Consumo</div>
+<table class="table-demo" style="max-width:820px;margin-bottom:22px">
+<thead><tr><th>Paso</th><th></th></tr></thead>
+<tbody>
+<tr><td><strong>1 &middot; CSS</strong></td><td>La clase <code>.ds-copy</code> ya viaja en <code>styles.css</code>.</td></tr>
+<tr><td><strong>2 &middot; Script</strong></td><td><code>&lt;script src="https://diguardia.github.io/yiqi-imagen/yiqi-runtime.js"&gt;&lt;/script&gt;</code>. Engancha por delegación sobre <code>document</code>: sirve para HTML estático y para nodos que aparecen después (tabs, render de framework).</td></tr>
+<tr><td><strong>3 &middot; Markup</strong></td><td>Un <code>&lt;button type="button" class="ds-copy" data-ds-copy="…"&gt;</code>. Nada más.</td></tr>
+</tbody>
+</table>
+
+<div class="subsection-title">Markup</div>
+<pre style="background:var(--bg-elev-2);border-radius:var(--radius-md);padding:18px 20px;font:12.5px/1.7 var(--mono);color:var(--muted);overflow-x:auto;max-width:820px"><code>&lt;!-- en la cabecera de una card del showcase --&gt;
+&lt;div class="sc-card-h"&gt;
+  &lt;span class="sc-card-title"&gt;KPI card&lt;/span&gt;
+  &lt;a class="ds-xref" href="…"&gt;&lt;i class="ph ph-anchor-simple"&gt;&lt;/i&gt; §16&lt;/a&gt;
+  &lt;button type="button" class="ds-copy" data-ds-copy="card"
+          aria-label="Copiar markup del componente" title="Copiar markup"&gt;
+    &lt;i class="ph ph-copy"&gt;&lt;/i&gt;
+  &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- sobre un bloque de código --&gt;
+&lt;div class="code-block-wrap"&gt;
+  &lt;button type="button" class="ds-copy" data-ds-copy="block" aria-label="Copiar código"&gt;
+    &lt;i class="ph ph-copy"&gt;&lt;/i&gt; Copiar
+  &lt;/button&gt;
+  &lt;pre&gt;&lt;code&gt;…&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;</code></pre>
+
+<div class="ds-note ds-note--alert" style="max-width:820px;margin-top:18px"><strong>Anti-patrón: el onclick inline.</strong> Hasta v1.2.7.9 los bloques de código del catálogo llamaban a <code>dsCopyCode(this)</code>, una función que no estaba definida en ningún archivo del repositorio: los tres botones tiraban <code>ReferenceError</code>. Un <code>onclick</code> que apunta a un global inexistente no falla al cargar &mdash; falla recién cuando alguien hace clic, y muere además con cualquier CSP estricta. La conducta va en <code>yiqi-runtime.js</code> y se engancha por delegación.</div>
 </section>
 
 

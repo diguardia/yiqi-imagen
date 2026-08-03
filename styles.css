@@ -2416,6 +2416,25 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
 .ds-xref .ph{ font-size:14px; }
 .ds-xref:hover{ color:var(--cyan); background:var(--cyan-soft); }
 .ds-xref:focus-visible{ outline: 2px solid var(--cyan-night); outline-offset: 2px; color:var(--cyan); }
+/* ── .ds-copy — copiar al portapapeles. Hermano de .ds-xref: misma caja,
+      mismo tono, mismo hover. La conducta vive en yiqi-runtime.js
+      (YiQi.copy) y se engancha por delegacion sobre [data-ds-copy]:
+      el DS publica el CSS y el comportamiento, la app no reimplementa
+      navigator.clipboard ni cablea un onclick inline. ── */
+.ds-copy{ display:inline-flex; align-items:center; justify-content:center; gap:6px; padding:4px 8px; margin:0; border:none; -webkit-appearance:none; appearance:none; border-radius:var(--radius); background:transparent; color:var(--muted-2); font:600 11px var(--sans); line-height:1; cursor:pointer; transition:background .15s ease, color .15s ease; }
+.ds-copy .ph{ font-size:14px; }
+.ds-copy:hover{ color:var(--cyan); background:var(--cyan-soft); }
+.ds-copy:focus-visible{ outline: 2px solid var(--cyan-night); outline-offset: 2px; color:var(--cyan); }
+.ds-copy.is-copied{ color:var(--green); background:var(--green-soft); }
+.ds-copy.is-failed{ color:var(--red); background:var(--red-soft); }
+@media (prefers-reduced-motion: reduce){ .ds-copy{ transition:none; } }
+/* Bloque de codigo con boton al vuelo: el boton aparece al pasar el cursor.
+   En touch no hay hover, asi que queda visible al 100% desde <=768px. */
+.code-block-wrap{ position:relative; }
+.code-block-wrap > .ds-copy{ position:absolute; top:10px; right:10px; z-index:2; background:var(--bg-elev-2); opacity:0; pointer-events:none; }
+.code-block-wrap:hover > .ds-copy,
+.code-block-wrap:focus-within > .ds-copy{ opacity:1; pointer-events:auto; }
+@media (max-width: 768px){ .code-block-wrap > .ds-copy{ opacity:1; pointer-events:auto; } }
 /* ── Slider (primitivo) — fuente canónica ── */
 .pr-slider{ width:100%; max-width:220px; }
 .pr-slider input[type=range]{ -webkit-appearance:none; appearance:none; width:100%; height:5px; border-radius:var(--radius-pill); background:var(--line-strong); outline:none; }

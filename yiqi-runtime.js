@@ -17,6 +17,8 @@
  *   YiQi.fmt.percent(n)       — 12,3 %
  *   YiQi.fmt.date(d)          — 30/04/2026
  *   YiQi.fmt.dateShort(d)     — 30 abr
+ *   YiQi.copy.text(str)       — copia al portapapeles → Promise<bool>
+ *   YiQi.copy.init()          — engancha [data-ds-copy] (auto al cargar)
  *
  * © 2026 YiQi S.A. — DS v1.2.7
  */
@@ -437,6 +439,222 @@
     return global.YiQiLogo;
   }(window));
 
+  /* ══════════════════════════════════════════════════════════
+     6. COPIAR AL PORTAPAPELES — .ds-copy / [data-ds-copy]
+     ──────────────────────────────────────────────────────────
+     Uso:  1. <link> a styles.css  (clase .ds-copy)
+           2. Cargar este archivo.
+           3. <button class="ds-copy" data-ds-copy="card">…</button>
+
+     Modos de data-ds-copy:
+       "block"  → el <pre>/<code> dentro del .code-block-wrap contenedor.
+       "card"   → el markup del demo: clona la card contenedora y le saca
+                  el encabezado (.sc-card-h) y la bajada (.sc-card-sub),
+                  que son andamiaje de la pagina, no del componente.
+       selector → cualquier selector CSS; se resuelve con querySelector.
+
+     Se engancha por delegacion en document: sirve para HTML estatico y
+     para nodos que aparecen despues (tabs, render de framework). No hace
+     falta llamar a init(); esta expuesto igual por simetria con logo.
+     ══════════════════════════════════════════════════════════ */
+
+  /* Atributos que solo existen para el runtime de la pagina de demo.
+     Si viajan en el snippet, el que pega el codigo se lleva ruido. */
+  var _COPY_STRIP_ATTRS = ['data-apcount', 'data-apprefix', 'data-ds-copy', 'data-ds-copy-src'];
+
+  /* Andamiaje de la pagina de demo: encabezado y bajada de la card, en los
+     dos sistemas que conviven (.sc-card del showcase y .card de la galeria). */
+  var _COPY_CHROME = '.sc-card-h, .sc-card-sub, .sc-card-actions, .card-h, .card-when';
+
+  /* ── El snippet es una plantilla, no una captura ───────────────────────
+     Lo que sirve del showcase es la estructura: las clases, el anidado y
+     el orden. "Sucursal Centro" y "$ 3.200.000" son relleno del demo — si
+     viajan, el que pega tiene que borrarlos a mano uno por uno.
+     Por eso el texto se reemplaza por … y las repeticiones se colapsan a
+     una, con un comentario que dice cuantas habia. ───────────────────── */
+  var _PLACEHOLDER = '…';
+  /* En estos el contenido ES la estructura: vaciarlos deja un cascaron. */
+  var _COPY_KEEP_TEXT = { SVG:1, PATH:1, CIRCLE:1, RECT:1, LINE:1, POLYLINE:1, POLYGON:1, G:1, DEFS:1, USE:1, CANVAS:1, SCRIPT:1, STYLE:1 };
+
+  function _sig(el) {
+    return el.tagName + '.' + (el.getAttribute('class') || '');
+  }
+
+  function _skeleton(root) {
+    /* 1 · colapsar hermanos repetidos: misma etiqueta y mismas clases. */
+    var stack = [root];
+    while (stack.length) {
+      var el = stack.pop();
+      if (_COPY_KEEP_TEXT[el.tagName]) continue;
+      var kids = Array.prototype.filter.call(el.childNodes, function (n) { return n.nodeType === 1; });
+      var i = 0;
+      while (i < kids.length) {
+        var j = i + 1;
+        while (j < kids.length && _sig(kids[j]) === _sig(kids[i])) j++;
+        if (j - i > 1) {
+          var n = j - i;
+          for (var k = i + 1; k < j; k++) kids[k].remove();
+          kids[i].after(document.createComment(' × ' + n + ' en el demo · repetir ' +
+            (kids[i].getAttribute('class') ? '.' + kids[i].getAttribute('class').split(' ')[0] : kids[i].tagName.toLowerCase()) + ' '));
+        }
+        stack.push(kids[i]);
+        i = j;
+      }
+    }
+    /* 2 · el texto de ejemplo se va. Las clases ya dicen que va en cada lugar. */
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+    var texts = [], t;
+    while ((t = walker.nextNode())) texts.push(t);
+    texts.forEach(function (node) {
+      if (!node.nodeValue.trim()) return;
+      var p = node.parentNode;
+      if (p && _COPY_KEEP_TEXT[p.tagName]) return;
+      node.nodeValue = _PLACEHOLDER;
+    });
+    return root;
+  }
+
+  /* Serializador con indentacion: innerHTML devuelve el HTML tal como estaba
+     escrito, y despues de podar queda con sangrias que ya no corresponden. */
+  var _COPY_VOID = { AREA:1, BASE:1, BR:1, COL:1, EMBED:1, HR:1, IMG:1, INPUT:1, LINK:1, META:1, PARAM:1, SOURCE:1, TRACK:1, WBR:1 };
+
+  function _openTag(el) {
+    var s = '<' + el.tagName.toLowerCase();
+    Array.prototype.forEach.call(el.attributes, function (a) { s += ' ' + a.name + '="' + a.value + '"'; });
+    return s + '>';
+  }
+
+  function _serialize(node, depth) {
+    depth = depth || 0;
+    var pad = new Array(depth + 1).join('  ');
+    if (node.nodeType === 3) { var v = node.nodeValue.trim(); return v ? pad + v : ''; }
+    if (node.nodeType === 8) return pad + '<!--' + node.nodeValue + '-->';
+    if (node.nodeType !== 1) return '';
+    var tag = node.tagName.toLowerCase();
+    if (_COPY_VOID[node.tagName]) return pad + _openTag(node);
+    if (_COPY_KEEP_TEXT[node.tagName]) return pad + node.outerHTML;
+    var kids = Array.prototype.filter.call(node.childNodes, function (n) {
+      return n.nodeType === 1 || n.nodeType === 8 || (n.nodeType === 3 && n.nodeValue.trim());
+    });
+    if (!kids.length) return pad + _openTag(node) + '</' + tag + '>';
+    /* Un solo hijo de texto: cabe en una linea y se lee mejor. */
+    if (kids.length === 1 && kids[0].nodeType === 3) {
+      return pad + _openTag(node) + kids[0].nodeValue.trim() + '</' + tag + '>';
+    }
+    var out = [pad + _openTag(node)];
+    kids.forEach(function (k) { var s = _serialize(k, depth + 1); if (s) out.push(s); });
+    out.push(pad + '</' + tag + '>');
+    return out.join('\n');
+  }
+
+  function _serializeChildren(root) {
+    return Array.prototype.map.call(root.childNodes, function (n) { return _serialize(n, 0); })
+      .filter(Boolean).join('\n');
+  }
+
+  function _dedent(str) {
+    var lines = str.replace(/\t/g, '  ').split('\n');
+    var min = Infinity;
+    lines.forEach(function (l) {
+      if (!l.trim()) return;
+      min = Math.min(min, l.match(/^ */)[0].length);
+    });
+    if (!isFinite(min) || min === 0) return lines.join('\n').trim();
+    return lines.map(function (l) { return l.slice(min); }).join('\n').trim();
+  }
+
+  function _copySource(btn) {
+    var mode = btn.getAttribute('data-ds-copy') || '';
+
+    if (mode === 'block') {
+      var wrap = btn.closest('.code-block-wrap');
+      var code = wrap && wrap.querySelector('pre, code');
+      return code ? code.textContent.trim() : '';
+    }
+
+    if (mode === 'card') {
+      var card = btn.closest('[data-ds-copy-src], .sc-card, .pr-card, .card');
+      if (!card) return '';
+      var clone = card.cloneNode(true);
+      clone.querySelectorAll(_COPY_CHROME).forEach(function (n) { n.remove(); });
+      clone.querySelectorAll('*').forEach(function (n) {
+        _COPY_STRIP_ATTRS.forEach(function (a) { n.removeAttribute(a); });
+        /* initSortable escribe cursor:pointer en cada <tr>. Es del runtime de
+           la pagina, no del componente: si viaja, ensucia el snippet. */
+        var st = n.getAttribute('style');
+        if (st && /cursor\s*:/.test(st)) {
+          st = st.replace(/(^|;)\s*cursor\s*:[^;]*/gi, '').replace(/^;+|;+$/g, '').trim();
+          if (st) n.setAttribute('style', st); else n.removeAttribute('style');
+        }
+      });
+      return _serializeChildren(_skeleton(clone));
+    }
+
+    var target = mode && document.querySelector(mode);
+    if (!target) return '';
+    if (btn.hasAttribute('data-ds-copy-raw')) return _dedent(target.innerHTML);
+    return _serializeChildren(_skeleton(target.cloneNode(true)));
+  }
+
+  /* navigator.clipboard exige contexto seguro. El catalogo se abre seguido
+     con file://, donde en algunos navegadores no esta: de ahi el fallback
+     con textarea, deprecado pero todavia el unico camino. */
+  function _copyFallback(text) {
+    try {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:-9999px;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = document.execCommand('copy');
+      ta.remove();
+      return ok;
+    } catch (e) { return false; }
+  }
+
+  function copyText(text) {
+    if (!text) return Promise.resolve(false);
+    if (global.navigator && global.navigator.clipboard && global.isSecureContext) {
+      return global.navigator.clipboard.writeText(text)
+        .then(function () { return true; })
+        .catch(function () { return _copyFallback(text); });
+    }
+    return Promise.resolve(_copyFallback(text));
+  }
+
+  var _COPY_MS = 1400;
+
+  function _flashCopy(btn, ok) {
+    var ico = btn.querySelector('.ph');
+    var prev = ico ? ico.className : null;
+    btn.classList.remove('is-copied', 'is-failed');
+    btn.classList.add(ok ? 'is-copied' : 'is-failed');
+    if (ico) ico.className = 'ph ' + (ok ? 'ph-check' : 'ph-x');
+    clearTimeout(btn._dsCopyT);
+    btn._dsCopyT = setTimeout(function () {
+      btn.classList.remove('is-copied', 'is-failed');
+      if (ico && prev) ico.className = prev;
+    }, _COPY_MS);
+  }
+
+  function _onCopyClick(ev) {
+    var btn = ev.target.closest && ev.target.closest('[data-ds-copy]');
+    if (!btn) return;
+    ev.preventDefault();
+    copyText(_copySource(btn)).then(function (ok) { _flashCopy(btn, ok); });
+  }
+
+  var _copyBound = false;
+  function initCopy() {
+    if (_copyBound) return;   /* idempotente: la delegacion es global, se ata una sola vez */
+    document.addEventListener('click', _onCopyClick);
+    _copyBound = true;
+  }
+  initCopy();
+
+  var CopyAPI = { text: copyText, source: _copySource, init: initCopy };
+
   global.YiQi = {
     /* Tema */
     setTheme:     setTheme,
@@ -455,6 +673,9 @@
 
     /* Logo animado */
     logo: LogoAPI,
+
+    /* Copiar al portapapeles */
+    copy: CopyAPI,
 
     /* Meta */
     version: '1.2.7.9',
