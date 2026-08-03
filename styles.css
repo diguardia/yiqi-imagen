@@ -1750,6 +1750,42 @@ html[data-theme="light"] .skeleton-line {
 .theme-opt:hover  { color: var(--text); }
 .theme-opt.active { background: var(--cyan-soft); color: var(--cyan); }
 
+/* ── .theme-cycle — el mismo toggle de 3 pasos, en un solo boton ──────
+   Los tres .theme-opt lado a lado ocupan 90px y muestran dos estados que
+   nadie esta usando. Este muestra el estado actual y cicla al siguiente
+   en cada clic: Oscuro → Sistema → Claro → Oscuro. Misma caja que un
+   .theme-opt, mismo tratamiento activo.
+   Conducta en yiqi-runtime.js (YiQi.cycleTheme), enganchada por
+   delegacion sobre [data-theme-cycle]. */
+.theme-cycle {
+  box-sizing: border-box;
+  width: 28px; height: 26px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: none; border-radius: var(--radius-pill);
+  background: transparent; color: var(--muted-2);
+  cursor: pointer;
+  transition: background var(--tr, 180ms ease), color var(--tr, 180ms ease);
+}
+.theme-cycle svg {
+  width: 13px; height: 13px;
+  stroke: currentColor; fill: none;
+  stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round;
+  flex-shrink: 0;
+}
+.theme-cycle:hover { color: var(--text); background: var(--bg-soft); }
+.theme-cycle:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: 2px; color: var(--cyan); }
+/* Solo se ve el glifo del estado vigente. Sin JS que arme el SVG: los tres
+   viajan en el marcado y el CSS elige, asi funciona antes de que corra nada. */
+.theme-cycle > svg { display: none; }
+.theme-cycle[data-pref="dark"]   > .tc-dark,
+.theme-cycle[data-pref="system"] > .tc-system,
+.theme-cycle[data-pref="light"]  > .tc-light,
+.theme-cycle:not([data-pref])    > .tc-system { display: block; }
+/* En 'sistema' el estado no es una eleccion explicita: no se resalta.
+   En oscuro y claro si, que es lo que el toggle de tres pasos ya hacia. */
+.theme-cycle[data-pref="dark"],
+.theme-cycle[data-pref="light"] { color: var(--cyan); background: var(--cyan-soft); }
+
 /* ── 40. MOD-CARD CON ZONAS SEPARADAS (v1.2.5) ───────────── */
 .mod-card        { border: none; border-radius: var(--radius-lg); background: var(--bg-elev-2); overflow: hidden; }
 .mod-card:hover  { box-shadow: 0 0 0 1px rgba(0, 204, 255, 0.14) inset; }
@@ -2440,6 +2476,54 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
 .code-block-wrap:hover > .ds-copy,
 .code-block-wrap:focus-within > .ds-copy{ opacity:1; pointer-events:auto; }
 @media (max-width: 768px){ .code-block-wrap > .ds-copy{ opacity:1; pointer-events:auto; } }
+/* ── .ds-picker — desplegable de selección única, canónico ────────────
+   El <select> nativo delega el menú al sistema operativo: en macOS se ve
+   como macOS, en Windows como Windows, y ninguno de los dos se parece al
+   DS. Este lo dibuja el sistema: mismo fondo elevado, mismo radio, mismo
+   activo tonal que el resto. Conducta en yiqi-runtime.js (YiQi.picker),
+   por delegación sobre [data-ds-picker]. */
+.ds-picker { position: relative; display: inline-flex; }
+.ds-picker-toggle {
+  display: inline-flex; align-items: center; justify-content: space-between; gap: 10px;
+  width: 100%; min-width: 0; height: 32px; padding: 0 10px 0 12px;
+  border: 1px solid transparent; -webkit-appearance: none; appearance: none;
+  border-radius: var(--radius); background: var(--bg-elev-2); color: var(--text);
+  font: 600 12px var(--sans); line-height: 1; cursor: pointer; white-space: nowrap;
+  transition: background var(--tr, .18s ease), border-color var(--tr, .18s ease);
+}
+.ds-picker-toggle:hover { background: var(--bg-elev); }
+.ds-picker-toggle:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: 2px; }
+.ds-picker-value { overflow: hidden; text-overflow: ellipsis; }
+.ds-picker-chev {
+  width: 12px; height: 12px; flex-shrink: 0; color: var(--muted-2);
+  stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+  transition: transform .18s ease;
+}
+.ds-picker-toggle[aria-expanded="true"] .ds-picker-chev { transform: rotate(180deg); }
+.ds-picker-menu {
+  position: absolute; left: 0; top: calc(100% + 6px);
+  min-width: 100%; width: max-content; max-width: min(320px, 84vw);
+  max-height: 280px; overflow-y: auto;
+  border: none; border-radius: var(--radius-md);
+  background: var(--bg-elev); box-shadow: var(--shadow-lg);
+  padding: 6px;
+  /* Misma capa que el resto de los popovers, segun la tabla de §01. */
+  z-index: 60;
+}
+.ds-picker-menu[hidden] { display: none; }
+.ds-picker-option {
+  display: flex; align-items: center; gap: 8px;
+  width: 100%; text-align: left; border: none; border-radius: var(--radius-sm);
+  background: transparent; color: var(--text);
+  padding: 8px 10px; font: 500 12px var(--sans); line-height: 1.3;
+  cursor: pointer; white-space: nowrap;
+}
+.ds-picker-option:hover { background: var(--cyan-soft); }
+.ds-picker-option:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: -2px; background: var(--cyan-soft); }
+.ds-picker-option.is-active { background: var(--cyan-soft); color: var(--cyan); font-weight: 600; }
+@media (prefers-reduced-motion: reduce) {
+  .ds-picker-toggle, .ds-picker-chev { transition: none; }
+}
 /* ── Slider (primitivo) — fuente canónica ── */
 .pr-slider{ width:100%; max-width:220px; }
 .pr-slider input[type=range]{ -webkit-appearance:none; appearance:none; width:100%; height:5px; border-radius:var(--radius-pill); background:var(--line-strong); outline:none; }

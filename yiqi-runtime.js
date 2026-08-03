@@ -9,6 +9,7 @@
  *   YiQi.setTheme(v)          — toggle 3 pasos: 'dark' | 'system' | 'light'
  *   YiQi.getTheme()           — preferencia guardada
  *   YiQi.resolveTheme(v)      — resuelve 'system' al tema real del OS
+ *   YiQi.cycleTheme()         — avanza Oscuro → Sistema → Claro → Oscuro
  *   YiQi.toast(msg, type?)    — notificación flotante
  *   YiQi.initSortable(el)     — tabla HTML sorteable por columna
  *   YiQi.initScrollSpy(opts)  — nav activo por scroll
@@ -19,6 +20,8 @@
  *   YiQi.fmt.dateShort(d)     — 30 abr
  *   YiQi.copy.text(str)       — copia al portapapeles → Promise<bool>
  *   YiQi.copy.init()          — engancha [data-ds-copy] (auto al cargar)
+ *   YiQi.picker.set(el,v)     — desplegable .ds-picker: fija el valor
+ *   YiQi.picker.value(el)     — valor actual del desplegable
  *
  * © 2026 YiQi S.A. — DS v1.2.7
  */
@@ -47,12 +50,40 @@
     document.documentElement.dataset.theme = resolveTheme(v);
   }
 
-  /** Marca el botón activo en el toggle (.theme-opt[data-val]). */
+  /** Marca el botón activo en el toggle (.theme-opt[data-val]) y sincroniza
+      el toggle de un solo botón (.theme-cycle[data-pref]). */
   function updateThemeSwitch(v) {
     document.querySelectorAll('.theme-opt').forEach(function (btn) {
       btn.classList.toggle('active', btn.dataset.val === v);
     });
+    document.querySelectorAll('[data-theme-cycle]').forEach(function (btn) {
+      btn.dataset.pref = v;
+      btn.setAttribute('aria-label', 'Tema: ' + (_THEME_LABEL[v] || v) + '. Cambiar al siguiente.');
+      btn.setAttribute('title', 'Tema · ' + (_THEME_LABEL[v] || v));
+    });
   }
+
+  /* ── Toggle de tema en un solo botón ──────────────────────────────
+     Mismo ciclo de tres pasos del .theme-toggle, sin ocupar 90px con dos
+     estados que nadie está usando. El orden arranca en Oscuro porque es
+     el default del sistema. */
+  var _THEME_ORDER = ['dark', 'system', 'light'];
+  var _THEME_LABEL = { dark: 'Oscuro', system: 'Sistema', light: 'Claro' };
+
+  /** Avanza al siguiente paso del ciclo y devuelve el nuevo valor. */
+  function cycleTheme() {
+    var i = _THEME_ORDER.indexOf(getTheme());
+    var next = _THEME_ORDER[(i + 1) % _THEME_ORDER.length];
+    setTheme(next);
+    return next;
+  }
+
+  document.addEventListener('click', function (ev) {
+    var btn = ev.target.closest && ev.target.closest('[data-theme-cycle]');
+    if (!btn) return;
+    ev.preventDefault();
+    cycleTheme();
+  });
 
   /**
    * Cambia el tema, lo persiste y actualiza el switch.
@@ -653,6 +684,152 @@
   }
   initCopy();
 
+
+  /* ══════════════════════════════════════════════════════════
+     7. PICKER — desplegable de seleccion unica (.ds-picker)
+     ──────────────────────────────────────────────────────────
+     El <select> nativo delega el menu al sistema operativo. Este lo
+     dibuja el DS. Marcado minimo:
+
+       <div class="ds-picker" data-ds-picker>
+         <button class="ds-picker-toggle" aria-haspopup="listbox" aria-expanded="false">
+           <span class="ds-picker-value">Todo 2026</span>
+           <svg class="ds-picker-chev">…</svg>
+         </button>
+         <div class="ds-picker-menu" role="listbox" hidden>
+           <button class="ds-picker-option is-active" role="option" data-value="ytd">Todo 2026</button>
+         </div>
+       </div>
+
+     Al elegir emite 'ds-picker:change' sobre el .ds-picker, con
+     detail = { value, label }. Teclado: ↓ ↑ Home End Enter Esc.
+     ══════════════════════════════════════════════════════════ */
+
+  function _pickerParts(el) {
+    return {
+      toggle: el.querySelector('.ds-picker-toggle'),
+      menu:   el.querySelector('.ds-picker-menu'),
+      value:  el.querySelector('.ds-picker-value')
+    };
+  }
+
+  function _pickerOpts(el) {
+    return Array.prototype.slice.call(el.querySelectorAll('.ds-picker-option'));
+  }
+
+  function pickerClose(el) {
+    var p = _pickerParts(el);
+    if (!p.menu || p.menu.hidden) return;
+    p.menu.hidden = true;
+    if (p.toggle) p.toggle.setAttribute('aria-expanded', 'false');
+  }
+
+  function pickerCloseAll(except) {
+    document.querySelectorAll('[data-ds-picker]').forEach(function (el) {
+      if (el !== except) pickerClose(el);
+    });
+  }
+
+  function pickerOpen(el) {
+    var p = _pickerParts(el);
+    if (!p.menu) return;
+    pickerCloseAll(el);
+    p.menu.hidden = false;
+    if (p.toggle) p.toggle.setAttribute('aria-expanded', 'true');
+    var act = el.querySelector('.ds-picker-option.is-active') || _pickerOpts(el)[0];
+    if (act) act.focus();
+  }
+
+  /** Valor actual del picker. */
+  function pickerValue(el) {
+    var act = el.querySelector('.ds-picker-option.is-active');
+    return act ? act.dataset.value : null;
+  }
+
+  /**
+   * Fija el valor sin emitir el evento. Sirve para sincronizar el picker
+   * cuando el estado cambia por otro camino (deep link, otro control).
+   */
+  function pickerSet(el, value) {
+    var hit = null;
+    _pickerOpts(el).forEach(function (o) {
+      var on = o.dataset.value === String(value);
+      o.classList.toggle('is-active', on);
+      o.setAttribute('aria-selected', on ? 'true' : 'false');
+      if (on) hit = o;
+    });
+    var p = _pickerParts(el);
+    if (hit && p.value) p.value.textContent = hit.textContent.trim();
+    return hit ? hit.dataset.value : null;
+  }
+
+  function _pickerPick(el, opt) {
+    pickerSet(el, opt.dataset.value);
+    pickerClose(el);
+    var p = _pickerParts(el);
+    if (p.toggle) p.toggle.focus();
+    el.dispatchEvent(new CustomEvent('ds-picker:change', {
+      bubbles: true,
+      detail: { value: opt.dataset.value, label: opt.textContent.trim() }
+    }));
+  }
+
+  document.addEventListener('click', function (ev) {
+    var t = ev.target;
+    if (!t.closest) return;
+    var opt = t.closest('.ds-picker-option');
+    if (opt) {
+      var host = opt.closest('[data-ds-picker]');
+      if (host) { ev.preventDefault(); _pickerPick(host, opt); return; }
+    }
+    var tog = t.closest('.ds-picker-toggle');
+    if (tog) {
+      var el = tog.closest('[data-ds-picker]');
+      if (el) {
+        ev.preventDefault();
+        var p = _pickerParts(el);
+        if (p.menu && p.menu.hidden) pickerOpen(el); else pickerClose(el);
+        return;
+      }
+    }
+    /* Clic afuera: se cierran todos. */
+    pickerCloseAll(t.closest('[data-ds-picker]'));
+  });
+
+  document.addEventListener('keydown', function (ev) {
+    var el = ev.target.closest && ev.target.closest('[data-ds-picker]');
+    if (!el) return;
+    var p = _pickerParts(el);
+    var opts = _pickerOpts(el);
+    var open = p.menu && !p.menu.hidden;
+
+    if (ev.key === 'Escape' && open) {
+      ev.preventDefault(); pickerClose(el); if (p.toggle) p.toggle.focus(); return;
+    }
+    if ((ev.key === 'ArrowDown' || ev.key === 'Enter' || ev.key === ' ') && !open && ev.target === p.toggle) {
+      ev.preventDefault(); pickerOpen(el); return;
+    }
+    if (!open) return;
+    var i = opts.indexOf(document.activeElement);
+    if (ev.key === 'ArrowDown') { ev.preventDefault(); (opts[i + 1] || opts[0]).focus(); }
+    else if (ev.key === 'ArrowUp') { ev.preventDefault(); (opts[i - 1] || opts[opts.length - 1]).focus(); }
+    else if (ev.key === 'Home') { ev.preventDefault(); opts[0] && opts[0].focus(); }
+    else if (ev.key === 'End') { ev.preventDefault(); opts[opts.length - 1] && opts[opts.length - 1].focus(); }
+    else if (ev.key === 'Tab') { pickerClose(el); }
+  });
+
+  /* Sincroniza la etiqueta con la opcion activa del marcado. Idempotente. */
+  function initPickers(root) {
+    (root || document).querySelectorAll('[data-ds-picker]').forEach(function (el) {
+      var v = pickerValue(el);
+      if (v != null) pickerSet(el, v);
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { initPickers(); });
+  else initPickers();
+
+  var PickerAPI = { open: pickerOpen, close: pickerClose, set: pickerSet, value: pickerValue, init: initPickers };
+
   var CopyAPI = { text: copyText, source: _copySource, init: initCopy };
 
   global.YiQi = {
@@ -661,6 +838,8 @@
     getTheme:     getTheme,
     resolveTheme: resolveTheme,
     applyTheme:   applyTheme,
+
+    cycleTheme:   cycleTheme,
 
     /* UI */
     toast:          toast,
@@ -676,6 +855,9 @@
 
     /* Copiar al portapapeles */
     copy: CopyAPI,
+
+    /* Desplegable de selección única */
+    picker: PickerAPI,
 
     /* Meta */
     version: '1.2.7.9',
