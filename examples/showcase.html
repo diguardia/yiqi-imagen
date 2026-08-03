@@ -2740,7 +2740,7 @@ function renderAll(){
   // Donut con KPI central
   (function(){var labels=['Pagado','Pendiente','Vencido'],data=[62,27,11],colors=[gv('--green'),gv('--amber'),gv('--red')];var s=sortDonutDesc(labels,data,colors);
     reg(new Chart(document.getElementById('cDonutKpi'),{type:'doughnut',data:{labels:s.labels,datasets:[{data:s.data,backgroundColor:s.colors,borderWidth:0,hoverOffset:5}]},
-      options:{responsive:true,maintainAspectRatio:false,cutout:'72%',plugins:{legend:legBottom(),tooltip:Object.assign(tt(),{callbacks:{label:c=>' '+c.label+': '+c.parsed+'%'}}),centerText:{value:'$&nbsp;2,1 M',label:'TOTAL',size:22}}}}));})();
+      options:{responsive:true,maintainAspectRatio:false,cutout:'72%',plugins:{legend:legBottom(),tooltip:Object.assign(tt(),{callbacks:{label:c=>' '+c.label+': '+c.parsed+'%'}}),centerText:{value:'$\u00a02,1 M',label:'TOTAL',size:22}}}}));})();
 
   // Polar
   reg(new Chart(document.getElementById('cPolar'),{type:'polarArea',data:{labels:['Centro','Norte','Sur','Oeste','Online'],datasets:[{data:[48,31,59,15,21],backgroundColor:[hexToRgba(gv('--cyan'),.7),hexToRgba(gv('--green'),.7),hexToRgba(gv('--amber'),.7),hexToRgba(gv('--blue'),.7),hexToRgba(gv('--indigo'),.7)],borderWidth:0}]},
