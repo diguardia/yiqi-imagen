@@ -4898,6 +4898,17 @@ if (v) target.textContent = `DS v${v}`;</code></pre>
 <span style="font:500 12px var(--sans);color:var(--muted-2);padding-top:8px">Funciona &middot; teclado: &darr; &uarr; Home End Enter Esc</span>
 </div>
 
+<div class="subsection-title">Cuándo este y cuándo el nativo</div>
+<table class="table-demo" style="max-width:820px;margin-bottom:22px">
+<thead><tr><th>Contexto</th><th>Componente</th><th>Por qué</th></tr></thead>
+<tbody>
+<tr><td><strong>Interfaz</strong> &mdash; filtros, períodos, cualquier control que cambie lo que se está mirando</td><td><code>.ds-picker</code></td><td>Es parte de la interfaz, no un campo. Vive en una barra junto a chips y botones del sistema, y ahí el menú del sistema operativo canta. <strong>El menú lo dibuja YiQi.</strong></td></tr>
+<tr><td><strong>Formulario</strong> &mdash; un campo con label y validación, donde el usuario carga datos</td><td><code>.ds-select</code></td><td>El nativo es más liviano, el teclado y el lector de pantalla lo conocen, y en celular la rueda del sistema es más cómoda que cualquier panel propio.</td></tr>
+<tr><td>La opción necesita más que texto &mdash; ícono, segunda línea, badge</td><td><code>.ds-picker</code></td><td>Un <code>&lt;option&gt;</code> no admite nada adentro. No es preferencia: el nativo no puede.</td></tr>
+</tbody>
+</table>
+<p class="ds-section-sub" style="margin-bottom:22px">Ninguno de los dos está deprecado y no hay nada que migrar. El criterio es <strong>de quién es el menú</strong>: si el control es interfaz, es de YiQi; si es un campo de carga, es del sistema.</p>
+
 <div class="subsection-title">Anatomía</div>
 <table class="table-demo" style="max-width:820px;margin-bottom:22px">
 <thead><tr><th>Parte</th><th>Regla</th></tr></thead>

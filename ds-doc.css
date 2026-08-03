@@ -64,7 +64,10 @@ button{font:inherit;cursor:pointer}
 .ds-section { margin-bottom: 64px; scroll-margin-top: calc(var(--topbar-h, 56px) + 20px); }
 .ds-section-header { margin-bottom: 28px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
 .ds-section-kicker { font: 700 10px var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--cyan); margin-bottom: 8px; }
-.ds-section-title { font-size: 26px; letter-spacing: -.03em; font-weight: 700; white-space: nowrap; }
+/* El titulo declara su color. Antes lo heredaba, y una seccion escrita sin
+   el envoltorio .ds-section-header quedaba tomando el cyan del kicker.
+   Un componente documentado no puede depender de en que caja lo metan. */
+.ds-section-title { font-size: 26px; letter-spacing: -.03em; font-weight: 700; white-space: nowrap; color: var(--text); }
 .ds-section-sub { margin-top: 6px; color: var(--muted); font-size: 13px; line-height: 1.6; }
 
 /* ── GRID HELPERS ── */
