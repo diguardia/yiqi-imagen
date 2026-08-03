@@ -2400,7 +2400,18 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
 .sidebar > .nav { flex: 1 1 auto; min-height: 0; overflow: hidden auto; }
 .nav-lbl { display: block; padding: 10px 8px 4px; color: var(--muted-2); font: 700 9px var(--mono); letter-spacing: 0.14em; text-transform: uppercase; }
 .nav-div { height: 1px; margin: 5px 0; background: var(--line); }
-.nav-link { display: flex; width: 100%; align-items: center; gap: 8px; min-height: 40px; padding: 7px 9px; border: 0; border-radius: var(--radius-sm); background: transparent; color: var(--muted); cursor: pointer; font: 500 12.5px var(--sans); text-align: left; text-decoration: none; transition: background 0.18s ease, color 0.18s ease; }
+/* ── .nav-link ────────────────────────────────────────────────────────
+   Base neutra: sirve a una barra vertical y a una horizontal por igual.
+   Lo que era exclusivo del sidebar (width:100%, min-height, text-align)
+   bajo a la regla acotada de abajo. Estaba publicado con nombre generico
+   y cualquier consumidor con una nav horizontal recibia un item de sidebar:
+   en www.yiqi cada link pasaba de 81px al ancho entero del contenedor.
+   Los 9 consumidores del DS lo usan dentro de .sidebar (medido 03/08/2026),
+   asi que acotarlo no le saca nada a ninguno. */
+.nav-link { display: flex; align-items: center; gap: 8px; padding: 7px 9px; border: 0; border-radius: var(--radius-sm); background: transparent; color: var(--muted); cursor: pointer; font: 500 12.5px var(--sans); text-decoration: none; transition: background 0.18s ease, color 0.18s ease; }
+
+/* Barra vertical: el item ocupa el ancho de la columna y alinea a la izquierda. */
+.sidebar .nav-link { width: 100%; min-height: 40px; text-align: left; }
 .nav-link:hover { background: var(--bg-soft); color: var(--text); }
 .nav-link.is-active { background: var(--cyan-soft); color: var(--cyan); }
 .n-ico { display: grid; width: 26px; height: 26px; flex-shrink: 0; place-items: center; border-radius: var(--radius-xs); background: transparent; color: var(--muted); transition: background 0.18s ease, color 0.18s ease; }
