@@ -10,6 +10,7 @@
  *   YiQi.getTheme()           — preferencia guardada
  *   YiQi.resolveTheme(v)      — resuelve 'system' al tema real del OS
  *   YiQi.cycleTheme()         — avanza Oscuro → Sistema → Claro → Oscuro
+ *   YiQi.upgradeThemeToggles()— shim: cambia el toggle de 3 pasos por el de 1
  *   YiQi.toast(msg, type?)    — notificación flotante
  *   YiQi.initSortable(el)     — tabla HTML sorteable por columna
  *   YiQi.initScrollSpy(opts)  — nav activo por scroll
@@ -67,8 +68,50 @@
      Mismo ciclo de tres pasos del .theme-toggle, sin ocupar 90px con dos
      estados que nadie está usando. El orden arranca en Oscuro porque es
      el default del sistema. */
+  /* ── SHIM DE MIGRACION · sacar cuando las apps esten migradas ─────
+     Reemplaza el toggle de tres botones por el de uno solo, al vuelo.
+     Existe porque el CDN publica CSS y conducta, no marcado: sin esto
+     cada una de las 25 paginas que usan .theme-toggle habria que
+     editarla a mano para ver el cambio.
+     Es un puente, no un estado permanente: mientras viva, el codigo de
+     la app dice una cosa y la pantalla muestra otra. Cuando el marcado
+     este migrado de verdad, esta funcion se elimina. */
+  var _TC_ICONS =
+    '<svg class="tc-dark" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>' +
+    '<svg class="tc-system" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>' +
+    '<svg class="tc-light" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg>';
+
+  /**
+   * Cambia .theme-toggle / .sb-theme-switch por .theme-cycle.
+   * Idempotente: marca lo que ya convirtio.
+   * Con data-theme-keep-steps en el contenedor, lo deja como esta.
+   */
+  function upgradeThemeToggles(root) {
+    var scope = root || document;
+    var n = 0;
+    scope.querySelectorAll('.theme-toggle, .sb-theme-switch').forEach(function (old) {
+      if (old.hasAttribute('data-theme-keep-steps')) return;
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'theme-cycle';
+      btn.setAttribute('data-theme-cycle', '');
+      btn.setAttribute('aria-label', 'Cambiar tema');
+      btn.innerHTML = _TC_ICONS;
+      old.parentNode.replaceChild(btn, old);
+      n++;
+    });
+    if (n) updateThemeSwitch(getTheme());
+    return n;
+  }
   var _THEME_ORDER = ['dark', 'system', 'light'];
   var _THEME_LABEL = { dark: 'Oscuro', system: 'Sistema', light: 'Claro' };
+
+  /* Despues de _THEME_LABEL a proposito: upgradeThemeToggles llama a
+     updateThemeSwitch, que lo lee. Con el script diferido, readyState ya
+     es 'interactive' y la funcion corre en el acto. */
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { upgradeThemeToggles(); });
+  else upgradeThemeToggles();
+
 
   /** Avanza al siguiente paso del ciclo y devuelve el nuevo valor. */
   function cycleTheme() {
@@ -840,6 +883,7 @@
     applyTheme:   applyTheme,
 
     cycleTheme:   cycleTheme,
+    upgradeThemeToggles: upgradeThemeToggles,
 
     /* UI */
     toast:          toast,
