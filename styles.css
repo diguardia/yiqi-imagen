@@ -1,7 +1,7 @@
 /* ============================================================
    YiQi Design System — styles.css
-   Versión: DS v1.2.7.1
-   Fecha: 9/6/2026
+   Versión: DS v1.2.7.10
+   Fecha: 04/08/2026
    Fuente canónica: este repo (diguardia/yiqi-imagen) · ver LEEME-FUENTE-DS.md
    Bundle de consumo (CDN) — FUENTE CANÓNICA en este repo, editar aquí
    ============================================================ */
@@ -1841,7 +1841,7 @@ html[data-theme="light"] .skeleton-line {
 .card-reveal.visible { opacity: 1; transform: none; }
 
 /* ── FOOTER CANÓNICO ──────────────────────────────────────── */
-/* © 2026 YiQi S.A. · styles.css · DS v1.2.7.1 · 04/06/2026  */
+/* © 2026 YiQi S.A. · styles.css · DS v1.2.7.10 · 04/08/2026  */
 
 /* ── 42. INPUTS — COMPONENTES DS (v1.2.5) ────────────────── */
 /* Borderless: sin border, fondo elevado, focus ring cyan.    */
@@ -2390,7 +2390,7 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
    original. En la topbar ese margen corre el toggle 5px del centro optico
    de la barra — medido. Aca se anula. */
 .topbar .sb-theme-switch{ margin-bottom:0; }
-.sb-theme-switch .theme-opt, .sb-theme-switch .theme-option{ flex:0 0 auto; width:28px;
+.sb-theme-switch .theme-opt{ flex:0 0 auto; width:28px;
   height:26px; padding:0; display:inline-flex; align-items:center; justify-content:center;
   border:0; border-radius:var(--radius-pill); background:transparent; color:var(--muted-2);
   cursor:pointer; transition:background .18s ease, color .18s ease; }

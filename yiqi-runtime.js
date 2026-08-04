@@ -1,5 +1,5 @@
 /**
- * YiQi Runtime — v1.2.7
+ * YiQi Runtime — v1.2.7.10
  * Utilidades JS compartidas para entregables HTML standalone.
  *
  * Uso:  <script src="/system/sdk/yiqi-runtime.js"></script>
@@ -24,7 +24,7 @@
  *   YiQi.picker.set(el,v)     — desplegable .ds-picker: fija el valor
  *   YiQi.picker.value(el)     — valor actual del desplegable
  *
- * © 2026 YiQi S.A. — DS v1.2.7
+ * © 2026 YiQi S.A. — DS v1.2.7.10
  */
 
 (function (global) {
@@ -97,7 +97,12 @@
   function upgradeThemeToggles(root) {
     var scope = root || document;
     var n = 0;
-    scope.querySelectorAll('.theme-toggle, .sb-theme-switch').forEach(function (old) {
+    /* .theme-switch entra a la lista: era la unica de las cuatro formas del
+       toggle que el puente no levantaba, y ademas la unica con CERO reglas
+       en styles.css — cada archivo que la usa la dibuja con CSS propio. El
+       header de la web es uno de esos. Canonico decidido: un solo boton que
+       cicla oscuro -> sistema -> claro. */
+    scope.querySelectorAll('.theme-toggle, .sb-theme-switch, .theme-switch').forEach(function (old) {
       if (old.hasAttribute('data-theme-keep-steps')) return;
       var btn = document.createElement('button');
       btn.type = 'button';
@@ -925,7 +930,7 @@
     picker: PickerAPI,
 
     /* Meta */
-    version: '1.2.7.9',
+    version: '1.2.7.10',
   };
 
 }(window));
