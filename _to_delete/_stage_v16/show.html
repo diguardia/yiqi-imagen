@@ -109,13 +109,25 @@
       <article class="sc-card" id="card-app-banners">
         <div class="sc-card-h"><span class="sc-card-title">Banners de apps</span><a class="ds-xref" href="../yiqi-design-system.html#app-banners"><i class="ph ph-anchor-simple"></i> Ver fuente</a><button type="button" class="ds-copy" data-ds-copy="card" aria-label="Copiar markup del componente" title="Copiar markup"><i class="ph ph-copy"></i></button></div>
         <p class="sc-card-sub">Banner promocional por app del Marketplace.</p>
-        <div class="sc-stage">
-          <!-- Una horizontal y una vertical alcanzan para leer el componente.
-               El catalogo muestra las seis apps de las dos formas: aca eso da
-               una card de 9.400px contra las 400 del resto de la grilla. -->
-          <app-banner app="inv"></app-banner>
-          <div style="display:flex;justify-content:center;margin-top:16px"><app-banner app="ana" variant="vertical"></app-banner></div>
-        </div>
+        <div class="sc-stage"><app-banner app="prov"></app-banner>
+<app-banner app="inv"></app-banner>
+<app-banner app="pos"></app-banner>
+<app-banner app="pick"></app-banner>
+<app-banner app="cons"></app-banner>
+<app-banner app="ana"></app-banner>
+<div class="ds-section-kicker" style="margin-top:36px">Versión vertical</div>
+<p class="ds-section-sub" style="margin-bottom:16px">Mismo componente con <code>variant="vertical"</code>: ilustración arriba, formato retrato para sidebars, mobile o módulos angostos.</p>
+<div style="display:flex;gap:18px;flex-wrap:wrap;justify-content:center;margin-bottom:8px">
+<app-banner app="ana" variant="vertical"></app-banner>
+<app-banner app="prov" variant="vertical"></app-banner>
+<app-banner app="inv" variant="vertical"></app-banner>
+<app-banner app="pos" variant="vertical"></app-banner>
+<app-banner app="pick" variant="vertical"></app-banner>
+<app-banner app="cons" variant="vertical"></app-banner>
+</div>
+<div class="token-grid-2" style="margin-top:24px">
+<div class="card">
+<div class="card-kicker">Apps · token de acento · estado</div></div>
       </article>
   </div>
 </section>

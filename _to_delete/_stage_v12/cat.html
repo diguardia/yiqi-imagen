@@ -389,17 +389,15 @@ body.preview-open .ds-layout { display: none !important; }
    modificado, el parrafo termina llevando al catalogo y al showcase: leer
    que cambio sin poder verlo obliga a buscarlo a mano. Separada por aire,
    no por borde (filosofia borderless). */
-#ds-changelog .chg-links{ display:flex; flex-wrap:wrap; align-items:center; gap:14px; margin-top:18px; }
+#ds-changelog .chg-links{ display:flex; flex-wrap:wrap; gap:14px; margin-top:12px; }
 #ds-changelog tbody tr:target{ background:var(--cyan-soft); }
+#ds-changelog .chg-share{ margin:0; opacity:0; transition:opacity .15s ease; }
 /* Compartir es uno mas del grupo de enlaces, no un elemento suelto: mismo
-   renglon, misma linea de base, misma caja. .ds-copy y .ds-xref comparten
-   padding, tipografia, color y hover en styles.css, asi que los tres se leen
-   como una fila. Se muestra siempre: aparecer con el hover dejaba un hueco en
-   el grupo, y en tactil no hay hover que lo revele. */
-#ds-changelog .chg-share{ margin:0 0 0 8px; }
-/* Los dos primeros son navegacion (catalogo, showcase); Compartir es una
-   accion. Se separan por aire —22px contra los 14 del grupo— y no por un
-   divisor: el DS separa por espacio, no por linea. */
+   renglon, misma linea de base. Flotarlo lo dejaba colgado del parrafo. */
+#ds-changelog tbody tr:hover .chg-share,
+#ds-changelog tbody tr:target .chg-share,
+#ds-changelog .chg-share:focus-visible{ opacity:1; }
+@media (hover: none){ #ds-changelog .chg-share{ opacity:1; } }
 #ds-changelog.show-all tbody tr:nth-child(n+4){ display:table-row; }
 .ds-changelog-more{ display:inline-flex; align-items:center; gap:6px; margin-top:12px; border:none; background:var(--bg-soft); color:var(--cyan); font:600 12px var(--sans); padding:9px 16px; border-radius:var(--radius-pill); cursor:pointer; }
 .ds-changelog-more:hover{ background:var(--cyan-soft); }
@@ -4154,7 +4152,6 @@ function dsNavLock(){
 <div class="ds-section-kicker">40 · Marketplace</div>
 <h2 class="ds-section-title">Banners de apps</h2>
 <p class="ds-section-sub">Banner promocional por app del Marketplace. Web component <code>&lt;app-banner app="…"&gt;</code>. Acento <strong>100% por token</strong> (uno por app, nunca cyan); paleta invertida y gradiente como el banner de Analytics Pro. Cada banner lleva <strong>ícono de la app + logo YiQi</strong> (homologación) y un <strong>slot de ilustración</strong>. Analytics Pro tiene <strong>dos versiones</strong>: el premium (§39) y esta variante unificada.</p>
-<a class="ds-xref" href="examples/showcase.html?tab=marketplace&amp;card=card-app-banners"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 <app-banner app="prov"></app-banner>
 <app-banner app="inv"></app-banner>
@@ -4198,7 +4195,6 @@ ana · prov · inv · pos · pick · cons
 <div class="ds-section-kicker">41 · Marketplace</div>
 <h2 class="ds-section-title">Header de ficha</h2>
 <p class="ds-section-sub">Encabezado de la ficha de app. Compone <code>.btn</code> + <code>.badge</code> + estructura <code>.mb-fhead</code>. Ícono de app, categoría, nombre, proveedor, badge de homologación y rating. <strong>CTA de color de app</strong> (<code>.mb-cta</code>): fondo <code>var(--accent)</code> con <strong>tinta legible</strong> <code>var(--accent-ink)</code> — clara sobre acentos oscuros (violeta), oscura sobre los claros.</p>
-<a class="ds-xref" href="examples/showcase.html?tab=marketplace&amp;card=card-mb-fhead"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 <div class="mb-fhead">
 <div class="mb-ficon"><i class="ph ph-package"></i></div>
@@ -4244,7 +4240,6 @@ ana · prov · inv · pos · pick · cons
 <div class="ds-section-kicker">43 · Marketplace</div>
 <h2 class="ds-section-title">Card de detalles</h2>
 <p class="ds-section-sub">Ficha técnica de la app: lista de pares clave-valor (<code>.mb-meta-row</code>).</p>
-<a class="ds-xref" href="examples/showcase.html?tab=marketplace&amp;card=card-mb-details"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 <div class="mb-card" style="max-width:360px">
 <div class="mb-k">Detalles</div>
@@ -4264,7 +4259,6 @@ ana · prov · inv · pos · pick · cons
 <div class="ds-section-kicker">44 · Marketplace</div>
 <h2 class="ds-section-title">Card de desarrollador</h2>
 <p class="ds-section-sub">Identidad del proveedor + acción de compartir. Usa el lockup de proveedor y un <code>.btn</code>.</p>
-<a class="ds-xref" href="examples/showcase.html?tab=marketplace&amp;card=card-mb-dev"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 <div class="mb-card" style="max-width:360px">
 <div class="mb-k">Desarrollador</div>
@@ -4278,7 +4272,6 @@ ana · prov · inv · pos · pick · cons
 <div class="ds-section-kicker">45 · Marketplace</div>
 <h2 class="ds-section-title">Menú de compartir</h2>
 <p class="ds-section-sub">Menú enriquecido de compartir (instancia del primitivo <em>Popover</em>): compartir nativo, copiar enlace y redes.</p>
-<a class="ds-xref" href="examples/showcase.html?tab=marketplace&amp;card=card-mb-share"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 <div class="mb-share">
 <div class="mb-share-head">Compartir</div>
@@ -4299,7 +4292,6 @@ ana · prov · inv · pos · pick · cons
 <div class="ds-section-kicker">46 · Marketplace</div>
 <h2 class="ds-section-title">Card de catálogo</h2>
 <p class="ds-section-sub">Card del catálogo del Marketplace. Thumb con ícono en el color de la app + badge de estado, categoría, nombre, descripción y pie (Ver app + proveedor). El acento se mapea al token de la app (acá <code>--green</code>).</p>
-<a class="ds-xref" href="examples/showcase.html?tab=marketplace&amp;card=card-mb-appcard"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 <div class="mb-appcard">
 <div class="mb-thumb"><span class="mb-state">En desarrollo</span><div class="mb-thumb-ico"><i class="ph ph-package"></i></div></div>
@@ -4317,7 +4309,6 @@ ana · prov · inv · pos · pick · cons
 <div class="ds-section-kicker">47 · Marketplace</div>
 <h2 class="ds-section-title">Reseñas</h2>
 <p class="ds-section-sub">Resumen de rating + reseñas con badge <strong>Cliente verificado</strong>. Solo de clientes que usan la app.</p>
-<a class="ds-xref" href="examples/showcase.html?tab=marketplace&amp;card=card-mb-reviews"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 <div style="max-width:560px">
 <div class="mb-rev-sum"><div class="mb-rev-big">4.6</div><div><div class="mb-stars" style="font-size:16px">★★★★★</div><div class="mb-rev-meta">124 reseñas · solo de clientes que la usan</div></div></div>
@@ -4331,7 +4322,6 @@ ana · prov · inv · pos · pick · cons
 <div class="ds-section-kicker">48 · Marketplace</div>
 <h2 class="ds-section-title">Bloque de homologación</h2>
 <p class="ds-section-sub">Sello de homologación + datos de seguridad/acceso (clave-valor). Central al concepto de homologación del Marketplace.</p>
-<a class="ds-xref" href="examples/showcase.html?tab=marketplace&amp;card=card-mb-homo"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 <div class="mb-homo">
 <div class="mb-seal"><i class="ph ph-shield-check"></i><b>Homologada por YiQi</b></div>

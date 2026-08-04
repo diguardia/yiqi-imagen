@@ -382,24 +382,12 @@ body.preview-open .ds-layout { display: none !important; }
    borderless (3). El boton de compartir aparece con el hover de la fila y
    queda fijo cuando la fila es el destino del link, para que el que llega
    vea de donde salio. En tactil no hay hover: ahi esta siempre. */
-/* .ds-topbar es sticky en top:0 y mide 56px: sin esto la fila apuntada
-   aterriza en y=0 y arranca tapada. 56 + 16 de aire. Medido. */
-#ds-changelog tbody tr[id]{ scroll-margin-top:72px; }
-/* Fila de enlaces del changelog. Cuando el cambio es un componente nuevo o
-   modificado, el parrafo termina llevando al catalogo y al showcase: leer
-   que cambio sin poder verlo obliga a buscarlo a mano. Separada por aire,
-   no por borde (filosofia borderless). */
-#ds-changelog .chg-links{ display:flex; flex-wrap:wrap; align-items:center; gap:14px; margin-top:18px; }
 #ds-changelog tbody tr:target{ background:var(--cyan-soft); }
-/* Compartir es uno mas del grupo de enlaces, no un elemento suelto: mismo
-   renglon, misma linea de base, misma caja. .ds-copy y .ds-xref comparten
-   padding, tipografia, color y hover en styles.css, asi que los tres se leen
-   como una fila. Se muestra siempre: aparecer con el hover dejaba un hueco en
-   el grupo, y en tactil no hay hover que lo revele. */
-#ds-changelog .chg-share{ margin:0 0 0 8px; }
-/* Los dos primeros son navegacion (catalogo, showcase); Compartir es una
-   accion. Se separan por aire —22px contra los 14 del grupo— y no por un
-   divisor: el DS separa por espacio, no por linea. */
+#ds-changelog .chg-share{ float:right; margin:-2px 0 0 10px; opacity:0; transition:opacity .15s ease; }
+#ds-changelog tbody tr:hover .chg-share,
+#ds-changelog tbody tr:target .chg-share,
+#ds-changelog .chg-share:focus-visible{ opacity:1; }
+@media (hover: none){ #ds-changelog .chg-share{ opacity:1; } }
 #ds-changelog.show-all tbody tr:nth-child(n+4){ display:table-row; }
 .ds-changelog-more{ display:inline-flex; align-items:center; gap:6px; margin-top:12px; border:none; background:var(--bg-soft); color:var(--cyan); font:600 12px var(--sans); padding:9px 16px; border-radius:var(--radius-pill); cursor:pointer; }
 .ds-changelog-more:hover{ background:var(--cyan-soft); }
@@ -415,21 +403,21 @@ body.preview-open .ds-layout { display: none !important; }
 <td class="mono-cell">v1.2.7.10</td>
 <td class="mono-cell">04/08/2026</td>
 <td><span class="badge badge-cyan">NUEVO</span></td>
-<td><strong>Navegaci&oacute;n m&oacute;vil &mdash; <code>&sect;67</code>.</strong> Cinco componentes que cada app ven&iacute;a resolviendo por su cuenta: grilla de accesos (<code>.ds-applist</code>), barra inferior (<code>.ds-bottomnav</code>), bot&oacute;n flotante con acciones (<code>.ds-fab</code>), hoja inferior (<code>.ds-sheet</code>) y barra de aplicaci&oacute;n (<code>.ds-appbar</code>). El sistema publicaba el drawer y la topbar, pero <strong>nada del chrome que una app usa cuando corre en un tel&eacute;fono</strong>: el resultado era que cada una lo copiaba con sus propias medidas y sus propios colores. <strong>Cero tokens nuevos y cero colores escritos a mano</strong> &mdash; los cinco se arman con los que ya exist&iacute;an. Los cinco llevan <code>:focus-visible</code>, respetan <code>prefers-reduced-motion</code> y encierran el hover en <code>@media (hover: hover)</code>, as&iacute; que en t&aacute;ctil no queda pegado despu&eacute;s del toque. Demo en vivo en la pesta&ntilde;a <strong>M&oacute;vil</strong> del showcase y subsecci&oacute;n 30 en <code>yiqi-design.md</code>.<div class="chg-links"><a class="ds-xref" href="#nav-movil"><i class="ph ph-anchor-simple"></i> &sect;67 &middot; Navegaci&oacute;n m&oacute;vil</a><a class="ds-xref" href="examples/showcase.html?tab=movil"><i class="ph ph-anchor-simple"></i> Ver en vivo</a><button class="ds-copy chg-share" data-ds-copy="link" title="Copiar link a este cambio" aria-label="Copiar link a este cambio"><i class="ph ph-link"></i>Compartir</button></div></td>
+<td><strong>Navegaci&oacute;n m&oacute;vil &mdash; <code>&sect;67</code>.</strong> Cinco componentes que cada app ven&iacute;a resolviendo por su cuenta: grilla de accesos (<code>.ds-applist</code>), barra inferior (<code>.ds-bottomnav</code>), bot&oacute;n flotante con acciones (<code>.ds-fab</code>), hoja inferior (<code>.ds-sheet</code>) y barra de aplicaci&oacute;n (<code>.ds-appbar</code>). El sistema publicaba el drawer y la topbar, pero <strong>nada del chrome que una app usa cuando corre en un tel&eacute;fono</strong>: el resultado era que cada una lo copiaba con sus propias medidas y sus propios colores. <strong>Cero tokens nuevos y cero colores escritos a mano</strong> &mdash; los cinco se arman con los que ya exist&iacute;an. Los cinco llevan <code>:focus-visible</code>, respetan <code>prefers-reduced-motion</code> y encierran el hover en <code>@media (hover: hover)</code>, as&iacute; que en t&aacute;ctil no queda pegado despu&eacute;s del toque. Demo en vivo en la pesta&ntilde;a <strong>M&oacute;vil</strong> del showcase y subsecci&oacute;n 30 en <code>yiqi-design.md</code>.<button class="ds-copy chg-share" data-ds-copy="link" title="Copiar link a este cambio" aria-label="Copiar link a este cambio"><i class="ph ph-link"></i>Compartir</button></td>
 </tr>
 
 <tr id="chg-rail-sidebar">
 <td class="mono-cell">v1.2.7.10</td>
 <td class="mono-cell">04/08/2026</td>
 <td><span class="badge badge-amber">FIX</span></td>
-<td><strong>El rail del sidebar vuelve a ser una sola columna.</strong> Dos defectos distintos en la misma zona. <strong>Expandido</strong>: <code>.sidebar-collapse</code> hereda <code>margin: auto 0 0 auto</code> de la regla base, y dentro de <code>.sidebar-ctrls</code> &mdash;que ya es flex con <code>justify-content: flex-end</code>&mdash; ese <code>margin-left: auto</code> empujaba el <em>primer</em> bot&oacute;n al medio del sidebar y dejaba el segundo solo contra el borde. Medido con el sidebar en 240px: el chevron en <code>x=86,5</code> con 74,5px de margen y 80,5px de separaci&oacute;n del candado; ahora en <code>x=161</code>, a 6px. <strong>Colapsado</strong>: el modo estaba escrito de dos formas mezcladas &mdash;16 reglas exigen <code>.app-shell.nav-collapsed</code> y 16 se conforman con <code>.nav-collapsed</code>&mdash;, as&iacute; que una app que arma el layout con <code>.ds-layout</code> en vez de <code>.app-shell</code> recib&iacute;a la mitad del modo: la columna se armaba, pero los dos botones sal&iacute;an 8px fuera de la l&iacute;nea de iconos. Render de control de cinco p&aacute;ginas en oscuro y claro: sin diferencias fuera del piso de ruido medido.<div class="chg-links"><a class="ds-xref" href="#app-shell"><i class="ph ph-anchor-simple"></i> &sect;34 &middot; Shell de app</a><a class="ds-xref" href="examples/showcase.html?tab=analytics&amp;card=card-rail-peek"><i class="ph ph-anchor-simple"></i> Ver en vivo</a><button class="ds-copy chg-share" data-ds-copy="link" title="Copiar link a este cambio" aria-label="Copiar link a este cambio"><i class="ph ph-link"></i>Compartir</button></div></td>
+<td><strong>El rail del sidebar vuelve a ser una sola columna.</strong> Dos defectos distintos en la misma zona. <strong>Expandido</strong>: <code>.sidebar-collapse</code> hereda <code>margin: auto 0 0 auto</code> de la regla base, y dentro de <code>.sidebar-ctrls</code> &mdash;que ya es flex con <code>justify-content: flex-end</code>&mdash; ese <code>margin-left: auto</code> empujaba el <em>primer</em> bot&oacute;n al medio del sidebar y dejaba el segundo solo contra el borde. Medido con el sidebar en 240px: el chevron en <code>x=86,5</code> con 74,5px de margen y 80,5px de separaci&oacute;n del candado; ahora en <code>x=161</code>, a 6px. <strong>Colapsado</strong>: el modo estaba escrito de dos formas mezcladas &mdash;16 reglas exigen <code>.app-shell.nav-collapsed</code> y 16 se conforman con <code>.nav-collapsed</code>&mdash;, as&iacute; que una app que arma el layout con <code>.ds-layout</code> en vez de <code>.app-shell</code> recib&iacute;a la mitad del modo: la columna se armaba, pero los dos botones sal&iacute;an 8px fuera de la l&iacute;nea de iconos. Render de control de cinco p&aacute;ginas en oscuro y claro: sin diferencias fuera del piso de ruido medido.<button class="ds-copy chg-share" data-ds-copy="link" title="Copiar link a este cambio" aria-label="Copiar link a este cambio"><i class="ph ph-link"></i>Compartir</button></td>
 </tr>
 
 <tr id="chg-version-sin-red">
 <td class="mono-cell">v1.2.7.10</td>
 <td class="mono-cell">04/08/2026</td>
 <td><span class="badge badge-amber">FIX</span></td>
-<td><strong>La versi&oacute;n a la vista deja de depender de la red.</strong> <a class="ds-xref" href="#statusbar" style="display:inline-flex">&sect;52</a> dice que el n&uacute;mero <strong>nunca se escribe a mano</strong>, pero el &uacute;nico mecanismo era <code>fetch('version.json')</code> &mdash; y ese fetch se cae en silencio sobre <code>file://</code>, donde el navegador lo bloquea, y con <code>connect-src 'self'</code>. En esos casos cada <code>[data-ds-version]</code> mostraba su texto de respaldo, que estaba viejo: el cat&aacute;logo dec&iacute;a <strong>1.2.7.9 en Novedades, 1.2.7.6 en la demo de Analytics Pro y 1.2.7.4 en la del pie, los tres a la vez</strong>. El token <code>--ds-version</code> vive dentro de <code>styles.css</code> desde 1.2.7.9 y estaba documentado justo para esto, pero ning&uacute;n archivo lo usaba: una hoja de estilo cruza or&iacute;genes, un fetch no. Ahora el token pinta primero, sin red, y <code>version.json</code> lo pisa si contesta. Verificado en los tres escenarios &mdash; http con JSON, http con JSON en 404 y <code>file://</code> &mdash;: 1.2.7.10 en los cuatro elementos y en el <code>&lt;title&gt;</code>.<div class="chg-links"><a class="ds-xref" href="#statusbar"><i class="ph ph-anchor-simple"></i> &sect;52 &middot; Statusbar</a><a class="ds-xref" href="examples/showcase.html?tab=analytics&amp;card=card-statusbar"><i class="ph ph-anchor-simple"></i> Ver en vivo</a><button class="ds-copy chg-share" data-ds-copy="link" title="Copiar link a este cambio" aria-label="Copiar link a este cambio"><i class="ph ph-link"></i>Compartir</button></div></td>
+<td><strong>La versi&oacute;n a la vista deja de depender de la red.</strong> <a class="ds-xref" href="#statusbar" style="display:inline-flex">&sect;52</a> dice que el n&uacute;mero <strong>nunca se escribe a mano</strong>, pero el &uacute;nico mecanismo era <code>fetch('version.json')</code> &mdash; y ese fetch se cae en silencio sobre <code>file://</code>, donde el navegador lo bloquea, y con <code>connect-src 'self'</code>. En esos casos cada <code>[data-ds-version]</code> mostraba su texto de respaldo, que estaba viejo: el cat&aacute;logo dec&iacute;a <strong>1.2.7.9 en Novedades, 1.2.7.6 en la demo de Analytics Pro y 1.2.7.4 en la del pie, los tres a la vez</strong>. El token <code>--ds-version</code> vive dentro de <code>styles.css</code> desde 1.2.7.9 y estaba documentado justo para esto, pero ning&uacute;n archivo lo usaba: una hoja de estilo cruza or&iacute;genes, un fetch no. Ahora el token pinta primero, sin red, y <code>version.json</code> lo pisa si contesta. Verificado en los tres escenarios &mdash; http con JSON, http con JSON en 404 y <code>file://</code> &mdash;: 1.2.7.10 en los cuatro elementos y en el <code>&lt;title&gt;</code>.<button class="ds-copy chg-share" data-ds-copy="link" title="Copiar link a este cambio" aria-label="Copiar link a este cambio"><i class="ph ph-link"></i>Compartir</button></td>
 </tr>
 
 <tr>
@@ -660,7 +648,7 @@ body.preview-open .ds-layout { display: none !important; }
 </table>
 <button class="ds-changelog-more" id="dsChangelogMore" type="button" aria-expanded="false"></button>
 </div>
-<script>(function(){var b=document.getElementById('dsChangelogMore'),t=document.getElementById('ds-changelog');if(!b||!t)return;var n=t.querySelectorAll('tbody tr').length;function lbl(o){b.innerHTML=o?'Ver menos <i class="ph ph-caret-up"></i>':'Ver todos los cambios ('+n+') <i class="ph ph-caret-down"></i>';}lbl(false);b.addEventListener('click',function(){var o=t.classList.toggle('show-all');b.setAttribute('aria-expanded',o?'true':'false');lbl(o);});/* Un link a una fila vieja llega a una fila que el CSS oculta a partir de la cuarta: se despliega sola, si no el que abre el link no ve nada. */function abrirSiApunta(){var h=location.hash.slice(1);if(!h)return;var r=t.querySelector('tbody tr[id="'+CSS.escape(h)+'"]');if(!r)return;if(getComputedStyle(r).display!=='none')return;t.classList.add('show-all');b.setAttribute('aria-expanded','true');lbl(true);requestAnimationFrame(function(){r.scrollIntoView({block:'start'});});}abrirSiApunta();window.addEventListener('hashchange',abrirSiApunta);})();</script>
+<script>(function(){var b=document.getElementById('dsChangelogMore'),t=document.getElementById('ds-changelog');if(!b||!t)return;var n=t.querySelectorAll('tbody tr').length;function lbl(o){b.innerHTML=o?'Ver menos <i class="ph ph-caret-up"></i>':'Ver todos los cambios ('+n+') <i class="ph ph-caret-down"></i>';}lbl(false);b.addEventListener('click',function(){var o=t.classList.toggle('show-all');b.setAttribute('aria-expanded',o?'true':'false');lbl(o);});/* Un link a una fila vieja llega a una fila que el CSS oculta a partir de la cuarta: se despliega sola, si no el que abre el link no ve nada. */function abrirSiApunta(){var h=location.hash.slice(1);if(!h)return;var r=t.querySelector('tbody tr[id="'+CSS.escape(h)+'"]');if(!r)return;if(getComputedStyle(r).display==='none'){t.classList.add('show-all');b.setAttribute('aria-expanded','true');lbl(true);}requestAnimationFrame(function(){r.scrollIntoView({block:'center'});});}abrirSiApunta();window.addEventListener('hashchange',abrirSiApunta);})();</script>
 
 </section>
 <!-- ─── BRAND ─── -->
@@ -1118,7 +1106,6 @@ body.preview-open .ds-layout { display: none !important; }
 <div class="ds-section-kicker">04 · Tipografía</div>
 <h2 class="ds-section-title">Escala tipográfica</h2>
 <p class="ds-section-sub">Tres familias, tres trabajos. <strong>Plus Jakarta Sans</strong> para las jerarquías mayores <em>y las cifras</em>, <strong>Inter</strong> para todo el texto de interfaz, <strong>IBM Plex Mono</strong> para labels, tokens, IDs y códigos. Una familia no invade el trabajo de otra.</p>
-<a class="ds-xref" href="examples/showcase.html?tab=analytics&amp;card=card-display"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 
 <div class="wf-head">
@@ -1549,7 +1536,6 @@ body.preview-open .ds-layout { display: none !important; }
 <div class="ds-section-kicker">10 · Componentes</div>
 <h2 class="ds-section-title">Botones</h2>
 <p class="ds-section-sub">Se incorpora la variante ámbar para instalación y descarga operativa. Todos comparten radius-14 como base y admiten iconografía inline en SVG.</p>
-<a class="ds-xref" href="examples/showcase.html?tab=primitivos&amp;card=card-close"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 <div class="subsection-title">Variantes</div>
 <div class="comp-row">
@@ -2788,7 +2774,6 @@ document.body.classList.add(<span style="color:var(--green)">'anim-in'</span>);<
 <div class="ds-section-kicker">29 · Layout</div>
 <h2 class="ds-section-title">Grid &amp; Layout system</h2>
 <p class="ds-section-sub">App shell con CSS Grid. Sidebar fijo + topbar sticky + main scroll. Responsive collapsa sidebar en &lt;980px.</p>
-<a class="ds-xref" href="examples/showcase.html?tab=mockups&amp;card=card-breakpoints"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 <div class="card" style="margin-bottom:16px">
 <div style="font:700 13px var(--sans);margin-bottom:12px">App shell</div>
@@ -4154,7 +4139,6 @@ function dsNavLock(){
 <div class="ds-section-kicker">40 · Marketplace</div>
 <h2 class="ds-section-title">Banners de apps</h2>
 <p class="ds-section-sub">Banner promocional por app del Marketplace. Web component <code>&lt;app-banner app="…"&gt;</code>. Acento <strong>100% por token</strong> (uno por app, nunca cyan); paleta invertida y gradiente como el banner de Analytics Pro. Cada banner lleva <strong>ícono de la app + logo YiQi</strong> (homologación) y un <strong>slot de ilustración</strong>. Analytics Pro tiene <strong>dos versiones</strong>: el premium (§39) y esta variante unificada.</p>
-<a class="ds-xref" href="examples/showcase.html?tab=marketplace&amp;card=card-app-banners"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 <app-banner app="prov"></app-banner>
 <app-banner app="inv"></app-banner>
@@ -4198,7 +4182,6 @@ ana · prov · inv · pos · pick · cons
 <div class="ds-section-kicker">41 · Marketplace</div>
 <h2 class="ds-section-title">Header de ficha</h2>
 <p class="ds-section-sub">Encabezado de la ficha de app. Compone <code>.btn</code> + <code>.badge</code> + estructura <code>.mb-fhead</code>. Ícono de app, categoría, nombre, proveedor, badge de homologación y rating. <strong>CTA de color de app</strong> (<code>.mb-cta</code>): fondo <code>var(--accent)</code> con <strong>tinta legible</strong> <code>var(--accent-ink)</code> — clara sobre acentos oscuros (violeta), oscura sobre los claros.</p>
-<a class="ds-xref" href="examples/showcase.html?tab=marketplace&amp;card=card-mb-fhead"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 <div class="mb-fhead">
 <div class="mb-ficon"><i class="ph ph-package"></i></div>
@@ -4218,7 +4201,6 @@ ana · prov · inv · pos · pick · cons
 <div class="ds-section-kicker">42 · Marketplace</div>
 <h2 class="ds-section-title">Card de pricing + estimador</h2>
 <p class="ds-section-sub">Bloque comercial de la ficha. Trial, filas Activación/Abono, <strong>estimador</strong> con el primitivo <em>Slider</em> (§21) y output, CTAs (<code>.btn</code>) y nota de consulta gratis / operación paga.</p>
-<a class="ds-xref" href="examples/showcase.html?tab=mockups&amp;card=card-plans"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 <div class="mb-card mb-stack">
 <span class="mb-trial"><i class="ph ph-clock"></i> Prueba gratis 30 días · sin tarjeta</span>
@@ -4244,7 +4226,6 @@ ana · prov · inv · pos · pick · cons
 <div class="ds-section-kicker">43 · Marketplace</div>
 <h2 class="ds-section-title">Card de detalles</h2>
 <p class="ds-section-sub">Ficha técnica de la app: lista de pares clave-valor (<code>.mb-meta-row</code>).</p>
-<a class="ds-xref" href="examples/showcase.html?tab=marketplace&amp;card=card-mb-details"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 <div class="mb-card" style="max-width:360px">
 <div class="mb-k">Detalles</div>
@@ -4264,7 +4245,6 @@ ana · prov · inv · pos · pick · cons
 <div class="ds-section-kicker">44 · Marketplace</div>
 <h2 class="ds-section-title">Card de desarrollador</h2>
 <p class="ds-section-sub">Identidad del proveedor + acción de compartir. Usa el lockup de proveedor y un <code>.btn</code>.</p>
-<a class="ds-xref" href="examples/showcase.html?tab=marketplace&amp;card=card-mb-dev"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 <div class="mb-card" style="max-width:360px">
 <div class="mb-k">Desarrollador</div>
@@ -4278,7 +4258,6 @@ ana · prov · inv · pos · pick · cons
 <div class="ds-section-kicker">45 · Marketplace</div>
 <h2 class="ds-section-title">Menú de compartir</h2>
 <p class="ds-section-sub">Menú enriquecido de compartir (instancia del primitivo <em>Popover</em>): compartir nativo, copiar enlace y redes.</p>
-<a class="ds-xref" href="examples/showcase.html?tab=marketplace&amp;card=card-mb-share"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 <div class="mb-share">
 <div class="mb-share-head">Compartir</div>
@@ -4299,7 +4278,6 @@ ana · prov · inv · pos · pick · cons
 <div class="ds-section-kicker">46 · Marketplace</div>
 <h2 class="ds-section-title">Card de catálogo</h2>
 <p class="ds-section-sub">Card del catálogo del Marketplace. Thumb con ícono en el color de la app + badge de estado, categoría, nombre, descripción y pie (Ver app + proveedor). El acento se mapea al token de la app (acá <code>--green</code>).</p>
-<a class="ds-xref" href="examples/showcase.html?tab=marketplace&amp;card=card-mb-appcard"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 <div class="mb-appcard">
 <div class="mb-thumb"><span class="mb-state">En desarrollo</span><div class="mb-thumb-ico"><i class="ph ph-package"></i></div></div>
@@ -4317,7 +4295,6 @@ ana · prov · inv · pos · pick · cons
 <div class="ds-section-kicker">47 · Marketplace</div>
 <h2 class="ds-section-title">Reseñas</h2>
 <p class="ds-section-sub">Resumen de rating + reseñas con badge <strong>Cliente verificado</strong>. Solo de clientes que usan la app.</p>
-<a class="ds-xref" href="examples/showcase.html?tab=marketplace&amp;card=card-mb-reviews"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 <div style="max-width:560px">
 <div class="mb-rev-sum"><div class="mb-rev-big">4.6</div><div><div class="mb-stars" style="font-size:16px">★★★★★</div><div class="mb-rev-meta">124 reseñas · solo de clientes que la usan</div></div></div>
@@ -4331,7 +4308,6 @@ ana · prov · inv · pos · pick · cons
 <div class="ds-section-kicker">48 · Marketplace</div>
 <h2 class="ds-section-title">Bloque de homologación</h2>
 <p class="ds-section-sub">Sello de homologación + datos de seguridad/acceso (clave-valor). Central al concepto de homologación del Marketplace.</p>
-<a class="ds-xref" href="examples/showcase.html?tab=marketplace&amp;card=card-mb-homo"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 <div class="mb-homo">
 <div class="mb-seal"><i class="ph ph-shield-check"></i><b>Homologada por YiQi</b></div>
@@ -4350,7 +4326,6 @@ ana · prov · inv · pos · pick · cons
 <div class="ds-section-kicker">52 · Kit de panel</div>
 <h2 class="ds-section-title">Statusbar</h2>
 <p class="ds-section-sub">Barra de estado fija al pie de la app, al estilo de un editor de codigo. Dice de donde vienen los datos sin robar espacio al contenido. Promovida desde Analytics Pro.</p>
-<a class="ds-xref" href="examples/showcase.html?tab=analytics&amp;card=card-statusbar"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 
 <div style="max-width:760px;margin-bottom:20px">
@@ -4405,7 +4380,6 @@ if (v) target.textContent = `DS v${v}`;</code></pre>
 <div class="ds-section-kicker">53 · Kit de panel</div>
 <h2 class="ds-section-title">Herramientas del sidebar</h2>
 <p class="ds-section-sub">Contenedor que baja al sidebar los controles que no entran en la topbar: cuenta, esquema, periodo, refrescar y salir. No define componentes propios: solo reacomoda los del sistema.</p>
-<a class="ds-xref" href="examples/showcase.html?tab=analytics&amp;card=card-sidebar-tools"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 
 <div style="max-width:280px;margin-bottom:20px">
@@ -4441,7 +4415,6 @@ if (v) target.textContent = `DS v${v}`;</code></pre>
 <div class="ds-section-kicker">54 · Kit de panel</div>
 <h2 class="ds-section-title">Navegacion en tabs</h2>
 <p class="ds-section-sub">Segunda disposicion del shell: en vez de sidebar lateral, una barra de tabs arriba del contenido. Se activa con <code>.app-shell.nav-tabs</code> y el usuario alterna con <code>.btn-layout</code>.</p>
-<a class="ds-xref" href="examples/showcase.html?tab=analytics&amp;card=card-tab-nav"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 
 <div style="max-width:620px;margin-bottom:16px">
@@ -4475,7 +4448,6 @@ if (v) target.textContent = `DS v${v}`;</code></pre>
 <div class="ds-section-kicker">55 · Kit de panel</div>
 <h2 class="ds-section-title">Fuente de datos</h2>
 <p class="ds-section-sub">Item del sidebar que despliega una tarjeta explicando de donde sale el dato. Responde &laquo;esto de donde viene&raquo; sin sacar al usuario de la pantalla.</p>
-<a class="ds-xref" href="examples/showcase.html?tab=analytics&amp;card=card-src"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 
 <div style="max-width:320px;margin-bottom:20px">
@@ -4508,7 +4480,6 @@ if (v) target.textContent = `DS v${v}`;</code></pre>
 <div class="ds-section-kicker">56 · Kit de panel</div>
 <h2 class="ds-section-title">Ranking con barra</h2>
 <p class="ds-section-sub">Lista comparativa donde cada fila lleva su propia barra de proporcion. Para rankings cortos de sucursal, vendedor o canal. Si son mas de diez filas va tabla, no esto.</p>
-<a class="ds-xref" href="examples/showcase.html?tab=analytics&amp;card=card-branch"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 
 <div style="max-width:420px;margin-bottom:20px">
@@ -4538,7 +4509,6 @@ if (v) target.textContent = `DS v${v}`;</code></pre>
 <div class="ds-section-kicker">57 · Kit de panel</div>
 <h2 class="ds-section-title">Watchlist tonal</h2>
 <p class="ds-section-sub">Variante de <code>.watchlist-card</code> con barra de avance y acento de color por tono. El tono comunica urgencia: verde al dia, ambar por vencer, cyan informativo.</p>
-<a class="ds-xref" href="examples/showcase.html?tab=analytics&amp;card=card-watchlist-tonal"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 
 <div class="watchlist-grid watchlist-grid-compact" style="max-width:760px;margin-bottom:20px">
@@ -4565,7 +4535,6 @@ if (v) target.textContent = `DS v${v}`;</code></pre>
 <div class="ds-section-kicker">58 · Kit de panel</div>
 <h2 class="ds-section-title">Card clickeable</h2>
 <p class="ds-section-sub">Modificador para cards que abren un detalle. Da la senal de que se puede hacer clic sin agregar un boton ni un borde.</p>
-<a class="ds-xref" href="examples/showcase.html?tab=analytics&amp;card=card-clickable-demo"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 
 <div style="max-width:280px;margin-bottom:20px">
@@ -4593,7 +4562,6 @@ if (v) target.textContent = `DS v${v}`;</code></pre>
 <div class="ds-section-kicker">59 · Kit de panel</div>
 <h2 class="ds-section-title">Sin dato</h2>
 <p class="ds-section-sub">Que poner donde iba la cifra cuando la metrica no tiene valor. Es el vacio <em>dentro</em> de una card: para el vacio de pantalla completa va <a class="ds-xref" href="#empty-state"><i class="ph ph-anchor-simple"></i> 19 &middot; Estado vacio</a>.</p>
-<a class="ds-xref" href="examples/showcase.html?tab=analytics&amp;card=card-sin-dato"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 
 <div style="display:flex;gap:16px;flex-wrap:wrap;max-width:760px;margin-bottom:20px">
@@ -4621,7 +4589,6 @@ if (v) target.textContent = `DS v${v}`;</code></pre>
 <div class="ds-section-kicker">60 · Kit de panel</div>
 <h2 class="ds-section-title">Carrusel de KPIs</h2>
 <p class="ds-section-sub">Fila de metricas secundarias con scroll horizontal y snap. Para lo que aporta contexto pero no merece lugar fijo en la grilla principal.</p>
-<a class="ds-xref" href="examples/showcase.html?tab=analytics&amp;card=card-more-kpis"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 
 <div class="more-kpis" style="max-width:700px;margin-bottom:20px">
@@ -4744,7 +4711,6 @@ if (v) target.textContent = `DS v${v}`;</code></pre>
 
 <h2 class="ds-section-title">LLM FAB</h2>
 <p class="ds-section-sub">Botón flotante para copiar el contexto del DS al clipboard. Diseñado para uso en páginas servidas (no <code>file://</code>). Web Component reutilizable.</p>
-<a class="ds-xref" href="examples/showcase.html?tab=mockups&amp;card=card-fab"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 
 <!-- Demo estados -->
 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px">
@@ -4810,7 +4776,6 @@ if (v) target.textContent = `DS v${v}`;</code></pre>
 <div class="ds-section-kicker">64 · Documento</div>
 <h2 class="ds-section-title">Nota / callout</h2>
 <p class="ds-section-sub">Bloque de aclaración dentro de una sección: contexto, advertencia o anti-patrón. Borderless — se separa del texto por fondo elevado, nunca por borde ni franja lateral. El tono es opcional y va <strong>solo en el fondo</strong>: el texto no cambia de color.</p>
-<a class="ds-xref" href="examples/showcase.html?tab=analytics&amp;card=card-note"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 
 <div class="subsection-title">Los cuatro tonos</div>
 <div style="display:grid;gap:9px;max-width:820px;margin-bottom:22px">

@@ -17,7 +17,7 @@
   <div class="sc-grid">
       <article class="sc-card" id="card-mb-appcard">
         <div class="sc-card-h"><span class="sc-card-title">Card de cat&aacute;logo</span><a class="ds-xref" href="../yiqi-design-system.html#mb-appcard"><i class="ph ph-anchor-simple"></i> Ver fuente</a><button type="button" class="ds-copy" data-ds-copy="card" aria-label="Copiar markup del componente" title="Copiar markup"><i class="ph ph-copy"></i></button></div>
-        <p class="sc-card-sub">Card del catálogo del Marketplace.</p>
+        <p class="sc-card-sub">Card del catálogo del Marketplace. Thumb con ícono en el color de la app + badge de estado, categoría, nombre, descripción y pie (Ver app + proveedor). El acento se mapea al token de la app (acá --green).</p>
         <div class="sc-stage"><div class="mb-appcard">
 <div class="mb-thumb"><span class="mb-state">En desarrollo</span><div class="mb-thumb-ico"><i class="ph ph-package"></i></div></div>
 <div class="mb-abody">
@@ -30,7 +30,7 @@
       </article>
       <article class="sc-card" id="card-mb-fhead">
         <div class="sc-card-h"><span class="sc-card-title">Header de ficha</span><a class="ds-xref" href="../yiqi-design-system.html#mb-fhead"><i class="ph ph-anchor-simple"></i> Ver fuente</a><button type="button" class="ds-copy" data-ds-copy="card" aria-label="Copiar markup del componente" title="Copiar markup"><i class="ph ph-copy"></i></button></div>
-        <p class="sc-card-sub">Encabezado de la ficha de app.</p>
+        <p class="sc-card-sub">Encabezado de la ficha de app. Compone .btn + .badge + estructura .mb-fhead. Ícono de app, categoría, nombre, proveedor, badge de homologación y rating. CTA de color de app (.mb-cta): fondo var(--accent) con tinta legible var(--accent-ink) — clara sobre acentos oscuros (violeta), oscura sobre los claros.</p>
         <div class="sc-stage"><div class="mb-fhead">
 <div class="mb-ficon"><i class="ph ph-package"></i></div>
 <div>
@@ -108,14 +108,26 @@
       </article>
       <article class="sc-card" id="card-app-banners">
         <div class="sc-card-h"><span class="sc-card-title">Banners de apps</span><a class="ds-xref" href="../yiqi-design-system.html#app-banners"><i class="ph ph-anchor-simple"></i> Ver fuente</a><button type="button" class="ds-copy" data-ds-copy="card" aria-label="Copiar markup del componente" title="Copiar markup"><i class="ph ph-copy"></i></button></div>
-        <p class="sc-card-sub">Banner promocional por app del Marketplace.</p>
-        <div class="sc-stage">
-          <!-- Una horizontal y una vertical alcanzan para leer el componente.
-               El catalogo muestra las seis apps de las dos formas: aca eso da
-               una card de 9.400px contra las 400 del resto de la grilla. -->
-          <app-banner app="inv"></app-banner>
-          <div style="display:flex;justify-content:center;margin-top:16px"><app-banner app="ana" variant="vertical"></app-banner></div>
-        </div>
+        <p class="sc-card-sub">Banner promocional por app del Marketplace. Web component &lt;app-banner app="…"&gt;. Acento 100% por token (uno por app, nunca cyan); paleta invertida y gradiente como el banner de Analytics Pro. Cada banner lleva ícono de la app + logo YiQi (homologación) y un slot de ilustración. Analytics Pro tiene dos versiones: el premium (§39) y esta variante unificada.</p>
+        <div class="sc-stage"><app-banner app="prov"></app-banner>
+<app-banner app="inv"></app-banner>
+<app-banner app="pos"></app-banner>
+<app-banner app="pick"></app-banner>
+<app-banner app="cons"></app-banner>
+<app-banner app="ana"></app-banner>
+<div class="ds-section-kicker" style="margin-top:36px">Versión vertical</div>
+<p class="ds-section-sub" style="margin-bottom:16px">Mismo componente con <code>variant="vertical"</code>: ilustración arriba, formato retrato para sidebars, mobile o módulos angostos.</p>
+<div style="display:flex;gap:18px;flex-wrap:wrap;justify-content:center;margin-bottom:8px">
+<app-banner app="ana" variant="vertical"></app-banner>
+<app-banner app="prov" variant="vertical"></app-banner>
+<app-banner app="inv" variant="vertical"></app-banner>
+<app-banner app="pos" variant="vertical"></app-banner>
+<app-banner app="pick" variant="vertical"></app-banner>
+<app-banner app="cons" variant="vertical"></app-banner>
+</div>
+<div class="token-grid-2" style="margin-top:24px">
+<div class="card">
+<div class="card-kicker">Apps · token de acento · estado</div></div>
       </article>
   </div>
 </section>
@@ -124,9 +136,6 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="../yiqi-runtime.js" defer></script>
 <script src="../ds-components.js" defer></script>
-<!-- <app-banner> es un web component propio: sin este script la card de
-     Marketplace muestra el hueco y nadie se entera de por que. -->
-<script src="../components/app-banner.js" defer></script>
 <style>
   /* ── Layout de la página (solo composición; los estilos de componente vienen del DS) ── */
   /* El alto descuenta la statusbar fija: si no, la barra tapa el contenido.
