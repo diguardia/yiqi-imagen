@@ -462,8 +462,7 @@
   
   <div class="sc-carousel-track" id="scTrack">
   <div class="sc-panel" id="tab-analytics" role="tabpanel" aria-labelledby="sctab-analytics">
-    
-<div style="padding:14px 14px 0;display:flex;justify-content:flex-end"><a class="ds-xref" href="../yiqi-design-system.html#panel-gerencial"><i class="ph ph-anchor-simple"></i> Ver fuente · §37</a></div><style>
+    <style>
       #tab-analytics .sc-section{ max-width:none; margin:0; }
       #tab-analytics .ap-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px; align-items:start; }
       #tab-analytics .sc-card{ margin:0; }
@@ -818,7 +817,6 @@
     </section>
   </div>
   <div class="sc-panel is-active" id="tab-mockups" role="tabpanel" aria-labelledby="sctab-mockups">
-<div style="padding:14px 14px 0;display:flex;justify-content:flex-end"><a class="ds-xref" href="../yiqi-design-system.html#app-overview"><i class="ph ph-anchor-simple"></i> Ver fuente · §33</a></div>
   <!-- GRILLA DE MOCKUPS -->
   <section class="sc-grid">
 
@@ -1344,8 +1342,7 @@
 
 </div>
 <div class="sc-panel" id="tab-galeria" role="tabpanel" aria-labelledby="sctab-galeria">
-
-<div style="padding:14px 14px 0;display:flex;justify-content:flex-end"><a class="ds-xref" href="../yiqi-design-system.html#chart-anim"><i class="ph ph-anchor-simple"></i> Ver fuente · §28</a></div><style id="gx-style">
+<style id="gx-style">
 #tab-galeria .sc-section{ max-width:none; margin:0; padding:28px clamp(20px,2.5vw,44px) 72px; }
 #tab-galeria .sc-section-h{ white-space:nowrap; }
 #tab-galeria .sec-h, #tab-movil .sec-h{font:800 16px var(--display);letter-spacing:-.02em;margin:30px 0 4px;white-space:nowrap}
@@ -1723,8 +1720,7 @@
 </div>
 <!-- ══════════ GALERÍA DE ICONOS ══════════ -->
 <div class="sc-panel" id="tab-iconos" role="tabpanel" aria-labelledby="sctab-iconos">
-
-<div style="padding:14px 14px 0;display:flex;justify-content:flex-end"><a class="ds-xref" href="../yiqi-design-system.html#icons"><i class="ph ph-anchor-simple"></i> Ver fuente · §09</a></div><section class="sc-section" style="margin-top:0">
+<section class="sc-section" style="margin-top:0">
   <h2 class="sc-section-h">Galería de iconos</h2>
   <p class="sc-section-sub">Set <strong>Phosphor</strong> usado en el DS (clase <code class="sc-mono">ph ph-*</code>). Busca y toca un icono para copiar su etiqueta.</p>
   <div class="ic-toolbar">
@@ -1738,8 +1734,7 @@
 
 <!-- ══════════ PRIMITIVOS INTERACTIVOS ══════════ -->
 <div class="sc-panel" id="tab-primitivos" role="tabpanel" aria-labelledby="sctab-primitivos">
-
-<div style="padding:14px 14px 0;display:flex;justify-content:flex-end"><a class="ds-xref" href="../yiqi-design-system.html#prim-tabs"><i class="ph ph-anchor-simple"></i> Ver fuente · §22</a></div><section class="sc-section" style="margin-top:0">
+<section class="sc-section" style="margin-top:0">
   <h2 class="sc-section-h">Primitivos interactivos</h2>
   <p class="sc-section-sub">Componentes base accesibles, construidos solo con tokens del DS y JS nativo — sin dependencias.</p>
   <div class="pr-grid" id="prCarousel">
@@ -2655,18 +2650,14 @@
 })();
 </script>
 <script>
-/* ── Deep-link. Habia dos mecanismos: este, que leia ?tab= y #tab-x, y el
-      de anclas que escribe #x. Queda uno solo que acepta las tres formas,
-      porque el catalogo linkea con ?tab= y la barra del navegador con #x.
-      El salto a una card por ?card= sigue igual. ── */
+/* ── Deep-link: ?tab=primitivos o #tab-primitivos abre esa vista ── */
 (function(){
   try{
-    var q=new URLSearchParams(location.search);
-    var p=q.get('tab');
+    var p=new URLSearchParams(location.search).get('tab');
     var h=(location.hash||'').replace('#','');
-    var name = p || (h.indexOf('tab-')===0 ? h.slice(4) : h);
+    var name = p || (h.indexOf('tab-')===0 ? h.slice(4) : '');
     if(name){ var t=document.getElementById('sctab-'+name); if(t) t.click(); }
-    var card=q.get('card');
+    var card=new URLSearchParams(location.search).get('card');
     if(card){ setTimeout(function(){ var el=document.getElementById(card); if(el) el.scrollIntoView({ behavior:'smooth', inline:'center', block:'center' }); }, 240); }
   }catch(e){}
 })();

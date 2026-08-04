@@ -1921,5 +1921,95 @@ Promovido desde `informes-yiqi/comercial.html`. El rail (`.nav-collapsed`) ya es
 
 ---
 
-*YiQi ERP · Design System v1.2.7.6 · Última actualización: 29/07/2026*
+## 30. Navegación móvil *(nuevo en v1.2.7.10)*
+
+Catálogo **§67 · `#nav-movil`**. El chrome de una app del ERP en el teléfono: cómo se
+**navega**, no cómo se muestra el dato. Cinco componentes nuevos.
+
+**Dos patrones de navegación móvil NO entran acá porque ya existen:**
+
+| patrón | dónde vive | clase |
+|---|---|---|
+| Menú de tres puntos | §24 · Dropdown | `.pr-menu` · `.pr-menu-item` · `.pr-menu-sep` |
+| Menú lateral | §35 · Kit base | `.sidebar` + `.nav-overlay` + `.nav-close` |
+
+**Ojo con `.pr-tabbar`:** es un segmented control horizontal, no una barra inferior.
+La barra de cinco destinos es `.ds-bottomnav`. No son variantes del mismo componente
+aunque en castellano las dos se digan «tabs».
+
+### Reglas
+
+- **`.ds-applist`** — grid de módulos. `.is-active` en **uno solo**: si se colorean
+  varios, ninguno es el activo.
+- **`.ds-bottomnav`** — hasta **cinco** destinos de primer nivel. Es navegación, no
+  acciones: lo que se *hace* va en el FAB. Reserva el indicador de home con
+  `env(safe-area-inset-bottom)`.
+- **`.ds-fab`** — **una sola por pantalla**. Es el único relleno cyan sólido del
+  sistema; con dos, ninguno es el primario. Distinto de `.llm-fab`, que es el botón
+  del asistente. Al expandir con `.ds-fab-actions`, la etiqueta va **afuera**, a la
+  izquierda: adentro no entra, y truncarla deja el ícono solo.
+- **`.ds-sheet`** — `.ds-sheet-grab` es obligatoria: sin manija el usuario no sabe
+  que la puede arrastrar. La acción destructiva va última, con `.is-danger`.
+- **`.ds-appbar`** — la vuelta atrás **siempre** a la izquierda: es donde el pulgar
+  la busca y donde la pone el sistema operativo. El título trunca con elipsis; el
+  contexto va en `--mono` debajo.
+
+### CSS
+
+```css
+.ds-applist        { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px }
+.ds-applist-item   { display:grid; justify-items:center; gap:6px; text-decoration:none }
+.ds-applist-ico    { width:44px; height:44px; border-radius:var(--radius);
+                     background:var(--bg-elev-2); color:var(--muted) }
+.ds-applist-item.is-active .ds-applist-ico { background:var(--cyan-soft); color:var(--cyan) }
+
+.ds-bottomnav      { display:grid; grid-auto-flow:column; grid-auto-columns:1fr;
+                     padding:9px 6px calc(9px + env(safe-area-inset-bottom,12px));
+                     background:var(--bg-elev) }
+.ds-bottomnav-item.is-active { color:var(--cyan) }
+
+.ds-fab            { position:absolute; right:16px; bottom:16px; width:52px; height:52px;
+                     border-radius:var(--radius-pill); background:var(--cyan);
+                     color:var(--accent-ink); box-shadow:var(--shadow-md) }
+
+.ds-sheet          { border-radius:var(--radius-lg) var(--radius-lg) 0 0;
+                     background:var(--bg-elev); box-shadow:var(--shadow-lg) }
+.ds-sheet-grab     { width:36px; height:4px; background:var(--line-strong); margin:0 auto 12px }
+.ds-sheet-item.is-danger { color:var(--red) }
+
+.ds-appbar         { display:flex; align-items:center; gap:12px; padding:11px 14px;
+                     background:var(--bg-elev) }
+.ds-appbar-t strong{ font:600 14px var(--sans); letter-spacing:-.02em;
+                     white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+```
+
+### HTML
+
+```html
+<nav class="ds-bottomnav" aria-label="Navegación principal">
+  <a class="ds-bottomnav-item is-active" href="#" aria-current="page">
+    <i class="ph ph-house"></i><span>Inicio</span>
+  </a>
+</nav>
+
+<button class="ds-fab" type="button" aria-label="Nueva venta"><i class="ph ph-plus"></i></button>
+
+<div class="ds-sheet" role="dialog" aria-label="Acciones">
+  <div class="ds-sheet-grab"></div>
+  <h3 class="ds-sheet-title">OV #4821</h3>
+  <button class="ds-sheet-item" type="button"><i class="ph ph-eye"></i>Ver detalle</button>
+  <button class="ds-sheet-item is-danger" type="button"><i class="ph ph-trash"></i>Anular</button>
+</div>
+
+<header class="ds-appbar">
+  <button class="ds-appbar-back" type="button" aria-label="Volver"><i class="ph ph-caret-left"></i></button>
+  <div class="ds-appbar-t"><strong>Órdenes de venta</strong><span>1.247 · Mes en curso</span></div>
+  <div class="ds-appbar-actions"><button type="button" aria-label="Buscar"><i class="ph ph-magnifying-glass"></i></button></div>
+</header>
+```
+
+
+---
+
+*YiQi ERP · Design System v1.2.7.10 · Última actualización: 04/08/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
