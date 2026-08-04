@@ -128,7 +128,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.7.9";
+  --ds-version: "1.2.7.10";
 
   /* Layout */
   --topbar-h:  56px;
@@ -2446,6 +2446,14 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
    columna de iconos. Medido: iconos en 34, botones en 42. */
 .nav-collapsed .sidebar-collapse { margin: auto auto 0; position: static; }
 .app-shell.nav-collapsed .sidebar-collapse { margin: auto auto 0; position: static; }
+
+/* Dentro de .sidebar-ctrls el margin:auto 0 0 auto de la regla base sobra y
+   descoloca: el contenedor ya es flex con justify-content:flex-end, asi que
+   el margin-left:auto empuja el PRIMER boton al medio y deja el segundo solo
+   contra el borde. Medido en el sidebar expandido de comercial.html (240px):
+   el chevron quedaba en x=86,5 con margin-left de 74,5px en vez de ir pegado
+   al candado. Los dos botones son un grupo: van juntos. */
+.sidebar-ctrls .sidebar-collapse { margin: 0; }
 /* Solo el chevron se da vuelta al colapsar. El candado cambia de icono
    (abierto/cerrado), no de orientacion: rotarlo lo deja al reves. */
 .app-shell.nav-collapsed .sidebar-collapse svg:not(.ico-locked):not(.ico-unlocked) { transform: rotate(180deg); }
