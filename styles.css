@@ -1748,7 +1748,14 @@ html[data-theme="light"] .skeleton-line {
 }
 
 .theme-opt:hover  { color: var(--text); }
-.theme-opt.active { background: var(--cyan-soft); color: var(--cyan); }
+/* El activo NO va en cyan. El cyan es el acento de navegacion: dice donde
+   estas. El tema es una preferencia, no un destino, y pintarla con el mismo
+   color la hace competir con el item de menu activo. Va por fondo tonal, que
+   es como el sistema separa sin borde. --bg-soft sube en oscuro y baja en
+   claro, asi que se lee como elegido en los dos temas; --bg-elev-2 no sirve:
+   en oscuro (#14161b) queda por debajo del hover (#181b21) y el activo se
+   veria menos que el hover. */
+.theme-opt.active { background: var(--bg-soft); color: var(--text); }
 
 /* ── .theme-cycle — el mismo toggle de 3 pasos, en un solo boton ──────
    Los tres .theme-opt lado a lado ocupan 90px y muestran dos estados que
@@ -1777,6 +1784,11 @@ html[data-theme="light"] .skeleton-line {
 /* Solo se ve el glifo del estado vigente. Sin JS que arme el SVG: los tres
    viajan en el marcado y el CSS elige, asi funciona antes de que corra nada. */
 .theme-cycle > svg { display: none; }
+/* La mitad llena del icono de "sistema": unica forma rellena del set, y es
+   deliberada — el relleno comunica "una mitad clara, una oscura". Hace falta
+   la regla porque .theme-cycle svg declara fill:none y el CSS del padre le
+   gana al atributo fill del hijo. */
+.theme-cycle .tc-fill { fill: currentColor; stroke: none; }
 .theme-cycle[data-pref="dark"]   > .tc-dark,
 .theme-cycle[data-pref="system"] > .tc-system,
 .theme-cycle[data-pref="light"]  > .tc-light,
@@ -1784,7 +1796,7 @@ html[data-theme="light"] .skeleton-line {
 /* En 'sistema' el estado no es una eleccion explicita: no se resalta.
    En oscuro y claro si, que es lo que el toggle de tres pasos ya hacia. */
 .theme-cycle[data-pref="dark"],
-.theme-cycle[data-pref="light"] { color: var(--cyan); background: var(--cyan-soft); }
+.theme-cycle[data-pref="light"] { color: var(--text); background: var(--bg-soft); }
 
 /* ── 40. MOD-CARD CON ZONAS SEPARADAS (v1.2.5) ───────────── */
 .mod-card        { border: none; border-radius: var(--radius-lg); background: var(--bg-elev-2); overflow: hidden; }
@@ -2384,7 +2396,9 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
   cursor:pointer; transition:background .18s ease, color .18s ease; }
 .sb-theme-switch .theme-opt svg, .sb-theme-switch .theme-option svg{ width:13px; height:13px; fill:none; stroke:currentColor; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round; }
 .sb-theme-switch .theme-opt:hover, .sb-theme-switch .theme-option:hover{ color:var(--text); }
-.sb-theme-switch .theme-opt.active, .sb-theme-switch .theme-option.active{ background:var(--cyan-soft); color:var(--cyan); }
+/* Mismo criterio que el .theme-opt de arriba: en el sidebar el cyan ya marca
+   el modulo activo. Dos cyan en la misma columna es un acento repetido. */
+.sb-theme-switch .theme-opt.active, .sb-theme-switch .theme-option.active{ background:var(--bg-soft); color:var(--text); }
 .sb-copy{ color:var(--muted-2); font:500 10px/1.45 var(--mono); padding-left:2px; }
 
 .card-flush{ background:transparent; box-shadow:none; border:none; padding:0; }
@@ -3206,7 +3220,11 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
 .sb-lock .ico-unlocked { display: block; }
 .nav-locked .sb-lock .ico-unlocked { display: none; }
 .nav-locked .sb-lock .ico-locked   { display: block; }
-.nav-locked .sb-lock { color: var(--cyan); }
+/* Fijado no va en cyan, por lo mismo que el toggle de tema: el cyan marca
+   donde estas, no que preferencia elegiste. Y el candado ya cambia de icono
+   (abierto/cerrado), asi que el estado se comunica por forma; el color solo
+   tiene que decir "esto esta activo", y eso lo hace el fondo tonal. */
+.nav-locked .sb-lock { color: var(--text); background: var(--bg-soft); }
 
 /* Flecha del colapsar: apunta al lado al que va a moverse. */
 .nav-collapsed .sb-arrow svg { transform: rotate(180deg); }
@@ -3238,6 +3256,18 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
 .nav-collapsed .sb-theme-switch .theme-opt { flex: none; width: 40px; height: 40px; margin: 0 auto; }
 .nav-collapsed.nav-peek .sb-theme-switch { flex-direction: row; padding: 3px; gap: 2px; }
 .nav-collapsed.nav-peek .sb-theme-switch .theme-opt { flex: 1; width: 28px; height: 28px; margin: 0; }
+
+/* El .theme-cycle en el rail colapsado. El runtime reemplaza los tres
+   .theme-opt por este boton unico, asi que toda regla escrita contra
+   .theme-opt deja de aplicar en cuanto el shim corre — es lo que pasaba en
+   informes-yiqi/comercial.html: el contenedor quedaba centrado (centro 33,5)
+   y el boton adentro pegado a la izquierda (centro 24), 9,5px fuera de la
+   columna de iconos. Medido con el sidebar en 68px.
+   margin:auto no alcanza solo: .theme-cycle es inline-flex y una caja de
+   linea ignora los margenes automaticos en horizontal. Pasa a flex, que es
+   de bloque, y ahi si centra. */
+.nav-collapsed .theme-cycle { display: flex; margin-left: auto; margin-right: auto; }
+.nav-collapsed.nav-peek .theme-cycle { margin-left: 0; margin-right: 0; }
 
 @media (max-width: 980px) {
   /* En celular no hay rail: el sidebar es drawer y los controles no aplican. */
