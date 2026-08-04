@@ -1,5 +1,5 @@
 /**
- * YiQi Runtime — v1.2.7.10
+ * YiQi Runtime — v1.2.7.11
  * Utilidades JS compartidas para entregables HTML standalone.
  *
  * Uso:  <script src="/system/sdk/yiqi-runtime.js"></script>
@@ -24,7 +24,7 @@
  *   YiQi.picker.set(el,v)     — desplegable .ds-picker: fija el valor
  *   YiQi.picker.value(el)     — valor actual del desplegable
  *
- * © 2026 YiQi S.A. — DS v1.2.7.10
+ * © 2026 YiQi S.A. — DS v1.2.7.11
  */
 
 (function (global) {
@@ -930,7 +930,7 @@
     picker: PickerAPI,
 
     /* Meta */
-    version: '1.2.7.10',
+    version: '1.2.7.11',
   };
 
 }(window));

@@ -336,6 +336,7 @@ body.preview-open .ds-layout { display: none !important; }
 <a class="ds-nav-item" href="#ds-copy"><span class="ds-nav-num">65</span> Copiar al portapapeles <span class="ds-nav-badge">v1.2.7.9</span></a>
 <a class="ds-nav-item" href="#ds-picker"><span class="ds-nav-num">66</span> Desplegable de selección <span class="ds-nav-badge">v1.2.7.9</span></a>
 <a class="ds-nav-item" href="#nav-movil"><span class="ds-nav-num">67</span> Navegación móvil <span class="ds-nav-badge">v1.2.7.10</span></a>
+<a class="ds-nav-item" href="#kpi-grid"><span class="ds-nav-num">68</span> Grilla de KPIs <span class="ds-nav-badge">v1.2.7.11</span></a>
 </div>
 <div class="ds-nav-section ds-nav-appearance">
 <span class="ds-nav-label">Apariencia</span>
@@ -3417,7 +3418,7 @@ html[data-theme="light"] .bg-grid-demo-fade {
           <button class="theme-opt" type="button" data-val="system" aria-label="Tema del sistema"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></button>
           <button class="theme-opt" type="button" data-val="light" aria-label="Tema claro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg></button>
         </div>
-        <div class="sb-copy">&copy; 2026 YiQi S.A.<br>Mi App &middot; <span data-ds-version="DS v{v}">DS v1.2.7.10</span></div>
+        <div class="sb-copy">&copy; 2026 YiQi S.A.<br>Mi App &middot; <span data-ds-version="DS v{v}">DS v1.2.7.11</span></div>
       </div>
     </nav>
     <div class="content">Área de contenido — acá va lo propio de cada app.</div>
@@ -4356,7 +4357,7 @@ ana · prov · inv · pos · pick · cons
 <div style="max-width:760px;margin-bottom:20px">
   <div class="statusbar" style="position:static;height:auto;padding:7px 14px;border-radius:var(--radius-sm)">
     <div class="statusbar-left"><span class="ldot ldot-g"></span><strong>Datos reales</strong><span class="statusbar-desc">Conectado a YiQi ERP. Periodo actual seleccionado.</span></div>
-    <div class="statusbar-right"><span class="sb-item">Analytics Pro</span><span class="sb-sep">&middot;</span><span class="sb-item" data-ds-version="DS v{v}">DS v1.2.7.10</span><span class="sb-sep">&middot;</span><span class="sb-item sb-clock" id="ds-demo-clock">--:--</span></div>
+    <div class="statusbar-right"><span class="sb-item">Analytics Pro</span><span class="sb-sep">&middot;</span><span class="sb-item" data-ds-version="DS v{v}">DS v1.2.7.11</span><span class="sb-sep">&middot;</span><span class="sb-item sb-clock" id="ds-demo-clock">--:--</span></div>
   </div>
 </div>
 
@@ -5146,6 +5147,58 @@ if (v) target.textContent = `DS v${v}`;</code></pre>
 
 </section>
 
+<section class="ds-section" id="kpi-grid">
+<div class="ds-section-kicker">68 · Kit de panel</div>
+<h2 class="ds-section-title">Grilla de KPIs</h2>
+<p class="ds-section-sub">Dos formas de acomodar una fila de indicadores. La <strong>estirada</strong> reparte todo el ancho entre cuatro columnas; la <strong>modulada</strong> apoya las cards a la izquierda sobre una retícula de 150&nbsp;px. La diferencia no es estética: con pocas métricas, la estirada infla cada card.</p>
+
+<div class="ds-note"><strong>Tres cards en 1440&nbsp;px dan 428&nbsp;px cada una</strong> con la grilla estirada, para mostrar un número de un dígito. Ese es el caso donde va la modulada.</div>
+
+<div class="subsection-title">Anatomía</div>
+<table class="data-table">
+<thead><tr><th>Clase</th><th>Qué es</th><th>Estados y reglas</th></tr></thead>
+<tbody>
+<tr><td><code class="ds-code-inline">.kpi-grid</code></td><td>Grilla estirada. Cuatro columnas que se reparten el ancho.</td><td>Es el default. Va cuando hay <strong>seis o más</strong> métricas, o valores largos que llenan la card.</td></tr>
+<tr><td><code class="ds-code-inline">.kpi-grid-auto</code></td><td>Variante modulada. Módulo de 150&nbsp;px, cards apoyadas a la izquierda.</td><td><strong>Se suma</strong> a <code class="ds-code-inline">.kpi-grid</code>, no la reemplaza: el <code class="ds-code-inline">gap</code> y los breakpoints siguen valiendo. Anchos posibles: 150, 312, 474.</td></tr>
+<tr><td><code class="ds-code-inline">.kpi-card-w2</code></td><td>La card ocupa dos módulos (312&nbsp;px).</td><td><strong>Manual y a propósito.</strong> Se pone donde hay un importe o una fecha con hora que no debe cortarse, para que el ancho doble sea una decisión y no un efecto del largo del texto.</td></tr>
+</tbody>
+</table>
+
+<div class="ds-note"><strong>El módulo es 150&nbsp;px y no menos.</strong> Es el más chico que mantiene la etiqueta en una línea: por debajo se parte en dos y la fila crece de 110 a 126&nbsp;px de alto. Más angosta pero más alta no es una mejora.</div>
+
+<div class="subsection-title">Ejemplo</div>
+
+<div style="font:600 9px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2);margin:16px 0 8px">.kpi-grid &mdash; estirada, con tres indicadores</div>
+<div class="kpi-grid">
+  <div class="kpi-card"><div class="kpi-label">Casos cargados</div><div class="kpi-value">6</div><div class="kpi-delta">total de la planilla</div></div>
+  <div class="kpi-card"><div class="kpi-label">En análisis</div><div class="kpi-value">2</div><div class="kpi-delta">Estado</div></div>
+  <div class="kpi-card"><div class="kpi-label">En uso</div><div class="kpi-value">1</div><div class="kpi-delta">Estado</div></div>
+</div>
+
+<div style="font:600 9px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2);margin:22px 0 8px">.kpi-grid.kpi-grid-auto &mdash; modulada, los mismos tres</div>
+<div class="kpi-grid kpi-grid-auto">
+  <div class="kpi-card"><div class="kpi-label">Casos cargados</div><div class="kpi-value">6</div><div class="kpi-delta">total de la planilla</div></div>
+  <div class="kpi-card"><div class="kpi-label">En análisis</div><div class="kpi-value">2</div><div class="kpi-delta">Estado</div></div>
+  <div class="kpi-card"><div class="kpi-label">En uso</div><div class="kpi-value">1</div><div class="kpi-delta">Estado</div></div>
+</div>
+
+<div style="font:600 9px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2);margin:22px 0 8px">.kpi-card-w2 &mdash; la primera pide dos módulos</div>
+<div class="kpi-grid kpi-grid-auto">
+  <div class="kpi-card kpi-card-w2"><div class="kpi-label">Facturación del mes</div><div class="kpi-value">$ 4.820.117</div><div class="kpi-delta">al 4 de agosto, 09:30</div></div>
+  <div class="kpi-card"><div class="kpi-label">En análisis</div><div class="kpi-value">2</div><div class="kpi-delta">Estado</div></div>
+  <div class="kpi-card"><div class="kpi-label">En uso</div><div class="kpi-value">1</div><div class="kpi-delta">Estado</div></div>
+  <div class="kpi-card"><div class="kpi-label">Nuevo</div><div class="kpi-value">1</div><div class="kpi-delta">Estado</div></div>
+</div>
+
+<div class="subsection-title">Markup</div>
+<pre class="ds-code"><code>&lt;div class="kpi-grid kpi-grid-auto"&gt;
+  &lt;div class="kpi-card kpi-card-w2"&gt;…&lt;/div&gt;   &lt;!-- valor que no debe cortarse --&gt;
+  &lt;div class="kpi-card"&gt;…&lt;/div&gt;
+  &lt;div class="kpi-card"&gt;…&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+</section>
+
+
 
 <!-- ─── DEMO FORM ─── -->
 
@@ -5707,7 +5760,7 @@ document.addEventListener('DOMContentLoaded', function(){
   <div class="statusbar-right">
     <span class="sb-item">Catálogo</span>
     <span class="sb-sep" aria-hidden="true">&middot;</span>
-    <span class="sb-item" data-ds-version="DS v{v}">DS v1.2.7.10</span>
+    <span class="sb-item" data-ds-version="DS v{v}">DS v1.2.7.11</span>
     <span class="sb-sep" aria-hidden="true">&middot;</span>
     <span class="sb-item sb-clock" id="ds-statusbar-clock">--:--</span>
   </div>
