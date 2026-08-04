@@ -362,8 +362,8 @@ body.preview-open .ds-layout { display: none !important; }
 <section class="ds-section" id="release-notes">
 <div class="ds-section-header">
 <div class="ds-section-kicker">00 · Novedades</div>
-<h2 class="ds-section-title" data-ds-version="Novedades · v{v}">Novedades · v1.2.7.9</h2>
-<p class="ds-section-sub"><strong>La versión del DS se lee de <code>version.json</code></strong>: el catálogo y el showcase la tenían escrita a mano y divergían. Se canoniza la statusbar como corre en Analytics Pro (<code>.sb-item</code>, <code>.sb-clock</code>, reloj). Antes, en v1.2.7.9: se publica la tabla de <code>z-index</code> y el drawer mobile sube a 115, que estaba tapado por la topbar. Antes, en v1.2.7.8: <strong>Greycliff CF entra al bundle</strong> — el canónico nunca cargaba la tipografía de marca — con las clases de título <code>.ds-title-hero</code>, <code>.ds-title-page</code> y <code>.ds-title-section</code>. Y en v1.2.7.7: el DS deja de imponer tamaño a <code>h1</code>–<code>h4</code>, y se publica <code>.ds-note</code>.</p>
+<h2 class="ds-section-title" data-ds-version="Novedades · v{v}">Novedades · v1.2.7.11</h2>
+<p class="ds-section-sub"><strong>La grilla de KPIs suma una variante modulada</strong> (<code>.kpi-grid-auto</code>, §68): las cards toman el ancho que pide su contenido sobre un módulo de 150&nbsp;px, en vez de estirarse a todo el ancho. Antes, en v1.2.7.10: navegación móvil (§67). Antes, en v1.2.7.9: <strong>la versión del DS se lee de <code>version.json</code></strong>: el catálogo y el showcase la tenían escrita a mano y divergían. Se canoniza la statusbar como corre en Analytics Pro (<code>.sb-item</code>, <code>.sb-clock</code>, reloj). Antes, en v1.2.7.9: se publica la tabla de <code>z-index</code> y el drawer mobile sube a 115, que estaba tapado por la topbar. Antes, en v1.2.7.8: <strong>Greycliff CF entra al bundle</strong> — el canónico nunca cargaba la tipografía de marca — con las clases de título <code>.ds-title-hero</code>, <code>.ds-title-page</code> y <code>.ds-title-section</code>. Y en v1.2.7.7: el DS deja de imponer tamaño a <code>h1</code>–<code>h4</code>, y se publica <code>.ds-note</code>.</p>
 </div>
 <div class="token-grid-2">
 <div class="card">
@@ -412,6 +412,13 @@ body.preview-open .ds-layout { display: none !important; }
 <tr><th>Versión</th><th>Fecha</th><th>Tipo</th><th>Detalle</th></tr>
 </thead>
 <tbody>
+<tr id="chg-kpi-grid-auto">
+<td class="mono-cell">v1.2.7.11</td>
+<td class="mono-cell">04/08/2026</td>
+<td><span class="badge badge-cyan">NUEVO</span></td>
+<td><strong>Grilla de KPIs modulada &mdash; <code>&sect;68</code>.</strong> <code>.kpi-grid</code> reparte todo el ancho entre cuatro columnas sin mirar cu&aacute;nto contenido hay: con tres indicadores en una p&aacute;gina de 1440&nbsp;px da <strong>428&nbsp;px por card para mostrar un n&uacute;mero de un d&iacute;gito</strong>. <code>.kpi-grid-auto</code> apoya las cards a la izquierda sobre un <strong>m&oacute;dulo de 150&nbsp;px</strong> &mdash; el m&aacute;s chico que mantiene la etiqueta en una l&iacute;nea; por debajo se parte en dos y la fila crece de 110 a 126&nbsp;px de alto, o sea m&aacute;s angosta pero m&aacute;s alta, que no es una mejora. Los anchos posibles pasan a ser 150, 312, 474: siempre sobre la ret&iacute;cula. <code>.kpi-card-w2</code> pide dos m&oacute;dulos, y es <strong>manual a prop&oacute;sito</strong>: que el ancho doble sea una decisi&oacute;n de quien arma el tablero y no un efecto del largo del texto. <strong>Nueve archivos ya redefin&iacute;an <code>.kpi-grid</code> por su cuenta</strong>, incluido este cat&aacute;logo &mdash; cuando el componente publicado no cubre un caso real, la necesidad no desaparece: aparece nueve veces escrita distinto. Cero tokens nuevos; la variante se suma a <code>.kpi-grid</code>, as&iacute; que el <code>gap</code> y los breakpoints siguen valiendo.<div class="chg-links"><a class="ds-xref" href="#kpi-grid"><i class="ph ph-anchor-simple"></i> &sect;68 &middot; Grilla de KPIs</a><a class="ds-xref" href="examples/showcase.html?tab=analytics"><i class="ph ph-anchor-simple"></i> Ver en vivo</a><button class="ds-copy chg-share" data-ds-copy="link" title="Copiar link a este cambio" aria-label="Copiar link a este cambio"><i class="ph ph-link"></i>Compartir</button></div></td>
+</tr>
+
 <tr id="chg-nav-movil">
 <td class="mono-cell">v1.2.7.10</td>
 <td class="mono-cell">04/08/2026</td>
