@@ -407,6 +407,7 @@
     <button class="sc-tab" role="tab" id="sctab-galeria" aria-controls="tab-galeria" data-target="tab-galeria" aria-selected="false"><i class="ph ph-chart-donut"></i> Galería</button>
     <button class="sc-tab" role="tab" id="sctab-tablas" aria-controls="tab-tablas" data-target="tab-tablas" aria-selected="false"><i class="ph ph-table"></i> Tablas</button>
     <button class="sc-tab" role="tab" id="sctab-iconos" aria-controls="tab-iconos" data-target="tab-iconos" aria-selected="false"><i class="ph ph-smiley"></i> Iconos</button>
+    <button class="sc-tab" role="tab" id="sctab-movil" aria-controls="tab-movil" data-target="tab-movil" aria-selected="false"><i class="ph ph-device-mobile"></i> Móvil</button>
     </div>
     <nav class="sc-toplinks" aria-label="Recursos del Design System">
     <a class="sc-toplink" href="../template/INDEX.md"><i class="ph ph-copy"></i> Templates</a>
@@ -433,6 +434,7 @@
     <button class="sc-drawer-link" data-tab="tab-galeria"><i class="ph ph-chart-donut"></i> Galería</button>
     <button class="sc-drawer-link" data-tab="tab-tablas"><i class="ph ph-table"></i> Tablas</button>
     <button class="sc-drawer-link" data-tab="tab-iconos"><i class="ph ph-smiley"></i> Iconos</button>
+      <button class="sc-drawer-link" data-tab="tab-movil"><i class="ph ph-device-mobile"></i> Móvil</button>
   </div>
   <div class="sc-drawer-group">
     <span class="sc-drawer-label">Recursos</span>
@@ -1343,33 +1345,33 @@
 <style id="gx-style">
 #tab-galeria .sc-section{ max-width:none; margin:0; padding:28px clamp(20px,2.5vw,44px) 72px; }
 #tab-galeria .sc-section-h{ white-space:nowrap; }
-#tab-galeria .sec-h{font:800 16px var(--display);letter-spacing:-.02em;margin:30px 0 4px;white-space:nowrap}
-#tab-galeria .sec-d{color:var(--muted);font-size:13px;margin:0 0 16px}
-#tab-galeria .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:16px}
+#tab-galeria .sec-h, #tab-movil .sec-h{font:800 16px var(--display);letter-spacing:-.02em;margin:30px 0 4px;white-space:nowrap}
+#tab-galeria .sec-d, #tab-movil .sec-d{color:var(--muted);font-size:13px;margin:0 0 16px}
+#tab-galeria .grid, #tab-movil .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:16px}
 #tab-galeria canvas{max-width:100%}
-#tab-galeria .card{background:var(--card-bg);border-radius:var(--radius-lg);padding:18px 18px 16px;display:flex;flex-direction:column;transition:transform .18s ease;min-width:0}
-#tab-galeria .card:hover{transform:translateY(-2px)}
-#tab-galeria .card.col2{grid-column:1/-1}
-#tab-galeria .card-h{display:flex;align-items:flex-start;gap:8px}
-#tab-galeria .card-h>:first-child{margin-right:auto}
-#tab-galeria .card-h .ds-copy{flex:none;margin-top:-2px}
-#tab-galeria .card-t{font:700 14px var(--sans);color:var(--text)}
-#tab-galeria .pill{font:700 9px var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:4px 9px;border-radius:var(--radius-pill);background:var(--cyan-soft);color:var(--cyan);white-space:nowrap;flex-shrink:0}
-#tab-galeria .pill.gem{background:var(--amber-soft);color:var(--amber)}
-#tab-galeria .card-when{font:400 12px var(--sans);color:var(--muted);margin:4px 0 14px;line-height:1.45}
+#tab-galeria .card, #tab-movil .card{background:var(--card-bg);border-radius:var(--radius-lg);padding:18px 18px 16px;display:flex;flex-direction:column;transition:transform .18s ease;min-width:0}
+#tab-galeria .card:hover, #tab-movil .card:hover{transform:translateY(-2px)}
+#tab-galeria .card.col2, #tab-movil .card.col2{grid-column:1/-1}
+#tab-galeria .card-h, #tab-movil .card-h{display:flex;align-items:flex-start;gap:8px}
+#tab-galeria .card-h>:first-child, #tab-movil .card-h>:first-child{margin-right:auto}
+#tab-galeria .card-h .ds-copy, #tab-movil .card-h .ds-copy{flex:none;margin-top:-2px}
+#tab-galeria .card-t, #tab-movil .card-t{font:700 14px var(--sans);color:var(--text)}
+#tab-galeria .pill, #tab-movil .pill{font:700 9px var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:4px 9px;border-radius:var(--radius-pill);background:var(--cyan-soft);color:var(--cyan);white-space:nowrap;flex-shrink:0}
+#tab-galeria .pill.gem, #tab-movil .pill.gem{background:var(--amber-soft);color:var(--amber)}
+#tab-galeria .card-when, #tab-movil .card-when{font:400 12px var(--sans);color:var(--muted);margin:4px 0 14px;line-height:1.45}
 #tab-galeria .chart-box{position:relative;height:215px;flex:1;min-width:0}
 #tab-galeria .chart-box.sm{height:160px}
 #tab-galeria .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:14px}
 #tab-galeria .kpi{background:var(--card-bg);border-radius:var(--radius-lg);padding:16px}
 #tab-galeria .kpi-l{font:700 9px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted-2)}
-#tab-galeria .kpi-v{font:500 23px var(--kpi-num);font-variant-numeric:tabular-nums;letter-spacing:-.02em;margin:8px 0 2px;color:var(--text)}
-#tab-galeria .kpi-d{font:600 11px var(--kpi-num)}
+#tab-galeria .kpi-v{font:600 23px var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-.02em;margin:8px 0 2px;color:var(--text)}
+#tab-galeria .kpi-d{font:600 11px var(--mono)}
 #tab-galeria .kpi-d.kpi-up{color:var(--green)} #tab-galeria .kpi-d.kpi-down{color:var(--red)} #tab-galeria .kpi-d.kpi-flat{color:var(--muted)}
 #tab-galeria .kpi-spark{height:34px;margin-top:8px}
 #tab-galeria table{width:100%;border-collapse:collapse;font-size:13px}
 #tab-galeria th{font:700 9px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted-2);text-align:left;padding:8px 6px;border-bottom:1px solid var(--line)}
 #tab-galeria td{padding:10px 6px;border-bottom:1px solid var(--line);color:var(--text)}
-#tab-galeria td.num{text-align:right;font-family:var(--kpi-num);font-weight:600;font-variant-numeric:tabular-nums}
+#tab-galeria td.num{text-align:right;font-family:var(--mono);font-weight:600}
 #tab-galeria .tr-up{color:var(--green)} #tab-galeria .tr-down{color:var(--red)}
 #tab-galeria .hm-row{display:grid;grid-template-columns:34px repeat(12,1fr);gap:3px;align-items:center;margin-bottom:3px}
 #tab-galeria .hm-cell{height:18px;border-radius:4px}
@@ -1382,10 +1384,10 @@
 #tab-galeria .legend-row{display:inline-flex;align-items:center;gap:6px}
 #tab-galeria .legend-dot{width:9px;height:9px;border-radius:50%}
 #tab-galeria .legend-label{font:400 11px var(--sans);color:var(--muted)}
-#tab-galeria .legend-n{font:600 11px var(--kpi-num)} #tab-galeria .legend-pct{font:400 10px var(--mono);color:var(--muted-2)}
+#tab-galeria .legend-n{font:600 11px var(--mono)} #tab-galeria .legend-pct{font:400 10px var(--mono);color:var(--muted-2)}
 #tab-galeria .rings{display:flex;justify-content:space-around;align-items:center;height:200px;gap:8px}
 #tab-galeria .ring{position:relative;text-align:center}
-#tab-galeria .ring-v{position:absolute;top:42%;left:0;right:0;transform:translateY(-50%);font:500 16px var(--kpi-num);font-variant-numeric:tabular-nums}
+#tab-galeria .ring-v{position:absolute;top:42%;left:0;right:0;transform:translateY(-50%);font:600 16px var(--mono);font-variant-numeric:tabular-nums}
 #tab-galeria .ring-l{font:600 9px var(--mono);color:var(--muted-2);margin-top:6px;text-transform:uppercase;letter-spacing:.05em}
 #tab-galeria .tmap{display:flex;gap:3px;height:215px}
 #tab-galeria .tmap-col{display:flex;flex-direction:column;gap:3px}
@@ -1405,18 +1407,18 @@
 #tab-galeria .gx-nav-grp-l:hover{color:var(--cyan)}
 #tab-galeria .gx-nav-sub{display:block;width:100%;border:none;background:transparent;color:var(--muted);font:500 12px var(--sans);padding:6px 12px;border-radius:var(--radius-sm);cursor:pointer;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #tab-galeria .gx-nav-sub:hover{background:var(--bg-soft);color:var(--text)}
-#tab-galeria .sec-h{scroll-margin-top:14px}
-#tab-galeria .card{scroll-margin-top:14px}
+#tab-galeria .sec-h, #tab-movil .sec-h{scroll-margin-top:14px}
+#tab-galeria .card, #tab-movil .card{scroll-margin-top:14px}
 #tab-galeria .gx-hero{background:var(--cyan-soft);border-radius:var(--radius);padding:18px;display:flex;flex-direction:column;gap:5px}
 #tab-galeria .gx-hero .l{font:700 10px var(--mono);color:var(--cyan);letter-spacing:.08em;text-transform:uppercase}
-#tab-galeria .gx-hero .v{font:500 30px var(--kpi-num);font-variant-numeric:tabular-nums;color:var(--text);letter-spacing:-.02em}
-#tab-galeria .gx-hero .d{font:600 12px var(--kpi-num);color:var(--green)}
+#tab-galeria .gx-hero .v{font:600 30px var(--mono);font-variant-numeric:tabular-nums;color:var(--text);letter-spacing:-.02em}
+#tab-galeria .gx-hero .d{font:600 12px var(--mono);color:var(--green)}
 #tab-galeria .gx-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 #tab-galeria .gx-tile{background:var(--bg-soft);border-radius:var(--radius-sm);padding:13px;display:flex;flex-direction:column;gap:4px;min-width:0}
 #tab-galeria .gx-tile i{font-size:17px;color:var(--cyan)}
-#tab-galeria .gx-tile .v{font:500 17px var(--kpi-num);font-variant-numeric:tabular-nums;color:var(--text)}
+#tab-galeria .gx-tile .v{font:600 17px var(--mono);font-variant-numeric:tabular-nums;color:var(--text)}
 #tab-galeria .gx-tile .l{font:600 9px var(--mono);color:var(--muted-2);text-transform:uppercase;letter-spacing:.06em}
-#tab-galeria .gx-tile .d{font:600 10px var(--kpi-num)}
+#tab-galeria .gx-tile .d{font:600 10px var(--mono)}
 #tab-galeria .gx-streak{display:flex;justify-content:space-between;gap:6px;margin-top:8px}
 #tab-galeria .gx-day{flex:1;text-align:center;min-width:0}
 #tab-galeria .gx-day .dot{width:34px;height:34px;border-radius:50%;margin:0 auto 7px;display:grid;place-items:center;background:var(--bg-soft);color:var(--muted-2);font-size:15px}
@@ -1441,11 +1443,20 @@
 
   <h2 class="sec-h" id="s-kpi">Indicadores</h2>
   <p class="sec-d">El número primero; la tendencia y el delta dan contexto. Regla 5-3-1: escanear en 5s.</p>
-  <div class="kpis" style="margin-bottom:16px">
-    <div class="kpi"><div class="kpi-l">Facturación MTD</div><div class="kpi-v">$&nbsp;2,84 M</div><div class="kpi-d kpi-up">↑ 18,4%</div><div class="kpi-spark"><canvas id="kpi1"></canvas></div></div>
-    <div class="kpi"><div class="kpi-l">Pedidos activos</div><div class="kpi-v">1.247</div><div class="kpi-d kpi-up">↑ 6,2%</div><div class="kpi-spark"><canvas id="kpi2"></canvas></div></div>
-    <div class="kpi"><div class="kpi-l">Cobranzas</div><div class="kpi-v">$&nbsp;1,92 M</div><div class="kpi-d kpi-up">↑ 9,1%</div><div class="kpi-spark"><canvas id="kpi3"></canvas></div></div>
-    <div class="kpi"><div class="kpi-l">Margen</div><div class="kpi-v">38,7%</div><div class="kpi-d kpi-down">↓ 1,2%</div><div class="kpi-spark"><canvas id="kpi4"></canvas></div></div>
+  <!-- Era la unica seccion de la galeria cuyo contenido no vivia dentro de un
+       .card, asi que se quedaba sin .card-h y por lo tanto sin boton de copiar.
+       Ahora usa la misma envoltura que las otras ocho secciones. -->
+  <div class="grid" style="margin-bottom:16px">
+    <div class="card" style="grid-column:1/-1">
+      <div class="card-h"><span class="card-t">Fila de indicadores</span><span class="pill">5-3-1</span><button type="button" class="ds-copy" data-ds-copy="card" aria-label="Copiar estructura del componente" title="Copiar estructura"><i class="ph ph-copy"></i></button></div>
+      <div class="card-when">El numero primero; la tendencia y el delta dan contexto.</div>
+      <div class="kpis" style="margin-top:10px">
+        <div class="kpi"><div class="kpi-l">Facturación MTD</div><div class="kpi-v">$&nbsp;2,84 M</div><div class="kpi-d kpi-up">↑ 18,4%</div><div class="kpi-spark"><canvas id="kpi1"></canvas></div></div>
+        <div class="kpi"><div class="kpi-l">Pedidos activos</div><div class="kpi-v">1.247</div><div class="kpi-d kpi-up">↑ 6,2%</div><div class="kpi-spark"><canvas id="kpi2"></canvas></div></div>
+        <div class="kpi"><div class="kpi-l">Cobranzas</div><div class="kpi-v">$&nbsp;1,92 M</div><div class="kpi-d kpi-up">↑ 9,1%</div><div class="kpi-spark"><canvas id="kpi3"></canvas></div></div>
+        <div class="kpi"><div class="kpi-l">Margen</div><div class="kpi-v">38,7%</div><div class="kpi-d kpi-down">↓ 1,2%</div><div class="kpi-spark"><canvas id="kpi4"></canvas></div></div>
+      </div>
+    </div>
   </div>
 
   <h2 class="sec-h" id="s-tiempo">Tendencia · en el tiempo</h2>
@@ -1981,6 +1992,94 @@
 </section>
 </div>
 </div>
+
+<div class="sc-panel" id="tab-movil" role="tabpanel" aria-labelledby="sctab-movil">
+<div style="padding:14px 14px 0;display:flex;justify-content:flex-end"><a class="ds-xref" href="../yiqi-design-system.html#shell"><i class="ph ph-anchor-simple"></i> Ver fuente</a></div>
+<section class="sc-section">
+  <h2 class="sc-section-h">Móvil · navegación y chrome</h2>
+  <p class="sc-section-sub">Como se <strong>navega</strong> una app del ERP en el telefono. La galeria cubre como se muestra el dato; esto es la otra mitad. Todo borderless, acento unico cyan.</p>
+  <div class="grid mv-grid">
+      <div class="card"><div class="card-h"><span class="card-t">Grid de módulos</span><span class="pill">Launcher</span><button type="button" class="ds-copy" data-ds-copy="card" aria-label="Copiar estructura del componente" title="Copiar estructura"><i class="ph ph-copy"></i></button></div>
+        <div class="card-when">Entrada a los módulos del ERP. El activo es el único con acento.</div>
+        <div class="nv"><div class="nv-lab">Inicio</div>
+          <div class="nv-grid">
+            <div class="nv-app on"><i class="ph ph-chart-line"></i><span>Ventas</span></div>
+            <div class="nv-app"><i class="ph ph-cube"></i><span>Stock</span></div>
+            <div class="nv-app"><i class="ph ph-bank"></i><span>Finanzas</span></div>
+            <div class="nv-app"><i class="ph ph-users"></i><span>Clientes</span></div>
+            <div class="nv-app"><i class="ph ph-storefront"></i><span>POS</span></div>
+            <div class="nv-app"><i class="ph ph-truck"></i><span>Envíos</span></div>
+            <div class="nv-app"><i class="ph ph-gauge"></i><span>Panel</span></div>
+            <div class="nv-app"><i class="ph ph-dots-three"></i><span>Más</span></div>
+          </div></div></div>
+      <div class="card"><div class="card-h"><span class="card-t">Menú lateral</span><span class="pill">Drawer</span><button type="button" class="ds-copy" data-ds-copy="card" aria-label="Copiar estructura del componente" title="Copiar estructura"><i class="ph ph-copy"></i></button></div>
+        <div class="card-when">Navegación completa fuera de pantalla. El scrim atenúa, no tapa.</div>
+        <div class="nv"><div class="nv-lab">Drawer abierto</div>
+          <div class="nv-drawer">
+            <div class="nv-dr">
+              <b>Módulos</b>
+              <a class="on"><i class="ph ph-chart-line"></i>Ventas</a>
+              <a><i class="ph ph-globe"></i>Canales</a>
+              <a><i class="ph ph-bank"></i>Finanzas</a>
+              <b style="margin-top:6px">Soporte</b>
+              <a><i class="ph ph-headset"></i>Ayuda ERP</a>
+            </div>
+            <div class="nv-scrim"></div>
+          </div></div></div>
+      <div class="card"><div class="card-h"><span class="card-t">Tab bar</span><span class="pill">Navegación</span><button type="button" class="ds-copy" data-ds-copy="card" aria-label="Copiar estructura del componente" title="Copiar estructura"><i class="ph ph-copy"></i></button></div>
+        <div class="card-when">Hasta cinco destinos de primer nivel. Es navegación, no acciones.</div>
+        <div class="nv"><div class="nv-lab">Barra inferior</div>
+          <div class="nv-tabs">
+            <div class="nv-tb on"><i class="ph ph-house"></i><span>Inicio</span></div>
+            <div class="nv-tb"><i class="ph ph-chart-line"></i><span>Ventas</span></div>
+            <div class="nv-tb"><i class="ph ph-globe"></i><span>Canales</span></div>
+            <div class="nv-tb"><i class="ph ph-bank"></i><span>Finanzas</span></div>
+            <div class="nv-tb"><i class="ph ph-user"></i><span>Perfil</span></div>
+          </div></div></div>
+      <div class="card"><div class="card-h"><span class="card-t">Botón de acción</span><span class="pill">FAB</span><button type="button" class="ds-copy" data-ds-copy="card" aria-label="Copiar estructura del componente" title="Copiar estructura"><i class="ph ph-copy"></i></button></div>
+        <div class="card-when">Una sola acción primaria por pantalla. Único relleno cyan sólido.</div>
+        <div class="nv"><div class="nv-lab">Colapsado y expandido</div>
+          <div class="nv-fabwrap">
+            <div class="nv-fab-x">
+              <span>Nueva venta <i class="ph ph-receipt"></i></span>
+              <span>Cargar pedido <i class="ph ph-plus-circle"></i></span>
+            </div>
+            <div class="nv-fab"><i class="ph ph-plus"></i></div>
+          </div></div></div>
+      <div class="card"><div class="card-h"><span class="card-t">Bottom sheet</span><span class="pill">Sheet</span><button type="button" class="ds-copy" data-ds-copy="card" aria-label="Copiar estructura del componente" title="Copiar estructura"><i class="ph ph-copy"></i></button></div>
+        <div class="card-when">Acciones sobre un ítem sin cambiar de pantalla. Con manija de arrastre.</div>
+        <div class="nv"><div class="nv-lab">Acciones del comprobante</div>
+          <div class="nv-sheetwrap"><div class="nv-sheet">
+            <div class="nv-grab"></div>
+            <h5>OV #4821 — Distribuidora Centro</h5>
+            <a><i class="ph ph-eye"></i>Ver detalle</a>
+            <a><i class="ph ph-printer"></i>Imprimir remito</a>
+            <a><i class="ph ph-share-network"></i>Compartir</a>
+          </div></div></div></div>
+      <div class="card"><div class="card-h"><span class="card-t">Menú de tres puntos</span><span class="pill">Overflow</span><button type="button" class="ds-copy" data-ds-copy="card" aria-label="Copiar estructura del componente" title="Copiar estructura"><i class="ph ph-copy"></i></button></div>
+        <div class="card-when">Acciones secundarias que no entran en la barra. La destructiva última y en rojo.</div>
+        <div class="nv"><div class="nv-lab">Overflow</div>
+          <div class="nv-of"><div>
+            <div class="nv-dots"><i class="ph ph-dots-three-vertical"></i></div>
+            <div class="nv-ofmenu">
+              <a><i class="ph ph-pencil-simple"></i>Editar</a>
+              <a><i class="ph ph-copy"></i>Duplicar</a>
+              <a><i class="ph ph-download-simple"></i>Exportar</a>
+              <a class="dgr"><i class="ph ph-trash"></i>Anular</a>
+            </div>
+          </div></div></div></div>
+      <div class="card"><div class="card-h"><span class="card-t">Barra de aplicación</span><span class="pill">App bar</span><button type="button" class="ds-copy" data-ds-copy="card" aria-label="Copiar estructura del componente" title="Copiar estructura"><i class="ph ph-copy"></i></button></div>
+        <div class="card-when">Título, contexto y hasta dos acciones. La vuelta atrás siempre a la izquierda.</div>
+        <div class="nv"><div class="nv-lab">Header de pantalla interna</div>
+          <div class="nv-bar">
+            <i class="ph ph-caret-left"></i>
+            <div><div class="t">Órdenes de venta</div><div class="s">1.247 · Mes en curso</div></div>
+            <div class="r"><i class="ph ph-magnifying-glass"></i><i class="ph ph-dots-three-vertical"></i></div>
+          </div></div></div>
+  </div>
+</section>
+</div>
+
 
 <!-- Dialog markup (usa clases .sc-modal del showcase) -->
 <div class="sc-modal" id="prDlg" aria-hidden="true">
@@ -2581,7 +2680,7 @@ function reg(c){_charts.push(c);return c;}
 
 // plugins
 Chart.register({id:'centerText',afterDraw(c){var t=c.config.options.plugins.centerText;if(!t)return;var a=c.chartArea,x=(a.left+a.right)/2,y=t.half?a.bottom-4:(a.top+a.bottom)/2;
-  c.ctx.save();c.ctx.textAlign='center';c.ctx.fillStyle=gv('--text');c.ctx.font='500 '+(t.size||26)+'px '+gv('--kpi-num');c.ctx.fillText(t.value,x,y);
+  c.ctx.save();c.ctx.textAlign='center';c.ctx.fillStyle=gv('--text');c.ctx.font='600 '+(t.size||26)+'px '+gv('--mono');c.ctx.fillText(t.value,x,y);
   if(t.label){c.ctx.fillStyle=gv('--muted-2');c.ctx.font='600 10px '+gv('--mono');c.ctx.fillText(t.label,x,y+16);}c.ctx.restore();}});
 Chart.register({id:'targetLine',afterDatasetsDraw(c){var cfg=c.config.options.plugins.annotationLine;if(!cfg)return;var a=c.chartArea,y=c.scales.y.getPixelForValue(cfg.value);
   c.ctx.save();c.ctx.strokeStyle=gv('--amber');c.ctx.lineWidth=2;c.ctx.setLineDash([5,4]);c.ctx.beginPath();c.ctx.moveTo(a.left,y);c.ctx.lineTo(a.right,y);c.ctx.stroke();
@@ -2740,7 +2839,7 @@ function renderAll(){
   // Donut con KPI central
   (function(){var labels=['Pagado','Pendiente','Vencido'],data=[62,27,11],colors=[gv('--green'),gv('--amber'),gv('--red')];var s=sortDonutDesc(labels,data,colors);
     reg(new Chart(document.getElementById('cDonutKpi'),{type:'doughnut',data:{labels:s.labels,datasets:[{data:s.data,backgroundColor:s.colors,borderWidth:0,hoverOffset:5}]},
-      options:{responsive:true,maintainAspectRatio:false,cutout:'72%',plugins:{legend:legBottom(),tooltip:Object.assign(tt(),{callbacks:{label:c=>' '+c.label+': '+c.parsed+'%'}}),centerText:{value:'$\u00a02,1 M',label:'TOTAL',size:22}}}}));})();
+      options:{responsive:true,maintainAspectRatio:false,cutout:'72%',plugins:{legend:legBottom(),tooltip:Object.assign(tt(),{callbacks:{label:c=>' '+c.label+': '+c.parsed+'%'}}),centerText:{value:'$&nbsp;2,1 M',label:'TOTAL',size:22}}}}));})();
 
   // Polar
   reg(new Chart(document.getElementById('cPolar'),{type:'polarArea',data:{labels:['Centro','Norte','Sur','Oeste','Online'],datasets:[{data:[48,31,59,15,21],backgroundColor:[hexToRgba(gv('--cyan'),.7),hexToRgba(gv('--green'),.7),hexToRgba(gv('--amber'),.7),hexToRgba(gv('--blue'),.7),hexToRgba(gv('--indigo'),.7)],borderWidth:0}]},
@@ -2822,6 +2921,62 @@ window.__buildGallery=function(){var p=document.getElementById("tab-galeria");if
   .nobg-toggle[aria-pressed="true"]{ background:var(--cyan-soft); color:var(--cyan); }
   /* Modo export: fondo de página transparente (los componentes conservan su bg) */
   html.export-nobg, html.export-nobg body{ background:transparent !important; }
+
+/* ── Pestana "Movil": navegacion y chrome de app ──────────────────────
+   El showcase tenia siete pestanas y ninguna cubria como se NAVEGA una
+   app movil. La seccion de patrones (s-apps) tiene ocho cards y las ocho
+   son de mostrar dato. Esto es la otra mitad.
+   Todo borderless, acento unico cyan, profundidad por fondo. ── */
+#tab-movil .mv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:14px;padding:0 clamp(14px,2.5vw,44px) 40px}
+#tab-movil .nv{background:var(--bg-elev);border-radius:var(--radius);padding:10px;margin-top:8px}
+#tab-movil .nv-lab{font:600 8px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2);margin-bottom:7px}
+#tab-movil .nv-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+#tab-movil .nv-app{display:grid;justify-items:center;gap:5px}
+#tab-movil .nv-app i{width:34px;height:34px;border-radius:var(--radius-sm);background:var(--bg-elev-2);
+  color:var(--muted);display:grid;place-items:center;font-size:16px}
+#tab-movil .nv-app.on i{background:var(--cyan-soft);color:var(--cyan)}
+#tab-movil .nv-app span{font:500 8.5px var(--sans);color:var(--muted-2);text-align:center}
+#tab-movil .nv-drawer{display:grid;grid-template-columns:126px 1fr;gap:8px;min-height:126px}
+#tab-movil .nv-dr{background:var(--bg-elev-2);border-radius:var(--radius-sm);padding:8px;display:grid;gap:3px;align-content:start}
+#tab-movil .nv-dr b{font:600 8px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted-2);padding:2px 6px}
+#tab-movil .nv-dr a{display:flex;align-items:center;gap:7px;padding:5px 6px;border-radius:var(--radius-xs);
+  font:500 10px var(--sans);color:var(--muted);text-decoration:none}
+#tab-movil .nv-dr a.on{background:var(--cyan-soft);color:var(--cyan)}
+#tab-movil .nv-scrim{background:var(--bg-elev-2);border-radius:var(--radius-sm);opacity:.45}
+#tab-movil .nv-tabs{display:grid;grid-template-columns:repeat(5,1fr);background:var(--bg-elev-2);
+  border-radius:var(--radius-sm);padding:9px 4px}
+#tab-movil .nv-tb{display:grid;justify-items:center;gap:3px;color:var(--muted-2)}
+#tab-movil .nv-tb.on{color:var(--cyan)}
+#tab-movil .nv-tb i{font-size:16px}
+#tab-movil .nv-tb span{font:500 8px var(--sans)}
+#tab-movil .nv-fabwrap{position:relative;min-height:120px;background:var(--bg-elev-2);border-radius:var(--radius-sm)}
+#tab-movil .nv-fab{position:absolute;right:12px;bottom:12px;width:42px;height:42px;border-radius:var(--radius-pill);
+  background:var(--cyan);color:#04121a;display:grid;place-items:center;font-size:19px;box-shadow:var(--shadow-md)}
+#tab-movil .nv-fab-x{position:absolute;right:12px;bottom:64px;display:grid;gap:7px;justify-items:end}
+#tab-movil .nv-fab-x span{display:flex;align-items:center;gap:7px;font:500 9.5px var(--sans);color:var(--muted)}
+#tab-movil .nv-fab-x i{width:28px;height:28px;border-radius:var(--radius-pill);background:var(--bg-elev);
+  color:var(--cyan);display:grid;place-items:center;font-size:14px}
+#tab-movil .nv-sheetwrap{background:var(--bg-elev-2);border-radius:var(--radius-sm);padding-top:30px}
+#tab-movil .nv-sheet{background:var(--bg-elev);border-radius:var(--radius) var(--radius) 0 0;padding:9px 12px 12px}
+#tab-movil .nv-grab{width:34px;height:3.5px;border-radius:2px;background:var(--line-strong);margin:0 auto 9px}
+#tab-movil .nv-sheet h5{margin:0 0 8px;font:600 11.5px var(--sans);color:var(--text)}
+#tab-movil .nv-sheet a{display:flex;align-items:center;gap:8px;padding:7px 0;font:400 10px var(--sans);
+  color:var(--muted);text-decoration:none;border-top:1px solid var(--line)}
+#tab-movil .nv-sheet a:first-of-type{border-top:0}
+#tab-movil .nv-of{display:flex;justify-content:flex-end;min-height:120px}
+#tab-movil .nv-ofmenu{background:var(--bg-elev-2);border-radius:var(--radius-sm);padding:5px;min-width:140px;box-shadow:var(--shadow-md)}
+#tab-movil .nv-ofmenu a{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:var(--radius-xs);
+  font:400 10px var(--sans);color:var(--muted);text-decoration:none}
+#tab-movil .nv-ofmenu a.dgr{color:var(--red)}
+#tab-movil .nv-dots{display:grid;place-items:center;width:28px;height:28px;border-radius:var(--radius-pill);
+  background:var(--bg-elev-2);color:var(--muted);font-size:15px;margin:0 0 6px auto}
+#tab-movil .nv-bar{display:flex;align-items:center;gap:10px;background:var(--bg-elev-2);
+  border-radius:var(--radius-sm);padding:10px 12px}
+#tab-movil .nv-bar i{font-size:16px;color:var(--muted)}
+#tab-movil .nv-bar .t{font:600 12px var(--sans);color:var(--text)}
+#tab-movil .nv-bar .s{font:400 9px var(--mono);color:var(--muted-2)}
+#tab-movil .nv-bar .r{margin-left:auto;display:flex;align-items:center;gap:9px}
 </style>
 <script>
 (function(){
