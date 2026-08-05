@@ -759,45 +759,6 @@ Etiquetas de capacidad del producto. Usan `cyan-soft` background sin dot. Para m
 .kpi-delta-negative { color: var(--red); }
 ```
 
-### Grilla de KPIs — estirada o modulada *(nuevo en v1.2.7.11)*
-
-`.kpi-grid` reparte todo el ancho disponible entre cuatro columnas. Sirve cuando hay
-métricas suficientes para llenarlas. Con pocas, cada card se infla: **tres cards en una
-página de 1440 px dan 428 px cada una** para mostrar un número de un dígito.
-
-`.kpi-grid-auto` es la variante modulada: **módulo de 150 px**, las cards se apoyan a la
-izquierda y bajan de línea si no entran. Los anchos posibles son 150, 312, 474 — múltiplos
-del módulo más el gap, nunca un número suelto.
-
-```css
-.kpi-grid-auto {
-  grid-template-columns: repeat(auto-fill, 150px);
-  justify-content: start;
-}
-.kpi-card-w2 { grid-column: span 2; }
-```
-
-```html
-<div class="kpi-grid kpi-grid-auto">
-  <div class="kpi-card kpi-card-w2">…</div>   <!-- valor que no debe cortarse -->
-  <div class="kpi-card">…</div>
-  <div class="kpi-card">…</div>
-</div>
-```
-
-**Reglas**
-
-- El módulo es **150 px y no menos**. Es el más chico que mantiene la etiqueta en una
-  línea: por debajo se parte en dos y la fila crece de 110 a 126 px de alto — más angosta
-  pero más alta, que no es una mejora.
-- `.kpi-card-w2` es **manual**. Se pone en la card que lleva un importe o una fecha con
-  hora, para que el ancho doble sea una decisión de quien arma el tablero y no un efecto
-  del largo del texto.
-- La variante **se suma** a `.kpi-grid`, no la reemplaza: el `gap` y los breakpoints
-  siguen valiendo.
-- Cuándo usar cada una: **estirada** con seis o más métricas que llenan el ancho;
-  **modulada** con pocas, o cuando los valores son cortos.
-
 ### Inputs — excepción borderless
 
 ```css
@@ -2050,5 +2011,5 @@ aunque en castellano las dos se digan «tabs».
 
 ---
 
-*YiQi ERP · Design System v1.2.7.11 · Última actualización: 04/08/2026*
+*YiQi ERP · Design System v1.2.7.11 · Última actualización: 05/08/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
