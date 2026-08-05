@@ -464,16 +464,21 @@ body.nav-open { overflow: hidden; }
 @media (max-width: 980px) {
   .mobile-menu-btn { display: inline-flex; }
   .ds-layout { grid-template-columns: 1fr; }
+  /* El drawer es un overlay modal (tiene scrim): va de arriba a abajo del
+     viewport. Antes arrancaba en top:56px esperando la topbar sticky, pero
+     cuando la topbar no esta (scrolleada, o el catalogo embebido bajo otro
+     header) esos 56px mostraban el contenido de atras — se veia "un header"
+     ajeno tapando el indice y el drawer parecia meterse debajo. */
   .ds-nav {
     position: fixed;
-    top: 56px;
+    top: 0;
     right: 0;
     left: auto;
     width: min(260px, calc(100vw - 32px));
-    height: calc(100dvh - 56px);
+    height: 100dvh;
     transform: translateX(110%);
     transition: transform .24s ease;
-    z-index: 90;
+    z-index: 115;
     box-shadow: -4px 0 28px rgba(0,0,0,.32);
     padding: 16px 12px;
     border-left: 1px solid var(--line);
@@ -555,19 +560,23 @@ img, svg { max-width: 100%; height: auto; }
 
 /* ── Theme toggle dentro de la hamburguesa (mobile) ── */
 .ds-nav .ds-nav-appearance { display: none; }
-.ds-nav-appearance .yqsw { padding: 4px; gap: 4px; background: var(--bg-elev-2); width: max-content; }  /* borderless */
-.ds-nav-appearance .yqsw-opt { width: 44px; height: 34px; }
-.ds-nav-appearance .yqsw-opt svg { width: 16px; height: 16px; }
+/* El control es el .theme-cycle canónico; acá solo se agranda a blanco táctil. */
+.ds-nav-appearance .theme-cycle { width: 44px; height: 38px; background: var(--bg-elev-2); }
 @media (max-width: 980px) {
   .ds-nav .ds-nav-appearance { display: flex; }
-  .topbar-right .yqsw { display: none; }
+  .topbar-right .theme-cycle { display: none; }
 }
 
 /* ── X de cierre dentro de la hamburguesa (mobile) ── */
 .ds-nav .close-btn { display: none; }
 @media (max-width: 980px) {
-  .ds-nav-inner { position: relative; padding-top: 40px; }
-  .ds-nav .close-btn { display: grid; position: absolute; top: 0; right: 0; width: 32px; height: 32px; z-index: 2; }
+  /* La X viajaba con el scroll: era absolute dentro del contenido y al bajar
+     por las 66 entradas quedaba cientos de px arriba. Sticky en el scroller
+     (.ds-nav) la deja siempre a la vista, con fondo para que el indice no
+     se lea a traves. */
+  .ds-nav .close-btn { display: grid; position: sticky; top: 0; margin-left: auto;
+    width: 32px; height: 32px; z-index: 2; background: var(--bg-elev);
+    border-radius: var(--radius-pill); }
   .ds-nav .close-btn svg { width: 16px; height: 16px; }
 }
 

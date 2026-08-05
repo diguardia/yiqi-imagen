@@ -394,6 +394,20 @@ Callouts, notas y cards con borde en **un solo lado** (`border-left` o `border-t
 
 ---
 
+
+### 3.1 De dónde vienen las reglas *(nuevo en v1.2.7.11)*
+
+Las reglas del sistema no son gusto de nadie: cada una aplica un principio con medio siglo o más de historia en el diseño de información. El flat & borderless es la última parada de una línea que arranca en la **Bauhaus** (funcionalismo, 1919), pasa por el **Estilo Tipográfico Internacional** suizo (retícula y jerarquía, años 50), llega al *flat design* (iOS 7, 2013) y a la elevación semántica de Material Design (2014). La sección completa, con cada principio anclado a su fuente y a la sección del catálogo donde se cumple, está en **§01 · Filosofía de diseño** del catálogo (`#filosofia`).
+
+| Principio | Tradición | En el DS |
+|---|---|---|
+| Separar por campo, no por contorno | Gestalt (región común, figura-fondo, 1923) · Tufte, *data-ink ratio* (1983) | Reglas 1–2: elevación tonal, prohibido el borde parcial |
+| Menos, pero mejor | Rams, *Weniger, aber besser* (años 60) | Sin gradientes decorativos, glows ni halos |
+| Tipografía por rol | Müller-Brockmann (1981) · Bringhurst, microtipografía (1992) | §2: Inter UI, Plex Mono datos, Jakarta cifras; numeral tabular vs proporcional por función |
+| La elevación significa | Material Design, elevación semántica (2014) | Tres niveles de fondo + tabla de apilamiento (§6.9) |
+| Leyes de interacción | Fitts (1954) · Hick (1952) · Jakob (Nielsen, 2000) | Inputs 16px en táctil, picker en vez de pills, patrones del OS en §30 |
+| Accesibilidad como piso | WCAG 2.2 (2023) | Contraste en ambos temas, `:focus-visible`, `prefers-reduced-motion`, tema `system` |
+
 ## 4. Token `--text-cyan-muted` *(nuevo en v1.2.5)*
 
 Usar en: subtítulos, estado activo de módulos, labels secundarios con acento cyan.
