@@ -132,6 +132,19 @@
 
   /* Layout */
   --topbar-h:  56px;
+
+  /* Escala de apilamiento — §01. Son los numeros de la tabla publicada,
+     sin renumerar: publicar el token no obliga a barrer nada. Un z-index
+     que no sale de esta escala es un componente peleando con otro. */
+  --z-modal:     200;
+  --z-toast:     120;
+  --z-drawer:    115;
+  --z-backdrop:  110;
+  --z-topbar:    100;
+  --z-statusbar:  97;
+  --z-rail:       96;
+  --z-popover:    60;
+  --z-nav:        40;
   --statusbar-h: 28px;   /* barra de estado inferior (§44) */
   --sidebar-w: 240px;
   --sidebar-w-collapsed: 68px;
@@ -403,6 +416,10 @@ html[data-theme="light"] .brand-logo-light { display: block; }
 }
 
 /* v1.2.5: nav-item sin borde por defecto — borde solo en hover/active */
+/* OBSOLETO desde v1.2.7.11 — usar .nav-link (mas abajo). Dos nombres para
+   el mismo item de sidebar: .nav-link es el que usan las apps reales
+   (comercial 19 usos, panel 10); este quedo casi sin consumo (1 uso).
+   Se mantiene por compatibilidad; no agregar reglas nuevas aca. */
 .nav-item {
   padding: 12px 14px;
   border-radius: var(--radius-md);
@@ -431,6 +448,14 @@ html[data-theme="light"] .brand-logo-light { display: block; }
 
 /* ── 8. TOPBAR ────────────────────────────────────────────── */
 .topbar {
+  /* v1.2.7.11: la barra declara su propio chrome. El canonico no traia
+     position, z-index ni fondo, asi que cada app los inventaba — y cada
+     una elegia un numero distinto. Una app puede pisar el fondo (carga
+     despues del CDN); el sticky y la capa son del sistema. */
+  position: sticky;
+  top: 0;
+  z-index: var(--z-topbar);
+  background: var(--bg-elev);
   min-height: var(--topbar-h);
   min-width: 0;
   display: flex;
@@ -1071,7 +1096,7 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
   /* v1.2.7.9: 20 no estaba en la tabla de apilamiento publicada en §01, y
      cualquier elemento posicionado del contenido le pasaba por encima. Los
      popovers viven en 60. */
-  z-index: 60;
+  z-index: var(--z-popover);
 }
 
 .schema-option {
@@ -1614,7 +1639,7 @@ html[data-theme="light"] .skeleton-line {
   opacity: 0;
   transform: translateY(-4px);
   pointer-events: none;
-  z-index: 60;
+  z-index: var(--z-popover);
   transition: opacity 0.16s ease, transform 0.16s ease;
 }
 .kpi-help.is-open .kpi-help-pop {
@@ -2450,7 +2475,7 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
 .sidebar-collapse svg { width: 16px; height: 16px; transition: transform 0.18s ease; }
 
 .app-shell.nav-collapsed { grid-template-columns: var(--sidebar-w-collapsed) minmax(0, 1fr); }
-.app-shell.nav-collapsed .sidebar { padding: 20px 10px; overflow: visible; z-index: 96; }
+.app-shell.nav-collapsed .sidebar { padding: 20px 10px; overflow: visible; z-index: var(--z-rail); }
 /* El centrado del rail NO puede depender de .app-shell: el modo colapsado
    esta escrito de dos formas mezcladas en este archivo — 16 reglas exigen
    .app-shell.nav-collapsed y 16 se conforman con .nav-collapsed. Un consumidor
@@ -2488,7 +2513,7 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
   padding: 5px 10px; border-radius: var(--radius-sm);
   font: 500 12px var(--sans); white-space: nowrap;
   box-shadow: var(--shadow-md);
-  opacity: 0; pointer-events: none; z-index: 200;
+  opacity: 0; pointer-events: none; z-index: var(--z-modal);  /* por encima de todo el chrome: el tooltip del rail no puede quedar detras del drawer */
   transition: opacity 0.14s ease, transform 0.14s ease;
 }
 .app-shell.nav-collapsed .nav-link:hover::after,
@@ -2549,7 +2574,7 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
   background: var(--bg-elev); box-shadow: var(--shadow-lg);
   padding: 6px;
   /* Misma capa que el resto de los popovers, segun la tabla de §01. */
-  z-index: 60;
+  z-index: var(--z-popover);
 }
 .ds-picker-menu[hidden] { display: none; }
 .ds-picker-option {
@@ -2597,7 +2622,7 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
 .pr-pop h4{ font:700 13px var(--sans); margin:0 0 4px; }
 .pr-pop p{ font:400 12px/1.5 var(--sans); color:var(--muted); margin:0; }
 /* ── Toast (primitivo) — fuente canónica ── */
-.pr-toasts{ position:fixed; right:18px; bottom:18px; z-index:120; display:flex; flex-direction:column; gap:10px; }
+.pr-toasts{ position:fixed; right:18px; bottom:18px; z-index:var(--z-toast); display:flex; flex-direction:column; gap:10px; }
 .pr-toast{ display:flex; align-items:center; gap:11px; min-width:240px; padding:12px 14px; border-radius:var(--radius); background:var(--bg-elev); box-shadow:0 0 0 1px var(--line), var(--shadow-lg); transform:translateX(120%); transition:transform .32s cubic-bezier(.2,.9,.3,1); }
 .pr-toast.show{ transform:translateX(0); }
 .pr-toast .ph{ font-size:18px; color:var(--green); }
@@ -2613,7 +2638,7 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
 .pr-toast.is-success .pr-toast-close{ color:var(--green); }
 
 /* ── Dialog · shell de modal (primitivo) ── */
-.sc-modal{ position:fixed; inset:0; z-index:200; display:none; align-items:center; justify-content:center; padding:24px; background:color-mix(in srgb, var(--bg) 72%, transparent); backdrop-filter:blur(4px); }
+.sc-modal{ position:fixed; inset:0; z-index:var(--z-modal); display:none; align-items:center; justify-content:center; padding:24px; background:color-mix(in srgb, var(--bg) 72%, transparent); backdrop-filter:blur(4px); }
 .sc-modal.open{ display:flex; }
 .sc-modal-card{ width:min(100%,920px); max-height:88vh; display:flex; flex-direction:column; background:var(--bg-elev-2); border:1px solid var(--line-strong); border-radius:var(--radius-xl); box-shadow:var(--shadow-lg); overflow:hidden; }
 .sc-modal-head{ display:flex; align-items:flex-start; justify-content:space-between; gap:16px; padding:18px 22px; border-bottom:1px solid var(--line); }
@@ -2817,6 +2842,9 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
    el canonico. Solo tokens, sin color fijo. */
 
 /* Topbar en grilla de 3 zonas para apps con selector de esquema. */
+/* Modificador de .topbar — NO vive solo. class="topbar app-topbar":
+   convierte la fila flex en la grilla logo · centro · acciones que usan
+   las apps con buscador central (Mi Cuenta, Analytics Pro). */
 .app-topbar { grid-column: 1 / -1; display: grid;
   grid-template-columns: auto minmax(280px, 1fr) auto; align-items: center;
   gap: 14px; padding: 8px 28px 10px; }
@@ -2894,7 +2922,7 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
     bottom: 0;
     /* El drawer cubre la pantalla entera, topbar incluida. Por encima de
        cualquier topbar de app (100) y por debajo de toasts (120) y modal (200). */
-    z-index: 115;
+    z-index: var(--z-drawer);
     width: min(var(--sidebar-w), 86vw);
     height: 100dvh;
     padding: 20px;
@@ -2919,7 +2947,7 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
     display: block;
     position: fixed;
     inset: 0;
-    z-index: 110;
+    z-index: var(--z-backdrop);
     background: rgba(0,0,0,.55);
     opacity: 0;
     pointer-events: none;
@@ -2969,7 +2997,7 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
    fija abajo, alto --statusbar-h, sin bordes. Se oculta bajo 980px. */
 .statusbar {
   position: fixed; left: 0; right: 0; bottom: 0;
-  z-index: 97;
+  z-index: var(--z-statusbar);
   height: var(--statusbar-h);
   display: flex; align-items: center; justify-content: space-between;
   gap: 12px; padding: 0 16px;
@@ -3049,7 +3077,7 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
    El botón .btn-layout alterna entre los dos modos. */
 .tab-nav {
   display: none;
-  position: sticky; top: var(--topbar-h); z-index: 40;
+  position: sticky; top: var(--topbar-h); z-index: var(--z-nav);
   gap: 4px; align-items: stretch;
   margin: 0 0 8px; padding: 6px 0;
   overflow-x: auto; scrollbar-width: none;

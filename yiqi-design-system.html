@@ -472,6 +472,13 @@ body.preview-open .ds-layout { display: none !important; }
 <tr><th>Versión</th><th>Fecha</th><th>Tipo</th><th>Detalle</th></tr>
 </thead>
 <tbody>
+<tr id="chg-z-tokens">
+<td class="mono-cell">v1.2.7.11</td>
+<td class="mono-cell">05/08/2026</td>
+<td><span class="badge badge-cyan">NUEVO</span></td>
+<td><strong>La escala de apilamiento se publica como tokens y <code>.topbar</code> declara su chrome.</strong> La tabla de &sect;01 exist&iacute;a pero sus n&uacute;meros estaban escritos a mano por todo el CSS, y <code>.topbar</code> no tra&iacute;a <code>position</code>, <code>z-index</code> ni fondo — <strong>cada app los inventaba y cada una eleg&iacute;a un n&uacute;mero distinto</strong>. Entran <code>--z-modal</code> (200) &middot; <code>--z-toast</code> (120) &middot; <code>--z-drawer</code> (115) &middot; <code>--z-backdrop</code> (110) &middot; <code>--z-topbar</code> (100) &middot; <code>--z-statusbar</code> (97) &middot; <code>--z-rail</code> (96) &middot; <code>--z-popover</code> (60) &middot; <code>--z-nav</code> (40), <strong>con los n&uacute;meros que la tabla ya ten&iacute;a</strong>: sin renumerar, ninguna app tuvo que barrerse. <code>.topbar</code> pasa a traer <code>sticky + top:0 + var(--z-topbar) + fondo</code>; <code>.app-topbar</code> queda documentado como modificador (<code>class="topbar app-topbar"</code>) y <code>.nav-link</code> como nombre can&oacute;nico del &iacute;tem de sidebar (<code>.nav-item</code> obsoleto, 1 solo uso real contra 29). Verificado en render sobre cat&aacute;logo, showcase, comercial y panel, oscuro y claro.<div class="chg-links"><a class="ds-xref" href="#stacking"><i class="ph ph-anchor-simple"></i> &sect;01 &middot; Apilamiento</a><button class="ds-copy chg-share" data-ds-copy="link" title="Copiar link a este cambio" aria-label="Copiar link a este cambio"><i class="ph ph-link"></i>Compartir</button></div></td>
+</tr>
+
 <tr id="chg-mockup-web">
 <td class="mono-cell">v1.2.7.11</td>
 <td class="mono-cell">05/08/2026</td>
@@ -939,22 +946,23 @@ body.preview-open .ds-layout { display: none !important; }
 <div class="subsection-title" id="stacking" style="margin-top:40px">Orden de apilamiento — z-index</div>
 <p class="ds-section-sub" style="margin-bottom:14px">Toda superposición del sistema usa esta escala. <strong>Antes de inventar un <code>z-index</code>, buscar acá dónde entra.</strong> Un número fuera de la tabla es un síntoma: el componente está peleando con otro en vez de ocupar su lugar.</p>
 <table class="table-demo" style="max-width:720px;margin-bottom:14px">
-<thead><tr><th>z-index</th><th>Qué</th><th>Clases</th></tr></thead>
+<thead><tr><th>Token</th><th>z-index</th><th>Qué</th><th>Clases</th></tr></thead>
 <tbody>
-<tr><td><strong>200</strong></td><td>Modal · tooltip del rail colapsado</td><td><code>.sc-modal</code></td></tr>
-<tr><td><strong>120</strong></td><td>Toasts</td><td><code>.pr-toasts</code></td></tr>
-<tr><td><strong>115</strong></td><td>Drawer mobile</td><td><code>.sidebar</code> en ≤980px</td></tr>
-<tr><td><strong>110</strong></td><td>Backdrop del drawer</td><td><code>.nav-overlay</code> en ≤980px</td></tr>
-<tr><td>~100</td><td>Topbar de la app</td><td><em>la declara cada app; el canónico no la fija</em></td></tr>
-<tr><td>97</td><td>Statusbar · sidebar en peek</td><td><code>.statusbar</code></td></tr>
-<tr><td>96</td><td>Sidebar colapsado</td><td><code>.nav-collapsed .sidebar</code></td></tr>
-<tr><td>60</td><td>Popovers y menús</td><td><code>.kpi-help-pop</code></td></tr>
-<tr><td>40</td><td>Navegación pegajosa</td><td><code>.tab-nav</code></td></tr>
-<tr><td>20</td><td>Menú de esquema</td><td><code>.schema-menu</code></td></tr>
+<tr><td><code>--z-modal</code></td><td><strong>200</strong></td><td>Modal · tooltip del rail colapsado</td><td><code>.sc-modal</code></td></tr>
+<tr><td><code>--z-toast</code></td><td><strong>120</strong></td><td>Toasts</td><td><code>.pr-toasts</code></td></tr>
+<tr><td><code>--z-drawer</code></td><td><strong>115</strong></td><td>Drawer mobile</td><td><code>.sidebar</code> en ≤980px</td></tr>
+<tr><td><code>--z-backdrop</code></td><td><strong>110</strong></td><td>Backdrop del drawer</td><td><code>.nav-overlay</code> en ≤980px</td></tr>
+<tr><td><code>--z-topbar</code></td><td><strong>100</strong></td><td>Topbar</td><td><code>.topbar</code> — <strong>desde v1.2.7.11 la fija el canónico</strong></td></tr>
+<tr><td><code>--z-statusbar</code></td><td>97</td><td>Statusbar · sidebar en peek</td><td><code>.statusbar</code></td></tr>
+<tr><td><code>--z-rail</code></td><td>96</td><td>Sidebar colapsado</td><td><code>.nav-collapsed .sidebar</code></td></tr>
+<tr><td><code>--z-popover</code></td><td>60</td><td>Popovers y menús</td><td><code>.kpi-help-pop</code> · <code>.ds-picker-menu</code></td></tr>
+<tr><td><code>--z-nav</code></td><td>40</td><td>Navegación pegajosa</td><td><code>.tab-nav</code></td></tr>
+<tr><td>—</td><td>30</td><td>FAB y sus acciones (bajo la nav)</td><td><code>.ds-fab</code></td></tr>
+<tr><td>—</td><td>20</td><td>Menú de esquema</td><td><code>.schema-menu</code></td></tr>
 </tbody>
 </table>
 <div class="ds-note" style="max-width:820px"><strong>El drawer va por encima de la topbar, no por debajo.</strong> En celular ocupa la pantalla entera: si la topbar lo tapa, el botón de cerrar queda inalcanzable y el drawer se ve recortado. Por eso está en 115 y su backdrop en 110, arriba del 100 que suelen usar las topbars fijas.</div>
-<div class="ds-note ds-note--warn" style="max-width:820px"><strong>Pendiente.</strong> El canónico no declara <code>position</code> ni <code>z-index</code> en <code>.topbar</code>, así que cada app lo inventa. Y los valores de la tabla se eligieron de a uno, sin escala. Publicarlos como tokens es la salida, pero renumerar exige barrer catálogo, showcase, Analytics Pro y Mi Cuenta buscando solapamientos.</div>
+<div class="ds-note" style="max-width:820px"><strong>Resuelto en v1.2.7.11.</strong> La escala se publica como tokens (<code>--z-modal</code> … <code>--z-nav</code>) con los números que esta tabla ya tenía — sin renumerar, así que ninguna app tuvo que barrerse. Y <code>.topbar</code> declara su chrome en el canónico: <code>position: sticky</code>, <code>top: 0</code>, <code>z-index: var(--z-topbar)</code> y fondo <code>--bg-elev</code>. Una app puede pisar el fondo (su hoja carga después del CDN); el sticky y la capa son del sistema. <code>.app-topbar</code> queda documentado como <strong>modificador</strong> — <code>class="topbar app-topbar"</code>, la grilla logo · centro · acciones — y <code>.nav-link</code> como el nombre canónico del ítem de sidebar (<code>.nav-item</code> queda obsoleto, se mantiene por compatibilidad).</div>
 </section>
 
 <section class="ds-section" id="brand">

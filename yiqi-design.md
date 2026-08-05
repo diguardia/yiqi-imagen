@@ -649,6 +649,16 @@ Toda superposición del sistema usa esta escala. **Antes de inventar un `z-index
 
 ---
 
+
+**Desde v1.2.7.11 la escala se publica como tokens** — mismos números, sin renumerar:
+
+```css
+--z-modal: 200;  --z-toast: 120;  --z-drawer: 115;  --z-backdrop: 110;
+--z-topbar: 100; --z-statusbar: 97; --z-rail: 96;   --z-popover: 60;  --z-nav: 40;
+```
+
+Y `.topbar` declara su chrome en el canónico: `position: sticky; top: 0; z-index: var(--z-topbar); background: var(--bg-elev)`. Una app puede pisar el fondo (su hoja carga después del CDN); el sticky y la capa son del sistema. `.app-topbar` es **modificador** (`class="topbar app-topbar"`, grilla logo · centro · acciones) y `.nav-link` es el nombre canónico del ítem de sidebar (`.nav-item` obsoleto).
+
 ## 7. Responsive
 
 ### Breakpoints
