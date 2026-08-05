@@ -163,6 +163,47 @@ body.preview-open .ds-layout { display: none !important; }
 .yqsw-opt:hover{ color:var(--text); }
 .yqsw-opt.active{ background:var(--bg-soft); color:var(--text); }
 </style>
+<style>
+/* ── Navegación inferior en teléfono ────────────────────────────────────
+   El catálogo es un documento de 98.251px con 66 entradas de índice. En un
+   teléfono el drawer sigue siendo el índice completo, pero llegar a un
+   bloque exigía abrirlo y scrollearlo. La barra usa .ds-bottomnav y .ds-sheet
+   del §67 — no define componentes nuevos, solo los ancla y los alimenta.
+   No esconde contenido: mueve el scroll. Buscar en la página y los 65
+   deep links siguen funcionando igual que antes.
+
+   Apilamiento según la tabla de §01: la barra ocupa la franja de chrome fijo
+   (97, la de la statusbar), y la hoja va como drawer (115) con su backdrop
+   (110). La hoja y el backdrop arrancan ARRIBA de la barra, no encima: si la
+   taparan, el único modo de salir sería el backdrop, que en un teléfono es
+   una franja angosta. Con la barra siempre visible, el segundo toque cierra. */
+#dsBottomNav { display: none; }
+#dsSheetScrim { display: none; }
+@media (max-width: 980px) {
+  #dsBottomNav {
+    display: grid;
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 97;
+    box-shadow: 0 -1px 0 var(--line), var(--shadow);
+  }
+  /* El drawer del índice y el preview se abren por encima de todo: la barra
+     no debe flotar ahí. */
+  body.nav-open #dsBottomNav,
+  body.preview-open #dsBottomNav,
+  body.preview-open #dsSheet,
+  body.preview-open #dsSheetScrim { display: none; }
+  .ds-content { padding-bottom: 96px; }
+  /* El botón flotante quedaba encima del último destino. El selector lleva
+     el nombre del custom element porque llm-fab.js inyecta su hoja en
+     runtime, después de esta, y con igual especificidad ganaba la suya. */
+  llm-fab .llm-fab { bottom: 80px; }
+  #dsSheetScrim { display: block; position: fixed; inset: 0; z-index: 110;
+    background: rgba(0,0,0,.45); }
+  #dsSheetScrim[hidden] { display: none; }
+  #dsSheet { position: fixed; left: 0; right: 0; z-index: 115;
+    max-height: 60dvh; overflow-y: auto; }
+}
+#dsBottomNav .ds-bottomnav-item { cursor: pointer; border: 0; background: transparent; font: inherit; }
+</style>
 </head>
 <body>
 <div class="ds-overlay" onclick="closeNav()"></div>
@@ -336,7 +377,6 @@ body.preview-open .ds-layout { display: none !important; }
 <a class="ds-nav-item" href="#ds-copy"><span class="ds-nav-num">65</span> Copiar al portapapeles <span class="ds-nav-badge">v1.2.7.9</span></a>
 <a class="ds-nav-item" href="#ds-picker"><span class="ds-nav-num">66</span> Desplegable de selección <span class="ds-nav-badge">v1.2.7.9</span></a>
 <a class="ds-nav-item" href="#nav-movil"><span class="ds-nav-num">67</span> Navegación móvil <span class="ds-nav-badge">v1.2.7.10</span></a>
-<a class="ds-nav-item" href="#kpi-grid"><span class="ds-nav-num">68</span> Grilla de KPIs <span class="ds-nav-badge">v1.2.7.11</span></a>
 </div>
 <div class="ds-nav-section ds-nav-appearance">
 <span class="ds-nav-label">Apariencia</span>
@@ -362,8 +402,8 @@ body.preview-open .ds-layout { display: none !important; }
 <section class="ds-section" id="release-notes">
 <div class="ds-section-header">
 <div class="ds-section-kicker">00 · Novedades</div>
-<h2 class="ds-section-title" data-ds-version="Novedades · v{v}">Novedades · v1.2.7.11</h2>
-<p class="ds-section-sub"><strong>La grilla de KPIs suma una variante modulada</strong> (<code>.kpi-grid-auto</code>, §68): las cards toman el ancho que pide su contenido sobre un módulo de 150&nbsp;px, en vez de estirarse a todo el ancho. Antes, en v1.2.7.10: navegación móvil (§67). Antes, en v1.2.7.9: <strong>la versión del DS se lee de <code>version.json</code></strong>: el catálogo y el showcase la tenían escrita a mano y divergían. Se canoniza la statusbar como corre en Analytics Pro (<code>.sb-item</code>, <code>.sb-clock</code>, reloj). Antes, en v1.2.7.9: se publica la tabla de <code>z-index</code> y el drawer mobile sube a 115, que estaba tapado por la topbar. Antes, en v1.2.7.8: <strong>Greycliff CF entra al bundle</strong> — el canónico nunca cargaba la tipografía de marca — con las clases de título <code>.ds-title-hero</code>, <code>.ds-title-page</code> y <code>.ds-title-section</code>. Y en v1.2.7.7: el DS deja de imponer tamaño a <code>h1</code>–<code>h4</code>, y se publica <code>.ds-note</code>.</p>
+<h2 class="ds-section-title" data-ds-version="Novedades · v{v}">Novedades · v1.2.7.9</h2>
+<p class="ds-section-sub"><strong>La versión del DS se lee de <code>version.json</code></strong>: el catálogo y el showcase la tenían escrita a mano y divergían. Se canoniza la statusbar como corre en Analytics Pro (<code>.sb-item</code>, <code>.sb-clock</code>, reloj). Antes, en v1.2.7.9: se publica la tabla de <code>z-index</code> y el drawer mobile sube a 115, que estaba tapado por la topbar. Antes, en v1.2.7.8: <strong>Greycliff CF entra al bundle</strong> — el canónico nunca cargaba la tipografía de marca — con las clases de título <code>.ds-title-hero</code>, <code>.ds-title-page</code> y <code>.ds-title-section</code>. Y en v1.2.7.7: el DS deja de imponer tamaño a <code>h1</code>–<code>h4</code>, y se publica <code>.ds-note</code>.</p>
 </div>
 <div class="token-grid-2">
 <div class="card">
@@ -412,13 +452,6 @@ body.preview-open .ds-layout { display: none !important; }
 <tr><th>Versión</th><th>Fecha</th><th>Tipo</th><th>Detalle</th></tr>
 </thead>
 <tbody>
-<tr id="chg-kpi-grid-auto">
-<td class="mono-cell">v1.2.7.11</td>
-<td class="mono-cell">04/08/2026</td>
-<td><span class="badge badge-cyan">NUEVO</span></td>
-<td><strong>Grilla de KPIs modulada &mdash; <code>&sect;68</code>.</strong> <code>.kpi-grid</code> reparte todo el ancho entre cuatro columnas sin mirar cu&aacute;nto contenido hay: con tres indicadores en una p&aacute;gina de 1440&nbsp;px da <strong>428&nbsp;px por card para mostrar un n&uacute;mero de un d&iacute;gito</strong>. <code>.kpi-grid-auto</code> apoya las cards a la izquierda sobre un <strong>m&oacute;dulo de 150&nbsp;px</strong> &mdash; el m&aacute;s chico que mantiene la etiqueta en una l&iacute;nea; por debajo se parte en dos y la fila crece de 110 a 126&nbsp;px de alto, o sea m&aacute;s angosta pero m&aacute;s alta, que no es una mejora. Los anchos posibles pasan a ser 150, 312, 474: siempre sobre la ret&iacute;cula. <code>.kpi-card-w2</code> pide dos m&oacute;dulos, y es <strong>manual a prop&oacute;sito</strong>: que el ancho doble sea una decisi&oacute;n de quien arma el tablero y no un efecto del largo del texto. <strong>Nueve archivos ya redefin&iacute;an <code>.kpi-grid</code> por su cuenta</strong>, incluido este cat&aacute;logo &mdash; cuando el componente publicado no cubre un caso real, la necesidad no desaparece: aparece nueve veces escrita distinto. Cero tokens nuevos; la variante se suma a <code>.kpi-grid</code>, as&iacute; que el <code>gap</code> y los breakpoints siguen valiendo.<div class="chg-links"><a class="ds-xref" href="#kpi-grid"><i class="ph ph-anchor-simple"></i> &sect;68 &middot; Grilla de KPIs</a><a class="ds-xref" href="examples/showcase.html?tab=analytics"><i class="ph ph-anchor-simple"></i> Ver en vivo</a><button class="ds-copy chg-share" data-ds-copy="link" title="Copiar link a este cambio" aria-label="Copiar link a este cambio"><i class="ph ph-link"></i>Compartir</button></div></td>
-</tr>
-
 <tr id="chg-nav-movil">
 <td class="mono-cell">v1.2.7.10</td>
 <td class="mono-cell">04/08/2026</td>
@@ -3425,7 +3458,7 @@ html[data-theme="light"] .bg-grid-demo-fade {
           <button class="theme-opt" type="button" data-val="system" aria-label="Tema del sistema"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></button>
           <button class="theme-opt" type="button" data-val="light" aria-label="Tema claro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg></button>
         </div>
-        <div class="sb-copy">&copy; 2026 YiQi S.A.<br>Mi App &middot; <span data-ds-version="DS v{v}">DS v1.2.7.11</span></div>
+        <div class="sb-copy">&copy; 2026 YiQi S.A.<br>Mi App &middot; <span data-ds-version="DS v{v}">DS v1.2.7.10</span></div>
       </div>
     </nav>
     <div class="content">Área de contenido — acá va lo propio de cada app.</div>
@@ -4364,7 +4397,7 @@ ana · prov · inv · pos · pick · cons
 <div style="max-width:760px;margin-bottom:20px">
   <div class="statusbar" style="position:static;height:auto;padding:7px 14px;border-radius:var(--radius-sm)">
     <div class="statusbar-left"><span class="ldot ldot-g"></span><strong>Datos reales</strong><span class="statusbar-desc">Conectado a YiQi ERP. Periodo actual seleccionado.</span></div>
-    <div class="statusbar-right"><span class="sb-item">Analytics Pro</span><span class="sb-sep">&middot;</span><span class="sb-item" data-ds-version="DS v{v}">DS v1.2.7.11</span><span class="sb-sep">&middot;</span><span class="sb-item sb-clock" id="ds-demo-clock">--:--</span></div>
+    <div class="statusbar-right"><span class="sb-item">Analytics Pro</span><span class="sb-sep">&middot;</span><span class="sb-item" data-ds-version="DS v{v}">DS v1.2.7.10</span><span class="sb-sep">&middot;</span><span class="sb-item sb-clock" id="ds-demo-clock">--:--</span></div>
   </div>
 </div>
 
@@ -5154,58 +5187,6 @@ if (v) target.textContent = `DS v${v}`;</code></pre>
 
 </section>
 
-<section class="ds-section" id="kpi-grid">
-<div class="ds-section-kicker">68 · Kit de panel</div>
-<h2 class="ds-section-title">Grilla de KPIs</h2>
-<p class="ds-section-sub">Dos formas de acomodar una fila de indicadores. La <strong>estirada</strong> reparte todo el ancho entre cuatro columnas; la <strong>modulada</strong> apoya las cards a la izquierda sobre una retícula de 150&nbsp;px. La diferencia no es estética: con pocas métricas, la estirada infla cada card.</p>
-
-<div class="ds-note"><strong>Tres cards en 1440&nbsp;px dan 428&nbsp;px cada una</strong> con la grilla estirada, para mostrar un número de un dígito. Ese es el caso donde va la modulada.</div>
-
-<div class="subsection-title">Anatomía</div>
-<table class="data-table">
-<thead><tr><th>Clase</th><th>Qué es</th><th>Estados y reglas</th></tr></thead>
-<tbody>
-<tr><td><code class="ds-code-inline">.kpi-grid</code></td><td>Grilla estirada. Cuatro columnas que se reparten el ancho.</td><td>Es el default. Va cuando hay <strong>seis o más</strong> métricas, o valores largos que llenan la card.</td></tr>
-<tr><td><code class="ds-code-inline">.kpi-grid-auto</code></td><td>Variante modulada. Módulo de 150&nbsp;px, cards apoyadas a la izquierda.</td><td><strong>Se suma</strong> a <code class="ds-code-inline">.kpi-grid</code>, no la reemplaza: el <code class="ds-code-inline">gap</code> y los breakpoints siguen valiendo. Anchos posibles: 150, 312, 474.</td></tr>
-<tr><td><code class="ds-code-inline">.kpi-card-w2</code></td><td>La card ocupa dos módulos (312&nbsp;px).</td><td><strong>Manual y a propósito.</strong> Se pone donde hay un importe o una fecha con hora que no debe cortarse, para que el ancho doble sea una decisión y no un efecto del largo del texto.</td></tr>
-</tbody>
-</table>
-
-<div class="ds-note"><strong>El módulo es 150&nbsp;px y no menos.</strong> Es el más chico que mantiene la etiqueta en una línea: por debajo se parte en dos y la fila crece de 110 a 126&nbsp;px de alto. Más angosta pero más alta no es una mejora.</div>
-
-<div class="subsection-title">Ejemplo</div>
-
-<div style="font:600 9px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2);margin:16px 0 8px">.kpi-grid &mdash; estirada, con tres indicadores</div>
-<div class="kpi-grid">
-  <div class="kpi-card"><div class="kpi-label">Casos cargados</div><div class="kpi-value">6</div><div class="kpi-delta">total de la planilla</div></div>
-  <div class="kpi-card"><div class="kpi-label">En análisis</div><div class="kpi-value">2</div><div class="kpi-delta">Estado</div></div>
-  <div class="kpi-card"><div class="kpi-label">En uso</div><div class="kpi-value">1</div><div class="kpi-delta">Estado</div></div>
-</div>
-
-<div style="font:600 9px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2);margin:22px 0 8px">.kpi-grid.kpi-grid-auto &mdash; modulada, los mismos tres</div>
-<div class="kpi-grid kpi-grid-auto">
-  <div class="kpi-card"><div class="kpi-label">Casos cargados</div><div class="kpi-value">6</div><div class="kpi-delta">total de la planilla</div></div>
-  <div class="kpi-card"><div class="kpi-label">En análisis</div><div class="kpi-value">2</div><div class="kpi-delta">Estado</div></div>
-  <div class="kpi-card"><div class="kpi-label">En uso</div><div class="kpi-value">1</div><div class="kpi-delta">Estado</div></div>
-</div>
-
-<div style="font:600 9px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2);margin:22px 0 8px">.kpi-card-w2 &mdash; la primera pide dos módulos</div>
-<div class="kpi-grid kpi-grid-auto">
-  <div class="kpi-card kpi-card-w2"><div class="kpi-label">Facturación del mes</div><div class="kpi-value">$ 4.820.117</div><div class="kpi-delta">al 4 de agosto, 09:30</div></div>
-  <div class="kpi-card"><div class="kpi-label">En análisis</div><div class="kpi-value">2</div><div class="kpi-delta">Estado</div></div>
-  <div class="kpi-card"><div class="kpi-label">En uso</div><div class="kpi-value">1</div><div class="kpi-delta">Estado</div></div>
-  <div class="kpi-card"><div class="kpi-label">Nuevo</div><div class="kpi-value">1</div><div class="kpi-delta">Estado</div></div>
-</div>
-
-<div class="subsection-title">Markup</div>
-<pre class="ds-code"><code>&lt;div class="kpi-grid kpi-grid-auto"&gt;
-  &lt;div class="kpi-card kpi-card-w2"&gt;…&lt;/div&gt;   &lt;!-- valor que no debe cortarse --&gt;
-  &lt;div class="kpi-card"&gt;…&lt;/div&gt;
-  &lt;div class="kpi-card"&gt;…&lt;/div&gt;
-&lt;/div&gt;</code></pre>
-</section>
-
-
 
 <!-- ─── DEMO FORM ─── -->
 
@@ -5767,10 +5748,101 @@ document.addEventListener('DOMContentLoaded', function(){
   <div class="statusbar-right">
     <span class="sb-item">Catálogo</span>
     <span class="sb-sep" aria-hidden="true">&middot;</span>
-    <span class="sb-item" data-ds-version="DS v{v}">DS v1.2.7.11</span>
+    <span class="sb-item" data-ds-version="DS v{v}">DS v1.2.7.10</span>
     <span class="sb-sep" aria-hidden="true">&middot;</span>
     <span class="sb-item sb-clock" id="ds-statusbar-clock">--:--</span>
   </div>
 </footer>
+<nav class="ds-bottomnav" id="dsBottomNav" aria-label="Bloques del catálogo">
+<button class="ds-bottomnav-item" type="button" data-bloque="fund" aria-haspopup="dialog" aria-expanded="false"><i class="ph ph-palette" aria-hidden="true"></i><span>Fundamentos</span></button>
+<button class="ds-bottomnav-item" type="button" data-bloque="comp" aria-haspopup="dialog" aria-expanded="false"><i class="ph ph-cube" aria-hidden="true"></i><span>Componentes</span></button>
+<button class="ds-bottomnav-item" type="button" data-bloque="patr" aria-haspopup="dialog" aria-expanded="false"><i class="ph ph-grid-nine" aria-hidden="true"></i><span>Patrones</span></button>
+<button class="ds-bottomnav-item" type="button" data-bloque="apps" aria-haspopup="dialog" aria-expanded="false"><i class="ph ph-device-mobile" aria-hidden="true"></i><span>Apps</span></button>
+<button class="ds-bottomnav-item" type="button" data-bloque="market" aria-haspopup="dialog" aria-expanded="false"><i class="ph ph-storefront" aria-hidden="true"></i><span>Marketplace</span></button>
+</nav>
+<div id="dsSheetScrim" hidden></div>
+<div class="ds-sheet" id="dsSheet" role="dialog" aria-modal="true" aria-labelledby="dsSheetTitle" hidden>
+  <div class="ds-sheet-grab" aria-hidden="true"></div>
+  <p class="ds-sheet-title" id="dsSheetTitle">Bloque</p>
+  <div id="dsSheetBody"></div>
+</div>
+<script>
+/* Navegación inferior del catálogo — solo teléfono. Mueve el scroll, no
+   esconde secciones: cada destino abre su índice de bloque en una .ds-sheet. */
+(function () {
+  var BLOQUES = [["fund", "Fundamentos", ["release-notes", "reglas", "brand", "colors", "typography", "spacing", "radius", "effects", "motion", "icons"]], ["comp", "Componentes", ["buttons", "badges", "inputs", "cards", "trust", "navigation", "tables", "misc", "scrollbars", "empty-state", "theme-toggle", "prim-slider", "prim-tabs", "prim-dialog", "prim-dropdown", "prim-popover", "prim-toast", "counter", "chart-anim"]], ["patr", "Patrones", ["grid", "bg-grid", "depth-stack", "demo-form", "implementacion", "ds-xref", "llm-fab", "ds-note", "ds-copy", "ds-picker", "nav-movil"]], ["apps", "Apps", ["app-overview", "app-shell", "shell-mobile", "login", "panel-gerencial", "apps-picking", "web-banner", "statusbar", "sidebar-tools", "tab-nav", "src-card", "branch-list", "watchlist-tonal", "card-clickable", "sin-dato", "more-kpis"]], ["market", "Marketplace", ["app-banners", "mb-fhead", "mb-price", "mb-details", "mb-dev", "mb-share", "mb-appcard", "mb-reviews", "mb-homo"]]];
+  var TITULOS = {"release-notes": "Novedades", "reglas": "Reglas del sistema", "brand": "Logo & marca", "colors": "Colores", "typography": "Tipografía", "spacing": "Espaciado", "radius": "Border radius", "effects": "Efectos & sombras", "motion": "Motion", "icons": "Iconografía Phosphor", "buttons": "Botones", "badges": "Badges & tags", "inputs": "Inputs & formularios", "cards": "Cards & KPIs", "trust": "Trust / Stats", "navigation": "Navegación", "tables": "Tablas", "misc": "Elementos varios", "scrollbars": "Scrollbars", "empty-state": "Estado vacío", "theme-toggle": "Toggle de tema", "prim-slider": "Slider", "prim-tabs": "Tabs", "prim-dialog": "Dialog", "prim-dropdown": "Dropdown", "prim-popover": "Popover", "prim-toast": "Toast", "counter": "Contador animado", "chart-anim": "Animación de gráficos", "grid": "Grid & layout", "bg-grid": "Grilla cuadriculada", "depth-stack": "Depth stack", "demo-form": "Demo form", "app-overview": "Overview", "app-shell": "Shell", "shell-mobile": "Shell celular", "login": "Login", "panel-gerencial": "Panel Gerencial", "apps-picking": "Picking", "web-banner": "Banner Analytics Pro", "app-banners": "Banners de apps", "mb-fhead": "Header de ficha", "mb-price": "Card de pricing", "mb-details": "Card de detalles", "mb-dev": "Card de desarrollador", "mb-share": "Menú de compartir", "mb-appcard": "Card de catálogo", "mb-reviews": "Reseñas", "mb-homo": "Homologación", "statusbar": "Statusbar", "sidebar-tools": "Herramientas del sidebar", "tab-nav": "Navegación en tabs", "src-card": "Fuente de datos", "branch-list": "Ranking con barra", "watchlist-tonal": "Watchlist tonal", "card-clickable": "Card clickeable", "sin-dato": "Sin dato", "more-kpis": "Carrusel de KPIs", "implementacion": "Tabla de implementación", "ds-xref": "Enlace cruzado", "llm-fab": "LLM FAB", "ds-note": "Nota / callout", "ds-copy": "Copiar al portapapeles", "ds-picker": "Desplegable de selección", "nav-movil": "Navegación móvil"};
+  var abierto = null;
+
+  function offsetTop() {
+    var tb = document.querySelector('.ds-topbar');
+    return (tb ? tb.offsetHeight : 56) + 8;
+  }
+  function irA(id) {
+    var el = document.getElementById(id);
+    if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - offsetTop() });
+  }
+  function marcar(k) {
+    document.querySelectorAll('#dsBottomNav .ds-bottomnav-item').forEach(function (b) {
+      b.classList.toggle('is-active', b.dataset.bloque === k);
+    });
+  }
+  function cerrarSheet() {
+    var s = document.getElementById('dsSheet'), x = document.getElementById('dsSheetScrim');
+    if (s) s.hidden = true;
+    if (x) x.hidden = true;
+    document.querySelectorAll('#dsBottomNav .ds-bottomnav-item').forEach(function (b) {
+      b.setAttribute('aria-expanded', 'false');
+    });
+    abierto = null;
+  }
+  function abrirSheet(bloque) {
+    var s = document.getElementById('dsSheet'), x = document.getElementById('dsSheetScrim');
+    document.getElementById('dsSheetTitle').textContent = bloque[1];
+    var c = document.getElementById('dsSheetBody');
+    c.innerHTML = '';
+    bloque[2].forEach(function (id) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'ds-sheet-item';
+      b.textContent = TITULOS[id] || id;
+      b.addEventListener('click', function () { cerrarSheet(); marcar(bloque[0]); irA(id); });
+      c.appendChild(b);
+    });
+    var h = document.getElementById('dsBottomNav').offsetHeight;
+    s.style.bottom = h + 'px';
+    x.style.bottom = h + 'px';
+    s.hidden = false; x.hidden = false; s.scrollTop = 0;
+    abierto = bloque[0];
+    document.querySelector('#dsBottomNav [data-bloque="' + bloque[0] + '"]').setAttribute('aria-expanded', 'true');
+  }
+
+  document.addEventListener('click', function (ev) {
+    if (ev.target.id === 'dsSheetScrim') { cerrarSheet(); return; }
+    var btn = ev.target.closest('#dsBottomNav .ds-bottomnav-item');
+    if (!btn) return;
+    var b = BLOQUES.filter(function (x) { return x[0] === btn.dataset.bloque; })[0];
+    if (!b) return;
+    /* Segundo toque en el mismo destino: cierra. Sin esto la única salida
+       es el scrim, que en un teléfono es una franja angosta. */
+    if (abierto === b[0]) { cerrarSheet(); return; }
+    marcar(b[0]);
+    irA(b[2][0]);
+    abrirSheet(b);
+  });
+  document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') cerrarSheet(); });
+
+  /* El activo lo dice el scroll, no el último toque. */
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (ents) {
+      ents.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        BLOQUES.forEach(function (b) { if (b[2].indexOf(en.target.id) >= 0) marcar(b[0]); });
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    document.querySelectorAll('.ds-content > .ds-section').forEach(function (s) { io.observe(s); });
+  }
+})();
+</script>
 </body>
 </html>

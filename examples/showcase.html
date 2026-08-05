@@ -497,6 +497,36 @@
   .sc-drawer, .sc-drawer-ov{ transition:none; }
 }
 </style>
+<style>
+/* ── Navegación inferior en teléfono ────────────────────────────────────
+   Las nueve pestañas envolvían en tres filas: 120px de tabs más 56px de
+   topbar dejaban 176px de chrome antes del contenido — un cuarto de la
+   pantalla de un iPhone SE. La lógica de "una vista por vez" ya existía;
+   lo que sobraba era el alto. La barra usa .ds-bottomnav y .ds-sheet del
+   §67 y agrupa las nueve vistas en cinco destinos por afinidad.
+
+   No reemplaza el controlador de pestañas: dispara el click del .sc-tab que
+   corresponde, así que el hash, el localStorage y el swipe siguen siendo la
+   misma pieza. Apilamiento según §01: barra 97, hoja 115, backdrop 110; la
+   hoja arranca arriba de la barra para que el segundo toque siempre cierre. */
+#scBottomNav, #scSheetScrim { display: none; }
+@media (max-width: 980px) {
+  .sc-tabs { display: none; }
+  #scBottomNav {
+    display: grid;
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 97;
+    box-shadow: 0 -1px 0 var(--line), var(--shadow);
+  }
+  .sc-right, .sc-main, body { }
+  .sc-panel.is-active { padding-bottom: 96px; }
+  #scSheetScrim { display: block; position: fixed; inset: 0; z-index: 110;
+    background: rgba(0,0,0,.45); }
+  #scSheetScrim[hidden] { display: none; }
+  #scSheet { position: fixed; left: 0; right: 0; z-index: 115;
+    max-height: 60dvh; overflow-y: auto; }
+}
+#scBottomNav .ds-bottomnav-item { cursor: pointer; border: 0; background: transparent; font: inherit; }
+</style>
 </head>
 <body>
 
@@ -610,23 +640,6 @@
       <h2 class="sc-section-h">Analytics Pro</h2>
       <p class="sc-section-sub">Los componentes que arman el panel gerencial · un ejemplo de cada uno, sin repetir · <strong>datos simulados</strong>.</p>
       <div class="ap-grid">
-
-        <article class="sc-card" id="card-kpi-grid">
-          <div class="sc-card-h"><span class="sc-card-title">Grilla de KPIs &mdash; estirada y modulada</span><a class="ds-xref" href="../yiqi-design-system.html#kpi-grid"><i class="ph ph-anchor-simple"></i> Ver fuente</a><button type="button" class="ds-copy" data-ds-copy="card" aria-label="Copiar markup del componente" title="Copiar markup"><i class="ph ph-copy"></i></button></div>
-          <p class="sc-card-sub">Los mismos tres indicadores. Arriba la grilla reparte todo el ancho; abajo se apoyan a la izquierda sobre el m&oacute;dulo de 150&nbsp;px.</p>
-          <div style="font:600 9px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2);margin:10px 0 6px">.kpi-grid</div>
-          <div class="kpi-grid">
-            <div class="kpi-card"><div class="kpi-label">Casos cargados</div><div class="kpi-value">6</div><div class="kpi-delta">total de la planilla</div></div>
-            <div class="kpi-card"><div class="kpi-label">En an&aacute;lisis</div><div class="kpi-value">2</div><div class="kpi-delta">Estado</div></div>
-            <div class="kpi-card"><div class="kpi-label">En uso</div><div class="kpi-value">1</div><div class="kpi-delta">Estado</div></div>
-          </div>
-          <div style="font:600 9px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2);margin:16px 0 6px">.kpi-grid.kpi-grid-auto</div>
-          <div class="kpi-grid kpi-grid-auto">
-            <div class="kpi-card"><div class="kpi-label">Casos cargados</div><div class="kpi-value">6</div><div class="kpi-delta">total de la planilla</div></div>
-            <div class="kpi-card"><div class="kpi-label">En an&aacute;lisis</div><div class="kpi-value">2</div><div class="kpi-delta">Estado</div></div>
-            <div class="kpi-card"><div class="kpi-label">En uso</div><div class="kpi-value">1</div><div class="kpi-delta">Estado</div></div>
-          </div>
-        </article>
 
         <article class="sc-card" id="card-cell-2n">
           <div class="sc-card-h"><span class="sc-card-title">Celda de dos niveles</span><a class="ds-xref" href="../yiqi-design-system.html#tables"><i class="ph ph-anchor-simple"></i> Ver fuente</a><button type="button" class="ds-copy" data-ds-copy="card" aria-label="Copiar markup del componente" title="Copiar markup"><i class="ph ph-copy"></i></button></div>
@@ -842,7 +855,7 @@
           <div style="margin-top:8px">
             <div class="statusbar">
               <div class="statusbar-left" data-state="ok"><span class="ldot ldot-g"></span><strong>Datos reales</strong><span class="statusbar-desc">Conectado a YiQi ERP.</span></div>
-              <div class="statusbar-right"><span class="sb-item">Mi App</span><span class="sb-sep">&middot;</span><span class="sb-item" data-ds-version="DS v{v}">DS v1.2.7.11</span><span class="sb-sep">&middot;</span><span class="sb-item sb-clock" id="sc-clock">--:--</span></div>
+              <div class="statusbar-right"><span class="sb-item">Mi App</span><span class="sb-sep">&middot;</span><span class="sb-item" data-ds-version="DS v{v}">DS v1.2.7.10</span><span class="sb-sep">&middot;</span><span class="sb-item sb-clock" id="sc-clock">--:--</span></div>
             </div>
           </div>
           <div style="margin-top:10px;display:flex;gap:14px;align-items:center">
@@ -1365,7 +1378,7 @@
                 <button class="theme-opt" type="button" data-val="system" aria-label="Tema del sistema"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></button>
                 <button class="theme-opt" type="button" data-val="light" aria-label="Tema claro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg></button>
               </div>
-              <div class="sb-copy">© 2026 YiQi S.A.<br>Mi App · <span data-ds-version="DS v{v}">DS v1.2.7.11</span></div>
+              <div class="sb-copy">© 2026 YiQi S.A.<br>Mi App · <span data-ds-version="DS v{v}">DS v1.2.7.10</span></div>
             </div>
           </nav>
           <div class="content">
@@ -3255,10 +3268,91 @@ document.addEventListener('DOMContentLoaded', function(){
   <div class="statusbar-right">
     <span class="sb-item">Showcase</span>
     <span class="sb-sep" aria-hidden="true">&middot;</span>
-    <span class="sb-item" data-ds-version="DS v{v}">DS v1.2.7.11</span>
+    <span class="sb-item" data-ds-version="DS v{v}">DS v1.2.7.10</span>
     <span class="sb-sep" aria-hidden="true">&middot;</span>
     <span class="sb-item sb-clock" id="sc-statusbar-clock">--:--</span>
   </div>
 </footer>
+<nav class="ds-bottomnav" id="scBottomNav" aria-label="Vistas del showcase">
+<button class="ds-bottomnav-item" type="button" data-grupo="prim"><i class="ph ph-cube" aria-hidden="true"></i><span>Primitivos</span></button>
+<button class="ds-bottomnav-item" type="button" data-grupo="mock"><i class="ph ph-squares-four" aria-hidden="true"></i><span>Mockups</span></button>
+<button class="ds-bottomnav-item" type="button" data-grupo="datos"><i class="ph ph-chart-line" aria-hidden="true"></i><span>Datos</span></button>
+<button class="ds-bottomnav-item" type="button" data-grupo="movil"><i class="ph ph-device-mobile" aria-hidden="true"></i><span>Móvil</span></button>
+<button class="ds-bottomnav-item" type="button" data-grupo="market"><i class="ph ph-storefront" aria-hidden="true"></i><span>Marketplace</span></button>
+</nav>
+<div id="scSheetScrim" hidden></div>
+<div class="ds-sheet" id="scSheet" role="dialog" aria-modal="true" aria-labelledby="scSheetTitle" hidden>
+  <div class="ds-sheet-grab" aria-hidden="true"></div>
+  <p class="ds-sheet-title" id="scSheetTitle">Vistas</p>
+  <div id="scSheetBody"></div>
+</div>
+<script>
+/* Navegación inferior del showcase — solo teléfono. */
+(function () {
+  var GRUPOS  = [["prim", "Primitivos", ["tab-primitivos", "tab-iconos"]], ["mock", "Mockups", ["tab-mockups"]], ["datos", "Datos", ["tab-analytics", "tab-graficos", "tab-galeria", "tab-tablas"]], ["movil", "Móvil", ["tab-movil"]], ["market", "Marketplace", ["tab-marketplace"]]];
+  var TITULOS = {"tab-primitivos": "Primitivos", "tab-mockups": "Mockups", "tab-analytics": "Analytics Pro", "tab-graficos": "Gráficos", "tab-galeria": "Galería", "tab-tablas": "Tablas", "tab-iconos": "Iconos", "tab-movil": "Móvil", "tab-marketplace": "Marketplace"};
+  var abierto = null;
+
+  function abrirTab(id) {
+    var b = document.querySelector('.sc-tab[data-target="' + id + '"]');
+    if (b) b.click();
+  }
+  function cerrarSheet() {
+    var s = document.getElementById('scSheet'), x = document.getElementById('scSheetScrim');
+    if (s) s.hidden = true;
+    if (x) x.hidden = true;
+    abierto = null;
+  }
+  function abrirSheet(g) {
+    var s = document.getElementById('scSheet'), x = document.getElementById('scSheetScrim');
+    document.getElementById('scSheetTitle').textContent = g[1];
+    var c = document.getElementById('scSheetBody');
+    c.innerHTML = '';
+    g[2].forEach(function (id) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'ds-sheet-item';
+      b.textContent = TITULOS[id] || id;
+      b.addEventListener('click', function () { cerrarSheet(); abrirTab(id); });
+      c.appendChild(b);
+    });
+    var h = document.getElementById('scBottomNav').offsetHeight;
+    s.style.bottom = h + 'px';
+    x.style.bottom = h + 'px';
+    s.hidden = false; x.hidden = false; s.scrollTop = 0;
+    abierto = g[0];
+  }
+  /* El activo sale de la pestaña realmente seleccionada, no del último toque:
+     el swipe y el hash también cambian de vista. */
+  function sincronizar() {
+    var act = document.querySelector('.sc-tab[aria-selected="true"]');
+    var id  = act ? act.dataset.target : null;
+    document.querySelectorAll('#scBottomNav .ds-bottomnav-item').forEach(function (b) {
+      var g = GRUPOS.filter(function (x) { return x[0] === b.dataset.grupo; })[0];
+      b.classList.toggle('is-active', !!(g && id && g[2].indexOf(id) >= 0));
+    });
+  }
+
+  document.addEventListener('click', function (ev) {
+    if (ev.target.id === 'scSheetScrim') { cerrarSheet(); return; }
+    var btn = ev.target.closest('#scBottomNav .ds-bottomnav-item');
+    if (!btn) return;
+    var g = GRUPOS.filter(function (x) { return x[0] === btn.dataset.grupo; })[0];
+    if (!g) return;
+    if (g[2].length === 1) { cerrarSheet(); abrirTab(g[2][0]); return; }
+    if (abierto === g[0]) { cerrarSheet(); return; }
+    abrirTab(g[2][0]);
+    abrirSheet(g);
+  });
+  document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') cerrarSheet(); });
+
+  var bar = document.getElementById('scTabs');
+  if (bar && window.MutationObserver) {
+    new MutationObserver(sincronizar).observe(bar, { subtree: true, attributes: true, attributeFilter: ['aria-selected'] });
+  }
+  window.addEventListener('DOMContentLoaded', sincronizar);
+  sincronizar();
+})();
+</script>
 </body>
 </html>
