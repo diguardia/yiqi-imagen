@@ -13,7 +13,6 @@
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="ds-doc.css">
 <script src="yiqi-runtime.js" defer></script>
-<script src="components/analytics-pro-banner.js" defer></script>
 <script src="components/app-banner.js" defer></script>
 <script src="components/carousel.js" defer></script>
 <script src="components/llm-fab.js" defer></script>
@@ -333,7 +332,7 @@ body.preview-open .ds-layout { display: none !important; }
 <span class="ds-nav-label">En producción</span>
 <a class="ds-nav-item" href="#panel-gerencial"><span class="ds-nav-num">37</span> Panel Gerencial</a>
 <a class="ds-nav-item" href="#apps-picking"><span class="ds-nav-num">38</span> Picking</a>
-<a class="ds-nav-item" href="#web-banner"><span class="ds-nav-num">39</span> Banner Analytics Pro</a>
+<a class="ds-nav-item" href="#web-banner"><span class="ds-nav-num">39</span> Mockup de la web</a>
 </div>
 <div class="ds-nav-section">
 <span class="ds-nav-label">Marketplace</span>
@@ -473,6 +472,13 @@ body.preview-open .ds-layout { display: none !important; }
 <tr><th>Versión</th><th>Fecha</th><th>Tipo</th><th>Detalle</th></tr>
 </thead>
 <tbody>
+<tr id="chg-mockup-web">
+<td class="mono-cell">v1.2.7.11</td>
+<td class="mono-cell">05/08/2026</td>
+<td><span class="badge badge-amber">CAMBIO</span></td>
+<td><strong>&sect;39 pasa del banner promocional al Mockup de la web.</strong> El banner de difusi&oacute;n de Analytics Pro quedaba duplicado: la app ya vive en los <strong>banners de apps de &sect;40</strong>, con foto, logo iAready y el mismo CTA que las dem&aacute;s. En su lugar entra el <strong>mockup de producto de la Home</strong> — navegador + iPhone corriendo el panel de demo en vivo — que no estaba documentado en ning&uacute;n lado. Los iframes cargan las p&aacute;ginas publicadas del sitio (fuente &uacute;nica, misma decisi&oacute;n que las fotos de apps): sin red se ven los marcos vac&iacute;os.<div class="chg-links"><a class="ds-xref" href="#web-banner"><i class="ph ph-anchor-simple"></i> &sect;39 &middot; Mockup de la web</a><a class="ds-xref" href="#app-banners"><i class="ph ph-anchor-simple"></i> &sect;40 &middot; Banners de apps</a><button class="ds-copy chg-share" data-ds-copy="link" title="Copiar link a este cambio" aria-label="Copiar link a este cambio"><i class="ph ph-link"></i>Compartir</button></div></td>
+</tr>
+
 <tr id="chg-filosofia">
 <td class="mono-cell">v1.2.7.11</td>
 <td class="mono-cell">05/08/2026</td>
@@ -4270,10 +4276,293 @@ function dsNavLock(){
 <section class="ds-section" id="web-banner">
 <div class="ds-section-header">
 <div class="ds-section-kicker">39 · Web</div>
-<h2 class="ds-section-title">Banner Analytics Pro</h2>
-<p class="ds-section-sub">Componente promocional para la <strong>web</strong> (no es una app). Banner de difusión de Analytics Pro con mock de dashboard y CTA. Web component <code>&lt;analytics-pro-banner&gt;</code>.</p>
+<h2 class="ds-section-title">Mockup de la web</h2>
+<p class="ds-section-sub">El mockup de producto de la Home de yiqi.com.ar: un navegador y un iPhone que corren el panel de demo <strong>en vivo</strong> (<code>erp-panel.html</code> y <code>erp-mobile.html</code>, embebidos desde el sitio publicado — fuente única). El banner promocional de Analytics Pro que vivía acá se retiró: Analytics Pro ya está en los <a class="ds-xref" style="display:inline-flex" href="#app-banners">banners de apps de §40</a>.</p>
 </div>
-<analytics-pro-banner base="./"></analytics-pro-banner>
+<style>
+/* Estilos portados de la Home (index.html) — el mockup es de la web, acá solo se documenta */
+.product-showcase {
+    padding: 64px 24px 36px;
+    display: flex;
+    justify-content: center;
+  }
+.showcase-wrap {
+    width: 100%;
+    max-width: 1120px;
+    perspective: 1200px;
+    perspective-origin: 50% 40%;
+    display: flex;
+    align-items: flex-end;
+    gap: 0;
+  }
+.showcase-desktop {
+    flex: 1;
+    min-width: 0;
+  }
+.showcase-phone {
+    flex-shrink: 0;
+    width: 220px;
+    align-self: flex-end;
+    margin-left: -56px;
+    position: relative;
+    z-index: 2;
+  }
+.phone-frame {
+    width: 220px;
+    height: 496px;
+    background: #2b2f38;
+    border-radius: 36px;
+    border: 1px solid #4a505d;
+    box-shadow: 0 32px 72px rgba(0,0,0,.42),
+                inset 0 0 0 1px rgba(255,255,255,.10),
+                inset 0 1px 0 rgba(255,255,255,.18);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;              /* bisel parejo en los cuatro lados */
+  }
+html[data-theme="light"] .phone-frame {
+    /* En claro solo cambia la sombra proyectada, que es luz del entorno.
+       El chasis sigue siendo el mismo aparato. */
+    box-shadow: 0 18px 40px rgba(0,0,0,.22),
+                inset 0 0 0 1px rgba(255,255,255,.10),
+                inset 0 1px 0 rgba(255,255,255,.18);
+  }
+.phone-island {
+    width: 69px; height: 20px;
+    background: #05070a; border-radius: 999px;
+    position: absolute; top: 9px; left: 50%; transform: translateX(-50%);
+    z-index: 10;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.05);
+  }
+.phone-screen {
+    /* 208x484 reales. El mockup mide 390x908 y entra escalado 0.5333, asi que
+       lo llena exacto. Antes el iframe era 390x844 a .5641 = 220x476 y sobraban
+       8px que pintaba var(--bg) — el token del SITIO, no el del mockup: dejaba
+       una banda negra bajo un mockup claro y una blanca bajo uno oscuro. */
+    width: 100%;
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    background: #05070a;
+    border-radius: 30px;
+  }
+.phone-time-tap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 32%;
+    height: 28px;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    padding: 0;
+    z-index: 2;
+  }
+.phone-time-tap:hover {
+    background: linear-gradient(180deg, rgba(0,204,255,.08), transparent);
+  }
+.phone-time-tap:focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: -2px;
+  }
+.phone-home {
+    /* En un iPhone el indicador flota SOBRE el contenido; no hay franja de
+       chasis debajo de la pantalla. Antes era hermano de .phone-screen y se
+       comia 16px de alto, que leian como un bisel gris grueso.
+       mix-blend-mode difference lo resuelve solo: negro sobre fondo claro,
+       blanco sobre fondo oscuro, sin saber que tema tiene el iframe. */
+    position: absolute; bottom: 7px; left: 50%; transform: translateX(-50%);
+    width: 74px; height: 4px; border-radius: 2px;
+    background: #fff; mix-blend-mode: difference;
+    opacity: .78; z-index: 11; pointer-events: none;
+  }
+.showcase-browser {
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--line-strong);
+    overflow: hidden;
+    box-shadow: 0 16px 48px rgba(0,26,40,.30), 0 4px 16px rgba(0,204,255,.06), 0 0 0 1px rgba(255,255,255,.04) inset;
+    background: #252830;
+  }
+html[data-theme="light"] .showcase-browser {
+    background: #dedad2;
+    box-shadow: 0 1px 2px rgba(16,36,54,.12);
+    border-color: rgba(0,0,0,.09);
+  }
+.showcase-chrome {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    background: #1e2029;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+  }
+html[data-theme="light"] .showcase-chrome {
+    background: #dedad2;
+    border-bottom-color: rgba(0,0,0,.08);
+  }
+.showcase-dots {
+    display: flex;
+    gap: 5px;
+    flex-shrink: 0;
+  }
+.showcase-dots span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.15);
+  }
+.showcase-dots span:nth-child(1) { background: #FF5F57; }
+.showcase-dots span:nth-child(2) { background: #FFBD2E; }
+.showcase-dots span:nth-child(3) { background: #28C840; }
+html[data-theme="light"] .showcase-dots span:nth-child(1) { background: #FF5F57; }
+html[data-theme="light"] .showcase-dots span:nth-child(2) { background: #FFBD2E; }
+html[data-theme="light"] .showcase-dots span:nth-child(3) { background: #28C840; }
+.showcase-url {
+    flex: 1;
+    text-align: center;
+    font: 400 11px var(--mono);
+    color: var(--muted-2);
+    background: rgba(255,255,255,.05);
+    padding: 4px 12px;
+    border-radius: var(--radius-pill);
+    max-width: 220px;
+    margin: 0 auto;
+  }
+html[data-theme="light"] .showcase-url { background: rgba(0,0,0,.05); }
+.showcase-screen {
+    overflow: hidden;
+    position: relative;
+  }
+.product-showcase {
+      padding: 32px 0 0;
+      overflow: hidden;
+    }
+.product-showcase { justify-content: flex-start; padding-left: 20px; }
+.showcase-wrap,
+    .showcase-wrap.showcase-reveal,
+    .showcase-wrap.reveal {
+      opacity: 1 !important;
+      perspective: none;
+      width: 1120px;          /* base fija igual que desktop */
+      transform-origin: top left;
+      transform: scale(0.30) !important;
+      margin-bottom: -445px;  /* 636px × (1 - 0.30) */
+    }
+.showcase-browser.floating,
+    .phone-frame.floating {
+      animation: none;
+    }
+.product-showcase {
+      padding: 32px 0 0;
+      overflow: hidden;
+      justify-content: flex-start;
+      padding-left: 20px;
+    }
+.showcase-wrap,
+    .showcase-wrap.showcase-reveal,
+    .showcase-wrap.reveal {
+      opacity: 1 !important;
+      perspective: none;
+      width: 1120px;          /* base fija igual que desktop */
+      transform-origin: top left;
+      transform: scale(0.58) !important;
+      margin-bottom: -268px;  /* 636px × (1 - 0.58) */
+    }
+.showcase-browser {
+  transition: transform .9s cubic-bezier(.22,1,.36,1), box-shadow .9s cubic-bezier(.22,1,.36,1), opacity .8s ease;
+}
+.phone-frame {
+  transition: transform .9s cubic-bezier(.22,1,.36,1) .1s, box-shadow .9s cubic-bezier(.22,1,.36,1) .1s;
+}
+.showcase-reveal {
+  opacity: 0;
+  transform: translateY(40px) scale(.99);
+  transition: opacity .9s cubic-bezier(.22,1,.36,1), transform .9s cubic-bezier(.22,1,.36,1);
+}
+.showcase-reveal.in {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.showcase-reveal.in.floating-ready {
+  transition: opacity .9s cubic-bezier(.22,1,.36,1);
+}
+.showcase-browser.floating {
+  animation: browserFloat 5s ease-in-out infinite;
+}
+.phone-frame.floating {
+  animation: phoneFloat 5s ease-in-out 1.2s infinite;
+}
+@media (max-width: 640px){/* Mobile: ambos mockups, mismas proporciones que desktop */
+    .product-showcase {
+      padding: 32px 0 0;
+      overflow: hidden;
+    }
+.product-showcase { justify-content: flex-start; padding-left: 20px; }
+.showcase-wrap,
+    .showcase-wrap.showcase-reveal,
+    .showcase-wrap.reveal {
+      opacity: 1 !important;
+      perspective: none;
+      width: 1120px;          /* base fija igual que desktop */
+      transform-origin: top left;
+      transform: scale(0.30) !important;
+      margin-bottom: -445px;  /* 636px × (1 - 0.30) */
+    }
+.showcase-browser.floating,
+    .phone-frame.floating {
+      animation: none;
+    }}
+@media (max-width: 768px) and (min-width: 641px){/* Tablet pequeño: ambos mockups, mismas proporciones que desktop */
+    .product-showcase {
+      padding: 32px 0 0;
+      overflow: hidden;
+      justify-content: flex-start;
+      padding-left: 20px;
+    }
+.showcase-wrap,
+    .showcase-wrap.showcase-reveal,
+    .showcase-wrap.reveal {
+      opacity: 1 !important;
+      perspective: none;
+      width: 1120px;          /* base fija igual que desktop */
+      transform-origin: top left;
+      transform: scale(0.58) !important;
+      margin-bottom: -268px;  /* 636px × (1 - 0.58) */
+    }
+.showcase-browser.floating,
+    .phone-frame.floating {
+      animation: none;
+    }}
+</style>
+<div class="product-showcase" style="padding-top:12px">
+  <div class="showcase-wrap">
+    <div class="showcase-browser showcase-desktop">
+      <div class="showcase-chrome">
+        <div class="showcase-dots"><span></span><span></span><span></span></div>
+        <div class="showcase-url">app.yiqi.com.ar/dashboard</div>
+      </div>
+      <div class="showcase-screen" style="height:600px;padding:0;overflow:hidden;position:relative;">
+        <iframe src="https://www.yiqi.com.ar/erp-panel.html" title="YiQi ERP Dashboard" loading="lazy"
+          style="width:1440px;height:906px;border:none;display:block;pointer-events:none;transform-origin:top left;transform:scale(0.6625);"
+          scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+      </div>
+    </div>
+    <div class="showcase-phone">
+      <div class="phone-frame">
+        <div class="phone-island"></div>
+        <div class="phone-screen">
+          <iframe src="https://www.yiqi.com.ar/erp-mobile.html" title="YiQi Mobile" loading="lazy"
+            style="width:390px;height:908px;border:none;display:block;pointer-events:none;transform-origin:top left;transform:scale(0.5333);"
+            scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+        </div>
+        <div class="phone-home"></div>
+      </div>
+    </div>
+  </div>
+</div>
 </section>
 
 <section class="ds-section" id="app-banners">
@@ -5846,7 +6135,7 @@ document.addEventListener('DOMContentLoaded', function(){
    esconde secciones: cada destino abre su índice de bloque en una .ds-sheet. */
 (function () {
   var BLOQUES = [["fund", "Fundamentos", ["release-notes", "reglas", "brand", "colors", "typography", "spacing", "radius", "effects", "motion", "icons"]], ["comp", "Componentes", ["buttons", "badges", "inputs", "cards", "trust", "navigation", "tables", "misc", "scrollbars", "empty-state", "theme-toggle", "prim-slider", "prim-tabs", "prim-dialog", "prim-dropdown", "prim-popover", "prim-toast", "counter", "chart-anim"]], ["patr", "Patrones", ["grid", "bg-grid", "depth-stack", "demo-form", "implementacion", "ds-xref", "llm-fab", "ds-note", "ds-copy", "ds-picker", "nav-movil"]], ["apps", "Apps", ["app-overview", "app-shell", "shell-mobile", "login", "panel-gerencial", "apps-picking", "web-banner", "statusbar", "sidebar-tools", "tab-nav", "src-card", "branch-list", "watchlist-tonal", "card-clickable", "sin-dato", "more-kpis"]], ["market", "Marketplace", ["app-banners", "mb-fhead", "mb-price", "mb-details", "mb-dev", "mb-share", "mb-appcard", "mb-reviews", "mb-homo"]]];
-  var TITULOS = {"release-notes": "Novedades", "reglas": "Reglas del sistema", "brand": "Logo & marca", "colors": "Colores", "typography": "Tipografía", "spacing": "Espaciado", "radius": "Border radius", "effects": "Efectos & sombras", "motion": "Motion", "icons": "Iconografía Phosphor", "buttons": "Botones", "badges": "Badges & tags", "inputs": "Inputs & formularios", "cards": "Cards & KPIs", "trust": "Trust / Stats", "navigation": "Navegación", "tables": "Tablas", "misc": "Elementos varios", "scrollbars": "Scrollbars", "empty-state": "Estado vacío", "theme-toggle": "Toggle de tema", "prim-slider": "Slider", "prim-tabs": "Tabs", "prim-dialog": "Dialog", "prim-dropdown": "Dropdown", "prim-popover": "Popover", "prim-toast": "Toast", "counter": "Contador animado", "chart-anim": "Animación de gráficos", "grid": "Grid & layout", "bg-grid": "Grilla cuadriculada", "depth-stack": "Depth stack", "demo-form": "Demo form", "app-overview": "Overview", "app-shell": "Shell", "shell-mobile": "Shell celular", "login": "Login", "panel-gerencial": "Panel Gerencial", "apps-picking": "Picking", "web-banner": "Banner Analytics Pro", "app-banners": "Banners de apps", "mb-fhead": "Header de ficha", "mb-price": "Card de pricing", "mb-details": "Card de detalles", "mb-dev": "Card de desarrollador", "mb-share": "Menú de compartir", "mb-appcard": "Card de catálogo", "mb-reviews": "Reseñas", "mb-homo": "Homologación", "statusbar": "Statusbar", "sidebar-tools": "Herramientas del sidebar", "tab-nav": "Navegación en tabs", "src-card": "Fuente de datos", "branch-list": "Ranking con barra", "watchlist-tonal": "Watchlist tonal", "card-clickable": "Card clickeable", "sin-dato": "Sin dato", "more-kpis": "Carrusel de KPIs", "implementacion": "Tabla de implementación", "ds-xref": "Enlace cruzado", "llm-fab": "LLM FAB", "ds-note": "Nota / callout", "ds-copy": "Copiar al portapapeles", "ds-picker": "Desplegable de selección", "nav-movil": "Navegación móvil"};
+  var TITULOS = {"release-notes": "Novedades", "reglas": "Reglas del sistema", "brand": "Logo & marca", "colors": "Colores", "typography": "Tipografía", "spacing": "Espaciado", "radius": "Border radius", "effects": "Efectos & sombras", "motion": "Motion", "icons": "Iconografía Phosphor", "buttons": "Botones", "badges": "Badges & tags", "inputs": "Inputs & formularios", "cards": "Cards & KPIs", "trust": "Trust / Stats", "navigation": "Navegación", "tables": "Tablas", "misc": "Elementos varios", "scrollbars": "Scrollbars", "empty-state": "Estado vacío", "theme-toggle": "Toggle de tema", "prim-slider": "Slider", "prim-tabs": "Tabs", "prim-dialog": "Dialog", "prim-dropdown": "Dropdown", "prim-popover": "Popover", "prim-toast": "Toast", "counter": "Contador animado", "chart-anim": "Animación de gráficos", "grid": "Grid & layout", "bg-grid": "Grilla cuadriculada", "depth-stack": "Depth stack", "demo-form": "Demo form", "app-overview": "Overview", "app-shell": "Shell", "shell-mobile": "Shell celular", "login": "Login", "panel-gerencial": "Panel Gerencial", "apps-picking": "Picking", "web-banner": "Mockup de la web", "app-banners": "Banners de apps", "mb-fhead": "Header de ficha", "mb-price": "Card de pricing", "mb-details": "Card de detalles", "mb-dev": "Card de desarrollador", "mb-share": "Menú de compartir", "mb-appcard": "Card de catálogo", "mb-reviews": "Reseñas", "mb-homo": "Homologación", "statusbar": "Statusbar", "sidebar-tools": "Herramientas del sidebar", "tab-nav": "Navegación en tabs", "src-card": "Fuente de datos", "branch-list": "Ranking con barra", "watchlist-tonal": "Watchlist tonal", "card-clickable": "Card clickeable", "sin-dato": "Sin dato", "more-kpis": "Carrusel de KPIs", "implementacion": "Tabla de implementación", "ds-xref": "Enlace cruzado", "llm-fab": "LLM FAB", "ds-note": "Nota / callout", "ds-copy": "Copiar al portapapeles", "ds-picker": "Desplegable de selección", "nav-movil": "Navegación móvil"};
   var abierto = null;
 
   function offsetTop() {

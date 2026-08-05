@@ -8,6 +8,43 @@
    El cyan del logo YiQi es marca madre, NO el acento de la app.
    ============================================================ */
 (function(){
+
+  /* ── Scramble del titulo — mismo efecto que el hero de la Home ─────────
+     El atributo data-scramble existia en el markup pero nada lo animaba.
+     Se anima por nodo de texto para no romper el <em> del titulo.
+     Con prefers-reduced-motion el texto aparece resuelto, sin animacion. */
+  const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQQQQQQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&';
+  const _rand = () => SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+  function abScramble(title, delay = 180) {
+    if (!title) return;
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const nodes = [];
+    (function walk(n){ n.childNodes.forEach(c => {
+      if (c.nodeType === 3 && c.textContent.trim()) nodes.push({ node: c, FINAL: c.textContent });
+      else if (c.nodeType === 1) walk(c);
+    }); })(title);
+    if (!nodes.length) return;
+    const LEN = nodes.reduce((a, x) => a + x.FINAL.length, 0);
+    const totalFrames = Math.max(28, Math.min(60, LEN * 1.4));
+    let frame = 0, offset = 0;
+    nodes.forEach(x => { x.off = offset; offset += x.FINAL.length; });
+    const resolveAt = i => Math.floor((i / LEN) * totalFrames * 0.72);
+    function tick() {
+      nodes.forEach(x => {
+        let out = '';
+        for (let i = 0; i < x.FINAL.length; i++) {
+          if (x.FINAL[i] === ' ') { out += ' '; continue; }
+          out += (frame >= resolveAt(x.off + i) + 5) ? x.FINAL[i] : _rand();
+        }
+        x.node.textContent = out;
+      });
+      frame++;
+      if (frame <= totalFrames) requestAnimationFrame(tick);
+      else nodes.forEach(x => { x.node.textContent = x.FINAL; });
+    }
+    setTimeout(() => requestAnimationFrame(tick), delay);
+  }
+
   const GL = {
     ana:'<path d="M3 3v18h18"/><polyline points="7 13 11 9 14 12 20 6"/>',
     prov:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h8M8 9h2"/>',
@@ -122,6 +159,7 @@ app-banner[variant="vertical"] .ab-shell{width:100%;display:flex;flex-direction:
           </div>
         </div>
       </div>`;
+      abScramble(this.querySelector('[data-scramble]'));
     }
   }
   if(!customElements.get('app-banner')) customElements.define('app-banner', AppBanner);
