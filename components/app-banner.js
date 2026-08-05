@@ -17,22 +17,22 @@
     cons:'<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>'
   };
   const APPS = {
-    ana:{accent:'violet', icon:'ana', state:'live', id:'yiqi-analytics-pro', img:'img/apps/yiqi-analytics-pro-horiz.webp', title:'YiQi <em>Analytics</em> Pro',
+    ana:{accent:'violet', icon:'ana', state:'live', id:'yiqi-analytics-pro', img:'https://www.yiqi.com.ar/img/apps/yiqi-analytics-pro-horiz.webp', title:'YiQi <em>Analytics</em> Pro',
       tag:'Tablero gerencial con KPIs en tiempo real e IA: ventas, stock, finanzas y márgenes por canal.',
       b:[['Tablero en vivo','KPIs y forecast al instante'],['Por canal','márgenes comparables'],['Con IA','proyección de cashflow']], cta:'Conocer la app'},
-    prov:{accent:'orange', icon:'prov', state:'live', id:'front-de-proveedores-ocr', img:'img/apps/front-de-proveedores-ocr-horiz.webp', title:'Front de <em>Proveedores</em> OCR',
+    prov:{accent:'orange', icon:'prov', state:'live', id:'front-de-proveedores-ocr', img:'https://www.yiqi.com.ar/img/apps/front-de-proveedores-ocr-horiz.webp', title:'Front de <em>Proveedores</em> OCR',
       tag:'Portal de autogestión para proveedores: carga de facturas y órdenes de compra con OCR, integrado a YiQi.',
       b:[['Carga con OCR','facturas y OC sin tipeo'],['Autogestión','estados y comprobantes online'],['Integrado a YiQi','cae en Compras']], cta:'Conocer la app'},
-    inv:{accent:'magenta', icon:'inv', state:'dev', id:'inventariado-mobile', img:'img/apps/inventariado-mobile-horiz.webp', title:'Inventariado <em>Mobile</em>',
+    inv:{accent:'magenta', icon:'inv', state:'dev', id:'inventariado-mobile', img:'https://www.yiqi.com.ar/img/apps/inventariado-mobile-horiz.webp', title:'Inventariado <em>Mobile</em>',
       tag:'Releva y controla el stock de tus depósitos desde el celular, sincronizado con YiQi en tiempo real.',
       b:[['Escaneo sin hardware','la cámara como lector'],['Sync en tiempo real','impacta en el stock'],['Diferencias','faltantes y sobrantes']], cta:'Conocer la app'},
-    pos:{accent:'amber', icon:'pos', state:'live', id:'yiqi-pos', img:'img/apps/yiqi-pos-horiz.webp', title:'YiQi <em>POS</em>',
+    pos:{accent:'amber', icon:'pos', state:'live', id:'yiqi-pos', img:'https://www.yiqi.com.ar/img/apps/yiqi-pos-horiz.webp', title:'YiQi <em>POS</em>',
       tag:'Punto de venta para Windows y Android: modo offline, multi-caja, medios de pago e impresión fiscal, integrado al ERP.',
       b:[['Funciona offline','vendes sin internet'],['Multi-caja y turnos','cierres y arqueos'],['Impresión fiscal','Epson y Hasar']], cta:'Conocer la app'},
-    pick:{accent:'green', icon:'pick', state:'dev', id:'picking-list', img:'img/apps/picking-list-horiz.webp', title:'Picking <em>List</em>',
+    pick:{accent:'green', icon:'pick', state:'dev', id:'picking-list', img:'https://www.yiqi.com.ar/img/apps/picking-list-horiz.webp', title:'Picking <em>List</em>',
       tag:'Listas de preparación para depósito: arma el picking de varios pedidos y controla la salida de mercadería.',
       b:[['Picking multi-pedido','preparas varios a la vez'],['Por ubicación','recorrido optimizado'],['Control de salida','remitos y etiquetas']], cta:'Conocer la app'},
-    cons:{accent:'blue', icon:'cons', state:'live', id:'consulta-de-pedidos', img:'img/apps/consulta-de-pedidos-horiz.webp', title:'Consulta de <em>pedidos</em>',
+    cons:{accent:'blue', icon:'cons', state:'live', id:'consulta-de-pedidos', img:'https://www.yiqi.com.ar/img/apps/consulta-de-pedidos-horiz.webp', title:'Consulta de <em>pedidos</em>',
       tag:'Búsqueda y seguimiento ágil de pedidos por estado, canal y cliente, sincronizado con YiQi en tiempo real.',
       b:[['Búsqueda al instante','por estado, canal o cliente'],['Seguimiento en vivo','del pedido a la entrega'],['Sincronizado','datos reales de YiQi']], cta:'Conocer la app'}
   };
