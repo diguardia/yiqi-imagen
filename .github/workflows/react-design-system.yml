@@ -35,7 +35,7 @@ jobs:
         run: npm install
 
       - name: Auditar dependencias productivas
-        run: npm audit --omit=dev --audit-level=high
+        run: node scripts/check-production-audit.js
 
       - name: Ejecutar guards bloqueantes
         run: npm test
