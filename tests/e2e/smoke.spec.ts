@@ -11,7 +11,8 @@ for (const route of routes) {
     page.on('pageerror', (error) => pageErrors.push(error.message))
     page.on('requestfailed', (request) => {
       const url = new URL(request.url())
-      if (url.origin === 'http://127.0.0.1:3000') {
+      const intentionalHeadAbort = request.method() === 'HEAD' && request.failure()?.errorText === 'net::ERR_ABORTED'
+      if (url.origin === 'http://127.0.0.1:3000' && !intentionalHeadAbort) {
         requestFailures.push(`${request.method()} ${url.pathname}: ${request.failure()?.errorText ?? 'failed'}`)
       }
     })
