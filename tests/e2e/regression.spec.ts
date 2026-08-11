@@ -6,6 +6,43 @@ test.describe('regresiones funcionales', () => {
     await expect(page.getByTestId('kpi-meta-cero').locator('.yiqi-kpi-meta')).toHaveText('0')
   })
 
+  test('los estilos React no contaminan elementos ni tokens genericos del consumidor', async ({ page }) => {
+    await page.goto('/components/')
+
+    const isolation = await page.evaluate(() => {
+      const probe = document.createElement('div')
+      document.body.appendChild(probe)
+      const boxSizing = getComputedStyle(probe).boxSizing
+      probe.remove()
+
+      const root = getComputedStyle(document.documentElement)
+      return {
+        boxSizing,
+        bg: root.getPropertyValue('--bg').trim(),
+        text: root.getPropertyValue('--text').trim(),
+        cyan: root.getPropertyValue('--cyan').trim(),
+      }
+    })
+
+    expect(isolation).toEqual({ boxSizing: 'content-box', bg: '', text: '', cyan: '' })
+  })
+
+  test('el adaptador de login conserva defaults y marca animada legacy', async ({ page }) => {
+    await page.goto('/compat-login/')
+
+    await expect(page.getByRole('region', { name: 'Inicio de sesion YiQi', exact: true })).toBeVisible()
+    await expect(page.getByText('Ingresa con tu usuario YiQi para abrir la aplicacion.', { exact: false })).toBeVisible()
+    await expect(page.getByLabel('Usuario o correo electronico', { exact: true })).toHaveAttribute('placeholder', 'usuario@empresa.com')
+    await expect(page.getByLabel('Contrasena', { exact: true })).toHaveAttribute('placeholder', 'Contrasena')
+    await expect(page.getByRole('checkbox', { name: 'Mantener sesion iniciada', exact: true })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Olvidaste tu clave?', exact: true })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Mostrar contrasena', exact: true })).toBeVisible()
+    await expect(page.locator('svg.yiqi-login-logo .yq-q')).toHaveCount(1)
+
+    await page.getByRole('button', { name: 'Iniciar sesion', exact: true }).click()
+    await expect(page.getByRole('status')).toHaveText('Ingresa usuario y clave para iniciar sesion.')
+  })
+
   test('el tema guardado se aplica antes de hidratar React', async ({ page }) => {
     await page.emulateMedia({ colorScheme: 'dark' })
     await page.addInitScript(() => window.localStorage.setItem('yiqi-theme', 'light'))
