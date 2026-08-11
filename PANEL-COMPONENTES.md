@@ -1,3 +1,9 @@
+<!-- ds-lint: no-es-catalogo -->
+<!-- Este documento describe una app consumidora, no el catalogo del DS: usa
+     legitimamente clases propias del panel (.bb-bar, .hourly-*, .kpi-card-na)
+     que styles.css no publica. El marcador lo saca del alcance del guard
+     scripts/check-clases-ds.js. -->
+
 # YiQi — Componentes del Panel Gerencial (Analytics Pro)
 
 Referencia para **reusar estos componentes en futuras apps**. Documenta cada pieza con su

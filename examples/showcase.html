@@ -410,12 +410,16 @@
   #login-demo input[type="checkbox"]:focus-visible{ outline:none; box-shadow:0 0 0 3px var(--cyan-soft); }
   #login-demo input:-webkit-autofill, #login-demo input:-webkit-autofill:hover, #login-demo input:-webkit-autofill:focus{ -webkit-text-fill-color:var(--text); -webkit-box-shadow:0 0 0 1000px var(--bg-elev) inset; caret-color:var(--text); transition:background-color 9999s ease-in-out 0s; }
 </style>
-<style id="yqsw-style">
-.yqsw{ display:inline-flex; align-items:center; gap:1px; padding:3px; border-radius:var(--radius-pill); background:transparent; }
-.yqsw-opt{ box-sizing:border-box; width:28px; height:26px; display:flex; align-items:center; justify-content:center; padding:0; border:none; border-radius:var(--radius-pill); background:transparent; color:var(--muted-2); cursor:pointer; transition:background .18s ease, color .18s ease; }
-.yqsw-opt svg{ width:13px; height:13px; }
-.yqsw-opt:hover{ color:var(--text); }
-.yqsw-opt.active{ background:var(--bg-soft); color:var(--text); }
+<style id="sc-theme-toggle">
+/* Overrides locales del toggle canonico (.theme-toggle / .theme-opt, §38 de
+   styles.css) para el drawer del showcase. El resto de las reglas vivia aca
+   duplicado bajo el nombre .yqsw, con los mismos valores que la hoja: 28x26,
+   radius-pill, activo en --bg-soft. Un showcase que reimplementa el
+   componente que exhibe deja de exhibirlo. 11/08/2026. */
+.sc-drawer .theme-toggle { padding:4px; gap:4px; background:var(--bg); width:max-content; }
+.sc-drawer .theme-opt.active { background:var(--bg-elev-2); }
+.sc-drawer .theme-opt { width:44px; height:34px; }
+.sc-drawer .theme-opt svg { width:16px; height:16px; }
 </style>
 <style>
 /* ── Mobile: hamburguesa + drawer off-canvas ── */
@@ -437,10 +441,6 @@
 .sc-drawer-link:focus-visible{ outline:none; box-shadow:0 0 0 3px var(--cyan-soft); }
 .sc-drawer-link.is-current{ background:var(--cyan-soft); color:var(--cyan); }
 .sc-drawer-link.is-current i{ color:var(--cyan); }
-.sc-drawer .yqsw{ padding:4px; gap:4px; background:var(--bg); width:max-content; }  /* borderless: contenedor hundido */
-.sc-drawer .yqsw-opt.active{ background:var(--bg-elev-2); }  /* activo elevado sobre el contenedor, en ambos temas */
-.sc-drawer .yqsw-opt{ width:44px; height:34px; }
-.sc-drawer .yqsw-opt svg{ width:16px; height:16px; }
 @media (max-width:820px){
   .sc-burger{ display:inline-flex; }
   .topbar-right > span{ display:none; }
@@ -448,7 +448,7 @@
   .page-switch{ padding:2px; }
   .ps-opt{ padding:4px 9px; font-size:10.5px; }
   .topbar-right{ gap:10px; }
-  .topbar-right .yqsw{ display:none; }
+  .topbar-right .theme-toggle{ display:none; }
 }
 
 /* ── Layout vertical: cards apiladas + scroll de página (todos los anchos) ── */  /* documento en flujo natural: la pagina scrollea */
@@ -534,10 +534,10 @@
 <header class="ds-topbar">
   <div style="display:flex;align-items:center;gap:12px"><a class="topbar-brand" href="https://yiqi.com.ar" aria-label="Ir a yiqi.com.ar"><svg viewBox="0 0 100 65" role="img" aria-label="YiQi"><path fill="currentColor" d="M20.44,48.34l2.57-6.15-6.79-16.91c-.14-.39.07-.61.46-.61h4.97c.29,0,.57.14.68.43l3.58,10.08,3.61-10.08c.11-.29.39-.43.68-.43h4.97c.39,0,.57.21.43.61l-9.26,23.27c-.11.29-.39.43-.68.43h-4.75c-.43,0-.68-.21-.47-.64Z"/><path fill="currentColor" d="M38.72,25.24c0-.32.25-.57.57-.57h4.89c.32,0,.57.25.57.57v16.24c0,.32-.25.57-.57.57h-4.89c-.32,0-.57-.25-.57-.57v-16.24Z"/><path fill="var(--cyan)" d="M57.91,44.78v-2.66c-2.18-.53-4.21-1.66-5.92-3.36-4.97-4.97-5.09-13.02-.03-18.08,5.09-5.09,13.14-4.97,18.11,0s5.09,13.02,0,18.11c-1.78,1.78-3.94,2.93-6.22,3.46v2.51c0,.35-.18.53-.58.53h-4.82c-.3,0-.55-.2-.55-.5ZM56.28,34.47c.5.5,1.05.9,1.65,1.2v-3.36c0-.35.18-.53.53-.53h4.87c.25,0,.53.18.53.53v3.36c.63-.33,1.23-.78,1.78-1.33,2.73-2.73,2.78-6.75.15-9.38s-6.67-2.61-9.41.13c-2.71,2.71-2.73,6.75-.1,9.38Z"/><path fill="currentColor" d="M77.44,25.24c0-.32.25-.57.57-.57h4.89c.32,0,.57.25.57.57v16.24c0,.32-.25.57-.57.57h-4.89c-.32,0-.57-.25-.57-.57v-16.24Z"/><path fill="currentColor" d="M38.5,18.99c0-1.77,1.35-3.19,3.23-3.19s3.23,1.42,3.23,3.19-1.38,3.23-3.23,3.23-3.23-1.42-3.23-3.23Z"/><path fill="currentColor" d="M77.22,18.99c0-1.77,1.35-3.19,3.23-3.19s3.23,1.42,3.23,3.19-1.38,3.23-3.23,3.23-3.23-1.42-3.23-3.23Z"/></svg></a><div class="page-switch" role="group" aria-label="Cambiar vista"><a class="ps-opt" href="../yiqi-design-system.html">Design System</a><a class="ps-opt active" href="showcase.html">Showcase</a></div></div>
   <div class="topbar-right">
-    <div class="yqsw" role="group" aria-label="Apariencia">
-      <button class="yqsw-opt" data-yqsw="dark" title="Oscuro" aria-label="Modo oscuro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
-      <button class="yqsw-opt" data-yqsw="system" title="Sistema" aria-label="Modo sistema"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></button>
-      <button class="yqsw-opt" data-yqsw="light" title="Claro" aria-label="Modo claro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></button>
+    <div class="theme-toggle" role="group" aria-label="Apariencia">
+      <button class="theme-opt" data-tema="dark" title="Oscuro" aria-label="Modo oscuro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+      <button class="theme-opt" data-tema="system" title="Sistema" aria-label="Modo sistema"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></button>
+      <button class="theme-opt" data-tema="light" title="Claro" aria-label="Modo claro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></button>
     </div>
     <button class="sc-burger" id="scBurger" aria-label="Abrir menú" aria-expanded="false" aria-controls="scDrawer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
 </div>
@@ -592,10 +592,10 @@
   </div>
   <div class="sc-drawer-group">
     <span class="sc-drawer-label">Apariencia</span>
-    <div class="yqsw" role="group" aria-label="Apariencia">
-      <button class="yqsw-opt" data-yqsw="dark" title="Oscuro" aria-label="Modo oscuro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
-      <button class="yqsw-opt" data-yqsw="system" title="Sistema" aria-label="Modo sistema"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></button>
-      <button class="yqsw-opt" data-yqsw="light" title="Claro" aria-label="Modo claro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></button>
+    <div class="theme-toggle" role="group" aria-label="Apariencia">
+      <button class="theme-opt" data-tema="dark" title="Oscuro" aria-label="Modo oscuro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+      <button class="theme-opt" data-tema="system" title="Sistema" aria-label="Modo sistema"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></button>
+      <button class="theme-opt" data-tema="light" title="Claro" aria-label="Modo claro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></button>
     </div>
   </div>
 </nav>
@@ -2739,14 +2739,14 @@
 </script>
 <script>
 (function(){
-  var opts=Array.prototype.slice.call(document.querySelectorAll('.yqsw-opt')); if(!opts.length) return;
+  var opts=Array.prototype.slice.call(document.querySelectorAll('.theme-opt')); if(!opts.length) return;
   function apply(v){
     var t = v==='system' ? ((window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches)?'light':'dark') : v;
     document.documentElement.setAttribute('data-theme', t);
-    opts.forEach(function(o){ o.classList.toggle('active', o.dataset.yqsw===v); });
+    opts.forEach(function(o){ o.classList.toggle('active', o.dataset.tema===v); });
     if(window.__buildCharts) window.__buildCharts(); if(window.__buildGallery) window.__buildGallery();
   }
-  opts.forEach(function(o){ o.addEventListener('click', function(){ apply(o.dataset.yqsw); }); });
+  opts.forEach(function(o){ o.addEventListener('click', function(){ apply(o.dataset.tema); }); });
   apply('dark');
 })();
 </script>
@@ -3144,7 +3144,7 @@ window.__buildGallery=function(){var p=document.getElementById("tab-galeria");if
     b.setAttribute('aria-pressed', on ? 'true' : 'false');
     b.title = on ? 'Restaurar fondo' : 'Exportar sin fondo';
   });
-  var ysw = tr.querySelector('.yqsw');
+  var ysw = tr.querySelector('.theme-toggle');
   if(ysw){ ysw.insertAdjacentElement('afterend', b); } else { tr.appendChild(b); }
 })();
 </script>

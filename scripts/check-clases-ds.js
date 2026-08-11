@@ -30,6 +30,9 @@
  * Silenciar un falso positivo: crear `.ds-lint-ignore` en la raiz del repo
  * consumidor, un patron por linea (glob simple con *). Las lineas que empiezan
  * con # son comentarios.
+ *
+ * Un .md que documenta una app y no el catalogo se declara fuera de alcance
+ * poniendo `<!-- ds-lint: no-es-catalogo -->` en cualquier linea.
  */
 
 import { readFileSync, existsSync, readdirSync, statSync } from 'node:fs';
@@ -161,7 +164,13 @@ const NO_ES_COMPONENTE = new Set([
   'jpg', 'jpeg', 'webp', 'gif', 'ico', 'pdf', 'woff', 'woff2', 'ttf', 'otf',
   'sh', 'py', 'rb', 'go', 'java', 'sql', 'csv', 'zip', 'gz', 'tar', 'map',
   'test', 'spec', 'min', 'd', 'com', 'ar', 'net', 'org', 'io', 'dev', 'app',
+  // dotfiles con guion: el filtro de "tiene que llevar guion" no los agarra
+  'node-version', 'ds-lint-ignore', 'well-known', 'eslintrc-json', 'babelrc-json',
 ]);
+
+/* Placeholders de la documentacion en castellano: `.mi-clase`, `.mi-tabla`.
+   Son ejemplos, no componentes. */
+const ES_PLACEHOLDER = (c) => /^mi-/.test(c) || /^(tu|su)-/.test(c);
 
 /**
  * Clases que un .md presenta como componentes.
@@ -172,13 +181,21 @@ const NO_ES_COMPONENTE = new Set([
  */
 function clasesDocumentadas(md) {
   const out = new Set();
-  const cod = [...md.matchAll(/```[\s\S]*?```/g), ...md.matchAll(/`([^`\n]+)`/g)]
+  let cod = [...md.matchAll(/```[\s\S]*?```/g), ...md.matchAll(/`([^`\n]+)`/g)]
     .map((m) => m[1] ?? m[0]).join('\n');
+  /* Un doc que dice "no hay .btn-secondary" o "deprecada: .sc-input" no esta
+     prometiendo el componente: esta advirtiendo. Se sacan los comentarios de
+     CSS y las lineas en negativo antes de buscar, o el guard termina
+     reportando como fantasma justo a la frase que aclara que no existe. */
+  cod = cod.replace(/\/\*[\s\S]*?\*\//g, ' ');
+  cod = cod.split('\n')
+    .filter((l) => !/(\bno (hay|existe|publica|usar|se publica)\b|nunca existi|deprecad|obsolet|renombrad|reemplazad|\bya no\b|dej[oó] de|incorrecto|❌|el can[oó]nico usa|en cambio usa)/i.test(l))
+    .join('\n');
   for (const m of cod.matchAll(/(?:^|[\s"'(<{;,])\.([a-z][\w-]*-[\w-]+)(?=[\s"'){};,:.]|$)/gm)) {
-    if (!NO_ES_COMPONENTE.has(m[1]) && ES_CLASE(m[1])) out.add(m[1]);
+    if (!NO_ES_COMPONENTE.has(m[1]) && !ES_PLACEHOLDER(m[1]) && ES_CLASE(m[1])) out.add(m[1]);
   }
   for (const m of cod.matchAll(/\bclass(?:Name)?="([^"]+)"/g)) {
-    m[1].split(/\s+/).forEach((c) => { if (ES_CLASE(c) && !NO_ES_COMPONENTE.has(c)) out.add(c); });
+    m[1].split(/\s+/).forEach((c) => { if (ES_CLASE(c) && !NO_ES_COMPONENTE.has(c) && !ES_PLACEHOLDER(c)) out.add(c); });
   }
   return out;
 }
@@ -208,6 +225,11 @@ function analizar(raiz, publicadas) {
     const rel = relative(raiz, ruta);
     if (ext === '.md') {
       let t; try { t = readFileSync(ruta, 'utf8'); } catch { continue; }
+      /* Un .md que documenta una app consumidora —no el catalogo del DS— usa
+         legitimamente clases que la hoja no publica. Se declara a si mismo
+         fuera de alcance con <!-- ds-lint: no-es-catalogo --> en cualquier
+         linea. El alcance viaja con el archivo, no en una lista aparte. */
+      if (/<!--\s*ds-lint:\s*no-es-catalogo\s*-->/.test(t)) continue;
       for (const c of clasesDocumentadas(t)) if (!documentadas.has(c)) documentadas.set(c, rel);
       continue;
     }

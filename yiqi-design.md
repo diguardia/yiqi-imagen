@@ -417,7 +417,7 @@ Usar en: subtítulos, estado activo de módulos, labels secundarios con acento c
 ```css
 /* ✅ Uso correcto */
 .section-kicker    { color: var(--text-cyan-muted); }
-.module-open-title { color: var(--text-cyan-muted); }
+.mod-card.open .mod-card-header-left { color: var(--text-cyan-muted); }
 .nav-item.active   { color: var(--text-cyan-muted); }
 
 /* ❌ Incorrecto — usar --cyan directo para estados activos */
@@ -710,10 +710,15 @@ El botón hamburguesa es **`.nav-hamburger`** (36×36). Va **a la derecha** del 
   border: none; font: 600 13px var(--sans);
   transition: all var(--transition-base); cursor: pointer;
 }
-.btn-primary   { background: var(--cyan-soft-2); color: var(--cyan); }
-.btn-secondary { background: var(--bg-elev-2);   color: var(--text); }
-.btn-ghost     { background: var(--bg-elev-2);   color: var(--muted); }
-.btn-danger    { background: var(--red-soft);     color: var(--red); }
+/* Valores exactos en styles.css §11. Esta copia se dejo derivar: decia
+   .btn-ghost con fondo bg-elev-2 (es transparente) e inventaba un
+   .btn-secondary que la hoja nunca publico — y que termino usado en un
+   informe a clientes, renderizando como .btn base. 11/08/2026. */
+.btn-primary { background: var(--cyan-soft); border-color: var(--cyan-a28); color: var(--cyan); }
+.btn-ghost   { background: transparent; border-color: transparent; color: var(--muted); }
+.btn-danger  { background: color-mix(in srgb, var(--red) 8%, transparent); color: var(--red); }
+.btn-amber   { background: var(--amber-soft); color: var(--amber); }
+/* No hay .btn-secondary. La accion secundaria es .btn-ghost, o .btn a secas. */
 
 /* Tamaños y ancho */
 .btn-sm   { padding: 7px 12px;  font-size: 12px; }
@@ -779,8 +784,11 @@ Etiquetas de capacidad del producto. Usan `cyan-soft` background sin dot. Para m
   font: 700 28px var(--display); letter-spacing: -.03em;
   color: var(--text); margin-top: 8px;
 }
-.kpi-delta-positive { color: var(--green); }
-.kpi-delta-negative { color: var(--red); }
+/* El DS no publica .kpi-delta-positive/-negative: el estado va como
+   modificador sobre .kpi-delta (styles.css). 11/08/2026. */
+.kpi-delta.is-positive { color: var(--green); background: var(--green-soft); }
+.kpi-delta.is-negative { color: var(--red);   background: var(--red-soft); }
+.kpi-delta.is-neutral  { color: var(--muted); background: var(--bg-soft); }
 ```
 
 ### Inputs — excepción borderless
@@ -804,16 +812,11 @@ Etiquetas de capacidad del producto. Usan `cyan-soft` background sin dot. Para m
 ### Módulos accordion — sin borde, profundidad por sombra
 
 ```css
-.module-card {
-  background: var(--bg-elev);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
-  overflow: hidden;
-}
-.module-card[open],
-.module-card.open {
-  box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(0,195,240,.12);
-}
+/* El componente se llama .mod-card (styles.css §40), no .module-card.
+   El nombre de esta copia no existia en ninguna hoja. 11/08/2026. */
+.mod-card { border: none; border-radius: var(--radius-lg); background: var(--bg-elev-2); overflow: hidden; }
+.mod-card:hover { box-shadow: 0 0 0 1px rgba(0, 204, 255, .14) inset; }
+.mod-card.open .mod-card-header-left { color: var(--text-cyan-muted); background: var(--cyan-soft); }
 ```
 
 ### Panel
