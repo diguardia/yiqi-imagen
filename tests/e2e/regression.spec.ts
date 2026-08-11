@@ -1,0 +1,89 @@
+import { expect, test } from '@playwright/test'
+
+test.describe('regresiones funcionales', () => {
+  test('el label de recordar usuario mantiene el toggle funcional', async ({ page }) => {
+    await page.goto('/login/')
+
+    const checkbox = page.getByRole('checkbox', { name: 'Recordar usuario', exact: true })
+    await expect(checkbox).not.toBeChecked()
+
+    await page.getByText('Recordar usuario', { exact: true }).click()
+    await expect(checkbox).toBeChecked()
+
+    await page.getByText('Recordar usuario', { exact: true }).click()
+    await expect(checkbox).not.toBeChecked()
+  })
+
+  test('mostrar y ocultar contrasena conserva el valor ingresado', async ({ page }) => {
+    await page.goto('/login/')
+
+    const password = page.getByLabel('Contraseña', { exact: true })
+    await password.fill('secreto-temporal')
+    await expect(password).toHaveAttribute('type', 'password')
+
+    await page.getByRole('button', { name: 'Mostrar contraseña', exact: true }).click()
+    await expect(password).toHaveAttribute('type', 'text')
+    await expect(password).toHaveValue('secreto-temporal')
+
+    await page.getByRole('button', { name: 'Ocultar contraseña', exact: true }).click()
+    await expect(password).toHaveAttribute('type', 'password')
+    await expect(password).toHaveValue('secreto-temporal')
+  })
+
+  test('el fallback de olvido de contrasena sigue siendo funcional', async ({ page }) => {
+    await page.goto('/login/')
+
+    await page.getByRole('button', { name: '¿Olvidaste tu contraseña?', exact: true }).click()
+    await expect(page.getByRole('status')).toContainText('Para restablecer tu clave, contacta a tu administrador YiQi.')
+  })
+
+  test('el estado loading bloquea un segundo submit hasta resolver', async ({ page }) => {
+    await page.goto('/login/')
+
+    await page.getByLabel('Usuario o correo electrónico', { exact: true }).fill('incorrecto')
+    await page.getByLabel('Contraseña', { exact: true }).fill('incorrecta')
+
+    const submit = page.getByRole('button', { name: 'Iniciar sesión', exact: true })
+    await submit.click()
+
+    await expect(submit).toBeDisabled()
+    await expect(page.getByRole('status')).toContainText('Iniciando sesión')
+    await expect(page.getByRole('status')).toContainText('Demo: usa demo / demo')
+    await expect(submit).toBeEnabled()
+  })
+
+  test('el tema conserva persistencia y el ciclo oscuro sistema claro', async ({ page }) => {
+    await page.emulateMedia({ colorScheme: 'light' })
+    await page.addInitScript(() => window.localStorage.setItem('yiqi-theme', 'dark'))
+    await page.goto('/shell/')
+
+    const html = page.locator('html')
+    const darkButton = page.getByRole('button', { name: 'Tema actual: Oscuro. Cambiar a Sistema', exact: true })
+
+    await expect(html).toHaveAttribute('data-theme', 'dark')
+    await darkButton.click()
+
+    await expect(page.getByRole('button', { name: 'Tema actual: Sistema. Cambiar a Claro', exact: true })).toBeVisible()
+    await expect.poll(async () => page.evaluate(() => window.localStorage.getItem('yiqi-theme'))).toBe('system')
+    await expect(html).toHaveAttribute('data-theme', 'light')
+
+    await page.getByRole('button', { name: 'Tema actual: Sistema. Cambiar a Claro', exact: true }).click()
+    await expect.poll(async () => page.evaluate(() => window.localStorage.getItem('yiqi-theme'))).toBe('light')
+    await expect(html).toHaveAttribute('data-theme', 'light')
+
+    await page.getByRole('button', { name: 'Tema actual: Claro. Cambiar a Oscuro', exact: true }).click()
+    await expect.poll(async () => page.evaluate(() => window.localStorage.getItem('yiqi-theme'))).toBe('dark')
+    await expect(html).toHaveAttribute('data-theme', 'dark')
+  })
+
+  test('el shell conserva navegacion activa cuenta y accion en desktop', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 })
+    await page.goto('/shell/')
+
+    const activeLink = page.getByRole('link', { name: 'Resumen', exact: true }).first()
+    await expect(activeLink).toHaveAttribute('aria-current', 'page')
+    await expect(activeLink).toHaveAttribute('href', '/shell')
+    await expect(page.getByText('Nombre y Apellido', { exact: true })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Cerrar sesión', exact: true })).toBeVisible()
+  })
+})
