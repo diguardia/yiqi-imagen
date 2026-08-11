@@ -28,27 +28,46 @@ Un `.md`, screenshot o HTML no puede redefinir un componente React ya publicado.
 
 ## Regla de migracion
 
-Una migracion de un componente se considera real cuando:
+Una migracion de un componente se considera completa cuando:
 
 - existe una unica implementacion en `packages/ui/src`;
 - el consumidor importa el componente;
 - el template React equivalente fue eliminado, deprecado o convertido en adaptador;
 - no queda una copia local de JSX/CSS en la app;
 - el catalogo ejecutable usa el mismo entrypoint publico que una aplicacion;
-- tests y checkpoints visuales pasan.
+- las capacidades funcionales usadas por los consumidores legacy tienen equivalente React o una decision explicita de retiro;
+- las pruebas de regresion funcional pasan.
+
+Que exista un componente React base no alcanza para declarar paridad completa.
 
 ## Estado actual
 
-Migrados a contrato React:
+Paridad React suficiente para consumo canonico actual:
 
 - Foundation: Provider, ThemeCycle y Logo.
 - Primitives: Button, Input y Checkbox.
 - Authentication: Login.
-- Layout: AppShell.
-- Data display: KpiCard y TrustStat.
-- Feedback: RuntimeBanner.
+
+Contrato React disponible con paridad todavia parcial respecto de todas las variantes legacy:
+
+- Layout: AppShell. La estructura y drawer estan cubiertos; controles especializados de cuenta/esquema/rango siguen entrando por slots.
+- Data display: KpiCard. Falta formalizar capacidades legacy como delta/nota estructurados y count-up cuando sean necesarias.
+- Data display: TrustStat. Faltan delta y variantes de composicion cards/grid/inline.
+- Feedback: RuntimeBanner. Faltan estados legacy con kicker explicito como demo/error si un consumidor los necesita.
 
 Los componentes estan agrupados fisicamente y tienen entrypoints publicos por responsabilidad.
+
+## Regla anti-regresion de paridad
+
+Si una pantalla legacy usa una capacidad no expuesta por el componente React:
+
+1. no eliminarla;
+2. no reconstruirla localmente en la app;
+3. extender primero `@yiqi/ui`;
+4. agregar una prueba de regresion funcional;
+5. migrar la pantalla despues de validar esa capacidad.
+
+El inventario de `template/INDEX.md` indica que reemplazos tienen paridad parcial.
 
 ## Redundancia
 
@@ -74,23 +93,25 @@ Se conserva por ahora:
 - email HTML;
 - templates de seguridad/deploy.
 
-Se deprecan como fuente para React los templates que ya tienen equivalente en `@yiqi/ui`.
+Un template legacy solo se considera reemplazado por completo cuando sus capacidades usadas tienen paridad funcional o existe una decision explicita de retiro.
 
 ## Proximos pasos
 
-1. Aprobar y congelar baselines visuales del Login y AppShell.
+1. Completar la paridad funcional de los componentes React parciales segun demanda real.
 2. Migrar los componentes interactivos restantes.
 3. Trasladar gradualmente el showcase util al catalogo Next.js.
 4. Usar una app real como consumidor piloto.
 5. Definir publicacion y versionado semantico de `@yiqi/ui`.
-6. Retirar legacy solo cuando no tenga consumidores.
+6. Retirar legacy solo cuando no tenga consumidores y la paridad necesaria este validada.
 
 ## Gate
 
 ```bash
 npm test
 npm run build
-npm run test:e2e
+npm run test:regresion:e2e
 ```
+
+La aprobacion se basa en contratos, compilacion y regresion funcional. QA visual o pixel-diff no son requisito de aprobacion.
 
 La deuda legacy detectada se informa por separado para no confundir errores historicos con regresiones nuevas.
