@@ -1,4 +1,4 @@
-import { forwardRef, type InputHTMLAttributes, type ReactNode } from 'react'
+import { forwardRef, useId, type InputHTMLAttributes, type ReactNode } from 'react'
 
 export interface YiQiInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string
@@ -9,11 +9,14 @@ export const YiQiInput = forwardRef<HTMLInputElement, YiQiInputProps>(function Y
   { label, action, className = '', id, ...props },
   ref,
 ) {
+  const generatedId = useId()
+  const resolvedId = id ?? generatedId
+
   const input = (
     <span className="yiqi-input-wrap">
       <input
         ref={ref}
-        id={id}
+        id={resolvedId}
         className={`yiqi-input ${action ? 'yiqi-input--with-action' : ''} ${className}`.trim()}
         {...props}
       />
@@ -24,9 +27,9 @@ export const YiQiInput = forwardRef<HTMLInputElement, YiQiInputProps>(function Y
   if (!label) return input
 
   return (
-    <label className="yiqi-field" htmlFor={id}>
-      <span className="yiqi-label">{label}</span>
+    <div className="yiqi-field">
+      <label className="yiqi-label" htmlFor={resolvedId}>{label}</label>
       {input}
-    </label>
+    </div>
   )
 })
