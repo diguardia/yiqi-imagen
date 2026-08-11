@@ -177,12 +177,23 @@ export function YiQiLogin({
           </div>
 
           <YiQiCheckbox name="remember" label={rememberLabel} checked={remember} onCheckedChange={setRemember} disabled={isLoading} />
-          <YiQiButton type="submit" variant="primary" disabled={isLoading}>{submitLabel}</YiQiButton>
+          <YiQiButton type="submit" variant="primary" disabled={isLoading}>
+            {isLoading ? <SpinnerIcon /> : null}
+            <span>{submitLabel}</span>
+          </YiQiButton>
           <button className="yiqi-login-hint" type="button" onClick={forgotPassword}>{forgotPasswordLabel}</button>
         </form>
 
         <a className="yiqi-login-footer" href={footerHref} target="_blank" rel="noreferrer">{footerLabel}</a>
       </section>
     </main>
+  )
+}
+
+function SpinnerIcon() {
+  return (
+    <svg className="yiqi-login-spinner" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 3a9 9 0 1 0 9 9" />
+    </svg>
   )
 }
