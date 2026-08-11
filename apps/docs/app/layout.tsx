@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import '@yiqi/ui/styles.css'
 import './docs.css'
-import { YiQiProvider } from '@yiqi/ui'
+import { YiQiProvider } from '@yiqi/ui/foundation'
 
 export const metadata: Metadata = {
   title: 'YiQi UI',
