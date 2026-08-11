@@ -25,6 +25,12 @@ export interface YiQiLoginProps {
   rememberLabel?: string
   forgotPasswordLabel?: string
   forgotPasswordMessage?: string
+  validationMessage?: string
+  loadingMessage?: string
+  submitErrorMessage?: string
+  sectionAriaLabel?: string
+  showPasswordLabel?: string
+  hidePasswordLabel?: string
   footerHref?: string
   footerLabel?: string
   rememberStorageKey?: string
@@ -47,6 +53,12 @@ export function YiQiLogin({
   rememberLabel = 'Recordar usuario',
   forgotPasswordLabel = '¿Olvidaste tu contraseña?',
   forgotPasswordMessage = 'Para restablecer tu clave, contacta a tu administrador YiQi.',
+  validationMessage = 'Ingresa usuario y contraseña para iniciar sesión.',
+  loadingMessage = 'Iniciando sesión…',
+  submitErrorMessage = 'No pudimos iniciar sesión. Intenta nuevamente.',
+  sectionAriaLabel = 'Inicio de sesión YiQi',
+  showPasswordLabel = 'Mostrar contraseña',
+  hidePasswordLabel = 'Ocultar contraseña',
   footerHref = 'https://www.yiqi.com.ar',
   footerLabel = 'www.yiqi.com.ar',
   rememberStorageKey = 'yiqi-last-user',
@@ -78,11 +90,11 @@ export function YiQiLogin({
   }, [rememberStorageKey])
 
   const status = useMemo(() => {
-    if (isLoading) return { state: 'loading', message: 'Iniciando sesión…' }
+    if (isLoading) return { state: 'loading', message: loadingMessage }
     if (visibleError) return { state: 'error', message: visibleError }
     if (info) return { state: 'info', message: info }
     return { state: 'idle', message: ' ' }
-  }, [info, isLoading, visibleError])
+  }, [info, isLoading, loadingMessage, visibleError])
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -91,7 +103,7 @@ export function YiQiLogin({
 
     const cleanUsername = username.trim()
     if (!cleanUsername || !password) {
-      setLocalError('Ingresa usuario y contraseña para iniciar sesión.')
+      setLocalError(validationMessage)
       return
     }
 
@@ -103,7 +115,7 @@ export function YiQiLogin({
       const result = await onSubmit({ username: cleanUsername, password, remember })
       if (result?.error) setLocalError(result.error)
     } catch {
-      setLocalError('No pudimos iniciar sesión. Intenta nuevamente.')
+      setLocalError(submitErrorMessage)
     } finally {
       setIsSubmitting(false)
     }
@@ -117,7 +129,7 @@ export function YiQiLogin({
 
   return (
     <main className="yiqi-root yiqi-login-screen">
-      <section className="yiqi-login-stage" aria-label="Inicio de sesión YiQi">
+      <section className="yiqi-login-stage" aria-label={sectionAriaLabel}>
         <div className="yiqi-login-brand">
           {logo ?? <YiQiLogo className="yiqi-login-logo" />}
           <p className="yiqi-login-description"><strong>{appName}.</strong> {description}</p>
@@ -153,7 +165,7 @@ export function YiQiLogin({
                 <button
                   className="yiqi-icon-button"
                   type="button"
-                  aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                  aria-label={showPassword ? hidePasswordLabel : showPasswordLabel}
                   aria-pressed={showPassword}
                   onClick={() => setShowPassword((value) => !value)}
                   disabled={isLoading}
