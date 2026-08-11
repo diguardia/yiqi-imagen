@@ -1,6 +1,6 @@
 'use client'
 
-import { YiQiLogin } from '@yiqi/ui'
+import { YiQiLogin } from '@yiqi/ui/authentication'
 
 export default function LoginPage() {
   return (
