@@ -1,6 +1,7 @@
 @import "./tokens.css";
 
-* { box-sizing: border-box; }
+:where([class^="yiqi-"], [class*=" yiqi-"]),
+:where([class^="yiqi-"], [class*=" yiqi-"]) * { box-sizing: border-box; }
 
 .yiqi-root {
   color: var(--yiqi-text);
