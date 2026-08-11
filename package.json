@@ -16,6 +16,7 @@
     "test:detail-navigation": "node scripts/check-detail-navigation.js",
     "test:consumer-css": "node scripts/check-consumer-css.js",
     "test:consumer-css:react": "node scripts/check-consumer-css.js apps/docs/app packages/ui/src",
+    "test:ui-css-isolation": "node scripts/check-ui-css-isolation.js",
     "test:clases-ds": "node scripts/check-clases-ds.js",
     "test:clases-ds:react": "node scripts/check-clases-ds.js packages/ui --solo-errores",
     "test:clases-ds:legacy": "node scripts/check-clases-ds.js . --solo-errores --sin-fallo",
@@ -23,7 +24,7 @@
     "test:compatibilidad:login-template": "tsc --noEmit --strict --skipLibCheck --jsx react-jsx --module ESNext --moduleResolution Bundler --target ES2022 --lib DOM,DOM.Iterable,ES2022 template/login/yiqi-login-template.tsx",
     "test:e2e": "playwright test",
     "test:regresion:e2e": "playwright test tests/e2e/login.spec.ts tests/e2e/shell.spec.ts tests/e2e/smoke.spec.ts tests/e2e/regression.spec.ts",
-    "test": "node scripts/check-detail-navigation.js && node scripts/check-consumer-css.js && npm run test:consumer-css:react && npm run test:clases-ds:react && npm run test:ui-redundancy && npm run typecheck && npm run test:compatibilidad:login-template"
+    "test": "node scripts/check-detail-navigation.js && node scripts/check-consumer-css.js && npm run test:consumer-css:react && npm run test:ui-css-isolation && npm run test:clases-ds:react && npm run test:ui-redundancy && npm run typecheck && npm run test:compatibilidad:login-template"
   },
   "devDependencies": {
     "@playwright/test": "1.62.0",
