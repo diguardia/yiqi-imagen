@@ -52,4 +52,18 @@ test.describe('YiQiAppShell', () => {
     await expect(dialog).toBeHidden()
     await expect(page).toHaveURL(/#analisis$/)
   })
+
+  test('cierra el drawer abierto cuando el viewport vuelve a desktop', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto('/shell')
+
+    await page.getByRole('button', { name: 'Abrir menú' }).click()
+    await expect(page.getByRole('dialog')).toBeVisible()
+
+    await page.setViewportSize({ width: 1280, height: 900 })
+
+    await expect(page.getByRole('dialog')).toBeHidden()
+    await expect(page.locator('.yiqi-sidebar')).toBeVisible()
+    await expect(page.getByText('Nombre y Apellido', { exact: true })).toBeVisible()
+  })
 })
