@@ -1,123 +1,90 @@
-# Checklists por intención de cambio
+# Checklists por intencion de cambio
 
-Antes de implementar, **clasificá la intención** del cambio y seguí solo el checklist
-correspondiente. Esto evita revisar todo en cada PR. El `docs/pr-checklist.md` es la base
-transversal; estos son los focos por caso.
+Este archivo agrega foco segun la tarea. El checklist transversal vive en `pr-checklist.md`; no repetir aqui todas sus reglas.
 
-Regla obligatoria de cierre:
+## 1. Cambio trivial
 
-Esta regla aplica principalmente a proyectos derivados, apps y desarrollos que usen esta
-documentacion como base. En este repo de empaquetado del DS, aplicarla cuando la tarea
-tenga impacto equivalente o agregue conocimiento reutilizable.
+- [ ] El cambio es local y no altera contratos o comportamiento.
+- [ ] No se cargaron documentos innecesarios.
+- [ ] El archivo afectado sigue compilando o validando como antes.
 
-- El agente debe indicar que checklist uso. Si no uso ninguno, debe explicar por que
-  la tarea era trivial, local o sin riesgo de regresion.
-- Al final de cada tarea, elegir el checklist que corresponda segun el tema.
-- Si ningun checklist aplica, crear un checklist breve para esa tarea concreta.
-- Revisar errores, regresiones, verificaciones y documentacion antes de cerrar.
-- Si la tarea toca una pagina, flujo, grupo de componentes o tema relevante, crear o actualizar un resumen interno en `Agent/summaries/`.
-- Informar al usuario en lenguaje simple que checklist se uso, que se verifico y que queda pendiente.
-- Escribir nuevos checklists operativos en ASCII para evitar problemas de lectura por agentes y personas.
+## 2. UI React / componente del DS
 
-Cuando usar un checklist:
+- [ ] Se reviso primero `@yiqi/ui` para evitar crear un duplicado.
+- [ ] El componente compartido tiene una sola implementacion canonica.
+- [ ] El catalogo usa el mismo entrypoint publico que una app real.
+- [ ] No hay label/placeholder ni bloques de copy redundantes sin funcion distinta.
+- [ ] No se duplico logica de tema, storage, loading o validacion.
+- [ ] `npm run test:ui-redundancy` pasa.
+- [ ] `npm test`, build y E2E relevantes pasan.
+- [ ] Se revisaron dark/light y responsive si cambia presentacion.
 
-- Cuando cambia comportamiento, UI, API, datos, deploy, auth, scripts, dependencias o documentacion operativa.
-- Cuando puede haber regresion visible o tecnica.
-- Cuando hubo un error, una suposicion incorrecta o una verificacion fallida.
-- Cuando la tarea crea conocimiento reutilizable para futuros agentes.
+## 3. Migracion legacy a React
 
-Cuando no usar checklist completo:
+- [ ] Se creo o extendio el componente en `@yiqi/ui`.
+- [ ] El consumidor ya importa el componente en vez de copiar markup.
+- [ ] El template React paralelo fue convertido en adaptador, deprecado o retirado.
+- [ ] El legacy HTML se conserva solo si tiene consumidores o utilidad de migracion.
+- [ ] No se elimino compatibilidad sin evidencia de que ya no se usa.
 
-- Typos o copy menor en un archivo nombrado por el usuario.
-- Cambios mecanicos de una sola linea sin impacto en comportamiento.
-- Lectura o analisis sin cambios. En ese caso, informar que no hubo checklist de cierre porque no se modifico nada.
+## 4. Listado / detalle
 
-## 1. Cambio trivial (typo, copy, 1 línea en archivo ya nombrado)
-- [ ] El cambio es realmente acotado (no toca lógica ni contratos).
-- [ ] Sin necesidad de leer documentación de fondo.
-- [ ] Build/lint no se rompen.
-- [ ] El commit queda aislado del resto de cambios no relacionados.
-
-## 2. Nueva UI de listado / detalle
-- [ ] Navegación a detalle con `item.id` (ver `docs/yiqi-api.md`).
-- [ ] Click en fila navega; botones secundarios cortan propagación.
+- [ ] Navegacion usa el id canonico documentado.
+- [ ] Acciones secundarias no disparan la navegacion de la fila.
 - [ ] `npm run test:detail-navigation` pasa.
-- [ ] E2E que hace click en fila y verifica la URL final.
-- [ ] Estados vacíos / "Dato de ejemplo" cuando no hay fuente real.
-- [ ] Revisión de regresión sobre navegación existente, filtros, paginado, loading/error y responsive.
+- [ ] E2E valida la URL final cuando corresponde.
 
-## 3. Consumir un endpoint nuevo de la API YiQi
-- [ ] Documentado: qué devuelve, qué ids aporta, qué campos consume, si requiere `schemaId`/`userId`.
-- [ ] Mapeo payload remoto -> modelo interno -> DTO de UI.
-- [ ] Manejo de `401/403/409/5xx` (ver `docs/politica-errores.md`).
-- [ ] Seguridad: sin secretos en código, contexto desde login (ver `docs/seguridad-integraciones-api.md`).
-- [ ] Fixture de referencia actualizado si aplica (ver `docs/politica-fixtures.md`).
-- [ ] Revisión de regresión sobre endpoints ya consumidos, autenticación, schemaId/userId y normalización existente.
+## 5. API nueva o contrato modificado
 
-## 4. Cambios de estilos / tokens / componentes del DS
-- [ ] El cambio del DS se hace **acá** (`yiqi-imagen` es la fuente única; ver `LEEME-FUENTE-DS.md`).
-- [ ] `styles.css` es canónico en este repo (fuente única de tokens + componentes): se edita acá (no se regenera desde otro lado).
-- [ ] `version.json` coherente con la versión del DS.
-- [ ] Tokens YiQi usados; filosofía borderless respetada.
-- [ ] Revisión de regresión visual en componentes existentes y temas dark/light.
+- [ ] Campos, ids y contexto requerido estan documentados.
+- [ ] Payload remoto se normaliza antes de llegar a UI.
+- [ ] Errores HTTP relevantes estan manejados.
+- [ ] Seguridad de integracion revisada.
+- [ ] Fixtures o tests se actualizan si aplica.
 
-## 5. KPIs / indicadores
-- [ ] Cada KPI declara fuente validable (módulo + campo(s) + fórmula + período).
-- [ ] KPIs derivados explican fórmula y unidad.
-- [ ] Cambio de payload con impacto en KPIs: mapeo + tests + doc.
+## 6. Login / sesion
 
-## 6. Deploy (Azure App Service + Next.js)
-- [ ] Artifact incluye `.next/BUILD_ID`.
-- [ ] `actions/upload-artifact@v4` con `include-hidden-files: true` y exclusiones de `.git`/`.env`.
-- [ ] Next.js 16: `next build --webpack` en build y fallback.
-- [ ] El paquete de deploy no incluye carpetas generadas innecesarias, caches, perfiles temporales ni `node_modules` si no corresponde.
+- [ ] React usa `YiQiLogin` y no una copia local.
+- [ ] Flujo funcional sigue `docs/yiqi-login.md`.
+- [ ] Passwords, tokens y secretos no quedan en storage inseguro.
+- [ ] Loading evita doble submit.
+- [ ] Logout limpia el contexto correspondiente.
 
-## 7. Solo documentación
-- [ ] Encoding UTF-8 / LF (ver `docs/convenciones-documentacion.md`).
-- [ ] Español neutro; marca escrita **YiQi**.
-- [ ] Índices actualizados si se agregó/quitó un archivo (`docs/INDEX.md`, etc.).
+## 7. KPI / indicador
 
-## 8. Herramientas y automatizaciones
-- [ ] En proyectos derivados o activos, si el cambio repara un problema repetible, evaluar crear o actualizar una herramienta en `scripts/` o `Agent/tools/`.
-- [ ] Si la herramienta falla, corregir la herramienta o documentar el caso no cubierto; no dejar el procedimiento roto.
-- [ ] Documentar objetivo, entrada, salida, riesgos y ejemplo de uso.
-- [ ] Carpetas generadas por herramientas o QA visual quedan ignoradas por Git y excluidas de lint/test cuando no son fuente.
+- [ ] Fuente real verificable.
+- [ ] Formula/agregado y periodo identificables.
+- [ ] Datos simulados marcados como ejemplo o no disponibles.
+- [ ] Cambio de payload incluye mapeo y tests.
 
-## 9. Higiene de commits y ramas
-- [ ] Un commit por intención de cambio; evitar commits gigantes con cambios mezclados.
-- [ ] La rama describe el trabajo, sin nombres de agentes.
-- [ ] No agregar agentes como coautores salvo pedido explícito del equipo.
-- [ ] En proyectos activos, recomendar Husky/lint-staged o equivalente para bloquear commits con lint/test/formato roto.
+## 8. Dependencias / tooling
 
-## 10. Checklist puntual de tarea
-- [ ] Si la tarea no encaja en los checklists anteriores, se creo un checklist breve para esta tarea.
-- [ ] El checklist puntual cubre objetivo, archivos tocados, regresiones posibles, comandos de verificacion y riesgos.
-- [ ] El resultado del checklist fue informado al usuario en lenguaje simple.
+- [ ] Se justifico la dependencia nueva o se reutilizo una existente.
+- [ ] Se prefirio una libreria madura antes que rehacer un primitive complejo.
+- [ ] Audit y build pasan.
+- [ ] Scripts nuevos tienen una sola responsabilidad y alias npm.
 
-## 11. Resumen interno por pagina o tema
-- [ ] En proyectos derivados o apps activas, si la tarea toca una pagina, flujo, grupo de componentes o tema relevante, existe un resumen interno en `Agent/summaries/`.
-- [ ] El resumen indica objetivo, archivos principales, contratos, decisiones, riesgos y verificaciones utiles.
-- [ ] El resumen fue actualizado si el cambio modifico comportamiento, estructura, contrato o criterio de revision.
-- [ ] El resumen esta escrito para lectura rapida y en ASCII.
+## 9. Documentacion
 
-## 12. Reglas operativas del proyecto
-- [ ] En proyectos derivados, existe `Agent/project-rules.md` si hay restricciones de schema, entorno, credenciales, API o acciones que requieren aprobacion.
-- [ ] Las reglas operativas no contienen secretos, tokens, passwords ni datos productivos.
-- [ ] Antes de consultar APIs reales, se revisaron los limites de schema, entorno y safe probes del proyecto.
+- [ ] La fuente correcta tiene precedencia clara.
+- [ ] No se copio la misma regla en multiples archivos si puede referenciarse.
+- [ ] Indices o routers se actualizaron si cambia donde debe empezar un agente.
+- [ ] Comentarios operativos nuevos estan en español ASCII.
+- [ ] Copy visible conserva ortografia correcta.
 
-## 13. Error memory
-- [ ] Si hubo un error repetible o una suposicion incorrecta, se reviso `Agent/error-memory/errors/INDEX.md`.
-- [ ] Si se registro un error, se guardo causa raiz y fix final, no logs crudos.
-- [ ] Si existe memoria legacy, se migro solo la entrada util al archivo de categoria correspondiente.
+## 10. Seguridad / deploy
 
-## 14. Cierre de seguridad de aplicaciones
-- [ ] Se revisaron los controles `SEC-APP` aplicables de `docs/seguridad-aplicaciones.md` y se justificaron los no aplicables.
-- [ ] La autorizacion se verifica en servidor por operacion y recurso, con pruebas negativas entre identidades y roles.
-- [ ] Inputs y respuestas externas se validan con esquemas allowlist; consultas y ejecucion usan APIs seguras y parametrizadas.
-- [ ] Se verificaron limites de recursos, rate limiting y proteccion contra replay en los flujos alcanzados.
-- [ ] No hay credenciales predeterminadas, secretos versionados ni datos sensibles en logs o artefactos.
-- [ ] SAST, analisis de dependencias y deteccion de secretos se ejecutaron en el PR con resultados enlazados.
-- [ ] No quedan hallazgos criticos abiertos; los altos se resolvieron o tienen excepcion formal vigente.
-- [ ] Toda excepcion declara responsable, justificacion, mitigacion y vencimiento; los falsos positivos tienen evidencia local.
-- [ ] Datos simulados, endpoints de debug y documentacion interna estan deshabilitados o inaccesibles en produccion.
-- [ ] Se definieron DAST y pruebas de penetracion proporcionales al riesgo y se registraron los riesgos residuales.
+Usar los documentos especificos del dominio:
+
+- `seguridad-aplicaciones.md`
+- `seguridad-integraciones-api.md`
+- `azure-nextjs-app-service.md`
+- `politica-dependencias.md`
+
+No duplicar sus controles completos en este checklist.
+
+## Cierre
+
+- [ ] Se uso este checklist y el transversal de `pr-checklist.md` cuando corresponde.
+- [ ] Se informaron verificaciones realizadas y riesgos pendientes.
+- [ ] Si hubo una falla repetible, se actualizo error-memory sin copiar logs sensibles.

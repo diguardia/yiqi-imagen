@@ -9,6 +9,8 @@ Este indice evita que humanos y agentes carguen documentacion que no cambia la d
 | `../packages/ui/README.md` | Consumir o extender componentes React |
 | `quickstart.md` | Integrar el DS rapidamente |
 | `react-migration.md` | Migrar legacy a `@yiqi/ui` |
+| `gobernanza-y-alcance.md` | Decidir que es contrato compartido y que puede variar por proyecto |
+| `fuente-privada-y-catalogo-publico.md` | Distinguir fuentes React, legacy y catalogos |
 | `yiqi-login.md` | Implementar el flujo funcional de login |
 | `application-best-practices.md` | Arquitectura y convenciones de aplicacion |
 | `yiqi-api.md` | Integracion con API YiQi |
@@ -26,8 +28,8 @@ Este indice evita que humanos y agentes carguen documentacion que no cambia la d
 | `politica-errores.md` | Copy de errores y logging |
 | `politica-dependencias.md` | npm, versiones y audit |
 | `politica-fixtures.md` | Fixtures y datos de ejemplo |
-| `checklists-por-intencion.md` | Elegir checklist de cierre |
-| `pr-checklist.md` | Preparar un Pull Request |
+| `checklists-por-intencion.md` | Elegir checklist especifico |
+| `pr-checklist.md` | Gate transversal de Pull Request |
 
 ## Legacy
 

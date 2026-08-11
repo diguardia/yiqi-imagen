@@ -1,71 +1,70 @@
 # PR Checklist - YiQi
 
-Checklist base de Pull Request. Para checklists enfocados según el tipo de cambio,
-ver `docs/checklists-por-intencion.md`.
+Usar junto con `docs/checklists-por-intencion.md` cuando aplique.
 
-## Calidad técnica
+## Calidad tecnica
 
-- [ ] Build exitoso
-- [ ] Lint sin errores criticos
-- [ ] Tests relevantes agregados/actualizados con el runner configurado
-- [ ] Comandos de verificacion declarados en el proyecto ejecutados correctamente
-- [ ] Revisión de regresiones realizada: flujos existentes afectados, contratos, rutas, estados vacíos y errores.
-- [ ] Si el proyecto usa hooks, pre-commit ejecutado correctamente; si no usa hooks, evaluar Husky/lint-staged o equivalente para proyectos activos.
-- [ ] Checklist de cierre aplicado segun el tipo de tarea; si no existia uno adecuado, se creo un checklist puntual.
-- [ ] Resumen interno en `Agent/summaries/` creado o actualizado si el cambio toca una pagina, flujo, componente o tema recurrente.
-- [ ] Reglas operativas del proyecto revisadas si hay schema, entorno, credenciales, API real o acciones con aprobacion requerida.
-- [ ] Error memory actualizado si hubo una falla repetible o una suposicion incorrecta.
-- [ ] El resumen al usuario indica en lenguaje simple que se verifico, que riesgo queda y que no se pudo verificar.
+- [ ] Build exitoso.
+- [ ] Tests relevantes ejecutados.
+- [ ] Regresiones de flujos, rutas, estados y responsive revisadas.
+- [ ] Cambios separados por intencion.
+- [ ] Commits y comentarios nuevos en español ASCII.
+- [ ] Documentacion actualizada solo donde cambia una decision real.
 
-## Gate de seguridad
+## UI React / Next.js
 
-- [ ] Controles `SEC-APP` aplicables revisados según `docs/seguridad-aplicaciones.md`, con evidencia o justificación de no aplicabilidad.
-- [ ] SAST, análisis de dependencias y detección de secretos ejecutados en este PR.
-- [ ] No hay hallazgos críticos abiertos; un hallazgo crítico bloquea merge y deploy.
-- [ ] Los hallazgos altos están resueltos o tienen una excepción formal vigente con responsable, justificación, mitigación y vencimiento.
-- [ ] Los falsos positivos están documentados con alcance y evidencia, sin silenciamientos globales.
-- [ ] La revisión automática fue complementada con revisión humana y pruebas negativas de los flujos sensibles modificados.
+- [ ] Se busco primero el componente en `@yiqi/ui`.
+- [ ] Si existe, se importa desde su entrypoint publico y no hay copia local equivalente.
+- [ ] La app no reconstruye el componente desde template, screenshot, HTML, Tailwind o Markdown.
+- [ ] Si faltaba una variante reusable, se agrego primero a `@yiqi/ui`.
+- [ ] `@yiqi/ui/styles.css` se importa una sola vez donde corresponda.
+- [ ] No hay CSS visual compartido duplicado en el consumidor.
+- [ ] No hay textos visibles redundantes sin funcion distinta.
+- [ ] Ningun input repite exactamente el mismo texto en label y placeholder.
+- [ ] `npm run test:ui-redundancy` pasa.
+- [ ] `npm run test:consumer-css:react` pasa cuando se toca la superficie React del DS.
+- [ ] Responsive y accesibilidad de los flujos afectados fueron validados.
+- [ ] Checkpoints visuales fueron revisados si cambia presentacion.
+
+## UI HTML / legacy
+
+- [ ] El consumidor usa `styles.css` publicado y no una copia local completa.
+- [ ] No se agrego una segunda implementacion React en un template legacy.
+- [ ] Si ya existe reemplazo en `@yiqi/ui`, el template se mantiene congelado, adaptador o deprecado.
 
 ## API
 
-- [ ] Contratos OpenAPI respetados
-- [ ] Errores HTTP manejados
-- [ ] Normalizacion de payloads aplicada
-- [ ] Navegacion a detalle usa `item.id` documentado en fixture/OpenAPI, sin `ID` ni fallbacks de nombres alternativos
+- [ ] Contratos documentados respetados.
+- [ ] Navegacion a detalle usa el id canonico.
+- [ ] Errores HTTP y normalizacion de payloads revisados.
+- [ ] No se agregaron fallbacks ambiguos para ocultar contratos incorrectos.
 
-## UI/UX
+## Auth y seguridad
 
-- [ ] Tokens YiQi usados (sin hardcode innecesario)
-- [ ] La app carga el `styles.css` canónico remoto y no mantiene una copia o fork local
-- [ ] No hay bloques de CSS visual embebido (`<style>`, CSS-in-JS visual o `cssText`)
-- [ ] El CSS local se limita a adaptadores pequeños de comportamiento/integración en archivos separados
-- [ ] Los estilos inline contienen únicamente valores calculados en runtime
-- [ ] `npm run test:consumer-css -- <rutas de la app>` ejecutado correctamente
-- [ ] Tipografia y estilo alineados
-- [ ] Responsive <= 980px validado
-- [ ] Copy en espanol neutro
-- [ ] Listados navegan con click en fila; botones secundarios cortan propagacion del click
+- [ ] Sin secretos, passwords, tokens ni credenciales hardcodeadas o versionadas.
+- [ ] Controles aplicables de `docs/seguridad-aplicaciones.md` revisados.
+- [ ] Dependencias auditadas segun la politica del proyecto.
+- [ ] Login real completa el flujo funcional documentado en `docs/yiqi-login.md`.
+- [ ] Passwords y secretos no quedan en storage inseguro.
+- [ ] Logout limpia el contexto de sesion correspondiente.
 
-## Indicadores y datos
+## Datos e indicadores
 
-- [ ] Cada KPI visible declara fuente validable (modulo + campo(s) + agregado/formula + periodo)
-- [ ] KPIs derivados explican formula y unidad de calculo
-- [ ] Indicadores de cuenta explican composicion (incluye/excluye)
-- [ ] Estados "No disponible" o "Dato de ejemplo" informados cuando no hay fuente real
-- [ ] Cambio de payload con impacto en KPIs incluye mapeo + tests + documentacion actualizada
+- [ ] Cada KPI real tiene fuente, formula/agregado y periodo identificables.
+- [ ] Datos simulados se muestran como ejemplo o no disponibles.
+- [ ] Cambios de payload con impacto visual incluyen mapeo y pruebas.
 
 ## Mantenibilidad
 
-- [ ] Tipos/interfaces claros
-- [ ] Sin duplicacion evitable
-- [ ] Documentacion actualizada si aplica
-- [ ] `npm run test:detail-navigation` ejecutado si hay UI con listados o detalle
-- [ ] El cambio está separado en commits pequeños por intención; no mezclar cambios no relacionados.
-- [ ] La rama y los commits describen el trabajo, sin nombres de agentes ni coautores artificiales.
+- [ ] Sin implementaciones duplicadas del mismo componente.
+- [ ] Sin logica repetida de tema, storage, loading o validacion cuando puede tener una unica fuente.
+- [ ] Tipos e interfaces publicas son claras.
+- [ ] El catalogo ejecutable consume el mismo entrypoint que una app real.
+- [ ] Un template React equivalente delega en el componente canonico o esta deprecado.
 
-## Deploy Azure + Next.js
+## Cierre
 
-- [ ] Si aplica Azure App Service + Next.js: artifact incluye `.next/BUILD_ID`.
-- [ ] Si se usa `actions/upload-artifact@v4`: `include-hidden-files: true` y exclusiones explícitas de `.git`, `.git/**`, `.env`, `.env.*`.
-- [ ] Si aplica Next.js 16 en Azure: `next build --webpack` en build y fallback, con log `Production build not found. Running next build --webpack before start...`.
-- [ ] Carpetas generadas (`.next`, `deploy`, coverage, perfiles temporales de QA) no contaminan lint/test ni el paquete final salvo que sean requeridas.
+- [ ] `npm test` pasa.
+- [ ] `npm run build` pasa.
+- [ ] `npm run test:e2e` pasa cuando aplica a la rama/proyecto.
+- [ ] Se informaron riesgos o deuda legacy que siguen fuera del alcance del cambio.

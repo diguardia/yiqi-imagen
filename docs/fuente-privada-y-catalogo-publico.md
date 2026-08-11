@@ -1,44 +1,45 @@
-# Fuente del DS vs. catálogo público
+# Fuentes y artefactos del Design System
 
-Aclara qué es **fuente del Design System** y qué es **catálogo/artefacto consumible**, para
-que un proyecto consumidor sepa qué puede usar y qué no debe editar.
+Este repositorio es la casa unica del Design System YiQi. La fuente concreta depende del runtime consumidor.
 
-## Modelo de fuente (desde 2026-06-11)
+## React / Next.js
 
-- **Fuente canónica:** este repo `diguardia/yiqi-imagen`. Acá se editan tokens, componentes,
-  catálogo y documentación del DS. Ver `../LEEME-FUENTE-DS.md`.
-- **Sitio `www.yiqi`:** ya **no** aloja el DS (se quitó el 2026-06-11). Si necesita estilos, consume `styles.css` del CDN. No es la fuente.
+Fuente ejecutable:
 
-## Clasificación de artefactos
+- `packages/ui/src/**`
+- entrypoints publicos de `@yiqi/ui`
+- `apps/docs/**` como catalogo ejecutable del mismo contrato
 
-### Fuente del DS — se edita acá
+Una aplicacion React consume el paquete. No usa `styles.css`, templates o Markdown para reconstruir un componente que el paquete ya publica.
+
+## HTML / legacy
+
+Fuente visual:
+
+- `styles.css`
+- URL publicada: `https://diguardia.github.io/yiqi-imagen/styles.css`
+- templates legacy cuando corresponda
+
+Los proyectos HTML consumen la hoja publicada; no copian ni forkean tokens compartidos.
+
+## Documentacion
+
 | Artefacto | Rol |
-|-----------|-----|
-| `styles.css` | **Fuente única** del DS (tokens + componentes); bundle publicado al CDN — canónico |
-| `yiqi-design.md` | Documentación maestra de diseño |
-| `yiqi-design-system.html` | Catálogo visual |
-| `version.json` | Versión del DS |
+|---|---|
+| `AGENTS.md` | reglas obligatorias para agentes |
+| `packages/ui/README.md` | consumo y extension React |
+| `docs/react-migration.md` | estrategia de migracion |
+| `LEEME-FUENTE-DS.md` | mapa corto de precedencia |
+| `yiqi-design.md` / `execution.md` | referencia visual e historica durante la migracion |
+| `version.json` | version legacy legible por maquina |
 
-### Consumible — lo que usan los proyectos (no editar)
-| Artefacto | Uso |
-|-----------|-----|
-| `https://diguardia.github.io/yiqi-imagen/styles.css` | Hoja de estilos vía CDN (consumir, no copiar) |
-| `api-docs.html` | Documentación de API (referencia) |
-| `Fuentes/*.svg` (logos/íconos vigentes) | Activos de marca |
+## Catalogos
 
-### Interno — herramientas y soporte
-| Artefacto | Por qué es interno |
-|-----------|--------------------|
-| `scripts/` | Automatizaciones (guard de tests) |
-| `fixtures/` | Datos de ejemplo para desarrollo/test |
-| `Agent/` | Instrucciones para agentes, no para consumidores |
+- `apps/docs`: catalogo ejecutable React.
+- `yiqi-design-system.html` y `examples/showcase.html`: catalogo/showcase legacy interno.
 
-## Reglas de frontera
+Un catalogo demuestra el contrato; no autoriza a copiar una implementacion paralela.
 
-- El DS se **edita en este repo**; es la casa única. `www.yiqi` ya no tiene copias del DS.
-- Los proyectos consumen `styles.css` por **CDN**; no copian ni forkean los tokens.
-- `styles.css` se publica al CDN desde la raíz de este repo: no mover ese archivo (rompería la URL publicada).
+## Frontera con otros repositorios
 
-## Estado de `www.yiqi`
-- El DS se **quitó** de `www.yiqi` el 2026-06-11 (catálogo, `ds-styles.css`, doc, FAB).
-  `content/design-system/_FUENTE-CANONICA.md` quedó como breadcrumb apuntando a `yiqi-imagen`.
+`diguardia/www.yiqi` no es fuente del Design System. Si necesita UI compartida, debe consumir la superficie apropiada desde este repositorio.

@@ -1,69 +1,33 @@
-# Login template
+# Resumen interno: login
 
-title: YiQi login template
-tags: login, template, nextjs, auth-ui
-description: Internal summary for the reusable Next.js login template.
+Leer este resumen cuando una tarea toque login visual React o `template/login/`.
 
-Read this when:
-- A task changes `template/login/`.
-- A project needs the standard YiQi login screen.
+## Fuente actual
 
-Do not read this when:
-- The task is about backend authentication contracts only.
-- The task is unrelated to login UI templates.
+El login React canonico es `YiQiLogin` desde `@yiqi/ui/authentication`.
 
-## Current behavior
+`template/login/yiqi-login-template.tsx` es un adaptador de compatibilidad deprecado. No contiene una implementacion propia y no debe volver a incorporar formulario, storage, loading, validaciones, iconos o estilos paralelos.
 
-`template/login/` provides a copy/paste Next.js client login screen with an
-animated inline YiQi logo, status slot without reflow, username/password fields,
-show password button, remember-user checkbox, submit state, forgot-password
-message, and footer link. The component uses canonical DS classes from
-`styles.css` and a small adapter CSS file for behavior-only rules.
+## Regla para agentes
 
-The template is intentionally UI-only. The consuming project must wire
-`onSubmit` to its own backend or internal Next.js auth route.
+- App React nueva: importar `YiQiLogin`.
+- Adaptar mediante props y `onSubmit`.
+- Si falta una capacidad reusable, extender `YiQiLogin` en `packages/ui`.
+- No copiar el template a una app React.
+- No reconstruir el login desde preview, screenshot, Markdown o HTML legacy.
 
-Agents should copy/paste this template as the legitimate starting point for a
-Next.js YiQi login, then adapt copy, route behavior, and auth wiring. Do not
-rebuild the same layout from scratch unless the project documents a divergence.
+## Contratos relevantes
 
-## Main files
+- Remember-user puede persistir solo el username.
+- Password, tokens y secretos no se guardan en `localStorage`.
+- Label y placeholder no deben repetir exactamente el mismo copy.
+- El flujo funcional de autenticacion se documenta en `docs/yiqi-login.md`.
 
-- `template/login/yiqi-login-template.tsx`
-- `template/login/yiqi-login-template.css`
-- `template/login/yiqi-logo-animated.tsx`
-- `template/login/README.md`
-- `template/login/preview.html`
-- `template/login/assets/login-template-preview.png`
-- `template/login/assets/login-template-preview-mobile.png`
+## Verificacion
 
-## Contracts and assumptions
+- `npm run test:ui-redundancy`
+- `npm test`
+- `npm run build`
+- `npm run test:e2e`
 
-- Do not store passwords, tokens, refresh tokens, API keys, or credentials.
-- Remember-user stores only the username under a configurable storage key.
-- Project-specific copy must be passed through props such as `appName` and
-  `description`.
-- The template must not mention a business module such as pedidos unless the
-  consuming project passes that copy.
-- Visual constants use canonical classes from `styles.css`; the TSX and preview
-  contain no embedded or static inline styles.
-
-## Risks and regressions
-
-- Visual drift from the source login screen.
-- Accidental coupling to a specific app auth provider or route.
-- Duplicating DS visual styles in the template instead of consuming canonical
-  `styles.css`.
-- CSS dependency on Tailwind or shadcn. The template should stay framework-light.
-
-## Verification
-
-- Run repo tests.
-- Run `npm run test:consumer-css -- template/login`.
-- Run visual QA from `template/login/preview.html` in light theme for desktop
-  and a narrow viewport.
-- Search for credentials or project-specific copy before publishing.
-
-## Last reviewed
-
-2026-07-28
+Ultima revision: 2026-08-11.
