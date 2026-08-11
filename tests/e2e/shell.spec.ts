@@ -8,7 +8,9 @@ test.describe('YiQiAppShell', () => {
     await expect(page.locator('.yiqi-sidebar')).toBeVisible()
     await expect(page.getByRole('navigation', { name: 'Navegación principal' }).first()).toBeVisible()
     await expect(page.getByText('Nombre y Apellido', { exact: true })).toBeVisible()
-    await expect(page.getByRole('button', { name: 'Cerrar sesión', exact: true })).toBeVisible()
+    const logout = page.getByRole('button', { name: 'Cerrar sesión', exact: true })
+    await expect(logout).toBeVisible()
+    await expect(logout).toHaveAttribute('type', 'button')
     await expect(page.getByRole('button', { name: 'Abrir menú' })).toBeHidden()
 
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)
@@ -36,5 +38,18 @@ test.describe('YiQiAppShell', () => {
 
     await dialog.getByRole('button', { name: 'Cerrar menú' }).click()
     await expect(dialog).toBeHidden()
+  })
+
+  test('mobile cierra el drawer al elegir una ruta de navegacion', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto('/shell')
+
+    await page.getByRole('button', { name: 'Abrir menú' }).click()
+    const dialog = page.getByRole('dialog')
+    await expect(dialog).toBeVisible()
+
+    await dialog.getByRole('link', { name: 'Análisis', exact: true }).click()
+    await expect(dialog).toBeHidden()
+    await expect(page).toHaveURL(/#analisis$/)
   })
 })
