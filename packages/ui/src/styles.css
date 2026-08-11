@@ -144,8 +144,8 @@
 .yiqi-runtime-copy { display: grid; gap: 4px; }
 .yiqi-runtime-title { margin: 0; font-size: 13px; font-weight: 700; }
 .yiqi-runtime-description { margin: 0; color: var(--yiqi-muted); font-size: 12px; line-height: 1.45; }
-.yiqi-runtime-banner[data-tone="warning"] { box-shadow: inset 3px 0 0 var(--yiqi-amber), var(--yiqi-shadow-sm); }
-.yiqi-runtime-banner[data-tone="danger"] { box-shadow: inset 3px 0 0 var(--yiqi-red), var(--yiqi-shadow-sm); }
+.yiqi-runtime-banner[data-tone="warning"] { background: color-mix(in srgb, var(--yiqi-amber) 8%, var(--yiqi-bg-elev)); }
+.yiqi-runtime-banner[data-tone="danger"] { background: color-mix(in srgb, var(--yiqi-red) 8%, var(--yiqi-bg-elev)); }
 
 .yiqi-trust-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
 .yiqi-trust-stat { padding: 16px; border-radius: var(--yiqi-radius); background: var(--yiqi-bg-elev); box-shadow: var(--yiqi-shadow-sm); }
