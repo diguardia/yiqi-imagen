@@ -15,9 +15,12 @@
     "typecheck": "npm run typecheck --workspaces --if-present",
     "test:detail-navigation": "node scripts/check-detail-navigation.js",
     "test:consumer-css": "node scripts/check-consumer-css.js",
-    "test": "node scripts/check-detail-navigation.js && node scripts/check-consumer-css.js && npm run typecheck"
+    "test:consumer-css:react": "node scripts/check-consumer-css.js apps/docs/app packages/ui/src",
+    "test:e2e": "playwright test",
+    "test": "node scripts/check-detail-navigation.js && node scripts/check-consumer-css.js && npm run test:consumer-css:react && npm run typecheck"
   },
   "devDependencies": {
+    "@playwright/test": "1.62.0",
     "@types/node": "^24.13.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
