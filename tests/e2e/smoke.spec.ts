@@ -1,14 +1,18 @@
 import { expect, test } from '@playwright/test'
 
-const routes = ['/', '/components/', '/login/', '/shell/'] as const
+const routes = ['/', '/components/', '/login/', '/shell/', '/compat-login/'] as const
 
 for (const route of routes) {
   test(`${route} loads without runtime or same-origin request failures`, async ({ page }) => {
     const pageErrors: string[] = []
+    const consoleErrors: string[] = []
     const requestFailures: string[] = []
     const badResponses: string[] = []
 
     page.on('pageerror', (error) => pageErrors.push(error.message))
+    page.on('console', (message) => {
+      if (message.type() === 'error') consoleErrors.push(message.text())
+    })
     page.on('requestfailed', (request) => {
       const url = new URL(request.url())
       const intentionalHeadAbort = request.method() === 'HEAD' && request.failure()?.errorText === 'net::ERR_ABORTED'
@@ -27,6 +31,7 @@ for (const route of routes) {
     expect(response?.status()).toBeLessThan(400)
     await expect(page.locator('body')).toBeVisible()
     expect(pageErrors).toEqual([])
+    expect(consoleErrors).toEqual([])
     expect(requestFailures).toEqual([])
     expect(badResponses).toEqual([])
   })
