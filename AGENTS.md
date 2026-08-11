@@ -42,6 +42,18 @@ Ejemplo incorrecto:
 
 Si falta una variante reutilizable, primero se extiende `@yiqi/ui`. La app consumidora no debe resolver un hueco compartido con una copia privada.
 
+## Bootstrap obligatorio de tema en React con SSR
+
+En Next.js u otro runtime con render del lado servidor, importar `YiQiThemeScript` junto con `YiQiProvider`.
+
+```tsx
+import { YiQiProvider, YiQiThemeScript } from '@yiqi/ui/foundation'
+```
+
+`YiQiThemeScript` va en el `<head>` y el Provider envuelve la aplicacion. No copiar ni recrear la lectura de `yiqi-theme` en cada proyecto.
+
+Esto evita que una preferencia guardada se aplique recien despues de hidratar React.
+
 ## Grupos publicos
 
 - `@yiqi/ui/foundation`
@@ -65,9 +77,21 @@ El entrypoint raiz sigue disponible por compatibilidad, pero el codigo nuevo deb
 
 Ejecutar `npm run test:ui-redundancy` antes de cerrar cambios de UI.
 
+## Regla contra regresiones de paridad
+
+Que exista un componente React no significa que todas las variantes legacy ya tengan paridad.
+
+Antes de migrar una pantalla legacy:
+
+1. revisar `template/INDEX.md`;
+2. identificar las capacidades que realmente usa la pantalla;
+3. si falta una capacidad en React, extender primero `@yiqi/ui`;
+4. agregar una prueba de regresion funcional;
+5. no omitir la capacidad y no recrearla localmente.
+
 ## Legacy
 
-Los templates HTML y `styles.css` siguen siendo validos para consumidores legacy o no React. No se eliminan hasta confirmar que no tienen consumidores.
+Los templates HTML y `styles.css` siguen siendo validos para consumidores legacy o no React. No se eliminan hasta confirmar que no tienen consumidores y que la paridad necesaria esta cubierta.
 
 Para React, un template legacy nunca tiene prioridad sobre `@yiqi/ui`.
 
@@ -90,7 +114,7 @@ Antes de cerrar un cambio:
 ```bash
 npm test
 npm run build
-npm run test:e2e
+npm run test:regresion:e2e
 ```
 
-El CI agrega audit de dependencias, guards de CSS/clases y checkpoints visuales.
+El criterio bloqueante es regresion funcional, contratos y compilacion. QA visual o pixel-diff pueden usarse como apoyo, pero no son requisito de aprobacion.
