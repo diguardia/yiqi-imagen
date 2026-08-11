@@ -34,7 +34,7 @@ export function YiQiLogin({
   submitLabel = 'Iniciar sesión',
   rememberLabel = 'Recordar usuario',
   forgotPasswordLabel = '¿Olvidaste tu contraseña?',
-  forgotPasswordMessage = 'Para restablecer tu clave, contactá a tu administrador YiQi.',
+  forgotPasswordMessage = 'Para restablecer tu clave, contacta a tu administrador YiQi.',
   footerHref = 'https://www.yiqi.com.ar',
   footerLabel = 'www.yiqi.com.ar',
   rememberStorageKey = 'yiqi-last-user',
@@ -72,7 +72,7 @@ export function YiQiLogin({
 
     const cleanUsername = username.trim()
     if (!cleanUsername || !password) {
-      setError('Ingresá usuario y contraseña para iniciar sesión.')
+      setError('Ingresa usuario y contraseña para iniciar sesión.')
       return
     }
 
@@ -84,7 +84,7 @@ export function YiQiLogin({
       const result = await onSubmit({ username: cleanUsername, password, remember })
       if (result?.error) setError(result.error)
     } catch {
-      setError('No pudimos iniciar sesión. Intentá nuevamente.')
+      setError('No pudimos iniciar sesión. Intenta nuevamente.')
     } finally {
       setLoading(false)
     }
