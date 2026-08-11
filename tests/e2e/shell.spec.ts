@@ -7,13 +7,15 @@ test.describe('YiQiAppShell', () => {
 
     await expect(page.locator('.yiqi-sidebar')).toBeVisible()
     await expect(page.getByRole('navigation', { name: 'Navegación principal' }).first()).toBeVisible()
+    await expect(page.getByText('Nombre y Apellido', { exact: true })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Cerrar sesión', exact: true })).toBeVisible()
     await expect(page.getByRole('button', { name: 'Abrir menú' })).toBeHidden()
 
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)
     expect(overflow).toBeLessThanOrEqual(1)
   })
 
-  test('mobile opens and closes the Radix navigation drawer', async ({ page }) => {
+  test('mobile conserva navegacion cuenta y acciones dentro del drawer', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 })
     await page.goto('/shell')
 
@@ -25,6 +27,8 @@ test.describe('YiQiAppShell', () => {
     const dialog = page.getByRole('dialog')
     await expect(dialog).toBeVisible()
     await expect(dialog.getByRole('link', { name: 'Resumen' })).toBeVisible()
+    await expect(dialog.getByText('Nombre y Apellido', { exact: true })).toBeVisible()
+    await expect(dialog.getByRole('button', { name: 'Cerrar sesión', exact: true })).toBeVisible()
     await expect(dialog.getByRole('button', { name: 'Cerrar menú' })).toBeVisible()
 
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)
