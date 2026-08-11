@@ -1,4 +1,7 @@
-import { YiQiAppShell, YiQiButton, YiQiKpiCard, YiQiRuntimeBanner } from '@yiqi/ui'
+import { YiQiAppShell } from '@yiqi/ui/layout'
+import { YiQiButton } from '@yiqi/ui/primitives'
+import { YiQiKpiCard } from '@yiqi/ui/data-display'
+import { YiQiRuntimeBanner } from '@yiqi/ui/feedback'
 
 const navigation = [
   { href: '/shell', label: 'Resumen', active: true },
