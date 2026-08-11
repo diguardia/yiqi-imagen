@@ -170,7 +170,7 @@ export function YiQiLogin({
                   onClick={() => setShowPassword((value) => !value)}
                   disabled={isLoading}
                 >
-                  {showPassword ? '×' : '◉'}
+                  {showPassword ? <EyeOffIcon /> : <EyeIcon />}
                 </button>
               }
             />
@@ -187,6 +187,26 @@ export function YiQiLogin({
         <a className="yiqi-login-footer" href={footerHref} target="_blank" rel="noreferrer">{footerLabel}</a>
       </section>
     </main>
+  )
+}
+
+function EyeIcon() {
+  return (
+    <svg className="yiqi-login-eye-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M2.1 12s3.2-6 9.9-6 9.9 6 9.9 6-3.2 6-9.9 6-9.9-6-9.9-6Z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  )
+}
+
+function EyeOffIcon() {
+  return (
+    <svg className="yiqi-login-eye-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M3 3l18 18" />
+      <path d="M10.7 5.2A10.3 10.3 0 0 1 12 5c6.7 0 9.9 7 9.9 7a17 17 0 0 1-3.2 4.1" />
+      <path d="M6.6 6.8A16.5 16.5 0 0 0 2.1 12s3.2 7 9.9 7c1.8 0 3.3-.5 4.6-1.2" />
+      <path d="M9.9 9.9a3 3 0 0 0 4.2 4.2" />
+    </svg>
   )
 }
 
