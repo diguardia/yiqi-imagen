@@ -29,7 +29,7 @@ const patterns = [
   },
   {
     name: "multiple id fallback with business field",
-    regex: /\b(?:id|detailId|entityId)\s*=\s*[^;\n]*(?:\?\?|\|\|)[^;\n]*\.(?:codigo|code|numero|number|nombre|name|slug)\b/i,
+    regex: /\b(?:id|detailId|entityId)\s*=\s*[^;\n]*(?:\?\?|\|\|)[^;\n]*(?:codigo|code|numero|number|nombre|name|slug)\b/i,
     hint: "No uses fallbacks multiples para ids; el contrato debe exponer item.id.",
   },
   {
@@ -39,7 +39,7 @@ const patterns = [
   },
   {
     name: "route built with business field",
-    regex: /\b(?:router\.push|navigate|href\s*=)\s*\(?[^;\n]*\.(?:codigo|code|numero|number|nombre|name|slug)\b/i,
+    regex: /\b(?:router\.push|navigate|href\s*=)\s*\(?[^;\n]*(?:codigo|code|numero|number|nombre|name|slug)\b/i,
     hint: "Las rutas de detalle deben construirse con item.id, no con campos de negocio.",
   },
 ]
@@ -57,7 +57,9 @@ function runSelfCheck() {
   const invalidCases = [
     'href="app.html?id=${c.ID}"',
     'router.push(`/items/${item.slug}`)',
+    'router.push(`/items/${slug}`)',
     'const detailId = item.id || item.codigo',
+    'const detailId = item.id || codigo',
   ]
 
   for (const source of canonicalCases) {
