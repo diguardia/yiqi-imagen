@@ -75,8 +75,8 @@ export function YiQiAppShell({ appName, navigation, children, account, actions }
                 </Dialog.Close>
                 <Navigation items={navigation} />
                 <div className="yiqi-dialog-tools">
-                  {isMobile && account ? <div className="yiqi-dialog-account">{account}</div> : null}
-                  {isMobile && actions ? <div className="yiqi-dialog-actions">{actions}</div> : null}
+                  {isMobile ? account : null}
+                  {isMobile ? actions : null}
                   <YiQiThemeCycle />
                 </div>
               </Dialog.Content>
