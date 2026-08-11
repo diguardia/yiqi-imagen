@@ -1359,6 +1359,24 @@ html[data-theme="light"] textarea:-webkit-autofill {
 
 @keyframes yiqi-login-spin { to { transform: rotate(360deg); } }
 
+/* El SVG que gira mientras el login espera respuesta. El @keyframes de arriba
+   entro con la consolidacion de yiqi-login-template.css y quedo sin sujeto:
+   la clase que lo usa la declaraba el componente React y ninguna hoja.
+   Los campos del login renderizaban sin estilo y el spinner no giraba.
+   Detectado por scripts/check-clases-ds.js. 11/08/2026. */
+.login-spinner {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  animation: yiqi-login-spin .9s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .login-spinner { animation-duration: 2.4s; }
+}
+
 
 /* Recuperar contrasena — segunda card del login, misma caja.
    Promovida desde Analytics Pro (v1.2.7.6). */
@@ -1873,6 +1891,7 @@ html[data-theme="light"] .skeleton-line {
 /* Altura estándar 40px. border-radius 14px en todos.         */
 
 .ds-input,
+.login-input,
 .ds-textarea,
 .ds-select {
   width: 100%;
@@ -1887,12 +1906,14 @@ html[data-theme="light"] .skeleton-line {
 }
 
 .ds-input,
+.login-input,
 .ds-select {
   height: 40px;
   padding: 0 14px;
 }
 
-.ds-input::placeholder { color: var(--muted-2); }
+.ds-input::placeholder,
+.login-input::placeholder { color: var(--muted-2); }
 
 /* El foco no cambia el fondo: el anillo ya lo dice. Dos senales para
    lo mismo se leen como dos estados distintos. (v1.2.7.6) */
@@ -1900,6 +1921,7 @@ html[data-theme="light"] .skeleton-line {
 /* Foco por teclado: anillo separado del campo. El offset es lo que lo hace
    leer como estado y no como borde del componente. (v1.2.7.6) */
 .ds-input:focus-visible,
+.login-input:focus-visible,
 .ds-select:focus-visible,
 .ds-textarea:focus-visible {
   outline: 2px solid var(--cyan-night);
@@ -1907,6 +1929,7 @@ html[data-theme="light"] .skeleton-line {
 }
 
 .ds-input.err,
+.login-input.err,
 .ds-textarea.err {
   background-color: var(--red-soft);
 }
