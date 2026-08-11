@@ -17,6 +17,10 @@ export type YiQiLoginResult = void | { ok?: boolean; error?: string }
 export interface YiQiLoginProps {
   appName?: string
   description?: string
+  usernameLabel?: string
+  passwordLabel?: string
+  usernamePlaceholder?: string
+  passwordPlaceholder?: string
   submitLabel?: string
   rememberLabel?: string
   forgotPasswordLabel?: string
@@ -24,13 +28,20 @@ export interface YiQiLoginProps {
   footerHref?: string
   footerLabel?: string
   rememberStorageKey?: string
+  initialUsername?: string
+  isLoading?: boolean
+  error?: string
   onSubmit: (input: YiQiLoginInput) => Promise<YiQiLoginResult> | YiQiLoginResult
   onForgotPassword?: () => void
 }
 
 export function YiQiLogin({
   appName = 'YiQi',
-  description = 'Ingresa con tu usuario YiQi para abrir la aplicación.',
+  description = 'Ingresa con tu usuario para abrir la aplicación.',
+  usernameLabel = 'Usuario o correo electrónico',
+  passwordLabel = 'Contraseña',
+  usernamePlaceholder = 'usuario@empresa.com',
+  passwordPlaceholder,
   submitLabel = 'Iniciar sesión',
   rememberLabel = 'Recordar usuario',
   forgotPasswordLabel = '¿Olvidaste tu contraseña?',
@@ -38,18 +49,24 @@ export function YiQiLogin({
   footerHref = 'https://www.yiqi.com.ar',
   footerLabel = 'www.yiqi.com.ar',
   rememberStorageKey = 'yiqi-last-user',
+  initialUsername = '',
+  isLoading: controlledLoading = false,
+  error: externalError = '',
   onSubmit,
   onForgotPassword,
 }: YiQiLoginProps) {
   const usernameId = useId()
   const passwordId = useId()
-  const [username, setUsername] = useState('')
+  const [username, setUsername] = useState(initialUsername)
   const [password, setPassword] = useState('')
   const [remember, setRemember] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
-  const [error, setError] = useState('')
+  const [localError, setLocalError] = useState('')
   const [info, setInfo] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const isLoading = controlledLoading || isSubmitting
+  const visibleError = externalError || localError
 
   useEffect(() => {
     const saved = window.localStorage.getItem(rememberStorageKey)
@@ -59,39 +76,39 @@ export function YiQiLogin({
   }, [rememberStorageKey])
 
   const status = useMemo(() => {
-    if (loading) return { state: 'loading', message: 'Iniciando sesión…' }
-    if (error) return { state: 'error', message: error }
+    if (isLoading) return { state: 'loading', message: 'Iniciando sesión…' }
+    if (visibleError) return { state: 'error', message: visibleError }
     if (info) return { state: 'info', message: info }
     return { state: 'idle', message: ' ' }
-  }, [error, info, loading])
+  }, [info, isLoading, visibleError])
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    setError('')
+    setLocalError('')
     setInfo('')
 
     const cleanUsername = username.trim()
     if (!cleanUsername || !password) {
-      setError('Ingresa usuario y contraseña para iniciar sesión.')
+      setLocalError('Ingresa usuario y contraseña para iniciar sesión.')
       return
     }
 
     if (remember) window.localStorage.setItem(rememberStorageKey, cleanUsername)
     else window.localStorage.removeItem(rememberStorageKey)
 
-    setLoading(true)
+    setIsSubmitting(true)
     try {
       const result = await onSubmit({ username: cleanUsername, password, remember })
-      if (result?.error) setError(result.error)
+      if (result?.error) setLocalError(result.error)
     } catch {
-      setError('No pudimos iniciar sesión. Intenta nuevamente.')
+      setLocalError('No pudimos iniciar sesión. Intenta nuevamente.')
     } finally {
-      setLoading(false)
+      setIsSubmitting(false)
     }
   }
 
   const forgotPassword = () => {
-    setError('')
+    setLocalError('')
     if (onForgotPassword) onForgotPassword()
     else setInfo(forgotPasswordMessage)
   }
@@ -112,24 +129,24 @@ export function YiQiLogin({
           <div className="yiqi-login-form">
             <YiQiInput
               id={usernameId}
-              label="Usuario o correo electrónico"
+              label={usernameLabel}
               name="username"
               autoComplete="username"
-              placeholder="usuario@empresa.com"
+              placeholder={usernamePlaceholder}
               value={username}
               onChange={(event) => setUsername(event.target.value)}
-              disabled={loading}
+              disabled={isLoading}
             />
             <YiQiInput
               id={passwordId}
-              label="Contraseña"
+              label={passwordLabel}
               name="password"
               autoComplete="current-password"
-              placeholder="Contraseña"
+              placeholder={passwordPlaceholder}
               type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={(event) => setPassword(event.target.value)}
-              disabled={loading}
+              disabled={isLoading}
               action={
                 <button
                   className="yiqi-icon-button"
@@ -137,7 +154,7 @@ export function YiQiLogin({
                   aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
                   aria-pressed={showPassword}
                   onClick={() => setShowPassword((value) => !value)}
-                  disabled={loading}
+                  disabled={isLoading}
                 >
                   {showPassword ? '×' : '◉'}
                 </button>
@@ -145,9 +162,9 @@ export function YiQiLogin({
             />
           </div>
 
-          <YiQiCheckbox label={rememberLabel} checked={remember} onCheckedChange={setRemember} disabled={loading} />
-          <YiQiButton type="submit" variant="primary" disabled={loading}>{submitLabel}</YiQiButton>
-          <button className="yiqi-login-hint" type="button" onClick={forgotPassword}>{forgotPasswordLabel}</button>
+          <YiQiCheckbox label={rememberLabel} checked={remember} onCheckedChange={setRemember} disabled={isLoading} />
+          <YiQiButton type="submit" variant="primary" disabled={isLoading}>{submitLabel}</YiQiButton>
+          <button className="yiqi-login-hint" type="button" onClick={forgotPassword} disabled={isLoading}>{forgotPasswordLabel}</button>
         </form>
 
         <a className="yiqi-login-footer" href={footerHref} target="_blank" rel="noreferrer">{footerLabel}</a>

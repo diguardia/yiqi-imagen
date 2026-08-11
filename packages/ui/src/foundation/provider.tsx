@@ -1,11 +1,15 @@
 'use client'
 
 import { Tooltip } from 'radix-ui'
-import { useEffect, useState, type ReactNode } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 
 export type YiQiTheme = 'dark' | 'system' | 'light'
 
 const STORAGE_KEY = 'yiqi-theme'
+
+function isYiQiTheme(value: string | null): value is YiQiTheme {
+  return value === 'dark' || value === 'system' || value === 'light'
+}
 
 function resolveTheme(theme: YiQiTheme): 'dark' | 'light' {
   if (theme !== 'system') return theme
@@ -13,10 +17,23 @@ function resolveTheme(theme: YiQiTheme): 'dark' | 'light' {
   return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
 }
 
+function readStoredTheme(fallback: YiQiTheme): YiQiTheme {
+  if (typeof window === 'undefined') return fallback
+  const stored = window.localStorage.getItem(STORAGE_KEY)
+  return isYiQiTheme(stored) ? stored : fallback
+}
+
 export function applyYiQiTheme(theme: YiQiTheme) {
   if (typeof document === 'undefined') return
   document.documentElement.dataset.theme = resolveTheme(theme)
 }
+
+interface YiQiThemeContextValue {
+  theme: YiQiTheme
+  setTheme: (theme: YiQiTheme) => void
+}
+
+const YiQiThemeContext = createContext<YiQiThemeContextValue | null>(null)
 
 export interface YiQiProviderProps {
   children: ReactNode
@@ -24,36 +41,39 @@ export interface YiQiProviderProps {
 }
 
 export function YiQiProvider({ children, defaultTheme = 'system' }: YiQiProviderProps) {
-  useEffect(() => {
-    const stored = window.localStorage.getItem(STORAGE_KEY) as YiQiTheme | null
-    const theme = stored === 'dark' || stored === 'light' || stored === 'system' ? stored : defaultTheme
-    applyYiQiTheme(theme)
-
-    const media = window.matchMedia('(prefers-color-scheme: light)')
-    const sync = () => {
-      const current = (window.localStorage.getItem(STORAGE_KEY) as YiQiTheme | null) ?? defaultTheme
-      if (current === 'system') applyYiQiTheme('system')
-    }
-    media.addEventListener('change', sync)
-    return () => media.removeEventListener('change', sync)
-  }, [defaultTheme])
-
-  return <Tooltip.Provider delayDuration={350}>{children}</Tooltip.Provider>
-}
-
-export function useYiQiTheme(defaultTheme: YiQiTheme = 'system') {
   const [theme, setThemeState] = useState<YiQiTheme>(defaultTheme)
 
   useEffect(() => {
-    const stored = window.localStorage.getItem(STORAGE_KEY) as YiQiTheme | null
-    if (stored === 'dark' || stored === 'light' || stored === 'system') setThemeState(stored)
-  }, [])
+    const initialTheme = readStoredTheme(defaultTheme)
+    setThemeState(initialTheme)
+    applyYiQiTheme(initialTheme)
+  }, [defaultTheme])
 
-  const setTheme = (next: YiQiTheme) => {
+  useEffect(() => {
+    if (theme !== 'system') return
+    const media = window.matchMedia('(prefers-color-scheme: light)')
+    const sync = () => applyYiQiTheme('system')
+    media.addEventListener('change', sync)
+    return () => media.removeEventListener('change', sync)
+  }, [theme])
+
+  const setTheme = useCallback((next: YiQiTheme) => {
     window.localStorage.setItem(STORAGE_KEY, next)
     setThemeState(next)
     applyYiQiTheme(next)
-  }
+  }, [])
 
-  return { theme, setTheme }
+  const contextValue = useMemo(() => ({ theme, setTheme }), [setTheme, theme])
+
+  return (
+    <YiQiThemeContext.Provider value={contextValue}>
+      <Tooltip.Provider delayDuration={350}>{children}</Tooltip.Provider>
+    </YiQiThemeContext.Provider>
+  )
+}
+
+export function useYiQiTheme() {
+  const context = useContext(YiQiThemeContext)
+  if (!context) throw new Error('useYiQiTheme debe usarse dentro de YiQiProvider')
+  return context
 }

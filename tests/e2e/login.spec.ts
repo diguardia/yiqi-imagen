@@ -5,11 +5,20 @@ test.describe('YiQiLogin', () => {
     await page.goto('/login/')
   })
 
-  test('renders the canonical fields without horizontal overflow', async ({ page }) => {
+  test('renders the canonical fields without duplicated field copy or horizontal overflow', async ({ page }) => {
     await expect(page.getByLabel('Usuario o correo electrónico', { exact: true })).toBeVisible()
     await expect(page.getByLabel('Contraseña', { exact: true })).toBeVisible()
     await expect(page.getByRole('button', { name: 'Mostrar contraseña', exact: true })).toBeVisible()
     await expect(page.getByRole('button', { name: 'Iniciar sesión', exact: true })).toBeVisible()
+
+    const duplicatedFieldCopy = await page.locator('input[id]').evaluateAll((inputs) => inputs.flatMap((input) => {
+      const label = document.querySelector(`label[for="${input.id}"]`)?.textContent?.trim()
+      const placeholder = input.getAttribute('placeholder')?.trim()
+      return label && placeholder && label.toLocaleLowerCase('es') === placeholder.toLocaleLowerCase('es')
+        ? [{ label, placeholder }]
+        : []
+    }))
+    expect(duplicatedFieldCopy).toEqual([])
 
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)
     expect(overflow).toBeLessThanOrEqual(1)

@@ -19,8 +19,9 @@
     "test:clases-ds": "node scripts/check-clases-ds.js",
     "test:clases-ds:react": "node scripts/check-clases-ds.js packages/ui --solo-errores",
     "test:clases-ds:legacy": "node scripts/check-clases-ds.js . --solo-errores --sin-fallo",
+    "test:ui-redundancy": "node scripts/check-ui-redundancy.js",
     "test:e2e": "playwright test",
-    "test": "node scripts/check-detail-navigation.js && node scripts/check-consumer-css.js && npm run test:consumer-css:react && npm run test:clases-ds:react && npm run typecheck"
+    "test": "node scripts/check-detail-navigation.js && node scripts/check-consumer-css.js && npm run test:consumer-css:react && npm run test:clases-ds:react && npm run test:ui-redundancy && npm run typecheck"
   },
   "devDependencies": {
     "@playwright/test": "1.62.0",
