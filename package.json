@@ -21,6 +21,7 @@
     "test:clases-ds:legacy": "node scripts/check-clases-ds.js . --solo-errores --sin-fallo",
     "test:ui-redundancy": "node scripts/check-ui-redundancy.js",
     "test:e2e": "playwright test",
+    "test:regresion:e2e": "playwright test tests/e2e/login.spec.ts tests/e2e/shell.spec.ts tests/e2e/smoke.spec.ts tests/e2e/regression.spec.ts",
     "test": "node scripts/check-detail-navigation.js && node scripts/check-consumer-css.js && npm run test:consumer-css:react && npm run test:clases-ds:react && npm run test:ui-redundancy && npm run typecheck"
   },
   "devDependencies": {
