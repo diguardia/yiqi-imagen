@@ -23,9 +23,10 @@ function inspect(source, file) {
       errors.push(`${file}:${index + 1} usa un selector universal global; debe quedar aislado a clases YiQi.`)
     }
 
-    const customProperty = line.match(/^\s*(--[A-Za-z0-9_-]+)\s*:/)
-    if (customProperty && !customProperty[1].startsWith('--yiqi-')) {
-      errors.push(`${file}:${index + 1} publica la variable global generica ${customProperty[1]}; usar namespace --yiqi-.`)
+    for (const customProperty of line.matchAll(/(--[A-Za-z0-9_-]+)\s*:/g)) {
+      if (!customProperty[1].startsWith('--yiqi-')) {
+        errors.push(`${file}:${index + 1} publica la variable global generica ${customProperty[1]}; usar namespace --yiqi-.`)
+      }
     }
   })
 
