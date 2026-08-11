@@ -1,27 +1,30 @@
 # template/INDEX.md
 
-title: Template catalog index
-tags: templates, login, nextjs, design-system
-description: Routes users and agents to approved reusable templates.
+Catalogo de compatibilidad para templates YiQi.
 
-Read this when:
-- You need a copy/paste template for a YiQi project.
-- You want to avoid redesigning a common screen or flow from scratch.
+## Regla de precedencia
 
-Do not read this when:
-- You are only consuming `styles.css` from the CDN.
-- The task is unrelated to UI templates.
+Para React/Next.js, buscar primero el equivalente en `@yiqi/ui`. Si existe, importarlo y no copiar el template.
 
-## Templates
+Los templates de esta carpeta quedan para:
 
-| Template | Files | Read when |
-|----------|-------|-----------|
-| `shared/consume-styles.md` | Style consumption rule | Any template is copied into another project. |
-| `login/` | Next.js and HTML login templates | A Next.js project needs a reusable YiQi login page. |
-| `app-shell/` | HTML app shell template | A YiQi app needs sidebar, topbar, and content layout. |
-| `kpi-card/` | HTML KPI cards | A project needs KPI cards with canonical DS classes. |
-| `runtime-banner/` | HTML runtime banners | A project needs mock/error/unavailable state banners. |
-| `trust/` | HTML trust stat variants | A project needs trust metrics in inline, card, or grid form. |
-| `analytics-pro-banner/` | HTML host for web component | A page needs the canonical Analytics Pro promo banner. |
-| `email/` | HTML email base (Mailchimp) | Se arma un mail de campaña o transaccional. Estilos inline (excepción: no consume styles.css). |
-| `security/` | API route, Docker and CI defaults | A server-backed application is created or gains a new runtime/deployment pipeline. |
+- HTML o runtimes no React;
+- consumidores legacy;
+- migraciones temporales;
+- casos sin componente equivalente en `@yiqi/ui`.
+
+## Inventario
+
+| Template | Estado React | Reemplazo preferido |
+|---|---|---|
+| `login/` | Deprecado como implementacion React | `@yiqi/ui/authentication` -> `YiQiLogin` |
+| `app-shell/` | Legacy | `@yiqi/ui/layout` -> `YiQiAppShell` |
+| `kpi-card/` | Legacy | `@yiqi/ui/data-display` -> `YiQiKpiCard` |
+| `runtime-banner/` | Legacy | `@yiqi/ui/feedback` -> `YiQiRuntimeBanner` |
+| `trust/` | Legacy | `@yiqi/ui/data-display` -> `YiQiTrustStat` |
+| `analytics-pro-banner/` | Sin migrar | Mantener template actual hasta migracion |
+| `email/` | Vigente | HTML email; no aplica React DS |
+| `security/` | Vigente | Infraestructura, no componente visual |
+| `shared/consume-styles.md` | Legacy | Reglas para consumidor HTML |
+
+Un template que ya tiene reemplazo React no puede volver a crecer con logica propia. Debe delegar en el componente canonico o permanecer solo como referencia legacy.

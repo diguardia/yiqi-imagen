@@ -1,98 +1,96 @@
-# Migración del Design System a React
+# Migracion del Design System a React
 
 ## Objetivo
 
-YiQi Imagen deja de depender de que cada desarrollador o agente interprete HTML, CSS y Markdown para reconstruir componentes. La nueva dirección es un paquete ejecutable `@yiqi/ui`, consumido por aplicaciones React/Next.js.
+Eliminar la necesidad de reinterpretar HTML, CSS y Markdown en cada proyecto. Para React/Next.js, el contrato pasa a ser un paquete ejecutable: `@yiqi/ui`.
 
-La migración es incremental para no romper consumidores existentes. `styles.css`, los templates HTML y el catálogo estático siguen disponibles durante la transición, pero dejan de ser la primera opción para nuevas aplicaciones.
+La migracion es incremental para no romper consumidores legacy.
 
 ## Arquitectura
 
 ```text
 yiqi-imagen/
-├── packages/
-│   └── ui/                 # @yiqi/ui: contratos React + tokens
-├── apps/
-│   └── docs/               # catálogo ejecutable Next.js
-├── template/               # compatibilidad legacy durante migración
-├── styles.css              # compatibilidad legacy durante migración
-└── AGENTS.md               # reglas cortas para agentes
+├── packages/ui/          # componentes, tipos, tokens y estilos React
+├── apps/docs/            # catalogo ejecutable
+├── template/             # compatibilidad legacy
+├── styles.css            # contrato CSS legacy
+└── AGENTS.md             # reglas obligatorias de consumo
 ```
 
-## Principio de precedencia
+## Precedencia
 
-Cuando dos fuentes difieren, manda este orden:
+1. `packages/ui/src/**` y tipos publicos.
+2. `packages/ui/README.md` y `apps/docs/**`.
+3. `styles.css` y templates legacy.
+4. Markdown historico.
 
-1. Código y tipos de `@yiqi/ui`.
-2. Ejemplos ejecutables de `apps/docs`.
-3. CSS y templates legacy.
-4. Markdown explicativo.
+Un `.md`, screenshot o HTML no puede redefinir un componente React ya publicado.
 
-Un documento `.md` no debe poder cambiar silenciosamente el contrato de un componente.
+## Regla de migracion
 
-## Uso de librerías existentes
+Una migracion de un componente se considera real cuando:
 
-No se rehacen comportamientos complejos que ya resuelve una librería madura. La primera base elegida es Radix Primitives mediante el paquete `radix-ui`.
+- existe una unica implementacion en `packages/ui/src`;
+- el consumidor importa el componente;
+- el template React equivalente fue eliminado, deprecado o convertido en adaptador;
+- no queda una copia local de JSX/CSS en la app;
+- el catalogo ejecutable usa el mismo entrypoint publico que una aplicacion;
+- tests y checkpoints visuales pasan.
 
-Radix se usa para comportamiento y accesibilidad, no para cambiar la identidad visual de YiQi. Los tokens y la representación visual siguen perteneciendo a `@yiqi/ui`.
+## Estado actual
 
-Casos recomendados para Radix:
+Migrados a contrato React:
 
-- Dialog / drawer
-- DropdownMenu
-- Tooltip
-- Checkbox
-- Select
-- Popover
-- Tabs
-- AlertDialog
+- Foundation: Provider, ThemeCycle y Logo.
+- Primitives: Button, Input y Checkbox.
+- Authentication: Login.
+- Layout: AppShell.
+- Data display: KpiCard y TrustStat.
+- Feedback: RuntimeBanner.
 
-## Contratos migrados en la primera etapa
+Los componentes estan agrupados fisicamente y tienen entrypoints publicos por responsabilidad.
 
-- `YiQiProvider`
-- `YiQiThemeCycle`
-- `YiQiLogo`
-- `YiQiButton`
-- `YiQiInput`
-- `YiQiCheckbox`
-- `YiQiLogin`
-- `YiQiAppShell`
-- `YiQiKpiCard`
-- `YiQiRuntimeBanner`
-- `YiQiTrustStat`
+## Redundancia
 
-## Qué queda legacy por ahora
+La migracion no debe crear una segunda fuente. Cuando aparece un componente React canonico, cualquier template React previo debe dejar de contener logica paralela.
 
-- El catálogo HTML grande y showcase existentes.
-- Web Components promocionales existentes.
-- Templates de email, porque el email HTML tiene restricciones propias.
-- Templates de seguridad/deploy, porque no son componentes visuales React.
+El login legacy React ya no debe mantener su propio formulario, estados, storage, iconos y validaciones: su funcion durante la transicion es delegar en `YiQiLogin`.
 
-Estos elementos no se borran en esta etapa para mantener compatibilidad y permitir revisión visual comparativa.
+`npm run test:ui-redundancy` falla ante componentes YiQi definidos mas de una vez dentro de la superficie React o inputs con el mismo texto literal en `label` y `placeholder`.
 
-## Regla para nuevas apps
+## Librerias externas
 
-Una aplicación nueva debe instalar/consumir `@yiqi/ui` y conectar sus props. No debe copiar HTML del catálogo, volver a escribir el login o traducir componentes YiQi a Tailwind.
+No rehacer primitives complejos que una libreria madura resuelve mejor. Radix se usa internamente cuando corresponde para accesibilidad y comportamiento.
 
-Tailwind puede seguir usándose para layout o necesidades propias de una aplicación, pero no reemplaza componentes que ya existen en `@yiqi/ui`.
+La API YiQi debe esconder ese detalle para que un cambio de primitive no obligue a modificar apps consumidoras.
 
-## Estrategia de migración restante
+## Legacy
 
-1. Validar visualmente Login y App Shell contra las referencias actuales.
-2. Migrar componentes interactivos restantes a React + Radix.
-3. Convertir el catálogo estático en páginas del catálogo Next.js.
-4. Agregar screenshots automatizados con Playwright.
-5. Publicar `@yiqi/ui` con versionado semántico.
-6. Migrar una app real como consumidor piloto.
-7. Deprecar y finalmente retirar templates HTML equivalentes cuando ya no tengan consumidores.
+Se conserva por ahora:
 
-## Gate de aceptación
+- catalogo HTML y showcase;
+- templates HTML;
+- Web Components promocionales;
+- email HTML;
+- templates de seguridad/deploy.
 
-Una migración se considera completa cuando:
+Se deprecan como fuente para React los templates que ya tienen equivalente en `@yiqi/ui`.
 
-- la app consume el componente desde `@yiqi/ui`;
-- no mantiene una copia visual local del mismo componente;
-- TypeScript compila;
-- Next.js build finaliza correctamente;
-- responsive se valida en desktop y mobile;
-- el baseline visual automatizado no presenta diferencias no aprobadas.
+## Proximos pasos
+
+1. Aprobar y congelar baselines visuales del Login y AppShell.
+2. Migrar los componentes interactivos restantes.
+3. Trasladar gradualmente el showcase util al catalogo Next.js.
+4. Usar una app real como consumidor piloto.
+5. Definir publicacion y versionado semantico de `@yiqi/ui`.
+6. Retirar legacy solo cuando no tenga consumidores.
+
+## Gate
+
+```bash
+npm test
+npm run build
+npm run test:e2e
+```
+
+La deuda legacy detectada se informa por separado para no confundir errores historicos con regresiones nuevas.

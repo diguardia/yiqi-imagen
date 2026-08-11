@@ -1,46 +1,38 @@
-# docs/ - Index
+# docs/ - indice
 
-title: Documentation index
-tags: documentation, design-system, api, testing, policies
-description: Routes humans and agents to the document that matches the task.
+Este indice evita que humanos y agentes carguen documentacion que no cambia la decision de una tarea.
 
-Read this when:
-- You need to choose the right document for a task.
-- You are an agent and need to avoid loading unnecessary context.
+## Guias principales
 
-Do not read this when:
-- You already know the exact document needed.
-- The task names a specific file to edit.
+| Documento | Leer cuando |
+|---|---|
+| `../packages/ui/README.md` | Consumir o extender componentes React |
+| `quickstart.md` | Integrar el DS rapidamente |
+| `react-migration.md` | Migrar legacy a `@yiqi/ui` |
+| `yiqi-login.md` | Implementar el flujo funcional de login |
+| `application-best-practices.md` | Arquitectura y convenciones de aplicacion |
+| `yiqi-api.md` | Integracion con API YiQi |
+| `azure-nextjs-app-service.md` | Diagnostico Azure + Next.js |
+| `copilot-global-guidelines.md` | Reglas generales para agentes de codigo |
+| `testing-jest.md` | Trabajo especifico con Jest |
 
-## Technical guides
+## Politicas y checklists
 
-| Document | Audience | Read when |
-|-----------|-----------|---------------|
-| `quickstart.md` | Dev | You only need to consume the DS from an app |
-| `application-best-practices.md` | Dev / AI | App architecture and code conventions |
-| `azure-nextjs-app-service.md` | Dev / DevOps | A Next.js app fails to start on Azure App Service |
-| `copilot-global-guidelines.md` | AI / Copilot | Global guidance for coding agents |
-| `testing-jest.md` | Dev | The target project uses Jest or needs Jest-specific guidance |
-| `yiqi-api.md` | Dev / AI | YiQi API integration, auth, ids, and contracts |
-| `yiqi-login.md` | Dev / AI | Login and session flow |
-| `../template/INDEX.md` | Dev / AI | Approved copy/paste templates |
+| Documento | Leer cuando |
+|---|---|
+| `convenciones-documentacion.md` | Encoding y estilo documental |
+| `seguridad-integraciones-api.md` | Seguridad de integraciones |
+| `seguridad-aplicaciones.md` | Controles de seguridad de aplicaciones |
+| `politica-errores.md` | Copy de errores y logging |
+| `politica-dependencias.md` | npm, versiones y audit |
+| `politica-fixtures.md` | Fixtures y datos de ejemplo |
+| `checklists-por-intencion.md` | Elegir checklist de cierre |
+| `pr-checklist.md` | Preparar un Pull Request |
 
-## Policies and checklists
+## Legacy
 
-| Document | Audience | Read when |
-|-----------|-----------|---------------|
-| `convenciones-documentacion.md` | All | Encoding, line endings, and documentation style |
-| `seguridad-integraciones-api.md` | Dev / AI | Operational security for YiQi API consumers |
-| `seguridad-aplicaciones.md` | Dev / AI / Security | Mandatory application-wide controls, evidence, exceptions, and release gates |
-| `politica-errores.md` | Dev / AI | User-facing errors vs technical logs |
-| `politica-dependencias.md` | Dev / Maintainer | npm, dependencies, and audit policy |
-| `politica-fixtures.md` | Dev / AI | Fixture usage and update policy |
-| `checklists-por-intencion.md` | Dev / AI | Choose the checklist for the change type |
-| `pr-checklist.md` | Dev | Base checklist before opening a PR |
-| `../Agent/tools/README.md` | AI | Reusable agent tools and mechanical repair procedures |
-| `../Agent/project-rules.md` | AI | Project-specific constraints for derived projects |
-| `../Agent/error-memory/errors/INDEX.md` | AI | Error memory routing for recurring failures |
+`../template/INDEX.md`, `../styles.css`, `../yiqi-design.md` y `../execution.md` siguen disponibles para compatibilidad y referencia. En React no sobreescriben un componente publicado por `@yiqi/ui`.
 
 ## Scripts
 
-See `../scripts/README.md` and `../scripts/INDEX.md`.
+Ver `../scripts/README.md`.

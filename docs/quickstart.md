@@ -1,62 +1,51 @@
 # Uso rapido del Design System YiQi
 
-Esta guia es para quien solo necesita consumir el Design System desde una app.
-No hace falta leer la documentacion completa del repositorio para este caso.
+## React / Next.js
 
-## 1. Incorporar estilos al proyecto
+La ruta preferida es consumir `@yiqi/ui`.
+
+```tsx
+import '@yiqi/ui/styles.css'
+import { YiQiProvider } from '@yiqi/ui/foundation'
+import { YiQiButton } from '@yiqi/ui/primitives'
+
+export default function Root({ children }) {
+  return <YiQiProvider>{children}</YiQiProvider>
+}
+```
+
+Para componentes y reglas de extension, ver `../packages/ui/README.md`.
+
+Regla: si un componente existe en el paquete, importarlo. No copiar su implementacion ni recrearla con HTML/Tailwind/CSS local.
+
+## HTML / legacy
+
+Si el proyecto no usa React, consumir la hoja publicada:
 
 ```html
 <link rel="stylesheet" href="https://diguardia.github.io/yiqi-imagen/styles.css">
-
-<!-- Evitar copiar el contenido localmente -->
 ```
 
-Regla de oro: el proyecto consumidor debe llamar esta hoja publicada desde el
-repo `yiqi-imagen`. No copies `styles.css`, tokens, temas ni clases visuales al
-proyecto consumidor. Si falta una regla visual reusable, agregala primero en
-este repo y luego consumila desde la URL publicada.
+No copiar el stylesheet completo al proyecto.
 
-## 2. Activar tema
+## CSS local
 
-```html
-<!-- El tema por defecto es "system" (sigue la preferencia del OS) -->
-<body data-theme="system">
+En consumidores React, el CSS visual compartido pertenece a `@yiqi/ui`. El CSS local se limita a necesidades propias de la aplicacion que no forman parte de un componente reusable.
 
-<!-- Forzar dark o light -->
-<body data-theme="dark">
-<body data-theme="light">
-```
-
-El toggle tiene 3 estados: `"dark"` -> `"system"` -> `"light"`.
-
-## 3. Fondos
-
-**Dashboards y apps**: solo radiales, sin grilla.
-
-```html
-<body data-theme="system">
-  <!-- El fondo radial se aplica automaticamente desde styles.css -->
-```
-
-**Marketing y landing**: usar la clase canónica publicada para la variante de
-fondo correspondiente. No recrear la grilla en una hoja local. Si la variante
-necesaria todavía no existe, debe agregarse primero a `styles.css`.
-
-## 4. CSS permitido en la app
-
-La app no debe contener CSS visual embebido (`<style>`, CSS-in-JS visual o
-`cssText`). El CSS local se limita a adaptadores pequeños de comportamiento o
-integración y vive en archivos `.css` separados.
-
-Los estilos inline se reservan para valores realmente calculados en runtime:
+Los estilos inline se reservan para valores calculados en runtime:
 
 ```tsx
 <div className="load-progress-fill" style={{ width: `${progress}%` }} />
 ```
 
-No usar inline para constantes visuales:
+Una constante visual debe resolverse con la API del componente o dentro del Design System, no mediante un override privado.
 
-```tsx
-{/* Incorrecto: debe ser una clase de styles.css */}
-<div style={{ display: 'grid', gap: 12 }} />
+## Antes de cerrar
+
+Para cambios de UI en este repo:
+
+```bash
+npm test
+npm run build
+npm run test:e2e
 ```

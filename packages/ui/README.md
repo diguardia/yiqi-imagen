@@ -2,7 +2,7 @@
 
 Paquete React del Design System YiQi.
 
-La regla de consumo es simple: si un componente existe aqui, las aplicaciones deben importarlo en lugar de reconstruirlo desde HTML, CSS, Tailwind o prompts.
+La regla de consumo es directa: si un componente existe aqui, la aplicacion lo importa. No copia su JSX, no reconstruye su CSS y no lo vuelve a implementar con otro nombre.
 
 ## Uso rapido
 
@@ -16,37 +16,59 @@ export default function Page() {
     <YiQiProvider>
       <YiQiLogin
         appName="Mi app"
-        onSubmit={async ({ username, password }) => {
-          // conectar con la ruta de autenticacion del proyecto
-        }}
+        onSubmit={async ({ username, password }) => authenticate(username, password)}
       />
     </YiQiProvider>
   )
 }
 ```
 
-## Grupos de componentes
+La app consumidora se limita a datos, copy, rutas, callbacks y children expuestos por la API publica.
 
-| Grupo | Import | Componentes actuales |
+## Grupos
+
+| Grupo | Import | Responsabilidad |
 |---|---|---|
-| Foundation | `@yiqi/ui/foundation` | `YiQiProvider`, `YiQiThemeCycle`, `YiQiLogo` |
-| Primitives | `@yiqi/ui/primitives` | `YiQiButton`, `YiQiInput`, `YiQiCheckbox` |
-| Authentication | `@yiqi/ui/authentication` | `YiQiLogin` |
-| Layout | `@yiqi/ui/layout` | `YiQiAppShell` |
-| Data display | `@yiqi/ui/data-display` | `YiQiKpiCard`, `YiQiTrustStat` |
-| Feedback | `@yiqi/ui/feedback` | `YiQiRuntimeBanner` |
+| Foundation | `@yiqi/ui/foundation` | Provider, tema y marca |
+| Primitives | `@yiqi/ui/primitives` | Button, Input y Checkbox |
+| Authentication | `@yiqi/ui/authentication` | Login y autenticacion visual |
+| Layout | `@yiqi/ui/layout` | App Shell y estructura |
+| Data display | `@yiqi/ui/data-display` | KPIs y metricas de lectura |
+| Feedback | `@yiqi/ui/feedback` | Banners y estados |
 
-El entrypoint raiz `@yiqi/ui` sigue exportando todo para compatibilidad y prototipos pequenos. En codigo de aplicacion se prefieren los entrypoints agrupados porque hacen explicita la responsabilidad del componente.
+El entrypoint raiz `@yiqi/ui` se conserva por compatibilidad. Codigo nuevo debe preferir el grupo correspondiente.
 
-## Regla de ubicacion
+## Contrato de extension
 
-Un componente tiene una sola categoria principal. Si una familia crece, se crea una carpeta propia dentro de esa categoria. No se duplica el mismo componente en varios grupos; el catalogo debe resolver el descubrimiento.
+Si una app necesita una capacidad reusable que el componente no expone:
 
-## Radix
+1. extender la API del componente en este paquete;
+2. cubrir la variante en el catalogo ejecutable;
+3. agregar o ajustar tests;
+4. consumir la nueva prop desde la app.
 
-El paquete usa Radix Primitives para comportamiento accesible cuando corresponde. Radix es una dependencia interna de la implementacion; una app consumidora no debe conocer que primitive utiliza cada componente YiQi.
+No resolver una necesidad compartida con un fork local del componente.
 
-Esto permite cambiar o actualizar la implementacion interna sin modificar el contrato publico de `@yiqi/ui`.
+## Regla de una sola implementacion
+
+- Un componente tiene un unico archivo de implementacion canonica.
+- Los `index.ts` solo reexportan.
+- Un componente pertenece a un solo grupo principal.
+- Los templates React legacy equivalentes deben delegar en este paquete o quedar deprecados.
+- No duplicar logica de tema, storage, loading, validacion o accesibilidad entre componentes.
+
+## Copy visible
+
+- Un concepto visible debe aparecer una sola vez salvo que la repeticion tenga una funcion distinta.
+- No repetir el mismo texto como `label` y `placeholder`.
+- El placeholder debe aportar formato o ejemplo; si no aporta informacion, se omite.
+- No repetir titulo y descripcion con el mismo mensaje.
+
+`npm run test:ui-redundancy` protege las duplicaciones mecanicamente detectables.
+
+## Primitives externas
+
+Radix puede usarse internamente para comportamiento accesible. Esa dependencia es un detalle interno: la app no debe acoplarse al primitive que usa YiQi.
 
 ## CSS
 
@@ -56,19 +78,14 @@ Importar una sola vez:
 import '@yiqi/ui/styles.css'
 ```
 
-Los tokens nuevos estan namespaced con `--yiqi-*`. Durante la transicion se mantienen aliases de compatibilidad para las variables historicas mas importantes.
-
-## Regla de extension
-
-Si una app necesita una variante recurrente, agregar la prop o el componente aqui primero. Evitar overrides privados que provoquen diferencias entre aplicaciones.
+No copiar `styles.css`, `tokens.css` ni reglas visuales del paquete a la aplicacion.
 
 ## Gate minimo
 
-Todo cambio en un componente debe pasar:
+```bash
+npm test
+npm run build
+npm run test:e2e
+```
 
-- guards legacy del repositorio
-- guard de CSS consumidor sobre `packages/ui/src` y `apps/docs/app`
-- TypeScript typecheck
-- build de `@yiqi/ui` y Next.js
-- pruebas E2E de los flujos afectados
-- captura visual automatica de las pantallas criticas
+El CI tambien ejecuta audit de dependencias y guarda checkpoints visuales.
