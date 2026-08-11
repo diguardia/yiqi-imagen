@@ -6,7 +6,7 @@ export interface YiQiButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>
   variant?: YiQiButtonVariant
 }
 
-export function YiQiButton({ variant = 'default', className = '', ...props }: YiQiButtonProps) {
+export function YiQiButton({ variant = 'default', className = '', type = 'button', ...props }: YiQiButtonProps) {
   const variantClass = variant === 'primary' ? 'yiqi-button--primary' : variant === 'ghost' ? 'yiqi-button--ghost' : ''
-  return <button className={`yiqi-button ${variantClass} ${className}`.trim()} {...props} />
+  return <button type={type} className={`yiqi-button ${variantClass} ${className}`.trim()} {...props} />
 }
