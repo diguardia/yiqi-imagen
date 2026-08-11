@@ -11,11 +11,13 @@ export interface YiQiKpiCardProps {
 
 export function YiQiKpiCard({ label, value, meta, tone = 'neutral' }: YiQiKpiCardProps) {
   const toneClass = tone === 'neutral' ? '' : `yiqi-tone--${tone}`
+  const hasMeta = meta !== undefined && meta !== null && meta !== false
+
   return (
     <article className="yiqi-kpi-card">
       <div className="yiqi-kpi-label">{label}</div>
       <div className={`yiqi-kpi-value ${toneClass}`.trim()}>{value}</div>
-      {meta ? <div className="yiqi-kpi-meta">{meta}</div> : null}
+      {hasMeta ? <div className="yiqi-kpi-meta">{meta}</div> : null}
     </article>
   )
 }
