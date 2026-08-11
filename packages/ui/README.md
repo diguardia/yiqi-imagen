@@ -6,21 +6,37 @@ La regla de consumo es directa: si un componente existe aqui, la aplicacion lo i
 
 ## Uso rapido
 
+Importar los estilos una sola vez y montar el Provider en el layout raiz.
+
+En aplicaciones con render del lado servidor, incluir tambien `YiQiThemeScript` en el `<head>`. Este script aplica `yiqi-theme` antes de hidratar React y evita arrancar con un tema distinto al guardado por el usuario.
+
 ```tsx
 import '@yiqi/ui/styles.css'
-import { YiQiProvider } from '@yiqi/ui/foundation'
-import { YiQiLogin } from '@yiqi/ui/authentication'
+import { YiQiProvider, YiQiThemeScript } from '@yiqi/ui/foundation'
 
-export default function Page() {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <YiQiProvider>
-      <YiQiLogin
-        appName="Mi app"
-        onSubmit={async ({ username, password }) => authenticate(username, password)}
-      />
-    </YiQiProvider>
+    <html lang="es" data-theme="dark" suppressHydrationWarning>
+      <head>
+        <YiQiThemeScript />
+      </head>
+      <body>
+        <YiQiProvider>{children}</YiQiProvider>
+      </body>
+    </html>
   )
 }
+```
+
+Luego consumir componentes desde su grupo publico:
+
+```tsx
+import { YiQiLogin } from '@yiqi/ui/authentication'
+
+<YiQiLogin
+  appName="Mi app"
+  onSubmit={async ({ username, password }) => authenticate(username, password)}
+/>
 ```
 
 La app consumidora se limita a datos, copy, rutas, callbacks y children expuestos por la API publica.
@@ -29,7 +45,7 @@ La app consumidora se limita a datos, copy, rutas, callbacks y children expuesto
 
 | Grupo | Import | Responsabilidad |
 |---|---|---|
-| Foundation | `@yiqi/ui/foundation` | Provider, tema y marca |
+| Foundation | `@yiqi/ui/foundation` | Provider, bootstrap de tema y marca |
 | Primitives | `@yiqi/ui/primitives` | Button, Input y Checkbox |
 | Authentication | `@yiqi/ui/authentication` | Login y autenticacion visual |
 | Layout | `@yiqi/ui/layout` | App Shell y estructura |
@@ -85,7 +101,7 @@ No copiar `styles.css`, `tokens.css` ni reglas visuales del paquete a la aplicac
 ```bash
 npm test
 npm run build
-npm run test:e2e
+npm run test:regresion:e2e
 ```
 
-El CI tambien ejecuta audit de dependencias y guarda checkpoints visuales.
+El criterio bloqueante es regresion funcional, contratos y compilacion. QA visual puede usarse como apoyo, pero no es requisito de aprobacion.
