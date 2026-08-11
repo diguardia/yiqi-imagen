@@ -34,10 +34,16 @@ test.describe('regresiones funcionales', () => {
     await expect(page.getByText('Ingresa con tu usuario YiQi para abrir la aplicacion.', { exact: false })).toBeVisible()
     await expect(page.getByLabel('Usuario o correo electronico', { exact: true })).toHaveAttribute('placeholder', 'usuario@empresa.com')
     await expect(page.getByLabel('Contrasena', { exact: true })).toHaveAttribute('placeholder', 'Contrasena')
-    await expect(page.getByRole('checkbox', { name: 'Mantener sesion iniciada', exact: true })).toBeVisible()
+    const remember = page.getByRole('checkbox', { name: 'Mantener sesion iniciada', exact: true })
+    await expect(remember).toBeVisible()
     await expect(page.getByRole('button', { name: 'Olvidaste tu clave?', exact: true })).toBeVisible()
     await expect(page.getByRole('button', { name: 'Mostrar contrasena', exact: true })).toBeVisible()
     await expect(page.locator('svg.yiqi-login-logo .yq-q')).toHaveCount(1)
+
+    await remember.click()
+    await expect(remember).toBeChecked()
+    const rememberValue = await page.locator('form').evaluate((form) => new FormData(form as HTMLFormElement).get('remember'))
+    expect(rememberValue).toBe('on')
 
     await page.getByRole('button', { name: 'Iniciar sesion', exact: true }).click()
     await expect(page.getByRole('status')).toHaveText('Ingresa usuario y clave para iniciar sesion.')
