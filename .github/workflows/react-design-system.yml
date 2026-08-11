@@ -30,32 +30,32 @@ jobs:
         with:
           node-version: 24
 
-      - name: Install workspace dependencies
+      - name: Instalar dependencias del workspace
         run: npm install --no-package-lock
 
-      - name: Audit production dependencies
+      - name: Auditar dependencias productivas
         run: npm audit --omit=dev --audit-level=high
 
-      - name: Blocking guards for new React surface
+      - name: Ejecutar guards bloqueantes
         run: npm test
 
-      - name: Inventory legacy DS contract debt
+      - name: Inventariar deuda legacy del contrato DS
         run: npm run test:clases-ds:legacy
 
-      - name: Build UI and Next.js catalog
+      - name: Compilar UI y catalogo Next.js
         run: npm run build
 
-      - name: Install Playwright Chromium
+      - name: Instalar Chromium para Playwright
         run: npx playwright install --with-deps chromium
 
-      - name: E2E and visual checkpoints
-        run: npm run test:e2e
+      - name: Ejecutar pruebas de regresion funcional
+        run: npm run test:regresion:e2e
 
-      - name: Upload Playwright report and screenshots
+      - name: Subir reporte de regresion
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: react-design-system-playwright
+          name: react-design-system-regresion
           path: |
             playwright-report
             test-results
