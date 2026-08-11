@@ -1,7 +1,7 @@
 'use client'
 
 import { Dialog } from 'radix-ui'
-import type { ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import { YiQiLogo } from '../foundation/logo'
 import { YiQiThemeCycle } from '../foundation/theme-cycle'
 
@@ -31,7 +31,23 @@ function Navigation({ items }: { items: YiQiNavItem[] }) {
   )
 }
 
+function useMobileShell() {
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 980px)')
+    const sync = () => setIsMobile(media.matches)
+    sync()
+    media.addEventListener('change', sync)
+    return () => media.removeEventListener('change', sync)
+  }, [])
+
+  return isMobile
+}
+
 export function YiQiAppShell({ appName, navigation, children, account, actions }: YiQiAppShellProps) {
+  const isMobile = useMobileShell()
+
   return (
     <div className="yiqi-root yiqi-shell">
       <header className="yiqi-topbar">
@@ -41,9 +57,9 @@ export function YiQiAppShell({ appName, navigation, children, account, actions }
         </div>
 
         <div className="yiqi-topbar-right">
-          {account ? <div className="yiqi-desktop-only">{account}</div> : null}
-          {actions ? <div className="yiqi-desktop-only">{actions}</div> : null}
-          <div className="yiqi-desktop-only"><YiQiThemeCycle /></div>
+          {!isMobile && account ? <div className="yiqi-desktop-only">{account}</div> : null}
+          {!isMobile && actions ? <div className="yiqi-desktop-only">{actions}</div> : null}
+          {!isMobile ? <div className="yiqi-desktop-only"><YiQiThemeCycle /></div> : null}
 
           <Dialog.Root>
             <Dialog.Trigger asChild>
@@ -58,7 +74,11 @@ export function YiQiAppShell({ appName, navigation, children, account, actions }
                   <button className="yiqi-icon-button yiqi-dialog-close" type="button" aria-label="Cerrar menú">×</button>
                 </Dialog.Close>
                 <Navigation items={navigation} />
-                <div className="yiqi-dialog-tools"><YiQiThemeCycle /></div>
+                <div className="yiqi-dialog-tools">
+                  {isMobile && account ? <div className="yiqi-dialog-account">{account}</div> : null}
+                  {isMobile && actions ? <div className="yiqi-dialog-actions">{actions}</div> : null}
+                  <YiQiThemeCycle />
+                </div>
               </Dialog.Content>
             </Dialog.Portal>
           </Dialog.Root>
