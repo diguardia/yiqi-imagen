@@ -1,5 +1,8 @@
 import Link from 'next/link'
-import { YiQiButton, YiQiKpiCard, YiQiRuntimeBanner, YiQiThemeCycle, YiQiTrustStat } from '@yiqi/ui'
+import { YiQiThemeCycle } from '@yiqi/ui/foundation'
+import { YiQiButton } from '@yiqi/ui/primitives'
+import { YiQiKpiCard, YiQiTrustStat } from '@yiqi/ui/data-display'
+import { YiQiRuntimeBanner } from '@yiqi/ui/feedback'
 
 export default function HomePage() {
   return (
@@ -14,9 +17,9 @@ export default function HomePage() {
       </header>
 
       <section className="docs-grid" aria-label="Componentes migrados">
-        <Link className="docs-card" href="/components"><h2>Mapa de componentes</h2><p>Foundation, primitives, authentication, layout, data display y feedback con entrypoints separados.</p></Link>
-        <Link className="docs-card" href="/login"><h2>Login</h2><p>Contrato reutilizable con estados, remember-user y submit configurable.</p></Link>
-        <Link className="docs-card" href="/shell"><h2>App shell</h2><p>Topbar, navegación desktop y drawer mobile basado en Radix Dialog.</p></Link>
+        <Link className="docs-card" href="/components/"><h2>Mapa de componentes</h2><p>Foundation, primitives, authentication, layout, data display y feedback con entrypoints separados.</p></Link>
+        <Link className="docs-card" href="/login/"><h2>Login</h2><p>Contrato reutilizable con estados, remember-user y submit configurable.</p></Link>
+        <Link className="docs-card" href="/shell/"><h2>App shell</h2><p>Topbar, navegación desktop y drawer mobile basado en Radix Dialog.</p></Link>
       </section>
 
       <div className="docs-demo">
