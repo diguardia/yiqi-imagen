@@ -19,11 +19,18 @@ export interface YiQiAppShellProps {
   actions?: ReactNode
 }
 
-function Navigation({ items }: { items: YiQiNavItem[] }) {
+function Navigation({ items, onNavigate }: { items: YiQiNavItem[]; onNavigate?: () => void }) {
   return (
     <nav className="yiqi-nav" aria-label="Navegación principal">
       {items.map((item) => (
-        <a key={`${item.href}-${item.label}`} className="yiqi-nav-link" data-active={item.active || undefined} href={item.href} aria-current={item.active ? 'page' : undefined}>
+        <a
+          key={`${item.href}-${item.label}`}
+          className="yiqi-nav-link"
+          data-active={item.active || undefined}
+          href={item.href}
+          aria-current={item.active ? 'page' : undefined}
+          onClick={onNavigate}
+        >
           {item.label}
         </a>
       ))}
@@ -47,6 +54,7 @@ function useMobileShell() {
 
 export function YiQiAppShell({ appName, navigation, children, account, actions }: YiQiAppShellProps) {
   const isMobile = useMobileShell()
+  const [navigationOpen, setNavigationOpen] = useState(false)
 
   return (
     <div className="yiqi-root yiqi-shell">
@@ -61,7 +69,7 @@ export function YiQiAppShell({ appName, navigation, children, account, actions }
           {!isMobile && actions ? <div className="yiqi-desktop-only">{actions}</div> : null}
           {!isMobile ? <div className="yiqi-desktop-only"><YiQiThemeCycle /></div> : null}
 
-          <Dialog.Root>
+          <Dialog.Root open={navigationOpen} onOpenChange={setNavigationOpen}>
             <Dialog.Trigger asChild>
               <button className="yiqi-icon-button yiqi-mobile-menu" type="button" aria-label="Abrir menú">☰</button>
             </Dialog.Trigger>
@@ -73,7 +81,7 @@ export function YiQiAppShell({ appName, navigation, children, account, actions }
                 <Dialog.Close asChild>
                   <button className="yiqi-icon-button yiqi-dialog-close" type="button" aria-label="Cerrar menú">×</button>
                 </Dialog.Close>
-                <Navigation items={navigation} />
+                <Navigation items={navigation} onNavigate={() => setNavigationOpen(false)} />
                 <div className="yiqi-dialog-tools">
                   {isMobile ? account : null}
                   {isMobile ? actions : null}
