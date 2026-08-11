@@ -17,8 +17,10 @@
     "test:consumer-css": "node scripts/check-consumer-css.js",
     "test:consumer-css:react": "node scripts/check-consumer-css.js apps/docs/app packages/ui/src",
     "test:clases-ds": "node scripts/check-clases-ds.js",
+    "test:clases-ds:react": "node scripts/check-clases-ds.js packages/ui --solo-errores",
+    "test:clases-ds:legacy": "node scripts/check-clases-ds.js . --solo-errores --sin-fallo",
     "test:e2e": "playwright test",
-    "test": "node scripts/check-detail-navigation.js && node scripts/check-consumer-css.js && npm run test:consumer-css:react && npm run test:clases-ds -- . --solo-errores && npm run typecheck"
+    "test": "node scripts/check-detail-navigation.js && node scripts/check-consumer-css.js && npm run test:consumer-css:react && npm run test:clases-ds:react && npm run typecheck"
   },
   "devDependencies": {
     "@playwright/test": "1.62.0",
