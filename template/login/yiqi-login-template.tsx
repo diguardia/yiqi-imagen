@@ -37,14 +37,14 @@ const DEFAULT_REMEMBER_KEY = 'yiqi-last-user'
 
 export function YiQiLoginTemplate({
   appName = 'YiQi',
-  description = 'Ingresa con tu usuario YiQi para abrir la aplicacion.',
-  usernameLabel = 'Usuario o correo electronico',
-  passwordLabel = 'Contrasena',
+  description = 'Ingresa con tu usuario YiQi para abrir la aplicación.',
+  usernameLabel = 'Usuario o correo electrónico',
+  passwordLabel = 'Contraseña',
   usernamePlaceholder = 'usuario@empresa.com',
-  passwordPlaceholder = 'Contrasena',
-  rememberLabel = 'Mantener sesion iniciada',
-  submitLabel = 'Iniciar sesion',
-  forgotPasswordLabel = 'Olvidaste tu clave?',
+  passwordPlaceholder = 'Contraseña',
+  rememberLabel = 'Mantener sesión iniciada',
+  submitLabel = 'Iniciar sesión',
+  forgotPasswordLabel = '¿Olvidaste tu clave?',
   forgotPasswordMessage = 'Para restablecer tu clave, contacta a tu administrador YiQi.',
   footerHref = 'https://www.yiqi.com.ar',
   footerLabel = 'www.yiqi.com.ar',
@@ -76,7 +76,7 @@ export function YiQiLoginTemplate({
   }, [rememberStorageKey])
 
   const status = useMemo(() => {
-    if (isLoading) return { state: 'loading', message: 'Iniciando sesion...' }
+    if (isLoading) return { state: 'loading', message: 'Iniciando sesión...' }
     if (visibleError) return { state: 'error', message: visibleError }
     if (info) return { state: 'info', message: info }
     return { state: 'idle', message: '' }
@@ -89,7 +89,7 @@ export function YiQiLoginTemplate({
 
     const cleanUsername = username.trim()
     if (!cleanUsername || !password) {
-      setLocalError('Ingresa usuario y clave para iniciar sesion.')
+      setLocalError('Ingresa usuario y clave para iniciar sesión.')
       return
     }
 
@@ -103,7 +103,7 @@ export function YiQiLoginTemplate({
       const result = await onSubmit({ username: cleanUsername, password, remember })
       if (result && result.error) setLocalError(result.error)
     } catch {
-      setLocalError('No pudimos iniciar sesion. Intenta nuevamente.')
+      setLocalError('No pudimos iniciar sesión. Intenta nuevamente.')
     } finally {
       setIsSubmitting(false)
     }
@@ -120,7 +120,7 @@ export function YiQiLoginTemplate({
 
   return (
     <main className="login-screen">
-      <section className="login-stage" aria-label="Inicio de sesion YiQi">
+      <section className="login-stage" aria-label="Inicio de sesión YiQi">
         <div className="login-brand">
           <YiQiLogoAnimated className="yiqi-login-logo" loop={2600} />
           <p className="yiqi-login-description">
@@ -143,7 +143,7 @@ export function YiQiLoginTemplate({
               <label className="login-field">
                 <span className="login-label">{usernameLabel}</span>
                 <input
-                  className="login-input"
+                  className="ds-input"
                   type="text"
                   name="username"
                   autoComplete="username"
@@ -158,7 +158,7 @@ export function YiQiLoginTemplate({
                 <span className="login-label">{passwordLabel}</span>
                 <span className="login-password">
                   <input
-                    className="login-input"
+                    className="ds-input"
                     type={showPassword ? 'text' : 'password'}
                     name="password"
                     autoComplete="current-password"
@@ -171,7 +171,7 @@ export function YiQiLoginTemplate({
                     className="login-eye"
                     type="button"
                     onClick={() => setShowPassword((value) => !value)}
-                    aria-label={showPassword ? 'Ocultar contrasena' : 'Mostrar contrasena'}
+                    aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
                     aria-pressed={showPassword}
                     disabled={isLoading}
                   >
