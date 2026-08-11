@@ -6,6 +6,16 @@ test.describe('regresiones funcionales', () => {
     await expect(page.getByTestId('kpi-meta-cero').locator('.yiqi-kpi-meta')).toHaveText('0')
   })
 
+  test('el tema guardado se aplica antes de hidratar React', async ({ page }) => {
+    await page.emulateMedia({ colorScheme: 'dark' })
+    await page.addInitScript(() => window.localStorage.setItem('yiqi-theme', 'light'))
+    await page.route('**/_next/static/**/*.js', (route) => route.abort())
+
+    const response = await page.goto('/shell/', { waitUntil: 'domcontentloaded' })
+    expect(response?.status()).toBeLessThan(400)
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
+  })
+
   test('el label de recordar usuario mantiene el toggle funcional', async ({ page }) => {
     await page.goto('/login/')
 
