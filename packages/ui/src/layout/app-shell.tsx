@@ -56,6 +56,10 @@ export function YiQiAppShell({ appName, navigation, children, account, actions }
   const isMobile = useMobileShell()
   const [navigationOpen, setNavigationOpen] = useState(false)
 
+  useEffect(() => {
+    if (!isMobile) setNavigationOpen(false)
+  }, [isMobile])
+
   return (
     <div className="yiqi-root yiqi-shell">
       <header className="yiqi-topbar">
