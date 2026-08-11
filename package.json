@@ -1,11 +1,21 @@
 {
+  "name": "yiqi-imagen",
+  "version": "1.2.7.11",
+  "private": true,
   "engines": {
     "node": "24.x"
   },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
+    "dev": "npm run dev --workspace=@yiqi/docs",
+    "build": "npm run build --workspace=@yiqi/ui && npm run build --workspace=@yiqi/docs",
+    "typecheck": "npm run typecheck --workspaces --if-present",
     "test:detail-navigation": "node scripts/check-detail-navigation.js",
     "test:consumer-css": "node scripts/check-consumer-css.js",
-    "test": "node scripts/check-detail-navigation.js && node scripts/check-consumer-css.js"
+    "test": "node scripts/check-detail-navigation.js && node scripts/check-consumer-css.js && npm run typecheck"
   },
   "devDependencies": {
     "@types/node": "^24.13.2",
