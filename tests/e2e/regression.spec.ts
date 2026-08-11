@@ -37,7 +37,9 @@ test.describe('regresiones funcionales', () => {
     const remember = page.getByRole('checkbox', { name: 'Mantener sesion iniciada', exact: true })
     await expect(remember).toBeVisible()
     await expect(page.getByRole('button', { name: 'Olvidaste tu clave?', exact: true })).toBeVisible()
-    await expect(page.getByRole('button', { name: 'Mostrar contrasena', exact: true })).toBeVisible()
+    const showPassword = page.getByRole('button', { name: 'Mostrar contrasena', exact: true })
+    await expect(showPassword).toBeVisible()
+    await expect(showPassword.locator('.yiqi-login-eye-icon')).toHaveCSS('width', '18px')
     await expect(page.locator('svg.yiqi-login-logo .yq-q')).toHaveCount(1)
 
     await remember.click()
@@ -106,6 +108,7 @@ test.describe('regresiones funcionales', () => {
     await submit.click()
 
     await expect(submit).toBeDisabled()
+    await expect(submit.locator('.yiqi-login-spinner')).toBeVisible()
     await expect(forgotPassword).toBeEnabled()
     await expect(page.getByRole('status')).toContainText('Iniciando sesión')
     await expect(page.getByRole('status')).toContainText('Demo: usa demo / demo')
