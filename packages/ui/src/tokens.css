@@ -1,0 +1,75 @@
+:root,
+html[data-theme="dark"] {
+  --yiqi-bg: #0a0a0b;
+  --yiqi-bg-elev: #0f1013;
+  --yiqi-bg-elev-2: #14161b;
+  --yiqi-bg-soft: #181b21;
+  --yiqi-text: #f3f5f7;
+  --yiqi-muted: #908e8e;
+  --yiqi-muted-2: #7d7c82;
+  --yiqi-line: rgba(255, 255, 255, 0.08);
+  --yiqi-line-strong: rgba(255, 255, 255, 0.14);
+  --yiqi-cyan: #00ccff;
+  --yiqi-cyan-soft: rgba(0, 204, 255, 0.1);
+  --yiqi-green: #15d49c;
+  --yiqi-green-soft: rgba(21, 212, 156, 0.1);
+  --yiqi-amber: #ffb020;
+  --yiqi-amber-soft: rgba(255, 176, 32, 0.1);
+  --yiqi-red: #ff637d;
+  --yiqi-red-soft: rgba(255, 99, 125, 0.1);
+  --yiqi-shadow-sm: 0 1px 3px rgba(0, 18, 28, 0.3);
+  --yiqi-shadow-md: 0 4px 14px rgba(0, 20, 30, 0.26);
+  --yiqi-shadow-lg: 0 12px 40px rgba(0, 26, 40, 0.34), 0 2px 12px rgba(0, 204, 255, 0.06);
+  --yiqi-radius-xs: 6px;
+  --yiqi-radius-sm: 10px;
+  --yiqi-radius: 14px;
+  --yiqi-radius-lg: 18px;
+  --yiqi-radius-pill: 999px;
+  --yiqi-topbar-h: 56px;
+  --yiqi-sidebar-w: 240px;
+  --yiqi-transition: 180ms ease;
+  --yiqi-font-display: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --yiqi-font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --yiqi-font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+html[data-theme="light"] {
+  --yiqi-bg: #eeece7;
+  --yiqi-bg-elev: #f6f4ef;
+  --yiqi-bg-elev-2: #ffffff;
+  --yiqi-bg-soft: #ece9e2;
+  --yiqi-text: #17191c;
+  --yiqi-muted: #5e5a57;
+  --yiqi-muted-2: #636875;
+  --yiqi-line: rgba(0, 0, 0, 0.08);
+  --yiqi-line-strong: rgba(0, 0, 0, 0.13);
+  --yiqi-cyan: #009fc7;
+  --yiqi-cyan-soft: rgba(0, 159, 199, 0.1);
+  --yiqi-green: #0c9b6d;
+  --yiqi-green-soft: rgba(12, 155, 109, 0.1);
+  --yiqi-amber: #c78000;
+  --yiqi-amber-soft: rgba(199, 128, 0, 0.1);
+  --yiqi-red: #d4485e;
+  --yiqi-red-soft: rgba(212, 72, 94, 0.1);
+  --yiqi-shadow-sm: 0 1px 3px rgba(16, 36, 54, 0.06);
+  --yiqi-shadow-md: 0 4px 14px rgba(16, 36, 54, 0.08);
+  --yiqi-shadow-lg: 0 8px 24px rgba(0, 80, 110, 0.09), 0 1px 4px rgba(0, 80, 110, 0.05);
+}
+
+/* Compatibility aliases while legacy HTML continues to coexist with @yiqi/ui. */
+:root {
+  --bg: var(--yiqi-bg);
+  --bg-elev: var(--yiqi-bg-elev);
+  --bg-elev-2: var(--yiqi-bg-elev-2);
+  --bg-soft: var(--yiqi-bg-soft);
+  --text: var(--yiqi-text);
+  --muted: var(--yiqi-muted);
+  --muted-2: var(--yiqi-muted-2);
+  --line: var(--yiqi-line);
+  --line-strong: var(--yiqi-line-strong);
+  --cyan: var(--yiqi-cyan);
+  --cyan-soft: var(--yiqi-cyan-soft);
+  --green: var(--yiqi-green);
+  --amber: var(--yiqi-amber);
+  --red: var(--yiqi-red);
+}
