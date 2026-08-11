@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useId, useMemo, useState, type FormEvent } from 'react'
+import { useEffect, useId, useMemo, useState, type FormEvent, type ReactNode } from 'react'
 import { YiQiButton } from '../primitives/button'
 import { YiQiCheckbox } from '../primitives/checkbox'
 import { YiQiInput } from '../primitives/input'
@@ -31,6 +31,7 @@ export interface YiQiLoginProps {
   initialUsername?: string
   isLoading?: boolean
   error?: string
+  logo?: ReactNode
   onSubmit: (input: YiQiLoginInput) => Promise<YiQiLoginResult> | YiQiLoginResult
   onForgotPassword?: () => void
 }
@@ -52,6 +53,7 @@ export function YiQiLogin({
   initialUsername = '',
   isLoading: controlledLoading = false,
   error: externalError = '',
+  logo,
   onSubmit,
   onForgotPassword,
 }: YiQiLoginProps) {
@@ -117,7 +119,7 @@ export function YiQiLogin({
     <main className="yiqi-root yiqi-login-screen">
       <section className="yiqi-login-stage" aria-label="Inicio de sesión YiQi">
         <div className="yiqi-login-brand">
-          <YiQiLogo className="yiqi-login-logo" />
+          {logo ?? <YiQiLogo className="yiqi-login-logo" />}
           <p className="yiqi-login-description"><strong>{appName}.</strong> {description}</p>
         </div>
 
