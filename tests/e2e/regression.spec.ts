@@ -37,16 +37,18 @@ test.describe('regresiones funcionales', () => {
     await expect(page.getByRole('status')).toContainText('Para restablecer tu clave, contacta a tu administrador YiQi.')
   })
 
-  test('el estado loading bloquea un segundo submit hasta resolver', async ({ page }) => {
+  test('el estado loading bloquea un segundo submit sin bloquear recuperacion', async ({ page }) => {
     await page.goto('/login/')
 
     await page.getByLabel('Usuario o correo electrónico', { exact: true }).fill('incorrecto')
     await page.getByLabel('Contraseña', { exact: true }).fill('incorrecta')
 
     const submit = page.getByRole('button', { name: 'Iniciar sesión', exact: true })
+    const forgotPassword = page.getByRole('button', { name: '¿Olvidaste tu contraseña?', exact: true })
     await submit.click()
 
     await expect(submit).toBeDisabled()
+    await expect(forgotPassword).toBeEnabled()
     await expect(page.getByRole('status')).toContainText('Iniciando sesión')
     await expect(page.getByRole('status')).toContainText('Demo: usa demo / demo')
     await expect(submit).toBeEnabled()
