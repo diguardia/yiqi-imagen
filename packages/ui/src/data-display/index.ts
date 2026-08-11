@@ -1,2 +1,2 @@
-export * from '../kpi-card'
-export * from '../trust-stat'
+export * from './kpi-card'
+export * from './trust-stat'

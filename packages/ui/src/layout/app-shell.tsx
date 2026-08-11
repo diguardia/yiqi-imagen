@@ -2,8 +2,8 @@
 
 import { Dialog } from 'radix-ui'
 import type { ReactNode } from 'react'
-import { YiQiLogo } from './logo'
-import { YiQiThemeCycle } from './theme-cycle'
+import { YiQiLogo } from '../foundation/logo'
+import { YiQiThemeCycle } from '../foundation/theme-cycle'
 
 export interface YiQiNavItem {
   href: string
@@ -53,9 +53,7 @@ export function YiQiAppShell({ appName, navigation, children, account, actions }
               <Dialog.Overlay className="yiqi-dialog-overlay" />
               <Dialog.Content className="yiqi-dialog-content">
                 <Dialog.Title className="yiqi-dialog-title">{appName}</Dialog.Title>
-                <Dialog.Description className="yiqi-sr-only">
-                  Navegación de la aplicación
-                </Dialog.Description>
+                <Dialog.Description className="yiqi-sr-only">Navegación de la aplicación</Dialog.Description>
                 <Dialog.Close asChild>
                   <button className="yiqi-icon-button yiqi-dialog-close" type="button" aria-label="Cerrar menú">×</button>
                 </Dialog.Close>

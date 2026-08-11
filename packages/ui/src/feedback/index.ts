@@ -1,1 +1,1 @@
-export * from '../runtime-banner'
+export * from './runtime-banner'

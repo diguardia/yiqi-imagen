@@ -1,10 +1,10 @@
 'use client'
 
 import { useEffect, useId, useMemo, useState, type FormEvent } from 'react'
-import { YiQiButton } from './button'
-import { YiQiCheckbox } from './checkbox'
-import { YiQiInput } from './input'
-import { YiQiLogo } from './logo'
+import { YiQiButton } from '../primitives/button'
+import { YiQiCheckbox } from '../primitives/checkbox'
+import { YiQiInput } from '../primitives/input'
+import { YiQiLogo } from '../foundation/logo'
 
 export interface YiQiLoginInput {
   username: string
