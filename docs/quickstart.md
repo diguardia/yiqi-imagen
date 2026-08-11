@@ -6,13 +6,23 @@ La ruta preferida es consumir `@yiqi/ui`.
 
 ```tsx
 import '@yiqi/ui/styles.css'
-import { YiQiProvider } from '@yiqi/ui/foundation'
-import { YiQiButton } from '@yiqi/ui/primitives'
+import { YiQiProvider, YiQiThemeScript } from '@yiqi/ui/foundation'
 
-export default function Root({ children }) {
-  return <YiQiProvider>{children}</YiQiProvider>
+export default function RootLayout({ children }) {
+  return (
+    <html lang="es" data-theme="dark" suppressHydrationWarning>
+      <head>
+        <YiQiThemeScript />
+      </head>
+      <body>
+        <YiQiProvider>{children}</YiQiProvider>
+      </body>
+    </html>
+  )
 }
 ```
+
+`YiQiThemeScript` aplica la preferencia `yiqi-theme` antes de hidratar React. No recrear esa logica localmente.
 
 Para componentes y reglas de extension, ver `../packages/ui/README.md`.
 
@@ -47,5 +57,5 @@ Para cambios de UI en este repo:
 ```bash
 npm test
 npm run build
-npm run test:e2e
+npm run test:regresion:e2e
 ```
