@@ -23,16 +23,56 @@ const patterns = [
     hint: "Valida dataset.id antes de navegar o evita dataset para ids de detalle.",
   },
   {
-    name: "multiple id fallback",
-    regex: /\b(?:id|detailId|entityId)\s*=\s*[^;\n]*(?:\?\?|\|\|)[^;\n]*(?:\.ID|codigo|code|numero|number|nombre|name|slug)/i,
+    name: "multiple id fallback with legacy uppercase ID",
+    regex: /\b(?:id|detailId|entityId)\s*=\s*[^;\n]*(?:\?\?|\|\|)[^;\n]*\.ID\b/,
     hint: "No uses fallbacks multiples para ids; el contrato debe exponer item.id.",
   },
   {
-    name: "route built with non-canonical field",
-    regex: /\b(?:router\.push|navigate|href\s*=)\s*\(?[^;\n]*(?:\.ID|codigo|code|numero|number|nombre|name|slug)/i,
+    name: "multiple id fallback with business field",
+    regex: /\b(?:id|detailId|entityId)\s*=\s*[^;\n]*(?:\?\?|\|\|)[^;\n]*\.(?:codigo|code|numero|number|nombre|name|slug)\b/i,
+    hint: "No uses fallbacks multiples para ids; el contrato debe exponer item.id.",
+  },
+  {
+    name: "route built with legacy uppercase ID",
+    regex: /\b(?:router\.push|navigate|href\s*=)\s*\(?[^;\n]*\.ID\b/,
+    hint: "Las rutas de detalle deben construirse con item.id, no con item.ID.",
+  },
+  {
+    name: "route built with business field",
+    regex: /\b(?:router\.push|navigate|href\s*=)\s*\(?[^;\n]*\.(?:codigo|code|numero|number|nombre|name|slug)\b/i,
     hint: "Las rutas de detalle deben construirse con item.id, no con campos de negocio.",
   },
 ]
+
+function matchingPatterns(source) {
+  return patterns.filter((pattern) => pattern.regex.test(source))
+}
+
+function runSelfCheck() {
+  const canonicalCases = [
+    'href="app.html?id=${c.id}"',
+    'router.push(`/items/${item.id}`)',
+    'navigate(`/orders/${row.id}`)',
+  ]
+  const invalidCases = [
+    'href="app.html?id=${c.ID}"',
+    'router.push(`/items/${item.slug}`)',
+    'const detailId = item.id || item.codigo',
+  ]
+
+  for (const source of canonicalCases) {
+    const matches = matchingPatterns(source)
+    if (matches.length > 0) {
+      throw new Error(`Detail navigation guard rechazo un caso canonico: ${source} -> ${matches.map((item) => item.name).join(', ')}`)
+    }
+  }
+
+  for (const source of invalidCases) {
+    if (matchingPatterns(source).length === 0) {
+      throw new Error(`Detail navigation guard no detecto un caso invalido: ${source}`)
+    }
+  }
+}
 
 function existsDirectory(relativePath) {
   try {
@@ -58,6 +98,8 @@ function walk(directory, files = []) {
 
   return files
 }
+
+runSelfCheck()
 
 const roots = explicitRoots
   .filter(existsDirectory)
