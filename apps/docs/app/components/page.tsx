@@ -80,7 +80,7 @@ export default function ComponentsPage() {
         ))}
       </div>
 
-      <section className="docs-group" aria-label="Casos de contrato">
+      <section className="docs-group">
         <div className="docs-group-heading">
           <h2>Casos de contrato</h2>
           <code>regresiones</code>
