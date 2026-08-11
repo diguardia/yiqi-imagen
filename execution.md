@@ -1,9 +1,13 @@
 # YiQi Design System — Master Recipe + Prompt v1.2.7.6
 
-Fuente única de verdad para:
+La fuente de verdad del estilo es `styles.css`, publicado en
+`https://diguardia.github.io/yiqi-imagen/styles.css`. Este documento **no la
+reemplaza ni la resume**: es la receta para consumirla en:
 - Generación de UI con IA
 - Implementación manual
 - Estandarización cross-producto
+
+**Ante cualquier diferencia entre este documento y `styles.css`, manda la hoja.**
 
 ---
 
@@ -15,7 +19,8 @@ Este documento es ejecutable. Cumple 3 funciones:
 2. Receta estructural (qué construir)
 3. Prompt operativo (cómo generarlo con IA)
 
-**Regla:** no se permite desviación de este documento.
+**Regla:** no inventar estilos fuera de lo que publica `styles.css`. Este
+documento define qué construir y con qué piezas; los valores los define la hoja.
 
 ---
 
@@ -24,8 +29,8 @@ Este documento es ejecutable. Cumple 3 funciones:
 Vas a actuar como un experto en UI implementando estrictamente el YiQi Design System v1.2.7.
 
 **Contexto obligatorio:**
-- Este documento es la única fuente de verdad
-- No inferir estilos fuera de lo definido
+- La fuente de verdad del estilo es `styles.css` del CDN; este documento es la receta
+- No inferir estilos fuera de lo que la hoja publica
 - Logo YiQi siempre SVG inline (nunca `<img>`)
 
 **Objetivo:** generar un HTML interactivo autocontenido siguiendo esta receta y el DS.
@@ -247,8 +252,12 @@ html[data-theme="light"] body {
 ```css
 :root {
   /* ════════════════════════════════════════════════════════════
-     YiQi Design System — TOKENS CANÓNICOS (fuente única)
-     No redefinir :root en páginas; consumir estos tokens vía var().
+     YiQi Design System — TOKENS (copia de referencia)
+     La fuente es el :root de styles.css. Esto es una copia para poder leer
+     el documento sin la hoja al lado, y por eso puede quedar atrasada: al
+     11/08/2026 tenia dos valores viejos de la v1.2.7.9 (--font-display
+     seguia listando Greycliff CF y --kpi-num decia IBM Plex Mono).
+     No redefinir :root en paginas; consumir estos tokens via var().
      ════════════════════════════════════════════════════════════ */
   /* Backgrounds */
   --bg:          #0a0a0b;
@@ -316,11 +325,11 @@ html[data-theme="light"] body {
   --shadow-lg: 0 12px 40px rgba(0,26,40,.34), 0 2px 12px rgba(0,204,255,.06);
   --shadow:    var(--shadow-lg);   /* alias de conveniencia */
   /* Tipografía */
-  --font-display: "Greycliff CF", "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
   --display: var(--font-display);
   --sans:    "Inter", ui-sans-serif, system-ui, sans-serif;
   --mono:    "IBM Plex Mono", ui-monospace, monospace;
-  --kpi-num: "IBM Plex Mono", ui-monospace, monospace;  /* v1.2.7.6: cifras en mono, coincide con el spec de tipografía */
+  --kpi-num: var(--display);  /* v1.2.7.6: cifras en mono, coincide con el spec de tipografía */
   /* Layout */
   --topbar-h:  56px;
   --statusbar-h: 28px;   /* barra de estado inferior (§44) */
