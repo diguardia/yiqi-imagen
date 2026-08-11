@@ -17,9 +17,20 @@ a { color: inherit; }
 .docs-section h2 { margin: 0; font-size: 14px; }
 .docs-toolbar { display: flex; gap: 10px; flex-wrap: wrap; }
 .docs-shell-demo { min-height: 100dvh; }
+.docs-shell-stack { margin-top: 18px; }
+.docs-group-list { max-width: 1120px; margin: 24px auto 0; display: grid; gap: 18px; }
+.docs-group { display: grid; gap: 10px; }
+.docs-group-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+.docs-group-heading h2 { margin: 0; font-size: 15px; }
+.docs-group-heading code { color: var(--yiqi-muted-2); font: 500 11px/1 var(--yiqi-font-mono); }
+.docs-component-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.docs-component { padding: 14px; border-radius: var(--yiqi-radius); background: var(--yiqi-bg-elev); box-shadow: var(--yiqi-shadow-sm); }
+.docs-component strong { display: block; font-size: 13px; }
+.docs-component span { display: block; margin-top: 6px; color: var(--yiqi-muted); font-size: 12px; line-height: 1.45; }
 
 @media (max-width: 760px) {
   .docs-page { padding: 22px 14px; }
   .docs-header { display: grid; }
-  .docs-grid { grid-template-columns: 1fr; }
+  .docs-grid, .docs-component-list { grid-template-columns: 1fr; }
+  .docs-group-heading { display: grid; gap: 6px; }
 }
