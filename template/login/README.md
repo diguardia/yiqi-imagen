@@ -13,7 +13,11 @@ import { YiQiLogin } from '@yiqi/ui/authentication'
 <YiQiLogin appName="Mi app" onSubmit={login} />
 ```
 
-`yiqi-login-template.tsx` se conserva solo como adaptador de compatibilidad y delega en `YiQiLogin`. No debe volver a incorporar formulario, storage, loading, iconos o validaciones propias.
+`yiqi-login-template.tsx` se conserva como adaptador de compatibilidad y delega en `YiQiLogin`.
+
+El adaptador preserva los defaults observables del template React anterior, incluyendo copy, mensajes accesibles y logo animado. No vuelve a implementar formulario, storage, loading ni validaciones.
+
+Importante: el adaptador React requiere `@yiqi/ui/styles.css`. El `styles.css` legacy de la raiz sigue siendo el contrato de HTML/no React y no contiene las clases `yiqi-*` del paquete React.
 
 No copiar este archivo a proyectos nuevos. Importar el paquete.
 
