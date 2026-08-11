@@ -8,6 +8,9 @@ on:
     paths:
       - 'apps/docs/**'
       - 'packages/ui/**'
+      - 'tests/e2e/**'
+      - 'scripts/**'
+      - 'playwright.config.ts'
       - 'package.json'
       - '.github/workflows/react-design-system.yml'
 
@@ -26,8 +29,25 @@ jobs:
       - name: Install workspace dependencies
         run: npm install --no-package-lock
 
-      - name: Typecheck
-        run: npm run typecheck
+      - name: Legacy and React guards
+        run: npm test
 
       - name: Build UI and Next.js catalog
         run: npm run build
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: E2E and visual checkpoints
+        run: npm run test:e2e
+
+      - name: Upload Playwright report and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: react-design-system-playwright
+          path: |
+            playwright-report
+            test-results
+          if-no-files-found: warn
+          retention-days: 14
