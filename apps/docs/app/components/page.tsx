@@ -1,3 +1,5 @@
+import { YiQiKpiCard } from '@yiqi/ui/data-display'
+
 const groups = [
   {
     name: 'Foundation',
@@ -77,6 +79,16 @@ export default function ComponentsPage() {
           </section>
         ))}
       </div>
+
+      <section className="docs-group" aria-label="Casos de contrato">
+        <div className="docs-group-heading">
+          <h2>Casos de contrato</h2>
+          <code>regresiones</code>
+        </div>
+        <div data-testid="kpi-meta-cero">
+          <YiQiKpiCard label="Metadata numerica cero" value="Valor de prueba" meta={0} />
+        </div>
+      </section>
     </main>
   )
 }
