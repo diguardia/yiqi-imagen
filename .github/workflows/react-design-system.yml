@@ -36,8 +36,11 @@ jobs:
       - name: Audit production dependencies
         run: npm audit --omit=dev --audit-level=high
 
-      - name: Legacy and React guards
+      - name: Blocking guards for new React surface
         run: npm test
+
+      - name: Inventory legacy DS contract debt
+        run: npm run test:clases-ds:legacy
 
       - name: Build UI and Next.js catalog
         run: npm run build
