@@ -53,14 +53,14 @@ export function YiQiAppShell({ appName, navigation, children, account, actions }
               <Dialog.Overlay className="yiqi-dialog-overlay" />
               <Dialog.Content className="yiqi-dialog-content">
                 <Dialog.Title className="yiqi-dialog-title">{appName}</Dialog.Title>
-                <Dialog.Description style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0 0 0 0)' }}>
+                <Dialog.Description className="yiqi-sr-only">
                   Navegación de la aplicación
                 </Dialog.Description>
                 <Dialog.Close asChild>
                   <button className="yiqi-icon-button yiqi-dialog-close" type="button" aria-label="Cerrar menú">×</button>
                 </Dialog.Close>
                 <Navigation items={navigation} />
-                <div style={{ marginTop: 16 }}><YiQiThemeCycle /></div>
+                <div className="yiqi-dialog-tools"><YiQiThemeCycle /></div>
               </Dialog.Content>
             </Dialog.Portal>
           </Dialog.Root>
