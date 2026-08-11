@@ -15,9 +15,6 @@ on:
       - 'package-lock.json'
       - '.github/workflows/react-design-system.yml'
 
-permissions:
-  contents: write
-
 concurrency:
   group: react-design-system-${{ github.ref }}
   cancel-in-progress: true
@@ -33,20 +30,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 24
+          cache: npm
 
-      - name: Instalar dependencias del workspace
-        run: npm install
-
-      - name: Sincronizar lockfile generado
-        if: github.event_name == 'push'
-        run: |
-          if ! git diff --quiet -- package-lock.json; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add package-lock.json
-            git commit -m "chore(deps): sincroniza lockfile del workspace"
-            git push
-          fi
+      - name: Instalar dependencias reproducibles
+        run: npm ci
 
       - name: Auditar dependencias productivas
         run: node scripts/check-production-audit.js
@@ -74,6 +61,5 @@ jobs:
           path: |
             playwright-report
             test-results
-            package-lock.json
           if-no-files-found: warn
           retention-days: 14
