@@ -12,6 +12,12 @@
   ],
   "exports": {
     ".": "./src/index.ts",
+    "./foundation": "./src/foundation/index.ts",
+    "./primitives": "./src/primitives/index.ts",
+    "./authentication": "./src/authentication/index.ts",
+    "./layout": "./src/layout/index.ts",
+    "./data-display": "./src/data-display/index.ts",
+    "./feedback": "./src/feedback/index.ts",
     "./styles.css": "./src/styles.css",
     "./tokens.css": "./src/tokens.css"
   },
