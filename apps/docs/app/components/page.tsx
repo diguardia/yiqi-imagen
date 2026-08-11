@@ -6,6 +6,7 @@ const groups = [
     importPath: '@yiqi/ui/foundation',
     components: [
       ['YiQiProvider', 'Tema y contexto base del Design System.'],
+      ['YiQiThemeScript', 'Aplica la preferencia de tema antes de hidratar React.'],
       ['YiQiThemeCycle', 'Control canonico de tema.'],
       ['YiQiLogo', 'Logo YiQi como componente React.'],
     ],
