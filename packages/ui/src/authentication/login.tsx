@@ -176,7 +176,7 @@ export function YiQiLogin({
             />
           </div>
 
-          <YiQiCheckbox label={rememberLabel} checked={remember} onCheckedChange={setRemember} disabled={isLoading} />
+          <YiQiCheckbox name="remember" label={rememberLabel} checked={remember} onCheckedChange={setRemember} disabled={isLoading} />
           <YiQiButton type="submit" variant="primary" disabled={isLoading}>{submitLabel}</YiQiButton>
           <button className="yiqi-login-hint" type="button" onClick={forgotPassword}>{forgotPasswordLabel}</button>
         </form>
