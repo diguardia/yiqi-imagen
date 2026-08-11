@@ -20,7 +20,7 @@ export default function ShellPage() {
           <YiQiKpiCard label="Órdenes" value="231" tone="positive" meta="+8,0%" />
           <YiQiKpiCard label="Pendientes" value="14" tone="warning" meta="Dato de ejemplo" />
         </div>
-        <div style={{ marginTop: 18 }}>
+        <div className="docs-shell-stack">
           <YiQiRuntimeBanner title="Shell React" description="El drawer móvil usa Radix Dialog; las apps ya no deben copiar el HTML del shell." />
         </div>
       </YiQiAppShell>
