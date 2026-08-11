@@ -1,6 +1,11 @@
 import { expect, test } from '@playwright/test'
 
 test.describe('regresiones funcionales', () => {
+  test('KPI conserva metadata numerica cero', async ({ page }) => {
+    await page.goto('/components/')
+    await expect(page.getByTestId('kpi-meta-cero').locator('.yiqi-kpi-meta')).toHaveText('0')
+  })
+
   test('el label de recordar usuario mantiene el toggle funcional', async ({ page }) => {
     await page.goto('/login/')
 
