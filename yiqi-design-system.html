@@ -4165,7 +4165,70 @@ function dsNavLock(){
     <span class="badge badge-green">COMPLETADO</span>
   </div>
 </div>
-<div class="subsection-title">Escaneo</div>
+  <div class="subsection-title">Listas de preparación · propuesta 13/08</div>
+  <p style="color:var(--muted);font:400 13px/1.6 var(--sans);margin:0 0 14px;max-width:70ch">
+    Revisión de la tarjeta de arriba, a partir del seguimiento del 07/08 («falta un poco de
+    intuición al principio»). El pill de estado deja su lugar al <strong>botón</strong>: era el
+    elemento de mayor contraste de la tarjeta y las tres decían lo mismo, algo que el encabezado
+    «Abiertas» ya había dicho. El botón cambia con el avance —<code>Comenzar</code> en cero,
+    <code>Continuar</code> a medias, <code>Cerrar</code> al completar, ahí en
+    <code>.btn-ghost</code>— así que las filas dejan de ser indistinguibles.
+    El volcado de números de pedido sale del subtítulo y entra lo que decide cuál empezar:
+    depósito, ubicaciones a recorrer y faltantes.
+  </p>
+  <div style="max-width:390px">
+      <article class="card card-clickable" style="margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+          <div>
+            <p style="margin:0;font:600 15px var(--mono);color:var(--text)">#000076</p>
+            <p style="margin:3px 0 0;color:var(--muted);font-size:13px">Depósito Central · 18 ubicaciones</p>
+          </div>
+          <button class="btn btn-primary btn-lg" type="button" style="flex:none;min-height:44px">Comenzar</button>
+        </div>
+        <div class="progress-bar" style="height:6px;margin:14px 0 0"><div class="progress-fill" style="width:0"></div></div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:8px">
+          <span class="progress-value"><b style="color:var(--text)">0</b> / 50 ítems</span>
+          <span class="progress-detail">hoy</span>
+        </div>
+      </article>
+      <article class="card card-clickable" style="margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+          <div>
+            <p style="margin:0;font:600 15px var(--mono);color:var(--text)">#000074</p>
+            <p style="margin:3px 0 0;color:var(--muted);font-size:13px">Depósito Norte · 6 ubicaciones · <span class="badge badge-amber">1 sin stock</span></p>
+          </div>
+          <button class="btn btn-primary btn-lg" type="button" style="flex:none;min-height:44px">Continuar</button>
+        </div>
+        <div class="progress-bar" style="height:6px;margin:14px 0 0"><div class="progress-fill" style="width:24%"></div></div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:8px">
+          <span class="progress-value"><b style="color:var(--text)">12</b> / 50 ítems</span>
+          <span class="progress-detail">ayer</span>
+        </div>
+      </article>
+      <article class="card card-clickable" style="margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+          <div>
+            <p style="margin:0;font:600 15px var(--mono);color:var(--text)">#000070</p>
+            <p style="margin:3px 0 0;color:var(--muted);font-size:13px">Depósito Central · 3 ubicaciones</p>
+          </div>
+          <button class="btn btn-ghost btn-lg" type="button" style="flex:none;min-height:44px">Cerrar</button>
+        </div>
+        <div class="progress-bar" style="height:6px;margin:14px 0 0"><div class="progress-fill" style="background:var(--green);width:100%"></div></div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:8px">
+          <span class="progress-value"><b style="color:var(--text)">3</b> / 3 ítems</span>
+          <span class="progress-detail">hace 20 min</span>
+        </div>
+      </article>
+  </div>
+  <p style="color:var(--muted-2);font:400 12px/1.6 var(--mono);margin:10px 0 26px;max-width:70ch">
+    Componentes: <code>.card.card-clickable</code> · <code>.btn.btn-primary.btn-lg</code> /
+    <code>.btn.btn-ghost.btn-lg</code> · <code>.progress-bar</code> + <code>.progress-fill</code> ·
+    <code>.progress-value</code> / <code>.progress-detail</code> · <code>.badge-amber</code>.
+    Sin clases propias. Única desviación: <code>min-height:44px</code> en el botón — <code>.btn-lg</code>
+    da 43 y esta app se opera con guantes y una mano.
+  </p>
+
+  <div class="subsection-title">Escaneo</div>
 <div style="display:grid;gap:14px;max-width:560px;margin-bottom:24px">
 <div style="background:var(--bg-elev-2);border-radius:var(--radius);height:200px;position:relative;overflow:hidden">
     <div class="pk-reticle" data-pk-scan style="position:absolute;inset:30px 24px;border:2px solid var(--cyan);border-radius:var(--radius)"><span class="pk-added-pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Agregado</span><div class="pk-scanline"></div></div>
