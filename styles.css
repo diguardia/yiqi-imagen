@@ -520,7 +520,14 @@ html[data-theme="light"] .brand-logo-light { display: block; }
   gap: 7px;
   padding: 10px 16px;
   border-radius: var(--radius);
-  border: 1px solid transparent;
+  /* v1.2.7.12 — el borde de la variante base pasa de transparente a --line.
+     Medido el 13/08: sobre una .card en oscuro el fondo del boton
+     (--bg-elev-2, rgb(20,22,27)) es EXACTAMENTE el de la card, y con el borde
+     transparente un secundario desaparecia; en claro pasaba lo mismo
+     (rgb(255,255,255) sobre rgba(255,255,255,.92)). Las variantes que declaran
+     su propio border-color despues —primary, ghost, danger, amber— no se
+     tocan: siguen ganando por orden. */
+  border: 1px solid var(--line);
   background: var(--bg-elev-2);
   color: var(--text);
   font: 600 13px var(--sans);
@@ -1408,6 +1415,11 @@ html[data-theme="light"] textarea:-webkit-autofill {
   border-radius: var(--radius-pill);
   background: var(--bg-soft);
   overflow: hidden;
+  /* v1.2.7.12 — anillo interior. El riel (--bg-soft, rgb(24,27,33)) sobre una
+     .card en oscuro (rgb(20,22,27)) da 1,09:1: al 0% no se ve que haya barra,
+     justo cuando mas hace falta saberlo. El anillo la despega sin cambiar el
+     color del riel, asi que no altera ningun fill existente. */
+  box-shadow: inset 0 0 0 1px var(--line);
 }
 
 .progress-fill {
