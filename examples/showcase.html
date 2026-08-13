@@ -1320,10 +1320,12 @@
          pantallas no se pueden juzgar. 390px es el ancho de referencia. */
       #tab-picking .pk-tel{ width:390px; max-width:100%; margin:0 auto;
         border-radius:22px; background:var(--bg-elev); box-shadow:var(--shadow-sm); overflow:hidden; }
-      #tab-picking .pk-tel-top{ display:flex; align-items:center; justify-content:space-between;
-        padding:14px 16px; border-bottom:1px solid var(--line); }
-      #tab-picking .pk-tel-top svg{ height:26px; width:auto; display:block; color:var(--text); }
       #tab-picking .pk-tel-body{ padding:16px; }
+      /* El chrome sale del DS: .ds-appbar arriba y .ds-bottomnav abajo, los
+         mismos de la pestana "Movil". Antes tenia una barra propia con el
+         logo tipeado adentro de un div inventado. */
+      #tab-picking .ds-appbar{ border-radius:22px 22px 0 0; }
+      #tab-picking .ds-bottomnav{ border-radius:0 0 22px 22px; padding-bottom:9px; }
       /* Acomodo de la fila, sin estilo propio: color, tipografia y radios
          salen todos de las clases del DS que envuelve. */
       #tab-picking .pk-l-card{ margin-bottom:10px; }
@@ -1351,9 +1353,14 @@
         <div class="sc-card-h"><span style="display:inline-flex;align-items:center;gap:8px"><span class="sc-card-title">Picking · listas de preparación</span><span class="badge badge-cyan" style="font:600 9px var(--mono)">NUEVO</span></span><a class="ds-xref" href="../yiqi-design-system.html#apps-picking"><i class="ph ph-anchor-simple"></i> Ver fuente</a><button type="button" class="ds-copy" data-ds-copy="card" aria-label="Copiar markup del componente" title="Copiar markup"><i class="ph ph-copy"></i></button></div>
         <p class="sc-card-sub">Pantalla de entrada. El botón reemplaza al estado y cambia con el avance: <code>Comenzar</code> en cero, <code>Continuar</code> a medias, <code>Cerrar</code> al completar — ahí baja a <code>.btn-ghost</code>, porque cerrar es confirmar, no seguir piqueando.</p>
         <div class="pk-tel">
-          <div class="pk-tel-top"><svg viewBox="0 0 100 65" role="img" aria-label="YiQi" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M20.44,48.34l2.57-6.15-6.79-16.91c-.14-.39.07-.61.46-.61h4.97c.29,0,.57.14.68.43l3.58,10.08,3.61-10.08c.11-.29.39-.43.68-.43h4.97c.39,0,.57.21.43.61l-9.26,23.27c-.11.29-.39.43-.68.43h-4.75c-.43,0-.68-.21-.47-.64Z"/><path fill="currentColor" d="M38.5,18.99c0-1.77,1.35-3.19,3.23-3.19s3.23,1.42,3.23,3.19-1.38,3.23-3.23,3.23-3.23-1.42-3.23-3.23ZM38.72,25.24c0-.32.25-.57.57-.57h4.89c.32,0,.57.25.57.57v16.24c0,.32-.25.57-.57.57h-4.89c-.32,0-.57-.25-.57-.57v-16.24Z"/><path fill="var(--cyan)" d="M57.91,44.78v-2.66c-2.18-.53-4.21-1.66-5.92-3.36-4.97-4.97-5.09-13.02-.03-18.08,5.09-5.09,13.14-4.97,18.11,0s5.09,13.02,0,18.11c-1.78,1.78-3.94,2.93-6.22,3.46v2.51c0,.35-.18.53-.58.53h-4.82c-.3,0-.55-.2-.55-.5ZM56.28,34.47c.5.5,1.05.9,1.65,1.2v-3.36c0-.35.18-.53.53-.53h4.87c.25,0,.53.18.53.53v3.36c.63-.33,1.23-.78,1.78-1.33,2.73-2.73,2.78-6.75.15-9.38s-6.67-2.61-9.41.13c-2.71,2.71-2.73,6.75-.1,9.38Z"/><path fill="currentColor" d="M77.22,18.99c0-1.77,1.35-3.19,3.23-3.19s3.23,1.42,3.23,3.19-1.38,3.23-3.23,3.23-3.23-1.42-3.23-3.23ZM77.44,25.24c0-.32.25-.57.57-.57h4.89c.32,0,.57.25.57.57v16.24c0,.32-.25.57-.57.57h-4.89c-.32,0-.57-.25-.57-.57v-16.24Z"/></svg><span style="color:var(--muted);font-size:13px">ERP Demo</span></div>
+          <header class="ds-appbar">
+            <div class="ds-appbar-t"><strong>Listas de preparación</strong><span>ERP Demo · Depósito Central</span></div>
+            <div class="ds-appbar-actions">
+              <button type="button" aria-label="Actualizar"><i class="ph ph-arrows-clockwise"></i></button>
+              <button type="button" aria-label="Ayuda"><i class="ph ph-question"></i></button>
+            </div>
+          </header>
           <div class="pk-tel-body">
-            <p class="ds-title-section" style="margin:0 0 14px">Listas de preparación</p>
             <div class="ds-input-wrap" style="margin-bottom:18px"><svg class="ds-input-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><input class="ds-input" type="search" placeholder="Buscar por número, pedido o cliente…" aria-label="Buscar listas"></div>
             <p class="section-kicker">Abiertas · 3</p>
             <article class="card card-clickable pk-l-card">
@@ -1399,6 +1406,12 @@
               </div>
             </article>
           </div>
+          <nav class="ds-bottomnav">
+            <a class="ds-bottomnav-item is-active"><i class="ph ph-clipboard-text"></i><span>Listas</span></a>
+            <a class="ds-bottomnav-item"><i class="ph ph-barcode"></i><span>Escanear</span></a>
+            <a class="ds-bottomnav-item"><i class="ph ph-check-square"></i><span>Cerradas</span></a>
+            <a class="ds-bottomnav-item"><i class="ph ph-user"></i><span>Perfil</span></a>
+          </nav>
         </div>
       </article>
 
