@@ -1330,7 +1330,10 @@
       #tab-picking .pk-l-top{ display:flex; justify-content:space-between; align-items:center; gap:12px; }
       #tab-picking .pk-l-id{ margin:0; font:600 15px var(--mono); color:var(--text); }
       #tab-picking .pk-l-donde{ margin:3px 0 0; color:var(--muted); font-size:13px; }
-      #tab-picking .pk-l-bar{ height:6px; margin:14px 0 0; }
+      /* El riel de .progress-bar mide rgb(24,27,33) sobre una .card de rgb(20,22,27)
+         en oscuro: 1,09:1, invisible al 0%. Parche local; el arreglo de fondo va
+         en styles.css y esta propuesto, no aplicado. */
+      #tab-picking .pk-l-bar{ height:6px; margin:14px 0 0; box-shadow:inset 0 0 0 1px rgba(255,255,255,.06); }
       #tab-picking .pk-l-ok{ background:var(--green); }
       #tab-picking .pk-l-pie{ display:flex; justify-content:space-between; align-items:baseline; margin-top:8px; }
       #tab-picking .pk-l-pie b{ color:var(--text); }

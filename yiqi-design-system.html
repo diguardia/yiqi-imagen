@@ -4149,7 +4149,8 @@ function dsNavLock(){
     </span>
     <span style="color:var(--muted-2);font:400 11px var(--mono)">icon buttons · avatar chip</span>
   </div>
-<div style="background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--radius);padding:16px">
+<p style="display:flex;align-items:center;gap:8px;margin:0 0 8px;color:var(--muted);font:400 12px/1.5 var(--sans)"><span class="badge badge-muted" style="font:600 9px var(--mono)">REEMPLAZADA</span>Es la tarjeta que hay hoy en la app. Se documenta como referencia, no como patrón a copiar: la versión a usar es <strong style="color:var(--text)">Listas de preparación</strong>, dos bloques más abajo.</p>
+  <div style="background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--radius);padding:16px">
     <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px"><span style="color:var(--text);font:700 18px var(--sans)">Abiertas</span><span style="color:var(--muted-2);font:400 13px var(--sans)">4 disponibles</span></div>
     <div style="background:var(--bg-elev-2);border-radius:var(--radius-sm);padding:14px">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="color:var(--text);font:700 15px var(--sans)">PL #000290</span><span class="badge badge-cyan">PENDIENTE</span></div>
@@ -4165,6 +4166,11 @@ function dsNavLock(){
     <span class="badge badge-green">COMPLETADO</span>
   </div>
 </div>
+  <!-- El riel de .progress-bar mide rgb(24,27,33) sobre una .card de
+     rgb(20,22,27) en oscuro: 1,09:1, invisible justo al 0%, que es donde
+     mas se necesita ver que HAY una barra. El anillo interior lo despega
+     del fondo. Es un parche local: la correccion de fondo va en
+     styles.css y esta propuesta, no aplicada. 13/08/2026. -->
   <div class="subsection-title">Listas de preparación · propuesta 13/08</div>
   <p style="color:var(--muted);font:400 13px/1.6 var(--sans);margin:0 0 14px;max-width:70ch">
     Revisión de la tarjeta de arriba, a partir del seguimiento del 07/08 («falta un poco de
@@ -4185,7 +4191,7 @@ function dsNavLock(){
           </div>
           <button class="btn btn-primary btn-lg" type="button" style="flex:none;min-height:44px">Comenzar</button>
         </div>
-        <div class="progress-bar" style="height:6px;margin:14px 0 0"><div class="progress-fill" style="width:0"></div></div>
+        <div class="progress-bar" style="height:6px;margin:14px 0 0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);"><div class="progress-fill" style="width:0"></div></div>
         <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:8px">
           <span class="progress-value"><b style="color:var(--text)">0</b> / 50 ítems</span>
           <span class="progress-detail">hoy</span>
@@ -4199,7 +4205,7 @@ function dsNavLock(){
           </div>
           <button class="btn btn-primary btn-lg" type="button" style="flex:none;min-height:44px">Continuar</button>
         </div>
-        <div class="progress-bar" style="height:6px;margin:14px 0 0"><div class="progress-fill" style="width:24%"></div></div>
+        <div class="progress-bar" style="height:6px;margin:14px 0 0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);"><div class="progress-fill" style="width:24%"></div></div>
         <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:8px">
           <span class="progress-value"><b style="color:var(--text)">12</b> / 50 ítems</span>
           <span class="progress-detail">ayer</span>
@@ -4213,7 +4219,7 @@ function dsNavLock(){
           </div>
           <button class="btn btn-ghost btn-lg" type="button" style="flex:none;min-height:44px">Cerrar</button>
         </div>
-        <div class="progress-bar" style="height:6px;margin:14px 0 0"><div class="progress-fill" style="background:var(--green);width:100%"></div></div>
+        <div class="progress-bar" style="height:6px;margin:14px 0 0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);"><div class="progress-fill" style="background:var(--green);width:100%"></div></div>
         <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:8px">
           <span class="progress-value"><b style="color:var(--text)">3</b> / 3 ítems</span>
           <span class="progress-detail">hace 20 min</span>
