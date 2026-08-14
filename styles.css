@@ -493,8 +493,45 @@ html[data-theme="light"] .brand-logo-light { display: block; }
 /* ── 10. KICKERS & LABELS ─────────────────────────────────── */
 .brand-kicker,
 .page-kicker,
+/* ── Kickers de seccion ────────────────────────────────────────────────
+   v1.2.7.15 — 14/08/2026. Las versalitas monoespaciadas con tracking ancho
+   se leian como tic de landing generada, igual que los gradientes radiales
+   que ya se sacaron. Pasan a sans en caja normal, precedidas por un guion
+   corto que conserva la funcion de "aca empieza una seccion" sin gritar.
+
+   La decision se tomo en el sitio el 07/08 y vivio una semana solo ahi,
+   pisando al DS con !important sobre 26 selectores. Se adopta en el DS para
+   que la marca sea una sola: lo que use el sistema se ve como el sitio.
+
+   El kicker es inline-flex: no se estira ni impone alineacion. Donde va
+   dentro de la seccion lo decide quien lo usa.
+
+   NO alcanza a los tags de dato — .mod-tag, .nov-badge, .app-state, .k-lab,
+   .step-count, .rev-ver —: ahi el mono comunica "valor", no "seccion".
+   .nav-label, .kpi-label y .status-label tampoco: son etiquetas de interfaz,
+   no encabezados de seccion, y conservan el mono. */
 .section-kicker,
-.panel-kicker,
+.brand-kicker,
+.panel-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font: 600 12px var(--sans);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--muted-2);
+}
+
+.section-kicker::before,
+.brand-kicker::before,
+.panel-kicker::before {
+  content: '';
+  width: 22px;
+  height: 1px;
+  flex-shrink: 0;
+  background: var(--line-strong);
+}
+
 .nav-label,
 .kpi-label,
 .status-label {
@@ -503,9 +540,7 @@ html[data-theme="light"] .brand-logo-light { display: block; }
   letter-spacing: 0.15em;
 }
 
-.brand-kicker,
-.section-kicker,
-.panel-kicker { color: var(--cyan); font-size: 10px; font-weight: 700; }
+
 
 .page-kicker  { font-size: 10px; font-weight: 700; color: var(--muted-2); margin-bottom: 6px; }
 .status-label,
