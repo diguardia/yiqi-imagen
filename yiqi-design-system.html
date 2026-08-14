@@ -482,7 +482,7 @@ body.preview-open .ds-layout { display: none !important; }
 <td class="mono-cell">v1.2.7.12</td>
 <td class="mono-cell">13/08/2026</td>
 <td><span class="badge badge-cyan">NUEVO</span></td>
-<td><strong>&sect;38 suma la pantalla de listas de picking y el showcase le da pesta&ntilde;a propia.</strong> Revisi&oacute;n a partir del seguimiento del 07/08 (&laquo;falta un poco de intuici&oacute;n al principio&raquo;): el pill de estado deja su lugar al <strong>bot&oacute;n</strong>, que cambia con el avance &mdash; <code>Comenzar</code> en cero, <code>Continuar</code> a medias, <code>Cerrar</code> al completar. El pill era el elemento de mayor contraste de la tarjeta y las tres dec&iacute;an lo mismo, algo que el encabezado &laquo;Abiertas&raquo; ya hab&iacute;a dicho. La tarjeta anterior queda documentada y marcada <strong>REEMPLAZADA</strong>. Se arma <strong>sin clases propias</strong>: <code>.card.card-clickable</code>, <code>.btn.btn-primary.btn-lg</code> / <code>.btn.btn-ghost.btn-lg</code>, <code>.progress-bar</code>, <code>.badge-amber</code>, <code>.ds-input</code>, y el chrome m&oacute;vil can&oacute;nico (<code>.ds-appbar</code> + <code>.ds-bottomnav</code>). &Uacute;nica desviaci&oacute;n: <code>min-height:44px</code> en el bot&oacute;n &mdash; <code>.btn-lg</code> da 43 y la app se opera con guantes y una mano.<div class="chg-links"><a class="ds-xref" href="#apps-picking"><i class="ph ph-anchor-simple"></i> &sect;38 &middot; Aplicaciones</a><a class="ds-xref" href="examples/showcase.html?tab=picking&amp;card=card-picking-listas"><i class="ph ph-play-circle"></i> Ver en vivo</a><button class="ds-copy chg-share" data-ds-copy="link" title="Copiar link a este cambio" aria-label="Copiar link a este cambio"><i class="ph ph-link"></i>Compartir</button></div></td>
+<td><strong>&sect;38 suma la pantalla de listas de picking y el showcase le da pesta&ntilde;a propia.</strong> Revisi&oacute;n a partir del seguimiento del 07/08 (&laquo;falta un poco de intuici&oacute;n al principio&raquo;): el pill de estado deja su lugar al <strong>bot&oacute;n</strong>, que cambia con el avance &mdash; <code>Comenzar</code> en cero, <code>Continuar</code> a medias, <code>Cerrar</code> al completar. El pill era el elemento de mayor contraste de la tarjeta y las tres dec&iacute;an lo mismo, algo que el encabezado &laquo;Abiertas&raquo; ya hab&iacute;a dicho. La tarjeta de &sect;38 se actualiza al patr&oacute;n nuevo: el vocabulario de picking deja de documentar el que se reemplaza. Se arma <strong>sin clases propias</strong>: <code>.card.card-clickable</code>, <code>.btn.btn-primary.btn-lg</code> / <code>.btn.btn-ghost.btn-lg</code>, <code>.progress-bar</code>, <code>.badge-amber</code>, <code>.ds-input</code>, y el chrome m&oacute;vil can&oacute;nico (<code>.ds-appbar</code> + <code>.ds-bottomnav</code>). &Uacute;nica desviaci&oacute;n: <code>min-height:44px</code> en el bot&oacute;n &mdash; <code>.btn-lg</code> da 43 y la app se opera con guantes y una mano.<div class="chg-links"><a class="ds-xref" href="#apps-picking"><i class="ph ph-anchor-simple"></i> &sect;38 &middot; Aplicaciones</a><a class="ds-xref" href="examples/showcase.html?tab=picking&amp;card=card-picking-listas"><i class="ph ph-play-circle"></i> Ver en vivo</a><button class="ds-copy chg-share" data-ds-copy="link" title="Copiar link a este cambio" aria-label="Copiar link a este cambio"><i class="ph ph-link"></i>Compartir</button></div></td>
 </tr>
 <tr id="chg-z-tokens">
 <td class="mono-cell">v1.2.7.11</td>
@@ -4161,17 +4161,24 @@ function dsNavLock(){
     </span>
     <span style="color:var(--muted-2);font:400 11px var(--mono)">icon buttons · avatar chip</span>
   </div>
-<p style="display:flex;align-items:center;gap:8px;margin:0 0 8px;color:var(--muted);font:400 12px/1.5 var(--sans)"><span class="badge badge-muted" style="font:600 9px var(--mono)">REEMPLAZADA</span>Es la tarjeta que hay hoy en la app. Se documenta como referencia, no como patrón a copiar: la versión a usar es <strong style="color:var(--text)">Listas de preparación</strong>, dos bloques más abajo.</p>
-  <div style="background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--radius);padding:16px">
-    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px"><span style="color:var(--text);font:700 18px var(--sans)">Abiertas</span><span style="color:var(--muted-2);font:400 13px var(--sans)">4 disponibles</span></div>
-    <div style="background:var(--bg-elev-2);border-radius:var(--radius-sm);padding:14px">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="color:var(--text);font:700 15px var(--sans)">PL #000290</span><span class="badge badge-cyan">PENDIENTE</span></div>
-      <div style="color:var(--muted);font:400 12px/1.5 var(--sans)">1902, 1903, 1904, 1905, 1906, 1907, 1908, 1909…</div>
-      <div style="color:var(--cyan);font:400 12px var(--sans);margin:2px 0 12px;cursor:pointer">… Leer más</div>
-      <div class="load-progress-track"><div class="load-progress-fill" style="width:0"></div></div>
-      <div style="display:flex;justify-content:space-between;margin-top:10px;color:var(--muted-2);font:400 12px var(--sans)"><span>section header · truncate · list item card</span><span>3/6/2026</span></div>
+<div style="background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--radius);padding:16px">
+      <p class="section-kicker" style="margin:0 0 12px">Abiertas · 4</p>
+      <article class="card card-clickable" style="margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+          <div>
+            <p style="margin:0;font:600 15px var(--mono);color:var(--text)">PL #000290</p>
+            <p style="margin:3px 0 0;color:var(--muted);font-size:13px">Depósito Central · 12 ubicaciones</p>
+          </div>
+          <button class="btn btn-primary btn-lg" type="button" style="flex:none;min-height:44px">Comenzar</button>
+        </div>
+        <div class="progress-bar" style="height:6px;margin:14px 0 0"><div class="progress-fill" style="width:0"></div></div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:8px">
+          <span class="progress-value"><b style="color:var(--text)">0</b> / 24 ítems</span>
+          <span class="progress-detail">hoy</span>
+        </div>
+      </article>
+      <p style="margin:10px 0 0;color:var(--muted-2);font:400 11px var(--mono)">section header · list item card · botón por estado de avance</p>
     </div>
-  </div>
 <div style="display:flex;gap:10px;flex-wrap:wrap">
     <span class="badge badge-cyan">PENDIENTE</span>
     <span class="badge badge-amber">EN PROCESO</span>

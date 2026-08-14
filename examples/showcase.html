@@ -1434,16 +1434,23 @@
     <span style="color:var(--muted-2);font:400 11px var(--mono)">icon buttons · avatar chip</span>
   </div>
 <div style="background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--radius);padding:16px">
-    <p style="display:flex;align-items:center;gap:8px;margin:0 0 8px;color:var(--muted);font:400 12px/1.5 var(--sans)"><span class="badge badge-muted" style="font:600 9px var(--mono)">REEMPLAZADA</span>La tarjeta que hay hoy en la app. Se muestra como referencia, no como patrón a copiar: la versión a usar es <strong style="color:var(--text)">Picking · listas de preparación</strong>, en esta misma pestaña.</p>
-      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px"><span style="color:var(--text);font:700 18px var(--sans)">Abiertas</span><span style="color:var(--muted-2);font:400 13px var(--sans)">4 disponibles</span></div>
-    <div style="background:var(--bg-elev-2);border-radius:var(--radius-sm);padding:14px">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="color:var(--text);font:700 15px var(--sans)">PL #000290</span><span class="badge badge-cyan">PENDIENTE</span></div>
-      <div style="color:var(--muted);font:400 12px/1.5 var(--sans)">1902, 1903, 1904, 1905, 1906, 1907, 1908, 1909…</div>
-      <div style="color:var(--cyan);font:400 12px var(--sans);margin:2px 0 12px;cursor:pointer">… Leer más</div>
-      <div class="load-progress-track"><div class="load-progress-fill" style="width:0"></div></div>
-      <div style="display:flex;justify-content:space-between;margin-top:10px;color:var(--muted-2);font:400 12px var(--sans)"><span>section header · truncate · list item card</span><span>3/6/2026</span></div>
+      <p class="section-kicker" style="margin:0 0 12px">Abiertas · 4</p>
+      <article class="card card-clickable" style="margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+          <div>
+            <p style="margin:0;font:600 15px var(--mono);color:var(--text)">PL #000290</p>
+            <p style="margin:3px 0 0;color:var(--muted);font-size:13px">Depósito Central · 12 ubicaciones</p>
+          </div>
+          <button class="btn btn-primary btn-lg" type="button" style="flex:none;min-height:44px">Comenzar</button>
+        </div>
+        <div class="progress-bar" style="height:6px;margin:14px 0 0"><div class="progress-fill" style="width:0"></div></div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:8px">
+          <span class="progress-value"><b style="color:var(--text)">0</b> / 24 ítems</span>
+          <span class="progress-detail">hoy</span>
+        </div>
+      </article>
+      <p style="margin:10px 0 0;color:var(--muted-2);font:400 11px var(--mono)">section header · list item card · botón por estado de avance</p>
     </div>
-  </div>
 <div style="display:flex;gap:10px;flex-wrap:wrap">
     <span class="badge badge-cyan">PENDIENTE</span>
     <span class="badge badge-amber">EN PROCESO</span>
