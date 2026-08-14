@@ -18,6 +18,7 @@
 <script src="components/fondo-malla.js" defer></script>
 <script src="components/fondo-horizonte.js" defer></script>
 <script src="components/fx-entrada.js" defer></script>
+<script src="components/card-flip.js" defer></script>
 <script src="components/llm-fab.js" defer></script>
 <style>
 /* ─── DS v1.2.7 ─────────────────────────────────────────── */
@@ -479,7 +480,7 @@ body.preview-open .ds-layout { display: none !important; }
 <td class="mono-cell">v1.2.7.14</td>
 <td class="mono-cell">14/08/2026</td>
 <td><span class="badge badge-cyan">NUEVO</span></td>
-<td><strong>Entran <code>.fondo-horizonte</code> en &sect;30 y las entradas <code>.ds-fx-lineas</code> / <code>.ds-fx-pasos</code> en &sect;07.</strong> Las tres salieron de las landings de integraciones. <strong>El horizonte</strong> es el hermano de <code>.fondo-malla</code> que avanza por reloj en vez de por scroll: sirve donde no hay recorrido que gobierne la animaci&oacute;n, que es el caso de las p&aacute;ginas de una sola pantalla. <strong>Las entradas</strong> comparten archivo y observador (<code>components/fx-entrada.js</code>) y se disparan una sola vez al entrar en pantalla. En <code>.ds-fx-pasos</code> el orden <em>es</em> el mensaje: el n&uacute;mero aterriza con un halo del acento, su texto entra 150 ms despu&eacute;s y reci&eacute;n ah&iacute; se dibuja la l&iacute;nea al siguiente, con 420 ms entre pasos &mdash; si los tres aparecen juntos, la secci&oacute;n deja de decir &laquo;primero esto, despu&eacute;s esto&raquo;. <strong>Defecto encontrado y corregido antes de publicar:</strong> la transici&oacute;n estaba declarada tambi&eacute;n en el estado escondido, as&iacute; que al montarse el efecto el navegador animaba la <em>salida</em> &mdash; el paso 3 tardaba 840 ms en esconderse y hasta entonces se ve&iacute;a. Ahora el estado escondido va sin transici&oacute;n y la coreograf&iacute;a vive solo en el estado final; verificado midiendo opacidad en render a 150 / 550 / 1000 / 1900 ms. Las dos entradas degradan a contenido visible si el script no llega.<div class="chg-links"><a class="ds-xref" href="#fondo-horizonte"><i class="ph ph-anchor-simple"></i> &sect;30 &middot; Horizonte</a><a class="ds-xref" href="#fx-entrada"><i class="ph ph-anchor-simple"></i> &sect;07 &middot; Entradas</a><button class="ds-copy chg-share" data-ds-copy="link" title="Copiar link a este cambio" aria-label="Copiar link a este cambio"><i class="ph ph-link"></i>Compartir</button></div></td>
+<td><strong>Entran <code>.fondo-horizonte</code> en &sect;30 y las entradas <code>.ds-fx-lineas</code> / <code>.ds-fx-pasos</code> en &sect;07.</strong> Las tres salieron de las landings de integraciones. <strong>El horizonte</strong> es el hermano de <code>.fondo-malla</code> que avanza por reloj en vez de por scroll: sirve donde no hay recorrido que gobierne la animaci&oacute;n, que es el caso de las p&aacute;ginas de una sola pantalla. <strong>Las entradas</strong> comparten archivo y observador (<code>components/fx-entrada.js</code>) y se disparan una sola vez al entrar en pantalla. En <code>.ds-fx-pasos</code> el orden <em>es</em> el mensaje: el n&uacute;mero aterriza con un halo del acento, su texto entra 150 ms despu&eacute;s y reci&eacute;n ah&iacute; se dibuja la l&iacute;nea al siguiente, con 420 ms entre pasos &mdash; si los tres aparecen juntos, la secci&oacute;n deja de decir &laquo;primero esto, despu&eacute;s esto&raquo;. <strong>Defecto encontrado y corregido antes de publicar:</strong> la transici&oacute;n estaba declarada tambi&eacute;n en el estado escondido, as&iacute; que al montarse el efecto el navegador animaba la <em>salida</em> &mdash; el paso 3 tardaba 840 ms en esconderse y hasta entonces se ve&iacute;a. Ahora el estado escondido va sin transici&oacute;n y la coreograf&iacute;a vive solo en el estado final; verificado midiendo opacidad en render a 150 / 550 / 1000 / 1900 ms. Las dos entradas degradan a contenido visible si el script no llega. En la misma version entra <strong><code>.ds-flip</code></strong>: la card gira 180&deg; y muestra un dorso, con hover en desktop, tap en tactil y foco de teclado. Las dos caras se apilan en la misma celda de grid en vez de <code>position:absolute</code>, asi que el alto lo manda la cara mas larga y no hay que fijarlo a mano &mdash; que es lo que rompe estas cards cuando el texto cambia de largo por partner. <strong>El dorso no lleva el argumento de la card</strong>: quien nunca la gire ya leyo lo que importa.<div class="chg-links"><a class="ds-xref" href="#card-flip"><i class="ph ph-anchor-simple"></i> &sect;07 &middot; Card que gira</a><a class="ds-xref" href="#fondo-horizonte"><i class="ph ph-anchor-simple"></i> &sect;30 &middot; Horizonte</a><a class="ds-xref" href="#fx-entrada"><i class="ph ph-anchor-simple"></i> &sect;07 &middot; Entradas</a><button class="ds-copy chg-share" data-ds-copy="link" title="Copiar link a este cambio" aria-label="Copiar link a este cambio"><i class="ph ph-link"></i>Compartir</button></div></td>
 </tr>
 <tr id="chg-fondo-malla">
 <td class="mono-cell">v1.2.7.13</td>
@@ -1654,6 +1655,60 @@ body.preview-open .ds-layout { display: none !important; }
     <li><strong>La l&iacute;nea de uni&oacute;n es el <code>::after</code> que el consumidor ya ten&iacute;a.</strong> El DS no lo crea, solo lo escala; si no existe, no pasa nada.</li>
     <li><strong>Sin script, todo se ve normal.</strong> El estado inicial lo pone <code>.ds-fx-listo</code>, que agrega el propio script. Contenido invisible por un 404 de CDN no es un riesgo aceptable.</li>
     <li><strong><code>prefers-reduced-motion</code>:</strong> muestra y se va, sin partir el t&iacute;tulo ni escalonar nada.</li>
+  </ul>
+</div>
+
+
+<div class="subsection-title" id="card-flip">Card que gira &mdash; <code>.ds-flip</code></div>
+<p class="ds-section-sub">La card muestra un dorso al pasar el mouse, al tocarla o al recibir foco de teclado. <strong>El dorso no puede llevar el argumento de la card</strong>: mucha gente no lo va a ver nunca, y una pieza que esconde su mensaje detr&aacute;s de una interacci&oacute;n no comunica. Va contenido opcional &mdash; un dato, una prueba, el dolor que la card elimina.</p>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px">
+  <div class="card ds-flip">
+    <div class="ds-flip-in">
+      <div class="ds-flip-cara">
+        <div style="font:700 15px var(--sans);color:var(--text);margin-bottom:8px">Stock vivo</div>
+        <div style="font:400 13px/1.55 var(--sans);color:var(--muted)">El inventario queda en l&iacute;nea entre el ERP y el canal de venta.</div>
+      </div>
+      <div class="ds-flip-dorso">
+        <div style="font:700 10px var(--mono);letter-spacing:.15em;text-transform:uppercase;color:var(--muted-2);margin-bottom:10px">Sin esto</div>
+        <div style="font:400 14px/1.55 var(--sans);color:var(--text)">Cada canal nuevo es una sobreventa esperando.</div>
+      </div>
+    </div>
+  </div>
+  <div class="card ds-flip">
+    <div class="ds-flip-in">
+      <div class="ds-flip-cara">
+        <div style="font:700 15px var(--sans);color:var(--text);margin-bottom:8px">Pas&aacute; el mouse</div>
+        <div style="font:400 13px/1.55 var(--sans);color:var(--muted)">O toc&aacute;, o tabul&aacute; hasta ac&aacute;. Las tres giran.</div>
+      </div>
+      <div class="ds-flip-dorso">
+        <div style="font:700 10px var(--mono);letter-spacing:.15em;text-transform:uppercase;color:var(--muted-2);margin-bottom:10px">Dorso</div>
+        <div style="font:400 14px/1.55 var(--sans);color:var(--text)">Las dos caras van apiladas en la misma celda de grid: el alto lo manda la m&aacute;s larga.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card" style="margin-top:12px">
+  <div style="font:700 13px var(--sans);margin-bottom:10px">C&oacute;mo se usa</div>
+  <div class="ds-code" style="font:400 12px/1.7 var(--mono)">
+<span style="color:var(--cyan)">&lt;script</span> <span style="color:var(--green)">src</span>=<span style="color:var(--amber)">"https://diguardia.github.io/yiqi-imagen/components/card-flip.js"</span> <span style="color:var(--green)">defer</span><span style="color:var(--cyan)">&gt;&lt;/script&gt;</span><br><br>
+<span style="color:var(--cyan)">&lt;div</span> <span style="color:var(--green)">class</span>=<span style="color:var(--amber)">"card ds-flip"</span><span style="color:var(--cyan)">&gt;</span><br>
+&nbsp;&nbsp;<span style="color:var(--cyan)">&lt;div</span> <span style="color:var(--green)">class</span>=<span style="color:var(--amber)">"ds-flip-in"</span><span style="color:var(--cyan)">&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--cyan)">&lt;div</span> <span style="color:var(--green)">class</span>=<span style="color:var(--amber)">"ds-flip-cara"</span><span style="color:var(--cyan)">&gt;</span> &hellip; <span style="color:var(--cyan)">&lt;/div&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--cyan)">&lt;div</span> <span style="color:var(--green)">class</span>=<span style="color:var(--amber)">"ds-flip-dorso"</span><span style="color:var(--cyan)">&gt;</span> &hellip; <span style="color:var(--cyan)">&lt;/div&gt;</span><br>
+&nbsp;&nbsp;<span style="color:var(--cyan)">&lt;/div&gt;</span><br>
+<span style="color:var(--cyan)">&lt;/div&gt;</span>
+  </div>
+</div>
+
+<div class="card" style="margin-top:12px">
+  <div style="font:700 13px var(--sans);margin-bottom:10px">Decisiones</div>
+  <ul style="margin:0;padding-left:18px;font:400 13px/1.7 var(--sans);color:var(--muted)">
+    <li><strong>Las dos caras van apiladas en la misma celda de grid</strong>, no con <code>position:absolute</code>. As&iacute; el contenedor toma el alto de la cara m&aacute;s larga y las dos quedan iguales <strong>sin fijar una altura a mano</strong> &mdash; que es justo lo que rompe estas cards cuando el texto cambia de largo.</li>
+    <li><strong>Gira tambi&eacute;n con foco de teclado</strong>, y al salir vuelve al frente. El dorso es contenido: dejarlo solo al alcance del mouse lo hace inexistente para quien navega sin &eacute;l.</li>
+    <li><strong>Un link adentro de la card gana.</strong> El tap sobre un <code>&lt;a&gt;</code> navega, no gira.</li>
+    <li><strong><code>prefers-reduced-motion</code>:</strong> no gira, hace crossfade. La informaci&oacute;n llega igual, sin el movimiento.</li>
   </ul>
 </div>
 
