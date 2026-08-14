@@ -46,6 +46,14 @@
     if (caja) caja.appendChild(lienzo);
     else document.body.insertBefore(lienzo, document.body.firstChild);
 
+    /* Si styles.css todavia no trae .fondo-malla (CDN sin publicar, cache
+       vieja), el canvas quedaria como un bloque suelto arriba del contenido.
+       Antes que romper la pagina, no montarse. */
+    if (getComputedStyle(lienzo).position !== (caja ? 'absolute' : 'fixed')) {
+      lienzo.remove();
+      return;
+    }
+
     var ctx = lienzo.getContext('2d');
     if (!ctx) { lienzo.remove(); return; }
 

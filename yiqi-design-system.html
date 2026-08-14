@@ -473,6 +473,12 @@ body.preview-open .ds-layout { display: none !important; }
 <tr><th>Versión</th><th>Fecha</th><th>Tipo</th><th>Detalle</th></tr>
 </thead>
 <tbody>
+<tr id="chg-fondo-malla">
+<td class="mono-cell">v1.2.7.13</td>
+<td class="mono-cell">14/08/2026</td>
+<td><span class="badge badge-cyan">NUEVO</span></td>
+<td><strong>&sect;30 suma <code>.fondo-malla</code>: un wireframe 3D que rota con el scroll.</strong> Naci&oacute; para las siete landings de integraciones, donde la grilla cuadriculada sola no daba profundidad. Es una esfera de nodos unidos por aristas proyectada en un canvas 2D, <strong>sin Three.js</strong>: a las opacidades a las que vive (.34 en oscuro, .20 en claro, detr&aacute;s del contenido) un render GL no se distingue de una proyecci&oacute;n de puntos, y son ~5&nbsp;KB contra ~145&nbsp;KB &mdash; en las p&aacute;ginas que reciben los clics pagados, y con el informe de peso del 06/08 midiendo que el 37&nbsp;% se va en 3 segundos o menos, esa diferencia decide. <strong>La rotaci&oacute;n la maneja el scroll, no un loop</strong>: el movimiento es del visitante. Va en <code>z-index:-1</code>, arriba del fondo del <code>body</code> y debajo de todo, as&iacute; que cualquier secci&oacute;n con fondo propio la tapa y la malla queda donde hay aire. Hereda <code>--cyan</code>, con lo cual toma el acento de cada partner sin configurar nada, y respeta <code>prefers-reduced-motion</code>. Se consume por CDN &mdash; <strong>sin copia local en el proyecto</strong>, que es de donde vino la deriva entre <code>www.yiqi/components/</code> y <code>yiqi-imagen/components/</code>. Variante <code>[data-fondo-malla]</code> para acotarla a una caja.<div class="chg-links"><a class="ds-xref" href="#fondo-malla"><i class="ph ph-anchor-simple"></i> &sect;30 &middot; Malla 3D</a><button class="ds-copy chg-share" data-ds-copy="link" title="Copiar link a este cambio" aria-label="Copiar link a este cambio"><i class="ph ph-link"></i>Compartir</button></div></td>
+</tr>
 <tr id="chg-btn-borde">
 <td class="mono-cell">v1.2.7.12</td>
 <td class="mono-cell">13/08/2026</td>
