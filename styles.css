@@ -3462,3 +3462,25 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
   background: transparent; color: var(--muted); display: grid; place-items: center; font-size: 17px; cursor: pointer; }
 @media (hover: hover) { .ds-appbar-actions button:hover { background: var(--bg-soft); color: var(--text); } }
 .ds-appbar-actions button:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: 2px; }
+
+/* ── .fondo-malla — wireframe 3D de fondo, rota con el scroll ──────────
+      El canvas lo crea components/fondo-malla.js; esta clase solo lo ubica.
+      z-index -1 lo deja arriba del fondo del body y debajo de todo el
+      contenido: cualquier seccion con fondo propio lo tapa, que es lo
+      buscado — la malla vive donde hay aire, no detras de cada parrafo.
+      La mascara la desvanece contra los bordes del viewport para que no
+      corte en seco. Hereda --cyan del contexto. */
+.fondo-malla {
+  position: fixed; inset: 0; z-index: -1;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  opacity: .34;
+  -webkit-mask-image: radial-gradient(ellipse 76% 76% at 50% 44%, #000 36%, transparent 100%);
+          mask-image: radial-gradient(ellipse 76% 76% at 50% 44%, #000 36%, transparent 100%);
+}
+/* Variante acotada: la malla vive dentro de una caja en vez de detras de
+   toda la pagina. La caja tiene que traer position relativa y overflow
+   hidden; el canvas se estira a sus bordes. */
+.fondo-malla-en-caja { position: absolute; z-index: 0; }
+html[data-theme="light"] .fondo-malla { opacity: .20; }
+@media (max-width: 720px) { .fondo-malla { opacity: .20; } }

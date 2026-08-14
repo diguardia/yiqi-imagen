@@ -15,6 +15,7 @@
 <script src="yiqi-runtime.js" defer></script>
 <script src="components/app-banner.js" defer></script>
 <script src="components/carousel.js" defer></script>
+<script src="components/fondo-malla.js" defer></script>
 <script src="components/llm-fab.js" defer></script>
 <style>
 /* ─── DS v1.2.7 ─────────────────────────────────────────── */
@@ -3125,6 +3126,34 @@ html[data-theme="light"] .bg-grid-demo-fade {
       <span style="color:var(--cyan)">.bg-grid-fade-b/t/c</span><span style="color:var(--muted-2)">máscaras de fade — top / bottom / radial</span>
     </div>
   </div>
+</div>
+
+
+<div class="subsection-title" id="fondo-malla">Malla 3D &mdash; el fondo que rota con el scroll</div>
+<p class="ds-section-sub">Segunda capa de fondo, para heroes y landings largas. Una esfera de nodos unidos por aristas, proyectada en perspectiva sobre un canvas 2D. <strong>No gira sola</strong>: la rotaci&oacute;n la maneja la posici&oacute;n del scroll, as&iacute; que el movimiento es del visitante y no un loop dando vueltas detr&aacute;s del texto.</p>
+
+<div class="card" data-fondo-malla style="position:relative;overflow:hidden;min-height:260px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px">
+  <span style="position:relative;z-index:1;font:600 11px var(--mono);color:var(--cyan);text-transform:uppercase;letter-spacing:.1em">.fondo-malla</span>
+  <span style="position:relative;z-index:1;font:400 11px var(--mono);color:var(--muted-2)">scrolle&aacute; la p&aacute;gina &mdash; la malla gira con vos</span>
+</div>
+
+<div class="card" style="margin-top:12px">
+  <div style="font:700 13px var(--sans);margin-bottom:10px">C&oacute;mo se usa</div>
+  <div class="ds-code" style="font:400 12px/1.7 var(--mono)">
+<span style="color:var(--muted-2)">&lt;!-- el script ES el opt-in: la pagina que no lo pide, no lo tiene --&gt;</span><br>
+<span style="color:var(--cyan)">&lt;script</span> <span style="color:var(--green)">src</span>=<span style="color:var(--amber)">"https://diguardia.github.io/yiqi-imagen/components/fondo-malla.js"</span> <span style="color:var(--green)">defer</span><span style="color:var(--cyan)">&gt;&lt;/script&gt;</span>
+  </div>
+</div>
+
+<div class="card" style="margin-top:12px">
+  <div style="font:700 13px var(--sans);margin-bottom:10px">Decisiones</div>
+  <ul style="margin:0;padding-left:18px;font:400 13px/1.7 var(--sans);color:var(--muted)">
+    <li><strong>Sin Three.js, a prop&oacute;sito.</strong> Vive al 34&nbsp;% de opacidad detr&aacute;s del contenido; a esa opacidad un render GL no se distingue de una proyecci&oacute;n de puntos. Son ~5&nbsp;KB contra ~145&nbsp;KB, en p&aacute;ginas que reciben los clics pagados.</li>
+    <li><strong><code>z-index: -1</code>.</strong> Queda arriba del fondo del <code>body</code> y debajo de todo el contenido: cualquier secci&oacute;n con fondo propio la tapa. Es lo buscado &mdash; la malla vive donde hay aire, no detr&aacute;s de cada p&aacute;rrafo.</li>
+    <li><strong>Hereda <code>--cyan</code>.</strong> En una landing de partner toma el acento del partner sin configurar nada.</li>
+    <li><strong>Respeta <code>prefers-reduced-motion</code>.</strong> Dibuja igual, pero fija.</li>
+    <li><strong>Acotarla a una caja:</strong> <code>[data-fondo-malla]</code> en un contenedor con <code>position:relative</code> y <code>overflow:hidden</code> &mdash; es lo que hace la demo de arriba.</li>
+  </ul>
 </div>
 
 </section>
