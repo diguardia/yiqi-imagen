@@ -3514,14 +3514,23 @@ html[data-theme="light"] .fondo-horizonte { opacity: .38; }
   display: block; overflow: hidden;
   padding-bottom: .12em; margin-bottom: -.12em;
 }
+/* El estado escondido va SIN transicion, a proposito. Con la transicion
+   declarada aca, al agregar .ds-fx-listo el navegador anima la salida — la
+   linea 2 tardaba su propio delay en desaparecer y quedaba visible mientras
+   la 1 ya se habia escondido. La transicion vive solo en el estado final:
+   por spec, la que manda es la del after-change style. */
 .ds-fx-lineas.ds-fx-listo .ds-fx-linea > span {
   display: block;
   transform: translateY(105%);
   opacity: 0;
-  transition: transform .78s cubic-bezier(.22, 1, .36, 1), opacity .6s ease;
+  transition: none;
   will-change: transform;
 }
-.ds-fx-lineas.ds-fx-on .ds-fx-linea > span { transform: none; opacity: 1; }
+.ds-fx-lineas.ds-fx-on .ds-fx-linea > span {
+  transform: none; opacity: 1;
+  transition: transform .78s cubic-bezier(.22, 1, .36, 1), opacity .6s ease;
+  transition-delay: calc(var(--i) * 90ms);
+}
 
 /* ── .ds-fx-pasos — la secuencia 1-2-3 se arma en orden ────────────────
       components/fx-entrada.js marca cada hijo directo como .ds-fx-paso, le
@@ -3531,24 +3540,33 @@ html[data-theme="light"] .fondo-horizonte { opacity: .38; }
       420 ms despues del anterior.
       La linea es el ::after que el consumidor ya tenia — no lo creamos, solo
       lo escalamos; si no existe, no pasa nada. */
+/* Mismo criterio que arriba: escondido sin transicion, la coreografia vive
+   en el estado final. Si no, el paso 3 tarda 840 ms en esconderse y hasta
+   entonces se ve — con lo cual la secuencia no empieza en 1. */
 .ds-fx-pasos.ds-fx-listo .ds-fx-nodo {
-  opacity: 0; transform: scale(.62);
+  opacity: 0; transform: scale(.62); transition: none;
+}
+.ds-fx-pasos.ds-fx-listo .ds-fx-cuerpo {
+  opacity: 0; transform: translateY(14px); transition: none;
+}
+.ds-fx-pasos.ds-fx-listo .ds-fx-paso::after {
+  transform: scaleX(0); transform-origin: left center; transition: none;
+}
+.ds-fx-pasos.ds-fx-on .ds-fx-nodo {
+  opacity: 1; transform: none;
   transition: opacity .42s ease, transform .52s cubic-bezier(.34, 1.56, .64, 1);
   transition-delay: calc(var(--i) * 420ms);
 }
-.ds-fx-pasos.ds-fx-listo .ds-fx-cuerpo {
-  opacity: 0; transform: translateY(14px);
+.ds-fx-pasos.ds-fx-on .ds-fx-cuerpo {
+  opacity: 1; transform: none;
   transition: opacity .5s ease, transform .5s cubic-bezier(.22, 1, .36, 1);
   transition-delay: calc(var(--i) * 420ms + 150ms);
 }
-.ds-fx-pasos.ds-fx-listo .ds-fx-paso::after {
-  transform: scaleX(0); transform-origin: left center;
+.ds-fx-pasos.ds-fx-on .ds-fx-paso::after {
+  transform: scaleX(1);
   transition: transform .52s cubic-bezier(.22, 1, .36, 1);
   transition-delay: calc(var(--i) * 420ms + 280ms);
 }
-.ds-fx-pasos.ds-fx-on .ds-fx-nodo,
-.ds-fx-pasos.ds-fx-on .ds-fx-cuerpo { opacity: 1; transform: none; }
-.ds-fx-pasos.ds-fx-on .ds-fx-paso::after { transform: scaleX(1); }
 
 /* El halo que dice "aca estas": un anillo del acento que se abre y se apaga
    cuando el numero aterriza. Va en ::before para no pelear con el box-shadow
@@ -3563,4 +3581,46 @@ html[data-theme="light"] .fondo-horizonte { opacity: .38; }
   0%   { box-shadow: 0 0 0 0 var(--cyan-soft-2, rgba(0, 204, 255, .35)); opacity: 1; }
   70%  { box-shadow: 0 0 0 14px transparent; opacity: .45; }
   100% { box-shadow: 0 0 0 18px transparent; opacity: 0; }
+}
+
+/* ── .ds-flip — la card gira y muestra el dorso ────────────────────────
+      Las dos caras van apiladas en la MISMA celda de grid, no con position
+      absolute: asi el contenedor toma el alto de la cara mas larga y las dos
+      quedan del mismo tamano sin fijar una altura a mano. Fijarla es lo que
+      rompe estas cards cuando el texto cambia de largo por partner.
+      components/card-flip.js cablea el tap y el teclado; el hover es puro CSS. */
+.ds-flip { perspective: 1100px; cursor: pointer; }
+.ds-flip:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+.ds-flip-in {
+  display: grid;
+  transform-style: preserve-3d;
+  transition: transform .62s cubic-bezier(.22, 1, .36, 1);
+}
+.ds-flip-in > .ds-flip-cara,
+.ds-flip-in > .ds-flip-dorso {
+  grid-area: 1 / 1;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+}
+.ds-flip-dorso { transform: rotateY(180deg); }
+.ds-flip.is-vuelta .ds-flip-in { transform: rotateY(180deg); }
+@media (hover: hover) {
+  .ds-flip:hover .ds-flip-in { transform: rotateY(180deg); }
+  .ds-flip.is-vuelta:hover .ds-flip-in { transform: none; }
+}
+
+/* Sin movimiento: el giro pasa a ser un cruce de opacidad. El dato del dorso
+   llega igual — es lo que importa —, sin rotar nada. */
+@media (prefers-reduced-motion: reduce) {
+  .ds-flip-in { transform: none !important; transition: opacity .3s ease; }
+  .ds-flip-in > .ds-flip-cara,
+  .ds-flip-in > .ds-flip-dorso {
+    backface-visibility: visible; transform: none;
+    transition: opacity .3s ease;
+  }
+  .ds-flip-dorso { opacity: 0; }
+  .ds-flip:hover .ds-flip-dorso,
+  .ds-flip.is-vuelta .ds-flip-dorso { opacity: 1; }
+  .ds-flip:hover .ds-flip-cara,
+  .ds-flip.is-vuelta .ds-flip-cara { opacity: 0; }
 }

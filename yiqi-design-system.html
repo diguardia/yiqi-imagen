@@ -16,6 +16,8 @@
 <script src="components/app-banner.js" defer></script>
 <script src="components/carousel.js" defer></script>
 <script src="components/fondo-malla.js" defer></script>
+<script src="components/fondo-horizonte.js" defer></script>
+<script src="components/fx-entrada.js" defer></script>
 <script src="components/llm-fab.js" defer></script>
 <style>
 /* ─── DS v1.2.7 ─────────────────────────────────────────── */
@@ -473,6 +475,12 @@ body.preview-open .ds-layout { display: none !important; }
 <tr><th>Versión</th><th>Fecha</th><th>Tipo</th><th>Detalle</th></tr>
 </thead>
 <tbody>
+<tr id="chg-fx-entrada">
+<td class="mono-cell">v1.2.7.14</td>
+<td class="mono-cell">14/08/2026</td>
+<td><span class="badge badge-cyan">NUEVO</span></td>
+<td><strong>Entran <code>.fondo-horizonte</code> en &sect;30 y las entradas <code>.ds-fx-lineas</code> / <code>.ds-fx-pasos</code> en &sect;07.</strong> Las tres salieron de las landings de integraciones. <strong>El horizonte</strong> es el hermano de <code>.fondo-malla</code> que avanza por reloj en vez de por scroll: sirve donde no hay recorrido que gobierne la animaci&oacute;n, que es el caso de las p&aacute;ginas de una sola pantalla. <strong>Las entradas</strong> comparten archivo y observador (<code>components/fx-entrada.js</code>) y se disparan una sola vez al entrar en pantalla. En <code>.ds-fx-pasos</code> el orden <em>es</em> el mensaje: el n&uacute;mero aterriza con un halo del acento, su texto entra 150 ms despu&eacute;s y reci&eacute;n ah&iacute; se dibuja la l&iacute;nea al siguiente, con 420 ms entre pasos &mdash; si los tres aparecen juntos, la secci&oacute;n deja de decir &laquo;primero esto, despu&eacute;s esto&raquo;. <strong>Defecto encontrado y corregido antes de publicar:</strong> la transici&oacute;n estaba declarada tambi&eacute;n en el estado escondido, as&iacute; que al montarse el efecto el navegador animaba la <em>salida</em> &mdash; el paso 3 tardaba 840 ms en esconderse y hasta entonces se ve&iacute;a. Ahora el estado escondido va sin transici&oacute;n y la coreograf&iacute;a vive solo en el estado final; verificado midiendo opacidad en render a 150 / 550 / 1000 / 1900 ms. Las dos entradas degradan a contenido visible si el script no llega.<div class="chg-links"><a class="ds-xref" href="#fondo-horizonte"><i class="ph ph-anchor-simple"></i> &sect;30 &middot; Horizonte</a><a class="ds-xref" href="#fx-entrada"><i class="ph ph-anchor-simple"></i> &sect;07 &middot; Entradas</a><button class="ds-copy chg-share" data-ds-copy="link" title="Copiar link a este cambio" aria-label="Copiar link a este cambio"><i class="ph ph-link"></i>Compartir</button></div></td>
+</tr>
 <tr id="chg-fondo-malla">
 <td class="mono-cell">v1.2.7.13</td>
 <td class="mono-cell">14/08/2026</td>
@@ -1604,6 +1612,51 @@ body.preview-open .ds-layout { display: none !important; }
 <span><strong>El borde de un solo lado sigue prohibido.</strong> La regla y sus ejemplos viven en <a class="ds-xref" style="display:inline-flex" href="#reglas">01 · Reglas</a>, que es donde corresponde.</span>
 </div>
 </div>
+
+<div class="subsection-title" id="fx-entrada">Entradas al aparecer &mdash; <code>.ds-fx-lineas</code> y <code>.ds-fx-pasos</code></div>
+<p class="ds-section-sub">Las dos las monta <code>components/fx-entrada.js</code>, con un solo observador. Se disparan cuando la pieza entra en pantalla, <strong>una sola vez</strong>: un elemento que se re-anima cada vez que vuelve a pasar marea.</p>
+
+<div class="card">
+  <h3 class="ds-fx-lineas" style="font:700 30px/1.15 var(--display);letter-spacing:-.028em;color:var(--text);margin:0 0 6px">Sube l&iacute;nea por l&iacute;nea.<br>El corte lo dan los &lt;br&gt;.</h3>
+  <p style="font:400 13px/1.6 var(--sans);color:var(--muted);margin:0 0 28px">No adivina d&oacute;nde cortar: usa el corte que escribi&oacute; quien redact&oacute; el t&iacute;tulo.</p>
+
+  <div class="ds-fx-pasos" style="display:grid;grid-template-columns:repeat(3,1fr);gap:0">
+    <div style="display:flex;flex-direction:column;align-items:center;position:relative;padding:0 14px">
+      <div style="width:34px;height:34px;border-radius:50%;background:var(--bg-elev-2);box-shadow:0 0 0 5px var(--card-bg,var(--bg));display:grid;place-items:center;font:700 11px var(--mono);color:var(--cyan);position:relative;z-index:1;margin-bottom:18px">01</div>
+      <div style="text-align:center;font:400 12px/1.5 var(--sans);color:var(--muted)">El n&uacute;mero aterriza con un halo del acento.</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;position:relative;padding:0 14px">
+      <div style="width:34px;height:34px;border-radius:50%;background:var(--bg-elev-2);box-shadow:0 0 0 5px var(--card-bg,var(--bg));display:grid;place-items:center;font:700 11px var(--mono);color:var(--cyan);position:relative;z-index:1;margin-bottom:18px">02</div>
+      <div style="text-align:center;font:400 12px/1.5 var(--sans);color:var(--muted)">Entra su texto 150 ms despu&eacute;s.</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;position:relative;padding:0 14px">
+      <div style="width:34px;height:34px;border-radius:50%;background:var(--bg-elev-2);box-shadow:0 0 0 5px var(--card-bg,var(--bg));display:grid;place-items:center;font:700 11px var(--mono);color:var(--cyan);position:relative;z-index:1;margin-bottom:18px">03</div>
+      <div style="text-align:center;font:400 12px/1.5 var(--sans);color:var(--muted)">Y reci&eacute;n ah&iacute; se dibuja la l&iacute;nea al siguiente.</div>
+    </div>
+  </div>
+</div>
+
+<div class="card" style="margin-top:12px">
+  <div style="font:700 13px var(--sans);margin-bottom:10px">C&oacute;mo se usa</div>
+  <div class="ds-code" style="font:400 12px/1.7 var(--mono)">
+<span style="color:var(--cyan)">&lt;script</span> <span style="color:var(--green)">src</span>=<span style="color:var(--amber)">"https://diguardia.github.io/yiqi-imagen/components/fx-entrada.js"</span> <span style="color:var(--green)">defer</span><span style="color:var(--cyan)">&gt;&lt;/script&gt;</span><br><br>
+<span style="color:var(--cyan)">&lt;h2</span> <span style="color:var(--green)">class</span>=<span style="color:var(--amber)">"ds-fx-lineas"</span><span style="color:var(--cyan)">&gt;</span>Primera l&iacute;nea.<span style="color:var(--cyan)">&lt;br&gt;</span>Segunda l&iacute;nea.<span style="color:var(--cyan)">&lt;/h2&gt;</span><br><br>
+<span style="color:var(--muted-2)">&lt;!-- cada hijo directo es un paso; su primer elemento es el numero --&gt;</span><br>
+<span style="color:var(--cyan)">&lt;div</span> <span style="color:var(--green)">class</span>=<span style="color:var(--amber)">"ds-fx-pasos"</span><span style="color:var(--cyan)">&gt;</span> &hellip; <span style="color:var(--cyan)">&lt;/div&gt;</span>
+  </div>
+</div>
+
+<div class="card" style="margin-top:12px">
+  <div style="font:700 13px var(--sans);margin-bottom:10px">Decisiones</div>
+  <ul style="margin:0;padding-left:18px;font:400 13px/1.7 var(--sans);color:var(--muted)">
+    <li><strong>El orden es el mensaje.</strong> Si los tres pasos aparecen juntos, la secci&oacute;n deja de decir &laquo;primero esto, despu&eacute;s esto&raquo;. Cada paso arranca 420 ms despu&eacute;s del anterior.</li>
+    <li><strong>El estado escondido va sin transici&oacute;n, a prop&oacute;sito.</strong> Con la transici&oacute;n declarada ah&iacute;, al montarse el efecto el navegador anima la <em>salida</em>: el paso 3 tardaba 840 ms en esconderse y hasta entonces se ve&iacute;a, con lo cual la secuencia no empezaba en 1. La coreograf&iacute;a vive solo en el estado final.</li>
+    <li><strong>La l&iacute;nea de uni&oacute;n es el <code>::after</code> que el consumidor ya ten&iacute;a.</strong> El DS no lo crea, solo lo escala; si no existe, no pasa nada.</li>
+    <li><strong>Sin script, todo se ve normal.</strong> El estado inicial lo pone <code>.ds-fx-listo</code>, que agrega el propio script. Contenido invisible por un 404 de CDN no es un riesgo aceptable.</li>
+    <li><strong><code>prefers-reduced-motion</code>:</strong> muestra y se va, sin partir el t&iacute;tulo ni escalonar nada.</li>
+  </ul>
+</div>
+
 </section>
 <!-- ─── MOTION ─── -->
 
@@ -3159,6 +3212,31 @@ html[data-theme="light"] .bg-grid-demo-fade {
     <li><strong>Hereda <code>--cyan</code>.</strong> En una landing de partner toma el acento del partner sin configurar nada.</li>
     <li><strong>Respeta <code>prefers-reduced-motion</code>.</strong> Dibuja igual, pero fija.</li>
     <li><strong>Acotarla a una caja:</strong> <code>[data-fondo-malla]</code> en un contenedor con <code>position:relative</code> y <code>overflow:hidden</code> &mdash; es lo que hace la demo de arriba.</li>
+  </ul>
+</div>
+
+<div class="subsection-title" id="fondo-horizonte">Horizonte &mdash; la grilla en fuga</div>
+<p class="ds-section-sub">Hermano de la malla, misma capa y mismo criterio de tapado. La diferencia est&aacute; en qu&eacute; maneja el movimiento: <strong>este avanza por reloj, no por scroll</strong>. Es para p&aacute;ginas de una sola pantalla, donde no hay recorrido que gobierne la animaci&oacute;n &mdash; la de &laquo;en construcci&oacute;n&raquo; es el caso que lo pidi&oacute;.</p>
+
+<div class="card" data-fondo-horizonte style="position:relative;overflow:hidden;min-height:280px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px">
+  <span style="position:relative;z-index:1;font:600 11px var(--mono);color:var(--cyan);text-transform:uppercase;letter-spacing:.1em">.fondo-horizonte</span>
+  <span style="position:relative;z-index:1;font:400 11px var(--mono);color:var(--muted-2)">avanza solo &mdash; no depende del scroll</span>
+</div>
+
+<div class="card" style="margin-top:12px">
+  <div style="font:700 13px var(--sans);margin-bottom:10px">C&oacute;mo se usa</div>
+  <div class="ds-code" style="font:400 12px/1.7 var(--mono)">
+<span style="color:var(--cyan)">&lt;script</span> <span style="color:var(--green)">src</span>=<span style="color:var(--amber)">"https://diguardia.github.io/yiqi-imagen/components/fondo-horizonte.js"</span> <span style="color:var(--green)">defer</span><span style="color:var(--cyan)">&gt;&lt;/script&gt;</span>
+  </div>
+</div>
+
+<div class="card" style="margin-top:12px">
+  <div style="font:700 13px var(--sans);margin-bottom:10px">Decisiones</div>
+  <ul style="margin:0;padding-left:18px;font:400 13px/1.7 var(--sans);color:var(--muted)">
+    <li><strong>La luz de horizonte es lo &uacute;nico c&aacute;lido de la escena.</strong> Sale del manifiesto; el resto son l&iacute;neas del acento a opacidad baja.</li>
+    <li><strong>La m&aacute;scara borra la mitad de arriba.</strong> Arriba del horizonte no hay plano que dibujar, y el degrade evita que la grilla arranque en seco.</li>
+    <li><strong>Cuidado con lo que quede sin fondo propio.</strong> Al ser fijo al viewport, un footer transparente se lleva la grilla por encima del texto. Es lo que pas&oacute; en <code>en-construccion.html</code> y se resolvi&oacute; apoyando el footer en <code>var(--bg)</code>.</li>
+    <li><strong>Respeta <code>prefers-reduced-motion</code>.</strong> Dibuja el plano, pero quieto.</li>
   </ul>
 </div>
 

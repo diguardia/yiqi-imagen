@@ -38,8 +38,8 @@
     var partes = el.innerHTML.split(/<br\s*\/?>/i);
     if (partes.length < 2) partes = [el.innerHTML];
     el.innerHTML = partes.map(function (linea, i) {
-      return '<span class="ds-fx-linea"><span style="transition-delay:' +
-             (i * 90) + 'ms">' + linea + '</span></span>';
+      return '<span class="ds-fx-linea"><span style="--i:' + i + '">' +
+             linea + '</span></span>';
     }).join('');
   }
 
