@@ -44,6 +44,41 @@ function getAuditVulnerabilities(report) {
   return report.vulnerabilities
 }
 
+function auditUnexpectedFindings(vulnerabilities) {
+  const unexpected = []
+  const highOrCritical = Object.entries(vulnerabilities).filter(([, vulnerability]) =>
+    vulnerability && typeof vulnerability === 'object'
+      && (vulnerability.severity === 'high' || vulnerability.severity === 'critical'),
+  )
+
+  for (const [packageName, vulnerability] of highOrCritical) {
+    if (!ALLOWED_PACKAGES.has(packageName)) {
+      unexpected.push(`${packageName}: paquete high/critical no contemplado`)
+      continue
+    }
+
+    if (!Array.isArray(vulnerability.via) || vulnerability.via.length === 0) {
+      unexpected.push(`${packageName}: vulnerabilidad ${vulnerability.severity} sin via auditable`)
+      continue
+    }
+
+    for (const via of vulnerability.via) {
+      if (typeof via === 'string') {
+        if (!ALLOWED_PACKAGES.has(via)) unexpected.push(`${packageName}: dependencia vulnerable inesperada ${via}`)
+        continue
+      }
+
+      const url = via && typeof via === 'object' ? via.url : null
+      if (!url || !ALLOWED_ADVISORIES.has(url)) {
+        const title = via && typeof via === 'object' ? via.title : null
+        unexpected.push(`${packageName}: advisory inesperado ${url || title || 'sin identificador'}`)
+      }
+    }
+  }
+
+  return { highOrCritical, unexpected }
+}
+
 function runSelfTest() {
   assert.deepEqual(getAuditVulnerabilities({ vulnerabilities: {} }), {})
   assert.throws(
@@ -58,6 +93,27 @@ function runSelfTest() {
     () => getAuditVulnerabilities({ vulnerabilities: null }),
     /vulnerabilities valido/,
   )
+
+  assert.deepEqual(auditUnexpectedFindings({}), { highOrCritical: [], unexpected: [] })
+  assert.deepEqual(
+    auditUnexpectedFindings({ next: { severity: 'high', via: [] } }).unexpected,
+    ['next: vulnerabilidad high sin via auditable'],
+  )
+  assert.deepEqual(
+    auditUnexpectedFindings({
+      next: { severity: 'high', via: ['postcss'] },
+      postcss: {
+        severity: 'high',
+        via: [{ url: 'https://github.com/advisories/GHSA-qx2v-qp2m-jg93' }],
+      },
+    }).unexpected,
+    [],
+  )
+  assert.deepEqual(
+    auditUnexpectedFindings({ next: { severity: 'high', via: [{ title: 'sin URL' }] } }).unexpected,
+    ['next: advisory inesperado sin URL'],
+  )
+
   console.log('Politica de audit productivo: OK')
 }
 
@@ -98,33 +154,11 @@ try {
   ])
 }
 
-const highOrCritical = Object.entries(vulnerabilities).filter(([, vulnerability]) =>
-  vulnerability && (vulnerability.severity === 'high' || vulnerability.severity === 'critical'),
-)
+const { highOrCritical, unexpected } = auditUnexpectedFindings(vulnerabilities)
 
 if (highOrCritical.length === 0) {
   console.log('Audit productivo: OK (sin vulnerabilidades high/critical).')
   process.exit(0)
-}
-
-const unexpected = []
-for (const [packageName, vulnerability] of highOrCritical) {
-  if (!ALLOWED_PACKAGES.has(packageName)) {
-    unexpected.push(`${packageName}: paquete high/critical no contemplado`)
-    continue
-  }
-
-  for (const via of vulnerability.via || []) {
-    if (typeof via === 'string') {
-      if (!ALLOWED_PACKAGES.has(via)) unexpected.push(`${packageName}: dependencia vulnerable inesperada ${via}`)
-      continue
-    }
-
-    const url = via && via.url
-    if (!url || !ALLOWED_ADVISORIES.has(url)) {
-      unexpected.push(`${packageName}: advisory inesperado ${url || via.title || 'sin identificador'}`)
-    }
-  }
 }
 
 if (unexpected.length) {
