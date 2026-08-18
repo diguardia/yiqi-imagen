@@ -8,6 +8,7 @@ Cada script tiene una responsabilidad concreta y un alias en `package.json`.
 | `check-consumer-css.js` | `npm run test:consumer-css -- <rutas>` | Impide CSS visual embebido y estilos inline estaticos en consumidores |
 | `check-clases-ds.js` | `npm run test:clases-ds -- <repos>` | Cruza clases usadas, declaradas y documentadas contra el contrato CSS |
 | `check-ui-redundancy.js` | `npm run test:ui-redundancy` | Detecta componentes YiQi definidos mas de una vez y label/placeholder literales duplicados |
+| `check-production-audit.js` | `npm run audit:production` | Audita dependencias productivas y permite solo advisories upstream explicitamente enumerados; falla tambien si npm audit devuelve error o un reporte incompleto |
 
 ## check-ui-redundancy.js
 
@@ -19,6 +20,12 @@ Este guard protege errores que suelen aparecer cuando una pantalla se replica ma
 No intenta decidir si dos frases diferentes son semanticamente redundantes. Esa parte sigue requiriendo revision de copy y QA visual.
 
 Si falla, no se agrega una excepcion para conservar la duplicacion. Se elimina la segunda implementacion o se corrige el copy.
+
+## Audit productivo
+
+`npm run audit:production` ejecuta la politica de excepciones de seguridad del repo. Un resultado de `npm audit` solo es aceptable si contiene un mapa `vulnerabilities` valido; errores de red, respuestas de error o JSON con forma inesperada hacen fallar el gate en lugar de interpretarse como cero vulnerabilidades.
+
+`npm run test:production-audit-policy` ejecuta el self-test sin red del parser y queda incluido en `npm test` para impedir que esa validacion vuelva a aceptar silenciosamente reportes incompletos.
 
 ## Contrato CSS legacy
 

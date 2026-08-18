@@ -6,5 +6,6 @@
 | `check-consumer-css.js` | `npm run test:consumer-css -- <rutas>` | CSS consumidor e inline styles |
 | `check-clases-ds.js` | `npm run test:clases-ds -- <repos>` | Contrato de clases del DS |
 | `check-ui-redundancy.js` | `npm run test:ui-redundancy` | Implementaciones React y copy de campos duplicados |
+| `check-production-audit.js` | `npm run audit:production` | Politica de vulnerabilidades productivas y forma valida del reporte de npm audit |
 
 Ver `README.md` para alcance y criterio de fallo.

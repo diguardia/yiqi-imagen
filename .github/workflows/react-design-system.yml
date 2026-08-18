@@ -21,7 +21,7 @@ jobs:
         run: npm ci
 
       - name: Auditar dependencias productivas
-        run: node scripts/check-production-audit.js
+        run: npm run audit:production
 
       - name: Ejecutar guards bloqueantes
         run: npm test

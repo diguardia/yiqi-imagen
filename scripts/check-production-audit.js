@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const assert = require('node:assert/strict')
 const fs = require('node:fs')
 const path = require('node:path')
 const { spawnSync } = require('node:child_process')
@@ -19,6 +20,50 @@ function fail(message, details = []) {
   console.error(`Audit productivo: FALLA\n${message}`)
   details.forEach((detail) => console.error(`- ${detail}`))
   process.exit(1)
+}
+
+function getAuditVulnerabilities(report) {
+  if (!report || typeof report !== 'object' || Array.isArray(report)) {
+    throw new Error('npm audit devolvio una estructura JSON invalida.')
+  }
+
+  if (report.error) {
+    const detail = typeof report.error === 'string'
+      ? report.error
+      : report.error.summary || report.error.message || report.error.code || 'sin detalle'
+    throw new Error(`npm audit reporto un error: ${detail}`)
+  }
+
+  if (!Object.prototype.hasOwnProperty.call(report, 'vulnerabilities')
+    || !report.vulnerabilities
+    || typeof report.vulnerabilities !== 'object'
+    || Array.isArray(report.vulnerabilities)) {
+    throw new Error('npm audit no incluyo un mapa vulnerabilities valido.')
+  }
+
+  return report.vulnerabilities
+}
+
+function runSelfTest() {
+  assert.deepEqual(getAuditVulnerabilities({ vulnerabilities: {} }), {})
+  assert.throws(
+    () => getAuditVulnerabilities({ error: { code: 'EAI_AGAIN' } }),
+    /npm audit reporto un error/,
+  )
+  assert.throws(
+    () => getAuditVulnerabilities({ metadata: {} }),
+    /vulnerabilities valido/,
+  )
+  assert.throws(
+    () => getAuditVulnerabilities({ vulnerabilities: null }),
+    /vulnerabilities valido/,
+  )
+  console.log('Politica de audit productivo: OK')
+}
+
+if (process.argv.includes('--self-test')) {
+  runSelfTest()
+  process.exit(0)
 }
 
 const nextPackagePath = path.join(ROOT, 'node_modules', 'next', 'package.json')
@@ -43,7 +88,16 @@ try {
   fail('npm audit no devolvio JSON valido.', [raw.slice(0, 500)])
 }
 
-const vulnerabilities = report.vulnerabilities || {}
+let vulnerabilities
+try {
+  vulnerabilities = getAuditVulnerabilities(report)
+} catch (error) {
+  fail('npm audit no devolvio un reporte utilizable.', [
+    error instanceof Error ? error.message : String(error),
+    `codigo de salida: ${result.status ?? 'sin codigo'}`,
+  ])
+}
+
 const highOrCritical = Object.entries(vulnerabilities).filter(([, vulnerability]) =>
   vulnerability && (vulnerability.severity === 'high' || vulnerability.severity === 'critical'),
 )
