@@ -89,6 +89,19 @@ Antes de migrar una pantalla legacy:
 4. agregar una prueba de regresion funcional;
 5. no omitir la capacidad y no recrearla localmente.
 
+## Registro obligatorio de regresiones en GitHub
+
+Toda regresion detectada, correccion aplicada o validacion nueva debe quedar registrada directamente en GitHub sobre la rama activa del trabajo.
+
+- No dejar fixes, resultados de pruebas o conclusiones de regresion solamente en chat, notas locales o artefactos temporales.
+- Mantener la misma rama y el mismo PR mientras el trabajo siga perteneciendo al mismo alcance, salvo instruccion explicita en contrario.
+- Una regresion confirmada debe quedar respaldada por un cambio de codigo o contrato y, cuando sea reproducible, por una prueba o guard que falle sin el fix.
+- Despues de validar, actualizar el PR con el head validado, el resultado del gate y cualquier riesgo o deuda que siga pendiente.
+- Si cambia el resultado de una validacion anterior, corregir el texto del PR; no conservar cifras o afirmaciones obsoletas.
+- No marcar el PR como listo, no habilitar auto-merge y no mergear sin una instruccion explicita.
+
+La conversacion puede resumir el trabajo, pero GitHub es el registro operativo de los cambios y de su validacion.
+
 ## Legacy
 
 Los templates HTML y `styles.css` siguen siendo validos para consumidores legacy o no React. No se eliminan hasta confirmar que no tienen consumidores y que la paridad necesaria esta cubierta.
@@ -103,9 +116,9 @@ La aplicacion consumidora no debe depender de que primitive interno usa un compo
 
 ## Convencion de cambios
 
-- Commits nuevos: español ASCII.
-- Comentarios de codigo y comentarios de PR nuevos: español ASCII.
-- Copy visible al usuario: español correcto, con tildes y puntuacion cuando corresponda.
+- Commits nuevos: espanol ASCII.
+- Comentarios de codigo y comentarios de PR nuevos: espanol ASCII.
+- Copy visible al usuario: espanol correcto, con tildes y puntuacion cuando corresponda.
 
 ## Gate minimo
 
