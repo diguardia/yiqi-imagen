@@ -42,6 +42,23 @@ export interface YiQiLoginProps {
   onForgotPassword?: () => void
 }
 
+function readRememberedUsername(storageKey: string) {
+  try {
+    return window.localStorage.getItem(storageKey)
+  } catch {
+    return null
+  }
+}
+
+function syncRememberedUsername(storageKey: string, username: string, remember: boolean) {
+  try {
+    if (remember) window.localStorage.setItem(storageKey, username)
+    else window.localStorage.removeItem(storageKey)
+  } catch {
+    // Recordar usuario es opcional; el login debe seguir funcionando sin storage.
+  }
+}
+
 export function YiQiLogin({
   appName = 'YiQi',
   description = 'Ingresa con tu usuario para abrir la aplicación.',
@@ -83,7 +100,7 @@ export function YiQiLogin({
   const visibleError = externalError || localError
 
   useEffect(() => {
-    const saved = window.localStorage.getItem(rememberStorageKey)
+    const saved = readRememberedUsername(rememberStorageKey)
     if (!saved) return
     setUsername(saved)
     setRemember(true)
@@ -107,8 +124,7 @@ export function YiQiLogin({
       return
     }
 
-    if (remember) window.localStorage.setItem(rememberStorageKey, cleanUsername)
-    else window.localStorage.removeItem(rememberStorageKey)
+    syncRememberedUsername(rememberStorageKey, cleanUsername, remember)
 
     setIsSubmitting(true)
     try {

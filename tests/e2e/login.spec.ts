@@ -48,4 +48,29 @@ test.describe('YiQiLogin', () => {
     await expect(page.getByLabel('Usuario o correo electrónico', { exact: true })).toHaveValue('demo')
     await expect(page.getByLabel('Contraseña', { exact: true })).toHaveValue('')
   })
+
+  test('mounts and submits when localStorage is blocked', async ({ page }) => {
+    await page.addInitScript(() => {
+      Storage.prototype.getItem = () => { throw new DOMException('Storage bloqueado', 'SecurityError') }
+      Storage.prototype.setItem = () => { throw new DOMException('Storage bloqueado', 'SecurityError') }
+      Storage.prototype.removeItem = () => { throw new DOMException('Storage bloqueado', 'SecurityError') }
+    })
+    await page.reload()
+
+    const username = page.getByLabel('Usuario o correo electrónico', { exact: true })
+    const password = page.getByLabel('Contraseña', { exact: true })
+    const submit = page.getByRole('button', { name: 'Iniciar sesión', exact: true })
+    const remember = page.getByRole('checkbox', { name: 'Recordar usuario', exact: true })
+
+    await expect(username).toBeVisible()
+    await username.fill('incorrecto')
+    await password.fill('incorrecta')
+
+    await submit.click()
+    await expect(page.getByRole('status')).toContainText('Demo: usa demo / demo')
+
+    await remember.click()
+    await submit.click()
+    await expect(page.getByRole('status')).toContainText('Demo: usa demo / demo')
+  })
 })
