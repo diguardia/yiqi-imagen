@@ -47,6 +47,9 @@ jobs:
       - name: Compilar UI y catalogo Next.js
         run: npm run build
 
+      - name: Verificar que el build no modifique archivos versionados
+        run: git diff --exit-code -- .
+
       - name: Instalar Chromium para Playwright
         run: npx playwright install --with-deps chromium
 
