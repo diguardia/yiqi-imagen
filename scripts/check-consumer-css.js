@@ -59,22 +59,26 @@ function collectFiles(target, files) {
   }
 }
 
+function lineFor(source, index) {
+  return source.slice(0, index).split(/\r?\n/).length
+}
+
 function inspectSource(source, file) {
   const findings = []
-  const lines = source.split(/\r?\n/)
 
-  lines.forEach((line, index) => {
-    for (const check of checks) {
-      if (check.pattern.test(line)) {
-        findings.push({
-          file,
-          line: index + 1,
-          id: check.id,
-          message: check.message,
-        })
-      }
+  for (const check of checks) {
+    const flags = check.pattern.flags.includes('g') ? check.pattern.flags : `${check.pattern.flags}g`
+    const scanner = new RegExp(check.pattern.source, flags)
+
+    for (const match of source.matchAll(scanner)) {
+      findings.push({
+        file,
+        line: lineFor(source, match.index),
+        id: check.id,
+        message: check.message,
+      })
     }
-  })
+  }
 
   return findings
 }
@@ -88,6 +92,7 @@ function runSelfCheck() {
     '<style>.card { color: red }</style>',
     '<div style="display:grid;gap:12px"></div>',
     "<div style={{ display: 'grid', gap: 12 }} />",
+    "<div style={{\n  display: 'grid',\n  gap: 12\n}} />",
     "element.style.cssText = 'display:grid'",
     "const style = document.createElement('style')",
     'const Card = styled.div`color: red;`',
