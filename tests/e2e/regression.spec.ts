@@ -61,6 +61,25 @@ test.describe('regresiones funcionales', () => {
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
   })
 
+  test('el tema funciona aunque localStorage este bloqueado', async ({ page }) => {
+    await page.emulateMedia({ colorScheme: 'dark' })
+    await page.addInitScript(() => {
+      Storage.prototype.getItem = () => { throw new DOMException('Storage bloqueado', 'SecurityError') }
+      Storage.prototype.setItem = () => { throw new DOMException('Storage bloqueado', 'SecurityError') }
+    })
+    await page.goto('/shell/')
+
+    const html = page.locator('html')
+    await expect(html).toHaveAttribute('data-theme', 'dark')
+
+    const systemButton = page.getByRole('button', { name: 'Tema actual: Sistema. Cambiar a Claro', exact: true })
+    await expect(systemButton).toBeVisible()
+    await systemButton.click()
+
+    await expect(page.getByRole('button', { name: 'Tema actual: Claro. Cambiar a Oscuro', exact: true })).toBeVisible()
+    await expect(html).toHaveAttribute('data-theme', 'light')
+  })
+
   test('el label de recordar usuario mantiene el toggle funcional', async ({ page }) => {
     await page.goto('/login/')
 

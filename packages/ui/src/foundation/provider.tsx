@@ -19,8 +19,20 @@ function resolveTheme(theme: YiQiTheme): 'dark' | 'light' {
 
 function readStoredTheme(fallback: YiQiTheme): YiQiTheme {
   if (typeof window === 'undefined') return fallback
-  const stored = window.localStorage.getItem(STORAGE_KEY)
-  return isYiQiTheme(stored) ? stored : fallback
+  try {
+    const stored = window.localStorage.getItem(STORAGE_KEY)
+    return isYiQiTheme(stored) ? stored : fallback
+  } catch {
+    return fallback
+  }
+}
+
+function storeTheme(theme: YiQiTheme) {
+  try {
+    window.localStorage.setItem(STORAGE_KEY, theme)
+  } catch {
+    // El tema sigue funcionando aunque el navegador bloquee el almacenamiento.
+  }
 }
 
 export function applyYiQiTheme(theme: YiQiTheme) {
@@ -58,7 +70,7 @@ export function YiQiProvider({ children, defaultTheme = 'system' }: YiQiProvider
   }, [theme])
 
   const setTheme = useCallback((next: YiQiTheme) => {
-    window.localStorage.setItem(STORAGE_KEY, next)
+    storeTheme(next)
     setThemeState(next)
     applyYiQiTheme(next)
   }, [])
