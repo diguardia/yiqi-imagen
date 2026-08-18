@@ -1,10 +1,12 @@
 const fs = require("node:fs")
+const os = require("node:os")
 const path = require("node:path")
 
 const repoRoot = path.resolve(__dirname, "..")
 const codeExtensions = new Set([".js", ".jsx", ".ts", ".tsx"])
 const ignoredDirs = new Set([".git", "node_modules", "fixtures", "docs", "Fuentes", "scripts"])
-const explicitRoots = ["src", "app", "components", "pages", "lib", "services"]
+const sourceRootNames = ["src", "app", "components", "pages", "lib", "services"]
+const workspaceContainers = ["apps", "packages"]
 
 const patterns = [
   {
@@ -48,6 +50,42 @@ function matchingPatterns(source) {
   return patterns.filter((pattern) => pattern.regex.test(source))
 }
 
+function isDirectory(target) {
+  try {
+    return fs.statSync(target).isDirectory()
+  } catch {
+    return false
+  }
+}
+
+function projectSourceRoots(projectRoot) {
+  return sourceRootNames
+    .map((name) => path.join(projectRoot, name))
+    .filter(isDirectory)
+}
+
+function discoverRoots(root) {
+  const roots = [...projectSourceRoots(root)]
+
+  for (const containerName of workspaceContainers) {
+    const container = path.join(root, containerName)
+    if (!isDirectory(container)) continue
+
+    for (const entry of fs.readdirSync(container, { withFileTypes: true })) {
+      if (!entry.isDirectory()) continue
+      roots.push(...projectSourceRoots(path.join(container, entry.name)))
+    }
+  }
+
+  for (const entry of fs.readdirSync(root, { withFileTypes: true })) {
+    if (entry.isFile() && codeExtensions.has(path.extname(entry.name))) {
+      roots.push(path.join(root, entry.name))
+    }
+  }
+
+  return [...new Set(roots)]
+}
+
 function runSelfCheck() {
   const canonicalCases = [
     'href="app.html?id=${c.id}"',
@@ -74,13 +112,21 @@ function runSelfCheck() {
       throw new Error(`Detail navigation guard no detecto un caso invalido: ${source}`)
     }
   }
-}
 
-function existsDirectory(relativePath) {
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'yiqi-detail-navigation-'))
   try {
-    return fs.statSync(path.join(repoRoot, relativePath)).isDirectory()
-  } catch {
-    return false
+    fs.mkdirSync(path.join(tempRoot, 'app'), { recursive: true })
+    fs.mkdirSync(path.join(tempRoot, 'apps', 'docs', 'app'), { recursive: true })
+    fs.mkdirSync(path.join(tempRoot, 'packages', 'ui', 'src'), { recursive: true })
+
+    const roots = discoverRoots(tempRoot).map((root) => path.relative(tempRoot, root).replaceAll('\\', '/'))
+    for (const expected of ['app', 'apps/docs/app', 'packages/ui/src']) {
+      if (!roots.includes(expected)) {
+        throw new Error(`Detail navigation guard no descubrio el root monorepo ${expected}`)
+      }
+    }
+  } finally {
+    fs.rmSync(tempRoot, { recursive: true, force: true })
   }
 }
 
@@ -103,16 +149,7 @@ function walk(directory, files = []) {
 
 runSelfCheck()
 
-const roots = explicitRoots
-  .filter(existsDirectory)
-  .map((relativePath) => path.join(repoRoot, relativePath))
-
-for (const entry of fs.readdirSync(repoRoot, { withFileTypes: true })) {
-  if (entry.isFile() && codeExtensions.has(path.extname(entry.name))) {
-    roots.push(path.join(repoRoot, entry.name))
-  }
-}
-
+const roots = discoverRoots(repoRoot)
 const files = roots.flatMap((root) => {
   const stat = fs.statSync(root)
   return stat.isDirectory() ? walk(root) : [root]
@@ -149,4 +186,4 @@ if (violations.length > 0) {
   process.exit(1)
 }
 
-console.log(`Detail navigation guard passed (${files.length} files scanned).`)
+console.log(`Detail navigation guard passed (${files.length} files scanned across ${roots.length} source roots).`)
