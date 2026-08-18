@@ -34,6 +34,46 @@
   var STORAGE_KEY = 'yiqi-theme';
   var _mq = window.matchMedia('(prefers-color-scheme: dark)');
 
+  /* ── El tema tambien viaja en cookie ──────────────────────────────
+     localStorage es POR ORIGEN: lo que elige el visitante en
+     yiqi.com.ar no es legible desde ayudaerp.yiqi.com.ar, que es otro
+     origen. Resultado: cruzabas del sitio a la ayuda y el tema se
+     perdia — no porque no se guardara, sino porque la ayuda no podia
+     leerlo.
+
+     Una cookie con domain=.yiqi.com.ar si cruza subdominios. Se escribe
+     ademas del localStorage, no en su lugar: el localStorage sigue
+     siendo la fuente dentro de cada origen (mas rapido, sin viajar en
+     cada request) y la cookie es el puente entre subdominios.
+
+     El dominio se deriva del host, asi que en localhost, en un preview
+     de Azure o en un archivo local no se escribe nada y no molesta.
+     12/08/2026. */
+  var COOKIE_KEY = 'yiqi-theme';
+  /* El dominio se reconoce explicito en vez de derivarse del host: adivinar
+     el dominio registrable a partir de los puntos falla con TLDs de dos
+     partes como .com.ar. Si algun dia hay otro dominio, se agrega aca. */
+  var COOKIE_DOM = (function () {
+    var m = (location.hostname || '').match(/(^|\.)(yiqi\.com\.ar)$/);
+    return m ? '.' + m[2] : null;   // null en localhost, IP, previews y file://
+  })();
+
+  function guardarCookieTema(v) {
+    if (!COOKIE_DOM) return;
+    try {
+      document.cookie = COOKIE_KEY + '=' + encodeURIComponent(v) +
+        ';domain=' + COOKIE_DOM + ';path=/;max-age=31536000;SameSite=Lax';
+    } catch (e) {}
+  }
+
+  function leerCookieTema() {
+    try {
+      var m = document.cookie.match(/(?:^|;\s*)yiqi-theme=([^;]*)/);
+      var v = m ? decodeURIComponent(m[1]) : null;
+      return (v === 'dark' || v === 'light' || v === 'system') ? v : null;
+    } catch (e) { return null; }
+  }
+
   /* ══════════════════════════════════════════════════════════
      1. TEMA — 3 pasos: Oscuro · Sistema · Claro
      ══════════════════════════════════════════════════════════ */
@@ -147,13 +187,19 @@
    */
   function setTheme(v) {
     localStorage.setItem(STORAGE_KEY, v);
+    guardarCookieTema(v);          // para que la eleccion cruce a los subdominios
     applyTheme(v);
     updateThemeSwitch(v);
   }
 
-  /** Devuelve la preferencia guardada ('system' por defecto). */
+  /**
+   * Devuelve la preferencia guardada ('system' por defecto).
+   * Orden: localStorage de este origen, y si no hay, la cookie de dominio.
+   * Ese fallback es lo que hace que al entrar por primera vez a un
+   * subdominio se herede el tema que el visitante ya eligio en otro.
+   */
   function getTheme() {
-    return localStorage.getItem(STORAGE_KEY) || 'system';
+    return localStorage.getItem(STORAGE_KEY) || leerCookieTema() || 'system';
   }
 
   /* Reacciona a cambios del OS cuando la preferencia es 'system'. */
@@ -165,6 +211,14 @@
   (function () {
     var saved = getTheme();
     applyTheme(saved);
+    /* Si vino de la cookie, se copia al localStorage de este origen para que
+       la proxima carga no dependa de la cookie. Y si vino del localStorage y
+       todavia no hay cookie, se escribe: asi el primer visitante que ya tenia
+       preferencia guardada tambien empieza a compartirla. */
+    if (!localStorage.getItem(STORAGE_KEY)) {
+      try { localStorage.setItem(STORAGE_KEY, saved); } catch (e) {}
+    }
+    if (!leerCookieTema()) guardarCookieTema(saved);
     document.addEventListener('DOMContentLoaded', function () {
       updateThemeSwitch(saved);
     });

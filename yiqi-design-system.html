@@ -15,6 +15,10 @@
 <script src="yiqi-runtime.js" defer></script>
 <script src="components/app-banner.js" defer></script>
 <script src="components/carousel.js" defer></script>
+<script src="components/fondo-malla.js" defer></script>
+<script src="components/fondo-horizonte.js" defer></script>
+<script src="components/fx-entrada.js" defer></script>
+<script src="components/card-flip.js" defer></script>
 <script src="components/llm-fab.js" defer></script>
 <style>
 /* ─── DS v1.2.7 ─────────────────────────────────────────── */
@@ -472,6 +476,30 @@ body.preview-open .ds-layout { display: none !important; }
 <tr><th>Versión</th><th>Fecha</th><th>Tipo</th><th>Detalle</th></tr>
 </thead>
 <tbody>
+<tr id="chg-fx-entrada">
+<td class="mono-cell">v1.2.7.14</td>
+<td class="mono-cell">14/08/2026</td>
+<td><span class="badge badge-cyan">NUEVO</span></td>
+<td><strong>Entran <code>.fondo-horizonte</code> en &sect;30 y las entradas <code>.ds-fx-lineas</code> / <code>.ds-fx-pasos</code> en &sect;07.</strong> Las tres salieron de las landings de integraciones. <strong>El horizonte</strong> es el hermano de <code>.fondo-malla</code> que avanza por reloj en vez de por scroll: sirve donde no hay recorrido que gobierne la animaci&oacute;n, que es el caso de las p&aacute;ginas de una sola pantalla. <strong>Las entradas</strong> comparten archivo y observador (<code>components/fx-entrada.js</code>) y se disparan una sola vez al entrar en pantalla. En <code>.ds-fx-pasos</code> el orden <em>es</em> el mensaje: el n&uacute;mero aterriza con un halo del acento, su texto entra 150 ms despu&eacute;s y reci&eacute;n ah&iacute; se dibuja la l&iacute;nea al siguiente, con 420 ms entre pasos &mdash; si los tres aparecen juntos, la secci&oacute;n deja de decir &laquo;primero esto, despu&eacute;s esto&raquo;. <strong>Defecto encontrado y corregido antes de publicar:</strong> la transici&oacute;n estaba declarada tambi&eacute;n en el estado escondido, as&iacute; que al montarse el efecto el navegador animaba la <em>salida</em> &mdash; el paso 3 tardaba 840 ms en esconderse y hasta entonces se ve&iacute;a. Ahora el estado escondido va sin transici&oacute;n y la coreograf&iacute;a vive solo en el estado final; verificado midiendo opacidad en render a 150 / 550 / 1000 / 1900 ms. Las dos entradas degradan a contenido visible si el script no llega. En la misma version entra <strong><code>.ds-flip</code></strong>: la card gira 180&deg; y muestra un dorso, con hover en desktop, tap en tactil y foco de teclado. Las dos caras se apilan en la misma celda de grid en vez de <code>position:absolute</code>, asi que el alto lo manda la cara mas larga y no hay que fijarlo a mano &mdash; que es lo que rompe estas cards cuando el texto cambia de largo por partner. <strong>El dorso no lleva el argumento de la card</strong>: quien nunca la gire ya leyo lo que importa.<div class="chg-links"><a class="ds-xref" href="#card-flip"><i class="ph ph-anchor-simple"></i> &sect;07 &middot; Card que gira</a><a class="ds-xref" href="#fondo-horizonte"><i class="ph ph-anchor-simple"></i> &sect;30 &middot; Horizonte</a><a class="ds-xref" href="#fx-entrada"><i class="ph ph-anchor-simple"></i> &sect;07 &middot; Entradas</a><button class="ds-copy chg-share" data-ds-copy="link" title="Copiar link a este cambio" aria-label="Copiar link a este cambio"><i class="ph ph-link"></i>Compartir</button></div></td>
+</tr>
+<tr id="chg-fondo-malla">
+<td class="mono-cell">v1.2.7.13</td>
+<td class="mono-cell">14/08/2026</td>
+<td><span class="badge badge-cyan">NUEVO</span></td>
+<td><strong>&sect;30 suma <code>.fondo-malla</code>: un wireframe 3D que rota con el scroll.</strong> Naci&oacute; para las siete landings de integraciones, donde la grilla cuadriculada sola no daba profundidad. Es una esfera de nodos unidos por aristas proyectada en un canvas 2D, <strong>sin Three.js</strong>: a las opacidades a las que vive (.34 en oscuro, .20 en claro, detr&aacute;s del contenido) un render GL no se distingue de una proyecci&oacute;n de puntos, y son ~5&nbsp;KB contra ~145&nbsp;KB &mdash; en las p&aacute;ginas que reciben los clics pagados, y con el informe de peso del 06/08 midiendo que el 37&nbsp;% se va en 3 segundos o menos, esa diferencia decide. <strong>La rotaci&oacute;n la maneja el scroll, no un loop</strong>: el movimiento es del visitante. Va en <code>z-index:-1</code>, arriba del fondo del <code>body</code> y debajo de todo, as&iacute; que cualquier secci&oacute;n con fondo propio la tapa y la malla queda donde hay aire. Hereda <code>--cyan</code>, con lo cual toma el acento de cada partner sin configurar nada, y respeta <code>prefers-reduced-motion</code>. Se consume por CDN &mdash; <strong>sin copia local en el proyecto</strong>, que es de donde vino la deriva entre <code>www.yiqi/components/</code> y <code>yiqi-imagen/components/</code>. Variante <code>[data-fondo-malla]</code> para acotarla a una caja.<div class="chg-links"><a class="ds-xref" href="#fondo-malla"><i class="ph ph-anchor-simple"></i> &sect;30 &middot; Malla 3D</a><button class="ds-copy chg-share" data-ds-copy="link" title="Copiar link a este cambio" aria-label="Copiar link a este cambio"><i class="ph ph-link"></i>Compartir</button></div></td>
+</tr>
+<tr id="chg-btn-borde">
+<td class="mono-cell">v1.2.7.12</td>
+<td class="mono-cell">13/08/2026</td>
+<td><span class="badge badge-amber">CAMBIO</span></td>
+<td><strong>El bot&oacute;n de variante base recupera su borde y el riel de progreso se despega del fondo.</strong> Los dos se descubrieron armando la pantalla de listas de &sect;38, y son el mismo problema: un componente que desaparece cuando lo apoy&aacute;s sobre una <code>.card</code>. Medido en oscuro: <code>.btn</code> sin variante ten&iacute;a fondo <code>--bg-elev-2</code> = <code>rgb(20,22,27)</code>, <strong>exactamente el de la card</strong>, y el borde en <code>transparent</code> &mdash; un secundario sobre una card no se le&iacute;a como bot&oacute;n; en claro pasaba lo mismo (<code>rgb(255,255,255)</code> sobre <code>rgba(255,255,255,.92)</code>). Y <code>.progress-bar</code> daba <strong>1,09:1</strong> contra la card (riel <code>rgb(24,27,33)</code>), as&iacute; que al 0% no se ve&iacute;a que hubiera barra, justo cuando m&aacute;s hace falta saberlo. Entran <code>border: 1px solid var(--line)</code> en <code>.btn</code> y <code>box-shadow: inset 0 0 0 1px var(--line)</code> en <code>.progress-bar</code>: al usar el token se resuelven solos por tema, blanco al 8% en oscuro y negro al 8% en claro. <strong>Las variantes no se tocan</strong> &mdash; primary, ghost, danger, amber, back, exit, layout y refresh declaran su propio <code>border-color</code> despu&eacute;s y siguen ganando por orden; <code>.btn-ghost</code> sigue en transparente. Alcance medido: cambian <strong>8 botones</strong> sobre 36 en el cat&aacute;logo y 8 sobre 25 en el showcase. Verificado en render, oscuro y claro.<div class="chg-links"><a class="ds-xref" href="#buttons"><i class="ph ph-anchor-simple"></i> &sect;10 &middot; Botones</a><button class="ds-copy chg-share" data-ds-copy="link" title="Copiar link a este cambio" aria-label="Copiar link a este cambio"><i class="ph ph-link"></i>Compartir</button></div></td>
+</tr>
+<tr id="chg-picking-listas">
+<td class="mono-cell">v1.2.7.12</td>
+<td class="mono-cell">13/08/2026</td>
+<td><span class="badge badge-cyan">NUEVO</span></td>
+<td><strong>&sect;38 suma la pantalla de listas de picking y el showcase le da pesta&ntilde;a propia.</strong> Revisi&oacute;n a partir del seguimiento del 07/08 (&laquo;falta un poco de intuici&oacute;n al principio&raquo;): el pill de estado deja su lugar al <strong>bot&oacute;n</strong>, que cambia con el avance &mdash; <code>Comenzar</code> en cero, <code>Continuar</code> a medias, <code>Cerrar</code> al completar. El pill era el elemento de mayor contraste de la tarjeta y las tres dec&iacute;an lo mismo, algo que el encabezado &laquo;Abiertas&raquo; ya hab&iacute;a dicho. La tarjeta de &sect;38 se actualiza al patr&oacute;n nuevo: el vocabulario de picking deja de documentar el que se reemplaza. Se arma <strong>sin clases propias</strong>: <code>.card.card-clickable</code>, <code>.btn.btn-primary.btn-lg</code> / <code>.btn.btn-ghost.btn-lg</code>, <code>.progress-bar</code>, <code>.badge-amber</code>, <code>.ds-input</code>, y el chrome m&oacute;vil can&oacute;nico (<code>.ds-appbar</code> + <code>.ds-bottomnav</code>). &Uacute;nica desviaci&oacute;n: <code>min-height:44px</code> en el bot&oacute;n &mdash; <code>.btn-lg</code> da 43 y la app se opera con guantes y una mano.<div class="chg-links"><a class="ds-xref" href="#apps-picking"><i class="ph ph-anchor-simple"></i> &sect;38 &middot; Aplicaciones</a><a class="ds-xref" href="examples/showcase.html?tab=picking&amp;card=card-picking-listas"><i class="ph ph-play-circle"></i> Ver en vivo</a><button class="ds-copy chg-share" data-ds-copy="link" title="Copiar link a este cambio" aria-label="Copiar link a este cambio"><i class="ph ph-link"></i>Compartir</button></div></td>
+</tr>
 <tr id="chg-z-tokens">
 <td class="mono-cell">v1.2.7.11</td>
 <td class="mono-cell">05/08/2026</td>
@@ -1585,6 +1613,105 @@ body.preview-open .ds-layout { display: none !important; }
 <span><strong>El borde de un solo lado sigue prohibido.</strong> La regla y sus ejemplos viven en <a class="ds-xref" style="display:inline-flex" href="#reglas">01 · Reglas</a>, que es donde corresponde.</span>
 </div>
 </div>
+
+<div class="subsection-title" id="fx-entrada">Entradas al aparecer &mdash; <code>.ds-fx-lineas</code> y <code>.ds-fx-pasos</code></div>
+<p class="ds-section-sub">Las dos las monta <code>components/fx-entrada.js</code>, con un solo observador. Se disparan cuando la pieza entra en pantalla, <strong>una sola vez</strong>: un elemento que se re-anima cada vez que vuelve a pasar marea.</p>
+
+<div class="card">
+  <h3 class="ds-fx-lineas" style="font:700 30px/1.15 var(--display);letter-spacing:-.028em;color:var(--text);margin:0 0 6px">Sube l&iacute;nea por l&iacute;nea.<br>El corte lo dan los &lt;br&gt;.</h3>
+  <p style="font:400 13px/1.6 var(--sans);color:var(--muted);margin:0 0 28px">No adivina d&oacute;nde cortar: usa el corte que escribi&oacute; quien redact&oacute; el t&iacute;tulo.</p>
+
+  <div class="ds-fx-pasos" style="display:grid;grid-template-columns:repeat(3,1fr);gap:0">
+    <div style="display:flex;flex-direction:column;align-items:center;position:relative;padding:0 14px">
+      <div style="width:34px;height:34px;border-radius:50%;background:var(--bg-elev-2);box-shadow:0 0 0 5px var(--card-bg,var(--bg));display:grid;place-items:center;font:700 11px var(--mono);color:var(--cyan);position:relative;z-index:1;margin-bottom:18px">01</div>
+      <div style="text-align:center;font:400 12px/1.5 var(--sans);color:var(--muted)">El n&uacute;mero aterriza con un halo del acento.</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;position:relative;padding:0 14px">
+      <div style="width:34px;height:34px;border-radius:50%;background:var(--bg-elev-2);box-shadow:0 0 0 5px var(--card-bg,var(--bg));display:grid;place-items:center;font:700 11px var(--mono);color:var(--cyan);position:relative;z-index:1;margin-bottom:18px">02</div>
+      <div style="text-align:center;font:400 12px/1.5 var(--sans);color:var(--muted)">Entra su texto 150 ms despu&eacute;s.</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;position:relative;padding:0 14px">
+      <div style="width:34px;height:34px;border-radius:50%;background:var(--bg-elev-2);box-shadow:0 0 0 5px var(--card-bg,var(--bg));display:grid;place-items:center;font:700 11px var(--mono);color:var(--cyan);position:relative;z-index:1;margin-bottom:18px">03</div>
+      <div style="text-align:center;font:400 12px/1.5 var(--sans);color:var(--muted)">Y reci&eacute;n ah&iacute; se dibuja la l&iacute;nea al siguiente.</div>
+    </div>
+  </div>
+</div>
+
+<div class="card" style="margin-top:12px">
+  <div style="font:700 13px var(--sans);margin-bottom:10px">C&oacute;mo se usa</div>
+  <div class="ds-code" style="font:400 12px/1.7 var(--mono)">
+<span style="color:var(--cyan)">&lt;script</span> <span style="color:var(--green)">src</span>=<span style="color:var(--amber)">"https://diguardia.github.io/yiqi-imagen/components/fx-entrada.js"</span> <span style="color:var(--green)">defer</span><span style="color:var(--cyan)">&gt;&lt;/script&gt;</span><br><br>
+<span style="color:var(--cyan)">&lt;h2</span> <span style="color:var(--green)">class</span>=<span style="color:var(--amber)">"ds-fx-lineas"</span><span style="color:var(--cyan)">&gt;</span>Primera l&iacute;nea.<span style="color:var(--cyan)">&lt;br&gt;</span>Segunda l&iacute;nea.<span style="color:var(--cyan)">&lt;/h2&gt;</span><br><br>
+<span style="color:var(--muted-2)">&lt;!-- cada hijo directo es un paso; su primer elemento es el numero --&gt;</span><br>
+<span style="color:var(--cyan)">&lt;div</span> <span style="color:var(--green)">class</span>=<span style="color:var(--amber)">"ds-fx-pasos"</span><span style="color:var(--cyan)">&gt;</span> &hellip; <span style="color:var(--cyan)">&lt;/div&gt;</span>
+  </div>
+</div>
+
+<div class="card" style="margin-top:12px">
+  <div style="font:700 13px var(--sans);margin-bottom:10px">Decisiones</div>
+  <ul style="margin:0;padding-left:18px;font:400 13px/1.7 var(--sans);color:var(--muted)">
+    <li><strong>El orden es el mensaje.</strong> Si los tres pasos aparecen juntos, la secci&oacute;n deja de decir &laquo;primero esto, despu&eacute;s esto&raquo;. Cada paso arranca 420 ms despu&eacute;s del anterior.</li>
+    <li><strong>El estado escondido va sin transici&oacute;n, a prop&oacute;sito.</strong> Con la transici&oacute;n declarada ah&iacute;, al montarse el efecto el navegador anima la <em>salida</em>: el paso 3 tardaba 840 ms en esconderse y hasta entonces se ve&iacute;a, con lo cual la secuencia no empezaba en 1. La coreograf&iacute;a vive solo en el estado final.</li>
+    <li><strong>La l&iacute;nea de uni&oacute;n es el <code>::after</code> que el consumidor ya ten&iacute;a.</strong> El DS no lo crea, solo lo escala; si no existe, no pasa nada.</li>
+    <li><strong>Sin script, todo se ve normal.</strong> El estado inicial lo pone <code>.ds-fx-listo</code>, que agrega el propio script. Contenido invisible por un 404 de CDN no es un riesgo aceptable.</li>
+    <li><strong><code>prefers-reduced-motion</code>:</strong> muestra y se va, sin partir el t&iacute;tulo ni escalonar nada.</li>
+  </ul>
+</div>
+
+
+<div class="subsection-title" id="card-flip">Card que gira &mdash; <code>.ds-flip</code></div>
+<p class="ds-section-sub">La card muestra un dorso al pasar el mouse, al tocarla o al recibir foco de teclado. <strong>El dorso no puede llevar el argumento de la card</strong>: mucha gente no lo va a ver nunca, y una pieza que esconde su mensaje detr&aacute;s de una interacci&oacute;n no comunica. Va contenido opcional &mdash; un dato, una prueba, el dolor que la card elimina.</p>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px">
+  <div class="card ds-flip">
+    <div class="ds-flip-in">
+      <div class="ds-flip-cara">
+        <div style="font:700 15px var(--sans);color:var(--text);margin-bottom:8px">Stock vivo</div>
+        <div style="font:400 13px/1.55 var(--sans);color:var(--muted)">El inventario queda en l&iacute;nea entre el ERP y el canal de venta.</div>
+      </div>
+      <div class="ds-flip-dorso">
+        <div style="font:700 10px var(--mono);letter-spacing:.15em;text-transform:uppercase;color:var(--muted-2);margin-bottom:10px">Sin esto</div>
+        <div style="font:400 14px/1.55 var(--sans);color:var(--text)">Cada canal nuevo es una sobreventa esperando.</div>
+      </div>
+    </div>
+  </div>
+  <div class="card ds-flip">
+    <div class="ds-flip-in">
+      <div class="ds-flip-cara">
+        <div style="font:700 15px var(--sans);color:var(--text);margin-bottom:8px">Pas&aacute; el mouse</div>
+        <div style="font:400 13px/1.55 var(--sans);color:var(--muted)">O toc&aacute;, o tabul&aacute; hasta ac&aacute;. Las tres giran.</div>
+      </div>
+      <div class="ds-flip-dorso">
+        <div style="font:700 10px var(--mono);letter-spacing:.15em;text-transform:uppercase;color:var(--muted-2);margin-bottom:10px">Dorso</div>
+        <div style="font:400 14px/1.55 var(--sans);color:var(--text)">Las dos caras van apiladas en la misma celda de grid: el alto lo manda la m&aacute;s larga.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card" style="margin-top:12px">
+  <div style="font:700 13px var(--sans);margin-bottom:10px">C&oacute;mo se usa</div>
+  <div class="ds-code" style="font:400 12px/1.7 var(--mono)">
+<span style="color:var(--cyan)">&lt;script</span> <span style="color:var(--green)">src</span>=<span style="color:var(--amber)">"https://diguardia.github.io/yiqi-imagen/components/card-flip.js"</span> <span style="color:var(--green)">defer</span><span style="color:var(--cyan)">&gt;&lt;/script&gt;</span><br><br>
+<span style="color:var(--cyan)">&lt;div</span> <span style="color:var(--green)">class</span>=<span style="color:var(--amber)">"card ds-flip"</span><span style="color:var(--cyan)">&gt;</span><br>
+&nbsp;&nbsp;<span style="color:var(--cyan)">&lt;div</span> <span style="color:var(--green)">class</span>=<span style="color:var(--amber)">"ds-flip-in"</span><span style="color:var(--cyan)">&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--cyan)">&lt;div</span> <span style="color:var(--green)">class</span>=<span style="color:var(--amber)">"ds-flip-cara"</span><span style="color:var(--cyan)">&gt;</span> &hellip; <span style="color:var(--cyan)">&lt;/div&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--cyan)">&lt;div</span> <span style="color:var(--green)">class</span>=<span style="color:var(--amber)">"ds-flip-dorso"</span><span style="color:var(--cyan)">&gt;</span> &hellip; <span style="color:var(--cyan)">&lt;/div&gt;</span><br>
+&nbsp;&nbsp;<span style="color:var(--cyan)">&lt;/div&gt;</span><br>
+<span style="color:var(--cyan)">&lt;/div&gt;</span>
+  </div>
+</div>
+
+<div class="card" style="margin-top:12px">
+  <div style="font:700 13px var(--sans);margin-bottom:10px">Decisiones</div>
+  <ul style="margin:0;padding-left:18px;font:400 13px/1.7 var(--sans);color:var(--muted)">
+    <li><strong>Las dos caras van apiladas en la misma celda de grid</strong>, no con <code>position:absolute</code>. As&iacute; el contenedor toma el alto de la cara m&aacute;s larga y las dos quedan iguales <strong>sin fijar una altura a mano</strong> &mdash; que es justo lo que rompe estas cards cuando el texto cambia de largo.</li>
+    <li><strong>Gira tambi&eacute;n con foco de teclado</strong>, y al salir vuelve al frente. El dorso es contenido: dejarlo solo al alcance del mouse lo hace inexistente para quien navega sin &eacute;l.</li>
+    <li><strong>Un link adentro de la card gana.</strong> El tap sobre un <code>&lt;a&gt;</code> navega, no gira.</li>
+    <li><strong><code>prefers-reduced-motion</code>:</strong> no gira, hace crossfade. La informaci&oacute;n llega igual, sin el movimiento.</li>
+  </ul>
+</div>
+
 </section>
 <!-- ─── MOTION ─── -->
 
@@ -3115,6 +3242,59 @@ html[data-theme="light"] .bg-grid-demo-fade {
   </div>
 </div>
 
+
+<div class="subsection-title" id="fondo-malla">Malla 3D &mdash; el fondo que rota con el scroll</div>
+<p class="ds-section-sub">Segunda capa de fondo, para heroes y landings largas. Una esfera de nodos unidos por aristas, proyectada en perspectiva sobre un canvas 2D. <strong>No gira sola</strong>: la rotaci&oacute;n la maneja la posici&oacute;n del scroll, as&iacute; que el movimiento es del visitante y no un loop dando vueltas detr&aacute;s del texto.</p>
+
+<div class="card" data-fondo-malla style="position:relative;overflow:hidden;min-height:260px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px">
+  <span style="position:relative;z-index:1;font:600 11px var(--mono);color:var(--cyan);text-transform:uppercase;letter-spacing:.1em">.fondo-malla</span>
+  <span style="position:relative;z-index:1;font:400 11px var(--mono);color:var(--muted-2)">scrolle&aacute; la p&aacute;gina &mdash; la malla gira con vos</span>
+</div>
+
+<div class="card" style="margin-top:12px">
+  <div style="font:700 13px var(--sans);margin-bottom:10px">C&oacute;mo se usa</div>
+  <div class="ds-code" style="font:400 12px/1.7 var(--mono)">
+<span style="color:var(--muted-2)">&lt;!-- el script ES el opt-in: la pagina que no lo pide, no lo tiene --&gt;</span><br>
+<span style="color:var(--cyan)">&lt;script</span> <span style="color:var(--green)">src</span>=<span style="color:var(--amber)">"https://diguardia.github.io/yiqi-imagen/components/fondo-malla.js"</span> <span style="color:var(--green)">defer</span><span style="color:var(--cyan)">&gt;&lt;/script&gt;</span>
+  </div>
+</div>
+
+<div class="card" style="margin-top:12px">
+  <div style="font:700 13px var(--sans);margin-bottom:10px">Decisiones</div>
+  <ul style="margin:0;padding-left:18px;font:400 13px/1.7 var(--sans);color:var(--muted)">
+    <li><strong>Sin Three.js, a prop&oacute;sito.</strong> Vive al 34&nbsp;% de opacidad detr&aacute;s del contenido; a esa opacidad un render GL no se distingue de una proyecci&oacute;n de puntos. Son ~5&nbsp;KB contra ~145&nbsp;KB, en p&aacute;ginas que reciben los clics pagados.</li>
+    <li><strong><code>z-index: -1</code>.</strong> Queda arriba del fondo del <code>body</code> y debajo de todo el contenido: cualquier secci&oacute;n con fondo propio la tapa. Es lo buscado &mdash; la malla vive donde hay aire, no detr&aacute;s de cada p&aacute;rrafo.</li>
+    <li><strong>Hereda <code>--cyan</code>.</strong> En una landing de partner toma el acento del partner sin configurar nada.</li>
+    <li><strong>Respeta <code>prefers-reduced-motion</code>.</strong> Dibuja igual, pero fija.</li>
+    <li><strong>Acotarla a una caja:</strong> <code>[data-fondo-malla]</code> en un contenedor con <code>position:relative</code> y <code>overflow:hidden</code> &mdash; es lo que hace la demo de arriba.</li>
+  </ul>
+</div>
+
+<div class="subsection-title" id="fondo-horizonte">Horizonte &mdash; la grilla en fuga</div>
+<p class="ds-section-sub">Hermano de la malla, misma capa y mismo criterio de tapado. La diferencia est&aacute; en qu&eacute; maneja el movimiento: <strong>este avanza por reloj, no por scroll</strong>. Es para p&aacute;ginas de una sola pantalla, donde no hay recorrido que gobierne la animaci&oacute;n &mdash; la de &laquo;en construcci&oacute;n&raquo; es el caso que lo pidi&oacute;.</p>
+
+<div class="card" data-fondo-horizonte style="position:relative;overflow:hidden;min-height:280px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px">
+  <span style="position:relative;z-index:1;font:600 11px var(--mono);color:var(--cyan);text-transform:uppercase;letter-spacing:.1em">.fondo-horizonte</span>
+  <span style="position:relative;z-index:1;font:400 11px var(--mono);color:var(--muted-2)">avanza solo &mdash; no depende del scroll</span>
+</div>
+
+<div class="card" style="margin-top:12px">
+  <div style="font:700 13px var(--sans);margin-bottom:10px">C&oacute;mo se usa</div>
+  <div class="ds-code" style="font:400 12px/1.7 var(--mono)">
+<span style="color:var(--cyan)">&lt;script</span> <span style="color:var(--green)">src</span>=<span style="color:var(--amber)">"https://diguardia.github.io/yiqi-imagen/components/fondo-horizonte.js"</span> <span style="color:var(--green)">defer</span><span style="color:var(--cyan)">&gt;&lt;/script&gt;</span>
+  </div>
+</div>
+
+<div class="card" style="margin-top:12px">
+  <div style="font:700 13px var(--sans);margin-bottom:10px">Decisiones</div>
+  <ul style="margin:0;padding-left:18px;font:400 13px/1.7 var(--sans);color:var(--muted)">
+    <li><strong>La luz de horizonte es lo &uacute;nico c&aacute;lido de la escena.</strong> Sale del manifiesto; el resto son l&iacute;neas del acento a opacidad baja.</li>
+    <li><strong>La m&aacute;scara borra la mitad de arriba.</strong> Arriba del horizonte no hay plano que dibujar, y el degrade evita que la grilla arranque en seco.</li>
+    <li><strong>Cuidado con lo que quede sin fondo propio.</strong> Al ser fijo al viewport, un footer transparente se lleva la grilla por encima del texto. Es lo que pas&oacute; en <code>en-construccion.html</code> y se resolvi&oacute; apoyando el footer en <code>var(--bg)</code>.</li>
+    <li><strong>Respeta <code>prefers-reduced-motion</code>.</strong> Dibuja el plano, pero quieto.</li>
+  </ul>
+</div>
+
 </section>
 
 <!-- ─── DEPTH STACK (v1.2.6) ─── -->
@@ -4130,7 +4310,7 @@ function dsNavLock(){
 <div class="ds-section-kicker">38 · Aplicaciones</div>
 <h2 class="ds-section-title">Picking · primitivos (propuesta)</h2>
 <p class="ds-section-sub">Vocabulario propuesto para la app de picking (lector de códigos + flujo de depósito). Tokenizado, datos simulados. Se formaliza con el funcional.</p>
-<a class="ds-xref" style="margin-top:12px" href="examples/showcase.html?tab=mockups&amp;card=card-picking"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
+<a class="ds-xref" style="margin-top:12px" href="examples/showcase.html?tab=picking&amp;card=card-picking-listas"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 
 <div style="display:inline-block;background:color-mix(in srgb, var(--amber) 10%, transparent);border-radius:var(--radius-pill);padding:8px 14px;color:var(--amber);font:600 11px var(--mono);letter-spacing:.06em;margin-bottom:20px">● DATOS SIMULADOS · PROPUESTA · NO MODIFICA YIQI</div>
@@ -4150,22 +4330,93 @@ function dsNavLock(){
     <span style="color:var(--muted-2);font:400 11px var(--mono)">icon buttons · avatar chip</span>
   </div>
 <div style="background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--radius);padding:16px">
-    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px"><span style="color:var(--text);font:700 18px var(--sans)">Abiertas</span><span style="color:var(--muted-2);font:400 13px var(--sans)">4 disponibles</span></div>
-    <div style="background:var(--bg-elev-2);border-radius:var(--radius-sm);padding:14px">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="color:var(--text);font:700 15px var(--sans)">PL #000290</span><span class="badge badge-cyan">PENDIENTE</span></div>
-      <div style="color:var(--muted);font:400 12px/1.5 var(--sans)">1902, 1903, 1904, 1905, 1906, 1907, 1908, 1909…</div>
-      <div style="color:var(--cyan);font:400 12px var(--sans);margin:2px 0 12px;cursor:pointer">… Leer más</div>
-      <div class="load-progress-track"><div class="load-progress-fill" style="width:0"></div></div>
-      <div style="display:flex;justify-content:space-between;margin-top:10px;color:var(--muted-2);font:400 12px var(--sans)"><span>section header · truncate · list item card</span><span>3/6/2026</span></div>
+      <p class="section-kicker" style="margin:0 0 12px">Abiertas · 4</p>
+      <article class="card card-clickable" style="margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+          <div>
+            <p style="margin:0;font:600 15px var(--mono);color:var(--text)">PL #000290</p>
+            <p style="margin:3px 0 0;color:var(--muted);font-size:13px">Depósito Central · 12 ubicaciones</p>
+          </div>
+          <button class="btn btn-primary btn-lg" type="button" style="flex:none;min-height:44px">Comenzar</button>
+        </div>
+        <div class="progress-bar" style="height:6px;margin:14px 0 0"><div class="progress-fill" style="width:0"></div></div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:8px">
+          <span class="progress-value"><b style="color:var(--text)">0</b> / 24 ítems</span>
+          <span class="progress-detail">hoy</span>
+        </div>
+      </article>
+      <p style="margin:10px 0 0;color:var(--muted-2);font:400 11px var(--mono)">section header · list item card · botón por estado de avance</p>
     </div>
-  </div>
 <div style="display:flex;gap:10px;flex-wrap:wrap">
     <span class="badge badge-cyan">PENDIENTE</span>
     <span class="badge badge-amber">EN PROCESO</span>
     <span class="badge badge-green">COMPLETADO</span>
   </div>
 </div>
-<div class="subsection-title">Escaneo</div>
+  <div class="subsection-title">Pantalla de listas · propuesta 13/08</div>
+  <p style="color:var(--muted);font:400 13px/1.6 var(--sans);margin:0 0 14px;max-width:70ch">
+    Revisión de la tarjeta de arriba, a partir del seguimiento del 07/08 («falta un poco de
+    intuición al principio»). El pill de estado deja su lugar al <strong>botón</strong>: era el
+    elemento de mayor contraste de la tarjeta y las tres decían lo mismo, algo que el encabezado
+    «Abiertas» ya había dicho. El botón cambia con el avance —<code>Comenzar</code> en cero,
+    <code>Continuar</code> a medias, <code>Cerrar</code> al completar, ahí en
+    <code>.btn-ghost</code>— así que las filas dejan de ser indistinguibles.
+    El volcado de números de pedido sale del subtítulo y entra lo que decide cuál empezar:
+    depósito, ubicaciones a recorrer y faltantes.
+  </p>
+  <div style="max-width:390px">
+      <article class="card card-clickable" style="margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+          <div>
+            <p style="margin:0;font:600 15px var(--mono);color:var(--text)">#000076</p>
+            <p style="margin:3px 0 0;color:var(--muted);font-size:13px">Depósito Central · 18 ubicaciones</p>
+          </div>
+          <button class="btn btn-primary btn-lg" type="button" style="flex:none;min-height:44px">Comenzar</button>
+        </div>
+        <div class="progress-bar" style="height:6px;margin:14px 0 0;"><div class="progress-fill" style="width:0"></div></div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:8px">
+          <span class="progress-value"><b style="color:var(--text)">0</b> / 50 ítems</span>
+          <span class="progress-detail">hoy</span>
+        </div>
+      </article>
+      <article class="card card-clickable" style="margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+          <div>
+            <p style="margin:0;font:600 15px var(--mono);color:var(--text)">#000074</p>
+            <p style="margin:3px 0 0;color:var(--muted);font-size:13px">Depósito Norte · 6 ubicaciones · <span class="badge badge-amber">1 sin stock</span></p>
+          </div>
+          <button class="btn btn-primary btn-lg" type="button" style="flex:none;min-height:44px">Continuar</button>
+        </div>
+        <div class="progress-bar" style="height:6px;margin:14px 0 0;"><div class="progress-fill" style="width:24%"></div></div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:8px">
+          <span class="progress-value"><b style="color:var(--text)">12</b> / 50 ítems</span>
+          <span class="progress-detail">ayer</span>
+        </div>
+      </article>
+      <article class="card card-clickable" style="margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+          <div>
+            <p style="margin:0;font:600 15px var(--mono);color:var(--text)">#000070</p>
+            <p style="margin:3px 0 0;color:var(--muted);font-size:13px">Depósito Central · 3 ubicaciones</p>
+          </div>
+          <button class="btn btn-ghost btn-lg" type="button" style="flex:none;min-height:44px">Cerrar</button>
+        </div>
+        <div class="progress-bar" style="height:6px;margin:14px 0 0;"><div class="progress-fill" style="background:var(--green);width:100%"></div></div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:8px">
+          <span class="progress-value"><b style="color:var(--text)">3</b> / 3 ítems</span>
+          <span class="progress-detail">hace 20 min</span>
+        </div>
+      </article>
+  </div>
+  <p style="color:var(--muted-2);font:400 12px/1.6 var(--mono);margin:10px 0 26px;max-width:70ch">
+    Componentes: <code>.card.card-clickable</code> · <code>.btn.btn-primary.btn-lg</code> /
+    <code>.btn.btn-ghost.btn-lg</code> · <code>.progress-bar</code> + <code>.progress-fill</code> ·
+    <code>.progress-value</code> / <code>.progress-detail</code> · <code>.badge-amber</code>.
+    Sin clases propias. Única desviación: <code>min-height:44px</code> en el botón — <code>.btn-lg</code>
+    da 43 y esta app se opera con guantes y una mano.
+  </p>
+
+  <div class="subsection-title">Escaneo</div>
 <div style="display:grid;gap:14px;max-width:560px;margin-bottom:24px">
 <div style="background:var(--bg-elev-2);border-radius:var(--radius);height:200px;position:relative;overflow:hidden">
     <div class="pk-reticle" data-pk-scan style="position:absolute;inset:30px 24px;border:2px solid var(--cyan);border-radius:var(--radius)"><span class="pk-added-pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Agregado</span><div class="pk-scanline"></div></div>
@@ -4253,7 +4504,7 @@ function dsNavLock(){
     <p class="pk-done-kicker">Scans completos</p>
     <h3 class="pk-done-title">Picking List terminada</h3>
     <p class="pk-done-sub">Todos los artículos pendientes fueron procesados.</p>
-    <button class="btn btn-primary" type="button">Volver a Picking Lists</button>
+    <button class="btn btn-primary" type="button">Volver a Picking List</button>
   </div>
 </div>
 
@@ -4277,7 +4528,7 @@ function dsNavLock(){
   <span style="color:var(--cyan)">&lt;p</span> <span style="color:var(--green)">class</span>=<span style="color:var(--amber)">"pk-done-kicker"</span><span style="color:var(--cyan)">&gt;</span>Scans completos<span style="color:var(--cyan)">&lt;/p&gt;</span>
   <span style="color:var(--cyan)">&lt;h3</span> <span style="color:var(--green)">class</span>=<span style="color:var(--amber)">"pk-done-title"</span><span style="color:var(--cyan)">&gt;</span>Picking List terminada<span style="color:var(--cyan)">&lt;/h3&gt;</span>
   <span style="color:var(--cyan)">&lt;p</span> <span style="color:var(--green)">class</span>=<span style="color:var(--amber)">"pk-done-sub"</span><span style="color:var(--cyan)">&gt;</span>Todos los artículos pendientes fueron procesados.<span style="color:var(--cyan)">&lt;/p&gt;</span>
-  <span style="color:var(--cyan)">&lt;button</span> <span style="color:var(--green)">class</span>=<span style="color:var(--amber)">"btn btn-primary"</span> <span style="color:var(--green)">type</span>=<span style="color:var(--amber)">"button"</span><span style="color:var(--cyan)">&gt;</span>Volver a Picking Lists<span style="color:var(--cyan)">&lt;/button&gt;</span>
+  <span style="color:var(--cyan)">&lt;button</span> <span style="color:var(--green)">class</span>=<span style="color:var(--amber)">"btn btn-primary"</span> <span style="color:var(--green)">type</span>=<span style="color:var(--amber)">"button"</span><span style="color:var(--cyan)">&gt;</span>Volver a Picking List<span style="color:var(--cyan)">&lt;/button&gt;</span>
 <span style="color:var(--cyan)">&lt;/div&gt;</span></code></pre>
 </section>
 

@@ -128,7 +128,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.7.11";
+  --ds-version: "1.2.7.14";
 
   /* Layout */
   --topbar-h:  56px;
@@ -493,8 +493,45 @@ html[data-theme="light"] .brand-logo-light { display: block; }
 /* ── 10. KICKERS & LABELS ─────────────────────────────────── */
 .brand-kicker,
 .page-kicker,
+/* ── Kickers de seccion ────────────────────────────────────────────────
+   v1.2.7.15 — 14/08/2026. Las versalitas monoespaciadas con tracking ancho
+   se leian como tic de landing generada, igual que los gradientes radiales
+   que ya se sacaron. Pasan a sans en caja normal, precedidas por un guion
+   corto que conserva la funcion de "aca empieza una seccion" sin gritar.
+
+   La decision se tomo en el sitio el 07/08 y vivio una semana solo ahi,
+   pisando al DS con !important sobre 26 selectores. Se adopta en el DS para
+   que la marca sea una sola: lo que use el sistema se ve como el sitio.
+
+   El kicker es inline-flex: no se estira ni impone alineacion. Donde va
+   dentro de la seccion lo decide quien lo usa.
+
+   NO alcanza a los tags de dato — .mod-tag, .nov-badge, .app-state, .k-lab,
+   .step-count, .rev-ver —: ahi el mono comunica "valor", no "seccion".
+   .nav-label, .kpi-label y .status-label tampoco: son etiquetas de interfaz,
+   no encabezados de seccion, y conservan el mono. */
 .section-kicker,
-.panel-kicker,
+.brand-kicker,
+.panel-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font: 600 12px var(--sans);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--muted-2);
+}
+
+.section-kicker::before,
+.brand-kicker::before,
+.panel-kicker::before {
+  content: '';
+  width: 22px;
+  height: 1px;
+  flex-shrink: 0;
+  background: var(--line-strong);
+}
+
 .nav-label,
 .kpi-label,
 .status-label {
@@ -503,9 +540,7 @@ html[data-theme="light"] .brand-logo-light { display: block; }
   letter-spacing: 0.15em;
 }
 
-.brand-kicker,
-.section-kicker,
-.panel-kicker { color: var(--cyan); font-size: 10px; font-weight: 700; }
+
 
 .page-kicker  { font-size: 10px; font-weight: 700; color: var(--muted-2); margin-bottom: 6px; }
 .status-label,
@@ -520,7 +555,14 @@ html[data-theme="light"] .brand-logo-light { display: block; }
   gap: 7px;
   padding: 10px 16px;
   border-radius: var(--radius);
-  border: 1px solid transparent;
+  /* v1.2.7.12 — el borde de la variante base pasa de transparente a --line.
+     Medido el 13/08: sobre una .card en oscuro el fondo del boton
+     (--bg-elev-2, rgb(20,22,27)) es EXACTAMENTE el de la card, y con el borde
+     transparente un secundario desaparecia; en claro pasaba lo mismo
+     (rgb(255,255,255) sobre rgba(255,255,255,.92)). Las variantes que declaran
+     su propio border-color despues —primary, ghost, danger, amber— no se
+     tocan: siguen ganando por orden. */
+  border: 1px solid var(--line);
   background: var(--bg-elev-2);
   color: var(--text);
   font: 600 13px var(--sans);
@@ -1408,6 +1450,11 @@ html[data-theme="light"] textarea:-webkit-autofill {
   border-radius: var(--radius-pill);
   background: var(--bg-soft);
   overflow: hidden;
+  /* v1.2.7.12 — anillo interior. El riel (--bg-soft, rgb(24,27,33)) sobre una
+     .card en oscuro (rgb(20,22,27)) da 1,09:1: al 0% no se ve que haya barra,
+     justo cuando mas hace falta saberlo. El anillo la despega sin cambiar el
+     color del riel, asi que no altera ningun fill existente. */
+  box-shadow: inset 0 0 0 1px var(--line);
 }
 
 .progress-fill {
@@ -3450,3 +3497,165 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
   background: transparent; color: var(--muted); display: grid; place-items: center; font-size: 17px; cursor: pointer; }
 @media (hover: hover) { .ds-appbar-actions button:hover { background: var(--bg-soft); color: var(--text); } }
 .ds-appbar-actions button:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: 2px; }
+
+/* ── .fondo-malla — wireframe 3D de fondo, rota con el scroll ──────────
+      El canvas lo crea components/fondo-malla.js; esta clase solo lo ubica.
+      z-index -1 lo deja arriba del fondo del body y debajo de todo el
+      contenido: cualquier seccion con fondo propio lo tapa, que es lo
+      buscado — la malla vive donde hay aire, no detras de cada parrafo.
+      La mascara la desvanece contra los bordes del viewport para que no
+      corte en seco. Hereda --cyan del contexto. */
+.fondo-malla {
+  position: fixed; inset: 0; z-index: -1;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  opacity: .34;
+  -webkit-mask-image: radial-gradient(ellipse 76% 76% at 50% 44%, #000 36%, transparent 100%);
+          mask-image: radial-gradient(ellipse 76% 76% at 50% 44%, #000 36%, transparent 100%);
+}
+/* Variante acotada: la malla vive dentro de una caja en vez de detras de
+   toda la pagina. La caja tiene que traer position relativa y overflow
+   hidden; el canvas se estira a sus bordes. */
+.fondo-malla-en-caja { position: absolute; z-index: 0; }
+html[data-theme="light"] .fondo-malla { opacity: .20; }
+@media (max-width: 720px) { .fondo-malla { opacity: .20; } }
+
+/* ── .fondo-horizonte — grilla en fuga con luz de horizonte ────────────
+      El canvas lo crea components/fondo-horizonte.js. Hermano de
+      .fondo-malla, misma capa (z-index -1) y mismo criterio: cualquier
+      seccion con fondo propio lo tapa. Se diferencia en que avanza por
+      reloj y no por scroll, asi que sirve en paginas de una sola pantalla.
+      La mascara borra la mitad superior: arriba del horizonte no hay plano
+      que dibujar, y el degrade evita que la grilla arranque en seco. */
+.fondo-horizonte {
+  position: fixed; inset: 0; z-index: -1;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  opacity: .62;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 38%, #000 100%);
+          mask-image: linear-gradient(180deg, transparent 0%, #000 38%, #000 100%);
+}
+.fondo-horizonte-en-caja { position: absolute; z-index: 0; }
+html[data-theme="light"] .fondo-horizonte { opacity: .38; }
+
+/* ── .ds-fx-lineas — entrada de un titulo, linea por linea ─────────────
+      El corte lo dan los <br> del marcado; components/fx-lineas.js envuelve
+      cada linea. El estado inicial (escondido) lo pone .ds-fx-listo, que
+      agrega el script: sin script el titulo se ve normal, que es lo que
+      tiene que pasar si el CDN falla.
+      El par padding/margin de .12em compensa el overflow:hidden — sin eso
+      la caja corta las colas de g, p y j. */
+.ds-fx-lineas .ds-fx-linea {
+  display: block; overflow: hidden;
+  padding-bottom: .12em; margin-bottom: -.12em;
+}
+/* El estado escondido va SIN transicion, a proposito. Con la transicion
+   declarada aca, al agregar .ds-fx-listo el navegador anima la salida — la
+   linea 2 tardaba su propio delay en desaparecer y quedaba visible mientras
+   la 1 ya se habia escondido. La transicion vive solo en el estado final:
+   por spec, la que manda es la del after-change style. */
+.ds-fx-lineas.ds-fx-listo .ds-fx-linea > span {
+  display: block;
+  transform: translateY(105%);
+  opacity: 0;
+  transition: none;
+  will-change: transform;
+}
+.ds-fx-lineas.ds-fx-on .ds-fx-linea > span {
+  transform: none; opacity: 1;
+  transition: transform .78s cubic-bezier(.22, 1, .36, 1), opacity .6s ease;
+  transition-delay: calc(var(--i) * 90ms);
+}
+
+/* ── .ds-fx-pasos — la secuencia 1-2-3 se arma en orden ────────────────
+      components/fx-entrada.js marca cada hijo directo como .ds-fx-paso, le
+      pone --i, y separa su primer elemento (.ds-fx-nodo) del resto
+      (.ds-fx-cuerpo). Toda la coreografia sale de --i: numero, cuerpo y
+      linea de union entran escalonados dentro del paso, y cada paso arranca
+      420 ms despues del anterior.
+      La linea es el ::after que el consumidor ya tenia — no lo creamos, solo
+      lo escalamos; si no existe, no pasa nada. */
+/* Mismo criterio que arriba: escondido sin transicion, la coreografia vive
+   en el estado final. Si no, el paso 3 tarda 840 ms en esconderse y hasta
+   entonces se ve — con lo cual la secuencia no empieza en 1. */
+.ds-fx-pasos.ds-fx-listo .ds-fx-nodo {
+  opacity: 0; transform: scale(.62); transition: none;
+}
+.ds-fx-pasos.ds-fx-listo .ds-fx-cuerpo {
+  opacity: 0; transform: translateY(14px); transition: none;
+}
+.ds-fx-pasos.ds-fx-listo .ds-fx-paso::after {
+  transform: scaleX(0); transform-origin: left center; transition: none;
+}
+.ds-fx-pasos.ds-fx-on .ds-fx-nodo {
+  opacity: 1; transform: none;
+  transition: opacity .42s ease, transform .52s cubic-bezier(.34, 1.56, .64, 1);
+  transition-delay: calc(var(--i) * 420ms);
+}
+.ds-fx-pasos.ds-fx-on .ds-fx-cuerpo {
+  opacity: 1; transform: none;
+  transition: opacity .5s ease, transform .5s cubic-bezier(.22, 1, .36, 1);
+  transition-delay: calc(var(--i) * 420ms + 150ms);
+}
+.ds-fx-pasos.ds-fx-on .ds-fx-paso::after {
+  transform: scaleX(1);
+  transition: transform .52s cubic-bezier(.22, 1, .36, 1);
+  transition-delay: calc(var(--i) * 420ms + 280ms);
+}
+
+/* El halo que dice "aca estas": un anillo del acento que se abre y se apaga
+   cuando el numero aterriza. Va en ::before para no pelear con el box-shadow
+   con el que el nodo se recorta sobre la linea. */
+.ds-fx-pasos.ds-fx-on .ds-fx-nodo::before {
+  content: ''; position: absolute; inset: 0; border-radius: 50%;
+  pointer-events: none;
+  animation: ds-fx-halo .9s ease-out both;
+  animation-delay: calc(var(--i) * 420ms + 120ms);
+}
+@keyframes ds-fx-halo {
+  0%   { box-shadow: 0 0 0 0 var(--cyan-soft-2, rgba(0, 204, 255, .35)); opacity: 1; }
+  70%  { box-shadow: 0 0 0 14px transparent; opacity: .45; }
+  100% { box-shadow: 0 0 0 18px transparent; opacity: 0; }
+}
+
+/* ── .ds-flip — la card gira y muestra el dorso ────────────────────────
+      Las dos caras van apiladas en la MISMA celda de grid, no con position
+      absolute: asi el contenedor toma el alto de la cara mas larga y las dos
+      quedan del mismo tamano sin fijar una altura a mano. Fijarla es lo que
+      rompe estas cards cuando el texto cambia de largo por partner.
+      components/card-flip.js cablea el tap y el teclado; el hover es puro CSS. */
+.ds-flip { perspective: 1100px; cursor: pointer; }
+.ds-flip:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+.ds-flip-in {
+  display: grid;
+  transform-style: preserve-3d;
+  transition: transform .62s cubic-bezier(.22, 1, .36, 1);
+}
+.ds-flip-in > .ds-flip-cara,
+.ds-flip-in > .ds-flip-dorso {
+  grid-area: 1 / 1;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+}
+.ds-flip-dorso { transform: rotateY(180deg); }
+.ds-flip.is-vuelta .ds-flip-in { transform: rotateY(180deg); }
+@media (hover: hover) {
+  .ds-flip:hover .ds-flip-in { transform: rotateY(180deg); }
+  .ds-flip.is-vuelta:hover .ds-flip-in { transform: none; }
+}
+
+/* Sin movimiento: el giro pasa a ser un cruce de opacidad. El dato del dorso
+   llega igual — es lo que importa —, sin rotar nada. */
+@media (prefers-reduced-motion: reduce) {
+  .ds-flip-in { transform: none !important; transition: opacity .3s ease; }
+  .ds-flip-in > .ds-flip-cara,
+  .ds-flip-in > .ds-flip-dorso {
+    backface-visibility: visible; transform: none;
+    transition: opacity .3s ease;
+  }
+  .ds-flip-dorso { opacity: 0; }
+  .ds-flip:hover .ds-flip-dorso,
+  .ds-flip.is-vuelta .ds-flip-dorso { opacity: 1; }
+  .ds-flip:hover .ds-flip-cara,
+  .ds-flip.is-vuelta .ds-flip-cara { opacity: 0; }
+}
