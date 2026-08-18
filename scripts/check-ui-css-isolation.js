@@ -14,15 +14,58 @@ function cssFiles(directory) {
   })
 }
 
+function splitSelectorList(selector) {
+  const selectors = []
+  let start = 0
+  let roundDepth = 0
+  let squareDepth = 0
+
+  for (let index = 0; index < selector.length; index += 1) {
+    const character = selector[index]
+    if (character === '(') roundDepth += 1
+    else if (character === ')') roundDepth = Math.max(0, roundDepth - 1)
+    else if (character === '[') squareDepth += 1
+    else if (character === ']') squareDepth = Math.max(0, squareDepth - 1)
+    else if (character === ',' && roundDepth === 0 && squareDepth === 0) {
+      selectors.push(selector.slice(start, index).trim())
+      start = index + 1
+    }
+  }
+
+  selectors.push(selector.slice(start).trim())
+  return selectors.filter(Boolean)
+}
+
+function globalUniversalSelectors(source) {
+  const selectors = []
+  const blockPattern = /([^{}]+)\{/g
+
+  for (const match of source.matchAll(blockPattern)) {
+    const prelude = match[1].trim()
+    if (!prelude || prelude.startsWith('@')) continue
+
+    const unsafe = splitSelectorList(prelude).filter((selector) =>
+      selector.includes('*') && !selector.includes('yiqi-'),
+    )
+
+    if (unsafe.length) {
+      const line = source.slice(0, match.index).split(/\r?\n/).length
+      selectors.push({ line, selectors: unsafe })
+    }
+  }
+
+  return selectors
+}
+
 function inspect(source, file) {
   const errors = []
   const lines = source.split(/\r?\n/)
 
-  lines.forEach((line, index) => {
-    if (/^\s*\*\s*\{/.test(line)) {
-      errors.push(`${file}:${index + 1} usa un selector universal global; debe quedar aislado a clases YiQi.`)
-    }
+  for (const violation of globalUniversalSelectors(source)) {
+    errors.push(`${file}:${violation.line} usa un selector universal global (${violation.selectors.join(', ')}); debe quedar aislado a clases YiQi.`)
+  }
 
+  lines.forEach((line, index) => {
     if (/\[\s*data-theme(?:\s*=|\s*\])/.test(line)) {
       errors.push(`${file}:${index + 1} usa el atributo generico data-theme; el runtime React debe usar data-yiqi-theme.`)
     }
@@ -38,10 +81,21 @@ function inspect(source, file) {
 }
 
 function selfCheck() {
-  const bad = '* { box-sizing:border-box }\n:root { --bg: red; }\nhtml[data-theme="dark"] { --yiqi-bg: black; }'
-  const good = '.yiqi-root, .yiqi-root * { box-sizing:border-box }\n:root { --yiqi-bg: red; }\nhtml[data-yiqi-theme="dark"] { --yiqi-bg: black; }'
+  const bad = [
+    '* { box-sizing:border-box }',
+    'html * { margin:0 }',
+    '.yiqi-root *, body > * { min-width:0 }',
+    ':root { --bg: red; }',
+    'html[data-theme="dark"] { --yiqi-bg: black; }',
+  ].join('\n')
+  const good = [
+    '.yiqi-root, .yiqi-root * { box-sizing:border-box }',
+    ':where([class^="yiqi-"], [class*=" yiqi-"]) * { min-width:0 }',
+    ':root { --yiqi-bg: red; }',
+    'html[data-yiqi-theme="dark"] { --yiqi-bg: black; }',
+  ].join('\n')
 
-  if (inspect(bad, '<self-check>').length !== 3) {
+  if (inspect(bad, '<self-check>').length !== 5) {
     throw new Error('CSS isolation guard no detecto sus casos de control.')
   }
   if (inspect(good, '<self-check>').length !== 0) {
