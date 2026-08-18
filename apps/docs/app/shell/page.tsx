@@ -2,6 +2,7 @@ import { YiQiAppShell } from '@yiqi/ui/layout'
 import { YiQiButton } from '@yiqi/ui/primitives'
 import { YiQiKpiCard } from '@yiqi/ui/data-display'
 import { YiQiRuntimeBanner } from '@yiqi/ui/feedback'
+import { DemoAccount } from './demo-account'
 
 const navigation = [
   { href: '/shell', label: 'Resumen', active: true },
@@ -15,7 +16,7 @@ export default function ShellPage() {
       <YiQiAppShell
         appName="Mi app"
         navigation={navigation}
-        account={<span>Nombre y Apellido</span>}
+        account={<DemoAccount />}
         actions={<YiQiButton variant="ghost">Cerrar sesión</YiQiButton>}
       >
         <div className="yiqi-kpi-grid">

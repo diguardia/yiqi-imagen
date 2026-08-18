@@ -40,6 +40,25 @@ test.describe('YiQiAppShell', () => {
     await expect(dialog).toBeHidden()
   })
 
+  test('mobile conserva estado interno al cerrar y volver a abrir el drawer', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto('/shell')
+
+    await page.getByRole('button', { name: 'Abrir menú' }).click()
+    const dialog = page.getByRole('dialog')
+    const accountState = dialog.getByRole('button', { name: 'Incrementar estado de cuenta' })
+
+    await expect(accountState).toHaveText('Estado 0')
+    await accountState.click()
+    await expect(accountState).toHaveText('Estado 1')
+
+    await dialog.getByRole('button', { name: 'Cerrar menú' }).click()
+    await expect(dialog).toBeHidden()
+
+    await page.getByRole('button', { name: 'Abrir menú' }).click()
+    await expect(dialog.getByRole('button', { name: 'Incrementar estado de cuenta' })).toHaveText('Estado 1')
+  })
+
   test('mobile cierra el drawer al elegir una ruta de navegacion', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 })
     await page.goto('/shell')

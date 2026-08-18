@@ -77,9 +77,9 @@ export function YiQiAppShell({ appName, navigation, children, account, actions }
             <Dialog.Trigger asChild>
               <button className="yiqi-icon-button yiqi-mobile-menu" type="button" aria-label="Abrir menú">☰</button>
             </Dialog.Trigger>
-            <Dialog.Portal>
-              <Dialog.Overlay className="yiqi-dialog-overlay" />
-              <Dialog.Content className="yiqi-dialog-content">
+            <Dialog.Portal forceMount>
+              <Dialog.Overlay forceMount className="yiqi-dialog-overlay" />
+              <Dialog.Content forceMount className="yiqi-dialog-content">
                 <Dialog.Title className="yiqi-dialog-title">{appName}</Dialog.Title>
                 <Dialog.Description className="yiqi-sr-only">Navegación de la aplicación</Dialog.Description>
                 <Dialog.Close asChild>

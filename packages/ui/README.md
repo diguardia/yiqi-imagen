@@ -82,6 +82,14 @@ No resolver una necesidad compartida con un fork local del componente.
 
 `npm run test:ui-redundancy` protege las duplicaciones mecanicamente detectables.
 
+## AppShell
+
+`account` y `actions` sirven para controles de cuenta y acciones de la aplicacion. En mobile permanecen montados mientras el drawer se abre y se cierra, por lo que conservan su estado interno durante ese ciclo.
+
+Al cambiar entre desktop y mobile esos slots pueden volver a montarse porque cambian de ubicacion. Si un estado debe sobrevivir al cambio de viewport, mantenerlo controlado fuera del slot y pasar solo el valor y los callbacks necesarios.
+
+No usar `account` o `actions` como dueños del estado global de la aplicacion.
+
 ## Primitives externas
 
 Radix puede usarse internamente para comportamiento accesible. Esa dependencia es un detalle interno: la app no debe acoplarse al primitive que usa YiQi.
