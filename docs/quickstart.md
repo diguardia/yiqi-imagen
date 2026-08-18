@@ -10,7 +10,7 @@ import { YiQiProvider, YiQiThemeScript } from '@yiqi/ui/foundation'
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="es" data-theme="dark" suppressHydrationWarning>
+    <html lang="es" data-yiqi-theme="dark" suppressHydrationWarning>
       <head>
         <YiQiThemeScript />
       </head>
@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
 }
 ```
 
-`YiQiThemeScript` aplica la preferencia `yiqi-theme` antes de hidratar React. No recrear esa logica localmente.
+`YiQiThemeScript` aplica la preferencia `yiqi-theme` antes de hidratar React. El runtime usa `data-yiqi-theme` y no modifica el atributo generico `data-theme` del consumidor. No recrear esa logica localmente.
 
 Para componentes y reglas de extension, ver `../packages/ui/README.md`.
 

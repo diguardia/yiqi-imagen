@@ -23,6 +23,10 @@ function inspect(source, file) {
       errors.push(`${file}:${index + 1} usa un selector universal global; debe quedar aislado a clases YiQi.`)
     }
 
+    if (/\[\s*data-theme(?:\s*=|\s*\])/.test(line)) {
+      errors.push(`${file}:${index + 1} usa el atributo generico data-theme; el runtime React debe usar data-yiqi-theme.`)
+    }
+
     for (const customProperty of line.matchAll(/(--[A-Za-z0-9_-]+)\s*:/g)) {
       if (!customProperty[1].startsWith('--yiqi-')) {
         errors.push(`${file}:${index + 1} publica la variable global generica ${customProperty[1]}; usar namespace --yiqi-.`)
@@ -34,10 +38,10 @@ function inspect(source, file) {
 }
 
 function selfCheck() {
-  const bad = '* { box-sizing:border-box }\n:root { --bg: red; }'
-  const good = '.yiqi-root, .yiqi-root * { box-sizing:border-box }\n:root { --yiqi-bg: red; }'
+  const bad = '* { box-sizing:border-box }\n:root { --bg: red; }\nhtml[data-theme="dark"] { --yiqi-bg: black; }'
+  const good = '.yiqi-root, .yiqi-root * { box-sizing:border-box }\n:root { --yiqi-bg: red; }\nhtml[data-yiqi-theme="dark"] { --yiqi-bg: black; }'
 
-  if (inspect(bad, '<self-check>').length !== 2) {
+  if (inspect(bad, '<self-check>').length !== 3) {
     throw new Error('CSS isolation guard no detecto sus casos de control.')
   }
   if (inspect(good, '<self-check>').length !== 0) {

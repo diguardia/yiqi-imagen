@@ -7,6 +7,7 @@ Cada script tiene una responsabilidad concreta y un alias en `package.json`.
 | `check-detail-navigation.js` | `npm run test:detail-navigation` | Detecta navegacion de detalle armada con ids inseguros o legacy |
 | `check-consumer-css.js` | `npm run test:consumer-css -- <rutas>` | Impide CSS visual embebido y estilos inline estaticos en consumidores |
 | `check-clases-ds.js` | `npm run test:clases-ds -- <repos>` | Cruza clases usadas, declaradas y documentadas contra el contrato CSS |
+| `check-ui-css-isolation.js` | `npm run test:ui-css-isolation` | Impide selectores universales globales, variables CSS sin namespace y el atributo generico `data-theme` dentro del paquete React |
 | `check-ui-redundancy.js` | `npm run test:ui-redundancy` | Detecta componentes YiQi definidos mas de una vez y label/placeholder literales duplicados |
 | `check-production-audit.js` | `npm run audit:production` | Audita dependencias productivas y permite solo advisories upstream explicitamente enumerados; falla tambien si npm audit devuelve error o un reporte incompleto |
 
@@ -20,6 +21,10 @@ Este guard protege errores que suelen aparecer cuando una pantalla se replica ma
 No intenta decidir si dos frases diferentes son semanticamente redundantes. Esa parte sigue requiriendo revision de copy y QA visual.
 
 Si falla, no se agrega una excepcion para conservar la duplicacion. Se elimina la segunda implementacion o se corrige el copy.
+
+## Aislamiento CSS React
+
+`npm run test:ui-css-isolation` exige namespace `--yiqi-*`, evita el selector universal global y reserva `data-yiqi-theme` para el tema React. El paquete no debe seleccionar ni depender de `data-theme`, porque ese atributo puede pertenecer a la aplicacion consumidora.
 
 ## Audit productivo
 

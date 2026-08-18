@@ -51,14 +51,19 @@ test.describe('regresiones funcionales', () => {
     await expect(page.getByRole('status')).toHaveText('Ingresa usuario y clave para iniciar sesion.')
   })
 
-  test('el tema guardado se aplica antes de hidratar React', async ({ page }) => {
+  test('el tema guardado se aplica antes de hidratar React sin pisar data-theme del consumidor', async ({ page }) => {
     await page.emulateMedia({ colorScheme: 'dark' })
-    await page.addInitScript(() => window.localStorage.setItem('yiqi-theme', 'light'))
+    await page.addInitScript(() => {
+      document.documentElement.setAttribute('data-theme', 'consumer')
+      window.localStorage.setItem('yiqi-theme', 'light')
+    })
     await page.route('**/_next/static/**/*.js', (route) => route.abort())
 
     const response = await page.goto('/shell/', { waitUntil: 'domcontentloaded' })
     expect(response?.status()).toBeLessThan(400)
-    await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
+    const html = page.locator('html')
+    await expect(html).toHaveAttribute('data-yiqi-theme', 'light')
+    await expect(html).toHaveAttribute('data-theme', 'consumer')
   })
 
   test('el tema funciona aunque localStorage este bloqueado', async ({ page }) => {
@@ -70,14 +75,14 @@ test.describe('regresiones funcionales', () => {
     await page.goto('/shell/')
 
     const html = page.locator('html')
-    await expect(html).toHaveAttribute('data-theme', 'dark')
+    await expect(html).toHaveAttribute('data-yiqi-theme', 'dark')
 
     const systemButton = page.getByRole('button', { name: 'Tema actual: Sistema. Cambiar a Claro', exact: true })
     await expect(systemButton).toBeVisible()
     await systemButton.click()
 
     await expect(page.getByRole('button', { name: 'Tema actual: Claro. Cambiar a Oscuro', exact: true })).toBeVisible()
-    await expect(html).toHaveAttribute('data-theme', 'light')
+    await expect(html).toHaveAttribute('data-yiqi-theme', 'light')
   })
 
   test('el label de recordar usuario mantiene el toggle funcional', async ({ page }) => {
@@ -134,28 +139,33 @@ test.describe('regresiones funcionales', () => {
     await expect(submit).toBeEnabled()
   })
 
-  test('el tema conserva persistencia y el ciclo oscuro sistema claro', async ({ page }) => {
+  test('el tema conserva persistencia y el ciclo oscuro sistema claro sin pisar data-theme', async ({ page }) => {
     await page.emulateMedia({ colorScheme: 'light' })
-    await page.addInitScript(() => window.localStorage.setItem('yiqi-theme', 'dark'))
+    await page.addInitScript(() => {
+      document.documentElement.setAttribute('data-theme', 'consumer')
+      window.localStorage.setItem('yiqi-theme', 'dark')
+    })
     await page.goto('/shell/')
 
     const html = page.locator('html')
     const darkButton = page.getByRole('button', { name: 'Tema actual: Oscuro. Cambiar a Sistema', exact: true })
 
-    await expect(html).toHaveAttribute('data-theme', 'dark')
+    await expect(html).toHaveAttribute('data-yiqi-theme', 'dark')
+    await expect(html).toHaveAttribute('data-theme', 'consumer')
     await darkButton.click()
 
     await expect(page.getByRole('button', { name: 'Tema actual: Sistema. Cambiar a Claro', exact: true })).toBeVisible()
     await expect.poll(async () => page.evaluate(() => window.localStorage.getItem('yiqi-theme'))).toBe('system')
-    await expect(html).toHaveAttribute('data-theme', 'light')
+    await expect(html).toHaveAttribute('data-yiqi-theme', 'light')
 
     await page.getByRole('button', { name: 'Tema actual: Sistema. Cambiar a Claro', exact: true }).click()
     await expect.poll(async () => page.evaluate(() => window.localStorage.getItem('yiqi-theme'))).toBe('light')
-    await expect(html).toHaveAttribute('data-theme', 'light')
+    await expect(html).toHaveAttribute('data-yiqi-theme', 'light')
 
     await page.getByRole('button', { name: 'Tema actual: Claro. Cambiar a Oscuro', exact: true }).click()
     await expect.poll(async () => page.evaluate(() => window.localStorage.getItem('yiqi-theme'))).toBe('dark')
-    await expect(html).toHaveAttribute('data-theme', 'dark')
+    await expect(html).toHaveAttribute('data-yiqi-theme', 'dark')
+    await expect(html).toHaveAttribute('data-theme', 'consumer')
   })
 
   test('el shell conserva navegacion activa cuenta y accion en desktop', async ({ page }) => {

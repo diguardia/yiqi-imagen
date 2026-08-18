@@ -16,7 +16,7 @@ import { YiQiProvider, YiQiThemeScript } from '@yiqi/ui/foundation'
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" data-theme="dark" suppressHydrationWarning>
+    <html lang="es" data-yiqi-theme="dark" suppressHydrationWarning>
       <head>
         <YiQiThemeScript />
       </head>
@@ -27,6 +27,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   )
 }
 ```
+
+El atributo de runtime del paquete es `data-yiqi-theme`. No usa ni sobrescribe el atributo generico `data-theme`, que queda disponible para el sistema de tema propio de la aplicacion consumidora.
 
 Luego consumir componentes desde su grupo publico:
 
@@ -39,7 +41,7 @@ import { YiQiLogin } from '@yiqi/ui/authentication'
 />
 ```
 
-La app consumidora se limita a datos, copy, rutas, callbacks y children expuestos por la API publica.
+La app consumidora se limita a datos, copy, rutas, callbacks y children expuestos por la API publica del componente.
 
 ## Grupos
 

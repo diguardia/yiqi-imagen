@@ -37,7 +37,7 @@ function storeTheme(theme: YiQiTheme) {
 
 export function applyYiQiTheme(theme: YiQiTheme) {
   if (typeof document === 'undefined') return
-  document.documentElement.dataset.theme = resolveTheme(theme)
+  document.documentElement.dataset.yiqiTheme = resolveTheme(theme)
 }
 
 interface YiQiThemeContextValue {
