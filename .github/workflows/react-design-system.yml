@@ -3,7 +3,7 @@ name: React Design System
 on:
   push:
     branches:
-      - agent/next-react-design-system
+      - GabrielFarias/next-react-design-system
   pull_request:
     paths:
       - 'apps/docs/**'
