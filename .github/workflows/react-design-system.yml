@@ -1,23 +1,8 @@
 name: React Design System
 
+# Ejecucion manual. No agregar disparadores automaticos sin autorizacion explicita.
 on:
-  push:
-    branches:
-      - GabrielFarias/next-react-design-system
-  pull_request:
-    paths:
-      - 'apps/docs/**'
-      - 'packages/ui/**'
-      - 'tests/e2e/**'
-      - 'scripts/**'
-      - 'playwright.config.ts'
-      - 'package.json'
-      - 'package-lock.json'
-      - '.github/workflows/react-design-system.yml'
-
-concurrency:
-  group: react-design-system-${{ github.ref }}
-  cancel-in-progress: true
+  workflow_dispatch:
 
 jobs:
   validate:
