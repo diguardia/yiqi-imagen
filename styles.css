@@ -1,7 +1,8 @@
 /* ============================================================
    YiQi Design System — styles.css
-   Versión: DS v1.2.7.11
-   Fecha: 5/8/2026
+   Versión: NO se escribe acá. La declara --ds-version, unas líneas más
+   abajo, y ese token se sincroniza con version.json. Un número escrito
+   en un comentario no tiene mecanismo que lo actualice: envejece solo.
    Fuente canónica: este repo (diguardia/yiqi-imagen) · ver LEEME-FUENTE-DS.md
    Bundle de consumo (CDN) — FUENTE CANÓNICA en este repo, editar aquí
    ============================================================ */
@@ -128,7 +129,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.7.14";
+  --ds-version: "1.2.7.15";
 
   /* Layout */
   --topbar-h:  56px;

@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1.0" name="viewport"/>
-<title>YiQi ERP — Design System v1.2.7.11</title>
+<title data-ds-version="YiQi ERP — Design System v{v}">YiQi ERP — Design System</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJZaVFpIj4KICA8cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHJ4PSIxNCIgZmlsbD0iIzA3MTMxYSIvPgogIDxwYXRoIHRyYW5zZm9ybT0idHJhbnNsYXRlKDMyIDMyKSBzY2FsZSgxLjQpIHRyYW5zbGF0ZSgtNjEuMDUgLTMxLjEpIiBkPSJNNTcuOTEsNDQuNzh2LTIuNjZjLTIuMTgtLjUzLTQuMjEtMS42Ni01LjkyLTMuMzYtNC45Ny00Ljk3LTUuMDktMTMuMDItLjAzLTE4LjA4LDUuMDktNS4wOSwxMy4xNC00Ljk3LDE4LjExLDBzNS4wOSwxMy4wMiwwLDE4LjExYy0xLjc4LDEuNzgtMy45NCwyLjkzLTYuMjIsMy40NnYyLjUxYzAsLjM1LS4xOC41My0uNTguNTNoLTQuODJjLS4zLDAtLjU1LS4yLS41NS0uNVpNNTYuMjgsMzQuNDdjLjUuNSwxLjA1LjksMS42NSwxLjJ2LTMuMzZjMC0uMzUuMTgtLjUzLjUzLS41M2g0Ljg3Yy4yNSwwLC41My4xOC41My41M3YzLjM2Yy42My0uMzMsMS4yMy0uNzgsMS43OC0xLjMzLDIuNzMtMi43MywyLjc4LTYuNzUuMTUtOS4zOHMtNi42Ny0yLjYxLTkuNDEuMTNjLTIuNzEsMi43MS0yLjczLDYuNzUtLjEsOS4zOFoiIGZpbGw9IiMwY2YiLz4KPC9zdmc+Cg==">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -392,7 +392,7 @@ body.preview-open .ds-layout { display: none !important; }
 <section class="ds-section" id="release-notes">
 <div class="ds-section-header">
 <div class="ds-section-kicker">00 · Novedades</div>
-<h2 class="ds-section-title" data-ds-version="Novedades · v{v}">Novedades · v1.2.7.11</h2>
+<h2 class="ds-section-title" data-ds-version="Novedades · v{v}">Novedades</h2>
 <p class="ds-section-sub"><strong>El catálogo y el showcase ganan navegación inferior en teléfono</strong> — <code>.ds-bottomnav</code> y <code>.ds-sheet</code> de §67, sin componentes nuevos ni cambios en <code>styles.css</code>. Antes, en v1.2.7.11: <strong>la versión del DS se lee de <code>version.json</code></strong> y se canoniza la statusbar como corre en Analytics Pro. Antes, en v1.2.7.9: se publica la tabla de <code>z-index</code> y el drawer mobile sube a 115. Antes, en v1.2.7.8: <strong>Greycliff CF entra al bundle</strong>, con las clases de título <code>.ds-title-hero</code>, <code>.ds-title-page</code> y <code>.ds-title-section</code>.</p>
 </div>
 <div class="token-grid-2">
@@ -3738,7 +3738,7 @@ html[data-theme="light"] .bg-grid-demo-fade {
           <button class="theme-opt" type="button" data-val="system" aria-label="Tema del sistema"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></button>
           <button class="theme-opt" type="button" data-val="light" aria-label="Tema claro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg></button>
         </div>
-        <div class="sb-copy">&copy; 2026 YiQi S.A.<br>Mi App &middot; <span data-ds-version="DS v{v}">DS v1.2.7.11</span></div>
+        <div class="sb-copy">&copy; 2026 YiQi S.A.<br>Mi App &middot; <span data-ds-version="DS v{v}"></span></div>
       </div>
     </nav>
     <div class="content">Área de contenido — acá va lo propio de cada app.</div>
@@ -5031,7 +5031,7 @@ ana · prov · inv · pos · pick · cons
 <div style="max-width:760px;margin-bottom:20px">
   <div class="statusbar" style="position:static;height:auto;padding:7px 14px;border-radius:var(--radius-sm)">
     <div class="statusbar-left"><span class="ldot ldot-g"></span><strong>Datos reales</strong><span class="statusbar-desc">Conectado a YiQi ERP. Periodo actual seleccionado.</span></div>
-    <div class="statusbar-right"><span class="sb-item">Analytics Pro</span><span class="sb-sep">&middot;</span><span class="sb-item" data-ds-version="DS v{v}">DS v1.2.7.11</span><span class="sb-sep">&middot;</span><span class="sb-item sb-clock" id="ds-demo-clock">--:--</span></div>
+    <div class="statusbar-right"><span class="sb-item">Analytics Pro</span><span class="sb-sep">&middot;</span><span class="sb-item" data-ds-version="DS v{v}"></span><span class="sb-sep">&middot;</span><span class="sb-item sb-clock" id="ds-demo-clock">--:--</span></div>
   </div>
 </div>
 
@@ -6338,11 +6338,18 @@ document.querySelectorAll('.table-sortable').forEach(table => {
     });
     document.title = document.title.replace(/v\d+(?:\.\d+)+/, 'v' + n);
   };
-  pintar(getComputedStyle(document.documentElement)
-    .getPropertyValue('--ds-version').trim().replace(/^["']|["']$/g, ''));
+  const token = () => getComputedStyle(document.documentElement)
+    .getPropertyValue('--ds-version').trim().replace(/^["']|["']$/g, '');
+  let ultima = token();
+  pintar(ultima);
+  /* La statusbar y el pie se escriben en DOMContentLoaded, despues de que este
+     script corrio: sin este segundo pase esos elementos se quedaban con su
+     respaldo. Era el caso del pie del catalogo, que mostraba 1.2.7.11 mientras
+     Novedades ya decia 1.2.7.14 — dos versiones a la vez, las dos creibles. */
+  document.addEventListener('DOMContentLoaded', () => pintar(ultima));
   fetch('version.json', { cache: 'no-store' })
     .then(r => r.ok ? r.json() : null)
-    .then(v => v && v.ds_version && pintar(v.ds_version))
+    .then(v => { if (v && v.ds_version) { ultima = v.ds_version; pintar(ultima); } })
     .catch(() => {});
 })();
 </script>
@@ -6371,7 +6378,7 @@ document.addEventListener('DOMContentLoaded', function(){
   <div class="statusbar-right">
     <span class="sb-item">Catálogo</span>
     <span class="sb-sep" aria-hidden="true">&middot;</span>
-    <span class="sb-item" data-ds-version="DS v{v}">DS v1.2.7.11</span>
+    <span class="sb-item" data-ds-version="DS v{v}"></span>
     <span class="sb-sep" aria-hidden="true">&middot;</span>
     <span class="sb-item sb-clock" id="ds-statusbar-clock">--:--</span>
   </div>
