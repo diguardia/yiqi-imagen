@@ -129,7 +129,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.7.15";
+  --ds-version: "1.2.8";
 
   /* Layout */
   --topbar-h:  56px;
@@ -556,15 +556,25 @@ html[data-theme="light"] .brand-logo-light { display: block; }
   gap: 7px;
   padding: 10px 16px;
   border-radius: var(--radius);
-  /* v1.2.7.12 — el borde de la variante base pasa de transparente a --line.
-     Medido el 13/08: sobre una .card en oscuro el fondo del boton
-     (--bg-elev-2, rgb(20,22,27)) es EXACTAMENTE el de la card, y con el borde
-     transparente un secundario desaparecia; en claro pasaba lo mismo
-     (rgb(255,255,255) sobre rgba(255,255,255,.92)). Las variantes que declaran
-     su propio border-color despues —primary, ghost, danger, amber— no se
-     tocan: siguen ganando por orden. */
-  border: 1px solid var(--line);
-  background: var(--bg-elev-2);
+  /* v1.2.8 — la variante base vuelve a ser borderless. El borde entro en
+     la v1.2.7.12 para resolver un problema real: con background --bg-elev-2,
+     sobre una .card en oscuro el fondo del boton era EXACTAMENTE el de la
+     card y el secundario desaparecia. Se resuelve en el fondo, no con borde:
+     una mezcla del color de texto nunca iguala a la superficie que tiene
+     detras, porque --text ya se invierte por tema. Medido sobre --bg,
+     --bg-elev y --bg-elev-2: separa 1.115 a 1.151 en oscuro y 1.124 a 1.129
+     en claro, contra el caso degenerado de 1.000 que motivo el borde.
+
+     Corrige ademas una inversion de jerarquia que solo pasaba en claro: con
+     --bg-elev-2 el base era #ffffff puro y SUBIA en luminosidad sobre la card
+     (1.099) mientras el primary bajaba (1.106) — el secundario avanzaba y el
+     primario se hundia. Ahora los dos bajan y el primary lidera por color.
+
+     Las variantes que declaran su propio fondo y borde despues —primary,
+     ghost, danger, amber— no se tocan: siguen ganando por orden.
+     Requiere color-mix: Safari 16.2+, Chrome 111+. 19/08/2026. */
+  border: none;
+  background: color-mix(in srgb, var(--text) 6%, transparent);
   color: var(--text);
   font: 600 13px var(--sans);
   cursor: pointer;
@@ -572,7 +582,7 @@ html[data-theme="light"] .brand-logo-light { display: block; }
   white-space: nowrap;
 }
 
-.btn:hover { background: var(--bg-soft); }
+.btn:hover { background: color-mix(in srgb, var(--text) 11%, transparent); }
 
 .btn-primary {
   background: var(--cyan-soft);
@@ -587,7 +597,14 @@ html[data-theme="light"] .brand-logo-light { display: block; }
   border-color: transparent;
   color: var(--muted);
 }
-.btn-ghost:hover { background: var(--bg-soft); color: var(--text); border-color: transparent; }
+/* v1.2.8 — el hover del ghost deja de ser un color fijo. Con --bg-soft
+   el token cambia de direccion entre temas: en oscuro aclara, en claro
+   oscurece, y en claro sobre el fondo de pagina la diferencia era de dos
+   puntos de luminosidad — contraste 1.027, invisible. La mezcla del color
+   de texto va siempre en la direccion correcta, porque --text ya se
+   invierte por tema. Medido sobre --bg, --bg-elev y --bg-elev-2: entre
+   1.17 y 1.23 en los dos temas, contra 1.027 a 1.21 antes. 19/08/2026. */
+.btn-ghost:hover { background: color-mix(in srgb, var(--text) 8%, transparent); color: var(--text); border-color: transparent; }
 
 .btn-danger {
   background: color-mix(in srgb, var(--red) 8%, transparent);

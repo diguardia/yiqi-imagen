@@ -393,7 +393,7 @@ body.preview-open .ds-layout { display: none !important; }
 <div class="ds-section-header">
 <div class="ds-section-kicker">00 · Novedades</div>
 <h2 class="ds-section-title" data-ds-version="Novedades · v{v}">Novedades</h2>
-<p class="ds-section-sub"><strong>El catálogo y el showcase ganan navegación inferior en teléfono</strong> — <code>.ds-bottomnav</code> y <code>.ds-sheet</code> de §67, sin componentes nuevos ni cambios en <code>styles.css</code>. Antes, en v1.2.7.11: <strong>la versión del DS se lee de <code>version.json</code></strong> y se canoniza la statusbar como corre en Analytics Pro. Antes, en v1.2.7.9: se publica la tabla de <code>z-index</code> y el drawer mobile sube a 115. Antes, en v1.2.7.8: <strong>Greycliff CF entra al bundle</strong>, con las clases de título <code>.ds-title-hero</code>, <code>.ds-title-page</code> y <code>.ds-title-section</code>.</p>
+<p class="ds-section-sub"><strong>Los botones vuelven a ser borderless y el hover deja de depender de un color fijo</strong> — la variante base pierde el borde y los tres hovers pasan a una mezcla de <code>--text</code>, que se invierte sola con el tema. Corrige una inversión de jerarquía que solo ocurría en modo claro. Antes, en v1.2.7.12: el catálogo y el showcase ganan navegación inferior en teléfono con <code>.ds-bottomnav</code> y <code>.ds-sheet</code> de §67. Antes, en v1.2.7.11: <strong>la versión del DS se lee de <code>version.json</code></strong> y se canoniza la statusbar como corre en Analytics Pro. Antes, en v1.2.7.9: se publica la tabla de <code>z-index</code> y el drawer mobile sube a 115. Antes, en v1.2.7.8: <strong>Greycliff CF entra al bundle</strong>, con las clases de título <code>.ds-title-hero</code>, <code>.ds-title-page</code> y <code>.ds-title-section</code>.</p>
 </div>
 <div class="token-grid-2">
 <!-- La card "Lo último" se arma sola desde la primera fila del changelog:
@@ -476,6 +476,12 @@ body.preview-open .ds-layout { display: none !important; }
 <tr><th>Versión</th><th>Fecha</th><th>Tipo</th><th>Detalle</th></tr>
 </thead>
 <tbody>
+<tr id="chg-botones-borderless">
+<td class="mono-cell">v1.2.8</td>
+<td class="mono-cell">19/08/2026</td>
+<td><span class="badge badge-amber">CAMBIO</span></td>
+<td><strong>La variante base del botón vuelve a ser borderless, y los hovers dejan de usar un color fijo.</strong> El borde había entrado en la v1.2.7.12 por un problema real y medido: con <code>background: var(--bg-elev-2)</code>, sobre una <code>.card</code> en oscuro el fondo del botón era <em>exactamente</em> el de la card y el secundario desaparecía. Se resolvía el síntoma con un borde en vez de la causa en el fondo. Ahora el fondo es <code>color-mix(in srgb, var(--text) 6%, transparent)</code>: como <code>--text</code> ya se invierte por tema, la mezcla nunca iguala a la superficie que tiene detrás. Medido sobre <code>--bg</code>, <code>--bg-elev</code> y <code>--bg-elev-2</code>: separa <strong>1.115 a 1.151 en oscuro y 1.124 a 1.129 en claro</strong>, contra el caso degenerado de 1.000 que motivó el borde. <strong>Corrige además una inversión de jerarquía que solo pasaba en modo claro:</strong> el base era <code>#ffffff</code> puro y <em>subía</em> en luminosidad sobre una card (1.099) mientras el primary <em>bajaba</em> (1.106) — el secundario avanzaba hacia el usuario y el primario se hundía, así que en un formulario «Cancelar» pesaba más que «Enviar». Ahora los dos bajan y el primary lidera por color. <strong>Los hovers</strong> seguían la misma lógica rota: <code>--bg-soft</code> aclara en oscuro y oscurece en claro, y en claro sobre el fondo de página la diferencia era de dos puntos de luminosidad — contraste <strong>1.027, invisible</strong>. Pasan a la misma mezcla, como escalones de una escala única: base 6% → 11%, ghost 0% → 8%. Las variantes que declaran su propio fondo y borde —primary, danger, amber— no se tocan: siguen ganando por orden. <strong>Requiere <code>color-mix</code></strong>: Safari 16.2+, Chrome 111+.<div class="chg-links"><a class="ds-xref" href="#buttons"><i class="ph ph-anchor-simple"></i> §10 · Botones</a><a class="ds-xref" href="examples/showcase.html?tab=botones"><i class="ph ph-anchor-simple"></i> Ver en vivo</a><button class="ds-copy chg-share" data-ds-copy="link" title="Copiar link a este cambio" aria-label="Copiar link a este cambio"><i class="ph ph-link"></i>Compartir</button></div></td>
+</tr>
 <tr id="chg-fx-entrada">
 <td class="mono-cell">v1.2.7.14</td>
 <td class="mono-cell">14/08/2026</td>
@@ -1816,7 +1822,7 @@ body.preview-open .ds-layout { display: none !important; }
 <div class="ds-section-header">
 <div class="ds-section-kicker">10 · Componentes</div>
 <h2 class="ds-section-title">Botones</h2>
-<p class="ds-section-sub">Se incorpora la variante ámbar para instalación y descarga operativa. Todos comparten radius-14 como base y admiten iconografía inline en SVG.</p>
+<p class="ds-section-sub">Cinco variantes, todas borderless: el fondo es una mezcla tonal que se separa sola de cualquier superficie. El radio lo da el tamaño —<code>sm</code> 10, base 14, <code>lg</code> y <code>xl</code> 16—, no una medida única. Admiten iconografía inline en SVG.</p>
 <a class="ds-xref" href="examples/showcase.html?tab=primitivos&amp;card=card-close"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 <div class="subsection-title">Variantes</div>
