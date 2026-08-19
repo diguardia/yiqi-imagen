@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="system">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PREVIEW · Criterios de botones — no es el DS</title>
+<!-- 19/08/2026 — Copia de revisión para la reunión SM+CDG del 20/08.
+     Carga el styles.css REAL del CDN y aplica encima, en el bloque
+     marcado PREVIEW, las decisiones D1/D2/D5 del documento
+     Criterios-botones-DS-ago2026.md. NADA de esto está en el DS:
+     si se aprueba, se edita styles.css y este archivo se borra. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css">
+<script src="./yiqi-runtime.js" defer></script>
+<style>
+  /* ══ layout de la página de preview (no DS) ══ */
+  body{margin:0;background:var(--bg);color:var(--text);font:400 14px/1.4 var(--sans);padding:40px 24px 80px}
+  .wrap{max-width:960px;margin:0 auto}
+  .pv-warn{display:inline-flex;gap:8px;align-items:center;font:600 10px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--amber);background:var(--amber-soft);border-radius:var(--radius-pill);padding:4px 12px;margin:0 0 14px}
+  h1{font:800 30px/1.1 var(--display);letter-spacing:-.02em;margin:0 0 6px}
+  .pv-sub{color:var(--muted);margin:0 0 36px;max-width:70ch}
+  .sec{background:var(--bg-elev);border-radius:var(--radius-lg);padding:24px;margin:0 0 16px}
+  .sec-k{font:600 10px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted-2);margin:0 0 4px}
+  .sec h2{font:600 16px var(--sans);letter-spacing:-.02em;margin:0 0 6px}
+  .sec-why{color:var(--muted);font-size:13px;margin:0 0 18px;max-width:74ch}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .row+.row{margin-top:12px}
+  .lbl{font:600 10px var(--mono);letter-spacing:.08em;color:var(--muted-2);min-width:104px}
+  .demo-card{background:var(--bg-elev-2);border-radius:var(--radius);padding:18px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .nota{font-size:12px;color:var(--muted-2);margin:10px 0 0}
+  a.link-demo{color:var(--cyan);text-decoration:underline;font-size:13px}
+
+  /* ══ PREVIEW — propuestas D1/D2/D5, NO están en el DS ══ */
+  /* D1 · :disabled canónico */
+  .btn:disabled{opacity:.55;cursor:default;pointer-events:none}
+  /* D2 · estado de carga canónico */
+  .btn.is-loading{pointer-events:none;opacity:.85}
+  .btn.is-loading::before{content:"";width:13px;height:13px;border-radius:50%;border:2px solid currentColor;border-top-color:transparent;animation:pvspin .7s linear infinite}
+  @keyframes pvspin{to{transform:rotate(360deg)}}
+  /* D5 · botón de solo-ícono canónico */
+  .btn-icon{width:32px;height:32px;padding:0;border:none;border-radius:var(--radius-pill);background:var(--bg-soft);color:var(--muted);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:background .18s ease,color .18s ease}
+  .btn-icon:hover{background:var(--cyan-soft);color:var(--cyan)}
+  .btn-icon svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 14px">
+    <p class="pv-warn" style="margin:0">Preview · nada de esto está aplicado al DS</p>
+    <button type="button" class="theme-cycle" data-theme-cycle aria-label="Cambiar tema"><svg class="tc-dark" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg><svg class="tc-system" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><path class="tc-fill" d="M12 3a9 9 0 0 1 0 18Z"/></svg><svg class="tc-light" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg></button>
+  </div>
+  <h1>Criterios de botones</h1>
+  <p class="pv-sub">Todo lo que ves usa el <code>styles.css</code> real del CDN. Los bloques D1, D2 y D5 llevan encima la propuesta; el resto es el componente actual usado según los criterios del documento.</p>
+
+  <div class="sec">
+    <p class="sec-k">Criterio 1</p>
+    <h2>La escalera: un solo primary por vista</h2>
+    <p class="sec-why">Primary completa la tarea, base es la alternativa razonable, ghost no compite. Si dos acciones parecen merecer primary, una no lo merece.</p>
+    <div class="demo-card">
+      <button class="btn btn-primary">Guardar cambios</button>
+      <button class="btn">Exportar</button>
+      <button class="btn btn-ghost">Cancelar</button>
+    </div>
+    <p class="nota">Sobre una card se ve por qué la base conserva su borde <code>--line</code> (excepción medida v1.2.7.12): sin él, desaparecería contra este fondo.</p>
+  </div>
+
+  <div class="sec">
+    <p class="sec-k">Criterio 2</p>
+    <h2>Danger nunca es primary · amber solo instala</h2>
+    <p class="sec-why">El rojo aparece en la confirmación de una acción destructiva. El ámbar existe para el ciclo instalar/activar/descargar — no es un primary alternativo.</p>
+    <div class="row"><span class="lbl">DESTRUCTIVA</span>
+      <button class="btn btn-danger">Eliminar depósito</button>
+      <button class="btn btn-ghost">Conservar</button>
+    </div>
+    <div class="row"><span class="lbl">INSTALACIÓN</span>
+      <button class="btn btn-amber">Instalar app</button>
+      <button class="btn btn-ghost">Ver detalles</button>
+    </div>
+  </div>
+
+  <div class="sec">
+    <p class="sec-k">Criterio 3</p>
+    <h2>Tamaño por densidad, no por importancia</h2>
+    <p class="sec-why">sm en tablas y toolbars · base en formularios y cards · lg/xl solo marketing. Un primary sm sigue siendo el primary.</p>
+    <div class="row"><span class="lbl">TOOLBAR</span><button class="btn btn-primary btn-sm">Nuevo pedido</button><button class="btn btn-sm">Filtrar</button></div>
+    <div class="row"><span class="lbl">FORMULARIO</span><button class="btn btn-primary">Enviar consulta</button></div>
+    <div class="row"><span class="lbl">MARKETING</span><button class="btn btn-primary btn-lg">Reserva tu demo</button></div>
+    <p class="nota">D3 va acá y es invisible a propósito: <code>.btn-lg</code> pasa de radio 16 hardcodeado a <code>var(--radius-md)</code> — mismo valor, cero cambio visual. Y se corrige la bajada del catálogo que dice que todos comparten radio 14.</p>
+  </div>
+
+  <div class="sec">
+    <p class="sec-k">Decisión D1 · propuesta</p>
+    <h2>Estado deshabilitado</h2>
+    <p class="sec-why">Hoy no existe en el sistema. Propuesta: opacity .55, sin hover, cursor default. Se deshabilita solo si la acción va a estar disponible pronto en esta vista; si nunca, el botón no se muestra.</p>
+    <div class="row">
+      <button class="btn btn-primary" disabled>Guardar cambios</button>
+      <button class="btn" disabled>Exportar</button>
+      <button class="btn btn-danger" disabled>Eliminar</button>
+    </div>
+  </div>
+
+  <div class="sec">
+    <p class="sec-k">Decisión D2 · propuesta</p>
+    <h2>Estado de carga</h2>
+    <p class="sec-why">Hoy cada formulario lo inventa. Propuesta: <code>.is-loading</code> canónico — spinner del tamaño del ícono, label visible, botón bloqueado.</p>
+    <div class="row">
+      <button class="btn btn-primary is-loading">Enviando…</button>
+      <button class="btn is-loading">Exportando…</button>
+    </div>
+  </div>
+
+  <div class="sec">
+    <p class="sec-k">Decisión D4 · sin preview</p>
+    <h2>btn-secondary: documentado, usado, inexistente</h2>
+    <p class="sec-why">No hay nada que mostrar porque la clase no existe: renderiza como base. La recomendación es borrarla del catálogo y corregir los dos usos de informes-yiqi — la base YA ES el secundario.</p>
+    <div class="row">
+      <button class="btn btn-secondary btn-sm">btn btn-secondary btn-sm</button>
+      <span class="nota" style="margin:0">← esto es lo que hoy recibe quien le cree al catálogo: la base, en silencio.</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <p class="sec-k">Decisión D5 · propuesta</p>
+    <h2>Botón de solo-ícono canónico</h2>
+    <p class="sec-why">Hoy existe tres veces (btn-layout, btn-refresh, íconos de topbar), ninguna canónica. Propuesta: <code>.btn-icon</code> 32×32, pill, hover cyan tonal, <code>aria-label</code> obligatorio.</p>
+    <div class="row">
+      <button class="btn-icon" aria-label="Actualizar"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.6-6.3"/><polyline points="21 3 21 9 15 9"/></svg></button>
+      <button class="btn-icon" aria-label="Configuración"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3h.1a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9v.1a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
+      <button class="btn-icon" aria-label="Cerrar"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+  </div>
+
+
+  <div class="sec">
+    <p class="sec-k">Criterio 5 · el caso del ERP</p>
+    <h2>La barra de acciones de un registro</h2>
+    <p class="sec-why">Un pedido "En espera de pago": el primary es la acción que lo avanza de estado. Máximo dos visibles más el menú. La destructiva va última, adentro, separada y en rojo — nunca primera en la barra.</p>
+    <div class="demo-card" style="justify-content:flex-start">
+      <button class="btn btn-primary">Facturar</button>
+      <button class="btn">Copiar pedido</button>
+      <button class="btn">Solicitar reserva</button>
+      <button class="btn btn-ghost">Más (3) ▾</button>
+    </div>
+    <div style="margin-top:10px;background:var(--bg-elev-2);border-radius:var(--radius);padding:8px;max-width:320px">
+      <div style="padding:9px 12px"><div style="font:500 13px var(--sans);color:var(--text)">Recalcular precios</div><div style="font:400 11px var(--mono);color:var(--muted-2)">Recalculando precios</div></div>
+      <div style="padding:9px 12px"><div style="font:500 13px var(--sans);color:var(--text)">Calcular percepciones proyectadas</div><div style="font:400 11px var(--mono);color:var(--muted-2)">Proyectando percepciones</div></div>
+      <div style="padding:9px 12px"><div style="font:500 13px var(--sans);color:var(--text)">Exportar</div><div style="font:400 11px var(--mono);color:var(--muted-2)">PDF · Excel</div></div>
+      <div style="border-top:1px solid var(--line);margin:4px 0"></div>
+      <div style="padding:9px 12px"><div style="font:500 13px var(--sans);color:var(--red)">Anular pedido</div><div style="font:400 11px var(--mono);color:var(--muted-2)">No se puede deshacer</div></div>
+    </div>
+    <p class="nota">Decisión D6: el botón de menú y el ítem de dos líneas no existen como canónicos — el frontend ya los dibuja por su cuenta. Este mock usa tokens del DS.</p>
+  </div>
+
+  <div class="sec">
+    <p class="sec-k">Criterio 4</p>
+    <h2>Botón es acción, enlace es navegación</h2>
+    <p class="sec-why">Si lleva a otra vista sin cambiar estado, es un link. No un ghost disfrazado.</p>
+    <div class="row">
+      <button class="btn btn-primary">Conectar tienda</button>
+      <a class="link-demo" href="#">Ver la documentación de la API</a>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
