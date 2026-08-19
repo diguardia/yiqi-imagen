@@ -178,7 +178,15 @@ html[data-theme="light"] {
   --bg-elev:     #f6f4ef;
   --bg-elev-2:   #ffffff;
   --card-bg:     #f9f7f2;
-  --bg-soft:     #ece9e2;
+  /* v1.2.8 — de #ece9e2 a #e1dfdb. --bg-soft es la superficie de hover de
+     17 reglas del sistema (nav, tabs, modales, appbar, cards, botones), y en
+     claro estaba a DOS puntos de luminosidad de --bg: contraste 1.027 sobre
+     el fondo de pagina, invisible. En oscuro el mismo token separa 1.15 /
+     1.10 / 1.05 sobre --bg, --bg-elev y --bg-elev-2. Ahora en claro da
+     1.13 / 1.21 / 1.33 — mismo orden de magnitud, hover perceptible sobre
+     cualquiera de las tres. Arreglar los hovers uno por uno habria dejado
+     dos lenguajes conviviendo; el defecto estaba en el token. 19/08/2026. */
+  --bg-soft:     #e1dfdb;
   --line:        rgba(0,0,0,.08);
   --line-strong: rgba(0,0,0,.13);
   --text:        #17191c;
@@ -582,7 +590,7 @@ html[data-theme="light"] .brand-logo-light { display: block; }
   white-space: nowrap;
 }
 
-.btn:hover { background: color-mix(in srgb, var(--text) 11%, transparent); }
+.btn:hover { background: var(--bg-soft); }
 
 .btn-primary {
   background: var(--cyan-soft);
@@ -592,19 +600,32 @@ html[data-theme="light"] .brand-logo-light { display: block; }
 .btn-primary:hover { background: var(--cyan-soft-2); }
 .btn:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: 2px; }
 
+/* v1.2.8 — estado deshabilitado. No existia en el sistema: cada app lo
+   resolvia por su cuenta, casi siempre con opacity. La opacidad falla por
+   dos razones. Una medible: sobre el primary en claro, el texto cyan al 55%
+   sobre su propio fondo da 1.69 de contraste, ilegible. La otra es de
+   sentido: el color de un boton dice QUE TIPO de accion es, y si la accion
+   no esta disponible no hay tipo que comunicar — un danger deshabilitado
+   seguia gritando cuidado y un primary seguia diciendo "soy la importante".
+   Todas las variantes colapsan al mismo gris: mismo fondo tonal que la base
+   y texto --muted, que da 5.12 en oscuro y 5.52 en claro, AA en los dos.
+   Gana por especificidad (0,2,0) a las variantes, sin depender del orden.
+   Criterio de uso: deshabilitar solo si la accion va a estar disponible en
+   esta misma vista; si nunca lo va a estar, el boton no se muestra. */
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  background: color-mix(in srgb, var(--text) 6%, transparent);
+  color: var(--muted);
+  cursor: default;
+  pointer-events: none;
+}
+
 .btn-ghost {
   background: transparent;
   border-color: transparent;
   color: var(--muted);
 }
-/* v1.2.8 — el hover del ghost deja de ser un color fijo. Con --bg-soft
-   el token cambia de direccion entre temas: en oscuro aclara, en claro
-   oscurece, y en claro sobre el fondo de pagina la diferencia era de dos
-   puntos de luminosidad — contraste 1.027, invisible. La mezcla del color
-   de texto va siempre en la direccion correcta, porque --text ya se
-   invierte por tema. Medido sobre --bg, --bg-elev y --bg-elev-2: entre
-   1.17 y 1.23 en los dos temas, contra 1.027 a 1.21 antes. 19/08/2026. */
-.btn-ghost:hover { background: color-mix(in srgb, var(--text) 8%, transparent); color: var(--text); border-color: transparent; }
+.btn-ghost:hover { background: var(--bg-soft); color: var(--text); border-color: transparent; }
 
 .btn-danger {
   background: color-mix(in srgb, var(--red) 8%, transparent);

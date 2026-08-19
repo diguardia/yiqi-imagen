@@ -293,7 +293,6 @@
      Guia visual de la barra de acciones de un registro. El menu
      desplegable y el estado deshabilitado son PROPUESTA: van scopeados
      a #tab-botones para no pisar los botones reales del resto. */
-  #tab-botones .btn:disabled{ opacity:.55; cursor:default; pointer-events:none; }
 
   #tab-botones .bt-grid{ display:flex; flex-direction:column; gap:14px; padding:0 clamp(20px,2.5vw,44px) 40px; }
   #tab-botones .bt-card{ background:var(--bg-elev); border-radius:var(--radius-lg); padding:26px 26px 28px; }
@@ -2108,13 +2107,13 @@
   </div>
 
   <div class="bt-card">
-    <p class="bt-k">Propuesta · fuera del sistema</p>
+    <p class="bt-k">Estados</p>
     <h3>Estado deshabilitado</h3>
     <div class="bt-row">
       <button class="btn btn-primary" disabled>Facturar</button>
       <button class="btn" disabled>Copiar pedido</button>
       <button class="btn btn-danger" disabled>Anular</button>
-      <span class="bt-cap">Para acciones que no aplican al estado actual pero sí a otro</span>
+      <span class="bt-cap">Todas las variantes colapsan al mismo gris: si no hay acción, no hay tipo de acción</span>
     </div>
   </div>
 
