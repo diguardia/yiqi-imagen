@@ -601,21 +601,20 @@ html[data-theme="light"] .brand-logo-light { display: block; }
 .btn:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: 2px; }
 
 /* v1.2.8 — estado deshabilitado. No existia en el sistema: cada app lo
-   resolvia por su cuenta, casi siempre con opacity. La opacidad falla por
-   dos razones. Una medible: sobre el primary en claro, el texto cyan al 55%
-   sobre su propio fondo da 1.69 de contraste, ilegible. La otra es de
-   sentido: el color de un boton dice QUE TIPO de accion es, y si la accion
-   no esta disponible no hay tipo que comunicar — un danger deshabilitado
-   seguia gritando cuidado y un primary seguia diciendo "soy la importante".
-   Todas las variantes colapsan al mismo gris: mismo fondo tonal que la base
-   y texto --muted, que da 5.12 en oscuro y 5.52 en claro, AA en los dos.
-   Gana por especificidad (0,2,0) a las variantes, sin depender del orden.
-   Criterio de uso: deshabilitar solo si la accion va a estar disponible en
-   esta misma vista; si nunca lo va a estar, el boton no se muestra. */
+   resolvia por su cuenta. Se probaron cuatro tratamientos y decidieron por
+   comparacion visual: quitar el fondo o debilitarlo hacia que el boton
+   dejara de leerse como boton — y un control inerte tiene que seguir
+   pareciendo un control, solo sin llamado a la accion. Gana conservar la
+   variante atenuada: mantiene forma, peso y color, y comunica que la accion
+   existe pero no esta disponible ahora.
+   Se aplica sobre el elemento entero para que fondo, texto e icono bajen
+   juntos; las variantes no se redeclaran, cada una conserva la suya.
+   pointer-events: none anula hover y clic. Criterio de uso: deshabilitar
+   solo si la accion va a estar disponible en esta misma vista; si nunca lo
+   va a estar, el boton no se muestra. 19/08/2026. */
 .btn:disabled,
 .btn[aria-disabled="true"] {
-  background: color-mix(in srgb, var(--text) 6%, transparent);
-  color: var(--muted);
+  opacity: .45;
   cursor: default;
   pointer-events: none;
 }

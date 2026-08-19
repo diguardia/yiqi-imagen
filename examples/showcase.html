@@ -331,6 +331,7 @@
 
   #tab-botones .bt-row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
   #tab-botones .bt-row+.bt-row{ margin-top:14px; }
+
   #tab-botones .bt-lbl{ font:600 10px var(--mono); letter-spacing:.08em; color:var(--muted-2); min-width:96px; }
   #tab-botones .bt-cap{ font:400 12px var(--sans); color:var(--muted-2); }
 
@@ -2108,13 +2109,10 @@
 
   <div class="bt-card">
     <p class="bt-k">Estados</p>
-    <h3>Estado deshabilitado</h3>
-    <div class="bt-row">
-      <button class="btn btn-primary" disabled>Facturar</button>
-      <button class="btn" disabled>Copiar pedido</button>
-      <button class="btn btn-danger" disabled>Anular</button>
-      <span class="bt-cap">Todas las variantes colapsan al mismo gris: si no hay acción, no hay tipo de acción</span>
-    </div>
+    <h3>Deshabilitado</h3>
+    <p class="bt-lead">Conserva forma, peso y color de su variante, atenuados. Un control inerte sigue pareciendo un control: comunica que la acción existe pero no está disponible ahora.</p>
+    <div class="bt-row"><span class="bt-lbl">Habilitado</span><button class="btn btn-primary">Facturar</button><button class="btn">Copiar pedido</button><button class="btn btn-danger">Anular</button></div>
+    <div class="bt-row"><span class="bt-lbl">Deshabilitado</span><button class="btn btn-primary" disabled>Facturar</button><button class="btn" disabled>Copiar pedido</button><button class="btn btn-danger" disabled>Anular</button></div>
   </div>
 
   <div class="bt-card">
