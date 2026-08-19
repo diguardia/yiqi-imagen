@@ -1,7 +1,8 @@
 /* ============================================================
    YiQi Design System — styles.css
-   Versión: DS v1.2.7.11
-   Fecha: 5/8/2026
+   Versión: NO se escribe acá. La declara --ds-version, unas líneas más
+   abajo, y ese token se sincroniza con version.json. Un número escrito
+   en un comentario no tiene mecanismo que lo actualice: envejece solo.
    Fuente canónica: este repo (diguardia/yiqi-imagen) · ver LEEME-FUENTE-DS.md
    Bundle de consumo (CDN) — FUENTE CANÓNICA en este repo, editar aquí
    ============================================================ */
@@ -128,7 +129,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.7.14";
+  --ds-version: "1.2.8";
 
   /* Layout */
   --topbar-h:  56px;
@@ -177,7 +178,15 @@ html[data-theme="light"] {
   --bg-elev:     #f6f4ef;
   --bg-elev-2:   #ffffff;
   --card-bg:     #f9f7f2;
-  --bg-soft:     #ece9e2;
+  /* v1.2.8 — de #ece9e2 a #e1dfdb. --bg-soft es la superficie de hover de
+     17 reglas del sistema (nav, tabs, modales, appbar, cards, botones), y en
+     claro estaba a DOS puntos de luminosidad de --bg: contraste 1.027 sobre
+     el fondo de pagina, invisible. En oscuro el mismo token separa 1.15 /
+     1.10 / 1.05 sobre --bg, --bg-elev y --bg-elev-2. Ahora en claro da
+     1.13 / 1.21 / 1.33 — mismo orden de magnitud, hover perceptible sobre
+     cualquiera de las tres. Arreglar los hovers uno por uno habria dejado
+     dos lenguajes conviviendo; el defecto estaba en el token. 19/08/2026. */
+  --bg-soft:     #e1dfdb;
   --line:        rgba(0,0,0,.08);
   --line-strong: rgba(0,0,0,.13);
   --text:        #17191c;
@@ -555,15 +564,25 @@ html[data-theme="light"] .brand-logo-light { display: block; }
   gap: 7px;
   padding: 10px 16px;
   border-radius: var(--radius);
-  /* v1.2.7.12 — el borde de la variante base pasa de transparente a --line.
-     Medido el 13/08: sobre una .card en oscuro el fondo del boton
-     (--bg-elev-2, rgb(20,22,27)) es EXACTAMENTE el de la card, y con el borde
-     transparente un secundario desaparecia; en claro pasaba lo mismo
-     (rgb(255,255,255) sobre rgba(255,255,255,.92)). Las variantes que declaran
-     su propio border-color despues —primary, ghost, danger, amber— no se
-     tocan: siguen ganando por orden. */
-  border: 1px solid var(--line);
-  background: var(--bg-elev-2);
+  /* v1.2.8 — la variante base vuelve a ser borderless. El borde entro en
+     la v1.2.7.12 para resolver un problema real: con background --bg-elev-2,
+     sobre una .card en oscuro el fondo del boton era EXACTAMENTE el de la
+     card y el secundario desaparecia. Se resuelve en el fondo, no con borde:
+     una mezcla del color de texto nunca iguala a la superficie que tiene
+     detras, porque --text ya se invierte por tema. Medido sobre --bg,
+     --bg-elev y --bg-elev-2: separa 1.115 a 1.151 en oscuro y 1.124 a 1.129
+     en claro, contra el caso degenerado de 1.000 que motivo el borde.
+
+     Corrige ademas una inversion de jerarquia que solo pasaba en claro: con
+     --bg-elev-2 el base era #ffffff puro y SUBIA en luminosidad sobre la card
+     (1.099) mientras el primary bajaba (1.106) — el secundario avanzaba y el
+     primario se hundia. Ahora los dos bajan y el primary lidera por color.
+
+     Las variantes que declaran su propio fondo y borde despues —primary,
+     ghost, danger, amber— no se tocan: siguen ganando por orden.
+     Requiere color-mix: Safari 16.2+, Chrome 111+. 19/08/2026. */
+  border: none;
+  background: color-mix(in srgb, var(--text) 6%, transparent);
   color: var(--text);
   font: 600 13px var(--sans);
   cursor: pointer;
@@ -580,6 +599,25 @@ html[data-theme="light"] .brand-logo-light { display: block; }
 }
 .btn-primary:hover { background: var(--cyan-soft-2); }
 .btn:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: 2px; }
+
+/* v1.2.8 — estado deshabilitado. No existia en el sistema: cada app lo
+   resolvia por su cuenta. Se probaron cuatro tratamientos y decidieron por
+   comparacion visual: quitar el fondo o debilitarlo hacia que el boton
+   dejara de leerse como boton — y un control inerte tiene que seguir
+   pareciendo un control, solo sin llamado a la accion. Gana conservar la
+   variante atenuada: mantiene forma, peso y color, y comunica que la accion
+   existe pero no esta disponible ahora.
+   Se aplica sobre el elemento entero para que fondo, texto e icono bajen
+   juntos; las variantes no se redeclaran, cada una conserva la suya.
+   pointer-events: none anula hover y clic. Criterio de uso: deshabilitar
+   solo si la accion va a estar disponible en esta misma vista; si nunca lo
+   va a estar, el boton no se muestra. 19/08/2026. */
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: .45;
+  cursor: default;
+  pointer-events: none;
+}
 
 .btn-ghost {
   background: transparent;

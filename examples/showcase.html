@@ -288,6 +288,61 @@
   .sc-tab[aria-selected="true"] .sc-tab-n{ color:var(--cyan); }
   .sc-carousel-track{ flex:1; min-height:0; overflow:hidden; }
   .sc-panel{ display:none; }
+
+  /* ══ Pestaña Botones ═════════════════════════════════════════════
+     Guia visual de la barra de acciones de un registro. El menu
+     desplegable y el estado deshabilitado son PROPUESTA: van scopeados
+     a #tab-botones para no pisar los botones reales del resto. */
+
+  #tab-botones .bt-grid{ display:flex; flex-direction:column; gap:14px; padding:0 clamp(20px,2.5vw,44px) 40px; }
+  #tab-botones .bt-card{ background:var(--bg-elev); border-radius:var(--radius-lg); padding:26px 26px 28px; }
+  #tab-botones .bt-k{ font:600 10px var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--muted-2); margin:0 0 5px; }
+  #tab-botones .bt-card h3{ font:600 16px var(--sans); letter-spacing:-.02em; color:var(--text); margin:0 0 30px; }
+  #tab-botones .bt-lead{ color:var(--muted); font:400 13px/1.6 var(--sans); margin:-22px 0 30px; max-width:78ch; }
+
+  #tab-botones .rec{ background:var(--bg-elev-2); border-radius:var(--radius-lg); padding:20px 22px; }
+  #tab-botones .rec-k{ font:400 11px var(--mono); letter-spacing:.06em; color:var(--muted-2); margin:0 0 4px; }
+  #tab-botones .rec-h{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin:0 0 18px; }
+  #tab-botones .rec-t{ font:700 22px var(--display); letter-spacing:-.02em; color:var(--text); margin:0; }
+  #tab-botones .rec-bar{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+  #tab-botones .rec-meta{ display:flex; gap:26px; flex-wrap:wrap; margin:20px 0 0; padding:16px 0 0; border-top:1px solid var(--line); }
+  #tab-botones .rec-meta div{ display:flex; flex-direction:column; gap:3px; }
+  #tab-botones .rec-meta b{ font:400 10px var(--mono); letter-spacing:.08em; color:var(--muted-2); }
+  #tab-botones .rec-meta span{ font:500 14px var(--sans); color:var(--text); }
+
+  #tab-botones .st-pick{ display:flex; gap:6px; flex-wrap:wrap; margin:0 0 12px; }
+  #tab-botones .st-b{ font:500 12px var(--sans); padding:7px 13px; border:none; border-radius:var(--radius-pill);
+    background:var(--bg-elev-2); color:var(--muted); cursor:pointer; transition:background .15s ease,color .15s ease; }
+  #tab-botones .st-b:hover{ color:var(--text); }
+  #tab-botones .st-b[aria-pressed="true"]{ background:var(--cyan-soft); color:var(--cyan); }
+
+  #tab-botones .mw{ position:relative; display:inline-flex; }
+  #tab-botones .bt-menu{ position:absolute; top:calc(100% + 6px); left:0; z-index:60; min-width:300px;
+    background:var(--bg-elev-2); border-radius:var(--radius); padding:8px; box-shadow:var(--shadow-md); }
+  #tab-botones .bt-menu[hidden]{ display:none; }
+  #tab-botones .bt-mi{ padding:9px 12px; border-radius:var(--radius-sm); cursor:pointer; }
+  #tab-botones .bt-mi:hover{ background:var(--bg-soft); }
+  #tab-botones .bt-mi b{ display:block; font:500 13px var(--sans); color:var(--text); }
+  #tab-botones .bt-mi span{ font:400 11px var(--mono); color:var(--muted-2); }
+  #tab-botones .bt-mi.is-danger b{ color:var(--red); }
+  #tab-botones .bt-sep{ border-top:1px solid var(--line); margin:4px 0; }
+  #tab-botones .btn .ph-caret-down{ transition:transform .18s ease; }
+  #tab-botones .btn[aria-expanded="true"] .ph-caret-down{ transform:rotate(180deg); }
+
+  #tab-botones .bt-row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+  #tab-botones .bt-row+.bt-row{ margin-top:14px; }
+
+  #tab-botones .bt-lbl{ font:600 10px var(--mono); letter-spacing:.08em; color:var(--muted-2); min-width:96px; }
+  #tab-botones .bt-cap{ font:400 12px var(--sans); color:var(--muted-2); }
+
+  #tab-botones .cr{ display:grid; grid-template-columns:132px 1fr; gap:0 18px; }
+  #tab-botones .cr dt{ font:600 10px var(--mono); letter-spacing:.09em; text-transform:uppercase; color:var(--cyan); padding:16px 0 0; }
+  #tab-botones .cr dd{ margin:0; padding:16px 0 0; font:400 13.5px/1.6 var(--sans); color:var(--muted); }
+  #tab-botones .cr dd strong{ color:var(--text); font-weight:600; }
+  #tab-botones .cr dd+dt, #tab-botones .cr dd:has(+dt){ }
+  #tab-botones .cr dt:not(:first-of-type), #tab-botones .cr dt:not(:first-of-type)+dd{ border-top:1px solid var(--line); margin-top:16px; }
+  @media (max-width:720px){ #tab-botones .cr{ grid-template-columns:1fr; }
+    #tab-botones .cr dd{ padding-top:4px; } #tab-botones .cr dt:not(:first-of-type)+dd{ border-top:0; margin-top:0; } }
   .sc-panel.is-active{ display:block; height:100%; overflow-y:auto; overflow-x:hidden; overscroll-behavior:contain; }
   /* dentro de cada seccion: tarjetas a ancho mobile desfilando horizontalmente */
   .sc-grid, .sc-chart-grid, .sc-tbl-grid, .pr-grid{ display:flex; flex-direction:row; gap:16px;
@@ -555,6 +610,7 @@
     <button class="sc-tab" role="tab" id="sctab-iconos" aria-controls="tab-iconos" data-target="tab-iconos" aria-selected="false"><i class="ph ph-smiley"></i> Iconos</button>
     <button class="sc-tab" role="tab" id="sctab-movil" aria-controls="tab-movil" data-target="tab-movil" aria-selected="false"><i class="ph ph-device-mobile"></i> Móvil</button>
     <button class="sc-tab" role="tab" id="sctab-marketplace" aria-controls="tab-marketplace" data-target="tab-marketplace" aria-selected="false"><i class="ph ph-storefront"></i> Marketplace</button>
+    <button class="sc-tab" role="tab" id="sctab-botones" aria-controls="tab-botones" data-target="tab-botones" aria-selected="false"><i class="ph ph-cursor-click"></i> Botones</button>
     </div>
     <nav class="sc-toplinks" aria-label="Recursos del Design System">
     <a class="sc-toplink" href="../template/INDEX.md"><i class="ph ph-copy"></i> Templates</a>
@@ -858,7 +914,7 @@
           <div style="margin-top:8px">
             <div class="statusbar">
               <div class="statusbar-left" data-state="ok"><span class="ldot ldot-g"></span><strong>Datos reales</strong><span class="statusbar-desc">Conectado a YiQi ERP.</span></div>
-              <div class="statusbar-right"><span class="sb-item">Mi App</span><span class="sb-sep">&middot;</span><span class="sb-item" data-ds-version="DS v{v}">DS v1.2.7.10</span><span class="sb-sep">&middot;</span><span class="sb-item sb-clock" id="sc-clock">--:--</span></div>
+              <div class="statusbar-right"><span class="sb-item">Mi App</span><span class="sb-sep">&middot;</span><span class="sb-item" data-ds-version="DS v{v}"></span><span class="sb-sep">&middot;</span><span class="sb-item sb-clock" id="sc-clock">--:--</span></div>
             </div>
           </div>
           <div style="margin-top:10px;display:flex;gap:14px;align-items:center">
@@ -1240,7 +1296,7 @@
                 <button class="theme-opt" type="button" data-val="system" aria-label="Tema del sistema"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></button>
                 <button class="theme-opt" type="button" data-val="light" aria-label="Tema claro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg></button>
               </div>
-              <div class="sb-copy">© 2026 YiQi S.A.<br>Mi App · <span data-ds-version="DS v{v}">DS v1.2.7.10</span></div>
+              <div class="sb-copy">© 2026 YiQi S.A.<br>Mi App · <span data-ds-version="DS v{v}"></span></div>
             </div>
           </nav>
           <div class="content">
@@ -1997,6 +2053,191 @@
   <div class="ic-grid" id="icGrid"></div>
   <div class="ic-empty" id="icEmpty" hidden>Sin resultados para esa búsqueda.</div>
 </section>
+</div>
+
+<!-- ══════════ BOTONES · barra de acciones ══════════ -->
+<div class="sc-panel" id="tab-botones" role="tabpanel" aria-labelledby="sctab-botones">
+
+<div style="padding:14px 14px 0;display:flex;justify-content:flex-end"><a class="ds-xref" href="../yiqi-design-system.html#buttons"><i class="ph ph-anchor-simple"></i> Ver fuente · Botones</a></div>
+<section class="sc-section" style="margin-top:0">
+  <h2 class="sc-section-h">Botones · barra de acciones</h2>
+  <p class="sc-section-sub">Los botones son el <code class="sc-mono">styles.css</code> real. El menú desplegable y el estado deshabilitado son propuesta. Los criterios completos, al final de la página.</p>
+</section>
+
+<div class="bt-grid">
+
+  <div class="bt-card">
+    <p class="bt-k">Barra de acciones</p>
+    <h3>La misma pantalla en tres estados</h3>
+    <div class="st-pick" role="group" aria-label="Estado del registro">
+      <button type="button" class="st-b" data-st="espera" aria-pressed="true">En espera de pago</button>
+      <button type="button" class="st-b" data-st="facturado" aria-pressed="false">Facturado</button>
+      <button type="button" class="st-b" data-st="entregado" aria-pressed="false">Entregado</button>
+    </div>
+    <div class="rec">
+      <p class="rec-k">Pedido</p>
+      <div class="rec-h">
+        <h4 class="rec-t">Editar #85531</h4>
+        <span class="badge badge-amber" id="recBadge">En espera de pago</span>
+      </div>
+      <div class="rec-bar" id="recBar"></div>
+      <div class="rec-meta">
+        <div><b>NRO</b><span>2029</span></div>
+        <div><b>CLIENTE</b><span>Distribuidora Sur S.A.</span></div>
+        <div><b>TOTAL</b><span>$42.406,87</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bt-card">
+    <p class="bt-k">Color</p>
+    <h3>Cada variante pertenece a un rol</h3>
+    <div class="bt-row"><span class="bt-lbl">Avanza</span><button class="btn btn-primary">Facturar</button><span class="bt-cap">Una sola por vista</span></div>
+    <div class="bt-row"><span class="bt-lbl">Frecuente</span><button class="btn">Copiar pedido</button><button class="btn">Solicitar reserva</button><span class="bt-cap">Hasta dos en la barra</span></div>
+    <div class="bt-row"><span class="bt-lbl">Menú</span><button class="btn btn-ghost">Más (4) <i class="ph ph-caret-down"></i></button><span class="bt-cap">Roles 3, 4 y 5</span></div>
+    <div class="bt-row"><span class="bt-lbl">Destructiva</span><button class="btn btn-danger">Anular pedido</button><span class="bt-cap">Solo dentro del menú o en la confirmación</span></div>
+    <div class="bt-row"><span class="bt-lbl">Instalación</span><button class="btn btn-amber">Instalar app</button><span class="bt-cap">Reservado al ciclo instalar, activar, descargar</span></div>
+  </div>
+
+  <div class="bt-card">
+    <p class="bt-k">Densidad</p>
+    <h3>El tamaño lo da la superficie, no la importancia</h3>
+    <div class="bt-row"><span class="bt-lbl">Toolbar</span><button class="btn btn-primary btn-sm">Nuevo pedido</button><button class="btn btn-sm">Filtrar</button><span class="bt-cap">sm</span></div>
+    <div class="bt-row"><span class="bt-lbl">Formulario</span><button class="btn btn-primary">Enviar consulta</button><button class="btn">Cancelar</button><span class="bt-cap">base</span></div>
+    <div class="bt-row"><span class="bt-lbl">Marketing</span><button class="btn btn-primary btn-lg">Reserva tu demo</button><span class="bt-cap">lg</span></div>
+  </div>
+
+  <div class="bt-card">
+    <p class="bt-k">Estados</p>
+    <h3>Deshabilitado</h3>
+    <p class="bt-lead">Conserva forma, peso y color de su variante, atenuados. Un control inerte sigue pareciendo un control: comunica que la acción existe pero no está disponible ahora.</p>
+    <div class="bt-row"><span class="bt-lbl">Habilitado</span><button class="btn btn-primary">Facturar</button><button class="btn">Copiar pedido</button><button class="btn btn-danger">Anular</button></div>
+    <div class="bt-row"><span class="bt-lbl">Deshabilitado</span><button class="btn btn-primary" disabled>Facturar</button><button class="btn" disabled>Copiar pedido</button><button class="btn btn-danger" disabled>Anular</button></div>
+  </div>
+
+  <div class="bt-card">
+    <p class="bt-k">Los criterios</p>
+    <h3>Cómo se arma la barra</h3>
+    <p class="bt-lead">Las acciones de un registro cambian por entidad y por estado, así que la barra no se diseña caso por caso. Cada acción recibe un rol, y el rol resuelve las tres decisiones: si se muestra, en qué posición y con qué variante.</p>
+    <dl class="cr">
+      <dt>Rol 1 · Avanza</dt>
+      <dd>La acción que lleva el registro al siguiente estado. <strong>Máximo una.</strong> Primera en la barra, variante primary. Si el estado no tiene siguiente paso, <strong>no hay primary</strong> y la barra queda neutra: el lugar del acento no se rellena por simetría.</dd>
+      <dt>Rol 2 · Frecuente</dt>
+      <dd>Acciones de uso habitual que no cambian el estado. Hasta dos visibles, variante base, a continuación del primary.</dd>
+      <dt>Rol 3 · Secundaria</dt>
+      <dd>El resto de las acciones del circuito. Dentro del menú, en orden de frecuencia de uso.</dd>
+      <dt>Rol 4 · Salida</dt>
+      <dd>Exportar, imprimir, descargar. Dentro del menú, agrupadas después de las del circuito.</dd>
+      <dt>Rol 5 · Destructiva</dt>
+      <dd>Anular, eliminar. Última del menú, separada por línea y en variante danger. <strong>Nunca en la barra.</strong></dd>
+      <dt>Visibilidad</dt>
+      <dd>Tres acciones como máximo en la barra: el rol 1 más hasta dos del rol 2. El corte lo define el rol, no la cantidad disponible, así que una entidad con quince acciones se lee igual que una con cuatro.</dd>
+      <dt>Orden</dt>
+      <dd>Siempre <strong>1 → 2 → menú</strong>. No alfabético, no por orden de implementación, no heredado de otra entidad.</dd>
+      <dt>Color</dt>
+      <dd>Lo asigna el rol. Cyan solo para el rol 1 — dos acentos equivalen a ninguno. Neutro para los roles 2, 3 y 4. Rojo solo para el rol 5. El ámbar queda reservado al ciclo de instalación.</dd>
+      <dt>Lo que aporta cada producto</dt>
+      <dd>Todo lo anterior se implementa una vez y vale para el sistema entero. Lo único propio de cada entidad es <strong>qué acción ocupa el rol 1 en cada estado</strong>, porque sale de su circuito de negocio: una tabla de pocas filas, del tipo «En espera de pago → Facturar».</dd>
+      <dt>Pendiente en el sistema</dt>
+      <dd>Ni el botón con caret, ni el ítem de menú de dos líneas, ni el estado deshabilitado existen como componentes publicados: cada aplicación los está resolviendo por su cuenta. Esta página los muestra con tokens del sistema, como propuesta.</dd>
+    </dl>
+  </div>
+
+</div>
+
+<script>
+/* Barra de acciones por estado. Aplica los cinco roles: el rol 1 sale
+   del estado, los roles 2 a 5 se reparten entre barra y menu. El mapa
+   estado -> accion del rol 1 usa un circuito de Pedido de ejemplo, sin
+   validar: es lo que cada producto tiene que aportar. */
+(function () {
+  var bar = document.getElementById('recBar');
+  if (!bar) return;
+  var badge = document.getElementById('recBadge');
+
+  var EST = {
+    espera: {
+      badge: 'En espera de pago', badgeCls: 'badge badge-amber',
+      avanza: 'Facturar',
+      frecuentes: ['Copiar pedido', 'Solicitar reserva'],
+      menu: [['Recalcular precios', 'Rol 3 · circuito'],
+             ['Calcular percepciones proyectadas', 'Rol 3 · circuito'],
+             ['Exportar', 'Rol 4 · salida']],
+      destructiva: ['Anular pedido', 'Rol 5 · no se puede deshacer']
+    },
+    facturado: {
+      badge: 'Facturado', badgeCls: 'badge badge-cyan',
+      avanza: 'Remitir',
+      frecuentes: ['Copiar pedido', 'Ver factura'],
+      menu: [['Recalcular precios', 'Rol 3 · circuito'],
+             ['Exportar', 'Rol 4 · salida']],
+      destructiva: ['Anular factura', 'Rol 5 · no se puede deshacer']
+    },
+    entregado: {
+      badge: 'Entregado', badgeCls: 'badge badge-green',
+      avanza: null,
+      frecuentes: ['Copiar pedido', 'Ver factura'],
+      menu: [['Ver historial', 'Rol 3 · circuito'],
+             ['Exportar', 'Rol 4 · salida']],
+      destructiva: null
+    }
+  };
+
+  function cerrarMenu() {
+    var b = document.getElementById('recMas'), m = document.getElementById('recMenu');
+    if (b) b.setAttribute('aria-expanded', 'false');
+    if (m) m.hidden = true;
+  }
+  document.addEventListener('click', cerrarMenu);
+  document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') cerrarMenu(); });
+
+  function pinta(k) {
+    var e = EST[k];
+    badge.className = e.badgeCls;
+    badge.textContent = e.badge;
+
+    var n = e.menu.length + (e.destructiva ? 1 : 0);
+    var mh = '';
+    e.menu.forEach(function (it) {
+      mh += '<div class="bt-mi" role="menuitem" tabindex="-1"><b>' + it[0] + '</b><span>' + it[1] + '</span></div>';
+    });
+    if (e.destructiva) {
+      mh += '<div class="bt-sep"></div><div class="bt-mi is-danger" role="menuitem" tabindex="-1"><b>' +
+            e.destructiva[0] + '</b><span>' + e.destructiva[1] + '</span></div>';
+    }
+
+    var h = '';
+    if (e.avanza) h += '<button class="btn btn-primary">' + e.avanza + '</button>';
+    e.frecuentes.forEach(function (f) { h += '<button class="btn">' + f + '</button>'; });
+    h += '<span class="mw">' +
+           '<button class="btn btn-ghost" id="recMas" aria-haspopup="menu" aria-expanded="false" aria-controls="recMenu">' +
+             'Más (' + n + ') <i class="ph ph-caret-down"></i></button>' +
+           '<div class="bt-menu" id="recMenu" role="menu" aria-labelledby="recMas" hidden>' + mh + '</div>' +
+         '</span>';
+    bar.innerHTML = h;
+
+    var mb = document.getElementById('recMas'), mn = document.getElementById('recMenu');
+    mb.addEventListener('click', function (ev) {
+      ev.stopPropagation();
+      var abierto = mb.getAttribute('aria-expanded') === 'true';
+      mb.setAttribute('aria-expanded', String(!abierto));
+      mn.hidden = abierto;
+    });
+    mn.addEventListener('click', function (ev) { ev.stopPropagation(); });
+  }
+
+  document.querySelectorAll('#tab-botones .st-b').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.querySelectorAll('#tab-botones .st-b').forEach(function (o) { o.setAttribute('aria-pressed', 'false'); });
+      b.setAttribute('aria-pressed', 'true');
+      cerrarMenu();
+      pinta(b.dataset.st);
+    });
+  });
+
+  pinta('espera');
+})();
+</script>
 </div>
 
 <!-- ══════════ PRIMITIVOS INTERACTIVOS ══════════ -->
@@ -3355,11 +3596,18 @@ window.__buildGallery=function(){var p=document.getElementById("tab-galeria");if
     });
     document.title = document.title.replace(/v\d+(?:\.\d+)+/, 'v' + n);
   };
-  pintar(getComputedStyle(document.documentElement)
-    .getPropertyValue('--ds-version').trim().replace(/^["']|["']$/g, ''));
+  const token = () => getComputedStyle(document.documentElement)
+    .getPropertyValue('--ds-version').trim().replace(/^["']|["']$/g, '');
+  let ultima = token();
+  pintar(ultima);
+  /* La statusbar y el pie se escriben en DOMContentLoaded, despues de que este
+     script corrio: sin este segundo pase esos elementos se quedaban con su
+     respaldo. Era el caso del pie del catalogo, que mostraba 1.2.7.11 mientras
+     Novedades ya decia 1.2.7.14 — dos versiones a la vez, las dos creibles. */
+  document.addEventListener('DOMContentLoaded', () => pintar(ultima));
   fetch('../version.json', { cache: 'no-store' })
     .then(r => r.ok ? r.json() : null)
-    .then(v => v && v.ds_version && pintar(v.ds_version))
+    .then(v => { if (v && v.ds_version) { ultima = v.ds_version; pintar(ultima); } })
     .catch(() => {});
 })();
 </script>
@@ -3386,7 +3634,7 @@ document.addEventListener('DOMContentLoaded', function(){
   <div class="statusbar-right">
     <span class="sb-item">Showcase</span>
     <span class="sb-sep" aria-hidden="true">&middot;</span>
-    <span class="sb-item" data-ds-version="DS v{v}">DS v1.2.7.10</span>
+    <span class="sb-item" data-ds-version="DS v{v}"></span>
     <span class="sb-sep" aria-hidden="true">&middot;</span>
     <span class="sb-item sb-clock" id="sc-statusbar-clock">--:--</span>
   </div>
