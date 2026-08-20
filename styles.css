@@ -129,7 +129,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.12";
+  --ds-version: "1.2.8.13";
 
   /* Layout */
   --topbar-h:  56px;
@@ -969,9 +969,21 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
 /* ── 15. GRIDS ────────────────────────────────────────────── */
 .kpi-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  /* v1.2.8.13 — minmax(0, 1fr), no 1fr. `1fr` es `minmax(auto, 1fr)`, y ese
+     `auto` como minimo es el ancho MINIMO DEL CONTENIDO: una card con
+     "$ 165.125.605" o "Remitos de devolucion + devoluciones de OVs" fija un
+     piso que la columna no puede bajar, y la grilla se ensancha mas alla de su
+     contenedor. Como html/body van en overflow-x:clip eso no da scroll:
+     recorta, y las cards del borde derecho aparecen mutiladas. Las grillas
+     hermanas ya lo hacian bien —.pulse-grid y .dashboard-grid usan
+     minmax(0, 1fr)—; .kpi-grid se habia quedado afuera, y cada app que la
+     usaba terminaba pisandola en su CSS local. El min-width:0 en la grilla y
+     en las cards es lo que les permite encoger de verdad. */
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
+  min-width: 0;
 }
+.kpi-grid > * { min-width: 0; }
 .pulse-grid       { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; }
 .dashboard-grid   { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
 .summary-grid     { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
