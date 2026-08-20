@@ -129,7 +129,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8";
+  --ds-version: "1.2.8.8";
 
   /* Layout */
   --topbar-h:  56px;
@@ -677,12 +677,20 @@ html[data-theme="light"] .brand-logo-light { display: block; }
   border: 1px solid transparent;
 }
 
-/* Dot antes del texto */
+/* Dot antes del texto.
+   v1.2.8.1: el punto lleva color en la BASE, no solo en las variantes. Antes
+   solo lo pintaban .badge-cyan, -green, -amber, -red, -blue y -muted, asi que
+   un .badge sin variante —uso valido y usado: "Soporte" en la tabla de backlog—
+   dibujaba un circulo transparente de 6px con su gap de 5: invisible, pero
+   ocupando 11px. El texto quedaba corrido respecto de sus hermanos de la misma
+   columna y parecia un error de alineacion. El ::before vive en la base, asi
+   que dejarlo sin color era un olvido, no una decision. */
 .badge::before {
   content: "";
   width: 6px;
   height: 6px;
   border-radius: 50%;
+  background: var(--muted-2);
 }
 
 .badge-cyan {
@@ -715,6 +723,31 @@ html[data-theme="light"] .brand-logo-light { display: block; }
 
 .badge-blue   { color: var(--blue);   background: rgba(122, 183, 255, 0.08); }
 .badge-blue::before { background: var(--blue); }
+
+/* v1.2.8.7 — indigo, violet y magenta ya eran tokens de la paleta (§03) pero
+   no tenian variante de badge, asi que en la practica el componente vivia con
+   seis colores y todo lo que se diseñaba encima heredaba esa escasez. No entra
+   ningun token nuevo: son los que ya estaban, con la forma que les faltaba. */
+.badge-indigo {
+  color: var(--indigo);
+  background: var(--indigo-soft);
+  border-color: transparent;
+}
+.badge-indigo::before { background: var(--indigo); }
+
+.badge-violet {
+  color: var(--violet);
+  background: var(--violet-soft);
+  border-color: transparent;
+}
+.badge-violet::before { background: var(--violet); }
+
+.badge-magenta {
+  color: var(--magenta);
+  background: var(--magenta-soft);
+  border-color: transparent;
+}
+.badge-magenta::before { background: var(--magenta); }
 
 .badge-muted {
   color: var(--muted);
