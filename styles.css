@@ -129,7 +129,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.10";
+  --ds-version: "1.2.8.13";
 
   /* Layout */
   --topbar-h:  56px;
@@ -969,9 +969,21 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
 /* ── 15. GRIDS ────────────────────────────────────────────── */
 .kpi-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  /* v1.2.8.13 — minmax(0, 1fr), no 1fr. `1fr` es `minmax(auto, 1fr)`, y ese
+     `auto` como minimo es el ancho MINIMO DEL CONTENIDO: una card con
+     "$ 165.125.605" o "Remitos de devolucion + devoluciones de OVs" fija un
+     piso que la columna no puede bajar, y la grilla se ensancha mas alla de su
+     contenedor. Como html/body van en overflow-x:clip eso no da scroll:
+     recorta, y las cards del borde derecho aparecen mutiladas. Las grillas
+     hermanas ya lo hacian bien —.pulse-grid y .dashboard-grid usan
+     minmax(0, 1fr)—; .kpi-grid se habia quedado afuera, y cada app que la
+     usaba terminaba pisandola en su CSS local. El min-width:0 en la grilla y
+     en las cards es lo que les permite encoger de verdad. */
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
+  min-width: 0;
 }
+.kpi-grid > * { min-width: 0; }
 .pulse-grid       { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; }
 .dashboard-grid   { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
 .summary-grid     { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
@@ -2458,7 +2470,15 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
    Catálogo: yiqi-design-system.html §51 (Aplicaciones · Kit base)
    ════════════════════════════════════════════════════════════════════ */
 .topbar-l{ display:flex; align-items:center; gap:10px; min-width:0; }
-.topbar-r{ display:flex; align-items:center; gap:8px; min-width:0; margin-left:auto; }
+/* v1.2.8.11 — .topbar-r perdio su margin-left:auto. Era redundante con el
+   space-between de .topbar y ademas rompia el caso de tres zonas: ese auto se
+   come TODO el espacio libre antes de el, asi que el space-between se queda sin
+   nada que repartir y el grupo del medio —.topbar-c, el que el nombre promete
+   centrado— terminaba pegado al logo. Medido en una barra de 1200px: el centro
+   del grupo medio caia en 330; sin el auto cae en 577, contra un centro real de
+   600. Las apps de dos zonas no cambian: con space-between siguen yendo a los
+   extremos. */
+.topbar-r{ display:flex; align-items:center; gap:8px; min-width:0; }
 
 /* Zona central de la topbar. Contenedor neutro: lo que va adentro lo pone
    cada app (nombre con .t-pill, selector de esquema, filtro de periodo).
@@ -3104,9 +3124,17 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
     flex-wrap: nowrap;
     padding: 12px 16px;
   }
-  .topbar-l { justify-self: start; }
-  .topbar-c { justify-self: center; }
-  .topbar-r { justify-self: end; margin-left: 0; gap: 0; }
+  /* v1.2.8.12 — las columnas se declaran, no se deducen del orden. El grid es
+     1fr auto 1fr y antes cada zona solo traia justify-self, asi que la celda se
+     asignaba por posicion: si .topbar-c no ocupa celda —y no la ocupa apenas
+     una app lo esconde en su propio breakpoint— .topbar-r cae en la columna del
+     medio y el boton de menu queda centrado con la mitad derecha de la barra
+     vacia. Medido: a 900px el centro del boton daba 450 de 900; a 565, 283; a
+     420, 210. Siempre el centro exacto. Con grid-column fijo cada zona va donde
+     dice su nombre, exista o no la del medio. */
+  .topbar-l { grid-column: 1; justify-self: start; }
+  .topbar-c { grid-column: 2; justify-self: center; }
+  .topbar-r { grid-column: 3; justify-self: end; margin-left: 0; gap: 0; }
 
   /* En celular la topbar lleva solo logo, nombre y menu.
      Las acciones de sesion viven dentro del drawer. */
