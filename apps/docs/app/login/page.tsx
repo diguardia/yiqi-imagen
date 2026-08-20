@@ -5,7 +5,7 @@ import { YiQiLogin } from '@yiqi/ui/authentication'
 export default function LoginPage() {
   return (
     <YiQiLogin
-      appName="YiQi"
+      appName="Operaciones"
       description="Ingresa con tu usuario para continuar."
       onSubmit={async ({ username, password }) => {
         await new Promise((resolve) => setTimeout(resolve, 500))
