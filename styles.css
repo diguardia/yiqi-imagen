@@ -129,7 +129,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.11";
+  --ds-version: "1.2.8.12";
 
   /* Layout */
   --topbar-h:  56px;
@@ -3112,9 +3112,17 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
     flex-wrap: nowrap;
     padding: 12px 16px;
   }
-  .topbar-l { justify-self: start; }
-  .topbar-c { justify-self: center; }
-  .topbar-r { justify-self: end; margin-left: 0; gap: 0; }
+  /* v1.2.8.12 — las columnas se declaran, no se deducen del orden. El grid es
+     1fr auto 1fr y antes cada zona solo traia justify-self, asi que la celda se
+     asignaba por posicion: si .topbar-c no ocupa celda —y no la ocupa apenas
+     una app lo esconde en su propio breakpoint— .topbar-r cae en la columna del
+     medio y el boton de menu queda centrado con la mitad derecha de la barra
+     vacia. Medido: a 900px el centro del boton daba 450 de 900; a 565, 283; a
+     420, 210. Siempre el centro exacto. Con grid-column fijo cada zona va donde
+     dice su nombre, exista o no la del medio. */
+  .topbar-l { grid-column: 1; justify-self: start; }
+  .topbar-c { grid-column: 2; justify-self: center; }
+  .topbar-r { grid-column: 3; justify-self: end; margin-left: 0; gap: 0; }
 
   /* En celular la topbar lleva solo logo, nombre y menu.
      Las acciones de sesion viven dentro del drawer. */
