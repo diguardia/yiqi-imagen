@@ -26,6 +26,8 @@ const EXAMPLE_CSS = `.dashboard { padding: 24px; font-family: system-ui, sans-se
 .kpi-card { padding: 18px; border-radius: 12px; background: #f4f4f5; }
 form { display: grid; gap: 10px; max-width: 320px; margin-top: 24px; }`
 
+const PREVIEW_BASE_CSS = 'html,body{margin:0;min-height:100%;}body{padding:20px;box-sizing:border-box;}*,*::before,*::after{box-sizing:border-box;}'
+
 type Detection = {
   component: string
   importPath: string
@@ -155,20 +157,16 @@ function sanitizeHtml(source: string) {
   return document.body.innerHTML
 }
 
-function escapeStyle(css: string) {
-  return css.replace(/<\/style/gi, '<\\/style')
-}
-
 function buildPreview(source: string, css: string) {
   const safeHtml = sanitizeHtml(source)
-  const safeCss = escapeStyle(css)
+  const stylesheet = encodeURIComponent(`${PREVIEW_BASE_CSS}${css}`)
   return `<!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data: blob:; font-src data:; media-src data: blob:" />
-  <style>html,body{margin:0;min-height:100%;}body{padding:20px;box-sizing:border-box;}*,*::before,*::after{box-sizing:border-box;}${safeCss}</style>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src data:; img-src data: blob:; font-src data:; media-src data: blob:" />
+  <link rel="stylesheet" href="data:text/css;charset=utf-8,${stylesheet}" />
 </head>
 <body>${safeHtml}</body>
 </html>`
