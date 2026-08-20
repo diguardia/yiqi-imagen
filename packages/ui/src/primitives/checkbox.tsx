@@ -13,7 +13,7 @@ export interface YiQiCheckboxProps {
 
 export function YiQiCheckbox({ checked, defaultChecked, disabled, label, name, onCheckedChange }: YiQiCheckboxProps) {
   return (
-    <label className="yiqi-checkbox-row">
+    <label className="yiqi-checkbox-row" data-disabled={disabled || undefined}>
       <Checkbox.Root
         className="yiqi-checkbox"
         checked={checked}

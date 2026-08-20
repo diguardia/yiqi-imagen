@@ -95,7 +95,6 @@ code { font-family: var(--yiqi-font-mono); }
   .docs-site-header-inner { padding: 8px 14px 10px; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 14px; }
   .docs-site-nav { grid-column: 1 / -1; justify-content: flex-start; flex-wrap: wrap; }
   .docs-site-link { min-height: 34px; padding: 0 8px; font-size: 12px; }
-  .docs-brand-logo { width: 54px; height: 35px; }
   .docs-page { padding: 36px 14px 56px; }
   .docs-page-heading { display: grid; }
   .docs-title { font-size: clamp(34px, 10vw, 48px); }

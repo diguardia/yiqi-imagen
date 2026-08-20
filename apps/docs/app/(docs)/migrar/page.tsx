@@ -252,7 +252,7 @@ export default function MigrationWorkbenchPage() {
           <iframe
             className="docs-migration-preview"
             data-testid="migration-preview"
-            title="Vista previa aislada"
+            title="Contenido de la vista previa"
             sandbox=""
             referrerPolicy="no-referrer"
             srcDoc={preview}
