@@ -135,7 +135,7 @@ test.describe('regresiones funcionales', () => {
     await expect(submit.locator('.yiqi-login-spinner')).toBeVisible()
     await expect(forgotPassword).toBeEnabled()
     await expect(page.getByRole('status')).toContainText('Iniciando sesión')
-    await expect(page.getByRole('status')).toContainText('Demo: usa demo / demo')
+    await expect(page.getByRole('status')).toContainText('Usuario o contraseña incorrectos.')
     await expect(submit).toBeEnabled()
   })
 

@@ -211,7 +211,7 @@ export default function MigrationWorkbenchPage() {
 
   return (
     <main className="docs-page docs-migration-page">
-      <header className="docs-header">
+      <header className="docs-page-heading">
         <div>
           <p className="docs-kicker">HTML/CSS → React</p>
           <h1 className="docs-title">Banco de migración</h1>

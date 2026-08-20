@@ -37,12 +37,41 @@ for (const route of routes) {
   })
 }
 
+test('docs portal comparte marca y navegacion en sus superficies', async ({ page }) => {
+  for (const route of ['/', '/components/', '/migrar/'] as const) {
+    await page.goto(route)
+    await expect(page.locator('.docs-site-header')).toBeVisible()
+    await expect(page.locator('svg.docs-brand-logo')).toBeVisible()
+    await expect(page.getByRole('navigation', { name: 'Navegación del Design System' })).toBeVisible()
+  }
+
+  await page.goto('/components/')
+  await expect(page.getByRole('link', { name: 'Componentes', exact: true })).toHaveAttribute('aria-current', 'page')
+
+  await page.goto('/migrar/')
+  await expect(page.getByRole('link', { name: 'Migración', exact: true })).toHaveAttribute('aria-current', 'page')
+})
+
 test('brand logo renders as inline SVG in the critical app surfaces', async ({ page }) => {
   await page.goto('/login/')
   await expect(page.locator('svg.yiqi-login-logo')).toBeVisible()
 
   await page.goto('/shell/')
   await expect(page.locator('svg.yiqi-topbar-logo')).toBeVisible()
+
+  await page.goto('/')
+  await expect(page.locator('svg.docs-brand-logo')).toBeVisible()
+})
+
+test('reference app no expone scaffolding de documentacion', async ({ page }) => {
+  await page.goto('/app/')
+
+  await expect(page.locator('.yiqi-app-name')).toHaveText('Operaciones')
+  await expect(page.getByText('Cuenta de ejemplo', { exact: true })).toHaveCount(0)
+  await expect(page.getByText('Aplicación de referencia', { exact: true })).toHaveCount(0)
+  await expect(page.getByText('3 Ambientes', { exact: true })).toHaveCount(0)
+  await expect(page.getByRole('navigation', { name: 'Navegación principal' }).first().getByRole('link', { name: 'Componentes' })).toHaveCount(0)
+  await expect(page.getByRole('navigation', { name: 'Navegación principal' }).first().getByRole('link', { name: 'Migrar HTML/CSS' })).toHaveCount(0)
 })
 
 test('migration workbench previews legacy markup and detects React contracts', async ({ page }) => {

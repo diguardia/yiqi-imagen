@@ -5,7 +5,7 @@ import { YiQiProvider, YiQiThemeScript } from '@yiqi/ui/foundation'
 
 export const metadata: Metadata = {
   title: 'YiQi UI',
-  description: 'Catálogo ejecutable del Design System YiQi en React.',
+  description: 'Design System YiQi para aplicaciones React.',
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
