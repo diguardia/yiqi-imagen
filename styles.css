@@ -129,7 +129,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.20";
+  --ds-version: "1.2.8.21";
 
   /* Layout */
   --topbar-h:  56px;
@@ -797,7 +797,10 @@ html[data-theme="light"] .brand-logo-light { display: block; }
 .panel:has(> .highlight-cards),
 .panel:has(> .watchlist-grid),
 .panel:has(> .kpi-grid),
-.panel:has(> .pulse-grid) { background: transparent; }
+.panel:has(> .pulse-grid),
+.panel:has(> .donut-block),
+.panel:has(> .branch-list),
+.panel:has(> .signal-list) { background: transparent; }
 .card { padding: 16px; }
 
 html[data-theme="light"] .card,
