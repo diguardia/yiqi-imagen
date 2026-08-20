@@ -129,7 +129,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.13";
+  --ds-version: "1.2.8.14";
 
   /* Layout */
   --topbar-h:  56px;
@@ -985,7 +985,16 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
 }
 .kpi-grid > * { min-width: 0; }
 .pulse-grid       { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; }
-.dashboard-grid   { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+/* v1.2.8.14 — auto-fit en vez de 3 columnas fijas. Con repeat(3, ...) el grid
+   reparte SIEMPRE en tres, asi que en un monitor ancho cada card recibe 500px o
+   mas y las filas etiqueta-valor de adentro se estiran: medido en Analytics Pro
+   a 1688px, la etiqueta quedaba a 1300px de su propio valor mientras entre fila
+   y fila habia 25. El ojo agrupa por proximidad, asi que leia dos columnas
+   sueltas en vez de seis filas. Con auto-fit el ancho sobrante se llena con mas
+   columnas en lugar de estirar las que hay, y cada card cae en el rango donde
+   un par etiqueta-valor se lee de un vistazo. En pantallas angostas colapsa a
+   una sola columna sin media queries. */
+.dashboard-grid   { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 12px; }
 .summary-grid     { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
 .watchlist-grid   { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
 .decision-grid,
