@@ -129,7 +129,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.10";
+  --ds-version: "1.2.8.9";
 
   /* Layout */
   --topbar-h:  56px;
@@ -2637,25 +2637,7 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
 /* Solo el chevron se da vuelta al colapsar. El candado cambia de icono
    (abierto/cerrado), no de orientacion: rotarlo lo deja al reves. */
 .app-shell.nav-collapsed .sidebar-collapse svg:not(.ico-locked):not(.ico-unlocked) { transform: rotate(180deg); }
-/* v1.2.8.10 — el rotulo se escondia con visibility:hidden y alto 6px, pero
-   visibility NO saca la caja del flujo y nadie le tocaba el ancho: el <p>
-   seguia midiendo lo que mide su texto, estiraba la .nav-section entera y los
-   links (que van a stretch) heredaban ese ancho. Medido en el rail de 68px:
-   la seccion "Abastecimiento" daba links de 93,5px y sus iconos caian con el
-   centro en 56,8 en vez de 34 —22,8px afuera, cortados por el borde— mientras
-   "Gestion", mas corta, quedaba bien. El sintoma parecia iconos desalineados;
-   la causa era el rotulo invisible de al lado. */
-.app-shell.nav-collapsed .nav-lbl {
-  visibility: hidden;
-  width: 0;
-  height: 6px;
-  padding: 0;
-  margin: 0;
-  overflow: hidden;
-}
-/* Al desplegarse vuelve: nav-peek ya restauraba visibility, alto y padding,
-   asi que el ancho tambien tiene que volver o el rotulo no reaparece. */
-.app-shell.nav-collapsed.nav-peek .nav-lbl { width: auto; overflow: visible; }
+.app-shell.nav-collapsed .nav-lbl { visibility: hidden; height: 6px; padding: 0; margin: 0; }
 .app-shell.nav-collapsed .nav-div { margin: 5px 6px; }
 .app-shell.nav-collapsed .nav-link { justify-content: center; padding: 8px; gap: 0; position: relative; }
 .app-shell.nav-collapsed .nav-link span:not(.n-ico) {
