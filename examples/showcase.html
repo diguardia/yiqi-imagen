@@ -104,14 +104,13 @@
   .topbar-brand svg{ height:39px; width:auto; display:block; color:var(--text); }
   .topbar-pill{ padding:4px 10px; border-radius:var(--radius-pill); background:var(--bg-elev-2); font:600 10px var(--mono); color:var(--muted-2); text-transform:uppercase; letter-spacing:.12em; }
   .topbar-right{ display:flex; align-items:center; gap:14px; }
-  /* Tablas sortables (indicador de orden) — v1.2.8.7: antes esto pintaba
-     la flecha y el cursor en TODAS las .data-table, sortables o no, y
-     prometia un orden que ninguna tabla del showcase implementaba. */
-  .table-sortable th{ cursor:pointer; }
-  .table-sortable th::after{ content:" ↕"; font-size:9px; opacity:.45; }
-  .table-sortable th.sorted-asc::after{ content:" ↑"; opacity:1; color:var(--cyan); }
-  .table-sortable th.sorted-desc::after{ content:" ↓"; opacity:1; color:var(--cyan); }
-  .table-sortable th:focus-visible{ outline:2px solid var(--cyan); outline-offset:-2px; }
+  /* Indicador de orden. Va en toda .data-table y esta bien: ds-components.js
+     hace sorteable a todas, no solo a las que llevan .table-sortable. */
+  .data-table th{ cursor:pointer; }
+  .data-table th::after{ content:" ↕"; font-size:9px; opacity:.45; }
+  .data-table th.sorted-asc::after{ content:" ↑"; opacity:1; color:var(--cyan); }
+  .data-table th.sorted-desc::after{ content:" ↓"; opacity:1; color:var(--cyan); }
+  .data-table th:focus-visible{ outline:2px solid var(--cyan); outline-offset:-2px; }
   .sc-chart-cap{ margin-top:10px; font:500 11px var(--mono); color:var(--muted); min-height:15px; }
   .sc-iar .iar{ fill:var(--text); } .sc-iar .iar-a{ fill:var(--cyan); }
   /* Logo YiQi animado (login §22) — librería YiQiLogo */
@@ -1875,8 +1874,8 @@
   <p class="sc-section-sub">Tipos de tabla usados en apps e informes (clase <code class="sc-mono">.data-table</code>, headers reales · <strong>datos simulados</strong>). Toca una fila para ver el detalle.</p>
   <div class="sc-tbl-grid">
     <article class="sc-card wide" id="card-tbl-estados">
-      <div class="sc-card-h"><span class="sc-card-title">Pedidos &middot; los seis estados</span><a class="ds-xref" href="../yiqi-design-system.html#badges"><i class="ph ph-anchor-simple"></i> &sect;Badges</a></div>
-      <p class="sc-card-sub">Los seis estados de un pedido con su color. <strong>Datos inventados</strong> &mdash; ning&uacute;n nombre sale de una instancia real.</p>
+      <div class="sc-card-h"><span class="sc-card-title">Pedidos &middot; las dos formas del chip</span><a class="ds-xref" href="../yiqi-design-system.html#badges"><i class="ph ph-anchor-simple"></i> &sect;Badges</a></div>
+      <p class="sc-card-sub">Los 15 estados, una fila cada uno, dibujados de las dos maneras. <strong>Datos inventados</strong> &mdash; ning&uacute;n nombre sale de una instancia real.</p>
 
       <div class="ds-note ds-note--warn">
         <strong>&laquo;Anulada&raquo; y &laquo;Cancelada&raquo; son dos cosas distintas que suenan igual.</strong>
@@ -1895,32 +1894,65 @@
       </div>
 
       <div class="sc-label">Chip s&oacute;lido &mdash; como el ERP actual</div>
-      <div class="table-wrap"><table class="data-table"><thead><tr><th>Cliente</th><th class="num">Pto. venta</th><th>Tipo</th><th class="num">Nro</th><th>Provincia</th><th>Sucursal</th><th class="num">Fecha de creación</th><th>Estado</th></tr></thead><tbody><tr><td>Distribuidora del Sur S.A.</td><td class="num">1</td><td>B</td><td class="num sc-muted">—</td><td>BUENOS AIRES</td><td>Casa Central</td><td class="num sc-mono">15/07/2026 12:00</td><td><span class="est-solido badge-blue">Proyectada</span></td></tr><tr><td>Comercial Andina</td><td class="num">1</td><td>B</td><td class="num">1487</td><td>SANTA FE</td><td>Norte</td><td class="num sc-mono">03/06/2026 10:33</td><td><span class="est-solido badge-cyan">Emitida</span></td></tr><tr><td>Ferretería del Puerto</td><td class="num">1</td><td>B</td><td class="num">1486</td><td class="sc-muted">—</td><td>Casa Central</td><td class="num sc-mono">28/05/2026 16:30</td><td><span class="est-solido badge-amber">Entregada</span></td></tr><tr><td>Mayorista Litoral</td><td class="num">2</td><td>X</td><td class="num">0911</td><td class="sc-muted">—</td><td>Sur</td><td class="num sc-mono">20/04/2026 13:49</td><td><span class="est-solido badge-green">Cobrada</span></td></tr><tr><td>Importadora Pampa S.R.L.</td><td class="num">1</td><td>B</td><td class="num">1402</td><td>SANTA FE</td><td>Norte</td><td class="num sc-mono">06/06/2026 09:19</td><td><span class="est-solido badge-red">Anulada</span></td></tr><tr><td>Textil Rivadavia</td><td class="num">2</td><td>A</td><td class="num sc-muted">—</td><td>CÓRDOBA</td><td>Sur</td><td class="num sc-mono">21/04/2026 11:59</td><td><span class="est-solido badge-muted">Cancelada</span></td></tr><tr><td>Insumos Patagonia</td><td class="num">1</td><td>B</td><td class="num sc-muted">—</td><td>BUENOS AIRES</td><td>Casa Central</td><td class="num sc-mono">20/04/2026 11:44</td><td><span class="est-solido badge-blue">Proyectada</span></td></tr><tr><td>Casa Belgrano</td><td class="num">1</td><td>B</td><td class="num">1485</td><td>CAPITAL</td><td>Casa Central</td><td class="num sc-mono">06/04/2026 09:02</td><td><span class="est-solido badge-green">Cobrada</span></td></tr></tbody>
+      <div class="table-wrap"><table class="data-table"><thead><tr><th>Cliente</th><th class="num">Pto. venta</th><th>Tipo</th><th class="num">Nro</th><th>Provincia</th><th>Sucursal</th><th class="num">Fecha de creación</th><th>Estado</th></tr></thead><tbody>
+        <tr><td>Distribuidora del Sur S.A.</td><td class="num">1</td><td>B</td><td class="num sc-muted">&mdash;</td><td>BUENOS AIRES</td><td>Casa Central</td><td class="num sc-mono">15/07/2026 12:00</td><td><span class="est-solido badge-blue">Proyectada</span></td></tr>
+        <tr><td>Comercial Andina</td><td class="num">1</td><td>B</td><td class="num">1487</td><td>SANTA FE</td><td>Norte</td><td class="num sc-mono">03/06/2026 10:33</td><td><span class="est-solido badge-cyan">Emitida</span></td></tr>
+        <tr><td>Almac&eacute;n Riachuelo</td><td class="num">1</td><td>B</td><td class="num">1488</td><td>CAPITAL</td><td>Casa Central</td><td class="num sc-mono">04/06/2026 08:12</td><td><span class="est-solido badge-indigo">Preparada</span></td></tr>
+        <tr><td>Herrajes Cuyo</td><td class="num">2</td><td>B</td><td class="num">1489</td><td>MENDOZA</td><td>Sur</td><td class="num sc-mono">05/06/2026 15:40</td><td><span class="est-solido badge-violet">Despachada</span></td></tr>
+        <tr><td>Ferreter&iacute;a del Puerto</td><td class="num">1</td><td>B</td><td class="num">1486</td><td class="sc-muted">&mdash;</td><td>Casa Central</td><td class="num sc-mono">28/05/2026 16:30</td><td><span class="est-solido badge-amber">Entregada</span></td></tr>
+        <tr><td>Envases del Norte</td><td class="num">1</td><td>A</td><td class="num">1470</td><td>SALTA</td><td>Norte</td><td class="num sc-mono">19/05/2026 09:55</td><td><span class="est-solido badge-amber">Cobrada parcial</span></td></tr>
+        <tr><td>Papelera Serrana</td><td class="num">2</td><td>B</td><td class="num">1465</td><td>C&Oacute;RDOBA</td><td>Sur</td><td class="num sc-mono">12/05/2026 17:08</td><td><span class="est-solido badge-magenta">Devuelta</span></td></tr>
+        <tr><td>Mayorista Litoral</td><td class="num">2</td><td>X</td><td class="num">0911</td><td class="sc-muted">&mdash;</td><td>Sur</td><td class="num sc-mono">20/04/2026 13:49</td><td><span class="est-solido badge-green">Cobrada</span></td></tr>
+        <tr><td>L&aacute;cteos Tandil</td><td class="num">1</td><td>A</td><td class="num">1452</td><td>BUENOS AIRES</td><td>Casa Central</td><td class="num sc-mono">02/04/2026 11:20</td><td><span class="est-solido badge-red">Vencida</span></td></tr>
+        <tr><td>Aceros del Oeste</td><td class="num">1</td><td>A</td><td class="num sc-muted">&mdash;</td><td>SAN JUAN</td><td>Norte</td><td class="num sc-mono">11/06/2026 14:02</td><td><span class="est-solido badge-red">Rechazada</span></td></tr>
+        <tr><td>Importadora Pampa S.R.L.</td><td class="num">1</td><td>B</td><td class="num">1402</td><td>SANTA FE</td><td>Norte</td><td class="num sc-mono">06/06/2026 09:19</td><td><span class="est-solido badge-red">Anulada</span></td></tr>
+        <tr><td>Textil Rivadavia</td><td class="num">2</td><td>A</td><td class="num sc-muted">&mdash;</td><td>C&Oacute;RDOBA</td><td>Sur</td><td class="num sc-mono">21/04/2026 11:59</td><td><span class="est-solido badge-muted">Cancelada</span></td></tr>
+        <tr><td>Insumos Patagonia</td><td class="num">1</td><td>B</td><td class="num sc-muted">&mdash;</td><td>BUENOS AIRES</td><td>Casa Central</td><td class="num sc-mono">20/04/2026 11:44</td><td><span class="est-solido badge-muted">Generando cup&oacute;n Mercado Pago</span></td></tr>
+        <tr><td>Vidrier&iacute;a Col&oacute;n</td><td class="num">1</td><td>B</td><td class="num sc-muted">&mdash;</td><td>SANTA FE</td><td>Norte</td><td class="num sc-mono">19/08/2026 10:07</td><td><span class="est-solido badge-muted">Enviando a ARCA</span></td></tr>
+        <tr><td>Casa Belgrano</td><td class="num">1</td><td>B</td><td class="num">1485</td><td>CAPITAL</td><td>Casa Central</td><td class="num sc-mono">06/04/2026 09:02</td><td><span class="est-solido badge-red">Error al generar cup&oacute;n</span></td></tr>
+      </tbody>
       </table></div>
 
       <div class="sc-label" style="margin-top:22px">Chip del DS &mdash; <code>.badge</code></div>
-      <div class="table-wrap"><table class="data-table"><thead><tr><th>Cliente</th><th class="num">Pto. venta</th><th>Tipo</th><th class="num">Nro</th><th>Provincia</th><th>Sucursal</th><th class="num">Fecha de creación</th><th>Estado</th></tr></thead><tbody><tr><td>Distribuidora del Sur S.A.</td><td class="num">1</td><td>B</td><td class="num sc-muted">—</td><td>BUENOS AIRES</td><td>Casa Central</td><td class="num sc-mono">15/07/2026 12:00</td><td><span class="badge badge-blue">Proyectada</span></td></tr><tr><td>Comercial Andina</td><td class="num">1</td><td>B</td><td class="num">1487</td><td>SANTA FE</td><td>Norte</td><td class="num sc-mono">03/06/2026 10:33</td><td><span class="badge badge-cyan">Emitida</span></td></tr><tr><td>Ferretería del Puerto</td><td class="num">1</td><td>B</td><td class="num">1486</td><td class="sc-muted">—</td><td>Casa Central</td><td class="num sc-mono">28/05/2026 16:30</td><td><span class="badge badge-amber">Entregada</span></td></tr><tr><td>Mayorista Litoral</td><td class="num">2</td><td>X</td><td class="num">0911</td><td class="sc-muted">—</td><td>Sur</td><td class="num sc-mono">20/04/2026 13:49</td><td><span class="badge badge-green">Cobrada</span></td></tr><tr><td>Importadora Pampa S.R.L.</td><td class="num">1</td><td>B</td><td class="num">1402</td><td>SANTA FE</td><td>Norte</td><td class="num sc-mono">06/06/2026 09:19</td><td><span class="badge badge-red">Anulada</span></td></tr><tr><td>Textil Rivadavia</td><td class="num">2</td><td>A</td><td class="num sc-muted">—</td><td>CÓRDOBA</td><td>Sur</td><td class="num sc-mono">21/04/2026 11:59</td><td><span class="badge badge-muted">Cancelada</span></td></tr><tr><td>Insumos Patagonia</td><td class="num">1</td><td>B</td><td class="num sc-muted">—</td><td>BUENOS AIRES</td><td>Casa Central</td><td class="num sc-mono">20/04/2026 11:44</td><td><span class="badge badge-blue">Proyectada</span></td></tr><tr><td>Casa Belgrano</td><td class="num">1</td><td>B</td><td class="num">1485</td><td>CAPITAL</td><td>Casa Central</td><td class="num sc-mono">06/04/2026 09:02</td><td><span class="badge badge-green">Cobrada</span></td></tr></tbody>
+      <div class="table-wrap"><table class="data-table"><thead><tr><th>Cliente</th><th class="num">Pto. venta</th><th>Tipo</th><th class="num">Nro</th><th>Provincia</th><th>Sucursal</th><th class="num">Fecha de creación</th><th>Estado</th></tr></thead><tbody>
+        <tr><td>Distribuidora del Sur S.A.</td><td class="num">1</td><td>B</td><td class="num sc-muted">&mdash;</td><td>BUENOS AIRES</td><td>Casa Central</td><td class="num sc-mono">15/07/2026 12:00</td><td><span class="badge badge-blue">Proyectada</span></td></tr>
+        <tr><td>Comercial Andina</td><td class="num">1</td><td>B</td><td class="num">1487</td><td>SANTA FE</td><td>Norte</td><td class="num sc-mono">03/06/2026 10:33</td><td><span class="badge badge-cyan">Emitida</span></td></tr>
+        <tr><td>Almac&eacute;n Riachuelo</td><td class="num">1</td><td>B</td><td class="num">1488</td><td>CAPITAL</td><td>Casa Central</td><td class="num sc-mono">04/06/2026 08:12</td><td><span class="badge badge-indigo">Preparada</span></td></tr>
+        <tr><td>Herrajes Cuyo</td><td class="num">2</td><td>B</td><td class="num">1489</td><td>MENDOZA</td><td>Sur</td><td class="num sc-mono">05/06/2026 15:40</td><td><span class="badge badge-violet">Despachada</span></td></tr>
+        <tr><td>Ferreter&iacute;a del Puerto</td><td class="num">1</td><td>B</td><td class="num">1486</td><td class="sc-muted">&mdash;</td><td>Casa Central</td><td class="num sc-mono">28/05/2026 16:30</td><td><span class="badge badge-amber">Entregada</span></td></tr>
+        <tr><td>Envases del Norte</td><td class="num">1</td><td>A</td><td class="num">1470</td><td>SALTA</td><td>Norte</td><td class="num sc-mono">19/05/2026 09:55</td><td><span class="badge badge-amber">Cobrada parcial</span></td></tr>
+        <tr><td>Papelera Serrana</td><td class="num">2</td><td>B</td><td class="num">1465</td><td>C&Oacute;RDOBA</td><td>Sur</td><td class="num sc-mono">12/05/2026 17:08</td><td><span class="badge badge-magenta">Devuelta</span></td></tr>
+        <tr><td>Mayorista Litoral</td><td class="num">2</td><td>X</td><td class="num">0911</td><td class="sc-muted">&mdash;</td><td>Sur</td><td class="num sc-mono">20/04/2026 13:49</td><td><span class="badge badge-green">Cobrada</span></td></tr>
+        <tr><td>L&aacute;cteos Tandil</td><td class="num">1</td><td>A</td><td class="num">1452</td><td>BUENOS AIRES</td><td>Casa Central</td><td class="num sc-mono">02/04/2026 11:20</td><td><span class="badge badge-red">Vencida</span></td></tr>
+        <tr><td>Aceros del Oeste</td><td class="num">1</td><td>A</td><td class="num sc-muted">&mdash;</td><td>SAN JUAN</td><td>Norte</td><td class="num sc-mono">11/06/2026 14:02</td><td><span class="badge badge-red">Rechazada</span></td></tr>
+        <tr><td>Importadora Pampa S.R.L.</td><td class="num">1</td><td>B</td><td class="num">1402</td><td>SANTA FE</td><td>Norte</td><td class="num sc-mono">06/06/2026 09:19</td><td><span class="badge badge-red">Anulada</span></td></tr>
+        <tr><td>Textil Rivadavia</td><td class="num">2</td><td>A</td><td class="num sc-muted">&mdash;</td><td>C&Oacute;RDOBA</td><td>Sur</td><td class="num sc-mono">21/04/2026 11:59</td><td><span class="badge badge-muted">Cancelada</span></td></tr>
+        <tr><td>Insumos Patagonia</td><td class="num">1</td><td>B</td><td class="num sc-muted">&mdash;</td><td>BUENOS AIRES</td><td>Casa Central</td><td class="num sc-mono">20/04/2026 11:44</td><td><span class="est-proceso">Generando cup&oacute;n Mercado Pago</span></td></tr>
+        <tr><td>Vidrier&iacute;a Col&oacute;n</td><td class="num">1</td><td>B</td><td class="num sc-muted">&mdash;</td><td>SANTA FE</td><td>Norte</td><td class="num sc-mono">19/08/2026 10:07</td><td><span class="est-proceso">Enviando a ARCA</span></td></tr>
+        <tr><td>Casa Belgrano</td><td class="num">1</td><td>B</td><td class="num">1485</td><td>CAPITAL</td><td>Casa Central</td><td class="num sc-mono">06/04/2026 09:02</td><td><span class="est-proceso err">Error al generar cup&oacute;n</span></td></tr>
+      </tbody>
       </table></div>
 
       <div class="est-leyenda">
         <span class="badge badge-blue">Proyectada</span>
         <span class="badge badge-cyan">Emitida</span>
+        <span class="badge badge-indigo">Preparada</span>
+        <span class="badge badge-violet">Despachada</span>
         <span class="badge badge-amber">Entregada</span>
+        <span class="badge badge-amber">Cobrada parcial</span>
+        <span class="badge badge-magenta">Devuelta</span>
         <span class="badge badge-green">Cobrada</span>
+        <span class="badge badge-red">Vencida</span>
+        <span class="badge badge-red">Rechazada</span>
         <span class="badge badge-red">Anulada</span>
         <span class="badge badge-muted">Cancelada</span>
+        <span class="est-proceso">Generando cup&oacute;n Mercado Pago</span>
+        <span class="est-proceso">Enviando a ARCA</span>
+        <span class="est-proceso err">Error al generar cup&oacute;n</span>
       </div>
-      <p class="sc-card-sub" style="margin-top:12px"><strong>Azul, cian, &aacute;mbar y rojo son los que el
-      ERP ya usa</strong> &mdash; no se tocan, el operario los tiene aprendidos. Entran <strong>verde para
-      Cobrada</strong>, que hoy no tiene color propio, y <strong>gris para Cancelada</strong>, que la separa de
-      Anulada sin inventar un color nuevo. Los seis salen de variantes que el DS ya tiene.</p>
+      <p class="sc-card-sub" style="margin-top:12px">Las dos tablas muestran las mismas 15 filas. <strong>Arriba el chip s&oacute;lido lleva relleno propio</strong> &mdash;los tokens del DS no sostienen texto blanco: blanco sobre <code>--cyan</code> da 1,90:1 y sobre <code>--amber</code> 1,83:1, contra el 4,5:1 que pide AA&mdash; as&iacute; que usa el tono m&aacute;s claro de cada color que s&iacute; llega. <strong>Abajo el <code>.badge</code> usa el token tal cual</strong>, porque el color va en el texto y no en el fondo. El s&oacute;lido pesa m&aacute;s en una lista larga; el del DS convive mejor con la fila y es el que ya corre en Analytics&nbsp;Pro.</p>
 
-      <div class="ds-note" style="margin-top:14px">
-        <strong>Aparte:</strong> &laquo;Generando cup&oacute;n Mercado Pago&raquo; no es un estado del pedido, es un
-        proceso corriendo. No deber&iacute;a usar el mismo chip: un estado es estable y se puede filtrar
-        por &eacute;l, un proceso dura segundos y no se filtra. Va gris con indicador de actividad, no
-        como s&eacute;ptimo color.
-      </div>
+      <div class="ds-note" style="margin-top:14px"><strong>Las tres &uacute;ltimas filas no son estados, son procesos corriendo.</strong> En la tabla de arriba van con el mismo chip que todo lo dem&aacute;s &mdash;as&iacute; se ven hoy&mdash; y ah&iacute; se ve el problema: &laquo;Generando cup&oacute;n Mercado Pago&raquo; se lee igual de estable que &laquo;Cobrada&raquo;. Abajo llevan <code>.est-proceso</code>: gris con pulso, sin color sem&aacute;ntico, y su gemelo de error en rojo. Un estado es estable y se filtra por &eacute;l; un proceso dura segundos y no se filtra.</div>
     </article>
 
     <article class="sc-card wide est-full" id="card-tbl-estados-full">
@@ -3906,63 +3938,11 @@ document.addEventListener('DOMContentLoaded', function(){
   sincronizar();
 })();
 
-/* ── Tablas sortables ───────────────────────────────────────────────
-   .table-sortable solo tenia implementacion dentro de
-   yiqi-design-system.html. En el showcase la clase estaba puesta en
-   dos tablas que no ordenaban nada, y el CSS pintaba la flecha en
-   todas las .data-table. v1.2.8.7.
-   Una celda puede traer data-sort para ordenar por algo distinto de
-   lo que muestra (un chip ordena por su color, una fase por su lugar
-   en el circuito y no por la inicial). */
-(function () {
-  function valor(td, tipo) {
-    if (!td) return tipo === 'num' ? -Infinity : '';
-    var raw = td.getAttribute('data-sort');
-    if (raw === null) raw = td.textContent;
-    raw = raw.replace(/\u00a0/g, ' ').trim();
-    if (tipo === 'num') {
-      var n = parseFloat(raw.replace(/[^0-9,.\-]/g, '').replace(/\./g, '').replace(',', '.'));
-      return isNaN(n) ? -Infinity : n;
-    }
-    if (tipo === 'fecha') {
-      var p = raw.split(' ')[0].split('/');
-      if (p.length === 3) return new Date(p[2] + '-' + p[1] + '-' + p[0]).getTime() || 0;
-      return Date.parse(raw) || 0;
-    }
-    return raw.toLowerCase();
-  }
-  Array.prototype.forEach.call(document.querySelectorAll('table.table-sortable'), function (tabla) {
-    var tbody = tabla.tBodies[0]; if (!tbody) return;
-    var ths = Array.prototype.slice.call(tabla.querySelectorAll('thead th'));
-    ths.forEach(function (th, i) {
-      th.setAttribute('aria-sort', 'none');
-      if (!th.hasAttribute('tabindex')) th.tabIndex = 0;
-      function ordenar() {
-        var asc = th.getAttribute('aria-sort') !== 'ascending';
-        var tipo = th.getAttribute('data-type') || (th.classList.contains('num') ? 'num' : 'text');
-        var filas = Array.prototype.slice.call(tbody.rows);
-        filas.sort(function (a, b) {
-          var va = valor(a.cells[i], tipo), vb = valor(b.cells[i], tipo);
-          if (va < vb) return asc ? -1 : 1;
-          if (va > vb) return asc ? 1 : -1;
-          return 0;
-        });
-        filas.forEach(function (f) { tbody.appendChild(f); });
-        ths.forEach(function (o) {
-          o.setAttribute('aria-sort', 'none');
-          o.classList.remove('sorted-asc', 'sorted-desc');
-        });
-        th.setAttribute('aria-sort', asc ? 'ascending' : 'descending');
-        th.classList.add(asc ? 'sorted-asc' : 'sorted-desc');
-      }
-      th.addEventListener('click', ordenar);
-      th.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); ordenar(); }
-      });
-    });
-  });
-})();
-
+/* El orden de las tablas NO vive aca: lo implementa ds-components.js sobre
+   toda .data-table, y en v1.2.8.7 este archivo tenia una CUARTA copia propia
+   —habia ya tres: ds-components.js, YiQi.initSortable() del runtime y el
+   bloque inline del catalogo— que ademas competia por el mismo click y ganaba
+   que corriera ultima. Se borro. data-sort ahora lo entiende la canonica. */
 /* ── Hex vivo de la tabla de estados ────────────────────────────────
    El numero se leia de un literal escrito a mano: en tema claro los
    tokens cambian y el cuadradito dejaba de coincidir con el hex de al
