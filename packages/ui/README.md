@@ -48,7 +48,7 @@ La app consumidora se limita a datos, copy, rutas, callbacks y children expuesto
 | Grupo | Import | Responsabilidad |
 |---|---|---|
 | Foundation | `@yiqi/ui/foundation` | Provider, bootstrap de tema y marca |
-| Primitives | `@yiqi/ui/primitives` | Button, Input y Checkbox |
+| Primitives | `@yiqi/ui/primitives` | Button, Input, Textarea y Checkbox |
 | Authentication | `@yiqi/ui/authentication` | Login y autenticacion visual |
 | Layout | `@yiqi/ui/layout` | App Shell y estructura |
 | Data display | `@yiqi/ui/data-display` | KPIs y metricas de lectura |
