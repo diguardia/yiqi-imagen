@@ -129,7 +129,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.1";
+  --ds-version: "1.2.8.4";
 
   /* Layout */
   --topbar-h:  56px;
