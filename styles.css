@@ -1862,12 +1862,14 @@ html[data-theme="light"] .skeleton-line {
 
 /* ── 37. RESPONSIVE ───────────────────────────────────────── */
 @media (max-width: 1180px) {
+  /* v1.2.8.17 — .dashboard-grid y .watchlist-grid salen de aca: ya son
+     auto-fill con techo y se reagrupan solas, asi que este breakpoint solo
+     servia para volver a estirarlas con 1fr. Las que siguen son las que
+     todavia tienen columnas fijas y si lo necesitan. */
   .kpi-grid,
   .pulse-grid,
-  .dashboard-grid,
   .summary-grid,
-  .decision-grid,
-    .watchlist-grid {
+  .decision-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -1888,12 +1890,14 @@ html[data-theme="light"] .skeleton-line {
 }
 
 @media (max-width: 720px) {
+  /* v1.2.8.17 — .dashboard-grid y .watchlist-grid salen de aca: ya son
+     auto-fill con techo y se reagrupan solas, asi que este breakpoint solo
+     servia para volver a estirarlas con 1fr. Las que siguen son las que
+     todavia tienen columnas fijas y si lo necesitan. */
   .kpi-grid,
   .pulse-grid,
-  .dashboard-grid,
   .summary-grid,
-  .decision-grid,
-    .watchlist-grid {
+  .decision-grid {
     grid-template-columns: 1fr;
   }
 
