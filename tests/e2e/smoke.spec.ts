@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-const routes = ['/', '/components/', '/login/', '/shell/', '/compat-login/'] as const
+const routes = ['/', '/app/', '/components/', '/migrar/', '/login/', '/shell/', '/compat-login/'] as const
 
 for (const route of routes) {
   test(`${route} loads without runtime or same-origin request failures`, async ({ page }) => {
@@ -43,4 +43,23 @@ test('brand logo renders as inline SVG in the critical app surfaces', async ({ p
 
   await page.goto('/shell/')
   await expect(page.locator('svg.yiqi-topbar-logo')).toBeVisible()
+})
+
+test('migration workbench previews legacy markup and detects React contracts', async ({ page }) => {
+  await page.goto('/migrar/')
+
+  await page.getByLabel('HTML legacy').fill(`
+    <main>
+      <button type="button">Guardar</button>
+      <input type="checkbox" />
+      <script>window.parent.__yiqiMigrationUnsafe = true</script>
+    </main>
+  `)
+
+  await expect(page.getByTestId('migration-YiQiButton')).toContainText('YiQiButton')
+  await expect(page.getByTestId('migration-YiQiCheckbox')).toContainText('YiQiCheckbox')
+
+  const preview = page.frameLocator('[data-testid="migration-preview"]')
+  await expect(preview.getByRole('button', { name: 'Guardar' })).toBeVisible()
+  await expect.poll(() => page.evaluate(() => (window as typeof window & { __yiqiMigrationUnsafe?: boolean }).__yiqiMigrationUnsafe)).toBeUndefined()
 })

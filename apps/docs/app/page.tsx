@@ -1,8 +1,5 @@
 import Link from 'next/link'
 import { YiQiThemeCycle } from '@yiqi/ui/foundation'
-import { YiQiButton } from '@yiqi/ui/primitives'
-import { YiQiKpiCard, YiQiTrustStat } from '@yiqi/ui/data-display'
-import { YiQiRuntimeBanner } from '@yiqi/ui/feedback'
 
 export default function HomePage() {
   return (
@@ -11,42 +8,38 @@ export default function HomePage() {
         <div>
           <p className="docs-kicker">@yiqi/ui · React contracts</p>
           <h1 className="docs-title">YiQi UI</h1>
-          <p className="docs-subtitle">La documentación deja de ser la implementación. Este catálogo renderiza los mismos componentes que deben consumir las apps.</p>
+          <p className="docs-subtitle">Next.js separa la aplicación de referencia, el catálogo de componentes y las herramientas de migración. Cada superficie consume los contratos públicos del Design System.</p>
         </div>
         <YiQiThemeCycle />
       </header>
 
-      <section className="docs-grid" aria-label="Componentes migrados">
-        <Link prefetch={false} className="docs-card" href="/components/"><h2>Mapa de componentes</h2><p>Foundation, primitives, authentication, layout, data display y feedback con entrypoints separados.</p></Link>
-        <Link prefetch={false} className="docs-card" href="/login/"><h2>Login</h2><p>Contrato reutilizable con estados, remember-user y submit configurable.</p></Link>
-        <Link prefetch={false} className="docs-card" href="/shell/"><h2>App shell</h2><p>Topbar, navegación desktop y drawer mobile basado en Radix Dialog.</p></Link>
+      <section className="docs-surface-grid" aria-label="Superficies del Design System">
+        <Link prefetch={false} className="docs-surface-card docs-surface-card--primary" href="/app/">
+          <span className="docs-surface-kind">Aplicación</span>
+          <h2>Ver una app real</h2>
+          <p>Composición completa con AppShell, KPIs, estados y métricas usando únicamente contratos React publicados.</p>
+        </Link>
+        <Link prefetch={false} className="docs-surface-card" href="/components/">
+          <span className="docs-surface-kind">Referencia</span>
+          <h2>Componentes</h2>
+          <p>Mapa por responsabilidad y entrypoint para encontrar rápidamente qué importar desde <code>@yiqi/ui</code>.</p>
+        </Link>
+        <Link prefetch={false} className="docs-surface-card" href="/migrar/">
+          <span className="docs-surface-kind">Migración</span>
+          <h2>HTML/CSS → React</h2>
+          <p>Banco de trabajo para visualizar una pantalla legacy y detectar equivalencias con componentes React.</p>
+        </Link>
+        <Link prefetch={false} className="docs-surface-card" href="/login/">
+          <span className="docs-surface-kind">Contrato</span>
+          <h2>Login</h2>
+          <p>Ejemplo ejecutable del contrato de autenticación reutilizable.</p>
+        </Link>
+        <Link prefetch={false} className="docs-surface-card" href="/shell/">
+          <span className="docs-surface-kind">Contrato</span>
+          <h2>App shell</h2>
+          <p>Topbar, navegación desktop y drawer mobile del layout canónico.</p>
+        </Link>
       </section>
-
-      <div className="docs-demo">
-        <section className="docs-section">
-          <h2>Primitivos</h2>
-          <div className="docs-toolbar"><YiQiButton>Acción</YiQiButton><YiQiButton variant="primary">Primaria</YiQiButton><YiQiButton variant="ghost">Ghost</YiQiButton></div>
-        </section>
-
-        <section className="docs-section">
-          <h2>KPIs</h2>
-          <div className="yiqi-kpi-grid">
-            <YiQiKpiCard label="Facturación" value="$ 4.284.900" meta="Fuente: ejemplo de catálogo" />
-            <YiQiKpiCard label="Órdenes" value="231" tone="positive" meta="+8,0%" />
-            <YiQiKpiCard label="Pendientes" value="14" tone="warning" meta="Dato de ejemplo" />
-          </div>
-        </section>
-
-        <section className="docs-section">
-          <h2>Estados</h2>
-          <YiQiRuntimeBanner title="Modo de demostración" description="Este catálogo usa datos de ejemplo y no consulta APIs productivas." />
-        </section>
-
-        <section className="docs-section">
-          <h2>Trust stats</h2>
-          <div className="yiqi-trust-grid"><YiQiTrustStat value="99,9%" label="Disponibilidad" /><YiQiTrustStat value="24/7" label="Monitoreo" /><YiQiTrustStat value="3" label="Ambientes" /></div>
-        </section>
-      </div>
     </main>
   )
 }

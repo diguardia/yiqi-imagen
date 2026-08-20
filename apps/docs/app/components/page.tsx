@@ -17,6 +17,7 @@ const groups = [
     components: [
       ['YiQiButton', 'Botones y variantes base.'],
       ['YiQiInput', 'Campo de entrada con label y accion opcional.'],
+      ['YiQiTextarea', 'Campo multilínea con el mismo contrato visual de formularios.'],
       ['YiQiCheckbox', 'Checkbox accesible basado en Radix.'],
     ],
   },
@@ -58,7 +59,7 @@ export default function ComponentsPage() {
         <div>
           <p className="docs-kicker">@yiqi/ui · component map</p>
           <h1 className="docs-title">Componentes por grupo</h1>
-          <p className="docs-subtitle">Cada componente tiene una responsabilidad principal y un entrypoint estable. El dev puede importar solo el grupo que necesita sin recorrer toda la implementacion.</p>
+          <p className="docs-subtitle">Cada componente tiene una responsabilidad principal y un entrypoint estable. Esta superficie documenta contratos; la aplicación completa vive separada en <code>/app/</code>.</p>
         </div>
       </header>
 
