@@ -129,7 +129,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8";
+  --ds-version: "1.2.8.1";
 
   /* Layout */
   --topbar-h:  56px;
@@ -677,12 +677,20 @@ html[data-theme="light"] .brand-logo-light { display: block; }
   border: 1px solid transparent;
 }
 
-/* Dot antes del texto */
+/* Dot antes del texto.
+   v1.2.8.1: el punto lleva color en la BASE, no solo en las variantes. Antes
+   solo lo pintaban .badge-cyan, -green, -amber, -red, -blue y -muted, asi que
+   un .badge sin variante —uso valido y usado: "Soporte" en la tabla de backlog—
+   dibujaba un circulo transparente de 6px con su gap de 5: invisible, pero
+   ocupando 11px. El texto quedaba corrido respecto de sus hermanos de la misma
+   columna y parecia un error de alineacion. El ::before vive en la base, asi
+   que dejarlo sin color era un olvido, no una decision. */
 .badge::before {
   content: "";
   width: 6px;
   height: 6px;
   border-radius: 50%;
+  background: var(--muted-2);
 }
 
 .badge-cyan {
