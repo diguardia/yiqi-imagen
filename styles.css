@@ -129,7 +129,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.15";
+  --ds-version: "1.2.8.16";
 
   /* Layout */
   --topbar-h:  56px;
@@ -996,9 +996,14 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
    una sola columna sin media queries. */
 .dashboard-grid   { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 420px)); justify-content: start; gap: 12px; }
 .summary-grid     { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
-.watchlist-grid   { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.watchlist-grid   { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 340px)); justify-content: start; gap: 12px; }
 .decision-grid,
-.highlight-cards  { display: grid; gap: 10px; }
+/* v1.2.8.16 — de columna unica / columnas fijas a auto-fill con techo. Estas
+   tres listas apilaban sus cards a lo ancho del contenedor: en 1440px daban
+   filas de 1400 con dos datos adentro, y las barras de progreso se estiraban
+   con ellas. auto-fill reagrupa sin estirar; el maximo del minmax es lo que
+   impide que el sobrante se reparta entre las pistas. */
+.highlight-cards  { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 420px)); justify-content: start; gap: 10px; }
 .progress-list    { display: grid; gap: 12px; }
 
 /* ── 16. TABLA ────────────────────────────────────────────── */
@@ -3323,7 +3328,7 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
 
 /* ── 48. BRANCH LIST — RANKING CON BARRA ─────────────────── */
 /* Lista comparativa: nombre + detalle, cifra a la derecha, barra abajo. */
-.branch-list { display: grid; gap: 12px; }
+.branch-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 440px)); justify-content: start; gap: 12px; }
 .branch-row {
   display: grid; grid-template-columns: 1fr auto;
   grid-template-areas: "meta rev" "bar bar";
