@@ -104,11 +104,14 @@
   .topbar-brand svg{ height:39px; width:auto; display:block; color:var(--text); }
   .topbar-pill{ padding:4px 10px; border-radius:var(--radius-pill); background:var(--bg-elev-2); font:600 10px var(--mono); color:var(--muted-2); text-transform:uppercase; letter-spacing:.12em; }
   .topbar-right{ display:flex; align-items:center; gap:14px; }
-  /* Tablas sortables (indicador de orden) */
-  .data-table th{ cursor:pointer; }
-  .data-table th::after{ content:" ↕"; font-size:9px; opacity:.45; }
-  .data-table th.sorted-asc::after{ content:" ↑"; opacity:1; color:var(--cyan); }
-  .data-table th.sorted-desc::after{ content:" ↓"; opacity:1; color:var(--cyan); }
+  /* Tablas sortables (indicador de orden) — v1.2.8.7: antes esto pintaba
+     la flecha y el cursor en TODAS las .data-table, sortables o no, y
+     prometia un orden que ninguna tabla del showcase implementaba. */
+  .table-sortable th{ cursor:pointer; }
+  .table-sortable th::after{ content:" ↕"; font-size:9px; opacity:.45; }
+  .table-sortable th.sorted-asc::after{ content:" ↑"; opacity:1; color:var(--cyan); }
+  .table-sortable th.sorted-desc::after{ content:" ↓"; opacity:1; color:var(--cyan); }
+  .table-sortable th:focus-visible{ outline:2px solid var(--cyan); outline-offset:-2px; }
   .sc-chart-cap{ margin-top:10px; font:500 11px var(--mono); color:var(--muted); min-height:15px; }
   .sc-iar .iar{ fill:var(--text); } .sc-iar .iar-a{ fill:var(--cyan); }
   /* Logo YiQi animado (login §22) — librería YiQiLogo */
@@ -478,6 +481,58 @@
     max-height: 60dvh; overflow-y: auto; }
 }
 #scBottomNav .ds-bottomnav-item { cursor: pointer; border: 0; background: transparent; font: inherit; }
+
+/* ── Card de estados de pedido ──────────────────────────────────────
+   .est-solido replica el chip del ERP actual para poder compararlo con
+   el .badge del DS. NO es canonico: si se elige esta forma hay que
+   llevarla al DS como variante, no dejarla suelta aca. v1.2.8.5. */
+/* Texto blanco en los seis, como el ERP. Los tokens del DS no lo sostienen:
+   blanco sobre --cyan da 1,90:1 y sobre --amber 1,83:1 en tema oscuro, muy
+   por debajo del 4,5:1 de AA (y 11px bold no califica como texto grande).
+   Por eso el chip solido lleva su propio relleno, el mas claro de cada tono
+   que llega a 4,5:1 con blanco, fijo en los dos temas. No son tokens del DS
+   y no deben usarse en otro lado: son la replica del chip del ERP. v1.2.8.7 */
+.est-solido{display:inline-block;padding:3px 9px;border-radius:5px;
+  font:500 11px var(--sans);color:#fff;white-space:nowrap}
+.est-solido.badge-blue {background:#3a78c1}  /* 4,53:1 */
+.est-solido.badge-cyan {background:#0081a1}  /* 4,51:1 */
+.est-solido.badge-amber{background:#9e6d14}  /* 4,51:1 */
+.est-solido.badge-green{background:#0d8763}  /* 4,50:1 */
+.est-solido.badge-red  {background:#c74d61}  /* 4,50:1 */
+.est-solido.badge-indigo {background:#6365f0}  /* 4,52:1 */
+.est-solido.badge-violet {background:#8659ed}  /* 4,50:1 */
+.est-solido.badge-magenta{background:#c6487e}  /* 4,54:1 */
+.est-solido.badge-muted{background:#76757b}  /* 4,56:1 */
+.est-solido::before{content:none}
+/* .est-tit eliminada en v1.2.8.7: era .sc-label con otro nombre. */
+.sc-card > .sc-label{display:block;margin:0 0 8px}
+/* .est-nota y .est-alerta eliminadas en v1.2.8.7: reinventaban la nota
+   del DS (styles.css 4b, catalogo §64) y ademas .est-alerta usaba franja
+   lateral, prohibida por §2 «borde de un solo lado». Se usa .ds-note
+   + .ds-note--warn. El margen inferior lo pone la card, no la nota. */
+.sc-card > .ds-note{margin:0 0 18px}
+/* —— Tabla completa de estados (v1.2.8.7) ——
+   .est-proceso NO es un .badge: un estado es estable y se filtra por el,
+   un proceso dura segundos y no se filtra. Por eso no lleva color
+   semantico de estado, lleva pulso. */
+.est-sw{display:inline-block;width:11px;height:11px;border-radius:3px;vertical-align:-1px;
+  margin-right:7px;box-shadow:inset 0 0 0 1px rgba(127,136,150,.35)}
+.est-mono{font:500 11px var(--mono);color:var(--muted);white-space:nowrap}
+.est-org{font:700 9px var(--mono);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.est-org.ok{color:var(--green)}
+.est-org.prop{color:var(--muted-2)}
+.est-proceso{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;
+  border-radius:var(--radius-pill);font:600 11px var(--sans);color:var(--muted);
+  background:var(--bg-soft);box-shadow:inset 0 0 0 1px var(--line);white-space:nowrap}
+.est-proceso::before{content:"";width:6px;height:6px;border-radius:50%;
+  background:var(--muted-2);animation:est-pulso 1.1s ease-in-out infinite}
+.est-proceso.err{color:var(--red);box-shadow:inset 0 0 0 1px var(--red-a30)}
+.est-proceso.err::before{background:var(--red);animation:none}
+@keyframes est-pulso{0%,100%{opacity:.25;transform:scale(.75)}50%{opacity:1;transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.est-proceso::before{animation:none;opacity:.7}}
+.est-full td{vertical-align:middle}
+.est-leyenda{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;padding-top:16px;
+  border-top:1px solid var(--line)}
 </style>
 </head>
 <body>
@@ -1819,6 +1874,112 @@
   <h2 class="sc-section-h">Tablas</h2>
   <p class="sc-section-sub">Tipos de tabla usados en apps e informes (clase <code class="sc-mono">.data-table</code>, headers reales · <strong>datos simulados</strong>). Toca una fila para ver el detalle.</p>
   <div class="sc-tbl-grid">
+    <article class="sc-card wide" id="card-tbl-estados">
+      <div class="sc-card-h"><span class="sc-card-title">Pedidos &middot; los seis estados</span><a class="ds-xref" href="../yiqi-design-system.html#badges"><i class="ph ph-anchor-simple"></i> &sect;Badges</a></div>
+      <p class="sc-card-sub">Los seis estados de un pedido con su color. <strong>Datos inventados</strong> &mdash; ning&uacute;n nombre sale de una instancia real.</p>
+
+      <div class="ds-note ds-note--warn">
+        <strong>&laquo;Anulada&raquo; y &laquo;Cancelada&raquo; son dos cosas distintas que suenan igual.</strong>
+        Si las dos van en rojo, en una lista larga no se distinguen y el color deja de servir para
+        lo que sirve. Ac&aacute; est&aacute;n separadas: <strong>rojo</strong> para Anulada &mdash; el comprobante se
+        anul&oacute;, hay rastro fiscal &mdash; y <strong>gris</strong> para Cancelada, que es una baja
+        administrativa antes de facturar y no deja comprobante. Si en el ERP significan lo mismo,
+        sobra una de las dos palabras.
+      </div>
+
+      <div class="ds-note">
+        <strong>Dos formas de dibujar el mismo chip, y hay que elegir una.</strong> Arriba, el chip
+        s&oacute;lido que usa el ERP hoy. Abajo, el <code>.badge</code> del DS: fondo suave, texto del color
+        y punto. El s&oacute;lido grita m&aacute;s en una lista larga; el del DS convive mejor con el resto de la
+        fila y es el que ya corre en Analytics&nbsp;Pro y en el showcase.
+      </div>
+
+      <div class="sc-label">Chip s&oacute;lido &mdash; como el ERP actual</div>
+      <div class="table-wrap"><table class="data-table"><thead><tr><th>Cliente</th><th class="num">Pto. venta</th><th>Tipo</th><th class="num">Nro</th><th>Provincia</th><th>Sucursal</th><th class="num">Fecha de creación</th><th>Estado</th></tr></thead><tbody><tr><td>Distribuidora del Sur S.A.</td><td class="num">1</td><td>B</td><td class="num sc-muted">—</td><td>BUENOS AIRES</td><td>Casa Central</td><td class="num sc-mono">15/07/2026 12:00</td><td><span class="est-solido badge-blue">Proyectada</span></td></tr><tr><td>Comercial Andina</td><td class="num">1</td><td>B</td><td class="num">1487</td><td>SANTA FE</td><td>Norte</td><td class="num sc-mono">03/06/2026 10:33</td><td><span class="est-solido badge-cyan">Emitida</span></td></tr><tr><td>Ferretería del Puerto</td><td class="num">1</td><td>B</td><td class="num">1486</td><td class="sc-muted">—</td><td>Casa Central</td><td class="num sc-mono">28/05/2026 16:30</td><td><span class="est-solido badge-amber">Entregada</span></td></tr><tr><td>Mayorista Litoral</td><td class="num">2</td><td>X</td><td class="num">0911</td><td class="sc-muted">—</td><td>Sur</td><td class="num sc-mono">20/04/2026 13:49</td><td><span class="est-solido badge-green">Cobrada</span></td></tr><tr><td>Importadora Pampa S.R.L.</td><td class="num">1</td><td>B</td><td class="num">1402</td><td>SANTA FE</td><td>Norte</td><td class="num sc-mono">06/06/2026 09:19</td><td><span class="est-solido badge-red">Anulada</span></td></tr><tr><td>Textil Rivadavia</td><td class="num">2</td><td>A</td><td class="num sc-muted">—</td><td>CÓRDOBA</td><td>Sur</td><td class="num sc-mono">21/04/2026 11:59</td><td><span class="est-solido badge-muted">Cancelada</span></td></tr><tr><td>Insumos Patagonia</td><td class="num">1</td><td>B</td><td class="num sc-muted">—</td><td>BUENOS AIRES</td><td>Casa Central</td><td class="num sc-mono">20/04/2026 11:44</td><td><span class="est-solido badge-blue">Proyectada</span></td></tr><tr><td>Casa Belgrano</td><td class="num">1</td><td>B</td><td class="num">1485</td><td>CAPITAL</td><td>Casa Central</td><td class="num sc-mono">06/04/2026 09:02</td><td><span class="est-solido badge-green">Cobrada</span></td></tr></tbody>
+      </table></div>
+
+      <div class="sc-label" style="margin-top:22px">Chip del DS &mdash; <code>.badge</code></div>
+      <div class="table-wrap"><table class="data-table"><thead><tr><th>Cliente</th><th class="num">Pto. venta</th><th>Tipo</th><th class="num">Nro</th><th>Provincia</th><th>Sucursal</th><th class="num">Fecha de creación</th><th>Estado</th></tr></thead><tbody><tr><td>Distribuidora del Sur S.A.</td><td class="num">1</td><td>B</td><td class="num sc-muted">—</td><td>BUENOS AIRES</td><td>Casa Central</td><td class="num sc-mono">15/07/2026 12:00</td><td><span class="badge badge-blue">Proyectada</span></td></tr><tr><td>Comercial Andina</td><td class="num">1</td><td>B</td><td class="num">1487</td><td>SANTA FE</td><td>Norte</td><td class="num sc-mono">03/06/2026 10:33</td><td><span class="badge badge-cyan">Emitida</span></td></tr><tr><td>Ferretería del Puerto</td><td class="num">1</td><td>B</td><td class="num">1486</td><td class="sc-muted">—</td><td>Casa Central</td><td class="num sc-mono">28/05/2026 16:30</td><td><span class="badge badge-amber">Entregada</span></td></tr><tr><td>Mayorista Litoral</td><td class="num">2</td><td>X</td><td class="num">0911</td><td class="sc-muted">—</td><td>Sur</td><td class="num sc-mono">20/04/2026 13:49</td><td><span class="badge badge-green">Cobrada</span></td></tr><tr><td>Importadora Pampa S.R.L.</td><td class="num">1</td><td>B</td><td class="num">1402</td><td>SANTA FE</td><td>Norte</td><td class="num sc-mono">06/06/2026 09:19</td><td><span class="badge badge-red">Anulada</span></td></tr><tr><td>Textil Rivadavia</td><td class="num">2</td><td>A</td><td class="num sc-muted">—</td><td>CÓRDOBA</td><td>Sur</td><td class="num sc-mono">21/04/2026 11:59</td><td><span class="badge badge-muted">Cancelada</span></td></tr><tr><td>Insumos Patagonia</td><td class="num">1</td><td>B</td><td class="num sc-muted">—</td><td>BUENOS AIRES</td><td>Casa Central</td><td class="num sc-mono">20/04/2026 11:44</td><td><span class="badge badge-blue">Proyectada</span></td></tr><tr><td>Casa Belgrano</td><td class="num">1</td><td>B</td><td class="num">1485</td><td>CAPITAL</td><td>Casa Central</td><td class="num sc-mono">06/04/2026 09:02</td><td><span class="badge badge-green">Cobrada</span></td></tr></tbody>
+      </table></div>
+
+      <div class="est-leyenda">
+        <span class="badge badge-blue">Proyectada</span>
+        <span class="badge badge-cyan">Emitida</span>
+        <span class="badge badge-amber">Entregada</span>
+        <span class="badge badge-green">Cobrada</span>
+        <span class="badge badge-red">Anulada</span>
+        <span class="badge badge-muted">Cancelada</span>
+      </div>
+      <p class="sc-card-sub" style="margin-top:12px"><strong>Azul, cian, &aacute;mbar y rojo son los que el
+      ERP ya usa</strong> &mdash; no se tocan, el operario los tiene aprendidos. Entran <strong>verde para
+      Cobrada</strong>, que hoy no tiene color propio, y <strong>gris para Cancelada</strong>, que la separa de
+      Anulada sin inventar un color nuevo. Los seis salen de variantes que el DS ya tiene.</p>
+
+      <div class="ds-note" style="margin-top:14px">
+        <strong>Aparte:</strong> &laquo;Generando cup&oacute;n Mercado Pago&raquo; no es un estado del pedido, es un
+        proceso corriendo. No deber&iacute;a usar el mismo chip: un estado es estable y se puede filtrar
+        por &eacute;l, un proceso dura segundos y no se filtra. Va gris con indicador de actividad, no
+        como s&eacute;ptimo color.
+      </div>
+    </article>
+
+    <article class="sc-card wide est-full" id="card-tbl-estados-full">
+      <div class="sc-card-h"><span class="sc-card-title">Pedidos &middot; todos los estados</span><a class="ds-xref" href="../yiqi-design-system.html#badges"><i class="ph ph-anchor-simple"></i> &sect;Badges</a><span class="sc-mail sc-muted">tabla sortable &middot; click en cualquier columna</span><button type="button" class="ds-copy" data-ds-copy="card" aria-label="Copiar markup del componente" title="Copiar markup"><i class="ph ph-copy"></i></button></div>
+      <p class="sc-card-sub">Los 15 estados con su c&oacute;digo de color. Ordena por las ocho columnas &mdash; <strong>Fase</strong> y <strong>Color</strong> ordenan por el circuito, no alfab&eacute;ticamente, as&iacute; se ven agrupados los que comparten color.</p>
+
+      <div class="ds-note ds-note--warn">
+        <strong>El camino feliz avanza de color en color; las excepciones comparten uno.</strong>
+        La paleta tiene nueve tonos usables &mdash;<code>--indigo</code>, <code>--violet</code> y
+        <code>--magenta</code> ya eran tokens del sistema y desde v1.2.8.8 tienen variante de
+        <code>.badge</code>&mdash; as&iacute; que los siete pasos del circuito llevan cada uno el suyo y se
+        leen como movimiento: azul, cian, &iacute;ndigo, violeta, &aacute;mbar, verde. Los tres estados de
+        problema comparten rojo <em>a prop&oacute;sito</em>: para quien mira la lista son la misma se&ntilde;al
+        &mdash;algo se rompi&oacute;&mdash; y el texto del chip dice cu&aacute;l de las tres.
+      </div>
+
+      <div class="table-wrap"><table class="data-table table-sortable" id="tbl-estados-full">
+        <thead><tr>
+          <th class="num" data-type="num" title="Orden en el circuito">#</th>
+          <th>Estado</th><th>Chip</th><th>Fase</th>
+          <th>Variante</th><th>Color</th><th>Origen</th><th>Significa</th>
+        </tr></thead>
+        <tbody>
+        <tr><td class="num">1</td><td>Proyectada</td><td data-sort="01"><span class="badge badge-blue">Proyectada</span></td><td data-sort="1">Borrador</td><td><span class="est-mono">.badge-blue</span></td><td data-sort="01"><span class="est-sw" style="background:var(--blue)"></span><span class="est-mono" data-token="--blue">#4d9fff</span></td><td data-sort="1"><span class="est-org ok">ERP</span></td><td class="sc-muted">Cargada, todav&iacute;a sin comprobante</td></tr>
+        <tr><td class="num">2</td><td>Emitida</td><td data-sort="02"><span class="badge badge-cyan">Emitida</span></td><td data-sort="2">En curso</td><td><span class="est-mono">.badge-cyan</span></td><td data-sort="02"><span class="est-sw" style="background:var(--cyan)"></span><span class="est-mono" data-token="--cyan">#00ccff</span></td><td data-sort="1"><span class="est-org ok">ERP</span></td><td class="sc-muted">Comprobante emitido con CAE</td></tr>
+        <tr><td class="num">3</td><td>Preparada</td><td data-sort="03"><span class="badge badge-indigo">Preparada</span></td><td data-sort="2">En curso</td><td><span class="est-mono">.badge-indigo</span></td><td data-sort="03"><span class="est-sw" style="background:var(--indigo)"></span><span class="est-mono" data-token="--indigo">#00ccff</span></td><td data-sort="2"><span class="est-org prop">Propuesto</span></td><td class="sc-muted">Picking cerrado, lista para salir</td></tr>
+        <tr><td class="num">4</td><td>Despachada</td><td data-sort="04"><span class="badge badge-violet">Despachada</span></td><td data-sort="2">En curso</td><td><span class="est-mono">.badge-violet</span></td><td data-sort="04"><span class="est-sw" style="background:var(--violet)"></span><span class="est-mono" data-token="--violet">#00ccff</span></td><td data-sort="2"><span class="est-org prop">Propuesto</span></td><td class="sc-muted">En manos del transporte</td></tr>
+        <tr><td class="num">5</td><td>Entregada</td><td data-sort="05"><span class="badge badge-amber">Entregada</span></td><td data-sort="3">Pendiente</td><td><span class="est-mono">.badge-amber</span></td><td data-sort="05"><span class="est-sw" style="background:var(--amber)"></span><span class="est-mono" data-token="--amber">#ffb020</span></td><td data-sort="1"><span class="est-org ok">ERP</span></td><td class="sc-muted">Recibida por el cliente, sin cobrar</td></tr>
+        <tr><td class="num">6</td><td>Cobrada parcial</td><td data-sort="05"><span class="badge badge-amber">Cobrada parcial</span></td><td data-sort="3">Pendiente</td><td><span class="est-mono">.badge-amber</span></td><td data-sort="05"><span class="est-sw" style="background:var(--amber)"></span><span class="est-mono" data-token="--amber">#ffb020</span></td><td data-sort="2"><span class="est-org prop">Propuesto</span></td><td class="sc-muted">Pago a cuenta, queda saldo abierto</td></tr>
+        <tr><td class="num">7</td><td>Devuelta</td><td data-sort="06"><span class="badge badge-magenta">Devuelta</span></td><td data-sort="3">Pendiente</td><td><span class="est-mono">.badge-magenta</span></td><td data-sort="06"><span class="est-sw" style="background:var(--magenta)"></span><span class="est-mono" data-token="--magenta">#ffb020</span></td><td data-sort="2"><span class="est-org prop">Propuesto</span></td><td class="sc-muted">Mercader&iacute;a de vuelta, nota de cr&eacute;dito</td></tr>
+        <tr><td class="num">8</td><td>Cobrada</td><td data-sort="07"><span class="badge badge-green">Cobrada</span></td><td data-sort="4">Cerrada</td><td><span class="est-mono">.badge-green</span></td><td data-sort="07"><span class="est-sw" style="background:var(--green)"></span><span class="est-mono" data-token="--green">#15d49c</span></td><td data-sort="1"><span class="est-org ok">ERP</span></td><td class="sc-muted">Saldo en cero, nada por hacer</td></tr>
+        <tr><td class="num">9</td><td>Vencida</td><td data-sort="08"><span class="badge badge-red">Vencida</span></td><td data-sort="5">Problema</td><td><span class="est-mono">.badge-red</span></td><td data-sort="08"><span class="est-sw" style="background:var(--red)"></span><span class="est-mono" data-token="--red">#ff637d</span></td><td data-sort="2"><span class="est-org prop">Propuesto</span></td><td class="sc-muted">Impaga y pasada la fecha</td></tr>
+        <tr><td class="num">10</td><td>Rechazada</td><td data-sort="08"><span class="badge badge-red">Rechazada</span></td><td data-sort="5">Problema</td><td><span class="est-mono">.badge-red</span></td><td data-sort="08"><span class="est-sw" style="background:var(--red)"></span><span class="est-mono" data-token="--red">#ff637d</span></td><td data-sort="2"><span class="est-org prop">Propuesto</span></td><td class="sc-muted">ARCA no otorg&oacute; el CAE</td></tr>
+        <tr><td class="num">11</td><td>Anulada</td><td data-sort="08"><span class="badge badge-red">Anulada</span></td><td data-sort="5">Problema</td><td><span class="est-mono">.badge-red</span></td><td data-sort="08"><span class="est-sw" style="background:var(--red)"></span><span class="est-mono" data-token="--red">#ff637d</span></td><td data-sort="1"><span class="est-org ok">ERP</span></td><td class="sc-muted">Comprobante anulado, con rastro fiscal</td></tr>
+        <tr><td class="num">12</td><td>Cancelada</td><td data-sort="09"><span class="badge badge-muted">Cancelada</span></td><td data-sort="6">Neutra</td><td><span class="est-mono">.badge-muted</span></td><td data-sort="09"><span class="est-sw" style="background:var(--muted-2)"></span><span class="est-mono" data-token="--muted-2">#7d7c82</span></td><td data-sort="1"><span class="est-org ok">ERP</span></td><td class="sc-muted">Baja antes de facturar, sin comprobante</td></tr>
+        <tr><td class="num">13</td><td>Generando cup&oacute;n Mercado Pago</td><td data-sort="10"><span class="est-proceso">Generando cup&oacute;n Mercado Pago</span></td><td data-sort="7">Proceso</td><td><span class="est-mono">.est-proceso</span></td><td data-sort="10"><span class="est-sw" style="background:var(--muted-2)"></span><span class="est-mono" data-token="--muted-2">#7d7c82</span></td><td data-sort="1"><span class="est-org ok">ERP</span></td><td class="sc-muted">Esperando al proveedor de pago</td></tr>
+        <tr><td class="num">14</td><td>Enviando a ARCA</td><td data-sort="10"><span class="est-proceso">Enviando a ARCA</span></td><td data-sort="7">Proceso</td><td><span class="est-mono">.est-proceso</span></td><td data-sort="10"><span class="est-sw" style="background:var(--muted-2)"></span><span class="est-mono" data-token="--muted-2">#7d7c82</span></td><td data-sort="2"><span class="est-org prop">Propuesto</span></td><td class="sc-muted">Esperando el CAE</td></tr>
+        <tr><td class="num">15</td><td>Error al generar cup&oacute;n</td><td data-sort="11"><span class="est-proceso err">Error al generar cup&oacute;n</span></td><td data-sort="7">Proceso</td><td><span class="est-mono">.est-proceso.err</span></td><td data-sort="11"><span class="est-sw" style="background:var(--red)"></span><span class="est-mono" data-token="--red">#ff637d</span></td><td data-sort="2"><span class="est-org prop">Propuesto</span></td><td class="sc-muted">Fall&oacute;; se puede reintentar</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="ds-note" style="margin-top:18px">
+        <strong>Origen &laquo;ERP&raquo; son los siete que ya existen</strong> &mdash; los seis que se nombraron
+        m&aacute;s el proceso del cup&oacute;n de la captura. Los otros ocho son lectura del circuito
+        (hay Picking List, hay Enviopack, hay factura electr&oacute;nica) y <strong>necesitan
+        confirmarse contra el ERP antes de darlos por buenos</strong>.
+      </div>
+
+      <div class="ds-note ds-note--warn">
+        <strong>Dos preguntas abiertas.</strong>
+        <strong>1.</strong> &laquo;Anulada&raquo; y &laquo;Cancelada&raquo; siguen sonando igual: rojo para la anulaci&oacute;n
+        con rastro fiscal, gris para la baja administrativa. Si en el ERP significan lo mismo,
+        son 14 estados y no 15.
+        <strong>2.</strong> Tres rojos &mdash; Vencida, Rechazada, Anulada &mdash; no tienen la misma urgencia:
+        una se cobra insistiendo, otra se reintenta, la tercera ya termin&oacute;. Vencida es la
+        candidata a moverse a &aacute;mbar, porque todav&iacute;a es recuperable.
+      </div>
+    </article>
+
     <article class="sc-card wide" id="card-tbl-backlog">
       <div class="sc-card-h"><span class="sc-card-title">Backlog · tickets</span><a class="ds-xref" href="../yiqi-design-system.html#tables"><i class="ph ph-anchor-simple"></i> Ver fuente</a><span class="badge badge-amber" style="font:600 9px var(--mono)">INFORME</span><button type="button" class="ds-copy" data-ds-copy="card" aria-label="Copiar markup del componente" title="Copiar markup"><i class="ph ph-copy"></i></button></div>
       <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap">
@@ -3743,6 +3904,96 @@ document.addEventListener('DOMContentLoaded', function(){
   }
   window.addEventListener('DOMContentLoaded', sincronizar);
   sincronizar();
+})();
+
+/* ── Tablas sortables ───────────────────────────────────────────────
+   .table-sortable solo tenia implementacion dentro de
+   yiqi-design-system.html. En el showcase la clase estaba puesta en
+   dos tablas que no ordenaban nada, y el CSS pintaba la flecha en
+   todas las .data-table. v1.2.8.7.
+   Una celda puede traer data-sort para ordenar por algo distinto de
+   lo que muestra (un chip ordena por su color, una fase por su lugar
+   en el circuito y no por la inicial). */
+(function () {
+  function valor(td, tipo) {
+    if (!td) return tipo === 'num' ? -Infinity : '';
+    var raw = td.getAttribute('data-sort');
+    if (raw === null) raw = td.textContent;
+    raw = raw.replace(/\u00a0/g, ' ').trim();
+    if (tipo === 'num') {
+      var n = parseFloat(raw.replace(/[^0-9,.\-]/g, '').replace(/\./g, '').replace(',', '.'));
+      return isNaN(n) ? -Infinity : n;
+    }
+    if (tipo === 'fecha') {
+      var p = raw.split(' ')[0].split('/');
+      if (p.length === 3) return new Date(p[2] + '-' + p[1] + '-' + p[0]).getTime() || 0;
+      return Date.parse(raw) || 0;
+    }
+    return raw.toLowerCase();
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('table.table-sortable'), function (tabla) {
+    var tbody = tabla.tBodies[0]; if (!tbody) return;
+    var ths = Array.prototype.slice.call(tabla.querySelectorAll('thead th'));
+    ths.forEach(function (th, i) {
+      th.setAttribute('aria-sort', 'none');
+      if (!th.hasAttribute('tabindex')) th.tabIndex = 0;
+      function ordenar() {
+        var asc = th.getAttribute('aria-sort') !== 'ascending';
+        var tipo = th.getAttribute('data-type') || (th.classList.contains('num') ? 'num' : 'text');
+        var filas = Array.prototype.slice.call(tbody.rows);
+        filas.sort(function (a, b) {
+          var va = valor(a.cells[i], tipo), vb = valor(b.cells[i], tipo);
+          if (va < vb) return asc ? -1 : 1;
+          if (va > vb) return asc ? 1 : -1;
+          return 0;
+        });
+        filas.forEach(function (f) { tbody.appendChild(f); });
+        ths.forEach(function (o) {
+          o.setAttribute('aria-sort', 'none');
+          o.classList.remove('sorted-asc', 'sorted-desc');
+        });
+        th.setAttribute('aria-sort', asc ? 'ascending' : 'descending');
+        th.classList.add(asc ? 'sorted-asc' : 'sorted-desc');
+      }
+      th.addEventListener('click', ordenar);
+      th.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); ordenar(); }
+      });
+    });
+  });
+})();
+
+/* ── Hex vivo de la tabla de estados ────────────────────────────────
+   El numero se leia de un literal escrito a mano: en tema claro los
+   tokens cambian y el cuadradito dejaba de coincidir con el hex de al
+   lado. Ahora sale del token y se recalcula al cambiar de tema. v1.2.8.7 */
+(function () {
+  var celdas = document.querySelectorAll('#tbl-estados-full [data-token]');
+  if (!celdas.length) return;
+  function hex(v) {
+    v = (v || '').trim();
+    if (v.charAt(0) === '#') return v.toLowerCase();
+    var m = v.match(/(\d+)[,\s]+(\d+)[,\s]+(\d+)/);
+    if (!m) return v;
+    return '#' + [1, 2, 3].map(function (i) {
+      return ('0' + parseInt(m[i], 10).toString(16)).slice(-2);
+    }).join('');
+  }
+  function pintar() {
+    var cs = getComputedStyle(document.documentElement);
+    Array.prototype.forEach.call(celdas, function (c) {
+      c.textContent = hex(cs.getPropertyValue(c.getAttribute('data-token')));
+    });
+  }
+  pintar();
+  if (window.MutationObserver) {
+    new MutationObserver(pintar).observe(document.documentElement,
+      { attributes: true, attributeFilter: ['class', 'data-tema', 'data-theme'] });
+  }
+  if (window.matchMedia) {
+    var mq = window.matchMedia('(prefers-color-scheme: light)');
+    if (mq.addEventListener) mq.addEventListener('change', pintar);
+  }
 })();
 </script>
 </body>

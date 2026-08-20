@@ -476,6 +476,24 @@ body.preview-open .ds-layout { display: none !important; }
 <tr><th>Versión</th><th>Fecha</th><th>Tipo</th><th>Detalle</th></tr>
 </thead>
 <tbody>
+<tr id="chg-showcase-estados">
+<td class="mono-cell">v1.2.8.7</td>
+<td class="mono-cell">20/08/2026</td>
+<td><span class="badge badge-red">NO HACER</span></td>
+<td><strong>El showcase reinventaba la nota del DS, y con franja lateral &mdash; el recurso que &sect;2 prohibe por nombre.</strong> Las cards de estados de pedido llevaban <code>.est-nota</code> (una copia de <code>.ds-note</code> con otro fondo) y <code>.est-alerta</code>, que era <code>box-shadow: inset 3px 0 0 var(--amber)</code>: exactamente el acento lateral que <strong>&sect;2 &laquo;Prohibido &mdash; borde de un solo lado&raquo;</strong> declara fuera del sistema. Tambi&eacute;n hab&iacute;a un <code>.est-tit</code> que era <code>.sc-label</code> con otro nombre. Las tres se eliminan: las notas pasan a <code>.ds-note</code> / <code>.ds-note--warn</code> &mdash; &eacute;nfasis por fondo tonal, como manda &sect;64 &mdash; y los r&oacute;tulos a <code>.sc-label</code>. <strong>Nada de esto llegaba desde afuera: se escribi&oacute; en el propio showcase dos versiones antes</strong>, mirando la card en vez del sistema.<div class="chg-links"><a class="ds-xref" href="#reglas"><i class="ph ph-anchor-simple"></i> &sect;2 Bordes</a><a class="ds-xref" href="examples/showcase.html?tab=tablas&amp;card=card-tbl-estados"><i class="ph ph-play-circle"></i> Ver en vivo</a><button class="ds-copy chg-share" data-ds-copy="link" title="Copiar link a este cambio" aria-label="Copiar link a este cambio"><i class="ph ph-link"></i>Compartir</button></div></td>
+</tr>
+<tr id="chg-tablas-sortables">
+<td class="mono-cell">v1.2.8.7</td>
+<td class="mono-cell">20/08/2026</td>
+<td><span class="badge badge-amber">CAMBIO</span></td>
+<td><strong><code>.table-sortable</code> no ordenaba nada fuera de este cat&aacute;logo, y el showcase promet&iacute;a el orden en todas sus tablas.</strong> La implementaci&oacute;n viv&iacute;a solo en el <code>&lt;script&gt;</code> de <code>yiqi-design-system.html</code>: en <code>showcase.html</code> la clase estaba puesta en dos tablas que al hacer click no hac&iacute;an nada, y adem&aacute;s el CSS local pintaba la flecha &laquo;&#8597;&raquo; y <code>cursor:pointer</code> sobre <strong>toda</strong> <code>.data-table</code>, sortable o no. Ahora el showcase tiene su propio ordenador, el indicador queda scopeado a <code>.table-sortable</code>, los <code>th</code> son foco de teclado y responden a Enter y barra, y se marca <code>aria-sort</code>. Una celda puede traer <code>data-sort</code> para ordenar por algo distinto de lo que muestra &mdash; un chip ordena por su color, una fase por su lugar en el circuito y no por la inicial.<div class="chg-links"><a class="ds-xref" href="#tables"><i class="ph ph-anchor-simple"></i> &sect;Tablas</a><a class="ds-xref" href="examples/showcase.html?tab=tablas&amp;card=card-tbl-estados-full"><i class="ph ph-play-circle"></i> Ver en vivo</a><button class="ds-copy chg-share" data-ds-copy="link" title="Copiar link a este cambio" aria-label="Copiar link a este cambio"><i class="ph ph-link"></i>Compartir</button></div></td>
+</tr>
+<tr id="chg-estados-pedido">
+<td class="mono-cell">v1.2.8.7</td>
+<td class="mono-cell">20/08/2026</td>
+<td><span class="badge badge-cyan">NUEVO</span></td>
+<td><strong>Tabla de referencia de los 15 estados de pedido, con el color como fase y no como identidad.</strong> Doce estados de documento y seis colores en la paleta: el color no puede identificar al estado sin inventar variantes nuevas. La decisi&oacute;n es que <strong>el color diga la fase</strong> &mdash;cian en movimiento, &aacute;mbar falta algo, verde cerrado, rojo problema, gris nada&mdash; y el texto del chip diga cu&aacute;l es. Aparte, tres estados de proceso (<code>.est-proceso</code>, local del showcase) que <strong>no son <code>.badge</code></strong>: un estado es estable y se filtra por &eacute;l, un proceso dura segundos y no se filtra, as&iacute; que va gris con pulso y tiene su gemelo de error. Siete de los quince existen hoy en el ERP; los otros ocho son lectura del circuito y <strong>est&aacute;n marcados como propuestos hasta que se confirmen</strong>.<div class="chg-links"><a class="ds-xref" href="#badges"><i class="ph ph-anchor-simple"></i> &sect;Badges</a><a class="ds-xref" href="examples/showcase.html?tab=tablas&amp;card=card-tbl-estados-full"><i class="ph ph-play-circle"></i> Ver en vivo</a><button class="ds-copy chg-share" data-ds-copy="link" title="Copiar link a este cambio" aria-label="Copiar link a este cambio"><i class="ph ph-link"></i>Compartir</button></div></td>
+</tr>
 <tr id="chg-badge-dot-base">
 <td class="mono-cell">v1.2.8.1</td>
 <td class="mono-cell">19/08/2026</td>
