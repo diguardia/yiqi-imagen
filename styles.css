@@ -129,7 +129,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.17";
+  --ds-version: "1.2.8.18";
 
   /* Layout */
   --topbar-h:  56px;
@@ -783,7 +783,8 @@ html[data-theme="light"] .brand-logo-light { display: block; }
    agrupacion la hace el espaciado. Sueltas conservan su fondo. */
 .panel .watchlist-card,
 .panel .pulse-card,
-.panel .highlight-card { background: transparent; }
+.panel .highlight-card,
+.more-kpis .kpi-card { background: transparent; }
 .card { padding: 16px; }
 
 html[data-theme="light"] .card,
