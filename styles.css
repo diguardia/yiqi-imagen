@@ -129,7 +129,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.24";
+  --ds-version: "1.2.8.26";
 
   /* Layout */
   --topbar-h:  56px;
@@ -1032,12 +1032,28 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
      minmax(0, 1fr)—; .kpi-grid se habia quedado afuera, y cada app que la
      usaba terminaba pisandola en su CSS local. El min-width:0 en la grilla y
      en las cards es lo que les permite encoger de verdad. */
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  /* v1.2.8.26 — auto-fill con techo, como el resto de las grillas del tablero.
+     Cuatro columnas fijas reparten TODO el ancho entre cuatro cards sin
+     importar cuanto midan por dentro: en 1.440 px eso da cards de 350 con dos
+     datos adentro, y en 700 las obliga a apretarse en cuatro en vez de bajar a
+     dos. Con auto-fill la grilla decide sola cuantas entran y el techo del
+     minmax impide que el sobrante se reparta. */
+  grid-template-columns: repeat(auto-fill, minmax(230px, 320px));
+  justify-content: start;
   gap: 12px;
   min-width: 0;
 }
 .kpi-grid > * { min-width: 0; }
-.pulse-grid       { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; }
+.kpi-grid > * { min-width: 0; }
+/* v1.2.8.25 — .pulse-grid a auto-fill con techo, como sus hermanas. Con
+   repeat(6, ...) fijo, seis cards en un tablero de 1.400 px reciben 230 cada
+   una y a menos ancho no bajan de seis columnas: se apilan a lo largo del
+   contenedor y una card con dos renglones adentro termina midiendo lo que mide
+   la pantalla. Es la misma correccion que ya recibieron .kpi-grid,
+   .highlight-cards, .watchlist-grid, .dashboard-grid y .branch-list; esta se
+   habia quedado afuera del barrido. */
+.pulse-grid       { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 300px)); justify-content: start; gap: 12px; }
+.pulse-grid > *   { min-width: 0; }
 /* v1.2.8.14 — auto-fit en vez de 3 columnas fijas. Con repeat(3, ...) el grid
    reparte SIEMPRE en tres, asi que en un monitor ancho cada card recibe 500px o
    mas y las filas etiqueta-valor de adentro se estiran: medido en Analytics Pro
