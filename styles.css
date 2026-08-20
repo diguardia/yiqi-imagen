@@ -129,7 +129,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.10";
+  --ds-version: "1.2.8.11";
 
   /* Layout */
   --topbar-h:  56px;
@@ -2458,7 +2458,15 @@ html[data-theme="light"] .hf-btn-back:hover { color: var(--muted); }
    Catálogo: yiqi-design-system.html §51 (Aplicaciones · Kit base)
    ════════════════════════════════════════════════════════════════════ */
 .topbar-l{ display:flex; align-items:center; gap:10px; min-width:0; }
-.topbar-r{ display:flex; align-items:center; gap:8px; min-width:0; margin-left:auto; }
+/* v1.2.8.11 — .topbar-r perdio su margin-left:auto. Era redundante con el
+   space-between de .topbar y ademas rompia el caso de tres zonas: ese auto se
+   come TODO el espacio libre antes de el, asi que el space-between se queda sin
+   nada que repartir y el grupo del medio —.topbar-c, el que el nombre promete
+   centrado— terminaba pegado al logo. Medido en una barra de 1200px: el centro
+   del grupo medio caia en 330; sin el auto cae en 577, contra un centro real de
+   600. Las apps de dos zonas no cambian: con space-between siguen yendo a los
+   extremos. */
+.topbar-r{ display:flex; align-items:center; gap:8px; min-width:0; }
 
 /* Zona central de la topbar. Contenedor neutro: lo que va adentro lo pone
    cada app (nombre con .t-pill, selector de esquema, filtro de periodo).
