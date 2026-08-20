@@ -129,7 +129,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.18";
+  --ds-version: "1.2.8.20";
 
   /* Layout */
   --topbar-h:  56px;
@@ -781,10 +781,23 @@ html[data-theme="light"] .brand-logo-light { display: block; }
    otro. El §3 dice separar por fondo, y eso supone CONTRASTE entre capas; dos
    veces el mismo valor no es una capa, es ruido. Adentro del panel la
    agrupacion la hace el espaciado. Sueltas conservan su fondo. */
-.panel .watchlist-card,
-.panel .pulse-card,
-.panel .highlight-card,
-.more-kpis .kpi-card { background: transparent; }
+/* v1.2.8.20 — EN UN TABLERO EL FONDO LO LLEVAN LAS CARDS, NO LA SECCION.
+   Un .panel que solo contiene una grilla de cards no es una superficie: es un
+   rotulo y un espacio. Como usa el mismo --card-bg que las cards de adentro,
+   quedaban dos capas del mismo color —marco dentro de marco— en las tres
+   secciones del tablero a la vez: Highlights, Owner watchlist y Mas
+   indicadores. Lo que sobra es la capa de AFUERA.
+   En 1.2.8.17 y .18 lo resolvi al reves, sacandole el fondo a las cards seccion
+   por seccion: eso rompia la separacion entre items, que es justo lo que el
+   fondo de la card tiene que hacer.
+   El :has() mira si el unico contenido del panel es una grilla de cards. Un
+   panel con tabla, grafico o texto conserva su fondo: ahi si es superficie. */
+.panel:has(> .more-kpis),
+.more-kpis,
+.panel:has(> .highlight-cards),
+.panel:has(> .watchlist-grid),
+.panel:has(> .kpi-grid),
+.panel:has(> .pulse-grid) { background: transparent; }
 .card { padding: 16px; }
 
 html[data-theme="light"] .card,
