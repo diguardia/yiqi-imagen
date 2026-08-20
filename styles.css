@@ -129,7 +129,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.21";
+  --ds-version: "1.2.8.24";
 
   /* Layout */
   --topbar-h:  56px;
@@ -774,6 +774,32 @@ html[data-theme="light"] .brand-logo-light { display: block; }
   background: var(--card-bg);
   border-radius: var(--radius-lg);
 }
+
+/* ══ v1.2.8.22 — EL FONDO LO LLEVAN LAS CARDS, NO LA SECCION ══════════
+   Un .panel cuyo unico contenido es una grilla de cards no es una superficie:
+   es un rotulo y un espacio. Como usa el mismo --card-bg que las cards de
+   adentro, quedaban dos capas del mismo color: marco dentro de marco.
+   El :has() hace la distincion — un panel con tabla, grafico o texto conserva
+   su fondo, porque ahi si es superficie. */
+.panel:has(> .highlight-cards),
+.panel:has(> .watchlist-grid),
+.panel:has(> .kpi-grid),
+.panel:has(> .pulse-grid),
+.panel:has(> .more-kpis),
+.more-kpis,
+/* El tema claro define el fondo aparte con html[data-theme="light"] .panel,
+   que es especificidad (0,3,0) y le gana a cualquier .panel:has() de (0,2,0).
+   Por eso en oscuro alcanzaba con la regla de arriba y en claro el frame
+   seguia blanco: no era percepcion ni contraste, era que la regla del tema
+   ganaba siempre. Hay que repetir el selector con el tema adelante para
+   empatarle en especificidad. */
+html[data-theme="light"] .panel:has(> .highlight-cards),
+html[data-theme="light"] .panel:has(> .watchlist-grid),
+html[data-theme="light"] .panel:has(> .kpi-grid),
+html[data-theme="light"] .panel:has(> .pulse-grid),
+html[data-theme="light"] .panel:has(> .more-kpis),
+html[data-theme="light"] .more-kpis { background: transparent; }
+
 
 /* v1.2.8.17 — dentro de un .panel, estas cards van SIN fondo. Usan el mismo
    --card-bg que el panel que las contiene, asi que una card adentro de un panel
