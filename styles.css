@@ -129,7 +129,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.9";
+  --ds-version: "1.2.8.10";
 
   /* Layout */
   --topbar-h:  56px;
@@ -3448,6 +3448,33 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
 @media (max-width: 980px) {
   /* En celular no hay rail: el sidebar es drawer y los controles no aplican. */
   .sidebar-ctrls { display: none; }
+
+  /* v1.2.8.10 — esta regla decia "en celular no hay rail" pero lo decia a
+     medias: neutralizaba el grid y escondia los controles, y dejaba vivas
+     TODAS las reglas de .nav-collapsed sobre el contenido. Como la clase la
+     pone la app y nadie la saca al cruzar el breakpoint, el drawer abria en
+     modo icono: seis simbolos sin etiqueta ocupando media pantalla, con los
+     rotulos de seccion invisibles y el tooltip del rail —que en tactil no se
+     puede disparar— como unica forma de saber que era cada uno.
+     Aca se revierte el rail entero. No alcanza con que la app se acuerde de
+     sacar la clase: el breakpoint es del DS, asi que la consecuencia tambien. */
+  .app-shell.nav-collapsed .sidebar { width: min(var(--sidebar-w), 86vw); padding: 16px 12px; }
+  .app-shell.nav-collapsed .nav-lbl {
+    visibility: visible; height: auto; padding: 12px 8px 6px; margin: 0;
+  }
+  .app-shell.nav-collapsed .nav-link {
+    justify-content: flex-start; padding: 8px 10px; gap: 8px;
+    width: 100%; height: auto; margin: 0 0 6px;
+  }
+  .app-shell.nav-collapsed .nav-link span:not(.n-ico) {
+    position: static; width: auto; height: auto;
+    padding: 0; margin: 0; overflow: visible; clip: auto; white-space: nowrap;
+  }
+  /* El tooltip del rail no tiene como dispararse con el dedo. */
+  .app-shell.nav-collapsed .nav-link::after { display: none; }
+  .app-shell.nav-collapsed .sb-copy { display: block; }
+  .app-shell.nav-collapsed .sb-theme-switch { flex-direction: row; padding: 3px; gap: 2px; }
+  .app-shell.nav-collapsed .theme-cycle { margin-left: 0; margin-right: 0; }
 }
 
 
