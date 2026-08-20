@@ -129,7 +129,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.13";
+  --ds-version: "1.2.8.18";
 
   /* Layout */
   --topbar-h:  56px;
@@ -774,6 +774,17 @@ html[data-theme="light"] .brand-logo-light { display: block; }
   background: var(--card-bg);
   border-radius: var(--radius-lg);
 }
+
+/* v1.2.8.17 — dentro de un .panel, estas cards van SIN fondo. Usan el mismo
+   --card-bg que el panel que las contiene, asi que una card adentro de un panel
+   son dos capas del mismo color: no separan nada, dibujan un marco dentro de
+   otro. El §3 dice separar por fondo, y eso supone CONTRASTE entre capas; dos
+   veces el mismo valor no es una capa, es ruido. Adentro del panel la
+   agrupacion la hace el espaciado. Sueltas conservan su fondo. */
+.panel .watchlist-card,
+.panel .pulse-card,
+.panel .highlight-card,
+.more-kpis .kpi-card { background: transparent; }
 .card { padding: 16px; }
 
 html[data-theme="light"] .card,
@@ -985,11 +996,25 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
 }
 .kpi-grid > * { min-width: 0; }
 .pulse-grid       { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; }
-.dashboard-grid   { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+/* v1.2.8.14 — auto-fit en vez de 3 columnas fijas. Con repeat(3, ...) el grid
+   reparte SIEMPRE en tres, asi que en un monitor ancho cada card recibe 500px o
+   mas y las filas etiqueta-valor de adentro se estiran: medido en Analytics Pro
+   a 1688px, la etiqueta quedaba a 1300px de su propio valor mientras entre fila
+   y fila habia 25. El ojo agrupa por proximidad, asi que leia dos columnas
+   sueltas en vez de seis filas. Con auto-fit el ancho sobrante se llena con mas
+   columnas en lugar de estirar las que hay, y cada card cae en el rango donde
+   un par etiqueta-valor se lee de un vistazo. En pantallas angostas colapsa a
+   una sola columna sin media queries. */
+.dashboard-grid   { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 420px)); justify-content: start; gap: 12px; }
 .summary-grid     { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
-.watchlist-grid   { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.watchlist-grid   { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 340px)); justify-content: start; gap: 12px; }
 .decision-grid,
-.highlight-cards  { display: grid; gap: 10px; }
+/* v1.2.8.16 — de columna unica / columnas fijas a auto-fill con techo. Estas
+   tres listas apilaban sus cards a lo ancho del contenedor: en 1440px daban
+   filas de 1400 con dos datos adentro, y las barras de progreso se estiraban
+   con ellas. auto-fill reagrupa sin estirar; el maximo del minmax es lo que
+   impide que el sobrante se reparta entre las pistas. */
+.highlight-cards  { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 420px)); justify-content: start; gap: 10px; }
 .progress-list    { display: grid; gap: 12px; }
 
 /* ── 16. TABLA ────────────────────────────────────────────── */
@@ -1838,12 +1863,14 @@ html[data-theme="light"] .skeleton-line {
 
 /* ── 37. RESPONSIVE ───────────────────────────────────────── */
 @media (max-width: 1180px) {
+  /* v1.2.8.17 — .dashboard-grid y .watchlist-grid salen de aca: ya son
+     auto-fill con techo y se reagrupan solas, asi que este breakpoint solo
+     servia para volver a estirarlas con 1fr. Las que siguen son las que
+     todavia tienen columnas fijas y si lo necesitan. */
   .kpi-grid,
   .pulse-grid,
-  .dashboard-grid,
   .summary-grid,
-  .decision-grid,
-    .watchlist-grid {
+  .decision-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -1864,12 +1891,14 @@ html[data-theme="light"] .skeleton-line {
 }
 
 @media (max-width: 720px) {
+  /* v1.2.8.17 — .dashboard-grid y .watchlist-grid salen de aca: ya son
+     auto-fill con techo y se reagrupan solas, asi que este breakpoint solo
+     servia para volver a estirarlas con 1fr. Las que siguen son las que
+     todavia tienen columnas fijas y si lo necesitan. */
   .kpi-grid,
   .pulse-grid,
-  .dashboard-grid,
   .summary-grid,
-  .decision-grid,
-    .watchlist-grid {
+  .decision-grid {
     grid-template-columns: 1fr;
   }
 
@@ -3314,7 +3343,7 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
 
 /* ── 48. BRANCH LIST — RANKING CON BARRA ─────────────────── */
 /* Lista comparativa: nombre + detalle, cifra a la derecha, barra abajo. */
-.branch-list { display: grid; gap: 12px; }
+.branch-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 440px)); justify-content: start; gap: 12px; }
 .branch-row {
   display: grid; grid-template-columns: 1fr auto;
   grid-template-areas: "meta rev" "bar bar";
