@@ -12,6 +12,7 @@ test.describe('YiQiAppShell', () => {
     await expect(logout).toBeVisible()
     await expect(logout).toHaveAttribute('type', 'button')
     await expect(page.getByRole('button', { name: 'Abrir menú' })).toBeHidden()
+    await expect(page.locator('.yiqi-app-name')).toHaveText('Operaciones')
 
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)
     expect(overflow).toBeLessThanOrEqual(1)
@@ -38,6 +39,15 @@ test.describe('YiQiAppShell', () => {
 
     await dialog.getByRole('button', { name: 'Cerrar menú' }).click()
     await expect(dialog).toBeHidden()
+  })
+
+  test('mobile expone tooltip en la accion compacta del menu', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto('/shell')
+
+    const trigger = page.getByRole('button', { name: 'Abrir menú' })
+    await trigger.hover()
+    await expect(page.getByRole('tooltip')).toHaveText('Abrir menú')
   })
 
   test('mobile conserva estado interno al cerrar y volver a abrir el drawer', async ({ page }) => {

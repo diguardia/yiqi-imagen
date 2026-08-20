@@ -8,8 +8,12 @@ test.describe('YiQiLogin', () => {
   test('renders the canonical fields without duplicated field copy or horizontal overflow', async ({ page }) => {
     await expect(page.getByLabel('Usuario o correo electrónico', { exact: true })).toBeVisible()
     await expect(page.getByLabel('Contraseña', { exact: true })).toBeVisible()
-    await expect(page.getByRole('button', { name: 'Mostrar contraseña', exact: true })).toBeVisible()
+    const passwordVisibility = page.getByRole('button', { name: 'Mostrar contraseña', exact: true })
+    await expect(passwordVisibility).toBeVisible()
     await expect(page.getByRole('button', { name: 'Iniciar sesión', exact: true })).toBeVisible()
+
+    await passwordVisibility.hover()
+    await expect(page.getByRole('tooltip')).toHaveText('Mostrar contraseña')
 
     const duplicatedFieldCopy = await page.locator('input[id]').evaluateAll((inputs) => inputs.flatMap((input) => {
       const label = document.querySelector(`label[for="${input.id}"]`)?.textContent?.trim()
@@ -24,12 +28,12 @@ test.describe('YiQiLogin', () => {
     expect(overflow).toBeLessThanOrEqual(1)
   })
 
-  test('shows a functional error state for invalid demo credentials', async ({ page }) => {
+  test('shows a functional error state for invalid credentials', async ({ page }) => {
     await page.getByLabel('Usuario o correo electrónico', { exact: true }).fill('incorrecto')
     await page.getByLabel('Contraseña', { exact: true }).fill('incorrecta')
     await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click()
 
-    await expect(page.getByRole('status')).toContainText('Demo: usa demo / demo')
+    await expect(page.getByRole('status')).toContainText('Usuario o contraseña incorrectos.')
   })
 
   test('remember-user persists only the username, never the password', async ({ page }) => {
@@ -67,10 +71,10 @@ test.describe('YiQiLogin', () => {
     await password.fill('incorrecta')
 
     await submit.click()
-    await expect(page.getByRole('status')).toContainText('Demo: usa demo / demo')
+    await expect(page.getByRole('status')).toContainText('Usuario o contraseña incorrectos.')
 
     await remember.click()
     await submit.click()
-    await expect(page.getByRole('status')).toContainText('Demo: usa demo / demo')
+    await expect(page.getByRole('status')).toContainText('Usuario o contraseña incorrectos.')
   })
 })

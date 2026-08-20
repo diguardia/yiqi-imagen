@@ -4,6 +4,10 @@ import { Dialog } from 'radix-ui'
 import { useEffect, useState, type ReactNode } from 'react'
 import { YiQiLogo } from '../foundation/logo'
 import { YiQiThemeCycle } from '../foundation/theme-cycle'
+import { YiQiTooltip } from '../primitives/tooltip'
+
+const OPEN_MENU_TEXT = 'Abrir menú'
+const CLOSE_MENU_TEXT = 'Cerrar menú'
 
 export interface YiQiNavItem {
   href: string
@@ -65,7 +69,7 @@ export function YiQiAppShell({ appName, navigation, children, account, actions }
       <header className="yiqi-topbar">
         <div className="yiqi-topbar-left">
           <YiQiLogo className="yiqi-topbar-logo" />
-          <span className="yiqi-app-pill">{appName}</span>
+          <span className="yiqi-app-name">{appName}</span>
         </div>
 
         <div className="yiqi-topbar-right">
@@ -74,17 +78,25 @@ export function YiQiAppShell({ appName, navigation, children, account, actions }
           {!isMobile ? <div className="yiqi-desktop-only"><YiQiThemeCycle /></div> : null}
 
           <Dialog.Root open={navigationOpen} onOpenChange={setNavigationOpen}>
-            <Dialog.Trigger asChild>
-              <button className="yiqi-icon-button yiqi-mobile-menu" type="button" aria-label="Abrir menú">☰</button>
-            </Dialog.Trigger>
+            <YiQiTooltip label={OPEN_MENU_TEXT}>
+              <Dialog.Trigger asChild>
+                <button className="yiqi-icon-button yiqi-mobile-menu" type="button" aria-label={OPEN_MENU_TEXT}>
+                  <MenuIcon />
+                </button>
+              </Dialog.Trigger>
+            </YiQiTooltip>
             <Dialog.Portal forceMount>
               <Dialog.Overlay forceMount className="yiqi-dialog-overlay" />
               <Dialog.Content forceMount className="yiqi-dialog-content">
                 <Dialog.Title className="yiqi-dialog-title">{appName}</Dialog.Title>
                 <Dialog.Description className="yiqi-sr-only">Navegación de la aplicación</Dialog.Description>
-                <Dialog.Close asChild>
-                  <button className="yiqi-icon-button yiqi-dialog-close" type="button" aria-label="Cerrar menú">×</button>
-                </Dialog.Close>
+                <YiQiTooltip label={CLOSE_MENU_TEXT} side="left">
+                  <Dialog.Close asChild>
+                    <button className="yiqi-icon-button yiqi-dialog-close" type="button" aria-label={CLOSE_MENU_TEXT}>
+                      <CloseIcon />
+                    </button>
+                  </Dialog.Close>
+                </YiQiTooltip>
                 <Navigation items={navigation} onNavigate={() => setNavigationOpen(false)} />
                 <div className="yiqi-dialog-tools">
                   {isMobile ? account : null}
@@ -102,5 +114,21 @@ export function YiQiAppShell({ appName, navigation, children, account, actions }
         <main className="yiqi-content">{children}</main>
       </div>
     </div>
+  )
+}
+
+function MenuIcon() {
+  return (
+    <svg className="yiqi-menu-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M4 7h16M4 12h16M4 17h16" />
+    </svg>
+  )
+}
+
+function CloseIcon() {
+  return (
+    <svg className="yiqi-menu-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M6 6l12 12M18 6 6 18" />
+    </svg>
   )
 }

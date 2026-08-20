@@ -4,6 +4,7 @@ import { useEffect, useId, useMemo, useState, type FormEvent, type ReactNode } f
 import { YiQiButton } from '../primitives/button'
 import { YiQiCheckbox } from '../primitives/checkbox'
 import { YiQiInput } from '../primitives/input'
+import { YiQiTooltip } from '../primitives/tooltip'
 import { YiQiLogo } from '../foundation/logo'
 
 export interface YiQiLoginInput {
@@ -98,6 +99,7 @@ export function YiQiLogin({
 
   const isLoading = controlledLoading || isSubmitting
   const visibleError = externalError || localError
+  const passwordVisibilityText = showPassword ? hidePasswordLabel : showPasswordLabel
 
   useEffect(() => {
     const saved = readRememberedUsername(rememberStorageKey)
@@ -178,16 +180,18 @@ export function YiQiLogin({
               onChange={(event) => setPassword(event.target.value)}
               disabled={isLoading}
               action={
-                <button
-                  className="yiqi-icon-button"
-                  type="button"
-                  aria-label={showPassword ? hidePasswordLabel : showPasswordLabel}
-                  aria-pressed={showPassword}
-                  onClick={() => setShowPassword((value) => !value)}
-                  disabled={isLoading}
-                >
-                  {showPassword ? <EyeOffIcon /> : <EyeIcon />}
-                </button>
+                <YiQiTooltip label={passwordVisibilityText}>
+                  <button
+                    className="yiqi-icon-button"
+                    type="button"
+                    aria-label={passwordVisibilityText}
+                    aria-pressed={showPassword}
+                    onClick={() => setShowPassword((value) => !value)}
+                    disabled={isLoading}
+                  >
+                    {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                  </button>
+                </YiQiTooltip>
               }
             />
           </div>

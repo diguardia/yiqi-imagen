@@ -48,7 +48,7 @@ La app consumidora se limita a datos, copy, rutas, callbacks y children expuesto
 | Grupo | Import | Responsabilidad |
 |---|---|---|
 | Foundation | `@yiqi/ui/foundation` | Provider, bootstrap de tema y marca |
-| Primitives | `@yiqi/ui/primitives` | Button, Input, Textarea y Checkbox |
+| Primitives | `@yiqi/ui/primitives` | Button, Input, Textarea, Checkbox y Tooltip |
 | Authentication | `@yiqi/ui/authentication` | Login y autenticacion visual |
 | Layout | `@yiqi/ui/layout` | App Shell y estructura |
 | Data display | `@yiqi/ui/data-display` | KPIs y metricas de lectura |
@@ -95,6 +95,8 @@ No usar `account` o `actions` como dueños del estado global de la aplicacion.
 ## Primitives externas
 
 Radix puede usarse internamente para comportamiento accesible. Esa dependencia es un detalle interno: la app no debe acoplarse al primitive que usa YiQi.
+
+Los controles icon-only deben conservar un nombre accesible y usar `YiQiTooltip` para exponer su accion sin agregar texto permanente al layout.
 
 ## CSS
 

@@ -42,7 +42,10 @@
 .yiqi-button:focus-visible,
 .yiqi-input:focus-visible,
 .yiqi-checkbox:focus-visible,
-.yiqi-icon-button:focus-visible {
+.yiqi-icon-button:focus-visible,
+.yiqi-login-hint:focus-visible,
+.yiqi-login-footer:focus-visible,
+.yiqi-nav-link:focus-visible {
   outline: 2px solid var(--yiqi-cyan);
   outline-offset: 2px;
 }
@@ -68,7 +71,22 @@
   background: transparent;
   color: var(--yiqi-muted);
   cursor: pointer;
+  transition: background var(--yiqi-transition), color var(--yiqi-transition), opacity var(--yiqi-transition);
 }
+.yiqi-icon-button:hover { background: var(--yiqi-bg-soft); color: var(--yiqi-text); }
+.yiqi-icon-button:disabled { opacity: .55; cursor: not-allowed; }
+
+.yiqi-tooltip-content {
+  z-index: 120;
+  padding: 6px 8px;
+  border: 1px solid var(--yiqi-line-strong);
+  border-radius: var(--yiqi-radius-xs);
+  background: var(--yiqi-bg-elev-2);
+  color: var(--yiqi-text);
+  font: 500 11px/1 var(--yiqi-font-sans);
+  box-shadow: var(--yiqi-shadow-md);
+}
+.yiqi-tooltip-arrow { fill: var(--yiqi-bg-elev-2); }
 
 .yiqi-field { display: grid; gap: 6px; }
 .yiqi-label { color: var(--yiqi-muted); font: 500 12px/1.3 var(--yiqi-font-mono); }
@@ -162,7 +180,8 @@
 .yiqi-topbar { position: sticky; top: 0; z-index: 20; height: var(--yiqi-topbar-h); display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 0 18px; background: color-mix(in srgb, var(--yiqi-bg) 90%, transparent); backdrop-filter: blur(18px); }
 .yiqi-topbar-left, .yiqi-topbar-right { display: flex; align-items: center; gap: 10px; }
 .yiqi-topbar-logo { width: 60px; height: 39px; color: var(--yiqi-text); }
-.yiqi-app-pill { padding: 6px 9px; border-radius: var(--yiqi-radius-pill); background: var(--yiqi-bg-soft); color: var(--yiqi-muted); font: 600 11px/1 var(--yiqi-font-mono); }
+.yiqi-app-name { max-width: min(42vw, 260px); overflow: hidden; padding-left: 12px; border-left: 1px solid var(--yiqi-line-strong); color: var(--yiqi-muted); font: 600 12px/1.2 var(--yiqi-font-sans); text-overflow: ellipsis; white-space: nowrap; }
+.yiqi-menu-icon { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
 .yiqi-shell-body { display: grid; grid-template-columns: var(--yiqi-sidebar-w) minmax(0, 1fr); min-height: calc(100dvh - var(--yiqi-topbar-h)); }
 .yiqi-sidebar { padding: 16px 12px; background: var(--yiqi-bg-elev); }
 .yiqi-nav { display: grid; gap: 6px; }
@@ -177,7 +196,7 @@
 .yiqi-dialog-overlay[data-state="closed"], .yiqi-dialog-content[data-state="closed"] { display: none; }
 .yiqi-dialog-title { margin: 0 44px 16px 12px; font-size: 14px; }
 .yiqi-dialog-close { position: absolute; top: 10px; right: 10px; }
-.yiqi-dialog-tools { margin-top: 16px; }
+.yiqi-dialog-tools { margin-top: 16px; display: grid; gap: 10px; }
 
 .yiqi-theme-cycle { min-width: 72px; }
 
