@@ -1879,6 +1879,7 @@ body.preview-open .ds-layout { display: none !important; }
 <svg class="il" viewbox="0 0 24 24"><line x1="12" x2="12" y1="5" y2="19"></line><line x1="5" x2="19" y1="12" y2="12"></line></svg>
           Primary
         </button>
+<button class="btn btn-solid" style="--accent:#2563eb">Solid</button>
 <button class="btn btn-amber">
 <svg class="il" viewbox="0 0 24 24"><path d="M12 3v12"></path><path d="M7 10l5 5 5-5"></path><path d="M5 21h14"></path></svg>
           Instalar
@@ -1920,6 +1921,10 @@ body.preview-open .ds-layout { display: none !important; }
         </button>
 </div>
 <div class="subsection-title">Uso recomendado</div>
+<div class="ds-note ds-note--warn">
+<strong>.btn-solid exige que le declares el <span class="code-chip">--accent</span></strong>
+        La variante s&oacute;lida usa el par <span class="code-chip">--accent</span> / <span class="code-chip">--accent-ink</span> que el sistema ya declara y que <span class="code-chip">.mb-cta</span> ya consume. <strong>El par por defecto no pasa contraste:</strong> <code>--accent</code> resuelve a <code>--cyan</code> (<code>#00ccff</code>) y <code>--accent-ink</code> a <code>--text-white</code>, que miden <strong>1,90:1</strong>. Es un defecto abierto de <code>--accent-ink</code>, anterior a esta variante y heredado por <code>.mb-cta</code>. Hasta que se corrija, toda vista que use <code>.btn-solid</code> declara su propio <code>--accent</code>. Ojo con la trampa de custom properties: <code>--accent: var(--cyan)</code> est&aacute; escrito en <code>:root</code>, donde <strong>ya resolvi&oacute;</strong> a <code>#00ccff</code> y hereda ese valor &mdash; un contexto de marca que redefine <code>--cyan</code> <em>no</em> cambia <code>--accent</code>. Criterio: <strong>un solo <code>.btn-solid</code> por vista</strong>, el CTA que la vista existe para provocar; dos s&oacute;lidos en la misma fila vuelven a empatar la jerarqu&iacute;a.
+      </div>
 <div class="ds-note ds-note--warn">
 <strong>CTA operativo</strong>
         La variante <span class="code-chip">.btn-amber</span> queda reservada para acciones de instalación, descarga o activación. El ícono base es flecha descendente con línea inferior, siempre en SVG inline.
