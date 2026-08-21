@@ -1,53 +1,62 @@
 # Gobernanza y alcance del Design System
 
-Define **cuánto impone** el DS y **cuánto deja a criterio** de cada proyecto. Resuelve la
-tensión entre consistencia (todos iguales) y flexibilidad (cada app adapta).
+Este documento define donde existe flexibilidad y donde no.
 
-## 1. Alcance del Design System (flexibilidad de uso)
+## 1. Componentes compartidos React
 
-El DS YiQi es una **base flexible**, no un molde rígido.
+Los componentes publicados por `@yiqi/ui` son contratos, no referencias visuales.
 
-- **Es la base recomendada** para toda app/landing/dashboard YiQi: tokens, componentes y patrones.
-- **Se puede extender:** un proyecto puede agregar componentes propios y variantes, siempre que respeten los tokens y la filosofía visual (borderless, dark/light, tipografía).
-- **Límites que no se tocan** (para no romper coherencia de marca ni el CDN):
-  - Tokens de color/tipografía/geometría base (se editan en la fuente `yiqi-imagen`, no por proyecto).
-  - `styles.css`: **fuente única** de tokens y componentes (se edita en `yiqi-imagen`); los proyectos la consumen por CDN, no la editan ni la forkean (ver `LEEME-FUENTE-DS.md`).
-- **Lo adaptable por proyecto:** composición de pantallas, layout específico, componentes nuevos de dominio, microcopy.
+Cuando existe un componente canonico:
 
-Regla práctica: *consumí el DS por CDN, extendé encima, no forkees los tokens.*
+- la app lo importa;
+- puede configurar solamente la API publica del componente;
+- no puede mantener un fork local equivalente;
+- no puede reconstruirlo con Tailwind, CSS-in-JS, HTML propio o un template legacy;
+- si necesita una variante reusable, la variante se agrega primero a `@yiqi/ui`.
 
-## 2. Reglas obligatorias vs. recomendadas
+Esta parte no es flexible porque dos implementaciones del mismo componente generan drift y regresiones.
 
-No todo pesa igual. Se distinguen dos niveles:
+## 2. UI de dominio
 
-### Obligatorias (bloquean un PR)
-- Sin secretos/credenciales en el código ni en el repo.
-- Seguridad transversal de aplicaciones y gates crítico/alto (ver `seguridad-aplicaciones.md`).
-- Seguridad de integraciones API (ver `seguridad-integraciones-api.md`).
-- Navegación a detalle con `item.id` (ver `yiqi-api.md`); `npm run test:detail-navigation` en verde si hay listados/detalle.
-- Encoding UTF-8 / LF (ver `convenciones-documentacion.md`).
-- Build sin errores y lint sin errores críticos.
-- Copy en español neutro; marca escrita **YiQi**.
+Una aplicacion si puede crear UI propia cuando representa una necesidad especifica de su dominio y no duplica un componente YiQi existente.
 
-### Recomendadas (adaptables por proyecto, justificar si se desvían)
-- Estructura de carpetas de referencia (ver §04).
-- Runner de testing y umbrales de cobertura (ver `testing-jest.md`).
-- Convenciones de estilo de código y patrones de arquitectura más allá del mínimo.
-- Uso de TypeScript como default (recomendado fuerte, no bloqueante en legacy JS).
+Ejemplos:
 
-Si un proyecto se desvía de una recomendada, basta dejarlo explicado en el PR.
+- una grilla operativa propia del modulo;
+- una vista de dependencias;
+- un editor de reglas de negocio;
+- composicion de componentes YiQi para un flujo particular.
 
-## 3. Arquitectura de referencia (no obligatoria)
+Si ese patron empieza a repetirse entre aplicaciones, debe evaluarse su promocion a `@yiqi/ui`.
 
-La estructura `services/http-client · auth-service · yiqi-api · mappers` documentada en
-`yiqi-api.md` es una **referencia recomendada**, no un estándar impuesto.
+## 3. HTML y legacy
 
-- **Aplica especialmente** a apps nuevas que consumen la API YiQi.
-- **No obliga** a apps existentes ni a proyectos con otra arquitectura ya establecida.
-- El objetivo es la **separación de responsabilidades** (transporte / auth / negocio / mapeo), no la forma exacta de las carpetas. Cualquier estructura que logre esa separación es válida.
+`styles.css` sigue siendo la fuente visual canonica para consumidores HTML y proyectos legacy. Se consume desde el CDN y no se forkea por proyecto.
 
-## 4. Cómo cambiar estas reglas
+Los templates legacy son compatibles con esa superficie, pero no tienen precedencia sobre un componente React existente.
 
-Estas definiciones son de equipo. Para cambiar qué es obligatorio vs. recomendado, o el
-alcance del DS, proponerlo en un PR sobre este documento y acordarlo; no cambiarlo de forma
-unilateral en un proyecto.
+## 4. Reglas obligatorias
+
+- Sin secretos o credenciales versionadas.
+- Build y tests relevantes en verde.
+- Marca escrita YiQi.
+- Copy visible en español correcto.
+- En React, reutilizar `@yiqi/ui` antes de crear un componente compartido.
+- Sin duplicacion evitable de implementaciones ni copy visible.
+- `npm run test:ui-redundancy` en cambios de la superficie React.
+- IDs y contratos API segun `docs/yiqi-api.md`.
+- Encoding y line endings segun `docs/convenciones-documentacion.md`.
+
+## 5. Reglas adaptables
+
+- estructura interna de una app;
+- arquitectura de servicios mientras mantenga responsabilidades claras;
+- composicion de pantallas;
+- componentes exclusivos del dominio;
+- microcopy pasado mediante APIs publicas cuando el componente lo permite.
+
+Una desviacion no puede usarse para crear una segunda version de un componente compartido.
+
+## 6. Cambio de estas reglas
+
+La gobernanza se modifica en este repositorio mediante PR. Una aplicacion individual no redefine unilateralmente el contrato compartido.

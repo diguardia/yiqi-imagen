@@ -1,59 +1,37 @@
-# Template catalog extraction
+# Resumen interno: catalogo y templates
 
-title: Template catalog extraction
-tags: templates, design-system, catalog, styles
-description: Internal summary for templates extracted from yiqi-design-system.html.
+Este resumen describe la relacion entre el catalogo ejecutable, `@yiqi/ui` y la capa legacy.
 
-Read this when:
-- A task changes `template/`.
-- A task extracts a component from `yiqi-design-system.html`.
-- A task changes how projects consume DS template styles.
+## React
 
-Do not read this when:
-- The task only edits API docs or unrelated repository policy.
+- `packages/ui/src` contiene la implementacion canonica.
+- `apps/docs` renderiza los mismos componentes que debe consumir una app.
+- El catalogo ayuda a descubrir componentes; no es una fuente para copiar JSX.
+- Si un componente ya existe en `@yiqi/ui`, un template equivalente queda legacy y no puede convertirse en una segunda implementacion.
 
-## Current rule
+## HTML / legacy
 
-Templates copy reusable structure and small behavior adapters. They must not copy
-the full Design System stylesheet into consuming projects.
+- `styles.css` sigue siendo el contrato visual publicado para consumidores HTML.
+- `template/` conserva unidades legacy mientras existan consumidores o hasta completar la migracion.
+- No copiar el stylesheet completo a otro proyecto.
 
-Consuming projects load the canonical stylesheet:
+## Regla de extraccion
 
-```html
-<link rel="stylesheet" href="https://diguardia.github.io/yiqi-imagen/styles.css">
-```
+Al migrar una pieza legacy a React:
 
-This is a golden rule for derived projects. The consuming project references the
-stylesheet from this repository so future Design System fixes can flow through
-the published CSS. Do not create per-project forks of tokens, themes, or shared
-component classes.
+1. crear una unica API en `@yiqi/ui`;
+2. mostrarla en `apps/docs` usando el entrypoint publico;
+3. convertir el template React paralelo en adaptador o deprecarlo;
+4. agregar tests y guard de regresion;
+5. retirar legacy solo cuando no tenga consumidores.
 
-## Source relationship
+## Riesgos
 
-- `yiqi-design-system.html` remains the human visual catalog.
-- `template/` contains smaller copy/paste units extracted from the catalog.
-- Reusable visual CSS belongs in `styles.css` (single source).
-- Template CSS is allowed only for adapter behavior that is not reusable DS
-  styling yet.
-- If a template needs a reusable visual rule that is not published yet, add it
-  to this repository first and document the expected publication dependency.
+- documentacion vieja que vuelva a recomendar copy/paste React;
+- dos implementaciones del mismo componente;
+- estilos compartidos copiados en una app;
+- catalogo que use una implementacion distinta de la publicada.
 
-## Extracted modules
+Ver `AGENTS.md`, `packages/ui/README.md` y `docs/react-migration.md` para las reglas vigentes.
 
-- `template/login/`
-- `template/app-shell/`
-- `template/kpi-card/`
-- `template/runtime-banner/`
-- `template/trust/`
-- `template/analytics-pro-banner/`
-
-## Verification
-
-- Run repo tests.
-- Run TypeScript checks for TSX templates.
-- Generate or update Markdown preview screenshots after visual changes.
-- Search templates for duplicated token blocks before publishing.
-
-## Last reviewed
-
-2026-06-12
+Ultima revision: 2026-08-11.

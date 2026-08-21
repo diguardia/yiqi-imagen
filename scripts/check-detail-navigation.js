@@ -1,10 +1,12 @@
 const fs = require("node:fs")
+const os = require("node:os")
 const path = require("node:path")
 
 const repoRoot = path.resolve(__dirname, "..")
 const codeExtensions = new Set([".js", ".jsx", ".ts", ".tsx"])
 const ignoredDirs = new Set([".git", "node_modules", "fixtures", "docs", "Fuentes", "scripts"])
-const explicitRoots = ["src", "app", "components", "pages", "lib", "services"]
+const sourceRootNames = ["src", "app", "components", "pages", "lib", "services"]
+const workspaceContainers = ["apps", "packages"]
 
 const patterns = [
   {
@@ -23,22 +25,108 @@ const patterns = [
     hint: "Valida dataset.id antes de navegar o evita dataset para ids de detalle.",
   },
   {
-    name: "multiple id fallback",
-    regex: /\b(?:id|detailId|entityId)\s*=\s*[^;\n]*(?:\?\?|\|\|)[^;\n]*(?:\.ID|codigo|code|numero|number|nombre|name|slug)/i,
+    name: "multiple id fallback with legacy uppercase ID",
+    regex: /\b(?:id|detailId|entityId)\s*=\s*[^;\n]*(?:\?\?|\|\|)[^;\n]*\.ID\b/,
     hint: "No uses fallbacks multiples para ids; el contrato debe exponer item.id.",
   },
   {
-    name: "route built with non-canonical field",
-    regex: /\b(?:router\.push|navigate|href\s*=)\s*\(?[^;\n]*(?:\.ID|codigo|code|numero|number|nombre|name|slug)/i,
+    name: "multiple id fallback with business field",
+    regex: /\b(?:id|detailId|entityId)\s*=\s*[^;\n]*(?:\?\?|\|\|)[^;\n]*(?:codigo|code|numero|number|nombre|name|slug)\b/i,
+    hint: "No uses fallbacks multiples para ids; el contrato debe exponer item.id.",
+  },
+  {
+    name: "route built with legacy uppercase ID",
+    regex: /\b(?:router\.push|navigate|href\s*=)\s*\(?[^;\n]*\.ID\b/,
+    hint: "Las rutas de detalle deben construirse con item.id, no con item.ID.",
+  },
+  {
+    name: "route built with business field",
+    regex: /\b(?:router\.push|navigate|href\s*=)\s*\(?[^;\n]*(?:codigo|code|numero|number|nombre|name|slug)\b/i,
     hint: "Las rutas de detalle deben construirse con item.id, no con campos de negocio.",
   },
 ]
 
-function existsDirectory(relativePath) {
+function matchingPatterns(source) {
+  return patterns.filter((pattern) => pattern.regex.test(source))
+}
+
+function isDirectory(target) {
   try {
-    return fs.statSync(path.join(repoRoot, relativePath)).isDirectory()
+    return fs.statSync(target).isDirectory()
   } catch {
     return false
+  }
+}
+
+function projectSourceRoots(projectRoot) {
+  return sourceRootNames
+    .map((name) => path.join(projectRoot, name))
+    .filter(isDirectory)
+}
+
+function discoverRoots(root) {
+  const roots = [...projectSourceRoots(root)]
+
+  for (const containerName of workspaceContainers) {
+    const container = path.join(root, containerName)
+    if (!isDirectory(container)) continue
+
+    for (const entry of fs.readdirSync(container, { withFileTypes: true })) {
+      if (!entry.isDirectory()) continue
+      roots.push(...projectSourceRoots(path.join(container, entry.name)))
+    }
+  }
+
+  for (const entry of fs.readdirSync(root, { withFileTypes: true })) {
+    if (entry.isFile() && codeExtensions.has(path.extname(entry.name))) {
+      roots.push(path.join(root, entry.name))
+    }
+  }
+
+  return [...new Set(roots)]
+}
+
+function runSelfCheck() {
+  const canonicalCases = [
+    'href="app.html?id=${c.id}"',
+    'router.push(`/items/${item.id}`)',
+    'navigate(`/orders/${row.id}`)',
+  ]
+  const invalidCases = [
+    'href="app.html?id=${c.ID}"',
+    'router.push(`/items/${item.slug}`)',
+    'router.push(`/items/${slug}`)',
+    'const detailId = item.id || item.codigo',
+    'const detailId = item.id || codigo',
+  ]
+
+  for (const source of canonicalCases) {
+    const matches = matchingPatterns(source)
+    if (matches.length > 0) {
+      throw new Error(`Detail navigation guard rechazo un caso canonico: ${source} -> ${matches.map((item) => item.name).join(', ')}`)
+    }
+  }
+
+  for (const source of invalidCases) {
+    if (matchingPatterns(source).length === 0) {
+      throw new Error(`Detail navigation guard no detecto un caso invalido: ${source}`)
+    }
+  }
+
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'yiqi-detail-navigation-'))
+  try {
+    fs.mkdirSync(path.join(tempRoot, 'app'), { recursive: true })
+    fs.mkdirSync(path.join(tempRoot, 'apps', 'docs', 'app'), { recursive: true })
+    fs.mkdirSync(path.join(tempRoot, 'packages', 'ui', 'src'), { recursive: true })
+
+    const roots = discoverRoots(tempRoot).map((root) => path.relative(tempRoot, root).replaceAll('\\', '/'))
+    for (const expected of ['app', 'apps/docs/app', 'packages/ui/src']) {
+      if (!roots.includes(expected)) {
+        throw new Error(`Detail navigation guard no descubrio el root monorepo ${expected}`)
+      }
+    }
+  } finally {
+    fs.rmSync(tempRoot, { recursive: true, force: true })
   }
 }
 
@@ -59,16 +147,9 @@ function walk(directory, files = []) {
   return files
 }
 
-const roots = explicitRoots
-  .filter(existsDirectory)
-  .map((relativePath) => path.join(repoRoot, relativePath))
+runSelfCheck()
 
-for (const entry of fs.readdirSync(repoRoot, { withFileTypes: true })) {
-  if (entry.isFile() && codeExtensions.has(path.extname(entry.name))) {
-    roots.push(path.join(repoRoot, entry.name))
-  }
-}
-
+const roots = discoverRoots(repoRoot)
 const files = roots.flatMap((root) => {
   const stat = fs.statSync(root)
   return stat.isDirectory() ? walk(root) : [root]
@@ -105,4 +186,4 @@ if (violations.length > 0) {
   process.exit(1)
 }
 
-console.log(`Detail navigation guard passed (${files.length} files scanned).`)
+console.log(`Detail navigation guard passed (${files.length} files scanned across ${roots.length} source roots).`)

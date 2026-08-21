@@ -1,88 +1,59 @@
-# Buenas Prácticas Generales de Aplicaciones YiQi
+# Buenas practicas generales de aplicaciones YiQi
 
 ## Arquitectura
 
-- Separar capa de presentación, dominio y acceso a datos.
-- Minimizar dependencias cruzadas entre módulos.
-- Favorecer funciones puras y componentes reutilizables.
+- Separar presentacion, dominio y acceso a datos.
+- Minimizar dependencias cruzadas.
+- Preferir TypeScript para nueva logica.
+- Mantener side effects explicitos.
 
-## Calidad de código
+## UI React / Next.js
 
-- Código legible antes que ingenioso.
-- Nombres explícitos para funciones y variables.
-- Preferir TypeScript como lenguaje por defecto para nueva lógica de negocio, integraciones y estado.
-- Si un módulo legacy sigue en JavaScript, favorecer migraciones incrementales a TypeScript durante cambios sustanciales.
-- Evitar side effects ocultos.
-- Manejar errores con contexto útil.
+- Buscar primero el componente en `@yiqi/ui`.
+- Importar componentes compartidos; no reconstruirlos localmente.
+- La app aporta datos, rutas, callbacks, children y copy mediante la API publica.
+- Si falta una capacidad reusable, agregarla primero al paquete.
+- No copiar JSX, tokens o CSS compartido desde catalogos, templates o Markdown.
+- Importar `@yiqi/ui/styles.css` una sola vez.
+- Ejecutar los guards del proyecto, incluido `npm run test:ui-redundancy` cuando se modifica la superficie React.
 
-## Redacción de UI
+## UI HTML / legacy
 
-- Todo texto visible al usuario debe mantener ortografía y sintaxis correctas en español (incluyendo tildes).
-- Mantener terminología funcional consistente entre pantallas e indicadores.
-- Reservar MAYÚSCULAS para siglas técnicas o de negocio (API, POS, SLA, SKU).
-- Redactar en español neutro latinoamericano, sin voseo ni regionalismos.
+- Consumir `https://diguardia.github.io/yiqi-imagen/styles.css`.
+- No copiar ni forkar la hoja completa.
+- Mantener templates legacy solo donde el runtime no puede consumir el componente React equivalente.
 
-## Estilos en aplicaciones consumidoras
+## Redaccion de UI
 
-- Cargar la hoja canónica remota una sola vez:
-  `https://diguardia.github.io/yiqi-imagen/styles.css`.
-- No incluir bloques `<style>`, CSS-in-JS visual, cadenas `cssText` ni hojas
-  locales que dupliquen tokens, componentes o decisiones visuales del Design
-  System.
-- Mantener el CSS local únicamente para adaptadores pequeños de comportamiento
-  o integración, siempre en archivos `.css` separados. Un adaptador no puede
-  redefinir el lenguaje visual ni convertirse en un fork de `styles.css`.
-- Si una regla visual puede reutilizarse, incorporarla primero al `styles.css`
-  canónico y consumir su clase publicada.
-- Usar `style` inline sólo para valores calculados en runtime, por ejemplo el
-  ancho de un progreso, una coordenada o un color proveniente de datos. Las
-  constantes de layout, tipografía, color y espaciado deben expresarse mediante
-  clases canónicas.
-- Ejecutar `npm run test:consumer-css -- <rutas>` sobre las raíces de la app
-  (`app`, `src`, `pages` o equivalentes) antes de integrar el cambio.
+- Texto visible con ortografia correcta en español.
+- Terminologia funcional consistente.
+- Evitar repetir el mismo concepto en titulo, ayuda, label y placeholder.
+- Un placeholder debe aportar formato o ejemplo; no repetir el label.
+- Reservar mayusculas para siglas cuando corresponda.
 
-## Aplicaciones orientadas a datos e indicadores
+## Datos e indicadores
 
-- Todo KPI o indicador visible debe declarar origen validable en el propio componente o en su ayuda contextual.
-- Formato mínimo recomendado de origen: modulo + campo(s) + agregado o formula + periodo.
-- La fuente visible al usuario debe expresarse en lenguaje funcional (negocio), no como ruta técnica cruda.
-- Si el indicador es derivado, debe explicar formula, unidad y criterios de calculo de forma entendible.
-- Si el indicador representa una cuenta, debe exponer composicion: componentes incluidos, exclusiones y filtros relevantes.
-- Si una fuente no esta disponible o llega incompleta, el indicador debe quedar como no disponible; no inventar valores locales.
-- Cuando exista degradacion a mock o fallback, se debe explicitar el estado para evitar confundir dato real con dato de ejemplo.
-- Todo indicador debe mostrar contexto temporal (periodo y/o fecha de corte) para evitar lecturas ambiguas.
-- El contrato de datos debe validarse y normalizarse antes de renderizar indicadores.
-- Los cambios de payload que afecten indicadores deben actualizar en el mismo cambio: mapeo, tests y documentacion.
-
-## Checklist minimo por indicador
-
-- [ ] Fuente funcional declarada y verificable.
-- [ ] Formula o regla de calculo explicada (si aplica).
-- [ ] Composicion de cuenta aclarada (si aplica).
-- [ ] Periodo o fecha de corte visible.
-- [ ] Estado no disponible/fallback correctamente comunicado.
-- [ ] Cobertura de test para camino feliz y error path.
+- Todo KPI real debe tener fuente verificable, formula/agregado y periodo.
+- Un indicador derivado debe explicar composicion cuando sea relevante.
+- Si la fuente no esta disponible, mostrar el estado como no disponible o dato de ejemplo.
+- Normalizar contratos de datos antes de renderizar.
+- Cambios de payload con impacto visual actualizan mapeo, tests y documentacion.
 
 ## Seguridad
 
-- Cumplir la política transversal y los gates de `docs/seguridad-aplicaciones.md`.
+- Cumplir `docs/seguridad-aplicaciones.md` y las politicas de integracion aplicables.
 - No exponer secretos en cliente.
-- Validar entradas y salidas.
-- Sanitizar datos visibles al usuario cuando corresponda.
+- Validar entradas y respuestas externas.
+- Logs utiles para diagnostico sin datos sensibles.
 
 ## Performance
 
-- Evitar renders innecesarios.
-- Cargar datos bajo demanda cuando aplique.
+- Evitar renders y requests innecesarios.
+- Cargar datos bajo demanda cuando aporte valor.
 - Medir antes de optimizar.
-
-## Observabilidad
-
-- Logs útiles para diagnóstico (sin datos sensibles).
-- Mensajes de error consistentes y accionables.
 
 ## Entrega
 
-- Cada funcionalidad debe cerrar con build + tests verdes.
-- Registrar decisiones relevantes en README/ADR breve.
-- En apps Next.js desplegadas en Azure App Service, si falla el arranque revisar primero el artifact (`.next/BUILD_ID`), la subida de archivos ocultos y el uso de Webpack documentados en `docs/azure-nextjs-app-service.md`.
+- Build y tests relevantes en verde.
+- Revisar regresiones de los flujos afectados.
+- Registrar solo decisiones reutilizables; no duplicar instrucciones ya canonicas en varios README.

@@ -1,0 +1,238 @@
+@import "./tokens.css";
+
+:where([class^="yiqi-"], [class*=" yiqi-"]),
+:where([class^="yiqi-"], [class*=" yiqi-"]) * { box-sizing: border-box; }
+
+.yiqi-root {
+  color: var(--yiqi-text);
+  font-family: var(--yiqi-font-sans);
+}
+
+.yiqi-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.yiqi-button {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: var(--yiqi-radius-sm);
+  background: var(--yiqi-bg-elev-2);
+  color: var(--yiqi-text);
+  font: 600 13px/1 var(--yiqi-font-sans);
+  cursor: pointer;
+  box-shadow: var(--yiqi-shadow-sm);
+  transition: background var(--yiqi-transition), color var(--yiqi-transition), opacity var(--yiqi-transition);
+}
+
+.yiqi-button:hover { background: var(--yiqi-bg-soft); }
+.yiqi-button:disabled { opacity: .55; cursor: not-allowed; }
+.yiqi-button:focus-visible,
+.yiqi-input:focus-visible,
+.yiqi-checkbox:focus-visible,
+.yiqi-icon-button:focus-visible,
+.yiqi-login-hint:focus-visible,
+.yiqi-login-footer:focus-visible,
+.yiqi-nav-link:focus-visible {
+  outline: 2px solid var(--yiqi-cyan);
+  outline-offset: 2px;
+}
+
+.yiqi-button--primary {
+  color: var(--yiqi-cyan);
+  background: var(--yiqi-cyan-soft);
+}
+
+.yiqi-button--ghost {
+  background: transparent;
+  box-shadow: none;
+  color: var(--yiqi-muted);
+}
+
+.yiqi-icon-button {
+  width: 36px;
+  height: 36px;
+  display: inline-grid;
+  place-items: center;
+  border: 0;
+  border-radius: var(--yiqi-radius-pill);
+  background: transparent;
+  color: var(--yiqi-muted);
+  cursor: pointer;
+  transition: background var(--yiqi-transition), color var(--yiqi-transition), opacity var(--yiqi-transition);
+}
+.yiqi-icon-button:hover { background: var(--yiqi-bg-soft); color: var(--yiqi-text); }
+.yiqi-icon-button:disabled { opacity: .55; cursor: not-allowed; }
+
+.yiqi-tooltip-content {
+  z-index: 120;
+  max-width: 240px;
+  padding: 6px 8px;
+  border: 1px solid var(--yiqi-line-strong);
+  border-radius: var(--yiqi-radius-xs);
+  background: var(--yiqi-bg-elev-2);
+  color: var(--yiqi-text);
+  font: 500 11px/1.3 var(--yiqi-font-sans);
+  text-align: center;
+  box-shadow: var(--yiqi-shadow-md);
+}
+.yiqi-tooltip-arrow { fill: var(--yiqi-bg-elev-2); }
+
+.yiqi-field { display: grid; gap: 6px; }
+.yiqi-label { color: var(--yiqi-muted); font: 500 12px/1.3 var(--yiqi-font-mono); }
+.yiqi-input-wrap { position: relative; display: block; }
+.yiqi-input {
+  width: 100%;
+  min-height: 42px;
+  padding: 0 14px;
+  border: 1px solid transparent;
+  border-radius: var(--yiqi-radius);
+  background: var(--yiqi-bg);
+  color: var(--yiqi-text);
+  font: 500 14px/1 var(--yiqi-font-sans);
+  outline: none;
+}
+.yiqi-input::placeholder { color: var(--yiqi-muted-2); }
+.yiqi-input:disabled { opacity: .6; cursor: not-allowed; }
+.yiqi-input--with-action { padding-right: 48px; }
+.yiqi-input-action { position: absolute; top: 50%; right: 6px; transform: translateY(-50%); }
+.yiqi-input:-webkit-autofill,
+.yiqi-input:-webkit-autofill:hover,
+.yiqi-input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--yiqi-text);
+  -webkit-box-shadow: 0 0 0 1000px var(--yiqi-bg) inset;
+  caret-color: var(--yiqi-text);
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+.yiqi-checkbox-row { display: inline-flex; align-items: center; gap: 9px; color: var(--yiqi-muted); font-size: 12px; cursor: pointer; }
+.yiqi-checkbox-row[data-disabled="true"] { opacity: .55; cursor: not-allowed; }
+.yiqi-checkbox {
+  width: 18px;
+  height: 18px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 5px;
+  background: var(--yiqi-bg-soft);
+  color: var(--yiqi-cyan);
+  box-shadow: inset 0 0 0 1px var(--yiqi-line);
+}
+.yiqi-checkbox:disabled { cursor: not-allowed; }
+.yiqi-checkbox[data-state="checked"] { background: var(--yiqi-cyan-soft); }
+.yiqi-checkbox-indicator { width: 12px; height: 12px; }
+
+.yiqi-login-screen {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 32px 20px;
+  background:
+    radial-gradient(circle at 72% 8%, color-mix(in srgb, var(--yiqi-cyan) 7%, transparent), transparent 28%),
+    radial-gradient(circle at 12% 60%, color-mix(in srgb, var(--yiqi-cyan) 4%, transparent), transparent 22%),
+    var(--yiqi-bg);
+}
+.yiqi-login-stage { width: min(100%, 430px); display: grid; gap: 18px; }
+.yiqi-login-brand { display: grid; justify-items: center; gap: 8px; text-align: center; }
+.yiqi-login-logo { width: 100px; height: 65px; color: var(--yiqi-text); }
+.yiqi-login-description { max-width: 360px; margin: 0; color: var(--yiqi-muted); font-size: 13px; line-height: 1.55; }
+.yiqi-login-card {
+  display: grid;
+  gap: 14px;
+  padding: 20px;
+  border-radius: var(--yiqi-radius-lg);
+  background: var(--yiqi-bg-elev);
+  box-shadow: var(--yiqi-shadow-lg);
+}
+.yiqi-login-form { display: grid; gap: 12px; }
+.yiqi-login-status { min-height: 34px; display: grid; place-items: center; padding: 8px 12px; border-radius: var(--yiqi-radius-sm); font-size: 12px; text-align: center; }
+.yiqi-login-status[data-state="idle"] { visibility: hidden; }
+.yiqi-login-status[data-state="loading"], .yiqi-login-status[data-state="info"] { color: var(--yiqi-cyan); background: var(--yiqi-cyan-soft); }
+.yiqi-login-status[data-state="error"] { color: var(--yiqi-red); background: var(--yiqi-red-soft); }
+.yiqi-login-footer { justify-self: center; color: var(--yiqi-muted-2); font: 500 11px/1 var(--yiqi-font-mono); text-decoration: none; }
+.yiqi-login-hint { justify-self: start; border: 0; padding: 0; background: transparent; color: var(--yiqi-muted); cursor: pointer; font: inherit; }
+.yiqi-login-eye-icon { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.yiqi-login-spinner { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; animation: yiqi-login-spin .8s linear infinite; }
+
+@keyframes yiqi-login-spin { to { transform: rotate(360deg); } }
+
+.yiqi-kpi-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.yiqi-kpi-card { min-width: 0; padding: 18px; border-radius: var(--yiqi-radius); background: var(--yiqi-bg-elev); box-shadow: var(--yiqi-shadow-sm); }
+.yiqi-kpi-label { color: var(--yiqi-muted); font-size: 12px; }
+.yiqi-kpi-value { margin-top: 8px; color: var(--yiqi-text); font: 700 28px/1 var(--yiqi-font-display); letter-spacing: -.03em; }
+.yiqi-kpi-meta { margin-top: 9px; color: var(--yiqi-muted-2); font-size: 11px; }
+.yiqi-tone--positive { color: var(--yiqi-green); }
+.yiqi-tone--warning { color: var(--yiqi-amber); }
+.yiqi-tone--danger { color: var(--yiqi-red); }
+
+.yiqi-runtime-banner { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 14px 16px; border-radius: var(--yiqi-radius); background: var(--yiqi-bg-elev); box-shadow: var(--yiqi-shadow-sm); }
+.yiqi-runtime-copy { display: grid; gap: 4px; }
+.yiqi-runtime-title { margin: 0; font-size: 13px; font-weight: 700; }
+.yiqi-runtime-description { margin: 0; color: var(--yiqi-muted); font-size: 12px; line-height: 1.45; }
+.yiqi-runtime-banner[data-tone="warning"] { background: color-mix(in srgb, var(--yiqi-amber) 8%, var(--yiqi-bg-elev)); }
+.yiqi-runtime-banner[data-tone="danger"] { background: color-mix(in srgb, var(--yiqi-red) 8%, var(--yiqi-bg-elev)); }
+
+.yiqi-trust-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.yiqi-trust-stat { padding: 16px; border-radius: var(--yiqi-radius); background: var(--yiqi-bg-elev); box-shadow: var(--yiqi-shadow-sm); }
+.yiqi-trust-value { font: 700 22px/1 var(--yiqi-font-display); }
+.yiqi-trust-label { margin-top: 7px; color: var(--yiqi-muted); font-size: 12px; }
+
+.yiqi-shell { min-height: 100dvh; background: var(--yiqi-bg); color: var(--yiqi-text); }
+.yiqi-topbar { position: sticky; top: 0; z-index: 20; height: var(--yiqi-topbar-h); display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 0 18px; background: color-mix(in srgb, var(--yiqi-bg) 90%, transparent); backdrop-filter: blur(18px); }
+.yiqi-topbar-left, .yiqi-topbar-right { display: flex; align-items: center; gap: 10px; }
+.yiqi-topbar-logo { width: 60px; height: 39px; color: var(--yiqi-text); }
+.yiqi-app-name { max-width: min(42vw, 260px); overflow: hidden; padding-left: 12px; border-left: 1px solid var(--yiqi-line-strong); color: var(--yiqi-muted); font: 600 12px/1.2 var(--yiqi-font-sans); text-overflow: ellipsis; white-space: nowrap; }
+.yiqi-menu-icon { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+.yiqi-shell-body { display: grid; grid-template-columns: var(--yiqi-sidebar-w) minmax(0, 1fr); min-height: calc(100dvh - var(--yiqi-topbar-h)); }
+.yiqi-sidebar { padding: 16px 12px; background: var(--yiqi-bg-elev); }
+.yiqi-nav { display: grid; gap: 6px; }
+.yiqi-nav-link { display: flex; align-items: center; min-height: 38px; padding: 0 12px; border-radius: var(--yiqi-radius-sm); color: var(--yiqi-muted); text-decoration: none; font-size: 13px; }
+.yiqi-nav-link:hover { background: var(--yiqi-bg-soft); color: var(--yiqi-text); }
+.yiqi-nav-link[data-active="true"] { background: var(--yiqi-cyan-soft); color: var(--yiqi-cyan); }
+.yiqi-content { min-width: 0; padding: 28px; }
+.yiqi-mobile-menu { display: none; }
+
+.yiqi-dialog-overlay { position: fixed; inset: 0; z-index: 90; background: rgba(0, 0, 0, .5); }
+.yiqi-dialog-content { position: fixed; top: 0; right: 0; bottom: 0; z-index: 100; width: min(88vw, 320px); overflow-y: auto; overscroll-behavior: contain; padding: 16px 12px; background: var(--yiqi-bg-elev); box-shadow: var(--yiqi-shadow-lg); scrollbar-color: var(--yiqi-line-strong) transparent; scrollbar-width: thin; }
+.yiqi-dialog-content::-webkit-scrollbar { width: 8px; }
+.yiqi-dialog-content::-webkit-scrollbar-thumb { border-radius: var(--yiqi-radius-pill); background: var(--yiqi-line-strong); }
+.yiqi-dialog-overlay[data-state="closed"], .yiqi-dialog-content[data-state="closed"] { display: none; }
+.yiqi-dialog-title { margin: 0 44px 16px 12px; font-size: 14px; }
+.yiqi-dialog-close { position: absolute; top: 10px; right: 10px; }
+.yiqi-dialog-tools { margin-top: 16px; display: grid; gap: 10px; }
+
+.yiqi-theme-cycle { min-width: 72px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .yiqi-login-spinner { animation: none; }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .yiqi-input { font-size: 16px; }
+}
+
+@media (max-width: 980px) {
+  .yiqi-kpi-grid, .yiqi-trust-grid { grid-template-columns: 1fr; }
+  .yiqi-shell-body { grid-template-columns: 1fr; }
+  .yiqi-sidebar { display: none; }
+  .yiqi-content { padding: 20px 16px; }
+  .yiqi-mobile-menu { display: inline-grid; }
+  .yiqi-topbar-right > .yiqi-desktop-only { display: none; }
+}
+
+@media (max-width: 520px) {
+  .yiqi-login-screen { padding: 20px 14px; }
+  .yiqi-login-card { padding: 16px; }
+}

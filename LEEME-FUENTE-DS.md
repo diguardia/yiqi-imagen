@@ -1,26 +1,38 @@
-# Fuente del Design System: este repo (`yiqi-imagen`)
+# Fuente canonica del Design System YiQi
 
-**Fuente canónica del DS:** este repositorio **`yiqi-imagen`** (`diguardia/yiqi-imagen`).
-A partir del **2026-06-11**, las actualizaciones del Design System (tokens, componentes,
-catálogo, documentación, templates) se hacen **acá**. Es la casa única del DS.
+El repositorio `diguardia/yiqi-imagen` es la casa unica del Design System YiQi.
 
-Archivos canónicos en este repo:
-- `styles.css` — **fuente única** del DS (tokens + componentes); el catálogo la usa y se publica al CDN.
-- `yiqi-design.md` — documentación maestra de diseño.
-- `yiqi-design-system.html` — catálogo visual.
-- `version.json` — versión legible por máquina.
+Dentro del repo hay fuentes canonicas distintas segun el tipo de consumidor.
 
-## Consumo
+## React / Next.js
 
-Las apps consumen el bundle publicado al CDN:
+La fuente ejecutable es `packages/ui/src/**`, publicada mediante los entrypoints de `@yiqi/ui`.
+
+Orden de precedencia:
+
+1. Codigo y tipos de `@yiqi/ui`.
+2. Ejemplos ejecutables de `apps/docs`.
+3. CSS y templates legacy.
+4. Markdown historico o explicativo.
+
+Una app React no debe reconstruir componentes desde `styles.css`, HTML, screenshots o Markdown si el componente ya existe en `@yiqi/ui`.
+
+## HTML / legacy
+
+`styles.css` sigue siendo la fuente canonica de estilos para consumidores HTML y proyectos que aun no migraron a React. Se publica en:
+
 `https://diguardia.github.io/yiqi-imagen/styles.css`
 
-El **catálogo** (`yiqi-design-system.html`) es de uso **interno del equipo**, no una página pública.
+Los templates legacy permanecen disponibles mientras existan consumidores reales.
 
-## Relación con `www.yiqi`
+## Documentacion
 
-`www.yiqi` (el sitio) ya **no** aloja el DS: el 2026-06-11 se quitaron de ese repo el catálogo,
-`ds-styles.css`, la documentación y el FAB. Si necesita estilos, consume `styles.css` del CDN
-como cualquier app.
+- `AGENTS.md`: reglas obligatorias para agentes.
+- `packages/ui/README.md`: consumo React.
+- `docs/react-migration.md`: estrategia de migracion.
+- `yiqi-design.md` y `execution.md`: referencia visual e historica; no sobreescriben un contrato React existente.
+- `version.json`: version del DS legacy legible por maquina.
 
-_Cambio de fuente definido el 2026-06-11: `yiqi-imagen` pasa a ser la fuente del DS._
+## Regla de cambio
+
+Si una necesidad es reutilizable entre aplicaciones React, se implementa primero en `@yiqi/ui`. Si solo afecta a un consumidor legacy, se mantiene dentro de la capa legacy correspondiente sin duplicar una implementacion React existente.

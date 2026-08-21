@@ -1,0 +1,53 @@
+name: React Design System
+
+# Ejecucion manual. No agregar disparadores automaticos sin autorizacion explicita.
+on:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Instalar dependencias reproducibles
+        run: npm ci
+
+      - name: Auditar dependencias productivas
+        run: npm run audit:production
+
+      - name: Ejecutar guards bloqueantes
+        run: npm test
+
+      - name: Inventariar deuda legacy del contrato DS
+        run: npm run test:clases-ds:legacy
+
+      - name: Compilar UI y catalogo Next.js
+        run: npm run build
+
+      - name: Verificar que el build no modifique archivos versionados
+        run: git diff --exit-code -- .
+
+      - name: Instalar Chromium para Playwright
+        run: npx playwright install --with-deps chromium
+
+      - name: Ejecutar pruebas de regresion funcional
+        run: npm run test:regresion:e2e
+
+      - name: Subir reporte de regresion
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: react-design-system-regresion
+          path: |
+            playwright-report
+            test-results
+          if-no-files-found: warn
+          retention-days: 14

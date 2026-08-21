@@ -1,22 +1,21 @@
-# KPI card template
+# KPI card legacy template
 
-Use this template when a project needs canonical YiQi KPI cards.
+Este template HTML queda disponible para consumidores legacy.
+
+## React / Next.js
+
+No copiar el HTML. Usar:
+
+```tsx
+import { YiQiKpiCard } from '@yiqi/ui/data-display'
+```
+
+Pasar label, value, metadata y tono mediante props. Si una variante se repite entre aplicaciones, agregarla al componente canonico.
+
+## HTML / legacy
+
+`html/kpi-card.html` contiene ejemplos con clases del DS. Cargar `styles.css` publicado y no copiar el stylesheet completo.
+
+Los KPIs reales deben mantener fuente validable y los datos simulados deben identificarse como ejemplo o no disponibles.
 
 ![KPI card preview](./assets/kpi-card-preview.png)
-
-## Files
-
-| File | Purpose |
-|------|---------|
-| `html/kpi-card.html` | Copy/paste KPI card examples using canonical DS classes. |
-
-## Style dependency
-
-Load `https://diguardia.github.io/yiqi-imagen/styles.css` and keep the classes
-from the template. Do not copy the full stylesheet.
-
-## Adapt
-
-- Replace values and labels.
-- Add source/tooltips in the consuming project when the KPI is real.
-- Use unavailable/demo states when the source is not validated.

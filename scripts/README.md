@@ -1,66 +1,57 @@
-# scripts/ — Automatizaciones del repo
+# scripts/ - automatizaciones del repo
 
-Cada script tiene **una sola responsabilidad** y se ejecuta vía su alias en `package.json`.
-No editar a mano los archivos que un script genera.
+Cada script tiene una responsabilidad concreta y un alias en `package.json`.
 
-| Script | Comando npm | Responsabilidad | Genera / toca |
-|--------|-------------|-----------------|---------------|
-| `check-detail-navigation.js` | `npm test` · `npm run test:detail-navigation` | **Guard de calidad.** Escanea código (`.js/.jsx/.ts/.tsx`) buscando rutas de detalle inseguras: `/undefined`, `item.ID`, `dataset.id` sin validar, rutas armadas con campos de negocio. | Nada (solo lee y sale 0/1) |
-| `check-consumer-css.js` | `npm run test:consumer-css -- <rutas>` | **Guard de estilos consumidores.** Detecta bloques `<style>`, `cssText` y estilos inline estáticos; acepta valores inline calculados en runtime. Sin argumentos revisa `app`, `src` y `pages`. | Nada (solo lee y sale 0/1) |
-| `check-clases-ds.js` | `npm run test:clases-ds -- <repos>` | **Guard de contrato del DS.** Cruza las clases que un repo usa, declara y documenta contra el `styles.css` canónico. Falla si una clase usada no existe en ninguna hoja, o si un `.md` documenta un componente que el CSS no publica. | Nada (solo lee y sale 0/1) |
+| Script | Comando | Responsabilidad |
+|---|---|---|
+| `check-detail-navigation.js` | `npm run test:detail-navigation` | Detecta navegacion de detalle armada con ids inseguros o legacy |
+| `check-consumer-css.js` | `npm run test:consumer-css -- <rutas>` | Impide CSS visual embebido y estilos inline estaticos en consumidores |
+| `check-clases-ds.js` | `npm run test:clases-ds -- <repos>` | Cruza clases usadas, declaradas y documentadas contra el contrato CSS |
+| `check-ui-css-isolation.js` | `npm run test:ui-css-isolation` | Impide selectores universales globales, variables CSS sin namespace y el atributo generico `data-theme` dentro del paquete React |
+| `check-ui-redundancy.js` | `npm run test:ui-redundancy` | Detecta componentes YiQi definidos mas de una vez y label/placeholder literales duplicados |
+| `check-production-audit.js` | `npm run audit:production` | Audita dependencias productivas y permite solo advisories upstream explicitamente enumerados; falla tambien si npm audit devuelve error o un reporte incompleto |
+| `serve-static.js` | `npm run test:static-server` / `npm run start --workspace=@yiqi/docs` | Sirve exports estaticos con Node para E2E y desarrollo local sin depender de Python |
 
-## Detalle por responsabilidad
+## check-ui-redundancy.js
 
-### `check-detail-navigation.js` — guard de navegación a detalle
-- **Tipo:** verificación / CI. No modifica archivos.
-- **Qué hace:** recorre `src`, `app`, `components`, `pages`, `lib`, `services` (y archivos de código en la raíz), ignorando `node_modules`, `docs`, `fixtures`, `Fuentes`, `scripts`. Aplica patrones de riesgo y, si encuentra alguno, imprime archivo:línea + sugerencia y **sale con código 1**.
-- **Cuándo correrlo:** antes de cada PR con UI de listados/detalle, y en CI.
-- **Si falla:** corregir el mapeo/query para exponer `item.id`; no agregar fallbacks. Ver `docs/yiqi-api.md` (regla fuerte de ids).
+Este guard protege errores que suelen aparecer cuando una pantalla se replica manualmente:
 
-### `check-consumer-css.js` — guard de CSS consumidor
-- **Tipo:** verificación / CI. No modifica archivos.
-- **Qué hace:** revisa HTML y código de UI en las rutas indicadas; rechaza CSS
-  embebido y estilos inline estáticos.
-- **Cuándo correrlo:** antes de cada PR que modifique una aplicación
-  consumidora. Ejemplo: `npm run test:consumer-css -- app src components`.
-- **Si falla:** usar una clase publicada en el `styles.css` canónico. Si la
-  regla es sólo de comportamiento o integración, moverla a un adaptador `.css`
-  pequeño y separado. Conservar inline únicamente el valor calculado.
+- dos implementaciones exportadas con el mismo nombre `YiQi*` dentro de la superficie React;
+- un `YiQiInput` con el mismo texto literal en `label` y `placeholder`.
 
-### `check-clases-ds.js` — guard de contrato del DS
-- **Tipo:** verificación / CI. No modifica archivos.
-- **Por qué existe:** la auditoría del 11/08/2026 encontró `login-input` y
-  `login-spinner` usadas por el componente React del login y definidas en
-  ninguna hoja —los campos renderizaban sin estilo—, y `btn-secondary`
-  documentada en el catálogo, inexistente en el CSS y usada en un informe que
-  se le manda a clientes. La documentación no falla nunca; por eso puede mentir
-  durante meses. Un test falla.
-- **Qué hace:** para cada repo que le pases, recorre HTML, JSX/TSX, JS y CSS
-  (incluidos los bloques `<style>` y el CSS que vive dentro de template
-  literals) y clasifica cada clase:
+No intenta decidir si dos frases diferentes son semanticamente redundantes. Esa parte sigue requiriendo revision de copy y QA visual.
 
-  | Nivel | Tipo | Significa |
-  |---|---|---|
-  | error | `HUERFANA` | El marcado la pide y no existe en ninguna hoja. Se renderiza sin estilo. |
-  | error | `FANTASMA` | Un `.md` la documenta como componente y el CSS canónico no la publica. |
-  | aviso | `PISADA` | El DS ya la publica y el repo la redefine igual. Puede divergir sin que nadie se entere. |
-  | aviso | `MUERTA` | Declarada y nunca usada. |
-  | aviso | `GANCHO` | El código la busca pero ningún CSS la pinta. Normal si es un hook de comportamiento. |
+Si falla, no se agrega una excepcion para conservar la duplicacion. Se elimina la segunda implementacion o se corrige el copy.
 
-- **Cuándo correrlo:** antes de publicar una versión de `styles.css`, y en el CI
-  de cada consumidor.
-- **Ejemplo:** `npm run test:clases-ds -- . ../www.yiqi ../mi-cuenta-yiqi --solo-errores`
-- **Opciones:** `--ds <archivo>` (otra hoja canónica), `--json` (salida para CI),
-  `--solo-errores`, `--sin-fallo` (inventariar sin romper el build).
-- **Si falla:** definir la clase en `styles.css` si es un componente del DS, o
-  corregir el marcado para usar la clase publicada. No agregar la definición
-  suelta en el consumidor: eso convierte el error en una `PISADA`, que es el
-  problema siguiente.
-- **Falsos positivos:** crear `.ds-lint-ignore` en la raíz del repo consumidor,
-  un patrón por línea (glob simple con `*`), `#` para comentarios.
+## Aislamiento CSS React
 
+`npm run test:ui-css-isolation` exige namespace `--yiqi-*`, evita selectores universales globales aunque aparezcan como `html *`, `body > *` o en una lista de selectores, y reserva `data-yiqi-theme` para el tema React. El paquete no debe seleccionar ni depender de `data-theme`, porque ese atributo puede pertenecer a la aplicacion consumidora.
+
+## Audit productivo
+
+`npm run audit:production` ejecuta la politica de excepciones de seguridad del repo. Un resultado de `npm audit` solo es aceptable si contiene un mapa `vulnerabilities` valido; errores de red, respuestas de error o JSON con forma inesperada hacen fallar el gate en lugar de interpretarse como cero vulnerabilidades.
+
+Una vulnerabilidad high/critical solo puede entrar en la excepcion si su paquete esta permitido y `via` contiene una dependencia permitida o un advisory URL explicitamente enumerado. Un `via` ausente o vacio falla.
+
+`npm run test:production-audit-policy` ejecuta el self-test sin red del parser y queda incluido en `npm test` para impedir que esa validacion vuelva a aceptar silenciosamente reportes incompletos.
+
+## Servidor estatico de pruebas
+
+`apps/docs` usa `output: 'export'`, por lo que su comando `start` sirve `out/` mediante `scripts/serve-static.js`. Playwright usa ese mismo comando. Esto evita depender de `python3` y mantiene el gate local sobre el runtime Node ya requerido por el repo.
+
+`npm run test:static-server` valida sin red resolucion segura de rutas y MIME basicos usados por el export de Next.
+
+## Contrato CSS legacy
+
+`check-clases-ds.js` sigue siendo util para inventariar deuda legacy. En la rama React se separan dos usos:
+
+- `test:clases-ds:react`: bloqueante para `packages/ui`;
+- `test:clases-ds:legacy`: inventario visible, sin bloquear deuda preexistente.
 
 ## Regla para nuevos scripts
-- Una responsabilidad por script; nombre que la describa.
-- Si genera archivos, escribir un header "GENERADO — NO editar a mano" y documentarlo acá.
-- Exponer un alias en `package.json` y agregar la fila en este README y en `scripts/INDEX.md`.
+
+- Una responsabilidad por script.
+- Sin modificar archivos salvo que el nombre y la documentacion indiquen que es un generador.
+- Exponer alias en `package.json`.
+- Agregar una fila en este README y `scripts/INDEX.md`.
+- Comentarios nuevos en español ASCII.

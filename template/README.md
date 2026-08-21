@@ -1,47 +1,37 @@
-# Template catalog
+# Catalogo de templates legacy
 
-Catalog of approved copy/paste templates for YiQi projects.
+Esta carpeta existe para compatibilidad, migraciones y consumidores que no pueden usar `@yiqi/ui`.
 
-Use this folder when a project needs a starting point that should keep the YiQi
-visual language without forcing a full application architecture.
+## Regla para React / Next.js
 
-For agents: these templates are legitimate implementation sources. Copy the
-matching template first, then adapt project copy, routes, data wiring, and
-integration details. Do not redesign an equivalent component from scratch when a
-template already covers the requested use case.
+Antes de abrir un template, buscar el componente en `@yiqi/ui`.
 
-Golden rule: templates copy structure, not the full Design System stylesheet.
-Every consuming project must load the canonical CSS from this repository:
+Si existe:
+
+- importarlo desde su entrypoint publico;
+- conectar props, datos, rutas y callbacks;
+- no copiar el TSX/HTML del template;
+- no agregar una segunda implementacion local;
+- no usar el template como base visual para reconstruir el componente.
+
+Los reemplazos actuales estan listados en `INDEX.md`.
+
+## Regla para HTML / legacy
+
+Los consumidores que no usan React pueden seguir usando los templates aprobados y cargar la hoja canonica legacy:
 
 ```html
 <link rel="stylesheet" href="https://diguardia.github.io/yiqi-imagen/styles.css">
 ```
 
-## Rules
+No copiar el stylesheet completo ni forkar tokens compartidos.
 
-- Templates are starting points, not mandatory architecture.
-- Agents should copy/paste the matching template before inventing new structure.
-- Copy HTML/TSX and small adapter code only.
-- Do not copy the full `styles.css` into another project.
-- Reference the published stylesheet from this repository so future DS updates
-  apply without copying CSS again.
-- If reusable visual CSS is missing, add it to this repository first instead of
-  creating a project-only fork.
-- Keep canonical class names so future DS updates apply automatically.
-- Keep project-specific copy configurable.
-- Do not include credentials, tokens, customer data, or private implementation details.
-- Prefer small files that can be copied independently.
-- Each template must include a README, usage notes, and a visual preview when possible.
-- Server-backed projects start from `security/` defaults and must satisfy `docs/seguridad-aplicaciones.md`.
+## Reglas de mantenimiento
 
-## Available templates
+- Un template con equivalente en `@yiqi/ui` queda congelado como legacy o se convierte en adaptador; no vuelve a incorporar logica paralela.
+- Un template sin equivalente React puede mantenerse hasta su migracion.
+- Copy especifico del proyecto debe seguir siendo configurable.
+- No incluir credenciales, tokens, customer data ni informacion sensible.
+- Email y templates de infraestructura tienen restricciones propias y no se consideran componentes React.
 
-| Template | Use when |
-|----------|----------|
-| `login/` | A Next.js app needs the standard YiQi login screen with logo, status slot, remember-user behavior, and configurable project copy. |
-| `app-shell/` | A YiQi app needs the standard application frame. |
-| `kpi-card/` | A project needs canonical KPI cards. |
-| `runtime-banner/` | A view needs mock/error/unavailable runtime state. |
-| `trust/` | A section needs trust metrics. |
-| `analytics-pro-banner/` | A web page needs the Analytics Pro promo banner. |
-| `security/` | A server-backed app needs secure API route, Docker and CI starting points. |
+Para nuevas aplicaciones React, la fuente de consumo es `../packages/ui/README.md`.

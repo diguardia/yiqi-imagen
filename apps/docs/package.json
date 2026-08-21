@@ -1,0 +1,23 @@
+{
+  "name": "@yiqi/docs",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "node ../../scripts/serve-static.js out 3000",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@yiqi/ui": "*",
+    "next": "16.2.12",
+    "react": "19.2.7",
+    "react-dom": "19.2.7"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.2",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "typescript": "^6.0.3"
+  }
+}
