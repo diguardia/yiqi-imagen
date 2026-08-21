@@ -3,7 +3,7 @@
 Repositorio de **empaquetado y publicación al CDN** de la hoja de estilos de consumo del
 Design System YiQi, más la documentación de componentes y las guías de implementación.
 
-![Version](https://img.shields.io/badge/version-1.2.7-00ccff?style=flat-square)
+![Version](https://img.shields.io/badge/version-1.2.8.26-00ccff?style=flat-square)
 ![Status](https://img.shields.io/badge/status-stable-green?style=flat-square)
 ![License](https://img.shields.io/badge/license-proprietary-blue?style=flat-square)
 
@@ -30,11 +30,11 @@ Design System YiQi, más la documentación de componentes y las guías de implem
 yiqi-imagen-1/
 ├── README.md                     # Este archivo (puerta de entrada)
 ├── LEEME-FUENTE-DS.md            # ✅ Este repo es la fuente del DS
-├── version.json                  # { ds_version: "1.2.7" }
+├── version.json                  # { ds_version: "1.2.8.26" }
 │
 ├── styles.css                    # ★ Hoja de estilos de consumo (CDN)
-├── yiqi-design.md                # ★ Guía maestra de diseño v1.2.7
-├── execution.md                  # ★ Guía de ejecución v1.2.7
+├── yiqi-design.md                # ★ Guía maestra de diseño v1.2.8.26
+├── execution.md                  # ★ Guía de ejecución v1.2.7.6
 ├── api-docs.html                 # Documentación de API (HTML interactivo)
 │
 ├── Agent/                        # 🤖 Instrucciones para agentes de IA
@@ -57,7 +57,7 @@ Cada carpeta tiene su propio `INDEX.md` con una tabla de contenido legible por h
 | Archivo | Para quién | Propósito |
 |---------|-----------|-----------|
 | `styles.css` | Desarrollador | Hoja de estilos completa — consumir vía CDN (no copiar) |
-| `yiqi-design.md` | IA / Claude | Guía maestra de componentes y patrones v1.2.7 |
+| `yiqi-design.md` | IA / Claude | Guía maestra de componentes y patrones v1.2.8.26 |
 | `execution.md` | IA / Claude | Checklist de implementación paso a paso |
 | `template/` | Dev / IA | Templates reutilizables por pantalla o módulo |
 | `version.json` | CI / scripts | Versión legible por máquina |
@@ -98,7 +98,7 @@ primera tarea sin copiar logs, secretos ni historial innecesario.
 
 ---
 
-## Tokens principales — v1.2.7
+## Tokens principales — v1.2.8.26
 
 ### Backgrounds
 ```css
@@ -174,7 +174,7 @@ border: 1px solid var(--border);
 
 ```
 MAJOR.MINOR.PATCH
-1.2.7
+1.2.8
 │ │ └─ Bug fixes / refinamientos (retrocompatible)
 │ └─── Nuevos componentes / features (retrocompatible)
 └───── Cambios breaking (requiere migración)
@@ -182,13 +182,14 @@ MAJOR.MINOR.PATCH
 
 | Versión | Estado | Cambios principales |
 |---------|--------|-------------------|
-| **1.2.7** | ✅ Estable | Sección Aplicaciones (kit de apps), inputs borderless, consolidación fuente única |
+| **1.2.8** | ✅ Estable | Botón default borderless, hover del ghost corregido en modo claro, estado deshabilitado, `--bg-soft` con contraste real |
+| 1.2.7 | 🏛️ | Sección Aplicaciones (kit de apps), inputs borderless, consolidación fuente única |
 | 1.2.6 | 🏛️ | Greycliff CF display, tokens sincronizados con el sitio |
 | 1.2.5 | 🏛️ | Tokens corregidos, borderless, toggle 3 estados, yiqi-runtime.js |
 | 1.2.4 | 🏛️ Archive | Mobile fix, Phosphor icons, tabla sortable |
 
 ---
 
-**Última actualización:** Junio 2026
-**Versión DS:** 1.2.7
+**Última actualización:** 21/08/2026
+**Versión DS:** 1.2.8.26
 **Estado:** ✅ Stable
