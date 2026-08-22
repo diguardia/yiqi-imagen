@@ -13,6 +13,7 @@ export function DocsSiteHeader() {
         </Link>
         <p className="docs-header-context">Componentes y contratos para productos YiQi</p>
         <div className="docs-site-tools">
+          <span className="docs-theme-label">Tema</span>
           <YiQiThemeCycle />
         </div>
       </div>

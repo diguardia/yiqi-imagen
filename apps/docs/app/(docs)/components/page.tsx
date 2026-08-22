@@ -28,7 +28,7 @@ export default function ComponentsPage() {
           <div className="docs-example-grid">
             <article className="docs-component-example">
               <div className="docs-component-copy">
-                <h3>YiQiLogo</h3>
+                <h3><DetailLink id="logo">YiQiLogo</DetailLink></h3>
                 <p>Marca vectorial con color adaptable al tema y acento cyan.</p>
               </div>
               <div className="docs-example-preview docs-example-preview--brand">
@@ -37,7 +37,7 @@ export default function ComponentsPage() {
             </article>
             <article className="docs-component-example">
               <div className="docs-component-copy">
-                <h3>YiQiThemeCycle</h3>
+                <h3><DetailLink id="theme-cycle">YiQiThemeCycle</DetailLink></h3>
                 <p>Preferencia de apariencia con estados oscuro, sistema y claro.</p>
               </div>
               <div className="docs-example-preview">
@@ -47,11 +47,11 @@ export default function ComponentsPage() {
           </div>
           <div className="docs-contract-grid">
             <article className="docs-contract-card">
-              <strong>YiQiProvider</strong>
+              <strong><DetailLink id="provider">YiQiProvider</DetailLink></strong>
               <span>Contexto compartido para preferencia de tema y primitives globales.</span>
             </article>
             <article className="docs-contract-card">
-              <strong>YiQiThemeScript</strong>
+              <strong><DetailLink id="theme-script">YiQiThemeScript</DetailLink></strong>
               <span>Bootstrap SSR que resuelve la apariencia antes de hidratar la aplicación.</span>
             </article>
           </div>
@@ -65,7 +65,7 @@ export default function ComponentsPage() {
           <div className="docs-example-grid">
             <article className="docs-component-example">
               <div className="docs-component-copy">
-                <h3>YiQiButton</h3>
+                <h3><DetailLink id="button">YiQiButton</DetailLink></h3>
                 <p>Acciones base con jerarquías default, primary y ghost.</p>
               </div>
               <div className="docs-example-preview docs-example-actions">
@@ -78,7 +78,7 @@ export default function ComponentsPage() {
 
             <article className="docs-component-example">
               <div className="docs-component-copy">
-                <h3>YiQiInput</h3>
+                <h3><DetailLink id="input">YiQiInput</DetailLink></h3>
                 <p>Entrada etiquetada con atributos nativos y acción opcional.</p>
               </div>
               <div className="docs-example-preview">
@@ -88,7 +88,7 @@ export default function ComponentsPage() {
 
             <article className="docs-component-example">
               <div className="docs-component-copy">
-                <h3>YiQiTextarea</h3>
+                <h3><DetailLink id="textarea">YiQiTextarea</DetailLink></h3>
                 <p>Campo multilínea que conserva el contrato visual de formularios.</p>
               </div>
               <div className="docs-example-preview">
@@ -98,7 +98,7 @@ export default function ComponentsPage() {
 
             <article className="docs-component-example">
               <div className="docs-component-copy">
-                <h3>YiQiCheckbox</h3>
+                <h3><DetailLink id="checkbox">YiQiCheckbox</DetailLink></h3>
                 <p>Selección binaria accesible con estado controlado o inicial.</p>
               </div>
               <div className="docs-example-preview docs-checkbox-stack">
@@ -109,7 +109,7 @@ export default function ComponentsPage() {
 
             <article className="docs-component-example">
               <div className="docs-component-copy">
-                <h3>YiQiTooltip</h3>
+                <h3><DetailLink id="tooltip">YiQiTooltip</DetailLink></h3>
                 <p>Etiqueta contextual para controles compactos que conservan su nombre accesible.</p>
               </div>
               <div className="docs-example-preview">
@@ -130,7 +130,7 @@ export default function ComponentsPage() {
           </div>
           <article className="docs-component-example docs-component-example--wide">
             <div className="docs-component-copy">
-              <h3>YiQiLogin</h3>
+              <h3><DetailLink id="login">YiQiLogin</DetailLink></h3>
               <p>Pantalla canónica de acceso, con validación, loading, remember y visibilidad de contraseña.</p>
             </div>
             <div className="docs-component-actions">
@@ -147,7 +147,7 @@ export default function ComponentsPage() {
           </div>
           <article className="docs-component-example docs-component-example--wide">
             <div className="docs-component-copy">
-              <h3>YiQiAppShell</h3>
+              <h3><DetailLink id="app-shell">YiQiAppShell</DetailLink></h3>
               <p>Topbar, identidad de aplicación, navegación lateral y drawer responsive.</p>
             </div>
             <div className="docs-component-actions">
@@ -164,7 +164,7 @@ export default function ComponentsPage() {
           </div>
           <article className="docs-component-example docs-component-example--wide">
             <div className="docs-component-copy">
-              <h3>YiQiKpiCard</h3>
+              <h3><DetailLink id="kpi-card">YiQiKpiCard</DetailLink></h3>
               <p>Indicador numérico con metadata opcional y tonos semánticos.</p>
             </div>
             <div className="yiqi-kpi-grid">
@@ -180,7 +180,7 @@ export default function ComponentsPage() {
 
           <article className="docs-component-example docs-component-example--wide">
             <div className="docs-component-copy">
-              <h3>YiQiTrustStat</h3>
+              <h3><DetailLink id="trust-stat">YiQiTrustStat</DetailLink></h3>
               <p>Métrica compacta para datos de confianza o disponibilidad.</p>
             </div>
             <div className="yiqi-trust-grid">
@@ -198,7 +198,7 @@ export default function ComponentsPage() {
           </div>
           <article className="docs-component-example docs-component-example--wide">
             <div className="docs-component-copy">
-              <h3>YiQiRuntimeBanner</h3>
+              <h3><DetailLink id="runtime-banner">YiQiRuntimeBanner</DetailLink></h3>
               <p>Estado contextual con tratamientos neutral, warning y danger.</p>
             </div>
             <div className="docs-feedback-stack">
@@ -219,4 +219,8 @@ function HomeIcon() {
       <path d="M4 11.5 12 5l8 6.5V20h-5v-5H9v5H4Z" />
     </svg>
   )
+}
+
+function DetailLink({ id, children }: { id: string; children: string }) {
+  return <Link className="docs-component-detail-link" href={`/components/${id}/`} prefetch={false}>{children}<span aria-hidden="true"> →</span></Link>
 }

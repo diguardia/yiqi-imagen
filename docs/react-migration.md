@@ -59,6 +59,8 @@ Los componentes estan agrupados fisicamente y tienen entrypoints publicos por re
 
 El catalogo Next.js funciona como portal de documentacion: comparte un shell con navegacion lateral en desktop, rail navegable en mobile, estados de tema y superficies ejecutables para componentes, aplicacion y migracion. La portada usa los mismos componentes publicos para mostrar como se ensamblan dentro de una interfaz YiQi.
 
+Los 14 componentes publicos tienen una ruta estatica individual derivada de su `id` canonico. Cada detalle incluye preview, import y ejemplo copiables, API, variantes, accesibilidad y navegacion anterior/siguiente. El sidebar deriva su estado actual de la URL y mantiene visible el componente activo en desktop.
+
 ## Regla anti-regresion de paridad
 
 Si una pantalla legacy usa una capacidad no expuesta por el componente React:
@@ -101,7 +103,7 @@ Un template legacy solo se considera reemplazado por completo cuando sus capacid
 
 1. Completar la paridad funcional de los componentes React parciales segun demanda real.
 2. Migrar los componentes interactivos restantes.
-3. Crear rutas de detalle por componente con preview, API, variantes, accesibilidad y ejemplos copiables.
+3. Agregar busqueda del catalogo cuando el inventario crezca y lo justifique.
 4. Usar una app real como consumidor piloto.
 5. Definir publicacion y versionado semantico de `@yiqi/ui`.
 6. Retirar legacy solo cuando no tenga consumidores y la paridad necesaria este validada.

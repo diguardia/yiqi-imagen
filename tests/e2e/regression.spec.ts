@@ -133,10 +133,12 @@ test.describe('regresiones funcionales', () => {
     const forgotPassword = page.getByRole('button', { name: '¿Olvidaste tu contraseña?', exact: true })
     await submit.click()
 
-    await expect(submit.locator('.yiqi-login-spinner')).toBeVisible()
-    await expect(submit).toBeDisabled()
-    await expect(forgotPassword).toBeEnabled()
-    await expect(page.getByRole('status')).toContainText('Iniciando sesión')
+    await Promise.all([
+      expect(submit.locator('.yiqi-login-spinner')).toBeVisible(),
+      expect(submit).toBeDisabled(),
+      expect(forgotPassword).toBeEnabled(),
+      expect(page.getByRole('status')).toContainText('Iniciando sesión'),
+    ])
     await expect(page.getByRole('status')).toContainText('Usuario o contraseña incorrectos.')
     await expect(submit).toBeEnabled()
   })

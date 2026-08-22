@@ -53,6 +53,25 @@ test('captures component catalog and migration on narrow viewports', async ({ pa
   await page.screenshot({ path: testInfo.outputPath('migration-mobile-dark.png'), fullPage: true })
 })
 
+test('captures component detail at user and narrow viewports', async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 1366, height: 728 })
+  await seedTheme(page, 'light')
+  await page.goto('/components/button/')
+  await assertNoHorizontalOverflow(page)
+  await page.screenshot({ path: testInfo.outputPath('component-button-user-light.png') })
+
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.reload()
+  await assertNoHorizontalOverflow(page)
+  await expect(page.getByText('Descripción', { exact: true }).first()).toBeVisible()
+  await page.screenshot({ path: testInfo.outputPath('component-button-mobile-light.png'), fullPage: true })
+
+  await page.setViewportSize({ width: 320, height: 720 })
+  await page.reload()
+  await assertNoHorizontalOverflow(page)
+  await page.screenshot({ path: testInfo.outputPath('component-button-320-light.png') })
+})
+
 test('captures reference app desktop and mobile', async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 1280, height: 900 })
   await seedTheme(page, 'light')

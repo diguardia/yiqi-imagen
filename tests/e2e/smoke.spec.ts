@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-const routes = ['/', '/app/', '/components/', '/migrar/', '/login/', '/shell/', '/compat-login/'] as const
+const routes = ['/', '/app/', '/components/', '/components/button/', '/components/runtime-banner/', '/migrar/', '/login/', '/shell/', '/compat-login/'] as const
 
 for (const route of routes) {
   test(`${route} loads without runtime or same-origin request failures`, async ({ page }) => {
@@ -41,7 +41,7 @@ for (const route of routes) {
 }
 
 test('docs portal comparte marca y navegacion en sus superficies', async ({ page }) => {
-  for (const route of ['/', '/components/', '/migrar/'] as const) {
+  for (const route of ['/', '/components/', '/components/button/', '/migrar/'] as const) {
     await page.goto(route)
     await expect(page.locator('.docs-site-header')).toBeVisible()
     await expect(page.locator('svg.docs-brand-logo')).toBeVisible()
@@ -53,6 +53,24 @@ test('docs portal comparte marca y navegacion en sus superficies', async ({ page
 
   await page.goto('/migrar/')
   await expect(page.getByRole('link', { name: 'Migración', exact: true })).toHaveAttribute('aria-current', 'page')
+})
+
+test('component detail exposes canonical navigation, API and copy feedback', async ({ page, context }) => {
+  await context.grantPermissions(['clipboard-read', 'clipboard-write'])
+  await page.goto('/components/button/')
+
+  await expect(page.getByRole('heading', { name: 'YiQiButton', level: 1 })).toBeVisible()
+  await expect(page.getByRole('link', { name: 'Button', exact: true })).toHaveAttribute('aria-current', 'page')
+  await expect(page.getByRole('table', { name: 'Props públicas de YiQiButton' })).toBeVisible()
+
+  const importSnippet = page.getByTestId('snippet-import')
+  await importSnippet.getByRole('button', { name: 'Copiar' }).click()
+  await expect(importSnippet.getByRole('button', { name: 'Copiado' })).toBeVisible()
+  await expect(importSnippet).toContainText("import { YiQiButton } from '@yiqi/ui/primitives'")
+
+  await page.goto('/components/runtime-banner/')
+  await expect(page.getByRole('link', { name: 'RuntimeBanner', exact: true })).toBeVisible()
+  await expect(page.getByRole('link', { name: 'RuntimeBanner', exact: true })).toHaveAttribute('aria-current', 'page')
 })
 
 test('brand logo renders as inline SVG in the critical app surfaces', async ({ page }) => {

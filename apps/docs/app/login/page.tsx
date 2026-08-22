@@ -8,7 +8,7 @@ export default function LoginPage() {
       appName="Operaciones"
       description="Ingresa con tu usuario para continuar."
       onSubmit={async ({ username, password }) => {
-        await new Promise((resolve) => setTimeout(resolve, 1000))
+        await new Promise((resolve) => setTimeout(resolve, 2000))
         if (username === 'demo' && password === 'demo') return { ok: true }
         return { error: 'Usuario o contraseña incorrectos.' }
       }}

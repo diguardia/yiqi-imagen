@@ -18,3 +18,8 @@ Do not read this when:
 - Keep transport models separate from internal models and UI DTOs.
 - Fail explicitly on missing or unexpected identifiers instead of guessing aliases.
 
+## 2026-08-21 - Documentation routes used a business-named identifier
+
+Root cause: component detail links were initially derived from a field named `slug`. The repository contract and navigation guard require every detail destination to use the canonical `item.id`, even when the visible URL is human-readable.
+
+Final fix: make `id` the single catalog identifier, derive static params, sidebar links, index links, and previous/next links from it, and keep route labels separate from the href expression.

@@ -29,3 +29,9 @@ Final fix: seed storage first. If a consumer-owned root attribute is part of the
 Root cause: documentation cards used `width: 100%` with padding and borders under content-box sizing. The island looked close to correct but extended past its grid track on narrow viewports.
 
 Final fix: assign `box-sizing: border-box` to the explicit-width owner and verify document `scrollWidth` at narrow widths.
+
+## 2026-08-21 - Sequential assertions missed one loading frame
+
+Root cause: an E2E test checked spinner, disabled action, enabled recovery, and live status one after another. Under parallel load, the valid transient state ended before the last assertion started, so the test contradicted its own same-frame contract.
+
+Final fix: assert all projections of the same transient loading state concurrently, then assert the final error or result state after that group resolves.
