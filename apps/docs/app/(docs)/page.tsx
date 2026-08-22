@@ -16,10 +16,23 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div className="docs-hero-preview" aria-label="Vista previa de componentes YiQi">
-          <YiQiKpiCard label="Facturación" value="$ 4.284.900" tone="positive" meta="+8,0% este período" />
-          <YiQiRuntimeBanner title="Servicios disponibles" description="Sin incidencias activas." />
-        </div>
+        <section className="docs-hero-preview" aria-labelledby="docs-flow-title">
+          <div className="docs-flow-heading">
+            <span className="docs-flow-signal" aria-hidden="true" />
+            <div>
+              <p className="docs-kicker">Sistema en ejecución</p>
+              <h2 id="docs-flow-title">Una interfaz, un contrato</h2>
+            </div>
+          </div>
+          <div className="docs-flow-stage">
+            <span className="docs-flow-index">01</span>
+            <YiQiKpiCard label="Facturación" value="$ 4.284.900" tone="positive" meta="+8,0% este período" />
+          </div>
+          <div className="docs-flow-stage">
+            <span className="docs-flow-index">02</span>
+            <YiQiRuntimeBanner title="Servicios disponibles" description="Sin incidencias activas." />
+          </div>
+        </section>
       </section>
 
       <section className="docs-home-migration" aria-labelledby="docs-migration-entry-title">

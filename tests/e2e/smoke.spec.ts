@@ -11,7 +11,10 @@ for (const route of routes) {
 
     page.on('pageerror', (error) => pageErrors.push(error.message))
     page.on('console', (message) => {
-      if (message.type() === 'error') consoleErrors.push(message.text())
+      const location = message.location()
+      const playwrightSandboxProbe = location.url === 'about:srcdoc'
+        && message.text().startsWith("Blocked script execution in 'about:srcdoc'")
+      if (message.type() === 'error' && !playwrightSandboxProbe) consoleErrors.push(message.text())
     })
     page.on('requestfailed', (request) => {
       const url = new URL(request.url())

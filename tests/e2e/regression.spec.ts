@@ -54,8 +54,10 @@ test.describe('regresiones funcionales', () => {
   test('el tema guardado se aplica antes de hidratar React sin pisar data-theme del consumidor', async ({ page }) => {
     await page.emulateMedia({ colorScheme: 'dark' })
     await page.addInitScript(() => {
-      document.documentElement.setAttribute('data-theme', 'consumer')
       window.localStorage.setItem('yiqi-theme', 'light')
+      document.addEventListener('DOMContentLoaded', () => {
+        document.documentElement.setAttribute('data-theme', 'consumer')
+      }, { once: true })
     })
     await page.route('**/_next/static/**/*.js', (route) => route.abort())
 
@@ -131,8 +133,8 @@ test.describe('regresiones funcionales', () => {
     const forgotPassword = page.getByRole('button', { name: '¿Olvidaste tu contraseña?', exact: true })
     await submit.click()
 
-    await expect(submit).toBeDisabled()
     await expect(submit.locator('.yiqi-login-spinner')).toBeVisible()
+    await expect(submit).toBeDisabled()
     await expect(forgotPassword).toBeEnabled()
     await expect(page.getByRole('status')).toContainText('Iniciando sesión')
     await expect(page.getByRole('status')).toContainText('Usuario o contraseña incorrectos.')
@@ -142,8 +144,10 @@ test.describe('regresiones funcionales', () => {
   test('el tema conserva persistencia y el ciclo oscuro sistema claro sin pisar data-theme', async ({ page }) => {
     await page.emulateMedia({ colorScheme: 'light' })
     await page.addInitScript(() => {
-      document.documentElement.setAttribute('data-theme', 'consumer')
       window.localStorage.setItem('yiqi-theme', 'dark')
+      document.addEventListener('DOMContentLoaded', () => {
+        document.documentElement.setAttribute('data-theme', 'consumer')
+      }, { once: true })
     })
     await page.goto('/shell/')
 

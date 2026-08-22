@@ -31,6 +31,7 @@ Add category files only when there is a real recurring error class.
 | File | Read when |
 |------|-----------|
 | `tooling-errors.md` | PowerShell, npm, Node, test runner, generated folder, lockfile, or local tooling failures. |
+| `ui-regression-errors.md` | React, Radix, accessibility tree, hydration, responsive overflow, or visual regression failures. |
 | `api-contract-errors.md` | API fields, schema ids, endpoint contracts, auth context, or data mapping assumptions fail. |
 | `authentication-errors.md` | Login, session, MFA, OAuth/OIDC, recovery, logout, or identity verification fails. |
 | `authorization-errors.md` | A role, tenant, operation, object, field, or message is allowed or denied incorrectly. |

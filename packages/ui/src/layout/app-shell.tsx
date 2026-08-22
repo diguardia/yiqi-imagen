@@ -77,11 +77,12 @@ export function YiQiAppShell({ appName, navigation, children, account, actions }
           {!isMobile && actions ? <div className="yiqi-desktop-only">{actions}</div> : null}
           {!isMobile ? <div className="yiqi-desktop-only"><YiQiThemeCycle /></div> : null}
 
-          <Dialog.Root open={navigationOpen} onOpenChange={setNavigationOpen}>
+          <Dialog.Root modal={false} open={navigationOpen} onOpenChange={setNavigationOpen}>
             <YiQiTooltip label={OPEN_MENU_TEXT}>
               <Dialog.Trigger asChild>
                 <button className="yiqi-icon-button yiqi-mobile-menu" type="button" aria-label={OPEN_MENU_TEXT}>
                   <MenuIcon />
+                  <span className="yiqi-sr-only">{OPEN_MENU_TEXT}</span>
                 </button>
               </Dialog.Trigger>
             </YiQiTooltip>
@@ -94,6 +95,7 @@ export function YiQiAppShell({ appName, navigation, children, account, actions }
                   <Dialog.Close asChild>
                     <button className="yiqi-icon-button yiqi-dialog-close" type="button" aria-label={CLOSE_MENU_TEXT}>
                       <CloseIcon />
+                      <span className="yiqi-sr-only">{CLOSE_MENU_TEXT}</span>
                     </button>
                   </Dialog.Close>
                 </YiQiTooltip>

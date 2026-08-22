@@ -10,6 +10,7 @@ html[data-yiqi-theme="dark"] {
   --yiqi-line: rgba(255, 255, 255, 0.08);
   --yiqi-line-strong: rgba(255, 255, 255, 0.14);
   --yiqi-cyan: #00ccff;
+  --yiqi-cyan-vivid: #00ccff;
   --yiqi-cyan-soft: rgba(0, 204, 255, 0.1);
   --yiqi-green: #15d49c;
   --yiqi-green-soft: rgba(21, 212, 156, 0.1);
@@ -43,7 +44,8 @@ html[data-yiqi-theme="light"] {
   --yiqi-muted-2: #636875;
   --yiqi-line: rgba(0, 0, 0, 0.08);
   --yiqi-line-strong: rgba(0, 0, 0, 0.13);
-  --yiqi-cyan: #009fc7;
+  --yiqi-cyan: #00728e;
+  --yiqi-cyan-vivid: #00a9d4;
   --yiqi-cyan-soft: rgba(0, 159, 199, 0.1);
   --yiqi-green: #0c9b6d;
   --yiqi-green-soft: rgba(12, 155, 109, 0.1);
