@@ -132,7 +132,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.27";
+  --ds-version: "1.2.8.28";
 
   /* Layout */
   --topbar-h:  56px;
@@ -612,21 +612,20 @@ html[data-theme="light"] .brand-logo-light { display: block; }
    Usa el par --accent / --accent-ink que el sistema YA declara y que .mb-cta
    ya consume; no se inventan tokens nuevos para lo mismo.
 
-   ATENCION — el par por defecto NO pasa contraste: --accent resuelve a
-   --cyan (#00ccff) y --accent-ink a --text-white (#ffffff), que miden
-   1.90:1. Es un defecto abierto de --accent-ink, anterior a esta variante y
-   heredado por .mb-cta; el catalogo lo esquiva pasando --accent: var(--green)
-   a mano. Hasta que se corrija, toda vista que use .btn-solid tiene que
-   declarar un --accent que sostenga su --accent-ink. Ojo con la trampa de
-   custom properties: --accent: var(--cyan) esta declarado en :root, asi que
-   ya resolvio a #00ccff ahi y hereda ese valor; un contexto de marca que
-   redefine --cyan NO cambia --accent, tiene que declararlo el tambien.
-   app-tiendanube lo hace: 5.17:1 en oscuro, 7.15:1 en claro.
+   v1.2.8.28 — el par por defecto ya pasa contraste y no hay que declararle
+   nada. --accent apuntaba a --cyan y con --text-white encima media 1.90:1 en
+   oscuro y 3.10:1 en claro: los dos abajo del minimo AA para 14px. Cada
+   consumidor lo esquivaba por su cuenta y con un color distinto — azul inline
+   en la demo del catalogo, verde en .mb-cta, el suyo en app-tiendanube — que
+   es justo lo que el acento unico existe para evitar. Ahora --accent apunta a
+   --cyan-solid (#007e9c): el cian mas vivo que sostiene blanco a 4.5:1 en los
+   dos temas, verificado por barrido sobre el tono. Medido despues: 4.70:1 con
+   blanco en claro y en oscuro.
 
    Criterio de uso: un solo .btn-solid por vista, el CTA que la vista existe
    para provocar. Dos solidos en la misma fila vuelven a empatar la jerarquia
    y el ojo pierde cual es la accion. Todo lo demas sigue en primary o ghost.
-   21/08/2026. */
+   21/08/2026, revisado 01/09/2026. */
 .btn-solid {
   background: var(--accent);
   color: var(--accent-ink);
