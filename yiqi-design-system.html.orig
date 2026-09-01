@@ -1879,7 +1879,7 @@ body.preview-open .ds-layout { display: none !important; }
 <svg class="il" viewbox="0 0 24 24"><line x1="12" x2="12" y1="5" y2="19"></line><line x1="5" x2="19" y1="12" y2="12"></line></svg>
           Primary
         </button>
-<button class="btn btn-solid">Solid</button>
+<button class="btn btn-solid" style="--accent:#2563eb">Solid</button>
 <button class="btn btn-amber">
 <svg class="il" viewbox="0 0 24 24"><path d="M12 3v12"></path><path d="M7 10l5 5 5-5"></path><path d="M5 21h14"></path></svg>
           Instalar

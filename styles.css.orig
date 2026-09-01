@@ -68,10 +68,7 @@
   --accent-rgb:  0,204,255;
   --cyan-soft:   rgba(0,204,255,.10);
   --cyan-soft-2: rgba(0,204,255,.16);
-  --cyan-solid:  #007e9c;  /* relleno de la variante solida. No adapta a tema: es el cian
-                              mas vivo que sostiene --text-white a 4.5:1 en claro Y en oscuro.
-                              Coincide con el cian pleno de graficos. */
-  --accent:      var(--cyan-solid);
+  --accent:      var(--cyan);
   --accent-ink:  var(--text-white);
   --cyan-label:  rgba(0,204,255,.52);
   --cyan-night:  #0b7f9e;   /* cyan apagado para barras de dato (§56, embudo, franja) */
