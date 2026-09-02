@@ -92,6 +92,11 @@
   --violet:  #8b5cf6;  --violet-soft:  rgba(139,92,246,.12);  --violet-soft-2:  rgba(139,92,246,.18);
   --orange:  #ff8a3d;  --orange-soft:  rgba(255,138,61,.12);  --orange-soft-2:  rgba(255,138,61,.18);
   --magenta: #ff5da2;  --magenta-soft: rgba(255,93,162,.12);  --magenta-soft-2: rgba(255,93,162,.18);
+  /* v1.2.8.32 — WhatsApp. Es color de canal, no de marca YiQi: el verde es el
+     de WhatsApp y por eso no se sustituye por --green ni por el acento. Sigue
+     la forma de la familia de marca — el tinte conserva el hue en los dos
+     temas y solo la tinta se oscurece en claro. */
+  --wa:      #37d871;  --wa-soft:      rgba(37,211,102,.12);  --wa-soft-2:      rgba(37,211,102,.18);
   /* tints tokenizados (sync panel) */
   --amber-a08: rgba(255, 176, 32, 0.08);
   --amber-a12: rgba(255, 176, 32, 0.12);
@@ -136,7 +141,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.31";
+  --ds-version: "1.2.8.32";
 
   /* Layout */
   --topbar-h:  56px;
@@ -216,6 +221,11 @@ html[data-theme="light"] {
   --violet:  #7c3aed;  --violet-soft:  rgba(124,58,237,.10);  --violet-soft-2:  rgba(124,58,237,.16);
   --orange:  #e07628;  --orange-soft:  rgba(224,118,40,.10);  --orange-soft-2:  rgba(224,118,40,.16);
   --magenta: #d6336c;  --magenta-soft: rgba(214,51,108,.10);  --magenta-soft-2: rgba(214,51,108,.16);
+  /* v1.2.8.32 — el #37d871 de oscuro no sirve de tinta en claro. Se oscurece
+     hasta #0b6135: mide 6.02 / 6.43 / 7.02 / 6.59 sobre --bg, --bg-elev,
+     --bg-elev-2 y --card-bg con el tinte encima. El #128c4b que traia
+     iaready-banner medido igual da 3.42 / 3.66 / 3.99 / 3.75 — no pasa. */
+  --wa:      #0b6135;  --wa-soft:      rgba(37,211,102,.10);  --wa-soft-2:      rgba(37,211,102,.16);
   /* tints tokenizados (sync panel) */
   --amber-a08: rgba(199, 128, 0, 0.08);
   --amber-a12: rgba(199, 128, 0, 0.12);
@@ -707,6 +717,34 @@ html[data-theme="light"] .brand-logo-light { display: block; }
   background: color-mix(in srgb, var(--amber) 16%, transparent);
   border-color: color-mix(in srgb, var(--amber) 34%, transparent);
 }
+
+/* v1.2.8.32 — variante WhatsApp. Ya existia en tres archivos —app-tiendanube,
+   iaready-banner y la landing de captacion en frio— con la misma clase, tres
+   reglas distintas y el verde declarado localmente en cada uno. Uno de los
+   tres estaba mal: #128c4b sobre el tinte da 3.42 a 3.99 segun la superficie,
+   debajo del minimo AA. El canonico es --wa, que ya se hace cargo del tema.
+
+   El fill del icono no es un detalle del consumidor: la marca de WhatsApp es
+   un glifo de relleno y el .btn svg del sistema fuerza stroke + fill:none
+   para los iconos de trazo. Sin revertirlo el icono se ve como una mancha
+   tenue — que fue exactamente lo que paso en la landing.
+
+   Criterio de uso: solo para abrir una conversacion de WhatsApp. No es un
+   boton de exito ni de confirmacion; para eso no hay variante verde. Compite
+   con .btn-solid, asi que no van los dos como accion principal de la misma
+   vista: el solido es el CTA, este es la via alternativa. 02/09/2026. */
+.btn-wa {
+  background: var(--wa-soft);
+  border-color: transparent;
+  color: var(--wa);
+}
+.btn-wa:hover { background: var(--wa-soft-2); color: var(--wa); }
+/* El glifo de WhatsApp es una silueta compacta, no un pictograma de trazo:
+   a los 15px del sistema se lee como un punto al lado de un texto de 13px.
+   17px, y 19px cuando el boton crece. */
+.btn-wa svg { width: 17px; height: 17px; fill: currentColor; stroke: none; }
+.btn-wa.btn-lg svg,
+.btn-wa.btn-xl svg { width: 19px; height: 19px; }
 
 .btn-sm { padding: 7px 12px; font-size: 12px; border-radius: var(--radius-sm); }
 .btn-lg {
