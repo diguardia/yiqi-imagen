@@ -68,12 +68,15 @@
   --accent-rgb:  0,204,255;
   --cyan-soft:   rgba(0,204,255,.10);
   --cyan-soft-2: rgba(0,204,255,.16);
-  --accent:      var(--cyan);
-  --accent-ink:  #0a0a0b;  /* excepción: tinta oscura fija sobre relleno de acento. No adapta
-                              a tema — el relleno es siempre acento, nunca superficie, así que
-                              la tinta tampoco puede invertirse. Mismo criterio que
-                              --text-on-amber. Sostiene 10,44:1 sobre el cian oscuro y 6,39:1
-                              sobre el claro; en hover (88% negro) 8,11:1 y 5,06:1. */
+  --accent:      var(--text);  /* relleno del .btn-solid. NO es el cian: un relleno cian pleno
+                                  no funciona en este sistema — el cian de marca es muy claro y
+                                  muy saturado, asi que o lleva tinta oscura encima (se lee raro)
+                                  o hay que oscurecerlo hasta que deja de ser el cian. Y en tema
+                                  claro el #00ccff directamente no se usa. El solido resuelve
+                                  jerarquia, no identidad: el acento sigue siendo cian en todo lo
+                                  demas. Se invierte con el tema junto con --text. */
+  --accent-ink:  var(--bg);    /* la superficie, como tinta. El par --text / --bg es el maximo
+                                  contraste que el sistema declara, en los dos temas. */
   --cyan-label:  rgba(0,204,255,.52);
   --cyan-night:  #0b7f9e;   /* cyan apagado para barras de dato (§56, embudo, franja) */
   --text-cyan-muted: rgba(0,195,240,.62);
@@ -133,7 +136,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.30";
+  --ds-version: "1.2.8.31";
 
   /* Layout */
   --topbar-h:  56px;
@@ -620,20 +623,28 @@ html[data-theme="light"] .brand-logo-light { display: block; }
    en la demo del catalogo, verde en .mb-cta, el suyo en app-tiendanube — que
    es justo lo que el acento unico existe para evitar.
 
-   El defecto estaba en la tinta, no en el relleno: el relleno TIENE que ser
-   el cian de marca. Se invierte la tinta — --accent-ink pasa de blanco a
-   #0a0a0b — y --accent vuelve a apuntar a --cyan. Medido: 10.44:1 en oscuro
-   y 6.39:1 en claro; el hover, que baja el relleno al 88%, queda en 8.11:1 y
-   5.06:1. Los cuatro estados pasan AA sin tocar ninguna regla.
+   v1.2.8.31 — el relleno deja de ser cian. Se probaron cinco combinaciones
+   sobre el cian y ninguna cierra, porque el problema es del color y no de la
+   medicion: el cian de YiQi es muy claro y muy saturado. Con tinta blanca no
+   llega a 4.5 salvo que se oscurezca tanto que deja de ser el cian (#007e9c,
+   4.70). Con tinta oscura pasa holgado pero se lee raro, y ademas en tema
+   claro el #00ccff no se usa: --cyan baja a #009fc7 justamente porque ahi es
+   tinta. Bajar --cyan de marca tampoco alcanza — medido con axe sobre el
+   showcase, lleva los nodos de cian de 2.5 a 4.0, todavia corto, y no toca al
+   verde ni al ambar, que tienen el mismo defecto.
 
-   Se descarto la via anterior (--cyan-solid #007e9c, el cian mas vivo que
-   sostiene blanco a 4.5:1): pasaba contraste pero al costo de no ser el color
-   de marca, y con solo 4.70:1 de margen. El token se elimina.
+   El solido resuelve JERARQUIA, no identidad. --accent pasa a var(--text) y
+   --accent-ink a var(--bg): el par de maximo contraste que el sistema ya
+   declara, invirtiendose solo con el tema. Medido: 18.11:1 en oscuro y
+   14.92:1 en claro; el relleno contra el fondo de pagina, 18.11 y 14.92. Es
+   la unica variante que pasa 1.4.3 Y 1.4.11 en los dos temas, y no necesita
+   ninguna excepcion de token. El acento sigue siendo cian en todo lo demas:
+   primary, links, graficos, foco.
 
-   Nota abierta: en claro el relleno mide 2.62:1 contra el fondo de pagina —
-   por debajo del 3:1 de WCAG 1.4.11 para el limite de un control. El texto
-   pasa holgado; lo que queda justo es el borde del boton contra la pagina.
-   Es propio del cian claro, no de este cambio.
+   Se elimina --cyan-solid, que era la via de la v1.2.8.28.
+
+   Un contexto de marca que quiera su propio relleno sigue declarando --accent
+   y --accent-ink y se hace cargo del contraste entre los dos.
 
    Criterio de uso: un solo .btn-solid por vista, el CTA que la vista existe
    para provocar. Dos solidos en la misma fila vuelven a empatar la jerarquia
@@ -645,7 +656,11 @@ html[data-theme="light"] .brand-logo-light { display: block; }
   border-color: transparent;
 }
 .btn-solid:hover {
-  background: color-mix(in srgb, var(--accent) 88%, #000);
+  /* v1.2.8.31 — la mezcla va hacia la propia tinta, no hacia #000. Con el
+     relleno --text el negro fijo no servia: en claro el relleno ya es casi
+     negro y el hover no se veia (14.92 -> 15.35). Mezclar hacia --accent-ink
+     se mueve en los dos temas porque la tinta es la superficie opuesta. */
+  background: color-mix(in srgb, var(--accent) 88%, var(--accent-ink));
   color: var(--accent-ink);
 }
 .btn:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: 2px; }
