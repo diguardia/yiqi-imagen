@@ -92,11 +92,20 @@
   --violet:  #8b5cf6;  --violet-soft:  rgba(139,92,246,.12);  --violet-soft-2:  rgba(139,92,246,.18);
   --orange:  #ff8a3d;  --orange-soft:  rgba(255,138,61,.12);  --orange-soft-2:  rgba(255,138,61,.18);
   --magenta: #ff5da2;  --magenta-soft: rgba(255,93,162,.12);  --magenta-soft-2: rgba(255,93,162,.18);
-  /* v1.2.8.32 — WhatsApp. Es color de canal, no de marca YiQi: el verde es el
+  /* v1.2.8.33 — WhatsApp. Es color de canal, no de marca YiQi: el verde es el
      de WhatsApp y por eso no se sustituye por --green ni por el acento. Sigue
      la forma de la familia de marca — el tinte conserva el hue en los dos
-     temas y solo la tinta se oscurece en claro. */
-  --wa:      #37d871;  --wa-soft:      rgba(37,211,102,.12);  --wa-soft-2:      rgba(37,211,102,.18);
+     temas y solo la tinta se oscurece en claro.
+
+     Los dos valores salen de la PALETA OFICIAL de WhatsApp, que tiene cuatro
+     colores: Light Green #25D366 (Pantone 7479 C, el del logotipo), Teal Green
+     #128C7E, Teal Green Dark #075E54 (Pantone 7720 C) y Blue #34B7F1. Si el
+     criterio es que este verde identifica al canal, tiene que ser EL color del
+     canal: los valores anteriores —#37d871 en oscuro, #0b6135 en claro— se
+     habian elegido por contraste y no estaban en la paleta. Medido con los
+     oficiales: 7.94 sobre el tinte en oscuro, 7.13 en claro. Practicamente el
+     mismo numero que los inventados (8.42 y 7.03) sin inventar nada. */
+  --wa:      #25d366;  --wa-soft:      rgba(37,211,102,.12);  --wa-soft-2:      rgba(37,211,102,.18);
   /* tints tokenizados (sync panel) */
   --amber-a08: rgba(255, 176, 32, 0.08);
   --amber-a12: rgba(255, 176, 32, 0.12);
@@ -141,7 +150,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.32";
+  --ds-version: "1.2.8.33";
 
   /* Layout */
   --topbar-h:  56px;
@@ -221,11 +230,18 @@ html[data-theme="light"] {
   --violet:  #7c3aed;  --violet-soft:  rgba(124,58,237,.10);  --violet-soft-2:  rgba(124,58,237,.16);
   --orange:  #e07628;  --orange-soft:  rgba(224,118,40,.10);  --orange-soft-2:  rgba(224,118,40,.16);
   --magenta: #d6336c;  --magenta-soft: rgba(214,51,108,.10);  --magenta-soft-2: rgba(214,51,108,.16);
-  /* v1.2.8.32 — el #37d871 de oscuro no sirve de tinta en claro. Se oscurece
-     hasta #0b6135: mide 6.02 / 6.43 / 7.02 / 6.59 sobre --bg, --bg-elev,
-     --bg-elev-2 y --card-bg con el tinte encima. El #128c4b que traia
-     iaready-banner medido igual da 3.42 / 3.66 / 3.99 / 3.75 — no pasa. */
-  --wa:      #0b6135;  --wa-soft:      rgba(37,211,102,.10);  --wa-soft-2:      rgba(37,211,102,.16);
+  /* v1.2.8.33 — el Light Green de oscuro no sirve de tinta en claro: mide 1.84
+     sobre el tinte. La paleta oficial de WhatsApp trae su propio oscuro y es
+     el que va: Teal Green Dark #075E54, Pantone 7720 C. Mide 7.13 / 7.67 /
+     6.98 / 6.50 sobre el tinte, --card-bg, --bg-elev y --bg.
+
+     Reemplaza al #0b6135 de la v1.2.8.32, que no estaba en la paleta —era un
+     verde elegido por contraste, hue 149.3 contra los 173.1 del teal oficial—
+     y da practicamente el mismo numero (7.03). El otro oficial, Teal Green
+     #128C7E, se descarto medido: 3.84 sobre el tinte, debajo del minimo.
+     Nota: el oscuro oficial de WhatsApp es TEAL, no verde puro; en claro el
+     boton se lee mas azulado que antes y es correcto que asi sea. */
+  --wa:      #075e54;  --wa-soft:      rgba(37,211,102,.10);  --wa-soft-2:      rgba(37,211,102,.16);
   /* tints tokenizados (sync panel) */
   --amber-a08: rgba(199, 128, 0, 0.08);
   --amber-a12: rgba(199, 128, 0, 0.12);
@@ -724,10 +740,14 @@ html[data-theme="light"] .brand-logo-light { display: block; }
    tres estaba mal: #128c4b sobre el tinte da 3.42 a 3.99 segun la superficie,
    debajo del minimo AA. El canonico es --wa, que ya se hace cargo del tema.
 
-   El fill del icono no es un detalle del consumidor: la marca de WhatsApp es
-   un glifo de relleno y el .btn svg del sistema fuerza stroke + fill:none
-   para los iconos de trazo. Sin revertirlo el icono se ve como una mancha
-   tenue — que fue exactamente lo que paso en la landing.
+   El icono es la EXCEPCION a la regla de iconografia (§9, Phosphor inline).
+   WhatsApp es una marca registrada, no un concepto de interfaz: el glifo que
+   va es el oficial, no la interpretacion de una libreria. Se probaron los dos
+   pesos de Phosphor y ninguno es la marca — el regular es linea vuelta
+   contorno y sale como un anillo doble, el fill es una burbuja solida con el
+   tubo calado, que es el icono de app, no el logotipo. El oficial es un
+   anillo con el tubo lleno adentro; un solo path, viewBox 0 0 24 24. Misma
+   regla para cualquier otro logotipo de terceros que entre a un boton.
 
    Criterio de uso: solo para abrir una conversacion de WhatsApp. No es un
    boton de exito ni de confirmacion; para eso no hay variante verde. Compite
@@ -739,12 +759,6 @@ html[data-theme="light"] .brand-logo-light { display: block; }
   color: var(--wa);
 }
 .btn-wa:hover { background: var(--wa-soft-2); color: var(--wa); }
-/* El glifo de WhatsApp es una silueta compacta, no un pictograma de trazo:
-   a los 15px del sistema se lee como un punto al lado de un texto de 13px.
-   17px, y 19px cuando el boton crece. */
-.btn-wa svg { width: 17px; height: 17px; fill: currentColor; stroke: none; }
-.btn-wa.btn-lg svg,
-.btn-wa.btn-xl svg { width: 19px; height: 19px; }
 
 .btn-sm { padding: 7px 12px; font-size: 12px; border-radius: var(--radius-sm); }
 .btn-lg {
@@ -767,6 +781,17 @@ html[data-theme="light"] .brand-logo-light { display: block; }
   transition: transform .2s ease;
 }
 .btn:hover svg { transform: translateY(1px); }
+
+/* v1.2.8.32 — el icono de .btn-wa va aca, DESPUES de .btn svg, no junto a la
+   variante. `.btn-wa svg` y `.btn svg` empatan en especificidad (0,1,1): si
+   se declara arriba pierde por orden y el glifo sale hueco. Es el mismo
+   defecto que la hoja ya documenta para las clases locales, esta vez dentro
+   de la propia hoja.
+   El tamano: a los 15px del sistema el glifo se lee como un punto al lado de
+   un texto de 13px. 17px, y 19px cuando el boton crece. */
+.btn-wa svg { width: 17px; height: 17px; fill: currentColor; stroke: none; }
+.btn-wa.btn-lg svg,
+.btn-wa.btn-xl svg { width: 19px; height: 19px; }
 
 /* ── 12. BADGE ────────────────────────────────────────────── */
 /* v1.2.5: badges sin borde en dark; v1.2.7.2: sin borde tampoco en light (borderless en ambos temas) */

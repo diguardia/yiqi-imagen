@@ -718,6 +718,16 @@ El botón hamburguesa es **`.nav-hamburger`** (36×36). Va **a la derecha** del 
 .btn-ghost   { background: transparent; border-color: transparent; color: var(--muted); }
 .btn-danger  { background: color-mix(in srgb, var(--red) 8%, transparent); color: var(--red); }
 .btn-amber   { background: var(--amber-soft); color: var(--amber); }
+.btn-wa      { background: var(--wa-soft);    color: var(--wa); }
+/* v1.2.8.32 — .btn-wa es color de canal, no de marca: el verde es el de
+   WhatsApp y solo se usa para abrir una conversacion. No es variante de exito
+   ni de confirmacion. El icono es la EXCEPCION a §9: va el glifo OFICIAL de
+   WhatsApp —un path, viewBox 0 0 24 24—, no el de Phosphor. Es una marca
+   registrada, no un concepto de interfaz, y ninguno de los dos pesos de
+   Phosphor es la marca. Ademas hay que revertir el stroke que .btn svg
+   fuerza. Misma regla para cualquier logotipo de terceros en un boton.
+   .btn-wa svg { width:17px; height:17px; fill: currentColor; stroke: none; }
+   No compite con .btn-solid en la misma vista: el solido es el CTA. */
 /* No hay .btn-secondary. La accion secundaria es .btn-ghost, o .btn a secas. */
 
 /* Tamaños y ancho */
