@@ -511,16 +511,24 @@
    + .ds-note--warn. El margen inferior lo pone la card, no la nota. */
 .sc-card > .ds-note{margin:0 0 18px}
 /* —— Tabla completa de estados (v1.2.8.7) ——
-   .est-proceso ya NO se define aca: subio a styles.css en la v1.2.8.30.
-   Vivia en este <style> desde la v1.2.8.7 y el catalogo la documentaba
-   como clase del sistema, asi que quien la buscaba en la hoja no la
-   encontraba y la rehacia. Lo que queda aca es solo lo de esta pagina. */
+   .est-proceso NO es un .badge: un estado es estable y se filtra por el,
+   un proceso dura segundos y no se filtra. Por eso no lleva color
+   semantico de estado, lleva pulso. */
 .est-sw{display:inline-block;width:11px;height:11px;border-radius:3px;vertical-align:-1px;
   margin-right:7px;box-shadow:inset 0 0 0 1px rgba(127,136,150,.35)}
 .est-mono{font:500 11px var(--mono);color:var(--muted);white-space:nowrap}
 .est-org{font:700 9px var(--mono);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
 .est-org.ok{color:var(--green)}
 .est-org.prop{color:var(--muted-2)}
+.est-proceso{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;
+  border-radius:var(--radius-pill);font:600 11px var(--sans);color:var(--muted);
+  background:var(--bg-soft);box-shadow:inset 0 0 0 1px var(--line);white-space:nowrap}
+.est-proceso::before{content:"";width:6px;height:6px;border-radius:50%;
+  background:var(--muted-2);animation:est-pulso 1.1s ease-in-out infinite}
+.est-proceso.err{color:var(--red);box-shadow:inset 0 0 0 1px var(--red-a30)}
+.est-proceso.err::before{background:var(--red);animation:none}
+@keyframes est-pulso{0%,100%{opacity:.25;transform:scale(.75)}50%{opacity:1;transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.est-proceso::before{animation:none;opacity:.7}}
 .est-full td{vertical-align:middle}
 .est-leyenda{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;padding-top:16px;
   border-top:1px solid var(--line)}
@@ -2202,9 +2210,9 @@
     <p class="bt-lead">Las acciones de un registro cambian por entidad y por estado, así que la barra no se diseña caso por caso. Cada acción recibe un rol, y el rol resuelve las tres decisiones: si se muestra, en qué posición y con qué variante.</p>
     <dl class="cr">
       <dt>Rol 1 · Avanza</dt>
-      <dd>La acción que lleva el registro al siguiente estado. <strong>Máximo una.</strong> Primera en la barra, variante primary. Si el estado no tiene siguiente paso, <strong>no hay primary</strong> y la barra queda neutra: el lugar del acento no se rellena por simetría.<br><em>Si dos acciones parecen competir</em>, el criterio no es cuál importa más: es cuál mueve el estado <strong>de este</strong> registro. En «En espera de pago», Facturar lo lleva a Facturado y Solicitar reserva actúa sobre el stock — no compiten. Si las dos mueven el estado a destinos distintos es una <strong>bifurcación real</strong>, y entonces ninguna es rol 1: las dos van base. Cero acentos antes que un acento mal puesto. <em>(v1.2.8.30)</em></dd>
+      <dd>La acción que lleva el registro al siguiente estado. <strong>Máximo una.</strong> Primera en la barra, variante primary. Si el estado no tiene siguiente paso, <strong>no hay primary</strong> y la barra queda neutra: el lugar del acento no se rellena por simetría.</dd>
       <dt>Rol 2 · Frecuente</dt>
-      <dd>Acciones de uso habitual que no cambian el estado <strong>del registro que se está viendo</strong>. Que la acción tenga efectos en otro lado no la saca del rol 2: copiar, ver la factura, recalcular precios y exportar no mueven este documento. <em>(v1.2.8.30: se aclara el sujeto. «No cambian el estado» a secas se leía como «no hacen nada», y con esa lectura el rol 2 quedaba siempre vacío.)</em> Hasta dos visibles, variante base, a continuación del primary.</dd>
+      <dd>Acciones de uso habitual que no cambian el estado. Hasta dos visibles, variante base, a continuación del primary.</dd>
       <dt>Rol 3 · Secundaria</dt>
       <dd>El resto de las acciones del circuito. Dentro del menú, en orden de frecuencia de uso.</dd>
       <dt>Rol 4 · Salida</dt>
@@ -2213,8 +2221,6 @@
       <dd>Anular, eliminar. Última del menú, separada por línea y en variante danger. <strong>Nunca en la barra.</strong></dd>
       <dt>Visibilidad</dt>
       <dd>Tres acciones como máximo en la barra: el rol 1 más hasta dos del rol 2. El corte lo define el rol, no la cantidad disponible, así que una entidad con quince acciones se lee igual que una con cuatro.</dd>
-      <dt>Qué no entra <em>(v1.2.8.30)</em></dt>
-      <dd><strong>La barra actúa sobre este registro.</strong> Las acciones de colección —Nuevo, Importar, Nueva vista— no operan sobre el registro abierto: crean o traen otro. No se les busca rol; viven en el <strong>encabezado del listado</strong>. Los cinco roles no lo decían y cada aplicación lo estaba resolviendo distinto.</dd>
       <dt>Orden</dt>
       <dd>Siempre <strong>1 → 2 → menú</strong>. No alfabético, no por orden de implementación, no heredado de otra entidad.</dd>
       <dt>Color</dt>
