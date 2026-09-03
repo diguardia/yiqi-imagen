@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.33
+# YiQi Design System — Guía maestra v1.2.8.34
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -719,7 +719,7 @@ El botón hamburguesa es **`.nav-hamburger`** (36×36). Va **a la derecha** del 
 .btn-danger  { background: color-mix(in srgb, var(--red) 8%, transparent); color: var(--red); }
 .btn-amber   { background: var(--amber-soft); color: var(--amber); }
 .btn-wa      { background: var(--wa-soft);    color: var(--wa); }
-/* v1.2.8.33 — .btn-wa es color de canal, no de marca: el verde es el de
+/* v1.2.8.34 — .btn-wa es color de canal, no de marca: el verde es el de
    WhatsApp y solo se usa para abrir una conversacion. No es variante de exito
    ni de confirmacion. El icono es la EXCEPCION a §9: va el glifo OFICIAL de
    WhatsApp —un path, viewBox 0 0 24 24—, no el de Phosphor. Es una marca
@@ -1206,7 +1206,7 @@ Botón **borderless** de ícono solo (`.btn-icon`), para cualquier acción que s
 - Solo apariencia; el **posicionamiento** es contextual (absoluto en el nav, flex-end en el drawer)
 - Documentado en catálogo §10 (Botones) → ancla `#close-btn`
 
-> **v1.2.8.33** — antes esta sección decía que `.close-btn` estaba «espejado en `site.css`» (no lo estaba: `site.css` nunca la declaró) y documentaba el foco viejo `box-shadow: 0 0 0 3px var(--cyan-soft)` (~1,2:1), reemplazado hace tiempo por el anillo del sistema. Dos afirmaciones falsas sobre el mismo componente.
+> **v1.2.8.34** — antes esta sección decía que `.close-btn` estaba «espejado en `site.css`» (no lo estaba: `site.css` nunca la declaró) y documentaba el foco viejo `box-shadow: 0 0 0 3px var(--cyan-soft)` (~1,2:1), reemplazado hace tiempo por el anillo del sistema. Dos afirmaciones falsas sobre el mismo componente.
 
 ---
 
@@ -2064,5 +2064,5 @@ aunque en castellano las dos se digan «tabs».
 
 ---
 
-*YiQi ERP · Design System v1.2.8.33 · Última actualización: 02/09/2026*
+*YiQi ERP · Design System v1.2.8.34 · Última actualización: 02/09/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*

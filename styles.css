@@ -150,7 +150,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.33";
+  --ds-version: "1.2.8.34";
 
   /* Layout */
   --topbar-h:  56px;
@@ -3000,15 +3000,40 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
    activo tonal que el resto. Conducta en yiqi-runtime.js (YiQi.picker),
    por delegación sobre [data-ds-picker]. */
 .ds-picker { position: relative; display: inline-flex; }
+/* v1.2.8.34 — el relleno pasa a la mezcla de --text, el mismo patron que
+   .btn adopto en la v1.2.8. El toggle traia --bg-elev-2 fijo, y ese es
+   EXACTAMENTE el valor de --card-bg en oscuro: dentro de una .card el
+   control media 1.000 contra su fondo, o sea desaparecia. En claro pasaba
+   lo mismo sobre una superficie --bg-elev-2. No es un caso raro: un filtro
+   vive casi siempre dentro de un panel.
+
+   La mezcla no puede empatar nunca con lo que tiene detras, porque --text
+   se invierte por tema y el fondo se calcula sobre la superficie real.
+   Medido contra --bg, --bg-elev, --bg-elev-2 y --card-bg:
+
+     oscuro   1.093 / 1.051 / 1.000 / 1.000   ->   1.115 / 1.141 / 1.151 / 1.151
+     claro    1.181 / 1.099 / 1.000 / 1.071   ->   1.127 / 1.124 / 1.129 / 1.125
+
+   Compensacion asumida: en claro sobre el fondo de pagina baja de 1.181 a
+   1.127 — pierde en el unico caso donde hoy funciona para ganar en los tres
+   donde no. Queda en el mismo piso que .btn (1.124), que ya se acepto.
+
+   El hover pasa de --bg-elev a --bg-soft, tambien como .btn: sobre una card
+   en claro el anterior media 1.027 y no se leia como estado. Ahora 1.243.
+
+   El diagnostico y la solucion son los de la v1.2.8 para .btn; el
+   .ds-picker-toggle habia quedado afuera de esa pasada. 03/09/2026. */
 .ds-picker-toggle {
   display: inline-flex; align-items: center; justify-content: space-between; gap: 10px;
   width: 100%; min-width: 0; height: 32px; padding: 0 10px 0 12px;
   border: 1px solid transparent; -webkit-appearance: none; appearance: none;
-  border-radius: var(--radius); background: var(--bg-elev-2); color: var(--text);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--text) 6%, transparent);
+  color: var(--text);
   font: 600 12px var(--sans); line-height: 1; cursor: pointer; white-space: nowrap;
   transition: background var(--tr, .18s ease), border-color var(--tr, .18s ease);
 }
-.ds-picker-toggle:hover { background: var(--bg-elev); }
+.ds-picker-toggle:hover { background: var(--bg-soft); }
 .ds-picker-toggle:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: 2px; }
 .ds-picker-value { overflow: hidden; text-overflow: ellipsis; }
 .ds-picker-chev {
