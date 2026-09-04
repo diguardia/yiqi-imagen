@@ -1620,7 +1620,10 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
 }
 
 .login-submit              { width: 100%; justify-content: center; margin-top: 6px; }
-.login-hint                { margin-top: 6px; font-size: 13px; color: var(--muted); }
+/* justify-self y text-decoration suben a la clase: el enlace del catalogo los
+   traia inline, asi que el mismo objeto se escribia distinto segun fuera <a> o
+   <button>. 04/09/2026. */
+.login-hint                { margin-top: 6px; font-size: 13px; color: var(--muted); justify-self: start; text-decoration: none; }
 
 .auth-status {
   margin: 0;
@@ -1689,11 +1692,11 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
 }
 .login-remember input:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: 2px; }
 .login-footer {
-  color: var(--muted-2); font: 500 11px var(--mono);
+  color: var(--muted-2); font: 500 11px var(--sans);
   text-align: center; text-decoration: none;
 }
 button.login-hint {
-  justify-self: start; border: 0; background: transparent;
+  border: 0; background: transparent;
   cursor: pointer; font: inherit; padding: 0; text-align: left;
 }
 .login-screen input:-webkit-autofill,

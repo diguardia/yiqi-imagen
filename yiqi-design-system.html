@@ -4159,36 +4159,39 @@ function dsNavLock(){
 <a class="ds-xref" style="margin-top:12px" href="examples/showcase.html?tab=mockups&amp;card=card-login"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 <div class="subsection-title">El login</div>
-<div id="login-demo" style="display:grid;place-items:center;padding:28px 20px;border-radius:var(--radius-xl);background:var(--bg-soft);border:1px solid var(--line)">
+<!-- El marco de la demo usa --bg, el mismo fondo que hereda .login-screen del
+     body en una app real. Antes era --bg-soft con un borde: la card se veia
+     separada aca (1.24:1) y no en produccion (1.10:1), asi que el catalogo
+     mostraba un contraste que el componente no tiene. Y el borde contradecia
+     la regla borderless del propio catalogo. 04/09/2026. -->
+<div id="login-demo" style="display:grid;place-items:center;padding:28px 20px;border-radius:var(--radius-xl);background:var(--bg)">
   <div class="login-stage" style="max-width:380px">
     <div class="login-brand">
-      <svg class="yqlogo-anim" data-yiqi-logo data-axis="y" data-loop="2600" style="width:var(--login-logo-w);max-width:100%;height:auto;color:var(--text)" viewBox="0 0 100 65" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="YiQi (animado)" onclick="YiQiLogo.play(this,{force:true})"><g class="yq-all anim"><path class="yq-y yql anim" d="M20.44,48.34l2.57-6.15-6.79-16.91c-.14-.39.07-.61.46-.61h4.97c.29,0,.57.14.68.43l3.58,10.08,3.61-10.08c.11-.29.39-.43.68-.43h4.97c.39,0,.57.21.43.61l-9.26,23.27c-.11.29-.39.43-.68.43h-4.75c-.43,0-.68-.21-.47-.64Z"/><path class="yq-i1s yql anim" d="M38.72,25.24c0-.32.25-.57.57-.57h4.89c.32,0,.57.25.57.57v16.24c0,.32-.25.57-.57.57h-4.89c-.32,0-.57-.25-.57-.57v-16.24Z"/><g class="yq-q anim"><path class="yqs" d="M57.91,44.78v-2.66c-2.18-.53-4.21-1.66-5.92-3.36-4.97-4.97-5.09-13.02-.03-18.08,5.09-5.09,13.14-4.97,18.11,0s5.09,13.02,0,18.11c-1.78,1.78-3.94,2.93-6.22,3.46v2.51c0,.35-.18.53-.58.53h-4.82c-.3,0-.55-.2-.55-.5ZM56.28,34.47c.5.5,1.05.9,1.65,1.2v-3.36c0-.35.18-.53.53-.53h4.87c.25,0,.53.18.53.53v3.36c.63-.33,1.23-.78,1.78-1.33,2.73-2.73,2.78-6.75.15-9.38s-6.67-2.61-9.41.13c-2.71,2.71-2.73,6.75-.1,9.38Z"/></g><path class="yq-i2s yql anim" d="M77.44,25.24c0-.32.25-.57.57-.57h4.89c.32,0,.57.25.57.57v16.24c0,.32-.25.57-.57.57h-4.89c-.32,0-.57-.25-.57-.57v-16.24Z"/><path class="yq-i1d yql anim" d="M38.5,18.99c0-1.77,1.35-3.19,3.23-3.19s3.23,1.42,3.23,3.19-1.38,3.23-3.23,3.23-3.23-1.42-3.23-3.23Z"/><path class="yq-i2d yql anim" d="M77.22,18.99c0-1.77,1.35-3.19,3.23-3.19s3.23,1.42,3.23,3.19-1.38,3.23-3.23,3.23-3.23-1.42-3.23-3.23Z"/></g></svg>
-      <p style="margin:8px 0 0;font:400 12px var(--sans);color:var(--muted)">Analytics Pro. Tu negocio en 5 segundos.</p>
+      <svg class="yqlogo-anim yiqi-login-logo" data-yiqi-logo data-axis="y" data-loop="2600" viewBox="0 0 100 65" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="YiQi (animado)" onclick="YiQiLogo.play(this,{force:true})"><g class="yq-all anim"><path class="yq-y yql anim" d="M20.44,48.34l2.57-6.15-6.79-16.91c-.14-.39.07-.61.46-.61h4.97c.29,0,.57.14.68.43l3.58,10.08,3.61-10.08c.11-.29.39-.43.68-.43h4.97c.39,0,.57.21.43.61l-9.26,23.27c-.11.29-.39.43-.68.43h-4.75c-.43,0-.68-.21-.47-.64Z"/><path class="yq-i1s yql anim" d="M38.72,25.24c0-.32.25-.57.57-.57h4.89c.32,0,.57.25.57.57v16.24c0,.32-.25.57-.57.57h-4.89c-.32,0-.57-.25-.57-.57v-16.24Z"/><g class="yq-q anim"><path class="yqs" d="M57.91,44.78v-2.66c-2.18-.53-4.21-1.66-5.92-3.36-4.97-4.97-5.09-13.02-.03-18.08,5.09-5.09,13.14-4.97,18.11,0s5.09,13.02,0,18.11c-1.78,1.78-3.94,2.93-6.22,3.46v2.51c0,.35-.18.53-.58.53h-4.82c-.3,0-.55-.2-.55-.5ZM56.28,34.47c.5.5,1.05.9,1.65,1.2v-3.36c0-.35.18-.53.53-.53h4.87c.25,0,.53.18.53.53v3.36c.63-.33,1.23-.78,1.78-1.33,2.73-2.73,2.78-6.75.15-9.38s-6.67-2.61-9.41.13c-2.71,2.71-2.73,6.75-.1,9.38Z"/></g><path class="yq-i2s yql anim" d="M77.44,25.24c0-.32.25-.57.57-.57h4.89c.32,0,.57.25.57.57v16.24c0,.32-.25.57-.57.57h-4.89c-.32,0-.57-.25-.57-.57v-16.24Z"/><path class="yq-i1d yql anim" d="M38.5,18.99c0-1.77,1.35-3.19,3.23-3.19s3.23,1.42,3.23,3.19-1.38,3.23-3.23,3.23-3.23-1.42-3.23-3.23Z"/><path class="yq-i2d yql anim" d="M77.22,18.99c0-1.77,1.35-3.19,3.23-3.19s3.23,1.42,3.23,3.19-1.38,3.23-3.23,3.23-3.23-1.42-3.23-3.23Z"/></g></svg>
+      <p class="yiqi-login-description">Analytics Pro. Tu negocio en 5 segundos.</p>
     </div>
     <div class="auth-status" id="login-status" data-state="idle" role="status" aria-live="polite">Validando…</div>
     <div class="login-gate">
       <form class="login-card" id="login-form" autocomplete="on" onsubmit="return false">
+        <!-- Sin etiqueta visible: el rotulo vive dentro del campo, en el
+             placeholder. El aria-label NO es opcional en este patron — el
+             placeholder desaparece al escribir y los lectores de pantalla no
+             lo toman como nombre del campo. 04/09/2026. -->
         <div class="login-form">
-          <label style="display:grid;gap:5px">
-            <span class="login-label">Usuario o correo electrónico</span>
-            <input class="ds-input" type="text" name="username" autocomplete="username" placeholder="usuario@empresa.com">
-          </label>
-          <label style="display:grid;gap:5px">
-            <span class="login-label">Contraseña</span>
-            <span style="position:relative;display:block">
-              <input class="ds-input" id="login-pass" type="password" name="password" autocomplete="current-password" placeholder="Contraseña" style="padding-right:44px">
-              <button type="button" class="login-eye" id="login-eye" aria-label="Mostrar contraseña" aria-pressed="false"><i class="ph ph-eye" aria-hidden="true"></i></button>
-            </span>
-          </label>
+          <input class="ds-input" type="text" name="username" autocomplete="username" aria-label="Usuario o correo electrónico" placeholder="Usuario o correo electrónico">
+          <span class="login-password">
+            <input class="ds-input" id="login-pass" type="password" name="password" autocomplete="current-password" aria-label="Contraseña" placeholder="Contraseña">
+            <button type="button" class="login-eye" id="login-eye" aria-label="Mostrar contraseña" aria-pressed="false"><i class="ph ph-eye" aria-hidden="true"></i></button>
+          </span>
         </div>
-        <label style="display:flex;align-items:center;gap:9px;font:500 12px var(--sans);color:var(--muted);cursor:pointer">
+        <label class="login-remember">
           <input type="checkbox" name="remember"> Mantener sesión iniciada
         </label>
         <button class="btn btn-primary login-submit" type="submit" id="login-submit">Iniciar sesión</button>
-        <a class="login-hint" href="#login" onclick="return false" style="justify-self:start;text-decoration:none">¿Olvidaste tu contraseña?</a>
+        <a class="login-hint" href="#login" onclick="return false">¿Olvidaste tu contraseña?</a>
       </form>
     </div>
-    <div style="text-align:center;font:500 11px var(--mono);color:var(--muted-2)"><a href="https://www.yiqi.com.ar" style="color:var(--muted-2);text-decoration:none">www.yiqi.com.ar</a></div>
+    <a class="login-footer" href="https://www.yiqi.com.ar">www.yiqi.com.ar</a>
   </div>
 </div>
 
@@ -4200,8 +4203,7 @@ function dsNavLock(){
     <h2 class="recovery-title">Recuperar contrase&ntilde;a</h2>
     <p class="login-copy">Ingresa tu usuario o correo electr&oacute;nico y te enviaremos un enlace para restablecer tu contrase&ntilde;a.</p>
     <div class="login-form" style="margin-top:12px">
-      <label class="login-label" for="rec-demo">Usuario o correo electr&oacute;nico</label>
-      <input class="ds-input" id="rec-demo" type="email" placeholder="usuario@ejemplo.com">
+      <input class="ds-input" id="rec-demo" type="email" aria-label="Usuario o correo electr&oacute;nico" placeholder="Usuario o correo electr&oacute;nico">
       <p class="recovery-msg">Listo. Revisa tu correo.</p>
     </div>
     <div class="recovery-actions">
