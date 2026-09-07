@@ -83,6 +83,8 @@
   .sc-section-sub { color:var(--muted); font:400 12.5px var(--sans); margin:0 0 16px; }
   .sc-tbl-grid { display:grid; grid-template-columns:1fr; gap:14px; }
   .sc-tbl-grid .wide { grid-column:1 / -1; }
+  /* Fila del enlace "Ver fuente" cuando la seccion no es una card. */
+  .sc-xref-row { display:flex; justify-content:flex-end; margin:0 0 14px; }
   .sc-chart-grid { display:grid; grid-template-columns:1fr; gap:14px; }
   .sc-chart-box { position:relative; height:168px; }
   .sc-chart-box.tall { height:196px; }
@@ -2583,6 +2585,56 @@
 
   </div>
 </section>
+
+<section class="sc-section" id="sc-spotlight">
+  <h2 class="sc-section-h">Bloque destacado &middot; spotlight</h2>
+  <p class="sc-section-sub">La secci&oacute;n estrella de una landing: argumento a la izquierda, prueba a la derecha. En 880px colapsa a una columna.</p>
+  <div class="sc-xref-row"><a class="ds-xref" href="../yiqi-design-system.html#ds-spotlight"><i class="ph ph-anchor-simple"></i> Ver fuente &middot; &sect;68</a></div>
+  <div class="spotlight">
+    <div class="spotlight-grid">
+      <div>
+        <span class="spotlight-tag">B2B + B2C</span>
+        <h3 class="spotlight-title">Vende mayorista y minorista. Sin comisiones.</h3>
+        <p class="spotlight-text">El mismo sitio atiende a consumidores y a distribuidores, cada uno con su lista de precios. <strong>YiQi</strong> mantiene stock y precios sincronizados para los dos canales.</p>
+        <div class="spotlight-claim"><span class="spotlight-claim-text">Un cat&aacute;logo, dos p&uacute;blicos, una sola operaci&oacute;n.</span></div>
+        <div class="spotlight-tags"><span class="tag">Venta B2B</span><span class="tag">Venta B2C</span><span class="tag">Modalidad Dual</span></div>
+      </div>
+      <div>
+        <div class="mockup mockup-vlist" aria-label="Ejemplo de producto con doble lista de precios">
+          <div class="mockup-chrome">
+            <div class="mockup-dots"><span></span><span></span><span></span></div>
+            <span class="mockup-chrome-label">Producto &middot; Zapatilla Runner Pro</span>
+            <div class="mockup-chrome-spacer"></div>
+          </div>
+          <div class="mockup-body">
+            <div class="mockup-row"><div class="mockup-row-info"><span class="mockup-loc">Precio minorista &middot; B2C</span><div class="mockup-bar-wrap"><div class="mockup-bar-fill" data-bar="100"></div></div></div><span class="mockup-qty">$ 89.900</span><span class="mockup-status">P&uacute;blico</span></div>
+            <div class="mockup-row"><div class="mockup-row-info"><span class="mockup-loc">Precio mayorista &middot; B2B</span><div class="mockup-bar-wrap"><div class="mockup-bar-fill" data-bar="70"></div></div></div><span class="mockup-qty">$ 62.400</span><span class="mockup-status">Distribuidor</span></div>
+            <div class="mockup-row"><div class="mockup-row-info"><span class="mockup-loc">Stock sincronizado</span><div class="mockup-bar-wrap"><div class="mockup-bar-fill" data-bar="90"></div></div></div><span class="mockup-qty">128</span><span class="mockup-status">En vivo</span></div>
+            <div class="mockup-row"><div class="mockup-row-info"><span class="mockup-loc">Comisi&oacute;n del canal</span><div class="mockup-bar-wrap"><div class="mockup-bar-fill"></div></div></div><span class="mockup-qty">$ 0</span><span class="mockup-status">Siempre</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+/* Las .mockup-bar-fill arrancan en 0 a proposito: se llenan al entrar en
+   viewport, con el porcentaje que trae el data-bar. */
+(function(){
+  var boxes = document.querySelectorAll('.mockup');
+  if(!boxes.length) return;
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      e.target.querySelectorAll('.mockup-bar-fill[data-bar]').forEach(function(b){
+        b.style.width = b.dataset.bar + '%';
+      });
+      io.unobserve(e.target);
+    });
+  }, { threshold: .25 });
+  boxes.forEach(function(b){ io.observe(b); });
+})();
+</script>
 </div>
 </div>
 

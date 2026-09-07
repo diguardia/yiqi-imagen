@@ -150,7 +150,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.34";
+  --ds-version: "1.2.8.35";
 
   /* Layout */
   --topbar-h:  56px;
@@ -4110,3 +4110,112 @@ html[data-theme="light"] .fondo-horizonte { opacity: .38; }
   .ds-flip:hover .ds-flip-cara,
   .ds-flip.is-vuelta .ds-flip-cara { opacity: 0; }
 }
+
+/* ══════════════════════════════════════════════════════════════════════
+   SPOTLIGHT — bloque destacado de landing
+   ══════════════════════════════════════════════════════════════════════
+   v1.2.8.35 — el patron existia escrito a mano en las seis landings de
+   partners: 21 clases identicas por archivo, 126 declaraciones duplicadas.
+   Se llamaba .highlight-card, que ya es una card del DS con fondo propio:
+   el canonico la pintaba de blanco en tema claro y cada landing lo tapaba
+   con su propio parche de background: transparent — cinco parches
+   distintos para el mismo choque, y tornado.html se quedo sin ninguno y
+   mostraba el panel blanco en produccion. Se renombra a .spotlight, que
+   es lo que es: un bloque partido, no una card.
+   Anatomia: kicker + titulo + copy + claim tonal, y a la derecha una
+   ventana de datos (.mockup). En mobile colapsa a una columna.        */
+.spotlight { position: relative; }
+.spotlight-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 48px; align-items: center;
+  position: relative; z-index: 1;
+}
+@media (max-width: 880px) {
+  .spotlight { padding: 36px 28px; }
+  .spotlight-grid { grid-template-columns: 1fr; gap: 32px; }
+}
+.spotlight-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px;
+  background: var(--cyan-soft); color: var(--cyan);
+  font: 600 11px var(--mono);
+  border-radius: var(--radius-pill);
+  margin-bottom: 16px; text-transform: uppercase; letter-spacing: .04em;
+}
+/* Titulo de seccion estrella: --display a 32px. Es la excepcion de §2 que
+   ya venia aprobada visualmente en las seis landings; se canoniza tal cual
+   para no cambiarle el aspecto a ninguna. */
+.spotlight-title {
+  font: 700 32px/1.2 var(--display); letter-spacing: -.02em;
+  color: var(--text); margin: 0 0 16px;
+}
+.spotlight-text {
+  font: 400 15px/1.6 var(--sans); color: var(--muted);
+  margin: 0 0 12px;
+}
+.spotlight-text strong { color: var(--text); font-weight: 600; }
+/* Claim destacado — fondo tonal, sin borde ni franja (§3) */
+.spotlight-claim {
+  background: var(--cyan-soft); border-radius: var(--radius-md);
+  padding: 14px 16px; margin: 20px 0;
+}
+.spotlight-claim-text { font: 600 14px/1.45 var(--sans); color: var(--cyan); }
+/* Fila de pills al pie del bloque. Reemplaza al
+   style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px" que estaba
+   inline en las seis landings. */
+.spotlight-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+
+/* ── .mockup — ventana de datos ────────────────────────────────────────
+   La mitad derecha del spotlight: una ventana con chrome y filas de
+   etiqueta / barra / valor / estado. Sirve para mostrar un dato del
+   producto sin capturar pantalla. Las barras se llenan con data-bar (el
+   porcentaje) y los contadores con data-count.                        */
+.mockup {
+  background: var(--bg-elev);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md), 0 0 0 1px var(--line);
+  font: 500 12px var(--mono);
+}
+.mockup-chrome {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 16px;
+  background: var(--bg-soft);
+  border-bottom: 1px solid var(--line);
+}
+.mockup-dots { display: flex; gap: 5px; }
+.mockup-dots span { width: 7px; height: 7px; border-radius: 50%; background: var(--line-strong); }
+.mockup-chrome-label { font: 600 10px var(--mono); color: var(--muted-2); letter-spacing: .1em; text-transform: uppercase; }
+/* Contrapeso de los tres puntos, para que la etiqueta quede centrada.
+   Reemplaza al style="width:40px" que estaba inline en las seis landings. */
+.mockup-chrome-spacer { width: 40px; flex: none; }
+.mockup-body { padding: 14px; display: flex; flex-direction: column; gap: 8px; }
+.mockup-row {
+  display: grid; grid-template-columns: 1fr 52px 80px;
+  gap: 10px; align-items: center;
+  padding: 12px 14px;
+  background: var(--bg-elev-2);
+  border-radius: var(--radius-sm);
+  transition: background var(--tr);
+}
+.mockup-row:hover { background: var(--bg-soft); }
+.mockup-row-info { display: flex; flex-direction: column; gap: 4px; }
+.mockup-loc { color: var(--text); font: 500 12px var(--mono); }
+.mockup-bar-wrap { height: 3px; background: var(--line); border-radius: 2px; margin-top: 2px; overflow: hidden; }
+.mockup-bar-fill { height: 100%; border-radius: 2px; background: var(--cyan); transition: width .9s cubic-bezier(.22,1,.36,1); width: 0; }
+.mockup-qty {
+  font: 800 22px var(--display); color: var(--cyan);
+  letter-spacing: -.02em; text-align: center;
+}
+.mockup-qty.zero { color: var(--muted-2); font-size: 16px; }
+.mockup-status {
+  font: 600 10px var(--mono); color: var(--green);
+  padding: 3px 8px; background: var(--green-soft);
+  border-radius: var(--radius-pill); text-align: center;
+}
+.mockup-status.nostock { color: var(--muted-2); background: var(--bg-soft); }
+/* Variante de valores de texto/precio: la columna del valor se adapta al
+   contenido y el numero baja a --sans, porque "$ 89.900" en --display a
+   22px no entra en 52px. */
+.mockup-vlist .mockup-row { grid-template-columns: 1fr auto auto; gap: 12px; align-items: baseline; }
+.mockup-vlist .mockup-qty { font: 700 14px var(--sans); color: var(--cyan); letter-spacing: 0; white-space: nowrap; text-align: right; }

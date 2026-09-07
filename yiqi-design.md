@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.34
+# YiQi Design System — Guía maestra v1.2.8.35
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -2062,7 +2062,79 @@ aunque en castellano las dos se digan «tabs».
 ```
 
 
+## 31. Bloque destacado — spotlight *(nuevo en v1.2.8.35)*
+
+La sección estrella de una landing: el argumento a la izquierda, la prueba a la
+derecha. Kicker, título, copy, un claim sobre fondo tonal y pills al pie;
+enfrente, una ventana de datos (`.mockup`) que muestra el producto sin capturar
+pantalla. En 880px colapsa a una columna.
+
+**No es una card.** No lleva fondo, ni relleno, ni sombra propios: hereda el
+fondo de la sección donde vive. Se llamaba `.highlight-card` en las seis
+landings de partners y ese nombre ya era una card del sistema — el canónico la
+pintaba de blanco en tema claro y cada archivo lo tapaba con su propio parche.
+El renombre a `.spotlight` es lo que resuelve el choque, no un cambio de gusto.
+
+### Reglas
+
+- El `.spotlight` va **dentro** de la sección que aporta el color. Nunca envuelto
+  en una `.card`.
+- El claim se destaca **por fondo tonal** (`--cyan-soft`), nunca por borde ni
+  franja lateral (§3).
+- `.spotlight-title` usa `--display` a 700/32px. Es la **excepción declarada** al
+  §2: título de sección estrella, no de card.
+- La cifra de `.mockup-qty` va en `--display` 800/22px. Si el valor es texto o
+  precio, el bloque lleva `.mockup-vlist` y la cifra baja a `--sans` 700/14px —
+  `"$ 89.900"` en display a 22px no entra en la columna de 52px.
+- Las barras arrancan en `width: 0` a propósito. Se llenan al entrar en viewport
+  pasando el `data-bar` al ancho.
+
+### HTML
+
+```html
+<div class="spotlight">
+  <div class="spotlight-grid">
+    <div>
+      <span class="spotlight-tag">B2B + B2C</span>
+      <h2 class="spotlight-title">Vende mayorista y minorista.</h2>
+      <p class="spotlight-text">Copy del bloque.</p>
+      <div class="spotlight-claim">
+        <span class="spotlight-claim-text">El remate.</span>
+      </div>
+      <div class="spotlight-tags"><span class="tag">Venta B2B</span></div>
+    </div>
+    <div>
+      <div class="mockup mockup-vlist" aria-label="Doble lista de precios">
+        <div class="mockup-chrome">
+          <div class="mockup-dots"><span></span><span></span><span></span></div>
+          <span class="mockup-chrome-label">Producto</span>
+          <div class="mockup-chrome-spacer"></div>
+        </div>
+        <div class="mockup-body">
+          <div class="mockup-row">
+            <div class="mockup-row-info">
+              <span class="mockup-loc">Precio minorista</span>
+              <div class="mockup-bar-wrap"><div class="mockup-bar-fill" data-bar="100"></div></div>
+            </div>
+            <span class="mockup-qty">$ 89.900</span>
+            <span class="mockup-status">Público</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+```js
+// Al entrar en viewport
+el.querySelectorAll('.mockup-bar-fill[data-bar]').forEach(function (b) {
+  b.style.width = b.dataset.bar + '%';
+});
+```
+
+
 ---
 
-*YiQi ERP · Design System v1.2.8.34 · Última actualización: 02/09/2026*
+*YiQi ERP · Design System v1.2.8.35 · Última actualización: 07/09/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*

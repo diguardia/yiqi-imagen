@@ -371,6 +371,7 @@ body.preview-open .ds-layout { display: none !important; }
 <a class="ds-nav-item" href="#ds-copy"><span class="ds-nav-num">65</span> Copiar al portapapeles <span class="ds-nav-badge">v1.2.7.9</span></a>
 <a class="ds-nav-item" href="#ds-picker"><span class="ds-nav-num">66</span> Desplegable de selección <span class="ds-nav-badge">v1.2.7.9</span></a>
 <a class="ds-nav-item" href="#nav-movil"><span class="ds-nav-num">67</span> Navegación móvil <span class="ds-nav-badge">v1.2.7.11</span></a>
+<a class="ds-nav-item" href="#ds-spotlight"><span class="ds-nav-num">68</span> Bloque destacado <span class="ds-nav-badge">v1.2.8.35</span></a>
 </div>
 <div class="ds-nav-section ds-nav-appearance">
 <span class="ds-nav-label">Apariencia</span>
@@ -476,6 +477,12 @@ body.preview-open .ds-layout { display: none !important; }
 <tr><th>Versión</th><th>Fecha</th><th>Tipo</th><th>Detalle</th></tr>
 </thead>
 <tbody>
+<tr id="chg-spotlight">
+<td class="mono-cell">v1.2.8.35</td>
+<td class="mono-cell">07/09/2026</td>
+<td><span class="badge badge-cyan">NUEVO</span></td>
+<td><strong>Bloque destacado de landing &mdash; <code>&sect;68</code>.</strong> El patr&oacute;n ya exist&iacute;a, escrito a mano: <strong>21 clases id&eacute;nticas en cada una de las seis landings de partners &mdash; 126 declaraciones duplicadas</strong> que el sistema nunca cubri&oacute;. Se llamaba <code>.highlight-card</code>, y ah&iacute; estaba el problema real: <strong>ese nombre ya es una card del DS con fondo propio</strong>. El can&oacute;nico la pinta de blanco en tema claro (<code>html[data-theme="light"] .highlight-card</code>, especificidad 0-2-1 contra el 0-1-0 de la landing), as&iacute; que cada archivo se defend&iacute;a con su propio parche de <code>background: transparent</code> &mdash; <strong>cinco parches distintos para el mismo choque</strong>, y <code>tornado.html</code> se qued&oacute; sin ninguno: mostr&oacute; el panel blanco en producci&oacute;n hasta hoy. Se renombra a <code>.spotlight</code>, que es lo que es: un bloque de composici&oacute;n sin superficie propia, no una card. Se suben tambi&eacute;n la ventana de datos (<code>.mockup</code>, doce clases) y dos utilidades que estaban inline en las seis: <code>.spotlight-tags</code> y <code>.mockup-chrome-spacer</code>. <strong>Cero tokens nuevos.</strong> Las seis landings quedan sin una sola declaraci&oacute;n propia para este bloque. Se canoniza <code>--display</code> a 32px en <code>.spotlight-title</code> tal cual estaba: es la excepci&oacute;n de &sect;2 para t&iacute;tulo de secci&oacute;n estrella, y cambiarla habr&iacute;a movido el aspecto de las seis p&aacute;ginas sin que nadie lo pidiera. Las pills pasan al <code>.tag</code> del sistema (700/10px) desde la copia local (600/11px).<div class="chg-links"><a class="ds-xref" href="#ds-spotlight"><i class="ph ph-anchor-simple"></i> &sect;68 &middot; Bloque destacado</a><a class="ds-xref" href="examples/showcase.html"><i class="ph ph-play-circle"></i> Ver en vivo</a><button class="ds-copy chg-share" data-ds-copy="link" title="Copiar link a este cambio" aria-label="Copiar link a este cambio"><i class="ph ph-link"></i>Compartir</button></div></td>
+</tr>
 <tr id="chg-picker-relleno">
 <td class="mono-cell">v1.2.8.34</td>
 <td class="mono-cell">03/09/2026</td>
@@ -5936,6 +5943,133 @@ if (v) target.textContent = `DS v${v}`;</code></pre>
 <button type="button" class="ds-copy" data-ds-copy="pre" aria-label="Copiar markup" title="Copiar markup"><i class="ph ph-copy"></i></button>
 </div>
 
+</section>
+
+<section class="ds-section" id="ds-spotlight">
+<div class="ds-section-kicker">68 &middot; Patr&oacute;n</div>
+<h2 class="ds-section-title">Bloque destacado &middot; spotlight</h2>
+<p class="ds-section-sub">La secci&oacute;n estrella de una landing: <strong>el argumento a la izquierda, la prueba a la derecha</strong>. Kicker, t&iacute;tulo, copy, un claim sobre fondo tonal y pills al pie; enfrente, una ventana de datos que muestra el producto sin tener que capturar pantalla. En 880px colapsa a una columna y la ventana pasa abajo.</p>
+<p class="ds-section-sub">No es una <a class="ds-xref" href="#cards">card</a>: no tiene fondo, ni relleno, ni sombra propios. Es un bloque de composici&oacute;n que hereda el fondo de la secci&oacute;n donde vive.</p>
+
+<div class="subsection-title">Ejemplo</div>
+<div class="spotlight">
+<div class="spotlight-grid">
+<div>
+<span class="spotlight-tag">B2B + B2C</span>
+<h3 class="spotlight-title">Vende mayorista y minorista. Sin comisiones.</h3>
+<p class="spotlight-text">El mismo sitio atiende a consumidores y a distribuidores, cada uno con su lista de precios. <strong>YiQi</strong> mantiene stock y precios sincronizados para los dos canales.</p>
+<div class="spotlight-claim"><span class="spotlight-claim-text">Un cat&aacute;logo, dos p&uacute;blicos, una sola operaci&oacute;n.</span></div>
+<div class="spotlight-tags">
+<span class="tag">Venta B2B</span><span class="tag">Venta B2C</span><span class="tag">Modalidad Dual</span>
+</div>
+</div>
+<div>
+<div class="mockup mockup-vlist" aria-label="Ejemplo de producto con doble lista de precios">
+<div class="mockup-chrome">
+<div class="mockup-dots"><span></span><span></span><span></span></div>
+<span class="mockup-chrome-label">Producto &middot; Zapatilla Runner Pro</span>
+<div class="mockup-chrome-spacer"></div>
+</div>
+<div class="mockup-body">
+<div class="mockup-row"><div class="mockup-row-info"><span class="mockup-loc">Precio minorista &middot; B2C</span><div class="mockup-bar-wrap"><div class="mockup-bar-fill" data-bar="100"></div></div></div><span class="mockup-qty">$ 89.900</span><span class="mockup-status">P&uacute;blico</span></div>
+<div class="mockup-row"><div class="mockup-row-info"><span class="mockup-loc">Precio mayorista &middot; B2B</span><div class="mockup-bar-wrap"><div class="mockup-bar-fill" data-bar="70"></div></div></div><span class="mockup-qty">$ 62.400</span><span class="mockup-status">Distribuidor</span></div>
+<div class="mockup-row"><div class="mockup-row-info"><span class="mockup-loc">Stock sincronizado</span><div class="mockup-bar-wrap"><div class="mockup-bar-fill" data-bar="90"></div></div></div><span class="mockup-qty">128</span><span class="mockup-status">En vivo</span></div>
+<div class="mockup-row"><div class="mockup-row-info"><span class="mockup-loc">Comisi&oacute;n del canal</span><div class="mockup-bar-wrap"><div class="mockup-bar-fill"></div></div></div><span class="mockup-qty">$ 0</span><span class="mockup-status">Siempre</span></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="subsection-title">Anatom&iacute;a</div>
+<table class="table-demo ds-table-820">
+<thead><tr><th>Parte</th><th>Regla</th></tr></thead>
+<tbody>
+<tr><td><code>.spotlight</code></td><td>Envoltorio, <code>position:relative</code>. <strong>Sin fondo, sin borde, sin sombra</strong> &mdash; la secci&oacute;n que lo contiene pone el color. En 880px toma <code>36px 28px</code> de relleno.</td></tr>
+<tr><td><code>.spotlight-grid</code></td><td>Dos columnas <code>1fr 1fr</code>, <code>gap: 48px</code>, centradas en vertical. En 880px pasa a una columna con <code>gap: 32px</code>.</td></tr>
+<tr><td><code>.spotlight-tag</code></td><td>Kicker: <code>--mono</code> 600/11px en may&uacute;sculas sobre <code>--cyan-soft</code>, radio pill.</td></tr>
+<tr><td><code>.spotlight-title</code></td><td><code>--display</code> 700/32px, <code>-.02em</code>. Es la excepci&oacute;n de &sect;2 al uso de <code>--display</code>: t&iacute;tulo de secci&oacute;n estrella, no de card.</td></tr>
+<tr><td><code>.spotlight-text</code></td><td>Copy de landing: <code>--sans</code> 400/15px con interlineado 1.6. El <code>&lt;strong&gt;</code> adentro sube a <code>--text</code> y peso 600.</td></tr>
+<tr><td><code>.spotlight-claim</code></td><td>El remate. Fondo <code>--cyan-soft</code>, <code>--radius-md</code>, <strong>sin borde ni franja lateral</strong> (&sect;3). El texto va en <code>.spotlight-claim-text</code>, cyan 600/14px.</td></tr>
+<tr><td><code>.spotlight-tags</code></td><td>Fila de <code>.tag</code> al pie, <code>gap: 8px</code>, envuelve.</td></tr>
+</tbody>
+</table>
+
+<div class="subsection-title">La ventana de datos &middot; <code>.mockup</code></div>
+<table class="table-demo ds-table-820">
+<thead><tr><th>Parte</th><th>Regla</th></tr></thead>
+<tbody>
+<tr><td><code>.mockup</code></td><td>Ventana sobre <code>--bg-elev</code>, <code>--radius-lg</code>, hairline por sombra (<code>var(--shadow-md), 0 0 0 1px var(--line)</code>).</td></tr>
+<tr><td><code>.mockup-chrome</code></td><td>Barra superior: tres puntos y una etiqueta en <code>--mono</code> may&uacute;scula. Es cromo, no dato.</td></tr>
+<tr><td><code>.mockup-row</code></td><td>Grilla <code>1fr 52px 80px</code>: etiqueta + barra, valor, estado. Hover <code>--bg-soft</code>.</td></tr>
+<tr><td><code>.mockup-bar-fill</code></td><td>Barra de proporci&oacute;n. Arranca en <code>width: 0</code> y se llena con el <code>data-bar</code> (porcentaje) &mdash; ver Consumo.</td></tr>
+<tr><td><code>.mockup-qty</code></td><td>Cifra en <code>--display</code> 800/22px cyan. <code>.zero</code> la apaga a <code>--muted-2</code> y 16px.</td></tr>
+<tr><td><code>.mockup-status</code></td><td>Pill de estado en <code>--green-soft</code>. <code>.nostock</code> la pasa a gris.</td></tr>
+<tr><td><code>.mockup-vlist</code></td><td>Variante para valores de texto o precio: la columna del valor se adapta al contenido y la cifra baja a <code>--sans</code> 700/14px. Sin esto, <code>&ldquo;$ 89.900&rdquo;</code> en <code>--display</code> a 22px no entra en 52px.</td></tr>
+</tbody>
+</table>
+
+<div class="subsection-title">Consumo</div>
+<table class="table-demo ds-table-820">
+<thead><tr><th>Paso</th><th></th></tr></thead>
+<tbody>
+<tr><td><strong>1 &middot; CSS</strong></td><td>Las clases ya viajan en <code>styles.css</code>. La landing no declara nada propio.</td></tr>
+<tr><td><strong>2 &middot; Secci&oacute;n</strong></td><td>El <code>.spotlight</code> va dentro de la secci&oacute;n que aporta el fondo. No envolverlo en una <code>.card</code>: el bloque no lleva superficie propia.</td></tr>
+<tr><td><strong>3 &middot; Barras</strong></td><td>Al entrar en viewport, pasar el <code>data-bar</code> al ancho: <code>el.style.width = el.dataset.bar + '%'</code>. Sin ese paso las barras quedan en cero, que es el estado de reposo a prop&oacute;sito.</td></tr>
+</tbody>
+</table>
+
+<div class="subsection-title">Markup</div>
+<pre class="ds-code-block"><code>&lt;div class="spotlight"&gt;
+  &lt;div class="spotlight-grid"&gt;
+    &lt;div&gt;
+      &lt;span class="spotlight-tag"&gt;B2B + B2C&lt;/span&gt;
+      &lt;h2 class="spotlight-title"&gt;Vende mayorista y minorista.&lt;/h2&gt;
+      &lt;p class="spotlight-text"&gt;Copy del bloque.&lt;/p&gt;
+      &lt;div class="spotlight-claim"&gt;
+        &lt;span class="spotlight-claim-text"&gt;El remate.&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class="spotlight-tags"&gt;&lt;span class="tag"&gt;Venta B2B&lt;/span&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+      &lt;div class="mockup mockup-vlist" aria-label="Doble lista de precios"&gt;
+        &lt;div class="mockup-chrome"&gt;
+          &lt;div class="mockup-dots"&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+          &lt;span class="mockup-chrome-label"&gt;Producto&lt;/span&gt;
+          &lt;div class="mockup-chrome-spacer"&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class="mockup-body"&gt;
+          &lt;div class="mockup-row"&gt;
+            &lt;div class="mockup-row-info"&gt;
+              &lt;span class="mockup-loc"&gt;Precio minorista&lt;/span&gt;
+              &lt;div class="mockup-bar-wrap"&gt;&lt;div class="mockup-bar-fill" data-bar="100"&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;/div&gt;
+            &lt;span class="mockup-qty"&gt;$ 89.900&lt;/span&gt;
+            &lt;span class="mockup-status"&gt;P&uacute;blico&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<script>
+/* Las .mockup-bar-fill arrancan en 0 a proposito: se llenan al entrar en
+   viewport con el porcentaje del data-bar. Documentado en Consumo. */
+(function(){
+  var box = document.querySelector('#ds-spotlight .mockup');
+  if(!box) return;
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      e.target.querySelectorAll('.mockup-bar-fill[data-bar]').forEach(function(b){
+        b.style.width = b.dataset.bar + '%';
+      });
+      io.unobserve(e.target);
+    });
+  }, { threshold: .25 });
+  io.observe(box);
+})();
+</script>
 </section>
 
 
