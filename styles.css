@@ -150,7 +150,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.35";
+  --ds-version: "1.2.8.36";
 
   /* Layout */
   --topbar-h:  56px;
@@ -3804,7 +3804,16 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
      puede disparar— como unica forma de saber que era cada uno.
      Aca se revierte el rail entero. No alcanza con que la app se acuerde de
      sacar la clase: el breakpoint es del DS, asi que la consecuencia tambien. */
-  .app-shell.nav-collapsed .sidebar { width: min(var(--sidebar-w), 86vw); padding: 16px 12px; }
+  /* v1.2.8.36 — faltaba el z-index. La regla del rail deja el sidebar en
+     --z-rail (96) y el backdrop del drawer esta en --z-backdrop (110), asi
+     que con el menu colapsado el overlay quedaba ENCIMA del drawer: se veia
+     abierto y ningun item respondia al click. Medido con elementFromPoint
+     sobre un item: devolvia .nav-overlay, no el link. Tambien vuelve el
+     overflow del drawer, que el rail pisa con visible. */
+  .app-shell.nav-collapsed .sidebar {
+    width: min(var(--sidebar-w), 86vw); padding: 16px 12px;
+    z-index: var(--z-drawer); overflow-y: auto;
+  }
   .app-shell.nav-collapsed .nav-lbl {
     visibility: visible; height: auto; padding: 12px 8px 6px; margin: 0;
   }
