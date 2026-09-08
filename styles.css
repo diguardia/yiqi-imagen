@@ -3414,7 +3414,13 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
   }
   .sidebar.is-open { transform: translateX(0); }
 
-  .app-topbar { position: relative; grid-template-columns: 1fr auto;
+  /* v1.2.8.36 — la barra se quedaba pegada en escritorio y se iba con el
+     scroll en pantalla chica, justo donde la hamburguesa es la unica forma
+     de abrir el menu: a 830px, scrolleando 2000, quedaba en top:-2000.
+     El canonico ya la declara sticky desde v1.2.7.11; este bloque la pisaba
+     con relative sin necesidad, porque lo que habia que neutralizar era el
+     grid de la barra, no su posicion. */
+  .app-topbar { position: sticky; top: 0; grid-template-columns: 1fr auto;
     align-items: center; padding: 12px 16px; }
   /* En celular la topbar lleva solo logo y menu: el resto vive en el drawer. */
   .app-topbar > .topbar-c { display: none; }
