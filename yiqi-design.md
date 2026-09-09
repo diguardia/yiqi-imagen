@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.36
+# YiQi Design System — Guía maestra v1.2.8.37
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -498,9 +498,47 @@ topbar sticky (56px, z-index: 99)
 sidebar (240px, sticky top: 56px)
   └─ off-canvas en mobile (breakpoint: 980px)
 main content
-  └─ padding: 36–40px desktop / 20–22px mobile
-  └─ max-width: 1100px
+  └─ padding: 28px 36px 40px desktop / 20–22px mobile
+  └─ max-width: var(--content-max) = 1200px, alineado a la izquierda
 ```
+
+### Tope de ancho de página *(nuevo en v1.2.8.37)*
+
+Hasta la 1.2.8.36 esta guía documentaba `max-width: 1100px` en el shell, pero
+`.content` no tenía ningún tope: la página se estiraba a lo que midiera el
+monitor. En un 27" a 2560px el área útil quedaba en ~2280px, y ahí las filas de
+dos extremos —`.funnel-step-top`, `.legend-row`, `.progress-row`, `.branch-row`,
+`.statusbar`, todas `justify-content: space-between`— dejaban de leerse como una
+fila y pasaban a leerse como dos columnas sin relación.
+
+```css
+:root { --content-max: 1200px; }
+.content { … max-width: var(--content-max); }
+.content.is-full { max-width: none; }
+```
+
+**Alineado a la izquierda, no centrado.** No lleva `margin-inline: auto`.
+`.content` es el segundo item del grid de `.app-shell`, así que con un
+`max-width` definido el `stretch` resuelve a `start` y el bloque queda pegado al
+sidebar. Centrarlo haría saltar el contenido al colapsar el sidebar, y va contra
+el idioma que el DS ya venía usando componente por componente: todas las grillas
+del tablero son `auto-fill` con techo más `justify-content: start`. El tope de
+página es esa misma decisión un nivel más arriba.
+
+**Por qué 1200.** Descontados los 72px de padding quedan 1128 útiles, que dan 4
+columnas de `.kpi-grid` a 273px y 3 de `.dashboard-grid` a 368px. Con 1400 entra
+una columna más en cada una, pero cada card cae contra el piso de su `minmax`
+—`.dashboard-grid` tiene mínimo 320 y le quedarían 323—: más apretado, no más
+útil.
+
+**`.content.is-full`** es la escapatoria a nivel página, equivalente de
+`.panel-wide` a nivel panel: para la pantalla que sí necesita todo el ancho.
+
+**`.ds-note` recibe `max-width: 64ch`** en la misma versión, para alinearlo con
+`.panel-description`. Hacen el mismo trabajo —bloque de texto explicativo dentro
+de un panel— y era el único de los dos sin medida de lectura: a 13px en un área
+de 2280px daba del orden de 230 caracteres por línea, contra los 45–75
+recomendados.
 
 ### Topbar
 
@@ -2136,5 +2174,5 @@ el.querySelectorAll('.mockup-bar-fill[data-bar]').forEach(function (b) {
 
 ---
 
-*YiQi ERP · Design System v1.2.8.36 · Última actualización: 08/09/2026*
+*YiQi ERP · Design System v1.2.8.37 · Última actualización: 09/09/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*

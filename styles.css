@@ -150,7 +150,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.36";
+  --ds-version: "1.2.8.37";
 
   /* Layout */
   --topbar-h:  56px;
@@ -171,6 +171,13 @@
   --sidebar-w: 240px;
   --sidebar-w-collapsed: 68px;
   --page-px:   28px;
+  /* v1.2.8.37 — tope de ancho de pagina. Sin esto .content se estira a lo que
+     mida el monitor: en un 27" a 2560px el area util queda en ~2280 y las filas
+     de dos extremos (.funnel-step-top, .legend-row, .progress-row, .branch-row,
+     .statusbar) se parten al medio. 1200 deja 1128 utiles, que dan 4 columnas de
+     .kpi-grid a 273px y 3 de .dashboard-grid a 368px; con 1400 entra una columna
+     mas en cada una pero cada card cae al piso de su minmax. */
+  --content-max: 1200px;
   /* Radios */
   --radius-xs:   6px;
   --radius-sm:   10px;
@@ -386,6 +393,11 @@ h1, h2, h3, h4, p { margin: 0; }
   padding: 14px 16px;
   font: 400 13px/1.55 var(--sans);
   color: var(--muted);
+  /* v1.2.8.37 — medida de lectura, igual que .panel-description. Hace el mismo
+     trabajo —bloque de texto explicativo dentro de un panel— y era el unico de
+     los dos sin tope: a 13px en un area de 2280px daba ~230 caracteres por
+     linea, contra los 45-75 recomendados. */
+  max-width: 64ch;
 }
 .ds-note strong { color: var(--text); font-weight: 600; }
 .ds-note + .ds-note { margin-top: 9px; }
@@ -530,7 +542,18 @@ html[data-theme="light"] .brand-logo-light { display: block; }
   grid-template-columns: minmax(0, 1fr);
   gap: 20px;
   min-width: 0;
+  /* v1.2.8.37 — sin margin-inline a proposito: alineado a la izquierda, no
+     centrado. .content es el segundo item del grid de .app-shell, asi que con
+     un max-width definido el stretch resuelve a start y queda pegado al
+     sidebar. Centrarlo haria saltar el bloque al colapsar el sidebar, y va
+     contra el idioma que el DS ya usa componente por componente: todas las
+     grillas del tablero son auto-fill con techo + justify-content:start. */
+  max-width: var(--content-max);
 }
+
+/* Escapatoria a nivel pagina, equivalente de .panel-wide a nivel panel: para
+   la pantalla que si necesita todo el ancho (tablas de muchas columnas). */
+.content.is-full { max-width: none; }
 
 /* ── 10. KICKERS & LABELS ─────────────────────────────────── */
 .brand-kicker,
