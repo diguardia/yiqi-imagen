@@ -157,7 +157,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.40";
+  --ds-version: "1.2.8.41";
 
   /* Layout */
   --topbar-h:  56px;
@@ -595,6 +595,25 @@ html[data-theme="light"] .brand-logo-light { display: block; }
   letter-spacing: 0;
   text-transform: none;
   color: var(--muted-2);
+}
+
+/* v1.2.8.41 — el rotulo que titula un bloque DENTRO de una tarjeta.
+   No es lo mismo que .section-kicker: ese marca donde empieza una
+   seccion de la pagina y por eso paso a sans en v1.2.7.15. Este vive
+   adentro de una card de tablero, entre datos, y ahi el mono sigue
+   siendo lo correcto — la misma nota de v1.2.7.15 ya excluia a las
+   etiquetas de interfaz (.nav-label, .kpi-label, .status-label).
+
+   El nombre no es nuevo: el catalogo lo escribe 20 veces desde hace
+   versiones y ninguna regla lo pintaba. El rol ya existia; faltaba
+   el CSS. Sube desde el informe comercial, donde vivia como clase
+   local llamada .card-subtitle. */
+.card-kicker {
+  font: 600 10px var(--mono);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+  margin-bottom: 16px;
 }
 
 .section-kicker::before,
