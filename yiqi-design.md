@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.37
+# YiQi Design System — Guía maestra v1.2.8.38
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -214,7 +214,7 @@ html[data-theme="light"] {
 
 - **Greycliff CF Heavy (`--display`)** → títulos de página, hero headlines, headings grandes (fallback: Plus Jakarta Sans)
 - **Inter (`--sans`)** → todo el texto de interfaz: body, labels, botones, nav
-- **IBM Plex Mono (`--mono`)** → tokens, badges, kickers, valores numéricos, IDs, atajos de teclado
+- **IBM Plex Mono (`--mono`)** → tokens, kickers, valores numéricos, IDs, atajos de teclado
 
 ### Escala tipográfica
 
@@ -254,7 +254,7 @@ La escala display se pide **siempre con su clase**. La etiqueta desnuda entrega 
 | Delta de KPI | `.kpi-delta` | `--mono` | 11px | 600 | .02em |
 | Atajo de teclado | `.ds-input-shortcut` | `--mono` | 10px | 600 | — |
 | Label de sección del nav | `.nav-label` | `--mono` | 9px | 700 | .15em, uppercase |
-| Texto de badge y tag | `.badge` `.tag` | `--mono` | 10px | 700 | — |
+| Texto de badge y tag | `.badge` `.tag` | `--display` | 10px | 700 | uppercase, `.04em` (desde v1.2.8.38) |
 
 Los valores de la columna **Clase** son los que la clase entrega de verdad, medidos sobre `styles.css`. Antes esta tabla describía la escala Mono con rangos (`10–13px`, `.10em–.16em`) que no correspondían a ningún selector: el KPI figuraba como 28px/700 cuando `.kpi-value` es `clamp(32–42px)`/500.
 
@@ -2174,5 +2174,5 @@ el.querySelectorAll('.mockup-bar-fill[data-bar]').forEach(function (b) {
 
 ---
 
-*YiQi ERP · Design System v1.2.8.37 · Última actualización: 09/09/2026*
+*YiQi ERP · Design System v1.2.8.38 · Última actualización: 11/09/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*

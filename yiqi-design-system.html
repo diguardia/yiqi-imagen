@@ -394,7 +394,7 @@ body.preview-open .ds-layout { display: none !important; }
 <div class="ds-section-header">
 <div class="ds-section-kicker">00 · Novedades</div>
 <h2 class="ds-section-title" data-ds-version="Novedades · v{v}">Novedades</h2>
-<p class="ds-section-sub"><strong>La p&aacute;gina no ten&iacute;a tope de ancho.</strong> <code>.content</code> se estiraba a lo que midiera el monitor: en un 27&Prime; el &aacute;rea &uacute;til quedaba en ~2280&nbsp;px y las filas de dos extremos &mdash;<code>.funnel-step-top</code>, <code>.legend-row</code>, <code>.statusbar</code>&mdash; se le&iacute;an como dos columnas sin relaci&oacute;n. Nuevo token <code>--content-max: 1200px</code>, alineado a la izquierda, con <code>.content.is-full</code> como escapatoria. <code>.ds-note</code> suma su medida de lectura de 64ch. Antes, en v1.2.8.36: <strong>en pantalla chica el men&uacute; colapsado no se pod&iacute;a tocar, y la hamburguesa se iba con el scroll.</strong> Con el rail colapsado, abajo de 980&nbsp;px el caj&oacute;n se abr&iacute;a completo y ning&uacute;n &iacute;tem aceptaba el toque: la regla del rail dejaba el sidebar en <code>--z-rail</code> (96) y el fondo del caj&oacute;n vive en <code>--z-backdrop</code> (110), as&iacute; que el overlay tapaba al propio men&uacute;. El bloque m&oacute;vil de v1.2.8.10 ya revert&iacute;a el rail, pero se hab&iacute;a olvidado del <code>z-index</code> y del <code>overflow</code>. Antes, en v1.2.8.35: <strong>el bloque destacado de las landings sube al sistema como <code>.spotlight</code></strong> &mdash; 21 clases id&eacute;nticas repetidas en seis archivos, con cinco parches distintos para el choque con <code>.highlight-card</code>. Antes, en v1.2.8.34: <strong>el desplegable desaparec&iacute;a dentro de una card</strong> &mdash; <code>.ds-picker-toggle</code> med&iacute;a 1.000 contra su propio fondo. Antes, en v1.2.8.33: los dos verdes de <code>.btn-wa</code> pasan a los oficiales de WhatsApp. Antes, en v1.2.8.31: el relleno del bot&oacute;n s&oacute;lido deja de ser cian.</p>
+<p class="ds-section-sub"><strong>La etiqueta pasa a Plus Jakarta.</strong> <code>.badge</code> ven&iacute;a en IBM Plex Mono, pero casi nunca va sola: acompa&ntilde;a un nombre en otra familia y la l&iacute;nea mezclaba dos tipograf&iacute;as. Queda en <code>700 10px var(--display)</code> con <code>letter-spacing: .04em</code>, y el <code>uppercase</code> ahora lo impone la clase, no quien escribe el texto. <span style="color:var(--muted-2)"><strong>La p&aacute;gina no ten&iacute;a tope de ancho.</strong> <code>.content</code> se estiraba a lo que midiera el monitor: en un 27&Prime; el &aacute;rea &uacute;til quedaba en ~2280&nbsp;px y las filas de dos extremos &mdash;<code>.funnel-step-top</code>, <code>.legend-row</code>, <code>.statusbar</code>&mdash; se le&iacute;an como dos columnas sin relaci&oacute;n. Nuevo token <code>--content-max: 1200px</code>, alineado a la izquierda, con <code>.content.is-full</code> como escapatoria. <code>.ds-note</code> suma su medida de lectura de 64ch. Antes, en v1.2.8.36: <strong>en pantalla chica el men&uacute; colapsado no se pod&iacute;a tocar, y la hamburguesa se iba con el scroll.</strong> Con el rail colapsado, abajo de 980&nbsp;px el caj&oacute;n se abr&iacute;a completo y ning&uacute;n &iacute;tem aceptaba el toque: la regla del rail dejaba el sidebar en <code>--z-rail</code> (96) y el fondo del caj&oacute;n vive en <code>--z-backdrop</code> (110), as&iacute; que el overlay tapaba al propio men&uacute;. El bloque m&oacute;vil de v1.2.8.10 ya revert&iacute;a el rail, pero se hab&iacute;a olvidado del <code>z-index</code> y del <code>overflow</code>. Antes, en v1.2.8.35: <strong>el bloque destacado de las landings sube al sistema como <code>.spotlight</code></strong> &mdash; 21 clases id&eacute;nticas repetidas en seis archivos, con cinco parches distintos para el choque con <code>.highlight-card</code>. Antes, en v1.2.8.34: <strong>el desplegable desaparec&iacute;a dentro de una card</strong> &mdash; <code>.ds-picker-toggle</code> med&iacute;a 1.000 contra su propio fondo. Antes, en v1.2.8.33: los dos verdes de <code>.btn-wa</code> pasan a los oficiales de WhatsApp. Antes, en v1.2.8.31: el relleno del bot&oacute;n s&oacute;lido deja de ser cian.</span></p>
 </div>
 <div class="token-grid-2">
 <!-- La card "Lo último" se arma sola desde la primera fila del changelog:
@@ -477,6 +477,12 @@ body.preview-open .ds-layout { display: none !important; }
 <tr><th>Versión</th><th>Fecha</th><th>Tipo</th><th>Detalle</th></tr>
 </thead>
 <tbody>
+<tr id="chg-badge-jakarta">
+<td class="mono-cell">v1.2.8.38</td>
+<td class="mono-cell">11/09/2026</td>
+<td><span class="badge badge-cyan">NUEVO</span></td>
+<td><strong>La etiqueta pasa de IBM Plex Mono a Plus Jakarta.</strong> El mono daba aire tabular, pero el badge casi nunca va solo: acompa&ntilde;a un nombre en <code>--display</code> o <code>--sans</code> &mdash;el de una app, un cliente, un m&oacute;dulo&mdash; y conviv&iacute;an dos familias en la misma l&iacute;nea. <code>.badge</code> queda en <code>700 10px var(--display)</code> con <code>letter-spacing: .04em</code>, y el <code>text-transform: uppercase</code> pasa a vivir en la clase: antes depend&iacute;a de c&oacute;mo escribiera el texto quien la usara, y conviv&iacute;an <code>ACTIVO</code> con <code>En homologaci&oacute;n</code>. Alcanza a todo el sistema, incluidas las variantes de color y los tags.</td>
+</tr>
 <tr id="chg-content-max">
 <td class="mono-cell">v1.2.8.37</td>
 <td class="mono-cell">09/09/2026</td>
@@ -2026,7 +2032,7 @@ body.preview-open .ds-layout { display: none !important; }
 <div class="ds-section-header">
 <div class="ds-section-kicker">11 · Badges &amp; Tags</div>
 <h2 class="ds-section-title">Badges, Tags &amp; Pills</h2>
-<p class="ds-section-sub">Sistema de etiquetas para estados, categorías y metadata. IBM Plex Mono en todos los casos.</p>
+<p class="ds-section-sub">Sistema de etiquetas para estados, categorías y metadata. Plus Jakarta en todos los casos, en mayúsculas por la propia clase <em>(desde v1.2.8.38; antes IBM Plex Mono)</em>.</p>
 <a class="ds-xref" style="margin-top:12px" href="examples/showcase.html?tab=mockups&amp;card=card-notif"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 <div class="spec-grid">
@@ -2654,7 +2660,7 @@ body.preview-open .ds-layout { display: none !important; }
 <a class="ds-xref" style="margin-top:12px" href="examples/showcase.html?tab=primitivos&amp;card=card-theme-toggle"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 
-<div class="subsection-title">Componente &middot; un solo botón <span class="badge badge-cyan" style="font:600 10px var(--mono);vertical-align:middle;margin-left:6px">v1.2.7.9</span></div>
+<div class="subsection-title">Componente &middot; un solo botón <span class="badge badge-cyan" style="font:600 10px var(--display);vertical-align:middle;margin-left:6px">v1.2.7.9</span></div>
 <p class="ds-section-sub" style="margin-bottom:14px">Muestra el estado vigente y cicla al siguiente en cada clic: <strong>Oscuro &rarr; Sistema &rarr; Claro &rarr; Oscuro</strong>. Misma caja de 28&times;26 que un <code>.theme-opt</code>, mismo activo tonal. Ocupa 28px en vez de 90px, y no muestra dos estados que nadie está usando.</p>
 <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;margin-bottom:24px">
 <button class="theme-cycle" type="button" data-theme-cycle aria-label="Cambiar tema"><svg class="tc-dark" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg><svg class="tc-system" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg><svg class="tc-light" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg></button>
@@ -3227,7 +3233,7 @@ document.body.classList.add(<span style="color:var(--green)">'anim-in'</span>);<
 </thead>
 <tbody>
 <tr>
-<td class="mono-cell"><span class="badge badge-cyan" style="font:600 9px var(--mono)">NEW</span> xxl</td>
+<td class="mono-cell"><span class="badge badge-cyan" style="font:600 9px var(--display)">NEW</span> xxl</td>
 <td class="mono-cell">≥ 1440px</td>
 <td>Grids densos suman columna — módulos pasan a 5 cols, KPIs pueden ir 5–6</td>
 </tr>
@@ -3436,7 +3442,7 @@ html[data-theme="light"] .bg-grid-demo-fade {
 <section class="ds-section" id="depth-stack">
 <div class="ds-section-header">
 <div class="ds-section-kicker">31 · Patrón</div>
-<h2 class="ds-section-title">Depth stack <span class="badge badge-cyan" style="font:600 10px var(--mono);vertical-align:middle;margin-left:6px">NEW v1.2.6</span></h2>
+<h2 class="ds-section-title">Depth stack <span class="badge badge-cyan" style="font:600 10px var(--display);vertical-align:middle;margin-left:6px">NEW v1.2.6</span></h2>
 <p class="ds-section-sub">Patrón de profundidad para secciones de marketing (landing, leads). Tres capas decorativas no intrusivas + cards con sombra multi-stop. Pensado para grids densos donde el fondo plano se sentía vacío.</p>
 </div>
 

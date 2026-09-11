@@ -150,7 +150,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.37";
+  --ds-version: "1.2.8.38";
 
   /* Layout */
   --topbar-h:  56px;
@@ -824,7 +824,15 @@ html[data-theme="light"] .brand-logo-light { display: block; }
   gap: 5px;
   padding: 4px 8px;
   border-radius: var(--radius-pill);
-  font: 700 10px var(--mono);
+  /* v1.2.8.38 — la etiqueta pasa a Plus Jakarta. El mono daba el aire
+     tabular pero desentonaba con el nombre que acompana, que casi siempre
+     esta en --display o --sans. Se mantiene en mayusculas y con el
+     letter-spacing que el mono traia de fabrica, para que el bloque siga
+     leyendose como etiqueta y no como texto. El text-transform vive aca:
+     asi el badge es mayuscula escriba lo que escriba quien lo use. */
+  font: 700 10px var(--display);
+  letter-spacing: .04em;
+  text-transform: uppercase;
   border: 1px solid transparent;
 }
 
