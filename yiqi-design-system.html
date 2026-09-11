@@ -6236,7 +6236,24 @@ function tsGoTo(i) {
   const h = tsHits[tsHitIdx];
   /* Resaltar el hit activo: sin esto no se ve CUÁL de los N resultados es. */
   if (h.center) h.el.classList.add('ts-hit');
-  h.el.scrollIntoView({ behavior: 'smooth', block: h.center ? 'center' : 'start' });
+  /* El indice recorre las 68 filas del changelog, pero el CSS solo muestra
+     las tres primeras (#ds-changelog tbody tr:nth-child(n+4){display:none}).
+     scrollIntoView sobre un elemento con ancestro display:none no hace nada:
+     buscando "badge", 16 de 23 resultados dejaban la pantalla quieta. Se
+     despliega la tabla antes de ir. El click reusa el handler de
+     #dsChangelogMore para no duplicar el rotulo del boton.
+     Se pregunta por getClientRects() y NO por getComputedStyle().display:
+     el hit es un <code> dentro del <tr> oculto, y un descendiente de un
+     display:none reporta su propio display (inline), no none. */
+  const tbl = document.getElementById('ds-changelog');
+  const btn = document.getElementById('dsChangelogMore');
+  if (tbl && btn && tbl.contains(h.el) && !tbl.classList.contains('show-all')
+      && !h.el.getClientRects().length) {
+    btn.click();
+    requestAnimationFrame(() => h.el.scrollIntoView({ behavior: 'smooth', block: h.center ? 'center' : 'start' }));
+  } else {
+    h.el.scrollIntoView({ behavior: 'smooth', block: h.center ? 'center' : 'start' });
+  }
   tsKbd.textContent = (tsHitIdx + 1) + '/' + tsHits.length;
   tsKbd.classList.remove('hidden');
 }
