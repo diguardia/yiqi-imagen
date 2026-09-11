@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.39
+# YiQi Design System — Guía maestra v1.2.8.40
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -73,6 +73,9 @@
   /* Borders */
   --line:        rgba(255,255,255,.08);
   --line-strong: rgba(255,255,255,.14);
+
+  /* Velo detrás de cajones y modales (nuevo en v1.2.8.40) */
+  --scrim:       rgba(0,0,0,.55);
 
   /* Text */
   --text:    #f3f5f7;
@@ -164,6 +167,9 @@ html[data-theme="light"] {
   /* Borders */
   --line:        rgba(0,0,0,.08);
   --line-strong: rgba(0,0,0,.13);
+
+  /* Velo detrás de cajones y modales (nuevo en v1.2.8.40) */
+  --scrim:       rgba(0,0,0,.38);
 
   /* Text */
   --text:    #17191c;
@@ -2174,5 +2180,5 @@ el.querySelectorAll('.mockup-bar-fill[data-bar]').forEach(function (b) {
 
 ---
 
-*YiQi ERP · Design System v1.2.8.39 · Última actualización: 11/09/2026*
+*YiQi ERP · Design System v1.2.8.40 · Última actualización: 11/09/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*

@@ -57,7 +57,7 @@
   /* Bordes */
   --line:        rgba(255,255,255,.08);
   --line-strong: rgba(255,255,255,.14);
-  /* v1.2.8.39 — el velo que oscurece la pagina detras de un cajon, un
+  /* v1.2.8.40 — el velo que oscurece la pagina detras de un cajon, un
      modal o un menu abierto. No existia como token: .nav-overlay lo
      escribia a mano y cada app que necesitaba uno lo volvia a inventar
      con su propia opacidad. Es negro en los dos temas a proposito: lo
@@ -157,7 +157,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.39";
+  --ds-version: "1.2.8.40";
 
   /* Layout */
   --topbar-h:  56px;
