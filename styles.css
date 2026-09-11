@@ -57,6 +57,13 @@
   /* Bordes */
   --line:        rgba(255,255,255,.08);
   --line-strong: rgba(255,255,255,.14);
+  /* v1.2.8.39 — el velo que oscurece la pagina detras de un cajon, un
+     modal o un menu abierto. No existia como token: .nav-overlay lo
+     escribia a mano y cada app que necesitaba uno lo volvia a inventar
+     con su propia opacidad. Es negro en los dos temas a proposito: lo
+     que hace es apagar lo de atras, no teñirlo, y en claro un velo del
+     color del fondo no separa nada. */
+  --scrim:       rgba(0,0,0,.55);
   /* Texto */
   --text:        #f3f5f7;
   --muted:       #908e8e;
@@ -150,7 +157,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.38";
+  --ds-version: "1.2.8.39";
 
   /* Layout */
   --topbar-h:  56px;
@@ -217,6 +224,9 @@ html[data-theme="light"] {
   --bg-soft:     #e1dfdb;
   --line:        rgba(0,0,0,.08);
   --line-strong: rgba(0,0,0,.13);
+  /* Mas suave en claro: sobre un fondo crudo, .55 de negro lee como
+     apagon y no como "esto de atras esta en pausa". */
+  --scrim:       rgba(0,0,0,.38);
   --text:        #17191c;
   --muted:       #5e5a57;
   --muted-2:     #636875;
@@ -1057,9 +1067,13 @@ html[data-theme="light"] .login-card {
   text-align: center;
 }
 
-/* v1.2.7.9: el delta es una cifra (+18,4%), no un codigo: --kpi-num. */
+/* v1.2.7.9: el delta es una cifra (+18,4%), no un codigo: --kpi-num.
+   v1.2.8.39 — y recien ahora lo es. La regla declaraba font-family:
+   var(--kpi-num) arriba y tres lineas mas abajo un shorthand
+   `font: 600 11px var(--mono)`, que reescribe font-family entero: el
+   delta venia en mono desde la v1.2.7.9 contra lo que decia su propio
+   comentario. Queda una sola declaracion, la del shorthand. */
 .kpi-delta {
-  font-family: var(--kpi-num);
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -1068,7 +1082,7 @@ html[data-theme="light"] .login-card {
   padding: 5px 10px;
   border-radius: var(--radius-pill);
   border: none;
-  font: 600 11px var(--mono);
+  font: 600 11px var(--kpi-num);
   letter-spacing: 0.02em;
   line-height: 1.3;
   justify-self: center;
@@ -3464,7 +3478,7 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
     position: fixed;
     inset: 0;
     z-index: var(--z-backdrop);
-    background: rgba(0,0,0,.55);
+    background: var(--scrim);
     opacity: 0;
     pointer-events: none;
     transition: opacity .26s ease;

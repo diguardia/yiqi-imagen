@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.38
+# YiQi Design System — Guía maestra v1.2.8.39
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -251,7 +251,7 @@ La escala display se pide **siempre con su clase**. La etiqueta desnuda entrega 
 | Label / meta | — | `--sans` | 12px | 500 | — |
 | KPI value · cifras | `.kpi-value` | `--kpi-num` | clamp(32–42px) | 500 | -0.02em · `tabular-nums` |
 | Kicker / section label | `.brand-kicker` `.section-kicker` `.panel-kicker` | `--mono` | 10px | 700 | .15em, uppercase, color cyan |
-| Delta de KPI | `.kpi-delta` | `--mono` | 11px | 600 | .02em |
+| Delta de KPI | `.kpi-delta` | `--kpi-num` | 11px | 600 | .02em (desde v1.2.8.39; antes IBM Plex Mono) |
 | Atajo de teclado | `.ds-input-shortcut` | `--mono` | 10px | 600 | — |
 | Label de sección del nav | `.nav-label` | `--mono` | 9px | 700 | .15em, uppercase |
 | Texto de badge y tag | `.badge` `.tag` | `--display` | 10px | 700 | uppercase, `.04em` (desde v1.2.8.38) |
@@ -2174,5 +2174,5 @@ el.querySelectorAll('.mockup-bar-fill[data-bar]').forEach(function (b) {
 
 ---
 
-*YiQi ERP · Design System v1.2.8.38 · Última actualización: 11/09/2026*
+*YiQi ERP · Design System v1.2.8.39 · Última actualización: 11/09/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*

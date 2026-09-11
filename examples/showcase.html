@@ -56,7 +56,8 @@
   .sc-kpis { display:grid; grid-template-columns:1fr 1fr; gap:14px 16px; }
   .sc-kpi-l { display:flex; align-items:center; gap:7px; color:var(--muted); font:500 11px var(--sans); }
   .sc-kpi-v { font:700 22px var(--kpi-num,var(--sans)); letter-spacing:-.01em; font-variant-numeric:tabular-nums; margin-top:2px; }
-  .sc-delta { font:600 10px var(--mono); padding:2px 6px; border-radius:var(--radius-pill); }
+  /* v1.2.8.39 — sigue a .kpi-delta, que dejo el mono. */
+  .sc-delta { font:600 10px var(--kpi-num); padding:2px 6px; border-radius:var(--radius-pill); }
   .up{ color:var(--green); background:var(--green-soft); }
   .down{ color:var(--red); background:var(--red-soft); }
   .flat{ color:var(--muted); background:var(--bg-soft); }
