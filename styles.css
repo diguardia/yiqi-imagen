@@ -4244,6 +4244,29 @@ html[data-theme="light"] .fondo-horizonte { opacity: .38; }
    inline en las seis landings. */
 .spotlight-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
 
+/* Sobre banda solida de marca.
+   .spotlight no tiene superficie propia y sus colores suponen el fondo de
+   pagina. Dentro de una banda pintada con el acento (.section-brand en las
+   landings de partners) el texto caia sobre el acento: en tiendanube.html
+   --muted daba 1,05:1 y --text 2,46:1 contra #0050c3, y el claim era
+   --cyan sobre --cyan-soft sobre --cyan. El texto pasa a --text-white, que
+   es su caso documentado (texto fijo sobre color solido), y las cajas
+   tonales pasan de --cyan-soft a blanco translucido. El cuerpo va en blanco
+   pleno y no atenuado: al 82% no llegaba a 4,5:1 en cinco de las seis
+   bandas medidas. */
+.spotlight.is-on-brand .spotlight-title,
+.spotlight.is-on-brand .spotlight-text,
+.spotlight.is-on-brand .spotlight-text strong,
+.spotlight.is-on-brand .spotlight-claim-text { color: var(--text-white); }
+.spotlight.is-on-brand .spotlight-tag,
+.spotlight.is-on-brand .spotlight-tags .tag {
+  background: color-mix(in srgb, var(--text-white) 16%, transparent);
+  color: var(--text-white);
+}
+.spotlight.is-on-brand .spotlight-claim {
+  background: color-mix(in srgb, var(--text-white) 14%, transparent);
+}
+
 /* ── .mockup — ventana de datos ────────────────────────────────────────
    La mitad derecha del spotlight: una ventana con chrome y filas de
    etiqueta / barra / valor / estado. Sirve para mostrar un dato del
