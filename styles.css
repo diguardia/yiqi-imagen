@@ -157,7 +157,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.41";
+  --ds-version: "1.2.8.42";
 
   /* Layout */
   --topbar-h:  56px;
@@ -3102,7 +3102,11 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
 }
 .ds-picker-toggle:hover { background: var(--bg-soft); }
 .ds-picker-toggle:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: 2px; }
-.ds-picker-value { overflow: hidden; text-overflow: ellipsis; }
+/* v1.2.8.42: line-height propio. Heredaba el 1 del toggle y con overflow:hidden
+   la caja medía 12px para un texto de 13: se comía el trazo de la g, la p y
+   la y ("Ago 2026", "Septiembre"). El toggle centra y mide 32px fijos, así
+   que la línea más alta no mueve nada. */
+.ds-picker-value { overflow: hidden; text-overflow: ellipsis; line-height: 1.3; }
 .ds-picker-chev {
   width: 12px; height: 12px; flex-shrink: 0; color: var(--muted-2);
   stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
