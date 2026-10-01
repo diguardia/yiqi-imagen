@@ -551,7 +551,7 @@ recomendados.
 
 ```css
 .topbar {
-  position: sticky; top: 0; z-index: 99;
+  position: sticky; top: 0; z-index: var(--z-topbar);   /* 100 */
   display: flex; align-items: center; justify-content: space-between;
   gap: 16px; padding: 0 28px; height: var(--topbar-h);
   background: rgba(12,12,14,.82);
