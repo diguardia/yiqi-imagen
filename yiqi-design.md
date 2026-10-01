@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.44
+# YiQi Design System — Guía maestra v1.2.8.45
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -2292,7 +2292,38 @@ el de favoritos—, cada uno pisando el tope en su CSS local. Cuando tres apps
 pisan la misma regla, el valor del sistema está mal.
 
 
+## 34. Alto de los controles — 36 px *(v1.2.8.45)*
+
+Medido en render el 01/10/2026: `.ds-input` y `.ds-select` medían **40 px**
+(height propia) y `.btn` medía **35** — lo que sale de `padding: 10px 16px`
+sobre una línea de 13 px. Cinco píxeles, así que toda barra que pone un botón
+al lado de un campo quedaba desalineada.
+
+Ninguno de los dos números estaba elegido. Quedan los dos en **36**: par,
+sobre la escala de 4, y más compacto, que es lo que pide un ERP con
+formularios largos.
+
+```css
+.ds-input, .login-input, .ds-select { height: 36px; }
+
+.btn {
+  min-height: 36px;   /* el alto se fija, no sale del padding */
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+```
+
+**La regla:** el alto de un control se declara, no se hereda del interlineado
+del texto que lleve adentro. Un botón con una etiqueta de dos palabras y otro
+con una de ocho tienen que medir lo mismo.
+
+El botón de ícono (`.btn-icon-sm`) sigue en **32**: es cuadrado y vive dentro
+de encabezados, no en una fila de formulario.
+
+
 ---
 
-*YiQi ERP · Design System v1.2.8.44 · Última actualización: 01/10/2026*
+*YiQi ERP · Design System v1.2.8.45 · Última actualización: 01/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*

@@ -157,7 +157,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.44";
+  --ds-version: "1.2.8.45";
 
   /* Layout */
   --topbar-h:  56px;
@@ -646,8 +646,13 @@ html[data-theme="light"] .brand-logo-light { display: block; }
 .btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 7px;
-  padding: 10px 16px;
+  /* v1.2.8.45: el alto deja de salir del padding vertical. Antes media 35 y
+     no coincidia con los campos (40, ahora 36). `min-height` lo fija y el
+     padding vertical pasa a 0: el contenido ya va centrado por el flex. */
+  min-height: 36px;
+  padding: 0 16px;
   border-radius: var(--radius);
   /* v1.2.8 — la variante base vuelve a ser borderless. El borde entro en
      la v1.2.7.12 para resolver un problema real: con background --bg-elev-2,
@@ -2364,10 +2369,25 @@ html[data-theme="light"] .skeleton-line {
   transition: background var(--tr);
 }
 
+/* v1.2.8.45 — los campos bajan de 40 a 36 y el boton sube de 35 a 36.
+
+   Medido el 01/10/2026 en render: `.ds-input` y `.ds-select` median 40 px
+   —height propia— y `.btn` media 35 —lo que sale de `padding: 10px 16px`
+   sobre una linea de 13 px—. Cinco pixeles de diferencia, asi que toda barra
+   que pone un boton al lado de un campo quedaba desalineada: filtros,
+   busqueda, acciones de seleccion.
+
+   Ninguno de los dos numeros estaba elegido: el 40 venia de antes y el 35 no
+   estaba escrito en ningun lado, era el resultado de una suma. Quedan los dos
+   en 36 — par, sobre la escala de 4, y mas compacto, que es lo que pide un
+   ERP con formularios largos.
+
+   Alcance: 121 usos de .ds-input y 26 de .ds-select entre todos los
+   consumidores. El cambio es de 4 px hacia abajo, no de forma. */
 .ds-input,
 .login-input,
 .ds-select {
-  height: 40px;
+  height: 36px;
   padding: 0 14px;
 }
 
