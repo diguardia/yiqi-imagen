@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.43
+# YiQi Design System — Guía maestra v1.2.8.44
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -2252,7 +2252,47 @@ tarjeta, y un 20% más de filas en cualquier lista**.
 ```
 
 
+## 33. Paneles desplegables — sin scroll siempre que se pueda *(v1.2.8.44)*
+
+`.schema-menu` tenía `max-height: 260px` fijo. De esos 260 se van 16 de
+relleno y 48 del buscador que varios paneles llevan adentro: quedaban ~196
+para la lista y entraban **3 opciones enteras**, con la cuarta cortada. Y como
+el tope estaba en píxeles, cuántas veías dependía de cuánto medía cada fila.
+
+**El criterio es: sin scroll siempre que se pueda.** Lo único que limita es la
+pantalla.
+
+```css
+.schema-menu {
+  max-height: calc(100dvh - var(--topbar-h) - 24px);
+  overflow-y: auto;
+}
+```
+
+### Panel con buscador adentro
+
+Cuando el panel lleva un campo de búsqueda, el scroll va en la **lista**, no
+en el panel: si no, el buscador se va con el contenido al bajar.
+
+```html
+<div class="schema-menu">
+  <input class="ds-input" type="text" placeholder="Buscar...">
+  <div class="schema-menu-list">
+    <button class="schema-option">…</button>
+  </div>
+</div>
+```
+
+```css
+.schema-menu-list { max-height: inherit; overflow-y: auto; }
+```
+
+Lo usaban mal tres consumidores —el selector de esquemas, el menú de Ayuda y
+el de favoritos—, cada uno pisando el tope en su CSS local. Cuando tres apps
+pisan la misma regla, el valor del sistema está mal.
+
+
 ---
 
-*YiQi ERP · Design System v1.2.8.43 · Última actualización: 01/10/2026*
+*YiQi ERP · Design System v1.2.8.44 · Última actualización: 01/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*

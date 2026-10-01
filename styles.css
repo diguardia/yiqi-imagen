@@ -157,7 +157,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.43";
+  --ds-version: "1.2.8.44";
 
   /* Layout */
   --topbar-h:  56px;
@@ -1518,7 +1518,22 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
   right: 0;
   top: calc(100% + 8px);
   width: min(320px, 84vw);
-  max-height: 260px;
+  /* v1.2.8.44 — el tope era 260px fijo. Medido el 01/10/2026: de esos 260 se
+     van 16 de relleno y 48 del buscador que varios paneles llevan adentro, asi
+     que quedaban ~196 para la lista y entraban 3 opciones enteras — la cuarta
+     cortada por la mitad. Con cuatro esquemas ya scrolleaba, y el numero no
+     dependia de cuantos items hubiera sino de cuanto media cada fila, asi que
+     nadie podia saber de antemano cuantos iba a ver.
+
+     El criterio es: sin scroll siempre que se pueda. Lo unico que debe limitar
+     es la pantalla. El panel crece con su contenido y scrollea recien cuando ya
+     no entra. Tres consumidores pisaban este valor en su CSS local —el selector
+     de esquemas, el menu de Ayuda y el de favoritos—: eso no es que cada app
+     tenga un caso especial, es que el valor del sistema estaba mal.
+
+     Nota para quien monte un panel con buscador: el scroll va en la LISTA, no
+     en el panel, para que el campo quede fijo arriba mientras se baja. */
+  max-height: calc(100dvh - var(--topbar-h) - 24px);
   overflow-y: auto;
   border: none;
   border-radius: var(--radius-md);
