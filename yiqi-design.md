@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.46
+# YiQi Design System — Guía maestra v1.2.8.47
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -2203,6 +2203,7 @@ tarjeta, y un 20% más de filas en cualquier lista**.
 .panel--tile {
   padding: 12px;
   gap: 10px;
+  border-radius: var(--radius-lg);   /* v1.2.8.47 */
 }
 
 .data-table--compact th,
@@ -2223,6 +2224,16 @@ tarjeta, y un 20% más de filas en cualquier lista**.
 - `.panel--tile` se suma a `.panel`, no la reemplaza. Relleno 12 y separación
   10, contra 20 y 18 de la base. Es para una tarjeta que vive dentro de una
   grilla, donde el margen de la grilla ya separa.
+- **El radio baja a 18 (`--radius-lg`).** Medido en render sobre `styles.css`:
+  `.panel` y `.hero-card` dan 24; `.decision-card`, `.status-panel`,
+  `.summary-card` y `.watchlist-card` dan 18. El criterio del sistema no es
+  "todas las cards igual" sino **superficie grande 24, superficie chica 18** —
+  el hero y el panel ancho ocupan la página; las otras cuatro viven dentro de
+  una grilla. La tarjeta de tablero es de las chicas y heredaba el 24 de
+  `.panel` sin que nadie lo eligiera: en ~700 px con una tabla adentro la curva
+  se come la esquina de la primera celda. Se corrige acá y no en `.panel`: el
+  radio del panel ancho no es lo que está mal. `border-radius` no toca el box
+  model, así que no mueve layout.
 - `.data-table--compact` se suma a `.data-table`. La fila pasa de 47,2 a 39,2 px.
 - **Por debajo de 720 px la fila compacta vuelve sola a 14 px.** El dedo
   necesita más superficie que el mouse. La tarjeta no vuelve: ahí el relleno
@@ -2398,5 +2409,5 @@ separados: el cuerpo existe para decir qué se lleva puesto la acción.
 
 ---
 
-*YiQi ERP · Design System v1.2.8.46 · Última actualización: 01/10/2026*
+*YiQi ERP · Design System v1.2.8.47 · Última actualización: 01/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*

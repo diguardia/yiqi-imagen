@@ -157,7 +157,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.46";
+  --ds-version: "1.2.8.47";
 
   /* Layout */
   --topbar-h:  56px;
@@ -4382,6 +4382,17 @@ html[data-theme="light"] .fondo-horizonte { opacity: .38; }
 .panel--tile {
   padding: 12px;
   gap: 10px;
+  /* v1.2.8.47 — radio por tamano de superficie, no por herencia.
+     Medido en render el 01/10/2026 sobre styles.css: .panel y .hero-card dan
+     24px (--radius-xl); .decision-card, .status-panel, .summary-card y
+     .watchlist-card dan 18 (--radius-lg). El criterio real del sistema no es
+     "todas las cards igual" sino SUPERFICIE GRANDE 24, SUPERFICIE CHICA 18 —
+     el hero y el panel ancho ocupan la pagina, las otras cuatro viven dentro
+     de una grilla. La tarjeta de tablero es de las chicas y heredaba el 24 de
+     .panel sin que nadie lo eligiera: en ~700 px con una tabla adentro la
+     curva se come la esquina de la primera celda. Se corrige en la variante,
+     no en .panel: el radio del panel ancho no es lo que esta mal. */
+  border-radius: var(--radius-lg);
 }
 
 .data-table--compact th,
