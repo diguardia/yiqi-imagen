@@ -157,7 +157,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.45";
+  --ds-version: "1.2.8.46";
 
   /* Layout */
   --topbar-h:  56px;
@@ -4397,4 +4397,82 @@ html[data-theme="light"] .fondo-horizonte { opacity: .38; }
   .data-table--compact td {
     padding: 14px 12px;
   }
+}
+
+
+/* ── 55. MODAL Y DIALOGO DE CONFIRMACION ─────────────────────
+   v1.2.8.46 — El sistema no tenia modal para apps. `.sc-modal` es del
+   showcase (prefijo sc-), asi que cada consumidor escribio el suyo: el
+   frontend del ERP lo tenia completo en su globals.css local, con los
+   comentarios de los dos bugs que costo resolverlo. Sube de ahi, no se
+   inventa uno nuevo.
+
+   Y de las nueve confirmaciones del frontend, las nueve usaban el
+   `window.confirm` del navegador. Eso no es solo que lo dibuje el sistema
+   operativo: el dialogo nativo NO PUEDE nombrar lo que se borra. Dice
+   "Eliminar 1 registro?" y el usuario no sabe cual. Por eso el dialogo de
+   confirmacion entra al sistema con el titulo y el cuerpo separados: el
+   cuerpo existe para decir que se lleva puesto la accion. */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: var(--scrim);
+}
+
+.modal-panel {
+  width: min(680px, 100%);
+  padding: 22px;
+  border-radius: var(--radius-xl);
+  background: var(--bg-elev-2);
+  box-shadow: var(--shadow-lg);
+  /* `max-height: 100%` no alcanza: como hijo de un flex container con
+     align-items:center, el panel tiene min-height:auto por default y el motor
+     lo deja crecer a su alto de contenido ANTES de aplicar el max-height. Un
+     formulario largo estira el backdrop —que ya es fixed, inset:0, sin scroll
+     propio— y termina scrolleando el BODY por detras en vez del panel. Un
+     max-height en unidades absolutas si lo limita, y el min-height:0 permite
+     que ademas pueda encoger por debajo de su contenido: los dos hacen falta
+     para que overflow-y:auto tenga margen para activarse. 100dvh y no 100vh:
+     en mobile evita que Safari y Chrome cuenten la barra de direcciones como
+     viewport. Los 48px son el padding del backdrop, arriba y abajo. */
+  max-height: calc(100dvh - 48px);
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.modal-panel-wide { width: min(920px, 100%); }
+
+/* ── Dialogo de confirmacion ──
+   Angosto a proposito: una pregunta, no un formulario. */
+.confirm-dialog { width: min(440px, 100%); }
+
+.confirm-dialog-title {
+  margin: 0;
+  font: 600 var(--fs-panel-title)/1.35 var(--sans);
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+/* El cuerpo es lo que el dialogo nativo no puede dar: QUE se lleva puesto la
+   accion, con su nombre y su numero, y si tiene vuelta atras. */
+.confirm-dialog-body {
+  margin: 10px 0 0;
+  font: 400 var(--fs-body)/1.6 var(--sans);
+  color: var(--muted);
+}
+.confirm-dialog-body strong { color: var(--text); font-weight: 600; }
+
+/* El boton peligroso va a la derecha y es el unico con color: se lee antes
+   que el texto. */
+.confirm-dialog-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 22px;
 }

@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.45
+# YiQi Design System — Guía maestra v1.2.8.46
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -2323,7 +2323,80 @@ El botón de ícono (`.btn-icon-sm`) sigue en **32**: es cuadrado y vive dentro
 de encabezados, no en una fila de formulario.
 
 
+## 35. Modal y diálogo de confirmación *(nuevo en v1.2.8.46)*
+
+El sistema no tenía modal para apps: `.sc-modal` es del showcase, así que
+cada consumidor escribió el suyo. Este sube del CSS local del frontend del
+ERP, con los comentarios de los dos bugs que costó resolverlo.
+
+### CSS
+
+```css
+.modal-backdrop {
+  position: fixed; inset: 0; z-index: var(--z-modal);
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px; background: var(--scrim);
+}
+
+.modal-panel {
+  width: min(680px, 100%);
+  padding: 22px;
+  border-radius: var(--radius-xl);
+  background: var(--bg-elev-2);
+  box-shadow: var(--shadow-lg);
+  max-height: calc(100dvh - 48px);
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.modal-panel-wide { width: min(920px, 100%); }
+.confirm-dialog   { width: min(440px, 100%); }
+```
+
+**Los dos valores que parecen de más y no lo son.** `max-height` en unidades
+absolutas y `min-height: 0`: sin los dos, un formulario largo estira el
+backdrop —que ya es `fixed; inset: 0`— y termina scrolleando el `body` por
+detrás en vez del panel. Y `100dvh` en lugar de `100vh` porque en mobile
+Safari y Chrome cuentan la barra de direcciones como viewport.
+
+### Por qué no alcanza `window.confirm`
+
+**No puede nombrar lo que se borra.** Dice «¿Eliminar 1 registro?» y el
+usuario no sabe cuál. Por eso el diálogo lleva el título y el cuerpo
+separados: el cuerpo existe para decir qué se lleva puesto la acción.
+
+### Reglas
+
+- **Nombrar siempre.** Un «¿Eliminar este registro?» genérico se acepta sin
+  leer. Si la acción borra algo, el diálogo dice qué: nombre, número,
+  importe, y si tiene vuelta atrás.
+- **Un solo color.** Cancelar va en `.btn` base. Nunca dos botones de color
+  en el mismo diálogo.
+- **El peligroso va último**, a la derecha, y es el único con color: se lee
+  antes que el texto.
+- **Escape cierra** y devuelve el foco al control que lo abrió. El foco entra
+  en Cancelar, no en el botón peligroso.
+
+### HTML
+
+```html
+<div class="modal-backdrop" role="dialog" aria-modal="true">
+  <div class="modal-panel confirm-dialog">
+    <p class="confirm-dialog-title">¿Eliminar la cotización 1524.4?</p>
+    <p class="confirm-dialog-body">
+      Es de <strong>Nordia SRL</strong>, por $ 182.400.
+      Esta acción no se puede deshacer.
+    </p>
+    <div class="confirm-dialog-actions">
+      <button class="btn" type="button">Cancelar</button>
+      <button class="btn btn-danger" type="button">Eliminar</button>
+    </div>
+  </div>
+</div>
+```
+
+
 ---
 
-*YiQi ERP · Design System v1.2.8.45 · Última actualización: 01/10/2026*
+*YiQi ERP · Design System v1.2.8.46 · Última actualización: 01/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
