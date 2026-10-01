@@ -157,7 +157,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.42";
+  --ds-version: "1.2.8.43";
 
   /* Layout */
   --topbar-h:  56px;
@@ -4325,3 +4325,41 @@ html[data-theme="light"] .fondo-horizonte { opacity: .38; }
    22px no entra en 52px. */
 .mockup-vlist .mockup-row { grid-template-columns: 1fr auto auto; gap: 12px; align-items: baseline; }
 .mockup-vlist .mockup-qty { font: 700 14px var(--sans); color: var(--cyan); letter-spacing: 0; white-space: nowrap; text-align: right; }
+
+/* ── 54. DENSIDAD COMPACTA — TARJETA Y FILA DE TABLA ─────────
+   v1.2.8.43 — El DS tenia un solo tamano para la tarjeta y para la fila de
+   tabla, calibrado para el informe: un documento de 8 a 15 filas donde los
+   47,2 px de fila respiran bien. `.data-table` la usan seis archivos y
+   cuatro son informes o el panel gerencial.
+
+   El frontend del ERP es el unico consumidor con tableros de tarjetas
+   chicas y listas de cincuenta filas, y heredo la metrica del documento.
+   Medido el 01/10/2026 sobre una tarjeta de 340 px de alto: 126 px de
+   chrome antes del primer dato y 3 filas visibles. En la lista de pagina
+   completa, ~19 filas en un viewport de 1080.
+
+   Con estas dos variantes: 6 filas en la misma tarjeta y ~25 en la lista.
+
+   No se cambia el default. Los tres informes y el panel gerencial se ven
+   bien como estan y nadie pidio tocarlos: esto es una variante que se pide
+   por clase, no un cambio de base. */
+
+.panel--tile {
+  padding: 12px;
+  gap: 10px;
+}
+
+.data-table--compact th,
+.data-table--compact td {
+  padding: 10px 12px;
+}
+
+/* El dedo necesita mas superficie que el mouse: en telefono la fila
+   compacta vuelve a la altura canonica. La tarjeta no la necesita — ahi el
+   padding chico no estorba al toque, solo rodea. */
+@media (max-width: 720px) {
+  .data-table--compact th,
+  .data-table--compact td {
+    padding: 14px 12px;
+  }
+}

@@ -1,0 +1,36 @@
+DS v1.2.8.43 — densidad compacta: variante de tarjeta y de fila de tabla
+
+El sistema tenia un solo tamano de fila y estaba calibrado para el informe.
+`.data-table` la usan seis archivos y cuatro son informes o el panel
+gerencial: documentos de ocho a quince filas, donde los 47,2 px de fila
+respiran bien. El frontend del ERP es el unico consumidor con tableros de
+tarjetas chicas y listas de cincuenta filas, y heredo la metrica del
+documento.
+
+Medido en render el 01/10/2026 sobre una tarjeta de 340 px: 126 px de cromo
+antes del primer dato y 3 filas visibles. Con las variantes, 6 filas en la
+misma tarjeta y un 20% mas de filas en cualquier lista (47,2 -> 39,2 px).
+
+Dos variantes nuevas, ningun token nuevo:
+
+- `.panel--tile`          padding 12, gap 10 (contra 20 y 18 de .panel)
+- `.data-table--compact`  celdas 10px 12px (contra 14px 12px)
+
+El default NO se toca: los tres informes y el panel gerencial se ven bien
+como estan y nadie pidio cambiarlos. Son variantes que se piden por clase.
+
+Por debajo de 720 px la fila compacta vuelve sola a la altura canonica: el
+dedo necesita mas superficie que el mouse. La tarjeta no vuelve — ahi el
+relleno chico rodea, no estorba al toque.
+
+Archivos:
+- styles.css              seccion 54 + --ds-version
+- yiqi-design-system.html nav 69, seccion #ds-densidad, fila de changelog,
+                          titular de Novedades, bloque "comp" del nav agrupado
+- examples/showcase.html  card #card-densidad en la pestana Tablas
+- yiqi-design.md          seccion 32 + titulo y pie
+- version.json            ds_version y released_at
+- yiqi-runtime.js         version
+
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01LFsFSvFGBpFKPnX69Ljb8B

@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.42
+# YiQi Design System — Guía maestra v1.2.8.43
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -2179,7 +2179,80 @@ el.querySelectorAll('.mockup-bar-fill[data-bar]').forEach(function (b) {
 ```
 
 
+## 32. Densidad compacta — tarjeta y fila de tabla *(nuevo en v1.2.8.43)*
+
+Dos variantes para cuando el espacio es el recurso escaso: una tarjeta de
+tablero y una lista larga. **No cambian el default**: se piden por clase, y
+donde no se piden todo sigue igual.
+
+El tamaño base de `.panel` y `.data-table` está calibrado para el informe —un
+documento de ocho a quince filas, donde los 47,2 px de fila respiran bien—.
+`.data-table` la usan seis archivos y cuatro son informes o el panel
+gerencial. El frontend del ERP es el único consumidor con tableros de
+tarjetas chicas y listas de cincuenta filas, y heredó la métrica del
+documento.
+
+Medido el 01/10/2026 sobre una tarjeta de 340 px de alto: 126 px de cromo
+antes del primer dato y **3 filas visibles**. En la lista de página completa,
+19 filas en un viewport de 1080. Con las variantes: **6 filas en la misma
+tarjeta, y un 20% más de filas en cualquier lista**.
+
+### CSS
+
+```css
+.panel--tile {
+  padding: 12px;
+  gap: 10px;
+}
+
+.data-table--compact th,
+.data-table--compact td {
+  padding: 10px 12px;
+}
+
+@media (max-width: 720px) {
+  .data-table--compact th,
+  .data-table--compact td {
+    padding: 14px 12px;
+  }
+}
+```
+
+### Reglas
+
+- `.panel--tile` se suma a `.panel`, no la reemplaza. Relleno 12 y separación
+  10, contra 20 y 18 de la base. Es para una tarjeta que vive dentro de una
+  grilla, donde el margen de la grilla ya separa.
+- `.data-table--compact` se suma a `.data-table`. La fila pasa de 47,2 a 39,2 px.
+- **Por debajo de 720 px la fila compacta vuelve sola a 14 px.** El dedo
+  necesita más superficie que el mouse. La tarjeta no vuelve: ahí el relleno
+  chico rodea, no estorba al toque.
+- **Cuándo sí:** tarjeta de tablero con una tabla adentro; lista de cincuenta
+  filas o más donde lo que importa es cuántas entran en pantalla.
+- **Cuándo no:** informes y documentos. Si la tabla es el contenido principal
+  de la página, va la base.
+- **Nunca** pisando el relleno a mano desde el CSS de una app. Si hace falta
+  otra densidad, se pide una variante acá.
+
+### HTML
+
+```html
+<div class="panel panel--tile">
+  <div class="panel-header">
+    <p class="panel-title">Cotizaciones aprobadas</p>
+    <button class="btn-icon btn-icon-sm" type="button" aria-label="Quitar">&times;</button>
+  </div>
+  <table class="data-table data-table--compact">
+    <thead><tr><th>Nro</th><th>Cliente</th><th class="num">Importe</th></tr></thead>
+    <tbody>
+      <tr><td>1524.4</td><td>Nordia SRL</td><td class="num">$ 182.400</td></tr>
+    </tbody>
+  </table>
+</div>
+```
+
+
 ---
 
-*YiQi ERP · Design System v1.2.8.42 · Última actualización: 30/09/2026*
+*YiQi ERP · Design System v1.2.8.43 · Última actualización: 01/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
