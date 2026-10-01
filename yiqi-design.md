@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.48
+# YiQi Design System — Guía maestra v1.2.8.49
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -2413,5 +2413,71 @@ separados: el cuerpo existe para decir qué se lleva puesto la acción.
 
 ---
 
-*YiQi ERP · Design System v1.2.8.48 · Última actualización: 01/10/2026*
+## 36. Pestañas de documento *(nuevo en v1.2.8.49)*
+
+Pestañas que **abren un documento y lo cierran**, como las de un navegador. No
+confundir con `.tab-nav`/`.tab-item`: esas son píldoras con fondo `--cyan-soft`
+para elegir una vista *dentro* de una pantalla. Aquellas flotan sobre el lienzo;
+estas lo sostienen.
+
+**Lo que define al componente es que la pestaña activa se funde con la superficie
+de abajo** — mismo `--card-bg`, sin radio inferior, y el panel sin esquina arriba
+a la izquierda. Se lee que el contenido pertenece a esa pestaña, no que está
+debajo de una lista de opciones. Si ese fondo no coincide, no es este componente.
+
+### CSS
+
+```css
+.doc-tabs { display: flex; align-items: flex-end; gap: 2px; padding: 0 8px;
+            background: var(--bg); overflow-x: auto; scrollbar-width: none }
+.doc-tab  { height: 36px; padding: 0 6px 0 14px; gap: 5px;
+            background: transparent; color: var(--muted);
+            font: 500 13px var(--sans);
+            border-radius: var(--radius-sm) var(--radius-sm) 0 0 }
+.doc-tab.is-active { background: var(--card-bg); color: var(--text); font-weight: 600 }
+
+.doc-tab-menu { display: none }
+.doc-tab.is-active .doc-tab-menu { display: inline-flex }
+.doc-tab--fija .doc-tab-menu,
+.doc-tab--fija .doc-tab-close { display: none }
+
+.doc-tabs-panel { background: var(--card-bg); padding: 20px;
+                  border-radius: 0 var(--radius-lg) var(--radius-lg) var(--radius-lg) }
+```
+
+### HTML
+
+```html
+<div class="doc-tabs" role="tablist">
+  <button class="doc-tab is-active" role="tab" aria-selected="true">
+    Comercial
+    <span class="btn-icon doc-tab-menu"><i class="ph ph-dots-three"></i></span>
+    <span class="btn-icon doc-tab-close"><i class="ph ph-x"></i></span>
+  </button>
+  <button class="doc-tab doc-tab--fija" role="tab">Inicio</button>
+  <button class="btn-icon btn-icon-sm doc-tabs-add"><i class="ph ph-plus"></i></button>
+</div>
+<div class="doc-tabs-panel"> … </div>
+```
+
+### Reglas
+
+- **Un botón por pestaña, no dos.** La ✕ se ve siempre porque se usa siempre. El
+  menú de tres puntos **solo en la activa**: no se renombra un documento que no
+  estás mirando. Con tres pestañas, tres ✕ y un solo menú — contra los seis
+  botones que daba un lápiz más una ✕ en cada una.
+- **Lo decide el CSS, no el consumidor.** El menú se renderiza siempre y
+  `.doc-tab.is-active .doc-tab-menu` lo muestra. Si cada frontend lo resolviera
+  con su propia condición, en tres apps habría tres reglas distintas.
+- **El doble clic se mantiene** como atajo para renombrar. Es el camino de quien
+  ya lo sabe, no el único.
+- **Nada de hover-only.** En pantalla táctil no hay hover: una acción que aparece
+  al pasar el mouse no aparece nunca.
+- **El menú va con `MenuButton`**, con el patrón ARIA completo — flechas,
+  Home/End, Escape y roving tabindex. No un `div` con `onClick`.
+- Alto **36**: el de los controles desde la v1.2.8.45.
+
+---
+
+*YiQi ERP · Design System v1.2.8.49 · Última actualización: 01/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*

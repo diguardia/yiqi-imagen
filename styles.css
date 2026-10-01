@@ -157,7 +157,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.48";
+  --ds-version: "1.2.8.49";
 
   /* Layout */
   --topbar-h:  56px;
@@ -4509,4 +4509,102 @@ html[data-theme="light"] .fondo-horizonte { opacity: .38; }
   gap: 8px;
   justify-content: flex-end;
   margin-top: 22px;
+}
+
+/* ── 56. PESTANAS DE DOCUMENTO ───────────────────────────────
+
+   El sistema ya tenia .tab-nav/.tab-item, pero son pildoras: fondo
+   --cyan-soft, radio pill, flotando sobre el lienzo. Sirven para elegir
+   una vista DENTRO de una pantalla. No sirven para lo otro: una pestana
+   que ABRE un documento y se CIERRA, como las de un navegador.
+
+   El frontend del ERP tiene tableros que se abren, se renombran y se
+   cierran, y los estaba resolviendo con un boton de lapiz y uno de ✕
+   siempre visibles por pestana: con tres tableros, seis botones
+   permanentes compitiendo con los tres nombres.
+
+   Lo que define a la pestana de documento es que la activa SE FUNDE con
+   la superficie de abajo —mismo --card-bg, sin radio inferior—: se lee
+   que el contenido pertenece a esa pestana, no que esta debajo de una
+   lista de opciones. Por eso el contenedor de abajo lleva el radio
+   superior izquierdo en 0.
+
+   Las acciones: la ✕ va DENTRO de la pestana, a la derecha del nombre,
+   que es donde la busca cualquiera que haya usado un navegador. El menu
+   de tres puntos —renombrar, duplicar— aparece SOLO en la pestana
+   activa: no se renombra un documento que no estas mirando, y el ahorro
+   es real (con tres pestanas, tres ✕ y un solo menu en vez de seis
+   botones). Lo decide el CSS, no el consumidor: se renderiza siempre y
+   .doc-tab--fija lo oculta en la que no se cierra ni se renombra.
+
+   Alto 36: el mismo de los controles desde la v1.2.8.45. */
+
+.doc-tabs {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  padding: 0 8px;
+  background: var(--bg);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.doc-tabs::-webkit-scrollbar { display: none; }
+
+.doc-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  height: 36px;
+  padding: 0 6px 0 14px;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  color: var(--muted);
+  font: 500 13px var(--sans);
+  white-space: nowrap;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  transition: background var(--tr), color var(--tr);
+}
+.doc-tab:hover { color: var(--text); background: var(--bg-soft); }
+.doc-tab:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: -2px; }
+
+/* La activa se funde con el lienzo: mismo fondo, sin radio abajo. */
+.doc-tab.is-active {
+  background: var(--card-bg);
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* Botones de la pestana. Heredan .btn-icon pero bajan a 22: adentro de una
+   caja de 36 un boton de 32 no deja aire. */
+.doc-tab .btn-icon {
+  width: 22px;
+  height: 22px;
+  color: var(--muted-2);
+}
+.doc-tab .btn-icon svg { width: 13px; height: 13px; }
+.doc-tab .btn-icon:hover { background: var(--bg-soft); color: var(--text); }
+
+/* El menu solo en la activa. Se renderiza siempre; el CSS decide. */
+.doc-tab-menu { display: none; }
+.doc-tab.is-active .doc-tab-menu { display: inline-flex; }
+
+/* La pestana que no se cierra ni se renombra —la de inicio— esconde las dos. */
+.doc-tab--fija .doc-tab-menu,
+.doc-tab--fija .doc-tab-close { display: none; }
+.doc-tab--fija { padding-right: 14px; }
+
+.doc-tabs-add {
+  flex-shrink: 0;
+  align-self: center;
+  margin-left: 4px;
+}
+
+/* El lienzo que sostiene las pestanas: sin radio arriba a la izquierda,
+   que es por donde se funde con la activa. */
+.doc-tabs-panel {
+  background: var(--card-bg);
+  border-radius: 0 var(--radius-lg) var(--radius-lg) var(--radius-lg);
+  padding: 20px;
 }
