@@ -157,7 +157,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.47";
+  --ds-version: "1.2.8.48";
 
   /* Layout */
   --topbar-h:  56px;
@@ -2354,12 +2354,35 @@ html[data-theme="light"] .skeleton-line {
 /* Borderless: sin border, fondo elevado, focus ring cyan.    */
 /* Altura estándar 40px. border-radius 14px en todos.         */
 
+/* v1.2.8.48 — el campo deja de pintarse con el fondo de la pagina.
+   Decia `background-color: var(--bg)` con el borde transparente, asi que
+   apoyado sobre el lienzo —que TAMBIEN es --bg— el contraste era 1.00 en
+   claro y en oscuro: mismo color, sin linea. No es que se viera poco, es
+   que no se veia: quedaba flotando el placeholder. Medido en render el
+   01/10/2026, con el alpha compuesto sobre cada fondo:
+
+     sobre el lienzo (--bg)   1.00 / 1.00   ->  1.12 / 1.12
+     dentro de un panel       1.10 / 1.09   ->  1.13 / 1.16
+     sobre --bg-soft          1.13 / 1.15   ->  1.12 / 1.17
+
+   El velo relativo al texto es el mismo mecanismo que el sistema ya eligio
+   en v1.2.8.34 para .ds-picker-toggle, que tenia este mismo sintoma y se
+   arreglo solo ahi. Un color fijo no sirve: --bg-elev-2 se ve sobre el
+   lienzo pero da 1.00 dentro de un panel en oscuro. El velo no depende de
+   sobre que este apoyado, por eso nunca baja de 1.12.
+
+   Se mantiene el borde transparente: la separacion sigue siendo por fondo,
+   no por linea (seccion 3). El .err lo pisa con --red-soft y el foco no
+   toca el fondo, asi que ningun estado cambia.
+
+   Alcance: 121 usos de .ds-input y 26 de .ds-select entre todos los
+   consumidores. Es un cambio de fondo, no de caja: no mueve layout. */
 .ds-input,
 .login-input,
 .ds-textarea,
 .ds-select {
   width: 100%;
-  background-color: var(--bg);
+  background-color: color-mix(in srgb, var(--text) 6%, transparent);
   border: 1px solid transparent;
   border-radius: 14px;
   color: var(--text);

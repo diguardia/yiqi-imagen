@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.47
+# YiQi Design System — Guía maestra v1.2.8.48
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -1302,7 +1302,11 @@ Estrella de favorito **borderless** (`.fav-star`): outline en reposo, **ámbar r
 
 ### Inputs — canónico `.ds-input`
 
-Familia canónica en `styles.css`: `.ds-input`, `.ds-select`, `.ds-textarea`, con `.ds-input-wrap` + `.ds-input-icon` + `.ds-input-shortcut` (⌘K) y estado `.err` (fondo `--red-soft`). Borderless. Reposo **recessed** (`--bg`, contrasta dentro de cards `bg-elev-2`); **foco** se aclara a `--bg-soft` (sin ring); error con fondo `--red-soft`. Se usa `background-color` (no shorthand) para no pisar el chevron del `.ds-select`.
+Familia canónica en `styles.css`: `.ds-input`, `.ds-select`, `.ds-textarea`, con `.ds-input-wrap` + `.ds-input-icon` + `.ds-input-shortcut` (⌘K) y estado `.err` (fondo `--red-soft`). Borderless.
+
+**Reposo: velo del 6 % sobre `--text`, no un color fijo** *(v1.2.8.48)*. Hasta la .47 el reposo era `var(--bg)`, el fondo de la página. Apoyado sobre el lienzo —que también es `--bg`— el contraste medido en render era **1.00 en claro y en oscuro**: mismo color, borde transparente, el campo no se veía y quedaba flotando el placeholder. La nota vieja decía que «contrasta dentro de cards `bg-elev-2`», y eso era cierto solo ahí: 1.10. Un color fijo no resuelve el caso general —`--bg-elev-2` se ve sobre el lienzo pero da 1.00 dentro de un panel en oscuro—; el velo no depende de sobre qué esté apoyado y no baja de **1.12** en ninguna superficie ni tema. Es el mismo mecanismo que `.ds-picker-toggle` usa desde la v1.2.8.34 por este mismo síntoma.
+
+**Foco:** anillo `outline` separado; el fondo **no** cambia (ver la tabla de foco más abajo). **Error:** fondo `--red-soft`. Se usa `background-color` (no shorthand) para no pisar el chevron del `.ds-select`.
 
 ```html
 <div class="ds-input-wrap">
@@ -2409,5 +2413,5 @@ separados: el cuerpo existe para decir qué se lleva puesto la acción.
 
 ---
 
-*YiQi ERP · Design System v1.2.8.47 · Última actualización: 01/10/2026*
+*YiQi ERP · Design System v1.2.8.48 · Última actualización: 01/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
