@@ -164,7 +164,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.53";
+  --ds-version: "1.2.8.54";
 
   /* Layout */
   --topbar-h:  56px;
@@ -2553,6 +2553,28 @@ html[data-theme="light"] .skeleton-line {
 /* Input con ícono interno */
 .ds-input-wrap { position: relative; }
 .ds-input-wrap .ds-input { padding-left: 38px; }
+
+/* v1.2.8.54 — accion al final del campo. .ds-input-wrap solo ponia un icono a
+   la IZQUIERDA; para el "+" (crear) y el "ir al registro" de los campos de
+   referencia cada consumidor armaba .btn-icon al lado del input. Es el patron
+   de .login-eye generalizado: la accion pertenece al campo y adentro se lee
+   asi. Con dos acciones ocupa 72px; en una celda de 269 deja 197 al valor.
+   Elegido con las tres opciones a la vista (dentro / al lado / grupo pegado),
+   punto 6 del frontend, 02/10/2026. */
+.ds-input-action { position: relative; }
+.ds-input-action .ds-input { padding-right: 40px; }
+.ds-input-action.has-2 .ds-input { padding-right: 72px; }
+.ds-input-btn {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  display: grid; place-items: center; width: 30px; height: 30px;
+  border: 0; border-radius: var(--radius-xs); background: transparent;
+  color: var(--muted-2); cursor: pointer; transition: background var(--tr), color var(--tr);
+}
+.ds-input-btn:hover { color: var(--text); background: var(--bg-soft); }
+.ds-input-btn:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: 1px; }
+.ds-input-btn svg { width: 14px; height: 14px; }
+.ds-input-btn:nth-last-child(1) { right: 4px; }
+.ds-input-btn:nth-last-child(2) { right: 36px; }
 .ds-input-icon {
   position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
   width: 16px; height: 16px; stroke: var(--muted-2); fill: none;

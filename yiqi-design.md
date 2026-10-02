@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.53
+# YiQi Design System — Guía maestra v1.2.8.54
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -2585,5 +2585,27 @@ fila seleccionada no la cambia. El tilde (`.checkbox.checked`) acompaña siempre
 
 ---
 
-*YiQi ERP · Design System v1.2.8.53 · Última actualización: 02/10/2026*
+## 43. Input con acción al final *(nuevo en v1.2.8.54)*
+
+`.ds-input-wrap` solo ponía un ícono a la izquierda. Para el **+** (crear) y el **↗** (ir al
+registro) de los campos de referencia, cada consumidor armaba `.btn-icon` al lado del input.
+Entra `.ds-input-action`: el patrón de `.login-eye` generalizado — la acción pertenece al
+campo y adentro se lee así. Con dos acciones (`.has-2`) ocupa 72 px; en una celda de 269 deja
+197 al valor.
+
+```html
+<div class="ds-input-action has-2">
+  <input class="ds-input" value="Marina Soler">
+  <button class="ds-input-btn" type="button" aria-label="Ir al registro"><i class="ph ph-arrow-square-out"></i></button>
+  <button class="ds-input-btn" type="button" aria-label="Crear"><i class="ph ph-plus"></i></button>
+</div>
+```
+
+Los botones van **después** del input en el markup; el CSS los ubica desde la derecha
+(`:nth-last-child`). Se eligió entre tres: al lado partía en tres cajas lo que es una cosa;
+el grupo pegado metía un borde interno, la única línea del formulario.
+
+---
+
+*YiQi ERP · Design System v1.2.8.54 · Última actualización: 02/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
