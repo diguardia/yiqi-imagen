@@ -157,7 +157,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.49";
+  --ds-version: "1.2.8.50";
 
   /* Layout */
   --topbar-h:  56px;
@@ -4608,3 +4608,61 @@ html[data-theme="light"] .fondo-horizonte { opacity: .38; }
   border-radius: 0 var(--radius-lg) var(--radius-lg) var(--radius-lg);
   padding: 20px;
 }
+
+/* ── 57. SELECTOR DE ARCHIVO ─────────────────────────────────
+   v1.2.8.50 — el DS no tenia regla para input[type="file"], asi que el
+   campo Foto del frontend mostraba el control nativo del navegador: un
+   recuadro blanco en tema oscuro, porque el navegador no sabe nada de
+   nuestros temas (punto 7 del QA del agente UX, 01/10/2026).
+   Patron: el input nativo se esconde y dispara desde la zona estilada.
+   Ocupa el ancho completo de la grilla (grid-column: 1 / -1), como el
+   textarea: un bloque de ~90px dentro de una celda de 269 desalinea la
+   fila entera. Decision de Seba, 02/10/2026: zona de arrastre (opcion B)
+   sobre campo compacto (C). */
+.ds-dropzone {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 18px 16px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--text) 6%, transparent);
+  text-align: center;
+  cursor: pointer;
+  transition: background var(--tr);
+}
+.ds-dropzone:hover,
+.ds-dropzone.is-over { background: var(--cyan-soft); }
+.ds-dropzone:focus-within { outline: 2px solid var(--cyan-night); outline-offset: 2px; }
+.ds-dropzone input[type="file"] {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+.ds-dropzone-ico {
+  display: grid; place-items: center;
+  width: 36px; height: 36px; border-radius: var(--radius-pill);
+  background: var(--bg-elev); color: var(--muted);
+}
+.ds-dropzone-ico svg { width: 16px; height: 16px; }
+.ds-dropzone-t { font: 500 var(--fs-body)/1.4 var(--sans); color: var(--text); }
+.ds-dropzone-s { font: 400 var(--fs-caption)/1.4 var(--sans); color: var(--muted-2); }
+
+/* Con archivo: miniatura + nombre + peso, a la izquierda. */
+.ds-dropzone-file { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; }
+.ds-dropzone-thumb {
+  width: 44px; height: 44px; border-radius: var(--radius-xs); flex-shrink: 0;
+  background: var(--cyan-soft); color: var(--cyan); display: grid; place-items: center;
+  overflow: hidden;
+}
+.ds-dropzone-thumb svg { width: 18px; height: 18px; }
+.ds-dropzone-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.ds-dropzone-info { flex: 1; min-width: 0; }
+.ds-dropzone-info b { display: block; font: 500 var(--fs-body)/1.4 var(--sans); color: var(--text);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ds-dropzone-info span { font: 400 11px/1.4 var(--mono); color: var(--muted-2); }
+.ds-dropzone-clear { color: var(--muted); display: grid; place-items: center; cursor: pointer; background: none; border: 0; padding: 4px; }
+.ds-dropzone-clear:hover { color: var(--text); }
+.ds-dropzone-clear svg { width: 13px; height: 13px; }
+
+.ds-dropzone.is-disabled { opacity: .5; pointer-events: none; }

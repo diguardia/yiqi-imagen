@@ -984,7 +984,7 @@
     picker: PickerAPI,
 
     /* Meta */
-    version: '1.2.8.49',
+    version: '1.2.8.50',
   };
 
 }(window));

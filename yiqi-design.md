@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.49
+# YiQi Design System — Guía maestra v1.2.8.50
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -2479,5 +2479,46 @@ debajo de una lista de opciones. Si ese fondo no coincide, no es este componente
 
 ---
 
-*YiQi ERP · Design System v1.2.8.49 · Última actualización: 01/10/2026*
+## 37. Selector de archivo *(nuevo en v1.2.8.50)*
+
+El DS no tenía regla para `input[type="file"]`: el campo Foto del frontend mostraba el
+control nativo del navegador, un recuadro blanco en tema oscuro. Patrón estándar: el
+input nativo se esconde (accesible, no `display:none`) y la zona estilada lo dispara.
+
+**Ocupa el ancho completo de la grilla** (`grid-column: 1 / -1`), como el textarea. Un
+bloque de ~90 px dentro de una celda de 269 desalinea la fila. Decisión del 02/10/2026:
+zona de arrastre sobre campo compacto.
+
+```html
+<label class="ds-dropzone">
+  <input type="file" accept="image/*">
+  <span class="ds-dropzone-ico"><svg>…</svg></span>
+  <span class="ds-dropzone-t">Arrastra una imagen o haz clic para elegir</span>
+  <span class="ds-dropzone-s">JPG o PNG · hasta 5 MB</span>
+</label>
+
+<!-- con archivo -->
+<div class="ds-dropzone">
+  <div class="ds-dropzone-file">
+    <span class="ds-dropzone-thumb"><img src="…" alt=""></span>
+    <div class="ds-dropzone-info"><b>foto-perfil-2026.jpg</b><span>1,2 MB · JPG</span></div>
+    <button class="ds-dropzone-clear" type="button" aria-label="Quitar"><svg>…</svg></button>
+  </div>
+</div>
+```
+
+| Estado | Clase | Qué cambia |
+|---|---|---|
+| Reposo | — | velo `--text` al 6 %, radio 14 |
+| Hover / arrastrando | `:hover`, `.is-over` | fondo `--cyan-soft` |
+| Foco (teclado) | `:focus-within` | anillo `--cyan-night`, como `.ds-input` |
+| Con archivo | `.ds-dropzone-file` adentro | miniatura 44 (`--cyan-soft`), nombre, peso en mono, quitar |
+| Deshabilitado | `.is-disabled` | opacidad .5, sin eventos — el "disponible después de guardar" |
+
+Tipografía: texto principal `--fs-body` 500, ayuda `--fs-caption`, peso del archivo en
+`--mono` 11. Sin borde punteado: el sistema es borderless, la zona se distingue por fondo.
+
+---
+
+*YiQi ERP · Design System v1.2.8.50 · Última actualización: 02/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
