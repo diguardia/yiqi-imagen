@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.52
+# YiQi Design System — Guía maestra v1.2.8.53
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -2569,5 +2569,21 @@ regla aparecía el contorno negro del navegador sobre el pill.
 
 ---
 
-*YiQi ERP · Design System v1.2.8.52 · Última actualización: 02/10/2026*
+## 42. Fila seleccionada en `.data-table` *(nuevo en v1.2.8.53)*
+
+No existía: al tildar un registro solo cambiaba el tilde. Se marca por **fondo tonal**, nunca
+por borde lateral (§3): `tr.is-selected` o `tr[aria-selected="true"]` → `--cyan-soft-2`.
+
+Por qué el 14–16 % y no el `--cyan-soft` del 10 %: medido contra el hover del sistema
+(4 % gris: 1.04 claro / 1.05 oscuro), el 10 % daba **1.07** en claro — pasar el mouse por una
+fila se parecía a tenerla seleccionada. `--cyan-soft-2` da **1.14 / 1.30**. El hover sobre una
+fila seleccionada no la cambia. El tilde (`.checkbox.checked`) acompaña siempre: el color no va solo.
+
+```html
+<tr class="is-selected"><td><span class="checkbox checked"></span></td><td>…</td></tr>
+```
+
+---
+
+*YiQi ERP · Design System v1.2.8.53 · Última actualización: 02/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*

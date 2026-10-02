@@ -164,7 +164,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.52";
+  --ds-version: "1.2.8.53";
 
   /* Layout */
   --topbar-h:  56px;
@@ -1356,6 +1356,16 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
 
 .data-table tbody tr { transition: background 0.2s ease; }
 .data-table tbody tr:hover { background: rgba(127, 136, 150, 0.04); }
+/* v1.2.8.53 — fila seleccionada. No existia: al tildar un registro solo
+   cambiaba el tilde (punto 5 del frontend). Tonal, nunca borde lateral (§3).
+   Se eligio --cyan-soft-2 y no --cyan-soft midiendo contra el hover (4% gris,
+   1.04 claro / 1.05 oscuro): el 10% daba 1.07 en claro, pasar el mouse por
+   una fila se parecia a tenerla seleccionada. El 14-16% da 1.14 / 1.30.
+   Decidido con las tres opciones a la vista, 02/10/2026. */
+.data-table tbody tr.is-selected,
+.data-table tbody tr[aria-selected="true"] { background: var(--cyan-soft-2); }
+.data-table tbody tr.is-selected:hover,
+.data-table tbody tr[aria-selected="true"]:hover { background: var(--cyan-soft-2); }
 .data-table th.num, .data-table td.num { text-align: right; }
 /* v1.2.7.9: la columna numerica es plata o cantidad, no codigo: pasa a la
    display. Conserva tabular-nums porque aca si hay columna que alinear. */
