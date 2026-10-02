@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.54
+# YiQi Design System — Guía maestra v1.2.8.55
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -74,8 +74,8 @@
   --line:        rgba(255,255,255,.08);
   --line-strong: rgba(255,255,255,.14);
 
-  /* Velo detrás de cajones y modales (nuevo en v1.2.8.40) */
-  --scrim:       rgba(0,0,0,.55);
+  /* Velo detrás de cajones y modales (nuevo en v1.2.8.40; .72 desde v1.2.8.55) */
+  --scrim:       rgba(0,0,0,.72);
 
   /* Text */
   --text:    #f3f5f7;
@@ -2357,7 +2357,7 @@ ERP, con los comentarios de los dos bugs que costó resolverlo.
   width: min(680px, 100%);
   padding: 22px;
   border-radius: var(--radius-xl);
-  background: var(--bg-elev-2);
+  background: var(--tile-bg);   /* v1.2.8.55: era --bg-elev-2, ver §44 */
   box-shadow: var(--shadow-lg);
   max-height: calc(100dvh - 48px);
   min-height: 0;
@@ -2607,5 +2607,26 @@ el grupo pegado metía un borde interno, la única línea del formulario.
 
 ---
 
-*YiQi ERP · Design System v1.2.8.54 · Última actualización: 02/10/2026*
+## 44. Diálogo en oscuro: velo y superficie *(cambio en v1.2.8.55)*
+
+En oscuro el diálogo de confirmación no se despegaba del panel de atrás y la tabla se leía a
+través del velo (punto 8 del frontend). Son dos problemas con dos palancas:
+
+- **Superficie.** `.modal-panel` pintaba `--bg-elev-2`, el mismo gris que la tarjeta de
+  atrás: 1.09 contra la tabla velada. Pasa a `--tile-bg` (el token de la v1.2.8.51 para
+  "superficie sobre panel oscuro"): 1.27. En claro `--tile-bg` es blanco, igual que antes.
+- **Velo.** `--scrim` en oscuro sube de `.55` a `.72`. Con `.55` el texto de la tabla seguía
+  en 3.88 contra su fila; con `.72` queda en 2.10, se intuye y no se lee. No `.80`: da 1.58 y
+  el fondo es negro liso, se pierde dónde estás. En claro sigue `.38`.
+
+Oscurecer solo el velo no despega el diálogo (1.09 → 1.12): gris casi negro sobre gris casi
+negro. Cambiar solo la superficie lo despega pero la tabla se sigue leyendo entera. Van las dos.
+
+`--scrim` también lo usa `.nav-overlay` (el velo del menú en celular), que en oscuro se
+oscurece en la misma medida. Las apps que pisaban `.modal-panel` con `--bg-elev-2` tienen que
+quitar esa regla o el cambio no les llega.
+
+---
+
+*YiQi ERP · Design System v1.2.8.55 · Última actualización: 02/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*

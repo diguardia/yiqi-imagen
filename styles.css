@@ -58,7 +58,8 @@
      sobre .doc-tabs-panel media 1.00, no existia. Un escalon mas: 1.14 contra
      el panel, sobre el minimo de 1.12 que fijo .ds-input. En claro no cambia:
      blanco, como --bg-elev-2. Pedido de Christian (punto 11), decidido con las
-     tres opciones a la vista el 02/10/2026. */
+     tres opciones a la vista el 02/10/2026. Desde v1.2.8.55 es tambien la
+     superficie de .modal-panel, por la misma razon. */
   --tile-bg:     #1e222a;
   --bg-soft:     #181b21;
   /* Bordes */
@@ -69,8 +70,14 @@
      escribia a mano y cada app que necesitaba uno lo volvia a inventar
      con su propia opacidad. Es negro en los dos temas a proposito: lo
      que hace es apagar lo de atras, no teñirlo, y en claro un velo del
-     color del fondo no separa nada. */
-  --scrim:       rgba(0,0,0,.55);
+     color del fondo no separa nada.
+     v1.2.8.55 — de .55 a .72 en oscuro. Con .55 la tabla detras de un
+     dialogo seguia legible: su texto media 3.88 contra la fila velada.
+     Con .72 queda en 2.10, se intuye que hay una tabla y no se lee. No
+     .80: ahi da 1.58 y el fondo es negro liso, se pierde donde estas.
+     En claro sigue .38. Punto 8 del frontend, decidido con las opciones
+     a la vista el 02/10/2026. */
+  --scrim:       rgba(0,0,0,.72);
   /* Texto */
   --text:        #f3f5f7;
   --muted:       #908e8e;
@@ -164,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.54";
+  --ds-version: "1.2.8.55";
 
   /* Layout */
   --topbar-h:  56px;
@@ -4511,7 +4518,13 @@ html[data-theme="light"] .fondo-horizonte { opacity: .38; }
   width: min(680px, 100%);
   padding: 22px;
   border-radius: var(--radius-xl);
-  background: var(--bg-elev-2);
+  /* v1.2.8.55 — era --bg-elev-2, el mismo gris que la tarjeta de atras:
+     en oscuro el dialogo media 1.09 contra la tabla velada y no se
+     despegaba. Oscurecer el velo no lo arregla (1.12): gris casi negro
+     sobre gris casi negro. --tile-bg, un escalon arriba, lo lleva a
+     1.27 con el velo nuevo. En claro --tile-bg es blanco, igual que
+     antes. Punto 8 del frontend, 02/10/2026. */
+  background: var(--tile-bg);
   box-shadow: var(--shadow-lg);
   /* `max-height: 100%` no alcanza: como hijo de un flex container con
      align-items:center, el panel tiene min-height:auto por default y el motor
