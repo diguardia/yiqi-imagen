@@ -164,7 +164,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.51";
+  --ds-version: "1.2.8.52";
 
   /* Layout */
   --topbar-h:  56px;
@@ -1515,6 +1515,10 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
 }
 
 .schema-toggle:hover { background: var(--bg-soft); }
+/* v1.2.8.52 — sin esto aparecia el contorno negro del navegador sobre el
+   pill. El frontend le ponia el anillo del DS desde su globals.css; el
+   foco es del sistema, no de cada consumidor (punto 12 del frontend). */
+.schema-toggle:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: 2px; }
 
 /* Etiqueta del selector de esquema. Promovida desde Panel Gerencial
    (#schema-label), que ya la tenia en mono 11 en produccion. El sans 12
@@ -4678,3 +4682,16 @@ html[data-theme="light"] .fondo-horizonte { opacity: .38; }
 .ds-dropzone-clear svg { width: 13px; height: 13px; }
 
 .ds-dropzone.is-disabled { opacity: .5; pointer-events: none; }
+
+/* ── 58. SOMBRA DE "HAY MAS" EN SCROLL HORIZONTAL ─────────────
+   v1.2.8.52 — subido del frontend (components/ui/scroll-shadow.tsx, FE-021):
+   un pivot de 20+ columnas dentro de .table-wrap se corta a la derecha sin
+   ninguna pista de que se puede scrollear. Envuelve a .table-wrap; el
+   consumidor pone .scroll-shadow-edge-left/-right segun scrollLeft y
+   scrollWidth (es logica, no CSS: ver el markup en el catalogo §74).
+   El degradado sale de --bg-soft para que el borde se lea como el fondo
+   hundido que ya usa el sistema, en los dos temas. */
+.scroll-shadow { position: relative; min-width: 0; }
+.scroll-shadow-edge { position: absolute; top: 0; bottom: 0; width: 28px; pointer-events: none; z-index: 2; }
+.scroll-shadow-edge-right { right: 0; background: linear-gradient(to left, var(--bg-soft), transparent); }
+.scroll-shadow-edge-left  { left: 0;  background: linear-gradient(to right, var(--bg-soft), transparent); }

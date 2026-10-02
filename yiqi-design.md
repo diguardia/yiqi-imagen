@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.51
+# YiQi Design System — Guía maestra v1.2.8.52
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -2540,5 +2540,34 @@ sigue en `--bg-elev-2`.
 
 ---
 
-*YiQi ERP · Design System v1.2.8.51 · Última actualización: 02/10/2026*
+## 39. Sombra de "hay más" en scroll horizontal *(nuevo en v1.2.8.52)*
+
+Subido del frontend (`components/ui/scroll-shadow.tsx`): una tabla de 20+ columnas dentro de
+`.table-wrap` se corta a la derecha sin ninguna pista de que se puede scrollear. `.scroll-shadow`
+envuelve a `.table-wrap` y el consumidor muestra `.scroll-shadow-edge-left` / `-right` según
+`scrollLeft` y `scrollWidth`. El degradado sale de `--bg-soft`, el fondo hundido del sistema.
+
+```html
+<div class="scroll-shadow">
+  <div class="table-wrap"> <table class="data-table">…</table> </div>
+  <span class="scroll-shadow-edge scroll-shadow-edge-right" aria-hidden="true"></span>
+</div>
+```
+
+## 40. `.topbar` es sticky — y ocupa su lugar en el flujo *(documentado en v1.2.8.52, vigente desde 1.2.7.11)*
+
+`.topbar` declara `position: sticky; top: 0; z-index: var(--z-topbar); background: var(--bg-elev)`.
+**Sticky, no fixed**: ocupa sus 56 px en el flujo. Una app no debe sumar `margin-top` ni
+`padding-top` al contenido para "dejarle lugar" — el frontend lo hizo durante meses y dejaba 56 px
+de hueco sobre cada pantalla. Una app puede pisar el fondo; el `position` y el `z-index` son del
+sistema.
+
+## 41. Foco en `.schema-toggle` *(fix en v1.2.8.52)*
+
+`.schema-toggle:focus-visible` con el anillo del sistema (`2px --cyan-night`, offset 2). Sin la
+regla aparecía el contorno negro del navegador sobre el pill.
+
+---
+
+*YiQi ERP · Design System v1.2.8.52 · Última actualización: 02/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
