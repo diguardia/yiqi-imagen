@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.50
+# YiQi Design System — Guía maestra v1.2.8.51
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -2520,5 +2520,25 @@ Tipografía: texto principal `--fs-body` 500, ayuda `--fs-caption`, peso del arc
 
 ---
 
-*YiQi ERP · Design System v1.2.8.50 · Última actualización: 02/10/2026*
+## 38. `--tile-bg` — la tarjeta dentro de un panel *(nuevo en v1.2.8.51)*
+
+En oscuro `--bg-elev-2` y `--card-bg` valen lo mismo (`#14161b`). Una tarjeta de tablero
+(`.panel--tile`, que hereda `--bg-elev-2`) sobre `.doc-tabs-panel` (`--card-bg`) medía
+**1.00** de contraste: no se despegaba. En claro daban 1.07 y se veía.
+
+Nuevo token **`--tile-bg`**: `#1e222a` en oscuro (**1.14** contra el panel, sobre el mínimo
+de 1.12 que fijó `.ds-input`), `#ffffff` en claro (sin cambio). `.panel--tile` lo usa como
+fondo. Se eligió entre tres con las opciones a la vista: subir la tarjeta a `--bg-soft`
+invertía la elevación en claro; bajar el panel a `--bg-elev` aplastaba todo a 1.05.
+
+```css
+.panel--tile { background: var(--tile-bg); }
+```
+
+Es el fondo de **la tarjeta que vive dentro de un panel**. Una card suelta sobre el lienzo
+sigue en `--bg-elev-2`.
+
+---
+
+*YiQi ERP · Design System v1.2.8.51 · Última actualización: 02/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
