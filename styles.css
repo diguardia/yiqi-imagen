@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.57";
+  --ds-version: "1.2.8.58";
 
   /* Layout */
   --topbar-h:  56px;
@@ -4765,3 +4765,70 @@ html[data-theme="light"] .fondo-horizonte { opacity: .38; }
 .scroll-shadow-edge { position: absolute; top: 0; bottom: 0; width: 28px; pointer-events: none; z-index: 2; }
 .scroll-shadow-edge-right { right: 0; background: linear-gradient(to left, var(--bg-soft), transparent); }
 .scroll-shadow-edge-left  { left: 0;  background: linear-gradient(to right, var(--bg-soft), transparent); }
+
+/* ── 59. COLA DE DECISIÓN — dq (v1.2.8.58) ───────────────── */
+/* Promovida desde YiQi Fiorentino (la bandeja de propuestas de tickets), donde
+   vivía como CSS local de la app. Es la tarjeta de una cola que se recorre con el
+   teclado: una decisión por tarjeta, varias tarjetas por página. "dq" = decision
+   queue, el mismo largo de prefijo que .pr-, .mb-, .hf-.
+   Reglas que trae medidas (revisión 2026-10-08): la tarjeta seleccionada se alinea
+   arriba descontando la topbar (.is-selected + scroll-margin-top), y la barra de
+   acciones es sticky al pie de la tarjeta: en una tarjeta de 1.400 px el título,
+   el diagnóstico y los botones se ven a la vez. Antes se centraba y no se veía
+   ninguno de los tres. La tarjeta se arma sobre .panel; esto agrega solo lo que
+   .panel no tiene. */
+.dq-card { scroll-margin-top: calc(var(--topbar-h) + 12px); }
+.dq-card.is-selected { outline: 2px solid var(--cyan); outline-offset: -2px; }
+.dq-head { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 8px; }
+.dq-head > div { min-width: 0; flex: 1; }
+.dq-title { margin: 0 0 6px; font: 700 17px/1.3 var(--sans); letter-spacing: -.01em; color: var(--text); }
+/* Posición en la cola ("4 de 12"): el operador sabe cuánto falta sin scrollear. */
+.dq-pos { margin-left: 6px; font: 500 12px var(--sans); color: var(--muted-2); white-space: nowrap; }
+.dq-badges { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+/* Lo que se decide va primero (§10 de la guía: arriba la decisión, abajo la explicación). */
+.dq-diag { margin: 0 0 8px; font: 500 15px/1.45 var(--sans); color: var(--text); }
+/* Bloque de apoyo (borrador, comentario interno, trabajo en curso): fondo tonal, sin borde. */
+.dq-block { margin: 8px 0; padding: 10px; border-radius: var(--radius-sm); background: var(--bg-soft); }
+/* Los ítems sobre los que se decide (tickets, filas): una línea por ítem. */
+.dq-items { display: grid; gap: 6px; margin: 6px 0 10px; padding: 8px 10px; border-radius: var(--radius-sm); background: var(--bg-soft); }
+.dq-item { display: grid; gap: 2px; }
+.dq-item-meta { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: 13px; }
+.dq-item-meta .kpi-note { margin: 0; }
+.dq-item-text { margin: 4px 0 0; padding: 8px 10px; border-radius: var(--radius-xs); background: var(--bg-elev-2); white-space: pre-wrap; font-size: 13px; line-height: 1.45; color: var(--text); }
+/* Lo que se abre a un click: el texto de un ítem, el resto de un lote largo. */
+.dq-more > summary { cursor: pointer; margin: 0; }
+.dq-more[open] > summary { margin-bottom: 4px; }
+/* Extracto de código, diff o salida de un proceso. */
+.dq-excerpt { margin: 6px 0 0; padding: 8px; border-radius: var(--radius-xs); background: var(--bg-elev-2); font-size: 12px; line-height: 1.35; overflow-x: auto; max-height: 360px; }
+/* Barra de acciones: último hijo de la tarjeta, pegada al pie mientras se lee. Los
+   márgenes negativos compensan el padding de .panel (20px) para que cubra el ancho. */
+.dq-actions { position: sticky; bottom: 0; z-index: 1; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin: 10px -20px -20px; padding: 10px 20px 14px; background: var(--bg-elev); border-radius: 0 0 var(--radius-xl) var(--radius-xl); }
+.dq-card.is-selected .dq-actions { box-shadow: 0 -8px 16px -12px rgba(0, 0, 0, .35); }
+/* Formulario inline que abre una acción (nota, respuesta): uno abierto por tarjeta. */
+.dq-form { display: none; flex-direction: column; gap: 8px; margin-top: 10px; padding: 10px; border-radius: var(--radius-sm); background: var(--bg-elev-2); }
+.dq-form.is-open { display: flex; }
+
+/* ── 60. PASOS — LISTA DE AVANCE DE UN PROCESO (v1.2.8.58) ── */
+/* Hechos en gris con ✓, el actual en negrita con ▶, el fallido con ✕. Es una
+   lista ordenada normal: los marcadores van por ::marker, sin íconos ni spans. */
+.ds-steps { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 3px; font-size: 13px; }
+.ds-steps li.is-done { color: var(--muted); }
+.ds-steps li.is-done::marker { content: '✓ '; color: var(--green); }
+.ds-steps li.is-current { color: var(--text); font-weight: 600; }
+.ds-steps li.is-current::marker { content: '▶ '; color: var(--amber); }
+.ds-steps li.is-failed::marker { content: '✕ '; color: var(--red); }
+/* Punto de estado que late: "esto se actualiza solo". Sobre el .ldot de §44. */
+.ldot.is-pulsing { animation: ldotPulse 1.6s ease-in-out infinite; }
+@keyframes ldotPulse { 0%, 100% { opacity: .25; } 50% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .ldot.is-pulsing { animation: none; } }
+
+/* ── 61. CADENA — NIVELES DE UN RECORRIDO (v1.2.8.58) ─────── */
+/* Nodos en fila con flecha entre medio: la cadena de esquemas por la que se
+   promueve un cambio (trunk → demo → cliente), o cualquier recorrido de etapas.
+   El estado del nodo va por fondo tonal (§3), nunca por borde. */
+.ds-chain { display: flex; gap: 6px; align-items: stretch; flex-wrap: wrap; }
+.ds-chain-node { min-width: 140px; padding: 8px 10px; border-radius: var(--radius-sm); background: var(--bg-elev-2); }
+.ds-chain-node.is-ok { background: var(--green-soft); }
+.ds-chain-node.is-warn { background: var(--amber-soft); }
+.ds-chain-node.is-off { opacity: .6; }
+.ds-chain-arrow { align-self: center; color: var(--muted); }

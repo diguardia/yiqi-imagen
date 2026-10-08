@@ -381,6 +381,7 @@ body.preview-open .ds-layout { display: none !important; }
 <a class="ds-nav-item" href="#ds-input-action"><span class="ds-nav-num">76</span> Input con acci&oacute;n al final</a>
 <a class="ds-nav-item" href="#ds-module-icons"><span class="ds-nav-num">77</span> &Iacute;conos por m&oacute;dulo</a>
 <a class="ds-nav-item" href="#ds-sidebar-sub"><span class="ds-nav-num">78</span> Submen&uacute; y scroll del men&uacute; <span class="ds-nav-badge">v1.2.8.57</span></a>
+<a class="ds-nav-item" href="#cola-decision"><span class="ds-nav-num">79</span> Cola de decisión <span class="ds-nav-badge">v1.2.8.58</span></a>
 <a class="ds-nav-item" href="#ds-confirm"><span class="ds-nav-num">70</span> Modal y confirmaci&oacute;n</a>
 </div>
 <div class="ds-nav-section ds-nav-appearance">
@@ -487,6 +488,12 @@ body.preview-open .ds-layout { display: none !important; }
 <tr><th>Versión</th><th>Fecha</th><th>Tipo</th><th>Detalle</th></tr>
 </thead>
 <tbody>
+<tr id="chg-cola-decision">
+<td class="mono-cell">v1.2.8.58</td>
+<td class="mono-cell">08/10/2026</td>
+<td><span class="badge badge-cyan">NUEVO</span></td>
+<td><strong>Cola de decisi&oacute;n, pasos y cadena &mdash; <code>&sect;79</code>.</strong> Tres componentes que YiQi Fiorentino (la bandeja de propuestas sobre tickets) ten&iacute;a como CSS local: la tarjeta de una cola que se recorre con el teclado (<code>.dq-card</code> y familia, con la barra de acciones <em>sticky</em> al pie y la posici&oacute;n &laquo;n de N&raquo;), la lista de avance de un proceso (<code>.ds-steps</code>, marcadores por <code>::marker</code>) y el recorrido por niveles (<code>.ds-chain</code>). <strong>Cero tokens nuevos</strong>; el estado va por fondo tonal, nunca por borde. Lo que motiv&oacute; promoverlos: la regla del repo es que lo reusable se agrega al DS primero, y la app ya los ten&iacute;a resueltos y medidos (una tarjeta de 1.400 px se decide sin scrollear).<div class="chg-links"><a class="ds-xref" href="#cola-decision"><i class="ph ph-anchor-simple"></i> &sect;79 &middot; Cola de decisi&oacute;n</a><button class="ds-copy chg-share" data-ds-copy="link" title="Copiar link a este cambio" aria-label="Copiar link a este cambio"><i class="ph ph-link"></i>Compartir</button></div></td>
+</tr>
 <tr id="chg-sidebar-sub">
 <td class="mono-cell">v1.2.8.57</td>
 <td class="mono-cell">08/10/2026</td>
@@ -6522,6 +6529,90 @@ if (v) target.textContent = `DS v${v}`;</code></pre>
   &lt;a class="nav-link" href="&hellip;"&gt;Empresa&lt;/a&gt;
   &lt;a class="nav-link" href="&hellip;"&gt;Contacto&lt;/a&gt;
 &lt;/div&gt;</code></pre></div>
+</section>
+
+<!-- 79 · COLA DE DECISIÓN -->
+<section class="ds-section" id="cola-decision">
+<div class="ds-section-kicker">79 · Aplicaciones</div>
+<h2 class="ds-section-title">Cola de decisión · dq, pasos y cadena</h2>
+<p class="ds-section-sub">Tres componentes promovidos desde <strong>YiQi Fiorentino</strong> (la bandeja de propuestas sobre tickets), donde vivían como CSS local. Sirven para cualquier cola que un operador recorra con el teclado tomando una decisión por tarjeta, para mostrar el avance de un proceso en pasos, y para dibujar un recorrido por niveles (trunk → demo → cliente).</p>
+
+<div class="subsection-title">Tarjeta de la cola</div>
+<div style="max-width:820px;margin-bottom:22px">
+<section class="panel dq-card is-selected">
+  <div class="dq-head">
+    <div>
+      <h3 class="dq-title">Lote de 6 tickets · Baires Rocks <span class="dq-pos">1 de 5</span></h3>
+      <div class="dq-badges"><span class="badge badge-amber">sin veredicto</span><span class="badge badge-cyan">lote · 6 tickets</span><span class="badge badge-muted">confianza baja</span><span class="kpi-note">#2 · investigación · 10/7/2026</span></div>
+    </div>
+  </div>
+  <p class="dq-diag">Diferencias de caja al cierre con síntomas distintos. Sin causa única identificada: sospecho que el POS de escritorio puede estar involucrado en varios de estos.</p>
+  <p class="kpi-note"><strong>Acción propuesta:</strong> pedir al cliente el detalle de un caso puntual con fecha y hora exacta.</p>
+  <div class="dq-items">
+    <div class="dq-item">
+      <div class="dq-item-meta"><strong>#24415</strong> Error cierres de caja POS <span class="kpi-note">BootikApp SA</span> <span class="badge badge-muted">Analizando comport. incorrecto</span> <span class="kpi-note">784 d</span></div>
+      <details class="dq-more"><summary class="kpi-note">Lo que pidió el cliente</summary><p class="dq-item-text">Al cerrar la caja el total no coincide con lo cobrado.</p></details>
+    </div>
+    <div class="dq-item"><div class="dq-item-meta"><strong>#26191</strong> Caja local 2 y POS <span class="kpi-note">Espacio Marketing SRL</span> <span class="badge badge-muted">Analizando inconsistencia</span></div></div>
+    <details class="dq-more"><summary class="kpi-note">Ver los otros 4 tickets del lote</summary><div class="dq-item"><div class="dq-item-meta"><strong>#28914</strong> Fondeo de caja en POS <span class="kpi-note">Baires Rocks</span></div></div></details>
+  </div>
+  <div class="dq-block">
+    <p class="panel-kicker" style="margin:0 0 4px">Borrador de respuesta al cliente</p>
+    <p style="margin:0">Hola, ¿cómo estás? Para seguir necesitamos un caso puntual con fecha y hora.</p>
+  </div>
+  <form class="dq-form is-open" onsubmit="return false">
+    <p class="kpi-note" style="margin:0">¿Qué falta para poder decidir? Lo lee quien vuelva a trabajar esta propuesta.</p>
+    <textarea class="ds-input" rows="2" placeholder="Ej.: confirmar con el cliente si sigue usando variantes"></textarea>
+    <div><button class="btn btn-sm" type="button">Marcar: necesita más info</button></div>
+  </form>
+  <div class="dq-actions">
+    <button class="btn btn-primary btn-sm" type="button">Responder y cerrar el lote</button>
+    <button class="btn btn-sm" type="button">Desestimar</button>
+    <button class="btn btn-sm" type="button">Necesita más info</button>
+    <button class="btn btn-sm" type="button">Descartar</button>
+    <button class="btn btn-ghost btn-sm" type="button" style="margin-left:auto">Aceptar sin tocar el ERP</button>
+  </div>
+</section>
+</div>
+
+<div class="subsection-title">Pasos y cadena</div>
+<div style="max-width:820px;margin-bottom:22px" class="dq-block">
+  <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="ldot ldot-a is-pulsing" title="Se actualiza sola"></span><strong>Trunk · trabajo #46: el worker está arreglando</strong> <span class="kpi-note">pedido por cguardia · 8/10/2026 10:12</span></div>
+  <ol class="ds-steps">
+    <li class="is-done">Tomado por el worker <span class="kpi-note">10:12:04</span></li>
+    <li class="is-done">Worktree desde origin/master <span class="kpi-note">10:12:09 · 5 s</span></li>
+    <li class="is-current">Agente aplicando el fix <span class="kpi-note">10:12:14 · lleva 2 min 10 s</span></li>
+  </ol>
+  <p class="panel-kicker" style="margin:10px 0 4px">Evento "Emitida" de FACTURA</p>
+  <div class="ds-chain">
+    <div class="ds-chain-node is-ok"><div><strong>ERP</strong> <span class="kpi-note">trunk</span></div><div class="kpi-note">origen</div></div>
+    <div class="ds-chain-arrow">→</div>
+    <div class="ds-chain-node is-ok"><div><strong>ERP Demo</strong></div><div class="kpi-note">al día</div></div>
+    <div class="ds-chain-arrow">→</div>
+    <div class="ds-chain-node"><div><strong>Mutis</strong> <span class="kpi-note">producción</span></div><div class="kpi-note">desactualizado · heredado</div><button class="btn btn-primary btn-sm" type="button" style="margin-top:6px">Promover a Mutis</button></div>
+  </div>
+</div>
+
+<div class="subsection-title">Anatomía</div>
+<table class="table-demo" style="max-width:820px;margin-bottom:22px">
+<thead><tr><th>Clase</th><th>Regla</th></tr></thead>
+<tbody>
+<tr><td><code>.dq-card</code> (sobre <code>.panel</code>)</td><td><code>scroll-margin-top</code> de topbar + 12px: la tarjeta seleccionada se alinea arriba, no se centra. <code>.is-selected</code> marca con outline cyan de 2px hacia adentro. La selección la mueve la app (j/k).</td></tr>
+<tr><td><code>.dq-head</code> · <code>.dq-title</code> · <code>.dq-pos</code> · <code>.dq-badges</code></td><td>Cabecera: título 17px/700, posición en la cola en <code>--muted-2</code> ("4 de 12"), badges del DS en fila.</td></tr>
+<tr><td><code>.dq-diag</code></td><td>Lo que se decide, 15px/500 en <code>--text</code>. Va <strong>antes</strong> que los ítems: arriba la decisión, abajo la explicación.</td></tr>
+<tr><td><code>.dq-items</code> · <code>.dq-item</code> · <code>.dq-item-meta</code> · <code>.dq-item-text</code></td><td>Los ítems sobre los que se decide, uno por línea, en un bloque <code>--bg-soft</code>. El texto largo de cada ítem va en un <code>details.dq-more</code>.</td></tr>
+<tr><td><code>.dq-more</code></td><td>Un <code>&lt;details&gt;</code> con summary clickeable: el texto de un ítem, o el resto de un lote largo ("ver los otros 4"). Mostrar 3 ítems y plegar el resto.</td></tr>
+<tr><td><code>.dq-block</code></td><td>Bloque de apoyo (borrador, comentario interno, trabajo en curso). Fondo tonal <code>--bg-soft</code>, sin borde.</td></tr>
+<tr><td><code>.dq-excerpt</code></td><td>Código, diff o salida de un proceso: 12px, scroll horizontal, 360px de alto máximo.</td></tr>
+<tr><td><code>.dq-form</code></td><td>Formulario inline que abre una acción. Oculto salvo <code>.is-open</code>; uno abierto por tarjeta. Va <strong>antes</strong> de <code>.dq-actions</code>, que es el último hijo.</td></tr>
+<tr><td><code>.dq-actions</code></td><td>Barra de botones <code>sticky; bottom: 0</code> dentro de la tarjeta, con márgenes negativos que compensan el padding de <code>.panel</code>. Bajo una statusbar, la app sube el <code>bottom</code> a <code>--statusbar-h</code>.</td></tr>
+<tr><td><code>.ds-steps</code> + <code>li.is-done / .is-current / .is-failed</code></td><td>Lista ordenada con marcadores por <code>::marker</code>: ✓ verde, ▶ ámbar, ✕ rojo. Sin íconos ni spans.</td></tr>
+<tr><td><code>.ldot.is-pulsing</code></td><td>El punto de §44 latiendo: "esto se actualiza solo". Se apaga con <code>prefers-reduced-motion</code>.</td></tr>
+<tr><td><code>.ds-chain</code> · <code>.ds-chain-node</code> · <code>.ds-chain-arrow</code></td><td>Nodos en fila con flecha. Estado por fondo: <code>.is-ok</code> verde, <code>.is-warn</code> ámbar, <code>.is-off</code> atenuado. Nunca por borde.</td></tr>
+</tbody>
+</table>
+
+<div class="ds-note ds-note--info" style="max-width:820px"><strong>Teclado.</strong> La cola se recorre con j/k; la tarjeta seleccionada arriba y las acciones pegadas abajo son lo que hace que una tarjeta de 1.400 px se pueda decidir sin scrollear. Medido en Fiorentino el 08/10/2026: antes, centrada, no se veían ni el título ni los botones.</div>
 </section>
 
 

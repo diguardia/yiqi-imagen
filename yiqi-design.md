@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.57
+# YiQi Design System — Guía maestra v1.2.8.58
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -2679,5 +2679,66 @@ quitar esa regla o el cambio no les llega.
 
 ---
 
-*YiQi ERP · Design System v1.2.8.57 · Última actualización: 08/10/2026*
+## 47. Cola de decisión, pasos y cadena *(nuevo en v1.2.8.58)*
+
+Catálogo **§79 · `#cola-decision`**. Tres componentes promovidos desde **YiQi Fiorentino**
+(la bandeja de propuestas sobre tickets, `fiorentino/tracking-app`), donde vivían como CSS
+local de la app. La regla del repo es que lo reusable se agrega acá primero; la app ya los
+tenía resueltos y medidos.
+
+| Componente | Clase raíz | Para qué |
+|---|---|---|
+| Tarjeta de la cola | `.dq-card` (sobre `.panel`) | Una decisión por tarjeta, varias tarjetas por página, recorrido con el teclado. |
+| Pasos | `.ds-steps` | Avance de un proceso: hecho ✓, en curso ▶, fallido ✕, por `::marker`. |
+| Cadena | `.ds-chain` | Niveles de un recorrido con flechas (trunk → demo → cliente). |
+
+### Reglas
+
+- **La tarjeta seleccionada se alinea arriba, no se centra.** `.dq-card` lleva
+  `scroll-margin-top: calc(var(--topbar-h) + 12px)` y `.is-selected` un outline cyan hacia
+  adentro. Medido en Fiorentino el 08/10/2026: centrada, en una tarjeta de 1.400 px no se
+  veían ni el título ni los botones.
+- **`.dq-actions` es el último hijo y es sticky al pie de la tarjeta.** Los márgenes negativos
+  compensan el padding de `.panel`. Bajo una statusbar, la app sube `bottom` a
+  `--statusbar-h`. Los formularios inline (`.dq-form`) van antes, no después.
+- **Lo que se decide va primero.** `.dq-diag` antes que `.dq-items`: arriba la decisión,
+  abajo la explicación (§10).
+- **Un lote largo muestra tres ítems** y pliega el resto en un `details.dq-more`.
+- **Posición en la cola** en `.dq-pos` ("4 de 12"): el operador sabe cuánto falta.
+- **Estado por fondo, nunca por borde**: `.dq-block` y `.dq-items` en `--bg-soft`,
+  `.ds-chain-node.is-ok` en `--green-soft`, `.is-warn` en `--amber-soft`.
+- **`.ldot.is-pulsing`** es el punto de §25 latiendo: "esto se actualiza solo". Se apaga con
+  `prefers-reduced-motion`.
+
+### HTML mínimo
+
+```html
+<section class="panel dq-card is-selected">
+  <div class="dq-head"><div>
+    <h3 class="dq-title">Lote de 6 tickets <span class="dq-pos">1 de 5</span></h3>
+    <div class="dq-badges"><span class="badge badge-cyan">lote · 6</span></div>
+  </div></div>
+  <p class="dq-diag">Lo que se decide.</p>
+  <div class="dq-items">
+    <div class="dq-item"><div class="dq-item-meta"><strong>#24415</strong> Asunto</div>
+      <details class="dq-more"><summary class="kpi-note">Lo que pidió el cliente</summary><p class="dq-item-text">…</p></details></div>
+  </div>
+  <form class="dq-form"><textarea class="ds-input"></textarea></form>
+  <div class="dq-actions"><button class="btn btn-primary btn-sm">Aprobar</button></div>
+</section>
+
+<ol class="ds-steps">
+  <li class="is-done">Tomado</li><li class="is-current">Aplicando el fix</li>
+</ol>
+
+<div class="ds-chain">
+  <div class="ds-chain-node is-ok"><strong>ERP</strong></div>
+  <div class="ds-chain-arrow">→</div>
+  <div class="ds-chain-node"><strong>Cliente</strong></div>
+</div>
+```
+
+---
+
+*YiQi ERP · Design System v1.2.8.58 · Última actualización: 08/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
