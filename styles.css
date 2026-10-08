@@ -171,10 +171,10 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.59";
+  --ds-version: "1.2.8.60";
 
   /* Layout */
-  --topbar-h:  56px;
+  --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
 
   /* Escala de apilamiento — §01. Son los numeros de la tabla publicada,
      sin renumerar: publicar el token no obliga a barrer nada. Un z-index
@@ -189,8 +189,8 @@
   --z-popover:    60;
   --z-nav:        40;
   --statusbar-h: 28px;   /* barra de estado inferior (§44) */
-  --sidebar-w: 240px;
-  --sidebar-w-collapsed: 68px;
+  --sidebar-w: 232px;  /* v1.2.8.60: era 240 */
+  --sidebar-w-collapsed: 56px;  /* v1.2.8.60: era 68. Caja de icono de 32 + 12 por lado */
   --page-px:   28px;
   /* v1.2.8.37 — tope de ancho de pagina. Sin esto .content se estira a lo que
      mida el monitor: en un 27" a 2560px el area util queda en ~2280 y las filas
@@ -3127,7 +3127,7 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
 .sidebar-collapse svg { width: 16px; height: 16px; transition: transform 0.18s ease; }
 
 .app-shell.nav-collapsed { grid-template-columns: var(--sidebar-w-collapsed) minmax(0, 1fr); }
-.app-shell.nav-collapsed .sidebar { padding: 20px 10px; overflow: visible; z-index: var(--z-rail); }
+.app-shell.nav-collapsed .sidebar { padding: 20px 10px; overflow: visible; z-index: var(--z-rail); }  /* 56 - 20 = 36: el link de 36 queda centrado */
 /* El centrado del rail NO puede depender de .app-shell: el modo colapsado
    esta escrito de dos formas mezcladas en este archivo — 16 reglas exigen
    .app-shell.nav-collapsed y 16 se conforman con .nav-collapsed. Un consumidor
@@ -3531,7 +3531,7 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
   gap: 14px; padding: 8px 28px 10px; }
 
 .topbar-logo { display: inline-flex; align-items: center; line-height: 0; }
-.topbar-logo-svg { height: 39px; width: auto; display: block; }
+.topbar-logo-svg { height: 34px; width: auto; display: block; }  /* v1.2.8.60: 39 -> 34 con la topbar de 48; escala, no deforma */
 
 /* Bloque usuario dentro de .account-chip */
 .account-user-block { display: flex; align-items: center; gap: 7px;
@@ -3648,7 +3648,10 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
     flex-wrap: nowrap;
-    padding: 12px 16px;
+    /* v1.2.8.60: sin padding vertical y una fila del alto completo. Con 12 arriba y abajo y la topbar de 48,
+       la fila de 36 se apoyaba en la linea inferior. */
+    padding: 0 16px;
+    grid-template-rows: var(--topbar-h);
   }
   /* v1.2.8.12 — las columnas se declaran, no se deducen del orden. El grid es
      1fr auto 1fr y antes cada zona solo traia justify-self, asi que la celda se

@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.59
+# YiQi Design System — Guía maestra v1.2.8.60
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -2766,5 +2766,13 @@ tenía resueltos y medidos.
 
 ---
 
-*YiQi ERP · Design System v1.2.8.59 · Última actualización: 08/10/2026*
+## 49. Topbar de 48 y riel de 56 *(v1.2.8.60)*
+
+`--topbar-h` 56 → 48, `--sidebar-w-collapsed` 68 → 56, `--sidebar-w` 240 → 232. Los controles de la topbar miden 32 y quedan 8 px arriba y abajo; la caja de ícono del riel (32) queda con 12 por lado. El logo de la topbar baja a 34 px de alto (escalado, sin deformar). En celular la topbar pierde el padding vertical: con 12 + 36 + 12 no entraba en 48 y el contenido se apoyaba en la línea.
+
+Las apps que usan los tokens se ajustan solas (revisado en `informes-yiqi/comercial.html`). Una app que escriba 56 o 68 a mano tiene que pasarlo al token.
+
+---
+
+*YiQi ERP · Design System v1.2.8.60 · Última actualización: 08/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
