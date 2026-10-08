@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.58";
+  --ds-version: "1.2.8.59";
 
   /* Layout */
   --topbar-h:  56px;
@@ -4623,37 +4623,77 @@ html[data-theme="light"] .fondo-horizonte { opacity: .38; }
    botones). Lo decide el CSS, no el consumidor: se renderiza siempre y
    .doc-tab--fija lo oculta en la que no se cierra ni se renombra.
 
-   Alto 36: el mismo de los controles desde la v1.2.8.45. */
+   Alto 30 desde la v1.2.8.59 (era 36, el de los controles): la fila de pestanas no es un control
+   suelto sino el borde superior del lienzo, y a 36 pesaba mas que lo que nombra. */
 
 .doc-tabs {
+  /* v1.2.8.59: sin padding a la izquierda. Con 8 px, la primera pestana arrancaba adentro del lienzo y,
+     como el lienzo no tiene radio arriba a la izquierda, asomaba un vertice en angulo recto. */
   display: flex;
   align-items: flex-end;
   gap: 2px;
-  padding: 0 8px;
+  padding: 0;
   background: var(--bg);
   overflow-x: auto;
   scrollbar-width: none;
 }
 .doc-tabs::-webkit-scrollbar { display: none; }
 
+/* v1.2.8.59 — cuando sobran pestanas. Con .doc-tabs-scroll adentro, scrollean SOLO las pestanas;
+   el + (.doc-tabs-add) y .doc-tabs-more quedan fijos a la derecha. Las pestanas se encogen hasta 110 px
+   (nombre con elipsis) antes de scrollear. La app calcula cuantas quedan fuera, pone el numero en
+   .doc-tabs-more y mantiene la activa a la vista (scrollIntoView inline:nearest). */
+.doc-tabs:has(> .doc-tabs-scroll) { overflow: visible; position: relative; }
+.doc-tabs-scroll {
+  display: flex; align-items: flex-end; gap: 2px;
+  flex: 0 1 auto; min-width: 0;
+  overflow-x: auto; overflow-y: hidden; scrollbar-width: none;
+  padding-right: 10px;   /* deja ver la curva derecha de la ultima pestana */
+}
+.doc-tabs-scroll::-webkit-scrollbar { display: none; }
+.doc-tabs-scroll .doc-tab { flex: 0 1 auto; min-width: 110px; }
+.doc-tabs-scroll .doc-tab--fija { flex: none; min-width: 0; }
+.doc-tabs-scroll .doc-tab.is-active { flex-shrink: 0; }
+.doc-tab-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.doc-tabs-more {
+  display: inline-flex; align-items: center; gap: 3px;
+  height: 26px; padding: 0 7px; margin: 0 0 2px 4px; align-self: flex-end;
+  border: none; border-radius: var(--radius-xs); background: transparent;
+  color: var(--muted); font: 600 11px var(--sans); cursor: pointer;
+}
+.doc-tabs-more[hidden] { display: none; }
+.doc-tabs-more:hover { background: var(--bg-soft); color: var(--text); }
+.doc-tabs-more:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: 2px; }
+
 .doc-tab {
+  /* v1.2.8.59: 30 px y 12 px (antes 36 y 13). La fila pesaba mas que el contenido que nombra. */
+  position: relative;
+  isolation: isolate;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
   flex-shrink: 0;
-  height: 36px;
-  padding: 0 6px 0 14px;
+  height: 30px;
+  padding: 0 4px 0 12px;
   border: none;
   cursor: pointer;
   background: transparent;
   color: var(--muted);
-  font: 500 13px var(--sans);
+  font: 500 12px var(--sans);
   white-space: nowrap;
-  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
-  transition: background var(--tr), color var(--tr);
+  border-radius: 10px 10px 0 0;
+  transition: color var(--tr);
 }
-.doc-tab:hover { color: var(--text); background: var(--bg-soft); }
+.doc-tab:hover { color: var(--text); }
 .doc-tab:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: -2px; }
+
+/* v1.2.8.59 — hover de una inactiva: pildora de 6 px que NO llega al lienzo (4 px arriba).
+   Pintada hasta abajo parecia una pestana a medio fundir. Solo la activa toca el lienzo. */
+.doc-tab:not(.is-active)::after {
+  content: ""; position: absolute; inset: 3px 2px 4px; z-index: -1;
+  border-radius: var(--radius-xs); background: transparent; transition: background var(--tr);
+}
+.doc-tab:not(.is-active):hover::after { background: var(--bg-soft); }
 
 /* La activa se funde con el lienzo: mismo fondo, sin radio abajo. */
 .doc-tab.is-active {
@@ -4661,39 +4701,61 @@ html[data-theme="light"] .fondo-horizonte { opacity: .38; }
   color: var(--text);
   font-weight: 600;
 }
+/* v1.2.8.59 — y se une a el con dos curvas hacia afuera de 10 px (sin angulo recto). La primera no lleva
+   la izquierda: ahi el borde baja recto al ras del lienzo. */
+.doc-tab.is-active::before,
+.doc-tab.is-active::after { content: ""; position: absolute; bottom: 0; width: 10px; height: 10px; pointer-events: none; }
+.doc-tab.is-active::before { left: -10px; background: radial-gradient(circle at 0 0, transparent 9.5px, var(--card-bg) 10px); }
+.doc-tab.is-active::after { right: -10px; background: radial-gradient(circle at 100% 0, transparent 9.5px, var(--card-bg) 10px); }
+.doc-tab.is-active:first-child::before { display: none; }
 
-/* Botones de la pestana. Heredan .btn-icon pero bajan a 22: adentro de una
-   caja de 36 un boton de 32 no deja aire. */
+/* Botones de la pestana y de la fila: 20 px adentro de la pestana, radio 6 (escala: botones 6,
+   pestana 10, lienzo 24). Con radio 10 un boton chico se vuelve casi un circulo y no rima con la pestana. */
 .doc-tab .btn-icon {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-xs);
   color: var(--muted-2);
 }
-.doc-tab .btn-icon svg { width: 13px; height: 13px; }
+.doc-tab .btn-icon svg { width: 12px; height: 12px; }
+.doc-tab .btn-icon .ph { font-size: 12px; }
 .doc-tab .btn-icon:hover { background: var(--bg-soft); color: var(--text); }
 
 /* El menu solo en la activa. Se renderiza siempre; el CSS decide. */
 .doc-tab-menu { display: none; }
 .doc-tab.is-active .doc-tab-menu { display: inline-flex; }
 
+/* v1.2.8.59 — con mouse, la ✕ de las inactivas aparece al pasar por la pestana. En tactil se ve siempre. */
+@media (hover: hover) {
+  .doc-tab:not(.is-active) .doc-tab-close { opacity: 0; transition: opacity var(--tr); }
+  .doc-tab:not(.is-active):hover .doc-tab-close,
+  .doc-tab:not(.is-active):focus-within .doc-tab-close { opacity: 1; }
+}
+
 /* La pestana que no se cierra ni se renombra —la de inicio— esconde las dos. */
 .doc-tab--fija .doc-tab-menu,
 .doc-tab--fija .doc-tab-close { display: none; }
-.doc-tab--fija { padding-right: 14px; }
+.doc-tab--fija { padding-right: 12px; }
 
 .doc-tabs-add {
   flex-shrink: 0;
   align-self: center;
-  margin-left: 4px;
+  width: 26px;
+  height: 26px;
+  margin-left: 14px;   /* v1.2.8.59: deja libre la curva derecha de la activa (10 px) */
+  border-radius: var(--radius-xs);
 }
 
-/* El lienzo que sostiene las pestanas: sin radio arriba a la izquierda,
-   que es por donde se funde con la activa. */
+/* El lienzo que sostiene las pestanas. v1.2.8.59: radio 24 y padding 14, y la tarjeta adentro con
+   radio 10 — radios concentricos (24 = 10 + 14). Con 18 / 18 / 20 las curvas no corrian paralelas y en
+   la esquina el aire se ensanchaba. Arriba a la izquierda siempre recto: las pestanas se apoyan sobre
+   una linea, tambien cuando la activa no es la primera. */
 .doc-tabs-panel {
   background: var(--card-bg);
-  border-radius: 0 var(--radius-lg) var(--radius-lg) var(--radius-lg);
-  padding: 20px;
+  border-radius: 0 var(--radius-xl) var(--radius-xl) var(--radius-xl);
+  padding: 14px;
 }
+.doc-tabs-panel .panel--tile { border-radius: var(--radius-sm); }
 
 /* ── 57. SELECTOR DE ARCHIVO ─────────────────────────────────
    v1.2.8.50 — el DS no tenia regla para input[type="file"], asi que el

@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.58
+# YiQi Design System — Guía maestra v1.2.8.59
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -2740,5 +2740,31 @@ tenía resueltos y medidos.
 
 ---
 
-*YiQi ERP · Design System v1.2.8.58 · Última actualización: 08/10/2026*
+## 48. Pestañas de documento: forma y exceso *(v1.2.8.59)*
+
+**Forma.** `.doc-tab` de 30 px y 12 px. La primera pestaña va al ras del lienzo, que tiene el borde superior izquierdo siempre recto. La activa se une al lienzo con dos curvas hacia afuera de 10 px (la primera, solo la derecha). El hover de una inactiva es una píldora de 6 px que no toca el lienzo. Radios en escala: botones de la fila 6, pestaña 10, tarjeta dentro del lienzo 10, lienzo 24 con 14 de padding (concéntricos). El «+» va separado 14 px.
+
+**Exceso.** Con `.doc-tabs-scroll` adentro de `.doc-tabs`, solo scrollean las pestañas. Se encogen hasta 110 px (nombre con elipsis en `.doc-tab-name`) antes de scrollear; `.doc-tabs-add` y `.doc-tabs-more` quedan fijos a la derecha. Con mouse, la ✕ de las inactivas aparece con hover; en táctil, siempre.
+
+**Lo que hace la app** (el DS no trae JS para esto): contar las pestañas fuera de vista y escribir «N más» en `.doc-tabs-more` (oculto con `hidden` cuando es 0), abrir con él la lista de todos los tableros, y mantener la activa a la vista (`scrollIntoView({ inline: 'nearest' })`). Sin `title` en las pestañas salvo que el nombre esté cortado.
+
+```html
+<div class="doc-tabs" role="tablist">
+  <div class="doc-tabs-scroll">
+    <div class="doc-tab doc-tab--fija"><button class="doc-tab-name" role="tab">Inicio</button></div>
+    <div class="doc-tab is-active">
+      <button class="doc-tab-name" role="tab" aria-selected="true">Comercial</button>
+      <button class="btn-icon doc-tab-menu" aria-label="Acciones"><i class="ph ph-dots-three"></i></button>
+      <button class="btn-icon doc-tab-close" aria-label="Cerrar"><i class="ph ph-x"></i></button>
+    </div>
+  </div>
+  <button class="doc-tabs-more" hidden><i class="ph ph-caret-down"></i>4 más</button>
+  <button class="btn-icon doc-tabs-add" aria-label="Nuevo tablero"><i class="ph ph-plus"></i></button>
+</div>
+<div class="doc-tabs-panel">…</div>
+```
+
+---
+
+*YiQi ERP · Design System v1.2.8.59 · Última actualización: 08/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
