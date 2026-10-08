@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.56";
+  --ds-version: "1.2.8.57";
 
   /* Layout */
   --topbar-h:  56px;
@@ -1520,16 +1520,20 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
   display: flex;
   align-items: center;
   gap: 6px;
-  height: 100%;
+  /* v1.2.8.57: suelto es un control propio, 32 px y pildora entera. Antes asumia ser la mitad
+     derecha de .account-chip: radio solo a la derecha y alto heredado del contenedor, asi que fuera
+     del chip el hover ocupaba la topbar entera (56 px) con media pildora. Dentro del chip, ver abajo. */
+  height: 32px;
   padding: 0 12px;
   border: none;
-  border-radius: 0 var(--radius-pill) var(--radius-pill) 0;
+  border-radius: var(--radius-pill);
   background: none;
   color: var(--text);
   font: 600 12px var(--sans);
   cursor: pointer;
   transition: background 0.18s ease;
 }
+.account-chip .schema-toggle { height: 100%; border-radius: 0 var(--radius-pill) var(--radius-pill) 0; }
 
 .schema-toggle:hover { background: var(--bg-soft); }
 /* v1.2.8.52 — sin esto aparecia el contorno negro del navegador sobre el
@@ -3078,6 +3082,25 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
 
 /* Barra vertical: el item ocupa el ancho de la columna y alinea a la izquierda. */
 .sidebar .nav-link { width: 100%; min-height: 40px; text-align: left; }
+/* v1.2.8.57 — opcion de submenu: 30 px. El link base mide 40 y eso es para un item de primer nivel;
+   dentro de un modulo desplegado la lista se volvia interminable (19 opciones = 760 px). La jerarquia
+   la da la sangria y el gris, no una linea guia: el contenedor no lleva borde. */
+.nav-sublist { display: grid; gap: 0; padding: 2px 0 6px 28px; border: none; }
+.sidebar .nav-sublist .nav-link,
+.sidebar .nav-link--sub { min-height: 30px; padding: 5px 10px; font-size: 12px; color: var(--muted); }
+.sidebar .nav-sublist .nav-link:hover,
+.sidebar .nav-link--sub:hover { color: var(--text); }
+
+/* v1.2.8.57 — scroll del sidebar sin carril. El global pinta el carril con --bg y el sidebar es
+   --bg-elev-2: quedaba una franja oscura al costado del menu. Sin carril; pulgar fino que aparece
+   solo con el mouse sobre el menu; desvanecido de 24 px abajo como pista de que hay mas. */
+.sidebar, .sidebar > .nav { scrollbar-width: thin; scrollbar-color: transparent transparent; }
+.sidebar:hover, .sidebar:hover > .nav { scrollbar-color: color-mix(in srgb, var(--text) 22%, transparent) transparent; }
+.sidebar::-webkit-scrollbar, .sidebar > .nav::-webkit-scrollbar { width: 6px; }
+.sidebar::-webkit-scrollbar-track, .sidebar > .nav::-webkit-scrollbar-track { background: transparent; }
+.sidebar::-webkit-scrollbar-thumb, .sidebar > .nav::-webkit-scrollbar-thumb { background: transparent; border: 0; border-radius: var(--radius-pill); }
+.sidebar:hover::-webkit-scrollbar-thumb, .sidebar:hover > .nav::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--text) 22%, transparent); }
+.sidebar > .nav { -webkit-mask-image: linear-gradient(#000 calc(100% - 24px), transparent); mask-image: linear-gradient(#000 calc(100% - 24px), transparent); }
 .nav-link:hover { background: var(--bg-soft); color: var(--text); }
 /* v1.2.8.56: el activo pintaba el texto en --cyan: 2.6:1 sobre --bg claro para
    12.5px (piso 4.5). El estado lo marca el fondo tonal (§3); el texto queda en --text. */

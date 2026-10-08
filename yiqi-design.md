@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.56
+# YiQi Design System — Guía maestra v1.2.8.57
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -1374,7 +1374,6 @@ Reglas:
 
 | Ícono Phosphor | Módulo del ERP |
 |---|---|
-| `ph-house` | Inicio |
 | `ph-users-three` | Clientes y proveedores |
 | `ph-shopping-cart` | Ventas |
 | `ph-bag` | Compras |
@@ -2661,5 +2660,24 @@ quitar esa regla o el cambio no les llega.
 
 ---
 
-*YiQi ERP · Design System v1.2.8.56 · Última actualización: 08/10/2026*
+## 46. Menú lateral: submenú compacto, scroll sin carril y selector de esquema suelto *(v1.2.8.57)*
+
+**Submenú.** `.nav-sublist` (contenedor) o `.nav-link--sub` (link suelto): opción de 30 px, 12 px, `--muted` y `--text` al hover. Sangría de 28 px y **sin línea guía**. El `.sidebar .nav-link` base sigue en 40: es para el primer nivel.
+
+```html
+<div class="nav-sublist">
+  <a class="nav-link" href="…">Empresa</a>
+  <a class="nav-link" href="…">Contacto</a>
+</div>
+```
+
+**Scroll del sidebar.** Sin carril. El pulgar es fino y aparece solo con el mouse sobre el menú; abajo, un desvanecido de 24 px avisa que hay más. Antes el carril global (`--bg`) se veía como una franja oscura sobre el sidebar (`--bg-elev-2`).
+
+**`.schema-toggle` suelto.** Fuera de `.account-chip` mide 32 px y es píldora entera. Dentro del chip conserva la media píldora y el alto del chip.
+
+**Mapa de íconos (§9).** Sale Inicio: no es un módulo y no va en el menú. Al tablero se llega por el logo y por la pestaña Inicio.
+
+---
+
+*YiQi ERP · Design System v1.2.8.57 · Última actualización: 08/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
