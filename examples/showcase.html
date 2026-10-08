@@ -2786,6 +2786,30 @@
   <h2 class="sc-section-h">YiQi Frontend</h2>
   <p class="sc-section-sub">Las pantallas del ERP nuevo (<code>yiqisa/yiqi-frontend</code>) armadas con <code>styles.css</code> en vivo, con datos simulados. En construcci&oacute;n: se agregan de a una, aprobadas en HTML antes de entrar ac&aacute;.</p>
 </section>
+  <div class="sc-grid" style="columns:1">
+    <article class="sc-card" id="card-erp-inicio">
+      <div class="sc-card-h"><span class="sc-card-title">Tablero Inicio</span><a class="ds-xref" href="erp-inicio.html" target="_blank" rel="noopener"><i class="ph ph-arrow-square-out"></i> Abrir</a></div>
+      <p class="sc-card-sub">La primera pantalla del ERP, armada solo con clases de <code class="sc-mono">styles.css</code> en vivo (<code class="sc-mono">erp-inicio.html</code>, sin CSS propio). Lo que el sistema todavía no tiene no aparece.</p>
+      <style>
+        /* Cromo de la documentacion, no del Design System. */
+        #sc-erp-inicio .sc-erp-frame{ border-radius:var(--radius-md); overflow:hidden; box-shadow:0 0 0 1px var(--line-strong); background:var(--bg); }
+        #sc-erp-inicio .sc-erp-frame iframe{ width:100%; height:760px; border:0; display:block; }
+        #sc-erp-inicio .ph-h{ font:600 12px var(--sans); color:var(--text); margin:18px 0 9px; }
+        #sc-erp-inicio .phone{ position:relative; width:414px; max-width:100%; padding:12px; border-radius:48px; background:var(--bg-elev-2); box-shadow:0 0 0 1px var(--line-strong), 0 18px 40px rgba(0,0,0,.28); }
+        #sc-erp-inicio .screen{ position:relative; border-radius:37px; overflow:hidden; isolation:isolate; background:var(--bg); }
+        #sc-erp-inicio .phone iframe{ width:100%; aspect-ratio:390/844; height:auto; border:0; display:block; border-radius:37px; }
+      </style>
+      <div id="sc-erp-inicio">
+        <div class="ph-h" style="margin-top:0">Escritorio · claro</div>
+        <div class="sc-erp-frame"><iframe src="erp-inicio.html?theme=light" title="Tablero Inicio del ERP, tema claro" loading="lazy"></iframe></div>
+        <div class="ph-h">Escritorio · oscuro</div>
+        <div class="sc-erp-frame"><iframe src="erp-inicio.html?theme=dark" title="Tablero Inicio del ERP, tema oscuro" loading="lazy"></iframe></div>
+        <div class="ph-h">Celular</div>
+        <div class="phone"><div class="screen"><iframe src="erp-inicio.html" title="Tablero Inicio del ERP en celular" loading="lazy"></iframe></div></div>
+      </div>
+    </article>
+  </div>
+
 </div>
 
 <!-- v1.2.8.3: este panel estaba ANTES del <header>, dentro del <head>.
