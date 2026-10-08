@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.55
+# YiQi Design System — Guía maestra v1.2.8.56
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -1370,17 +1370,28 @@ Reglas:
 <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
 ```
 
-| Ícono Phosphor | Módulo |
+**Mapa módulo → ícono** *(canónico desde v1.2.8.56, ver §45)*. Un ícono por módulo del ERP, el mismo en el riel, en el menú expandido, en la navegación móvil y en cualquier lista de módulos. Un módulo que no esté en la tabla usa la reserva y muestra su nombre completo en el tooltip.
+
+| Ícono Phosphor | Módulo del ERP |
 |---|---|
-| `ph-house` | Inicio / Dashboard |
-| `ph-chart-line-up` | Reportes / Analytics |
-| `ph-shopping-cart` | Compras |
-| `ph-package` | Inventario |
-| `ph-receipt` | Facturación |
-| `ph-users` | CRM / Clientes |
-| `ph-gear-six` | Configuración |
-| `ph-bell` | Notificaciones |
-| `ph-magnifying-glass` | Búsqueda |
+| `ph-house` | Inicio |
+| `ph-users-three` | Clientes y proveedores |
+| `ph-shopping-cart` | Ventas |
+| `ph-bag` | Compras |
+| `ph-package` | Stock |
+| `ph-bank` | Finanzas |
+| `ph-calculator` | Contabilidad |
+| `ph-handshake` | Comercial / CRM |
+| `ph-kanban` | Gestión |
+| `ph-identification-badge` | RRHH |
+| `ph-factory` | Producción |
+| `ph-seal-check` | Calidad |
+| `ph-cash-register` | POS |
+| `ph-book-open` | Editorial |
+| `ph-sliders-horizontal` | Parámetros |
+| `ph-shield-check` | Seguridad |
+| `ph-wrench` | YiQi Services |
+| `ph-squares-four` | Reserva (módulo sin ícono) |
 
 ---
 
@@ -2628,5 +2639,27 @@ quitar esa regla o el cambio no les llega.
 
 ---
 
-*YiQi ERP · Design System v1.2.8.55 · Última actualización: 02/10/2026*
+## 45. Íconos por módulo y estado activo del menú *(v1.2.8.56)*
+
+**Qué se veía.** El riel del frontend del ERP mostraba las dos primeras letras de cada módulo (CP, RR, CC, PA, CA): una sigla no se reconoce sin aprender la lista y dos módulos pueden compartir letras. Y el ítem activo del menú (`.nav-link.is-active`) pintaba el texto en `--cyan`: **2.6:1** sobre `--bg` claro para 12.5 px, con un piso de 4.5:1.
+
+**Qué cambia.**
+
+1. **Mapa módulo → ícono**, en §9. Dieciséis módulos del ERP (los de `Modulos-y-entidades-del-ERP.md`) más Inicio y una reserva (`ph-squares-four`) para cualquier módulo que un esquema agregue. El mapa es del sistema: el frontend lo consume, no lo escribe. La tabla anterior de §9 era genérica (Inventario, Facturación, CRM) y contradecía al catálogo (Compras: `shopping-cart` en la guía, `Bag` en el catálogo); queda una sola.
+2. **`.nav-link.is-active` pasa a `color: var(--text)`**, ícono incluido. El estado lo marca el fondo `--cyan-soft`, no el trazo (§3, borderless: el color va en el fondo). Si una app necesita cyan como texto sobre fondo claro, es un token nuevo, no `--cyan`.
+
+**Qué no cambia.** Las medidas del ítem: `.sidebar .nav-link` sigue en 40 px mínimo y 12.5 px. El riel colapsado (`.nav-collapsed`), el tooltip por `title` y la persistencia `yiqi-nav-collapsed`.
+
+**Markup del riel**
+
+```html
+<a class="nav-link is-active" href="/app/ventas" title="Ventas">
+  <span class="n-ico"><i class="ph ph-shopping-cart"></i></span>
+  <span class="nav-lbl-text">Ventas</span>
+</a>
+```
+
+---
+
+*YiQi ERP · Design System v1.2.8.56 · Última actualización: 08/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*

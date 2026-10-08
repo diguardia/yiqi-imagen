@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.55";
+  --ds-version: "1.2.8.56";
 
   /* Layout */
   --topbar-h:  56px;
@@ -3079,10 +3079,12 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
 /* Barra vertical: el item ocupa el ancho de la columna y alinea a la izquierda. */
 .sidebar .nav-link { width: 100%; min-height: 40px; text-align: left; }
 .nav-link:hover { background: var(--bg-soft); color: var(--text); }
-.nav-link.is-active { background: var(--cyan-soft); color: var(--cyan); }
+/* v1.2.8.56: el activo pintaba el texto en --cyan: 2.6:1 sobre --bg claro para
+   12.5px (piso 4.5). El estado lo marca el fondo tonal (§3); el texto queda en --text. */
+.nav-link.is-active { background: var(--cyan-soft); color: var(--text); }
 .n-ico { display: grid; width: 26px; height: 26px; flex-shrink: 0; place-items: center; border-radius: var(--radius-xs); background: transparent; color: var(--muted); transition: background 0.18s ease, color 0.18s ease; }
 .nav-link:hover .n-ico { color: var(--text); }
-.nav-link.is-active .n-ico { background: transparent; color: var(--cyan); }
+.nav-link.is-active .n-ico { background: transparent; color: var(--text); }
 .n-ico svg { width: 13px; height: 13px; }
 
 /* ── Sidebar colapsable (rail) — capa opcional sobre .app-shell + .sidebar ──
