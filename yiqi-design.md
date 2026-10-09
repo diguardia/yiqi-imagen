@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.76
+# YiQi Design System — Guía maestra v1.2.8.77
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -540,6 +540,18 @@ columnas solas: el formulario de un pedido pasa de 4 a 5 o 6 columnas y scrollea
 El tope de 1200 queda para las páginas de lectura (documentación, informes, ayuda), donde
 se pensó. Hasta la .68 la guía no lo decía y cada app lo decidía pantalla por pantalla: en
 me2, la ficha y el formulario quedaban en 1200 con la mitad del monitor vacía.
+
+**Tres anchos, según qué es la pantalla** *(v1.2.8.77)*:
+
+| Pantalla | Clase | Ancho |
+|---|---|---|
+| Trabajo: tablero, listas, ficha, edición, alta | `.content.is-full` | todo |
+| Lectura: documentación, informes, ayuda | `.content` | 1200 (`--content-max`) |
+| Configuración: Preferencias y similares | `.content.is-narrow` | 720 (`--content-narrow`) |
+
+La decide el tipo de pantalla, no la forma de la URL: en me2, `/app/preferencias` caía en
+la regla de las listas (`/app/{entidad}`) y el panel medía 1.900 px para un formulario de
+380.
 
 **`.ds-note` recibe `max-width: 64ch`** en la misma versión, para alinearlo con
 `.panel-description`. Hacen el mismo trabajo —bloque de texto explicativo dentro
@@ -2982,5 +2994,5 @@ funciona bien en el celular. Su idioma lo pone el navegador, no la página.
 
 ---
 
-*YiQi ERP · Design System v1.2.8.76 · Última actualización: 09/10/2026*
+*YiQi ERP · Design System v1.2.8.77 · Última actualización: 09/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*

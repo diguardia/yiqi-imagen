@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.76";
+  --ds-version: "1.2.8.77";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -199,6 +199,8 @@
      .kpi-grid a 273px y 3 de .dashboard-grid a 368px; con 1400 entra una columna
      mas en cada una pero cada card cae al piso de su minmax. */
   --content-max: 1200px;
+  /* v1.2.8.77 — ancho de las paginas de configuracion (.content.is-narrow). */
+  --content-narrow: 720px;
   /* Radios */
   --radius-xs:   6px;
   --radius-sm:   10px;
@@ -606,6 +608,10 @@ html[data-theme="light"] .brand-logo-light { display: block; }
    v1.2.8.69: en una app de datos la usan el tablero, las listas, la ficha,
    la edicion y el alta. El tope de 1200 queda para paginas de lectura. */
 .content.is-full { max-width: none; }
+/* v1.2.8.77 — configuracion (Preferencias y las que vengan): un formulario de
+   pocos campos en una columna. A todo el ancho el panel medía 1.900 px para
+   un formulario de 380; en 1200 seguia sobrando la mitad. */
+.content.is-narrow { max-width: var(--content-narrow); }
 
 /* ── 10. KICKERS & LABELS ─────────────────────────────────── */
 .brand-kicker,
