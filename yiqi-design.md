@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.64
+# YiQi Design System — Guía maestra v1.2.8.65
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -2602,6 +2602,9 @@ Los botones van **después** del input en el markup; el CSS los ubica desde la d
 (`:nth-last-child`). Se eligió entre tres: al lado partía en tres cajas lo que es una cosa;
 el grupo pegado metía un borde interno, la única línea del formulario.
 
+**También con `.ds-select`** *(desde v1.2.8.65)*: el desplegable reserva 64 / 96 px y corre su flecha
+a la izquierda de los botones. Antes la flecha quedaba debajo; el frontend lo parcheaba en local.
+
 ---
 
 ## 44. Diálogo en oscuro: velo y superficie *(cambio en v1.2.8.55)*
@@ -2802,5 +2805,5 @@ panel en dos aunque el formulario entrara entero en pantalla.
 
 ---
 
-*YiQi ERP · Design System v1.2.8.64 · Última actualización: 09/10/2026*
+*YiQi ERP · Design System v1.2.8.65 · Última actualización: 09/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*

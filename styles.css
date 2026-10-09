@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.64";
+  --ds-version: "1.2.8.65";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -2575,6 +2575,13 @@ html[data-theme="light"] .skeleton-line {
 .ds-input-action { position: relative; }
 .ds-input-action .ds-input { padding-right: 40px; }
 .ds-input-action.has-2 .ds-input { padding-right: 72px; }
+/* v1.2.8.65 — un campo de referencia tambien puede ser un desplegable. El
+   .ds-select no reservaba lugar: su flecha (right 12px) quedaba debajo de los
+   botones. Se reserva el ancho de los botones mas la flecha, y la flecha se
+   corre a su izquierda. El frontend del ERP lo tenia parcheado en local
+   (globals.css, "DESVIO DEL DS") con estos mismos valores. */
+.ds-input-action .ds-select { padding-right: 64px; background-position: right 42px center; }
+.ds-input-action.has-2 .ds-select { padding-right: 96px; background-position: right 74px center; }
 .ds-input-btn {
   position: absolute; top: 50%; transform: translateY(-50%);
   display: grid; place-items: center; width: 30px; height: 30px;
