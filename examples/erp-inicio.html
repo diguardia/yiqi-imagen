@@ -45,7 +45,7 @@
     </div>
   </nav>
 
-  <main class="content is-full">
+  <main class="content is-full is-tablero">
     <section aria-label="Tableros">
       <div class="doc-tabs" role="tablist">
         <div class="doc-tabs-scroll">
@@ -62,30 +62,25 @@
         <button class="btn-icon btn-icon-sm doc-tabs-add" type="button" aria-label="Nuevo tablero"><i class="ph ph-plus"></i></button>
       </div>
       <div class="doc-tabs-panel" role="tabpanel">
-        <div class="kpi-grid">
+        <div class="tile-grid">
           <section class="panel panel--tile">
-            <p class="card-kicker">Favoritos</p>
-            <table class="data-table data-table--compact">
-              <tbody>
-                <tr><td>Empresa</td><td>Clientes y proveedores</td></tr>
-                <tr><td>Contacto</td><td>Clientes y proveedores</td></tr>
-                <tr><td>Oportunidad de Negocio</td><td>Comercial/CRM</td></tr>
-              </tbody>
-            </table>
+            <div class="tile-head"><p class="card-kicker">Favoritos</p></div>
+            <div class="tile-list">
+              <a class="tile-row is-fav" href="#"><i class="ph ph-star"></i>Empresa<small>Clientes y proveedores</small></a>
+              <a class="tile-row is-fav" href="#"><i class="ph ph-star"></i>Contacto<small>Clientes y proveedores</small></a>
+              <a class="tile-row is-fav" href="#"><i class="ph ph-star"></i>Oportunidad de Negocio<small>Comercial/CRM</small></a>
+            </div>
           </section>
           <section class="panel panel--tile">
-            <p class="card-kicker">Novedades del producto</p>
-            <table class="data-table data-table--compact">
-              <tbody>
-                <tr><td class="mono-cell">14/09</td><td>Carga automática de percepciones recibidas</td></tr>
-                <tr><td class="mono-cell">25/08</td><td>Apertura temporal del período contable</td></tr>
-                <tr><td class="mono-cell">23/08</td><td>Precio por variante en Mercado Libre</td></tr>
-              </tbody>
-            </table>
-            <a class="ds-xref" href="https://www.yiqi.com.ar/novedades.html" target="_blank" rel="noopener">Ver todas</a>
+            <div class="tile-head"><p class="card-kicker">Novedades del producto</p><a class="ds-xref" href="https://www.yiqi.com.ar/novedades.html" target="_blank" rel="noopener">Ver todas</a></div>
+            <div class="tile-list">
+              <div class="tile-row tile-row--dated"><time>14/09</time><b>Carga automática de percepciones recibidas</b><small>Contabilidad · la factura de compra genera las percepciones con las alícuotas del proveedor.</small></div>
+              <div class="tile-row tile-row--dated"><time>25/08</time><b>Apertura temporal del período contable</b><small>Contabilidad · abre un período bloqueado para hacer ajustes sin perder el control.</small></div>
+              <div class="tile-row tile-row--dated"><time>23/08</time><b>Precio por variante en Mercado Libre</b><small>Ventas · cada variante de un artículo puede tener su propio precio.</small></div>
+            </div>
           </section>
           <section class="panel panel--tile">
-            <p class="card-kicker">Alertas</p>
+            <div class="tile-head"><p class="card-kicker">Alertas</p></div>
             <div class="empty-state" data-kind="neutral"><span class="empty-state-ico" aria-hidden="true"><i class="ph ph-bell"></i></span><p class="empty-state-msg">No hay alertas activas.</p></div>
           </section>
         </div>

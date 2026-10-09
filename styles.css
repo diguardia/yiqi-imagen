@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.60";
+  --ds-version: "1.2.8.61";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -4897,3 +4897,52 @@ html[data-theme="light"] .fondo-horizonte { opacity: .38; }
 .ds-chain-node.is-warn { background: var(--amber-soft); }
 .ds-chain-node.is-off { opacity: .6; }
 .ds-chain-arrow { align-self: center; color: var(--muted); }
+
+/* ── v1.2.8.61 · Tablero Inicio: lo que faltaba para armarlo solo con el sistema ──────────────
+   Medido en examples/erp-inicio.html, una pantalla sin CSS propio: los iconos del riel salian a
+   tamano de texto, las listas de las tarjetas no tenian componente (una tabla se salia de la
+   tarjeta) y la x oculta de las pestanas inactivas seguia ocupando lugar. */
+
+/* Iconos de Phosphor en el menu: 17 en el menu abierto, 18 en el riel (§77). Antes solo se
+   dimensionaba el svg y el <i class="ph"> heredaba el tamano del texto. */
+.n-ico .ph { font-size: 17px; line-height: 1; }
+.app-shell.nav-collapsed .n-ico .ph { font-size: 18px; }
+
+/* Pestana inactiva: la x aparece sobre el final del nombre con el hover y no reserva lugar.
+   Con opacity 0 seguia ocupando 20 px y las pestanas quedaban con huecos distintos. */
+@media (hover: hover) {
+  .doc-tab:not(.is-active):not(.doc-tab--fija) { padding-right: 12px; }
+  .doc-tab:not(.is-active) .doc-tab-close { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); }
+  .doc-tab:not(.is-active):hover .doc-tab-close { background: var(--bg-soft); }
+}
+
+/* En el tablero las pestanas cuelgan de la topbar: 8 arriba y 16 a los costados. */
+.content.is-tablero { padding: 8px 16px calc(var(--statusbar-h) + 24px); }
+
+/* Grilla de tarjetas del tablero: las que entren, minimo 280. */
+.tile-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; align-items: start; }
+
+/* Cabecera de tarjeta: kicker a la izquierda, accion a la derecha. */
+.tile-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 26px; }
+.tile-head .card-kicker { margin: 0; }
+
+/* Lista de tarjeta: favoritos, novedades, recientes. Fila con icono o fecha, titulo y una linea. */
+.tile-list { display: grid; gap: 2px; margin: 0; padding: 0; list-style: none; }
+.tile-row { display: grid; grid-template-columns: 18px minmax(0, 1fr); column-gap: 8px; align-items: center;
+  padding: 7px 8px; border-radius: var(--radius-xs); color: var(--text); text-decoration: none; font: 500 13px/1.35 var(--sans); }
+a.tile-row:hover { background: var(--bg-soft); }
+.tile-row > .ph { grid-row: span 2; font-size: 14px; color: var(--muted); }
+.tile-row.is-fav > .ph { color: var(--amber); }
+.tile-row small { grid-column: 2; font: 400 12px/1.45 var(--sans); color: var(--muted); }
+.tile-row--dated { grid-template-columns: 42px minmax(0, 1fr); align-items: start; }
+.tile-row--dated time { grid-row: span 2; padding-top: 2px; font: 600 11px var(--mono); color: var(--muted-2); font-variant-numeric: tabular-nums; }
+.tile-row--dated b { font-weight: 600; }
+
+/* La topbar no traia margen lateral: el logo quedaba a 8 px del borde y «Cerrar sesion» pegado al otro.
+   Cada app lo escribia a mano (14 o 16). Queda 16, el mismo margen del contenido en celular. */
+.topbar { padding-inline: 16px; }
+
+/* Pestanas que se encogen: el piso pasa de 110 px fijos a 7 caracteres de nombre. Con 110 de minimo,
+   una pestana corta («Stock») media 110 aunque no hiciera falta, y la fila quedaba con huecos. */
+.doc-tabs-scroll .doc-tab { min-width: 0; }
+.doc-tabs-scroll .doc-tab-name { min-width: 7ch; }

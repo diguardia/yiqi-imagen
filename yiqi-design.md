@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.60
+# YiQi Design System — Guía maestra v1.2.8.61
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -2774,5 +2774,18 @@ Las apps que usan los tokens se ajustan solas (revisado en `informes-yiqi/comerc
 
 ---
 
-*YiQi ERP · Design System v1.2.8.60 · Última actualización: 08/10/2026*
+## 50. Tablero Inicio solo con el sistema *(v1.2.8.61)*
+
+Armado en `examples/erp-inicio.html` sin CSS propio, el tablero Inicio mostró seis faltantes:
+
+- Íconos de Phosphor en el menú: `.n-ico .ph` a 17 px, 18 en el riel. Antes heredaban el tamaño del texto.
+- Pestaña inactiva: la ✕ aparece sobre el final del nombre al pasar el mouse y no reserva lugar.
+- `.content.is-tablero`: 8 px arriba y 16 a los costados, para que las pestañas cuelguen de la topbar.
+- `.topbar` con 16 px a los costados: el logo quedaba a 8 px del borde y cada app lo escribía a mano.
+- Pestañas que se encogen: el piso pasa de 110 px fijos a 7 caracteres de nombre. Una pestaña corta medía 110 aunque no hiciera falta.
+- Tarjetas de lista: `.tile-grid`, `.tile-head`, `.tile-list` y `.tile-row` (con `.is-fav` y `--dated`). Sirven para favoritos, novedades y recientes; una tabla dentro de la tarjeta se salía.
+
+---
+
+*YiQi ERP · Design System v1.2.8.61 · Última actualización: 08/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
