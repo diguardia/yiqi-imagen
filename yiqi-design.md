@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.77
+# YiQi Design System — Guía maestra v1.2.8.78
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -2994,5 +2994,67 @@ funciona bien en el celular. Su idioma lo pone el navegador, no la página.
 
 ---
 
-*YiQi ERP · Design System v1.2.8.77 · Última actualización: 09/10/2026*
+## 58. Pestañas planas que saltan de renglón y filas del cajón *(v1.2.8.78)*
+
+**`.pr-tabbar--flat` salta de renglón en escritorio.** No lo hacía: las 19 pestañas de una
+ficha se salían del panel y el frontend lo resolvía con un ajuste local. En el celular
+sigue en una sola fila que se desliza (v1.2.8.75).
+
+**En el celular la lista no lleva panel.** Debajo de 720 px, el `.panel` que contiene una
+`.ds-cardlist` pierde fondo, margen y radio: las tarjetas (blancas en claro) iban sobre el
+panel casi blanco con contraste 1,04. Sobre `--bg` se distinguen, y la lista gana 28 px
+de ancho. Lo hace el DS solo.
+
+**Topbar del celular:** la hamburguesa sola a la derecha; las alarmas y la campana al
+centro (`.topbar-c`), a la vista: un aviso que pide atención no se esconde detrás del menú.
+La cuenta no va en la topbar: es la primera fila del cajón (`.nav-link` con el avatar y el
+nombre), que abre idioma, tema, Preferencias y cerrar sesión.
+
+**Ordenar la lista en tarjetas: `.ds-cardlist-sort`.** Con tarjetas no hay encabezado de
+tabla para tocar. Un botón de ícono junto al buscador abre un `.pr-menu` con las columnas
+de la vista y el sentido, marcados con `aria-checked`. Solo aparece a 720 px o menos. Se
+eligió el ícono y no una fila «Ordenar por» para no gastar una fila en algo que se usa
+poco. Suma `.pr-menu--end` (menú alineado a la derecha del botón) y `.pr-menu-label`.
+
+```html
+<div class="list-toolbar">
+  <input class="ds-input" placeholder="Buscar…">
+  <div class="pr-pop-wrap ds-cardlist-sort">
+    <button class="btn-icon" type="button" aria-label="Ordenar" aria-haspopup="menu" data-pr-menu>
+      <i class="ph ph-sort-descending" aria-hidden="true"></i>
+    </button>
+    <div class="pr-menu pr-menu--end" role="menu">
+      <p class="pr-menu-label">Ordenar por</p>
+      <button class="pr-menu-item" role="menuitemradio" aria-checked="true">Fecha de creación <i class="ph ph-check"></i></button>
+      <button class="pr-menu-item" role="menuitemradio" aria-checked="false">Nombre <i class="ph ph-check"></i></button>
+      <button class="pr-menu-item" role="menuitemradio" aria-checked="false">Cliente <i class="ph ph-check"></i></button>
+      <div class="pr-menu-sep"></div>
+      <button class="pr-menu-item" role="menuitemradio" aria-checked="false">Ascendente <i class="ph ph-check"></i></button>
+      <button class="pr-menu-item" role="menuitemradio" aria-checked="true">Descendente <i class="ph ph-check"></i></button>
+    </div>
+  </div>
+</div>
+```
+
+**Filas del cajón con `.nav-link`.** Esquema, YiQi Bot, Favoritos y Ayuda son
+`.nav-link` (también como `<button>`) con su `.n-ico`. Lo que va a la derecha —el esquema
+elegido, «BETA»— va en **`.nav-link-end`**: empujado al borde, en mono y
+`--muted-2`.
+
+```html
+<button class="nav-link" type="button">
+  <span class="n-ico"><i class="ph ph-buildings" aria-hidden="true"></i></span>
+  Esquema
+  <span class="nav-link-end">YiQi <i class="ph ph-caret-down" aria-hidden="true"></i></span>
+</button>
+<button class="nav-link" type="button">
+  <span class="n-ico"><i class="ph ph-chat-circle" aria-hidden="true"></i></span>
+  YiQi Bot
+  <span class="nav-link-end"><span class="badge">Beta</span></span>
+</button>
+```
+
+---
+
+*YiQi ERP · Design System v1.2.8.78 · Última actualización: 09/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*

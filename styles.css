@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.77";
+  --ds-version: "1.2.8.78";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -3164,6 +3164,12 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
 .nav-link:hover .n-ico { color: var(--text); }
 .nav-link.is-active .n-ico { background: transparent; color: var(--text); }
 .n-ico svg { width: 13px; height: 13px; }
+/* v1.2.8.78 — lo que va a la derecha de un .nav-link: el esquema elegido con su
+   flecha, una etiqueta BETA. El cajon del celular arma con
+   .nav-link las filas de Esquema, YiQi Bot, Favoritos y Ayuda, y no
+   tenia donde poner ese dato. */
+.nav-link-end { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; font: 500 11px var(--mono); color: var(--muted-2); }
+.nav-link-end .badge { font-family: var(--mono); }
 
 /* ── Sidebar colapsable (rail) — capa opcional sobre .app-shell + .sidebar ──
    Toggle .sidebar-collapse (pie) → estado .app-shell.nav-collapsed.
@@ -3342,7 +3348,7 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
 .pr-tabbtn:focus-visible{ outline: 2px solid var(--cyan-night); outline-offset: -2px; }
 .pr-tabpanel{ margin-top:14px; font:400 12.5px/1.6 var(--sans); color:var(--muted); text-align:center; }
 /* Variante plana — estilo Nav item: sin track segmentado, radius-sm, plano */
-.pr-tabbar--flat{ background:transparent; padding:0; gap:4px; border-radius:0; }
+.pr-tabbar--flat{ background:transparent; padding:0; gap:4px; border-radius:0; flex-wrap:wrap; max-width:100%; }  /* v1.2.8.78: en escritorio salta de renglon (las 19 pestanas de una ficha se salian del panel); en el celular va en una fila que se desliza (v1.2.8.75) */
 .pr-tabbar--flat .pr-tabbtn{ border-radius:var(--radius-sm); padding:8px 12px; }
 /* ── Dropdown / Popover (primitivos) — fuente canónica ── */
 .pr-pop-wrap{ position:relative; }
@@ -5182,6 +5188,38 @@ a.tile-row:hover { background: var(--bg-soft); }
 @media (hover: none) and (pointer: coarse) {
   .ds-input-shortcut { display: none; }
 }
+
+/* ── 67. ORDENAR LA LISTA EN TARJETAS (v1.2.8.78) ──
+   Con .ds-cardlist no hay encabezado de tabla para tocar, y en el celular no
+   habia forma de cambiar el orden. Un boton de icono junto al buscador abre
+   un .pr-menu con las columnas de la vista y el sentido; la eleccion se marca
+   con aria-checked. Solo aparece a 720 px o menos: en escritorio se ordena
+   desde el encabezado de la tabla. Se eligio el icono y no una fila
+   "Ordenar por" para no gastar una fila en algo que se usa poco. */
+/* En el celular la lista no lleva panel: las tarjetas (--tile-bg, blanco en
+   claro) iban sobre el panel (--card-bg, casi blanco) con contraste 1.04 y no
+   se distinguian. Sin panel quedan sobre --bg y la lista gana 28 px de ancho
+   (330 -> 358 a 390 px). El tema claro pinta el panel con una regla propia,
+   mas fuerte: por eso va repetido con html[data-theme="light"]. */
+@media (max-width: 720px) {
+  .panel:has(.ds-cardlist),
+  html[data-theme="light"] .panel:has(.ds-cardlist) {
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
+.ds-cardlist-sort { display: none; }
+@media (max-width: 720px) {
+  .ds-cardlist-sort { display: inline-flex; flex-shrink: 0; }
+}
+.pr-menu--end { left: auto; right: 0; }
+.pr-menu-label { padding: 6px 10px 4px; font: 600 10px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted-2); }
+.pr-menu-item[aria-checked] .ph-check { visibility: hidden; margin-left: auto; color: var(--cyan); }
+.pr-menu-item[aria-checked="true"] { font-weight: 600; }
+.pr-menu-item[aria-checked="true"] .ph-check { visibility: visible; }
+
 
 
 
