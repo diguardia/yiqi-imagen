@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.61
+# YiQi Design System — Guía maestra v1.2.8.62
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -433,33 +433,20 @@ Usar en: subtítulos, estado activo de módulos, labels secundarios con acento c
 
 ---
 
-## 5. Fondo de pantalla *(actualizado en v1.2.5)*
+## 5. Fondo de pantalla *(corregido en v1.2.8.62)*
 
-Dos variantes según el contexto del entregable:
-
-| Variante | Cuándo usarla |
+| Dónde | Fondo |
 |---|---|
-| **Solo radiales** | Dashboard, informe, panel gerencial — cualquier app funcional |
-| **Radiales + grilla** | Landing, propuesta comercial (leads), sitio web (www.yiqi.com.ar) |
+| **Apps** — ERP, dashboards, informes, paneles | **Plano:** `body { background: var(--bg) }`. Lo pone `styles.css`; la app no escribe fondo. |
+| **Website** — landing, leads, www.yiqi.com.ar | Radiales + grilla (abajo). Es de la website, no del DS. |
 
-### Variante A — Solo radiales (dashboards e informes)
+**Por qué cambió.** Hasta v1.2.8.61 esta sección y `execution.md` §7 decían "solo radiales"
+para dashboards, con los rgba escritos a mano, mientras `styles.css` ponía el fondo plano
+("el glow radial vive solo en la website"). El frontend del ERP copió las radiales en
+`styles/yiqi-app-shell.css`. Decidido el 09/10/2026: **plano en apps**. Una app con
+`body { background }` propio está parcheando en local.
 
-```css
-body {
-  background:
-    radial-gradient(circle at 72% 8%,  rgba(0,204,255,.07), transparent 28%),
-    radial-gradient(circle at 12% 60%, rgba(0,204,255,.04), transparent 22%),
-    var(--bg);
-}
-html[data-theme="light"] body {
-  background:
-    radial-gradient(circle at 72% 8%,  rgba(0,159,199,.06), transparent 28%),
-    radial-gradient(circle at 12% 60%, rgba(0,159,199,.04), transparent 22%),
-    var(--bg);
-}
-```
-
-### Variante B — Radiales + grilla (landing, leads, web)
+### Website — radiales + grilla
 
 ```css
 body {
@@ -1495,7 +1482,7 @@ applyTheme(resolveTheme());
 1. **Tokens siempre** — nunca hardcodear colores (`background: #000`, `fill="#17191c"`, etc.)
 2. **Logo SVG inline** — nunca `<img>`. Símbolo Q adaptado por tema vía `var(--cyan)`.
 3. **Borderless philosophy** — elementos de display sin borde; profundidad con `box-shadow: var(--shadow-sm)`. Excepción: inputs, selects, textareas, switches, checkboxes.
-4. **Fondo sin grilla** — solo 2 radiales cyan. Sin `background-size` de grilla.
+4. **Fondo plano en apps** — `var(--bg)` de `styles.css`; sin radiales ni grilla. Radiales y grilla solo en la website (§5).
 5. **`data-theme="system"` como default** — nunca `"dark"` ni `"light"` hardcodeado.
 6. **Toggle 3 pasos** — `setTheme(v)` con `"dark" | "system" | "light"`. No `toggleTheme()`.
 7. **`--text-cyan-muted`** — para estados activos y labels con acento. Nunca `var(--cyan)` directo en texto de estado.
@@ -2787,5 +2774,5 @@ Armado en `examples/erp-inicio.html` sin CSS propio, el tablero Inicio mostró s
 
 ---
 
-*YiQi ERP · Design System v1.2.8.61 · Última actualización: 08/10/2026*
+*YiQi ERP · Design System v1.2.8.62 · Última actualización: 09/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*

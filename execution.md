@@ -41,7 +41,7 @@ Vas a actuar como un experto en UI implementando estrictamente el YiQi Design Sy
 - Spacing múltiplos de 4
 - **Filosofía borderless:** cards, panels, KPIs, badges y tags sin `border` — profundidad solo con `box-shadow: var(--shadow-sm)`
 - **Excepción borderless:** inputs, selects, textareas y checkboxes sí llevan `border: 1px solid var(--line)`
-- **Fondo sin grilla** — solo 2 radiales cyan + `var(--bg)`. Sin `background-size` de grid
+- **Fondo plano en apps** — `body { background: var(--bg) }` lo pone `styles.css`; no se escribe fondo. Radiales y grilla solo en la website
 - `data-theme="system"` en `<html>` — nunca "dark" ni "light" hardcodeado
 - Toggle 3 pasos: Oscuro / Sistema / Claro — usar `setTheme(v)`, no `toggleTheme()`
 - Responsive obligatorio (≤ 980px)
@@ -198,25 +198,15 @@ img, svg { max-width: 100%; }
 
 ## 7 · Fondo de pantalla
 
-Elegir variante según el contexto del entregable:
+**Apps (ERP, dashboards, informes, paneles): fondo plano, y no se escribe.** `styles.css`
+ya pone `body { background: var(--bg) }`; adapta por tema. Un `body { background }` propio
+en la app es un parche local: si hace falta otra cosa, se agrega al DS.
 
-**Dashboards, informes, panel gerencial — solo radiales:**
-```css
-body {
-  background:
-    radial-gradient(circle at 72% 8%, rgba(0,204,255,.07), transparent 28%),
-    radial-gradient(circle at 12% 60%, rgba(0,204,255,.04), transparent 22%),
-    var(--bg);
-}
-html[data-theme="light"] body {
-  background:
-    radial-gradient(circle at 72% 8%, rgba(0,159,199,.06), transparent 28%),
-    radial-gradient(circle at 12% 60%, rgba(0,159,199,.04), transparent 22%),
-    var(--bg);
-}
-```
+> v1.2.8.62 — esta sección decía "solo radiales" para dashboards, con los rgba a mano,
+> mientras `styles.css` ponía el fondo plano. El frontend del ERP copió las radiales
+> (`styles/yiqi-app-shell.css`). Decidido el 09/10/2026: plano.
 
-**Landing, leads, sitio web — radiales + grilla:**
+**Landing, leads, sitio web — radiales + grilla** (solo la website; no es del DS):
 ```css
 body {
   background:
