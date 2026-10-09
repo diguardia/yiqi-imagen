@@ -22,6 +22,10 @@ body.m-b .drawer,body.m-d .drawer{display:none}
 body.m-c .drawer{transform:none;clip-path:inset(0 0 0 100%);visibility:hidden}
 .wide{display:none;width:700px;height:40px;background:#1e222a;border-radius:10px;margin:0 0 14px}
 body.m-d .wide{display:block}
+body.m-e .drawer,body.m-f .drawer{display:none}
+.abs{display:none;position:absolute;top:420px;left:16px;width:700px;height:40px;background:#3a2a12;border-radius:10px}
+body.m-e .abs,body.m-f .abs{display:block}
+body.m-f{position:relative}
 </style>
 </head>
 <body class="m-a">
@@ -33,12 +37,15 @@ body.m-d .wide{display:block}
     <button data-m="m-b">B · Sin menú</button>
     <button data-m="m-c">C · Menú recortado (propuesta)</button>
     <button data-m="m-d">D · Sin menú y con un bloque más ancho que la pantalla</button>
+    <button data-m="m-e">E · Bloque suelto más ancho (como un popover)</button>
+    <button data-m="m-f">F · Igual que E, con el arreglo propuesto</button>
   </div>
   <p class="st" id="st"></p>
   <div class="wide"></div>
   <div class="fill"></div>
 </main>
 <aside class="drawer">Menú</aside>
+<div class="abs"></div>
 <script>
 var st=document.getElementById('st');
 function upd(){st.textContent='Opción '+document.body.className.slice(2).toUpperCase()+' · página '+document.documentElement.scrollWidth+' px · pantalla '+innerWidth+' px';}
