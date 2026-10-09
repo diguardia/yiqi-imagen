@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.73";
+  --ds-version: "1.2.8.74";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -5100,5 +5100,48 @@ a.tile-row:hover { background: var(--bg-soft); }
 }
 .ds-cardlist-meta b { font-weight: 500; color: var(--muted); }
 .ds-cardlist-go { color: var(--muted-2); font-size: 16px; line-height: 1; }
+
+/* ── 65. PAGINACION (v1.2.8.74) ──
+   El sistema no tenia paginacion y el ERP la armaba con dos .btn y un texto
+   en linea: "Pagina 1 de 9" en 14 px pesaba mas que los botones, no decia
+   cuantos registros habia, ocupaba media fila y el tamano de pagina iba en
+   otra. Un solo markup, dos disposiciones:
+   - escritorio: cuantos + tamano a la izquierda; < 1 de 9 > a la derecha.
+   - <= 720 px: una fila a todo el ancho, Anterior y Siguiente con texto en
+     los extremos y cuantos en el medio; sin tamano de pagina ni "1 de 9". */
+.ds-pagination {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr) auto auto auto;
+  grid-template-areas: "count size . prev page next";
+  align-items: center;
+  gap: 8px 12px;
+  margin-top: 16px;
+  font: 400 var(--fs-meta) var(--sans);
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.ds-pagination-count { grid-area: count; white-space: nowrap; }
+.ds-pagination-size { grid-area: size; display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+.ds-pagination-size .ds-select { width: auto; min-height: 30px; height: 30px; padding-top: 0; padding-bottom: 0; }
+.ds-pagination-prev { grid-area: prev; }
+.ds-pagination-next { grid-area: next; }
+.ds-pagination-page { grid-area: page; min-width: 56px; text-align: center; font-weight: 500; color: var(--text); white-space: nowrap; }
+.ds-pagination .ds-pagination-btn { min-height: 32px; padding: 0 9px; }
+.ds-pagination-btn .ph { font-size: 14px; }
+.ds-pagination-label { display: none; }
+@media (max-width: 720px) {
+  .ds-pagination {
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-areas: "prev count next";
+  }
+  .ds-pagination-size,
+  .ds-pagination-page { display: none; }
+  .ds-pagination-count { text-align: center; }
+  .ds-pagination-prev { justify-self: start; }
+  .ds-pagination-next { justify-self: end; }
+  .ds-pagination .ds-pagination-btn { min-height: 40px; padding: 0 14px; }
+  .ds-pagination-label { display: inline; }
+}
+
 
 

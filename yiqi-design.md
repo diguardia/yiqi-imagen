@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.73
+# YiQi Design System — Guía maestra v1.2.8.74
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -2917,5 +2917,40 @@ Reglas:
 
 ---
 
-*YiQi ERP · Design System v1.2.8.73 · Última actualización: 09/10/2026*
+## 55. Paginación *(nuevo en v1.2.8.74)*
+
+El sistema no tenía paginación y el ERP la armaba con dos `.btn` y un texto: «Página 1 de 9»
+en 14 px pesaba más que los botones, no decía cuántos registros había, ocupaba media fila
+y el tamaño de página iba en otra. `.ds-pagination` va al pie de la tabla, con **un solo
+markup y dos disposiciones**:
+
+- **Escritorio:** cuántos («1–50 de 412») y el tamaño de página a la izquierda;
+  `‹ 1 de 9 ›` a la derecha.
+- **≤ 720 px:** una fila a todo el ancho. «Anterior» y «Siguiente», con texto, en los
+  extremos; cuántos, en el medio. El tamaño de página y «1 de 9» no se muestran.
+
+```html
+<nav class="ds-pagination" aria-label="Paginación">
+  <span class="ds-pagination-count">1–50 de 412</span>
+  <label class="ds-pagination-size">Por página
+    <select class="ds-select"><option>50</option><option>100</option></select>
+  </label>
+  <button class="btn ds-pagination-btn ds-pagination-prev" type="button" aria-label="Página anterior" disabled>
+    <i class="ph ph-caret-left" aria-hidden="true"></i><span class="ds-pagination-label">Anterior</span>
+  </button>
+  <span class="ds-pagination-page">1 de 9</span>
+  <button class="btn ds-pagination-btn ds-pagination-next" type="button" aria-label="Página siguiente">
+    <span class="ds-pagination-label">Siguiente</span><i class="ph ph-caret-right" aria-hidden="true"></i>
+  </button>
+</nav>
+```
+
+Reglas: los botones son `.btn` con `.ds-pagination-btn`; en escritorio llevan solo la
+flecha y su nombre en `aria-label`. En la primera y la última página el botón que no
+aplica va `disabled`. Con una sola página no se muestran los botones: queda solo
+`.ds-pagination-count`.
+
+---
+
+*YiQi ERP · Design System v1.2.8.74 · Última actualización: 09/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
