@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.67";
+  --ds-version: "1.2.8.68";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -4977,7 +4977,12 @@ a.tile-row:hover { background: var(--bg-soft); }
    se desvanece al fondo del panel en 18 px, y en reposo no se ve nada.
    Pensada para vivir como ultimo hijo de un .panel (padding 20, radio 24):
    los margenes negativos la llevan a ras del panel y toma su radio inferior.
-   Con la barra de estado fija (§44) se apoya sobre ella, no debajo. */
+   Con la barra de estado fija (§44) se apoya sobre ella, no debajo.
+   v1.2.8.68: botones a la derecha, el principal contra el borde
+   (Cancelar · Aplicar · Guardar), igual que .confirm-dialog-actions. En un
+   formulario de cuatro columnas la lectura termina abajo a la derecha; a la
+   izquierda habia que cruzar la pantalla para guardar. El aviso va a la
+   izquierda con order:-1, este donde este en el markup. */
 .ds-form-actions {
   position: sticky;
   bottom: 0;
@@ -4985,13 +4990,15 @@ a.tile-row:hover { background: var(--bg-soft); }
   gap: 10px;
   align-items: center;
   flex-wrap: wrap;
+  justify-content: flex-end;
   margin: 20px -20px -20px;
   padding: 26px 20px 20px;
   border-radius: 0 0 var(--radius-xl) var(--radius-xl);
   background: linear-gradient(to bottom, transparent, var(--bg-elev-2) 18px);
 }
 .ds-form-actions-hint {
-  margin-left: auto;
+  order: -1;
+  margin-right: auto;
   font: 400 var(--fs-caption) var(--sans);
   color: var(--muted-2);
   white-space: nowrap;
