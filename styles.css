@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.81";
+  --ds-version: "1.2.8.82";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -5325,3 +5325,14 @@ a.tile-row:hover { background: var(--bg-soft); }
   .ds-chart-detail .table-wrap { max-height: none; }
   .ds-chart-action-label { display: none; }  /* «Ver registros» queda en el icono y el aria-label */
 }
+
+/* ── 69. COLOR DE UN DATO (v1.2.8.82) ──
+   Cuando el dato ES un color (campo tipo Color: criticidad, ranking,
+   categoria) el ERP lo pintaba como un circulo de 14 px con borde: grande,
+   saturado y con la misma forma que el punto de estado (.ldot), que dice otra
+   cosa. Pasa a un cuadrado de 10 px: el circulo queda para el estado. El color
+   va inline, tal como se configuro: llevarlo a la paleta del DS rompe las
+   escalas (el negro de "Urgente" caia en gris). Sin borde, salvo los casi
+   negros (luminancia < 0,05), que en el tema oscuro se perdian. */
+.ds-swatch { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: middle; flex-shrink: 0; }
+.ds-swatch--dark { box-shadow: 0 0 0 1px color-mix(in srgb, var(--text) 35%, transparent); }

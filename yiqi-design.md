@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.81
+# YiQi Design System — Guía maestra v1.2.8.82
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -3174,7 +3174,41 @@ canónico ancho (`.modal-backdrop` › `.modal-panel.modal-panel-wide.ds-chart-d
 </div>
 ```
 
+## 61. Color de un dato *(nuevo en v1.2.8.82)*
+
+Cuando el dato **es** un color (campo tipo Color: criticidad, ranking, categoría), el ERP lo
+pintaba como un círculo de 14 px con borde: grande, saturado y con la misma forma que el punto
+de estado (`.ldot`), que dice otra cosa. Ahora es `.ds-swatch`, **un cuadrado de 10 px**
+(esquinas de 2 px, sin borde). **El círculo queda para el estado; el cuadrado, para el color de
+un dato.**
+
+- El color va *inline*, tal como se configuró. **No se lleva a la paleta del DS:** rompe las
+  escalas (el negro de «Urgente» caía en gris; el naranja de «Alta» y el amarillo de «Media»
+  quedaban iguales).
+- **No se invierte en oscuro:** el negro no pasa a blanco. Quien usa tema claro y quien usa
+  oscuro verían colores distintos para el mismo dato, y el blanco se lee como «vacío».
+- **Casi negros** (luminancia relativa < 0,05): `.ds-swatch--dark` agrega un borde fino de
+  `--text` al 35 % para que no se pierdan en el tema oscuro. La app lo decide al pintar.
+- El hexa va en `title` y `aria-label`, nunca como texto. La columna, centrada.
+- Mismo cuadrado en la lista, la ficha de lectura (`.ds-dl`) y cualquier lugar con un campo
+  tipo Color.
+
+```html
+<span class="ds-swatch" style="background:#e8743b" role="img" aria-label="#e8743b" title="#e8743b"></span>
+<span class="ds-swatch ds-swatch--dark" style="background:#111111" role="img" aria-label="#111111" title="#111111"></span>
+```
+
+```js
+// cuándo poner --dark: luminancia relativa (WCAG) menor a 0,05
+function esCasiNegro(hex) {
+  const h = hex.replace('#', '');
+  const [r, g, b] = [0, 2, 4].map(i => parseInt(h.substr(i, 2), 16) / 255)
+    .map(v => v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4));
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b < 0.05;
+}
+```
+
 ---
 
-*YiQi ERP · Design System v1.2.8.81 · Última actualización: 09/10/2026*
+*YiQi ERP · Design System v1.2.8.82 · Última actualización: 09/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
