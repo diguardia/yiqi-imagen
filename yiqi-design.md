@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.65
+# YiQi Design System — Guía maestra v1.2.8.66
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -109,7 +109,7 @@
 
   /* Typography */
   --sans:    "Inter", system-ui, sans-serif;
-  --display: "Greycliff CF", "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
+  --display: var(--font-display);  /* "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif */
   --mono:    "IBM Plex Mono", monospace;
 
   /* Font weights */
@@ -213,18 +213,20 @@ html[data-theme="light"] {
 ```html
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 ```
+
+Plus Jakarta Sans no va en el link: la trae `styles.css` (ver abajo).
 
 ### Regla de uso
 
-- **Greycliff CF Heavy (`--display`)** → títulos de página, hero headlines, headings grandes (fallback: Plus Jakarta Sans)
+- **Plus Jakarta Sans (`--display`)** → títulos de página, hero headlines, headings grandes y cifras KPI (`--kpi-num`)
 - **Inter (`--sans`)** → todo el texto de interfaz: body, labels, botones, nav
 - **IBM Plex Mono (`--mono`)** → tokens, kickers, valores numéricos, IDs, atajos de teclado
 
 ### Escala tipográfica
 
-La escala display se pide **siempre con su clase**. La etiqueta desnuda entrega Inter, no Greycliff.
+La escala display se pide **siempre con su clase**. La etiqueta desnuda entrega Inter, no Plus Jakarta.
 
 ```css
 .ds-title-hero    { font: 700 40px/1.05 var(--display); letter-spacing: -0.028em; }
@@ -232,16 +234,14 @@ La escala display se pide **siempre con su clase**. La etiqueta desnuda entrega 
 .ds-title-section { font: 700 24px/1.15 var(--display); letter-spacing: -0.024em; }
 ```
 
-**Greycliff CF se publica con el CDN.** Cuatro pesos en `woff2`, ~30K cada uno, declarados con cuatro `@font-face` en `styles.css` y servidos desde `fonts/`:
+**Plus Jakarta Sans viaja con `styles.css`.** Cinco pesos (400–800) en `woff2`, subset latin,
+~12K cada uno, declarados con `@font-face` al principio de la hoja y servidos desde `fonts/`.
+No hace falta un `<link>` a Google para la display: sale del CDN del DS. Licencia OFL.
 
-| Peso | Archivo |
-|---|---|
-| 500 · Medium | `fonts/Greycliff-CF-Medium.woff2` |
-| 600 · Demi-Bold | `fonts/Greycliff-CF-Demi-Bold.woff2` |
-| 700 · Bold | `fonts/Greycliff-CF-Bold.woff2` |
-| 800 · Heavy | `fonts/Greycliff-CF-Heavy.woff2` |
-
-**Corregido el 30/07/2026.** Antes el canónico **no cargaba la fuente**: no tenía ningún `@font-face` y confiaba en que Greycliff estuviera instalada en la máquina. El único `@font-face` vivía en `site.css` (chrome del catálogo) y apuntaba a `system/fonts/`, una carpeta que no existe en este repo. Cualquier app que consumiera `styles.css` mostraba Plus Jakarta Sans.
+> **Corregido en v1.2.8.66.** Esta sección decía Greycliff CF con sus cuatro `@font-face`.
+> `styles.css` la reemplazó por Plus Jakarta en **v1.2.7.9** —los `.woff2` de Greycliff
+> viajaban en un repo público, que es redistribución, no uso—, pero la guía no se actualizó.
+> El logo no cambia: es SVG con trazos vectorizados.
 
 **Las tres clases display bajaron de 800 a 700.** El Heavy se empastaba a 24px; el Bold mantiene la presencia de título y respira. Cambiar el peso de una clase es una línea, y los cuatro pesos están disponibles.
 
@@ -293,7 +293,7 @@ Todas heredan `font-family: var(--sans)` y `line-height: 1.4` de `html`.
 
 `h3` (18px) y `h4` (15px) se sacaron después, por simetría: costaron 9 elementos que perdieron el tracking de -0.02em y un `<h3>` sin clase del showcase que pasó de 18 a 18.72px. El alto de catálogo y showcase quedó idéntico.
 
-**Las etiquetas entregan Inter, no Greycliff.** La familia viene de `html { font-family: var(--sans) }`. La escala display de la tabla anterior **no se obtiene con `<h1>`**.
+**Las etiquetas entregan Inter, no Plus Jakarta.** La familia viene de `html { font-family: var(--sans) }`. La escala display de la tabla anterior **no se obtiene con `<h1>`**.
 
 **Anti-patrón:** apoyarse en la etiqueta desnuda para maquetar. El tamaño y el recorte del `<h2>` están pensados para el contexto del sistema, no para texto arbitrario.
 
@@ -1486,7 +1486,7 @@ applyTheme(resolveTheme());
 5. **`data-theme="system"` como default** — nunca `"dark"` ni `"light"` hardcodeado.
 6. **Toggle 3 pasos** — `setTheme(v)` con `"dark" | "system" | "light"`. No `toggleTheme()`.
 7. **`--text-cyan-muted`** — para estados activos y labels con acento. Nunca `var(--cyan)` directo en texto de estado.
-8. **Greycliff CF Heavy** (`var(--display)`, fallback Plus Jakarta) en títulos y heroes; cifras en `--mono`/`--kpi-num` (IBM Plex Mono).
+8. **Plus Jakarta Sans** (`var(--display)`) en títulos y heroes; cifras KPI en `--kpi-num`, que es la misma display. Datos técnicos e IDs en `--mono` (IBM Plex Mono).
 9. **SVG inline para íconos** en HTML standalone — no Phosphor CDN sin fallback.
 10. **Spacing múltiplos de 4** — sin valores arbitrarios.
 11. **Archivos self-contained** — fuentes y scripts embebidos o desde CDN confiable.
@@ -2805,5 +2805,5 @@ panel en dos aunque el formulario entrara entero en pantalla.
 
 ---
 
-*YiQi ERP · Design System v1.2.8.65 · Última actualización: 09/10/2026*
+*YiQi ERP · Design System v1.2.8.66 · Última actualización: 09/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
