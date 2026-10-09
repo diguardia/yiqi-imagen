@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.79";
+  --ds-version: "1.2.8.80";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -2609,6 +2609,24 @@ html[data-theme="light"] .skeleton-line {
 /* Input con ícono interno */
 .ds-input-wrap { position: relative; }
 .ds-input-wrap .ds-input { padding-left: 38px; }
+/* v1.2.8.80 — boton para vaciar un buscador. En escritorio se vaciaba con Esc;
+   en el celular no hay Esc y habia que borrar letra por letra. La X aparece
+   solo cuando hay texto, en el mismo lugar donde estaba el atajo (que se oculta
+   al escribir, v1.2.8.64). Requiere placeholder en el input. Al tocarla, la app
+   vacia el campo y le devuelve el foco. Se oculta la X nativa de type=search
+   para que no haya dos. */
+.ds-input-wrap:has(.ds-input-clear) .ds-input { padding-right: 38px; }
+.ds-input-clear {
+  position: absolute; right: 4px; top: 50%; transform: translateY(-50%);
+  display: none; place-items: center; width: 30px; height: 30px;
+  border: 0; border-radius: var(--radius-xs); background: transparent;
+  color: var(--muted-2); cursor: pointer; font-size: 15px;
+  transition: background var(--tr), color var(--tr);
+}
+input:not(:placeholder-shown) ~ .ds-input-clear { display: grid; }
+.ds-input-clear:hover { color: var(--text); background: var(--bg-soft); }
+.ds-input-clear:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: 1px; }
+.ds-input[type="search"]::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; display: none; }
 
 /* v1.2.8.54 — accion al final del campo. .ds-input-wrap solo ponia un icono a
    la IZQUIERDA; para el "+" (crear) y el "ir al registro" de los campos de

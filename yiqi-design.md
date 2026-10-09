@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.79
+# YiQi Design System — Guía maestra v1.2.8.80
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -1323,7 +1323,7 @@ Estrella de favorito **borderless** (`.fav-star`): outline en reposo, **ámbar r
 
 ### Inputs — canónico `.ds-input`
 
-Familia canónica en `styles.css`: `.ds-input`, `.ds-select`, `.ds-textarea`, con `.ds-input-wrap` + `.ds-input-icon` + `.ds-input-shortcut` (⌘K) y estado `.err` (fondo `--red-soft`). Borderless. El chip del atajo va **sin fondo** (texto `--muted-2` mono) y **se oculta cuando el campo tiene texto** (`input:not(:placeholder-shown) ~ .ds-input-shortcut`): es una pista para el campo vacío. Desde v1.2.8.64; antes llevaba `--bg-elev-2`, un rectángulo blanco sobre el campo en claro (1.33). Requiere `placeholder` en el input y el chip después del campo.
+Familia canónica en `styles.css`: `.ds-input`, `.ds-select`, `.ds-textarea`, con `.ds-input-wrap` + `.ds-input-icon` + `.ds-input-shortcut` (⌘K) y estado `.err` (fondo `--red-soft`). Borderless. El chip del atajo va **sin fondo** (texto `--muted-2` mono) y **se oculta cuando el campo tiene texto** (`input:not(:placeholder-shown) ~ .ds-input-shortcut`): es una pista para el campo vacío. Desde v1.2.8.64; antes llevaba `--bg-elev-2`, un rectángulo blanco sobre el campo en claro (1.33). Requiere `placeholder` en el input y el chip después del campo. **Botón para vaciar** *(v1.2.8.80)*: `.ds-input-clear`, una ✕ que aparece solo cuando hay texto, en el lugar del atajo. En el celular no hay Esc y había que borrar letra por letra. Al tocarla, la app vacía el campo y le devuelve el foco. Va en todo buscador: el del menú, el de las listas y los de los desplegables.
 
 **Reposo: velo del 6 % sobre `--text`, no un color fijo** *(v1.2.8.48)*. Hasta la .47 el reposo era `var(--bg)`, el fondo de la página. Apoyado sobre el lienzo —que también es `--bg`— el contraste medido en render era **1.00 en claro y en oscuro**: mismo color, borde transparente, el campo no se veía y quedaba flotando el placeholder. La nota vieja decía que «contrasta dentro de cards `bg-elev-2`», y eso era cierto solo ahí: 1.10. Un color fijo no resuelve el caso general —`--bg-elev-2` se ve sobre el lienzo pero da 1.00 dentro de un panel en oscuro—; el velo no depende de sobre qué esté apoyado y no baja de **1.12** en ninguna superficie ni tema. Es el mismo mecanismo que `.ds-picker-toggle` usa desde la v1.2.8.34 por este mismo síntoma.
 
@@ -1334,6 +1334,13 @@ Familia canónica en `styles.css`: `.ds-input`, `.ds-select`, `.ds-textarea`, co
   <svg class="ds-input-icon">…</svg>
   <input class="ds-input" placeholder="Buscar…">
   <kbd class="ds-input-shortcut">⌘K</kbd>
+</div>
+<!-- v1.2.8.80: con botón para vaciar -->
+<div class="ds-input-wrap">
+  <svg class="ds-input-icon">…</svg>
+  <input class="ds-input" type="search" placeholder="Buscar…">
+  <kbd class="ds-input-shortcut">⌘K</kbd>
+  <button class="ds-input-clear" type="button" aria-label="Borrar búsqueda"><i class="ph ph-x"></i></button>
 </div>
 <input class="ds-input err">
 ```
@@ -3095,5 +3102,5 @@ tabla: «Contacto - Nombre» → «Contacto»; «Origen del contacto - Origen de
 
 ---
 
-*YiQi ERP · Design System v1.2.8.79 · Última actualización: 09/10/2026*
+*YiQi ERP · Design System v1.2.8.80 · Última actualización: 09/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
