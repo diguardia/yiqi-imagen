@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.62";
+  --ds-version: "1.2.8.63";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -4946,3 +4946,35 @@ a.tile-row:hover { background: var(--bg-soft); }
    una pestana corta («Stock») media 110 aunque no hiciera falta, y la fila quedaba con huecos. */
 .doc-tabs-scroll .doc-tab { min-width: 0; }
 .doc-tabs-scroll .doc-tab-name { min-width: 7ch; }
+
+/* ── 62. BARRA DE ACCIONES PEGAJOSA DEL FORMULARIO (v1.2.8.63) ──
+   Guardar / Aplicar / Cancelar al pie de una ficha larga: en una entidad de
+   90 campos el boton quedaba al final de un scroll larguisimo. El frontend
+   la resolvia con una franja --bg-elev de esquinas rectas dentro del panel
+   redondeado. Decidido con las tres opciones a la vista el 09/10/2026:
+   FUNDIDO. Sin superficie propia ni borde: el contenido que pasa por debajo
+   se desvanece al fondo del panel en 18 px, y en reposo no se ve nada.
+   Pensada para vivir como ultimo hijo de un .panel (padding 20, radio 24):
+   los margenes negativos la llevan a ras del panel y toma su radio inferior.
+   Con la barra de estado fija (§44) se apoya sobre ella, no debajo. */
+.ds-form-actions {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 20px -20px -20px;
+  padding: 26px 20px 20px;
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+  background: linear-gradient(to bottom, transparent, var(--bg-elev-2) 18px);
+}
+.ds-form-actions-hint {
+  margin-left: auto;
+  font: 400 var(--fs-caption) var(--sans);
+  color: var(--muted-2);
+  white-space: nowrap;
+}
+@media (min-width: 981px) {
+  body:has(.statusbar) .ds-form-actions { bottom: var(--statusbar-h); }
+}

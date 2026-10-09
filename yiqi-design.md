@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.62
+# YiQi Design System — Guía maestra v1.2.8.63
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -2774,5 +2774,33 @@ Armado en `examples/erp-inicio.html` sin CSS propio, el tablero Inicio mostró s
 
 ---
 
-*YiQi ERP · Design System v1.2.8.62 · Última actualización: 09/10/2026*
+## 51. Barra de acciones pegajosa del formulario *(nuevo en v1.2.8.63)*
+
+Guardar / Aplicar / Cancelar al pie de una ficha larga. El frontend la resolvía con una
+franja `--bg-elev` de esquinas rectas dentro del panel redondeado, y el DS no tenía barra
+pegajosa. Decidido con tres opciones a la vista el 09/10/2026: **fundido**. Sin superficie
+propia ni borde: el contenido que pasa por debajo se desvanece al fondo del panel en 18 px;
+en reposo no se ve nada.
+
+```html
+<div class="panel">
+  …campos…
+  <div class="ds-form-actions">
+    <button class="btn btn-primary" type="submit">Guardar</button>
+    <button class="btn btn-ghost" type="button">Aplicar</button>
+    <button class="btn btn-ghost" type="button">Cancelar</button>
+    <span class="ds-form-actions-hint">* Campos requeridos</span>
+  </div>
+</div>
+```
+
+Reglas: va como **último hijo de un `.panel`** (padding 20, radio 24): los márgenes
+negativos la llevan a ras del panel y toma su radio inferior. Con la barra de estado fija
+(§44, > 980 px) se apoya sobre ella. Las otras dos opciones, descartadas: una línea
+`--line` arriba metía el único borde del formulario (§3); una franja `--bg-soft` dividía el
+panel en dos aunque el formulario entrara entero en pantalla.
+
+---
+
+*YiQi ERP · Design System v1.2.8.63 · Última actualización: 09/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
