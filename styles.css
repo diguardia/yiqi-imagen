@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.74";
+  --ds-version: "1.2.8.75";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -5142,6 +5142,33 @@ a.tile-row:hover { background: var(--bg-soft); }
   .ds-pagination .ds-pagination-btn { min-height: 40px; padding: 0 14px; }
   .ds-pagination-label { display: inline; }
 }
+
+/* ── 66. AJUSTES DEL CELULAR (v1.2.8.75) ──
+   1. Panel con 14 px de margen interno a 720 px o menos (20 en escritorio):
+      el contenido gana 12 px de ancho, 318 -> 330 a 390 px. Las barras que
+      se apoyan a ras del panel con margen negativo acompanan el cambio.
+   2. El atajo del buscador (Cmd K) no se muestra donde no hay teclado.
+   3. .pr-tabbar--flat no salta de renglon en el celular: una fila que se
+      desliza. Las 19 pestanas de una ficha ocupaban cinco o seis filas. */
+@media (max-width: 720px) {
+  .panel { padding: 14px; }
+  .panel--tile { padding: 12px; }   /* la tarjeta de tablero ya era mas chica: no se toca */
+  .ds-form-actions { margin: 20px -14px -14px; padding: 26px 14px 14px; }
+  .dq-actions { margin: 10px -14px -14px; padding: 10px 14px 14px; }
+  .pr-tabbar--flat {
+    flex-wrap: nowrap;
+    max-width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .pr-tabbar--flat::-webkit-scrollbar { display: none; }
+  .pr-tabbar--flat .pr-tabbtn { flex: none; white-space: nowrap; }
+}
+@media (hover: none) and (pointer: coarse) {
+  .ds-input-shortcut { display: none; }
+}
+
 
 
 

@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.74
+# YiQi Design System — Guía maestra v1.2.8.75
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -2952,5 +2952,19 @@ aplica va `disabled`. Con una sola página no se muestran los botones: queda sol
 
 ---
 
-*YiQi ERP · Design System v1.2.8.74 · Última actualización: 09/10/2026*
+## 56. Ajustes del celular *(v1.2.8.75)*
+
+Tres cambios que el DS aplica solo; las apps no tienen que hacer nada:
+
+- **Panel con 14 px de margen interno a 720 px o menos** (20 en escritorio). A 390 px el
+  contenido pasa de 318 a 330 px de ancho. `.ds-form-actions` y `.dq-actions`, que se
+  apoyan a ras del panel, acompañan el cambio. Elegido con dos teléfonos a la vista.
+- **⌘K oculto en pantallas táctiles** (`hover: none` y `pointer: coarse`): sin teclado,
+  el atajo no sirve.
+- **`.pr-tabbar--flat` en una sola fila** en el celular, que se desliza de costado. Las
+  pestañas de una ficha ocupaban cinco o seis filas.
+
+---
+
+*YiQi ERP · Design System v1.2.8.75 · Última actualización: 09/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
