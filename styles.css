@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.70";
+  --ds-version: "1.2.8.71";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -5016,3 +5016,31 @@ a.tile-row:hover { background: var(--bg-soft); }
 @media (min-width: 981px) {
   body:has(.statusbar) .ds-form-actions { bottom: var(--statusbar-h); }
 }
+
+/* ── 63. LISTA DE DATOS DE LA FICHA (v1.2.8.71) ──
+   Etiqueta + valor de una ficha que se lee sin editar. El sistema no tenia
+   componente para esto y el ERP escribia un <dl> pelado: quedaba el formato
+   del navegador, etiqueta a 16 px y valor corrido 40 px, sin grilla.
+   Misma grilla que el formulario de edicion (auto-fill, minimo 240 px), asi
+   cada dato queda en el mismo lugar al pasar de leer a editar. En celular
+   cae a una columna sola. */
+.ds-dl {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px 18px;
+  margin: 0;
+}
+.ds-dl > div { display: grid; gap: 6px; min-width: 0; }
+.ds-dl dt {
+  font: 400 var(--fs-meta) var(--sans);
+  color: var(--muted);
+}
+.ds-dl dd {
+  margin: 0;
+  min-height: 18px;
+  font: 400 var(--fs-body)/1.4 var(--sans);
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+.ds-dl dd.is-empty { color: var(--muted-2); }
+

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Prueba · scroll lateral en el celular</title>
+<style>
+html,body{margin:0;width:100%;overflow-x:clip;background:#0a0a0b;color:#f3f5f7;font:400 15px/1.45 -apple-system,system-ui,sans-serif}
+.top{position:sticky;top:0;z-index:5;height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:#0f1013;border-bottom:1px solid rgba(255,255,255,.08)}
+main{padding:16px}
+.card{background:#14161b;border-radius:18px;padding:16px;margin:0 0 14px}
+.card p{margin:0;color:#c9c7c7;font-size:15px}
+.modes{display:grid;gap:10px;margin:0 0 16px}
+.modes button{appearance:none;border:0;border-radius:12px;padding:16px;font:600 16px system-ui;text-align:left;background:#1e222a;color:#f3f5f7}
+.modes button.on{background:rgba(0,204,255,.16);color:#00ccff}
+.st{font:600 14px ui-monospace,monospace;color:#00ccff;margin:0 0 14px}
+.fill{height:900px;background:repeating-linear-gradient(180deg,#14161b 0 60px,#111317 60px 120px);border-radius:18px}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:232px;background:#0f1013;border-left:1px solid rgba(255,255,255,.08);z-index:10;padding:20px;box-sizing:border-box}
+body.m-a .drawer{transform:translateX(100%)}
+body.m-b .drawer,body.m-d .drawer{display:none}
+body.m-c .drawer{transform:none;clip-path:inset(0 0 0 100%);visibility:hidden}
+.wide{display:none;width:700px;height:40px;background:#1e222a;border-radius:10px;margin:0 0 14px}
+body.m-d .wide{display:block}
+</style>
+</head>
+<body class="m-a">
+<div class="top"><b>Prueba de scroll</b><span>☰</span></div>
+<main>
+  <div class="card"><p>Toca una opción y arrastra la página con el dedo hacia la izquierda. Anota en cuáles se mueve de costado.</p></div>
+  <div class="modes">
+    <button data-m="m-a" class="on">A · Menú escondido afuera (como hoy)</button>
+    <button data-m="m-b">B · Sin menú</button>
+    <button data-m="m-c">C · Menú recortado (propuesta)</button>
+    <button data-m="m-d">D · Sin menú y con un bloque más ancho que la pantalla</button>
+  </div>
+  <p class="st" id="st"></p>
+  <div class="wide"></div>
+  <div class="fill"></div>
+</main>
+<aside class="drawer">Menú</aside>
+<script>
+var st=document.getElementById('st');
+function upd(){st.textContent='Opción '+document.body.className.slice(2).toUpperCase()+' · página '+document.documentElement.scrollWidth+' px · pantalla '+innerWidth+' px';}
+document.querySelectorAll('[data-m]').forEach(function(b){b.addEventListener('click',function(){document.body.className=b.dataset.m;document.querySelectorAll('[data-m]').forEach(function(x){x.classList.toggle('on',x===b)});scrollTo(0,scrollY);upd();});});
+upd();
+</script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.70
+# YiQi Design System — Guía maestra v1.2.8.71
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -2836,5 +2836,29 @@ panel en dos aunque el formulario entrara entero en pantalla.
 
 ---
 
-*YiQi ERP · Design System v1.2.8.70 · Última actualización: 09/10/2026*
+## 52. Lista de datos de la ficha *(nuevo en v1.2.8.71)*
+
+Etiqueta + valor en una ficha que se lee sin editar. El sistema no tenía componente y el
+ERP escribía un `<dl>` sin clases: quedaba el formato del navegador, etiqueta a 16 px y
+valor corrido 40 px, sin grilla. `.ds-dl` usa la **misma grilla que el formulario de
+edición** (auto-fill, mínimo 240 px): cada dato queda en el mismo lugar al pasar de leer a
+editar. En celular cae a una columna.
+
+```html
+<h2 class="panel-kicker">General</h2>
+<dl class="ds-dl">
+  <div><dt>Nombre</dt><dd>Duna Metalúrgica</dd></div>
+  <div><dt>Segmento</dt><dd>C</dd></div>
+  <div><dt>Fecha de baja</dt><dd class="is-empty">—</dd></div>
+</dl>
+```
+
+Reglas: etiqueta en `--fs-meta` (12 px) y `--muted`, como `.ds-label`; valor en `--fs-body` (13 px) y `--text`; un valor vacío
+se escribe «—» con `.is-empty` (`--muted-2`). Cada par va en su propio `<div>` dentro del
+`<dl>`, que es HTML válido y lo que permite la grilla. Los valores largos cortan donde
+haga falta (`overflow-wrap: anywhere`) en vez de ensanchar la columna.
+
+---
+
+*YiQi ERP · Design System v1.2.8.71 · Última actualización: 09/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
