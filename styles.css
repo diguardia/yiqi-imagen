@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.71";
+  --ds-version: "1.2.8.72";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -360,6 +360,16 @@ body {
   font-family: var(--sans);
   line-height: 1.4;
 }
+
+/* v1.2.8.72 — el body es el bloque contenedor de lo posicionado "suelto".
+   Un position:absolute sin ancestro posicionado se ubica contra la raiz, no
+   contra el body, y entonces el overflow-x:clip del body no lo recorta. En
+   iPhone (Safari y Chrome, los dos WebKit) ese elemento hace la pagina mas
+   ancha que la pantalla: al arrastrar desde el margen se corre todo hacia la
+   izquierda, topbar incluida. Probado en el telefono con
+   examples/prueba-scroll.html: el caso E se movia; con esta linea (caso F),
+   no. Los position:fixed no cambian: siguen contra la pantalla. */
+body { position: relative; }
 
 /* Fondo plano — el glow radial vive solo en la website (no en el DS) */
 body {

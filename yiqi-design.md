@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.71
+# YiQi Design System — Guía maestra v1.2.8.72
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -2860,5 +2860,23 @@ haga falta (`overflow-wrap: anywhere`) en vez de ensanchar la columna.
 
 ---
 
-*YiQi ERP · Design System v1.2.8.71 · Última actualización: 09/10/2026*
+## 53. La página no se corre de costado en el iPhone *(v1.2.8.72)*
+
+`html` y `body` van en `overflow-x: clip` para que nada ensanche la página. Pero un
+elemento `position: absolute` sin ancestro posicionado (un popover, un tooltip) se ubica
+contra la raíz, no contra el `body`, y el recorte del `body` no lo alcanza. En el iPhone
+(Safari y Chrome, los dos WebKit) eso deja arrastrar la página entera hacia un costado
+desde el margen, con la topbar corrida. En la computadora no se nota.
+
+```css
+body { position: relative; }
+```
+
+Con eso el `body` pasa a ser el bloque contenedor de esos elementos y su recorte los
+alcanza. Los `position: fixed` no cambian. Probado en el teléfono con
+`examples/prueba-scroll.html` (casos E y F). Las apps no tienen que hacer nada.
+
+---
+
+*YiQi ERP · Design System v1.2.8.72 · Última actualización: 09/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
