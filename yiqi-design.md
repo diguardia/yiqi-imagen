@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.80
+# YiQi Design System — Guía maestra v1.2.8.81
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -3100,7 +3100,81 @@ tabla: «Contacto - Nombre» → «Contacto»; «Origen del contacto - Origen de
 «Origen del contacto». Se deja completo cuando la segunda parte dice qué dato es
 («Contacto - Email»).
 
+## 60. Gráfico ampliado *(nuevo en v1.2.8.81)*
+
+En el tablero un gráfico mide ~540 × 200: los valores no se leen, las fechas van en diagonal
+y no hay forma de ver los números. Analytics Pro ya abría el gráfico en grande; el ERP no.
+Ahora **todo el cuerpo del mosaico es un botón** (`.ds-chart-open`) que abre el diálogo
+canónico ancho (`.modal-backdrop` › `.modal-panel.modal-panel-wide.ds-chart-detail`).
+
+- **Abrir:** el `<canvas>` va dentro de `<button class="ds-chart-open">`, con `aria-haspopup="dialog"`
+  y `aria-label="Ver el detalle de …"`. Cursor de lupa; al pasar el mouse aparece la pista
+  «Ver detalle» (`.ds-chart-open-hint`), que en pantallas táctiles se ve siempre. Los íconos
+  del encabezado del mosaico (abrir vista, ajustar, quitar) no cambian.
+- **El diálogo, de arriba abajo:** encabezado con kicker, título y período, más «Ver registros»
+  y la ✕; los totales de cada serie (`.ds-chart-kpis`); un botón por serie que la oculta o la
+  muestra (`.ds-chart-series` con `aria-pressed`); el gráfico a 340 px de alto
+  (`.ds-chart-canvas`); y una tabla compacta con un período por fila, una columna por serie y
+  una fila de totales en `<tfoot>`, ordenable por cualquier encabezado.
+- **Gráfico y tabla se hablan:** al pasar por una fila, el gráfico marca ese período con su
+  tooltip; al tocar un punto, la fila se resalta con `tr.is-hit` y se lleva a la vista.
+- **Cerrar:** la ✕, Esc o un toque en el velo. El foco vuelve al mosaico.
+- **≤ 720 px:** pantalla completa, totales en una columna, gráfico a 260 px y «Ver registros»
+  solo con el ícono.
+
+**Reglas del gráfico (Chart.js), en el mosaico y en el detalle:**
+
+- **Cantidades y montos no comparten eje.** Montos a la izquierda (`y`), cantidades a la
+  derecha (`y1`, sin grilla). Con un solo eje, una cantidad de 0 a 6 junto a montos de
+  millones queda como una línea pegada al 0.
+- **Números en es-AR:** `Intl.NumberFormat('es-AR')`, con punto de miles. En el eje, montos
+  abreviados («12,4 M», «850 k»); en el tooltip y la tabla, completos («$ 12.418.300»).
+- **Fechas derechas y cortas:** «jul 25» en el eje (`maxRotation: 0`, `autoSkip`), «jul 2025»
+  en el tooltip y la tabla. Nunca «2025-07».
+- **Curva sin rebote:** `cubicInterpolationMode: 'monotone'`. La curva común se pasa de los
+  datos y dibuja valores que no existen.
+- Colores de las series: los de la paleta del DS (`--cyan`, `--green`, `--amber`…), los
+  mismos en el mosaico, el detalle, los totales y los botones de serie.
+
+```html
+<!-- en el mosaico -->
+<button class="ds-chart-open" type="button" aria-haspopup="dialog" aria-label="Ver el detalle de $ Cotiz. Aprobadas">
+  <canvas></canvas>
+  <span class="ds-chart-open-hint"><i class="ph ph-magnifying-glass-plus" aria-hidden="true"></i>Ver detalle</span>
+</button>
+
+<!-- el diálogo -->
+<div class="modal-backdrop">
+  <div class="modal-panel modal-panel-wide ds-chart-detail" role="dialog" aria-modal="true" aria-labelledby="cd-title">
+    <header class="ds-chart-detail-head">
+      <div>
+        <p class="card-kicker">Tablero · Comercial</p>
+        <h2 class="ds-chart-detail-title" id="cd-title">$ Cotiz. Aprobadas</h2>
+        <p class="ds-chart-detail-sub">jul 2025 – sep 2026 · por mes</p>
+      </div>
+      <div class="ds-chart-detail-actions">
+        <a class="btn btn-sm btn-ghost" href="…" aria-label="Ver registros"><i class="ph ph-arrow-square-out" aria-hidden="true"></i><span class="ds-chart-action-label">Ver registros</span></a>
+        <button class="btn-icon btn-icon-sm" type="button" aria-label="Cerrar"><i class="ph ph-x" aria-hidden="true"></i></button>
+      </div>
+    </header>
+    <div class="ds-chart-kpis">
+      <div class="ds-chart-kpi"><span class="ds-chart-kpi-label"><span class="ds-chart-dot" style="background:var(--cyan)"></span>Neto implementación</span><span class="ds-chart-kpi-value">$ 43.613.700</span></div>
+      …
+    </div>
+    <div class="ds-chart-legend">
+      <button class="ds-chart-series" type="button" aria-pressed="true"><span class="ds-chart-dot" style="background:var(--cyan)"></span>Neto implementación</button>
+      …
+      <span class="ds-chart-note">Montos a la izquierda · cantidad a la derecha</span>
+    </div>
+    <div class="ds-chart-canvas"><canvas></canvas></div>
+    <div class="table-wrap">
+      <table class="data-table data-table--compact">…<tfoot><tr><td>Total</td>…</tr></tfoot></table>
+    </div>
+  </div>
+</div>
+```
+
 ---
 
-*YiQi ERP · Design System v1.2.8.80 · Última actualización: 09/10/2026*
+*YiQi ERP · Design System v1.2.8.81 · Última actualización: 09/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*

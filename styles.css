@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.80";
+  --ds-version: "1.2.8.81";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -5277,7 +5277,51 @@ a.tile-row:hover { background: var(--bg-soft); }
 .pr-menu-item[aria-checked="true"] { font-weight: 600; }
 .pr-menu-item[aria-checked="true"] .ph-check { visibility: visible; }
 
+/* ── 68. GRAFICO AMPLIADO (v1.2.8.81) ──
+   En el tablero un grafico mide ~540x200: no se leen los valores, las fechas
+   van en diagonal y no hay forma de ver los numeros. Analytics Pro ya abria
+   el grafico en grande; el ERP no. Todo el cuerpo del mosaico pasa a ser un
+   boton (.ds-chart-open) que abre un dialogo ancho (.modal-panel-wide +
+   .ds-chart-detail) con totales, series que se ocultan, el grafico alto y
+   una tabla con los datos. El dialogo es el canonico: no se crea otro. */
+.ds-chart-open { all: unset; box-sizing: border-box; display: block; position: relative; width: 100%; height: 100%; min-height: 160px; border-radius: var(--radius-sm); cursor: zoom-in; transition: background var(--tr); }
+.ds-chart-open:hover { background: var(--bg-soft); }
+.ds-chart-open:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: 2px; }
+.ds-chart-open-hint { position: absolute; top: 6px; right: 8px; display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; border-radius: var(--radius-pill); background: var(--tile-bg); box-shadow: var(--shadow-sm); font: 600 10px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); opacity: 0; transition: opacity var(--tr); pointer-events: none; }
+.ds-chart-open:hover .ds-chart-open-hint,
+.ds-chart-open:focus-visible .ds-chart-open-hint { opacity: 1; }
+@media (hover: none) { .ds-chart-open-hint { opacity: 1; } }  /* sin mouse no hay hover: la pista va siempre */
 
+.ds-chart-detail { display: grid; gap: 18px; padding: 22px 24px; }
+.ds-chart-detail-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+.ds-chart-detail-title { margin: 4px 0 0; font: 600 20px/1.25 var(--sans); letter-spacing: -.02em; color: var(--text); }
+.ds-chart-detail-sub { margin: 4px 0 0; font: 400 12px/1.4 var(--sans); color: var(--muted-2); }
+.ds-chart-detail-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.ds-chart-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+.ds-chart-kpi { display: grid; gap: 6px; padding: 12px 14px; border-radius: var(--radius-md); background: var(--bg-soft); }
+.ds-chart-kpi-label { display: flex; align-items: center; gap: 8px; font: 600 10px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted-2); }
+.ds-chart-kpi-value { font: 500 22px/1 var(--kpi-num); letter-spacing: -.02em; color: var(--text); font-variant-numeric: tabular-nums; }
+.ds-chart-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }  /* el color lo pone la app: es el de la serie */
+.ds-chart-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.ds-chart-series { display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border: 0; border-radius: var(--radius-pill); background: var(--bg-soft); color: var(--text); font: 500 12px var(--sans); cursor: pointer; transition: opacity var(--tr), background var(--tr); }
+.ds-chart-series:hover { background: var(--line); }
+.ds-chart-series:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: 1px; }
+.ds-chart-series[aria-pressed="false"] { opacity: .45; }
+.ds-chart-series[aria-pressed="false"] .ds-chart-dot { background: var(--muted-2) !important; }  /* pisa el color inline de la serie */
+.ds-chart-note { margin-left: auto; font: 400 11px var(--mono); color: var(--muted-2); }
+.ds-chart-canvas { position: relative; height: 340px; }
+.ds-chart-detail .table-wrap { max-height: 320px; overflow: auto; border-radius: var(--radius-md); }
+.ds-chart-detail .data-table tfoot td { font-weight: 600; border-top: 1px solid var(--line); }
+.ds-chart-detail .data-table tbody tr.is-hit td { background: var(--cyan-soft); }
 
-
-
+@media (max-width: 720px) {
+  .modal-backdrop:has(.ds-chart-detail) { padding: 0; }
+  .ds-chart-detail { width: 100%; height: 100dvh; max-height: 100dvh; border-radius: 0; padding: 16px; gap: 14px; }
+  .ds-chart-kpis { grid-template-columns: 1fr; gap: 8px; }
+  .ds-chart-kpi { grid-template-columns: 1fr auto; align-items: center; }
+  .ds-chart-kpi-value { font-size: 18px; }
+  .ds-chart-canvas { height: 260px; }
+  .ds-chart-note { margin-left: 0; width: 100%; }
+  .ds-chart-detail .table-wrap { max-height: none; }
+  .ds-chart-action-label { display: none; }  /* «Ver registros» queda en el icono y el aria-label */
+}
