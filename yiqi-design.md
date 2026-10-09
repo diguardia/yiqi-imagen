@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.69
+# YiQi Design System — Guía maestra v1.2.8.70
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -885,13 +885,22 @@ Etiquetas de capacidad del producto. Usan `cyan-soft` background sin dot. Para m
 
 ```css
 .panel {
-  background: var(--bg-elev);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
-  padding: var(--space-5);
-  display: flex; flex-direction: column; gap: var(--space-4);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);  /* v1.2.8.70 */
+  gap: 18px;
+  padding: 20px;
+  border-radius: var(--radius-xl);
 }
 ```
+
+**Una columna `minmax(0, 1fr)`, no el track implícito** *(v1.2.8.70)*. Sin columna
+declarada, la grilla del panel arma un track `auto` cuyo mínimo es el ancho mínimo del
+contenido: un hijo que no se achica (una fila de vistas, una tabla sin `.table-wrap`)
+estira el panel más allá de la pantalla, y como `html`/`body` van en `overflow-x: clip`,
+el borde derecho queda recortado en vez de dar scroll. Es la misma corrección que
+`.content` (v1.2.8.37) y `.kpi-grid` (v1.2.8.13). El contenido ancho scrollea dentro de su
+propio contenedor. (Hasta la .69 esta sección mostraba un `.panel` en flex que el CSS ya
+no usaba.)
 
 ### Tablas
 
@@ -2827,5 +2836,5 @@ panel en dos aunque el formulario entrara entero en pantalla.
 
 ---
 
-*YiQi ERP · Design System v1.2.8.69 · Última actualización: 09/10/2026*
+*YiQi ERP · Design System v1.2.8.70 · Última actualización: 09/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*

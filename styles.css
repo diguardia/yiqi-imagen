@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.69";
+  --ds-version: "1.2.8.70";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -1267,7 +1267,15 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
 .highlight-metric { font: 500 20px var(--kpi-num); letter-spacing: -0.02em; font-variant-numeric: proportional-nums; }
 
 /* ── 14. PANEL ────────────────────────────────────────────── */
-.panel       { display: grid; gap: 18px; padding: 20px; border-radius: var(--radius-xl); }
+/* v1.2.8.70 — minmax(0, 1fr) explicito, como .content (v1.2.8.37) y
+   .kpi-grid (v1.2.8.13). Sin columna declarada, el track implicito es
+   `auto`, y su minimo es el ancho minimo del contenido: una fila de vistas
+   que no se achica estiraba el panel mas alla de la pantalla. Con html/body
+   en overflow-x:clip eso recorta el borde derecho del panel en vez de dar
+   scroll. Medido en me2, lista de Esquemas a 575 px: el panel media 543 y
+   su contenido 543, 40 px de mas. Ahora el contenido ancho scrollea dentro
+   de su propio contenedor (.table-wrap, .range-filter). */
+.panel       { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; padding: 20px; border-radius: var(--radius-xl); }
 .panel-wide  { grid-column: span 2; }
 .panel-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .status-panel { flex: 1; display: grid; gap: 10px; padding: 18px; border-radius: var(--radius-lg); min-height: 100%; }
