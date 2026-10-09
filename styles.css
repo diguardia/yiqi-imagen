@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.63";
+  --ds-version: "1.2.8.64";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -2596,7 +2596,12 @@ html[data-theme="light"] .skeleton-line {
   position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
   height: 22px; padding: 0 8px; border-radius: 8px;
   display: flex; align-items: center;
-  font: 600 10px var(--mono); color: var(--muted); background: var(--bg-elev-2);
+  font: 600 10px var(--mono); color: var(--muted);
+  /* v1.2.8.64 — era --bg-elev-2: en claro un chip blanco sobre el campo (1.33,
+     saltaba) y en oscuro el mismo gris del campo (1.05, desaparecia). Toma el
+     mismo velo que el campo: 1.12 en claro, 1.17 en oscuro. Visto en el
+     buscador del menu de me2 el 09/10/2026. */
+  background: color-mix(in srgb, var(--text) 6%, transparent);
 }
 
 /* Label */
