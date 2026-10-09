@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.75
+# YiQi Design System — Guía maestra v1.2.8.76
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -2966,5 +2966,21 @@ Tres cambios que el DS aplica solo; las apps no tienen que hacer nada:
 
 ---
 
-*YiQi ERP · Design System v1.2.8.75 · Última actualización: 09/10/2026*
+## 57. Controles del navegador en el tema correcto *(v1.2.8.76)*
+
+El navegador dibuja algunos controles por su cuenta: el calendario de
+`input[type="date"]`, la lista desplegada de un `<select>`, las barras de scroll y el
+autocompletado. Sin `color-scheme`, en tema oscuro los dibujaba en claro.
+
+```css
+:root { color-scheme: dark; }
+html[data-theme="light"] { color-scheme: light; }
+```
+
+Sigue a los tokens; las apps no hacen nada. El calendario nativo se queda: es accesible y
+funciona bien en el celular. Su idioma lo pone el navegador, no la página.
+
+---
+
+*YiQi ERP · Design System v1.2.8.76 · Última actualización: 09/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
