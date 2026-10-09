@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.66";
+  --ds-version: "1.2.8.67";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -458,7 +458,7 @@ h1, h2, h3, h4, p { margin: 0; }
   display: flex;
   flex-direction: column;
   padding: 28px 20px;
-  border-right: 1px solid var(--line);
+  border-right: 1px solid var(--line);   /* marco de la app (v1.2.8.67, ver .topbar) */
   background: linear-gradient(180deg, rgba(24, 24, 28, 0.96), rgba(17, 17, 20, 0.92));
   backdrop-filter: blur(18px);
 }
@@ -535,6 +535,13 @@ html[data-theme="light"] .brand-logo-light { display: block; }
   top: 0;
   z-index: var(--z-topbar);
   background: var(--bg-elev);
+  /* v1.2.8.67 — el marco de la app separa con una linea, las tres piezas igual
+     (topbar abajo, sidebar a la derecha, statusbar arriba). Excepcion al
+     borderless (§3): sin linea, la topbar mide 1.07 contra el contenido en
+     claro y 1.04 en oscuro, y se pierde; una sombra sobre casi negro tampoco
+     se ve. Antes cada pieza separaba distinto y me2 le agregaba la linea a la
+     topbar en local. Decidido con las opciones a la vista el 09/10/2026. */
+  border-bottom: 1px solid var(--line);
   min-height: var(--topbar-h);
   min-width: 0;
   display: flex;
@@ -3714,7 +3721,7 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
   display: flex; align-items: center; justify-content: space-between;
   gap: 12px; padding: 0 16px;
   background: var(--bg-elev);
-  box-shadow: var(--shadow-sm);
+  border-top: 1px solid var(--line);   /* v1.2.8.67: era box-shadow; el marco separa con linea (ver .topbar) */
   font: 500 11px var(--sans);
   color: var(--muted);
 }

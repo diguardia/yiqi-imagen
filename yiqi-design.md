@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.66
+# YiQi Design System — Guía maestra v1.2.8.67
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -368,6 +368,12 @@ Bloque de aclaración dentro de una sección. **Borderless:** se separa por fond
 borde visible → solo en controles interactivos (input, select, textarea, switch, checkbox, search)
 sin borde     → cards, panels, KPIs, badges, tags, nav items, modales, accordions, icon cards
 ```
+
+**Excepción: el marco de la app** *(v1.2.8.67)*. Topbar, sidebar y statusbar se separan del
+contenido con una línea `1px solid var(--line)`, las tres igual: abajo, a la derecha y arriba.
+Sin línea la topbar mide 1.07 contra el contenido en claro y 1.04 en oscuro, y se pierde; una
+sombra sobre casi negro tampoco se ve. El borderless aplica a lo que vive dentro del contenido,
+no al marco fijo. Lo pone `styles.css`; las apps no agregan ni quitan esas líneas.
 
 ```css
 /* ✅ Correcto — card borderless */
@@ -2805,5 +2811,5 @@ panel en dos aunque el formulario entrara entero en pantalla.
 
 ---
 
-*YiQi ERP · Design System v1.2.8.66 · Última actualización: 09/10/2026*
+*YiQi ERP · Design System v1.2.8.67 · Última actualización: 09/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
