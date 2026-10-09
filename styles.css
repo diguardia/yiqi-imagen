@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.83";
+  --ds-version: "1.2.8.84";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -3614,7 +3614,13 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
   gap: 14px; padding: 8px 28px 10px; }
 
 .topbar-logo { display: inline-flex; align-items: center; line-height: 0; }
-.topbar-logo-svg { height: 34px; width: auto; display: block; }  /* v1.2.8.60: 39 -> 34 con la topbar de 48; escala, no deforma */
+.topbar-logo-svg { height: 34px; width: auto; display: block; margin-left: -9px; }  /* v1.2.8.60: 39 -> 34 con la topbar de 48; escala, no deforma */
+/* v1.2.8.84 — el dibujo del logo (viewBox 0 0 100 65) deja vacio el 16% de
+   la izquierda: la «y» empieza en x=16, ~8,4 px a 34 de alto. La caja quedaba
+   alineada con el borde de la topbar y la letra no con los iconos del riel:
+   medido en me2, la «y» caia ~9 px a la derecha de los iconos. Se corre la
+   caja, no el dibujo, para no tocar la animacion. Si cambia el alto,
+   recalcular: alto x 100/65 x 0,16, mas lo que pida el riel. */
 
 /* Bloque usuario dentro de .account-chip */
 .account-user-block { display: flex; align-items: center; gap: 7px;

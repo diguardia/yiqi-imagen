@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.83
+# YiQi Design System — Guía maestra v1.2.8.84
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -29,7 +29,8 @@
 - **Light mode / positivo:** letras `#17191c` (= `--text` light), símbolo Q `#009fc7`
 - **Topbar universal:** letras `var(--text)`, símbolo Q `var(--cyan)`
 - No rotar, deformar, recolorear ni aplicar efectos
-- **Tamaño canónico en topbar:** `height: 39px; width: auto` — nunca tamaño fijo por ancho
+- **Tamaño canónico en topbar:** `height: 34px; width: auto` (`.topbar-logo-svg`, desde v1.2.8.60; antes 39) — nunca tamaño fijo por ancho
+- **Alineación en la topbar** *(v1.2.8.84)*: el dibujo deja vacío el 16 % de la izquierda (la «y» empieza en x=16 del `viewBox` 0 0 100 65). `.topbar-logo-svg` lleva `margin-left: -9px` para que la «y» quede alineada con los íconos del riel. Usar la clase, no un ancho propio.
 - **Wordmark en displays estáticos:** sin animación — solo SVG inline sin `data-yiqi-logo`
 - **Animación canónica (único eje aprobado):** `data-axis="y"` (flip vertical). Los ejes `x` y `z` están descartados.
 
@@ -3233,5 +3234,5 @@ guardada, y la columna de estado ordenable.
 
 ---
 
-*YiQi ERP · Design System v1.2.8.83 · Última actualización: 09/10/2026*
+*YiQi ERP · Design System v1.2.8.84 · Última actualización: 09/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
