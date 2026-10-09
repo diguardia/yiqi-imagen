@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.78
+# YiQi Design System — Guía maestra v1.2.8.79
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -3056,5 +3056,44 @@ elegido, «BETA»— va en **`.nav-link-end`**: empujado al borde, en mono y
 
 ---
 
-*YiQi ERP · Design System v1.2.8.78 · Última actualización: 09/10/2026*
+## 59. Tope de ancho por celda en la tabla compacta *(v1.2.8.79)*
+
+Las celdas no saltan de renglón (`nowrap`), y sin tope una columna medía lo que su texto
+más largo: un título de 60 caracteres ocupaba ~260 px y empujaba el resto de las columnas
+fuera de la pantalla. En `.data-table--compact` cada celda tiene un tope de 280 px y el
+texto se corta con «…». **La app pone el valor completo en `title`.**
+
+**El encabezado no decide el ancho de la columna.** Lo deciden los datos: el título no
+aporta ancho (`max-width: 0`) y se corta con «…» si no entra, con el título completo en
+`title`. Tiene un piso de 72 px para que siga legible sobre datos cortos. Las columnas se
+ordenan tocando el título (`aria-sort`): la flecha ↕ ↑ ↓ va fija a la derecha de la celda,
+con su lugar reservado, así no se corta con el título.
+
+**Punto de estado al inicio de la fila.** Entre el checkbox y la primera columna, un
+`.ldot` del color del estado (`.ldot-c` en curso, `-g` concretada, `-r` desestimada, `-a`
+en espera), con el nombre en `title` y `aria-label`. El estado se ve sin deslizar aunque la
+columna Estado esté al final de la vista. Esa columna sigue, con la etiqueta sin punto
+(`.badge.no-dot`) para no repetirlo. El encabezado de `.col-status` va vacío.
+
+```html
+<tr>
+  <td><input type="checkbox" aria-label="Seleccionar"></td>
+  <td class="col-status"><span class="ldot ldot-c" role="img" aria-label="En curso" title="En curso"></span></td>
+  <td title="Julia Peralta">Julia Peralta</td>
+  …
+  <td><span class="badge badge-cyan no-dot">En curso</span></td>
+</tr>
+```
+
+Medido en una lista de me2 a 1000 px: de 4 a 5 columnas a la vista y de 6 a 8 filas. La
+tabla normal, la de los informes, no cambia. Las listas de entidad usan la compacta.
+
+Los encabezados que arma la app desde la ruta del dato se acortan antes de llegar a la
+tabla: «Contacto - Nombre» → «Contacto»; «Origen del contacto - Origen del contacto» →
+«Origen del contacto». Se deja completo cuando la segunda parte dice qué dato es
+(«Contacto - Email»).
+
+---
+
+*YiQi ERP · Design System v1.2.8.79 · Última actualización: 09/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*

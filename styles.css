@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.78";
+  --ds-version: "1.2.8.79";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -933,6 +933,10 @@ html[data-theme="light"] .brand-logo-light { display: block; }
   border-radius: 50%;
   background: var(--muted-2);
 }
+/* v1.2.8.79 — badge sin punto: cuando el punto ya esta en otro lado (el
+   punto de estado al inicio de la fila, .col-status), repetirlo en la
+   etiqueta es ruido. */
+.badge.no-dot::before { display: none; }
 
 .badge-cyan {
   color: var(--cyan);
@@ -3789,6 +3793,7 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
 .ldot-g { background: var(--green); box-shadow: 0 0 0 3px var(--green-soft); }
 .ldot-a { background: var(--amber); box-shadow: 0 0 0 3px var(--amber-soft); }
 .ldot-r { background: var(--red);   box-shadow: 0 0 0 3px var(--red-soft); }
+.ldot-c { background: var(--cyan);  box-shadow: 0 0 0 3px var(--cyan-soft); }   /* v1.2.8.79: en curso */
 
 /* ── 45. SIDEBAR-TOOLS — HERRAMIENTAS EN EL SIDEBAR ───────── */
 /* Contenedor que baja al sidebar los controles de la topbar
@@ -4566,6 +4571,40 @@ html[data-theme="light"] .fondo-horizonte { opacity: .38; }
 .data-table--compact td {
   padding: 10px 12px;
 }
+/* v1.2.8.79 — tope de ancho por celda en la tabla compacta. Con nowrap y sin
+   tope, una columna medía lo que su texto mas largo: un titulo de 60
+   caracteres ocupaba ~260 px y empujaba el resto fuera de la pantalla. A
+   280 px el texto se corta con "..." y la app pone el valor completo en
+   title. En una lista de me2 a 1000 px: 4 -> 5 columnas a la vista y 6 -> 8
+   filas. La tabla normal (informes) no cambia. */
+.data-table--compact td {
+  max-width: 280px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* El encabezado no decide el ancho de la columna: lo deciden los datos. Con
+   max-width: 0 el titulo no aporta ancho y se corta con "..." si no entra
+   (la app pone el titulo completo en title). "Origen del contacto" en mono
+   con espaciado media mas que sus valores ("Web", "Cliente"). Piso de 72 px
+   para que un titulo sobre datos cortos ("C", "Si") siga legible. La columna
+   del checkbox no lleva piso. */
+.data-table--compact th:not(:has(input)):not(:empty) {
+  max-width: 0;
+  min-width: 72px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* La flecha de orden (::after) no se corta con el titulo: va fija a la
+   derecha de la celda, con su lugar reservado. Sin esto, un titulo cortado
+   se llevaba la flecha y no se veia por que columna estaba ordenada. */
+.data-table--compact th[aria-sort] { position: relative; padding-right: 24px; }
+.data-table--compact th[aria-sort]::after { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); }
+/* Punto de estado al inicio de la fila, entre el checkbox y la primera
+   columna: el estado se ve sin deslizar, aunque la columna Estado este al
+   final de la vista. El nombre del estado va en title y aria-label. En la
+   columna Estado la etiqueta va sin punto (.badge.no-dot). */
+.data-table .col-status { width: 14px; padding-left: 4px; padding-right: 4px; text-align: center; }
+.data-table .col-status .ldot { display: inline-block; vertical-align: middle; }
 
 /* El dedo necesita mas superficie que el mouse: en telefono la fila
    compacta vuelve a la altura canonica. La tarjeta no la necesita — ahi el
