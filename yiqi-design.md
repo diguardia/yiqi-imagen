@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.72
+# YiQi Design System — Guía maestra v1.2.8.73
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -2878,5 +2878,44 @@ alcanza. Los `position: fixed` no cambian. Probado en el teléfono con
 
 ---
 
-*YiQi ERP · Design System v1.2.8.72 · Última actualización: 09/10/2026*
+## 54. Lista en tarjetas para el celular *(nuevo en v1.2.8.73)*
+
+Una lista de entidad es una tabla de 8 a 10 columnas: a 390 px mide ~1200 y solo se ve el
+nombre y media columna más. **Debajo de 720 px la app dibuja cada fila como tarjeta**;
+arriba sigue la tabla.
+
+```html
+<ul class="ds-cardlist">
+  <li class="ds-cardlist-item">
+    <label class="ds-cardlist-check"><input type="checkbox" aria-label="Seleccionar Duna Metalúrgica"></label>
+    <a class="ds-cardlist-link" href="/es/app/23/ESQUEMA/61">
+      <span class="ds-cardlist-body">
+        <span class="ds-cardlist-title">Duna Metalúrgica</span>
+        <span class="ds-cardlist-sub">Metalúrgica Duna SRL</span>
+        <span class="ds-cardlist-meta">
+          <span class="badge badge-green">Activo</span>
+          <span><b>Segmento</b> C</span>
+          <span><b>Creado</b> 12/09/2026</span>
+        </span>
+      </span>
+      <i class="ph ph-caret-right ds-cardlist-go" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+```
+
+Reglas:
+
+- **Qué columnas:** las primeras de la vista, en su orden. La 1.ª es el título, la 2.ª el
+  subtítulo y hasta tres más van en `.ds-cardlist-meta` como «etiqueta valor». Un estado
+  va como `.badge`. Así cada vista decide sola qué se ve en el celular.
+- **Toque:** toda la tarjeta abre la ficha. El checkbox va en su propio `<label>`, fuera
+  del enlace (un control adentro de un `<a>` no es HTML válido), con 40 px de ancho.
+- **Selección:** fondo `--cyan-soft`, nunca borde. Sale solo con `:has(input:checked)`;
+  `.is-selected` queda para cuando la app lo marca a mano.
+- Sin checkbox (lista sin acciones masivas), el enlace toma 14 px de margen izquierdo solo.
+
+---
+
+*YiQi ERP · Design System v1.2.8.73 · Última actualización: 09/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
