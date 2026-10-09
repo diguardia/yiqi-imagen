@@ -1,5 +1,5 @@
 /**
- * YiQi Runtime — v1.2.8.82
+ * YiQi Runtime — v1.2.8.83
  * Utilidades JS compartidas para entregables HTML standalone.
  *
  * Uso:  <script src="/system/sdk/yiqi-runtime.js"></script>
@@ -343,60 +343,30 @@
      ══════════════════════════════════════════════════════════ */
 
   /**
-   * Hace sorteable cualquier tabla HTML por sus encabezados.
-   * Los <th> deben tener data-col="nombre" para ser clicables.
+   * Hace sorteable una tabla HTML por sus encabezados.
+   * v1.2.8.83 — ya no tiene logica propia: delega en ds-components.js, la
+   * unica implementacion del DS (YiQiDS.initSortableTable). La copia que vivia
+   * aca leia mal los numeros con punto de miles (ponia 350 por encima de
+   * 10.857) y dibujaba sus propias flechas en vez de publicar aria-sort.
+   * Si la pagina no cargo ds-components.js, se carga de la misma carpeta que
+   * este archivo. Ojo: al cargar, ds-components.js ordena toda .data-table.
+   * Ya no hace falta data-col en los <th>.
    * @param {HTMLElement} tableEl  El elemento <table>.
    */
+  var _base = (document.currentScript && document.currentScript.src || '').replace(/[^/]*$/, '');
   function initSortable(tableEl) {
     if (!tableEl) return;
-
-    var headers = tableEl.querySelectorAll('th[data-col]');
-    var tbody   = tableEl.querySelector('tbody');
-    if (!headers.length || !tbody) return;
-
-    var sortCol = -1;
-    var sortAsc = true;
-
-    headers.forEach(function (th, col) {
-      th.style.cursor = 'pointer';
-      th.style.userSelect = 'none';
-
-      /* Icono de orden */
-      var icon = document.createElement('span');
-      icon.className = 'sort-icon';
-      icon.style.cssText = 'margin-left:5px;opacity:.4;font-size:10px;font-style:normal;';
-      icon.textContent = '↕';
-      th.appendChild(icon);
-
-      th.addEventListener('click', function () {
-        sortAsc = sortCol === col ? !sortAsc : true;
-        sortCol = col;
-
-        /* Actualiza clases e íconos */
-        headers.forEach(function (h) {
-          h.classList.remove('sort-asc', 'sort-desc');
-          h.querySelector('.sort-icon').textContent = '↕';
-          h.querySelector('.sort-icon').style.opacity = '.4';
-        });
-        th.classList.add(sortAsc ? 'sort-asc' : 'sort-desc');
-        icon.textContent = sortAsc ? '↑' : '↓';
-        icon.style.opacity = '1';
-
-        /* Ordena filas */
-        var rows = Array.from(tbody.querySelectorAll('tr'));
-        rows.sort(function (a, b) {
-          var aVal = (a.cells[col] ? a.cells[col].textContent : '').trim();
-          var bVal = (b.cells[col] ? b.cells[col].textContent : '').trim();
-          var aNum = parseFloat(aVal.replace(/[^0-9,.-]/g, '').replace(',', '.'));
-          var bNum = parseFloat(bVal.replace(/[^0-9,.-]/g, '').replace(',', '.'));
-          var cmp  = !isNaN(aNum) && !isNaN(bNum)
-            ? aNum - bNum
-            : aVal.localeCompare(bVal, 'es', { numeric: true });
-          return sortAsc ? cmp : -cmp;
-        });
-        rows.forEach(function (r) { tbody.appendChild(r); });
-      });
-    });
+    if (window.YiQiDS && window.YiQiDS.initSortableTable) { window.YiQiDS.initSortableTable(tableEl); return; }
+    var pend = initSortable._pend || (initSortable._pend = []);
+    pend.push(tableEl);
+    if (pend.length > 1) return;
+    var s = document.createElement('script');
+    s.src = _base + 'ds-components.js';
+    s.onload = function () {
+      initSortable._pend = null;
+      if (window.YiQiDS && window.YiQiDS.initSortableTable) pend.forEach(window.YiQiDS.initSortableTable);
+    };
+    document.head.appendChild(s);
   }
 
 
@@ -984,7 +954,7 @@
     picker: PickerAPI,
 
     /* Meta */
-    version: '1.2.8.82',
+    version: '1.2.8.83',
   };
 
 }(window));

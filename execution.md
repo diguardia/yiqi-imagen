@@ -581,7 +581,8 @@ YiQi.toast('Error al cargar', 'error', 5000) // duration en ms (default 3000)
 
 // Tabla sorteable
 YiQi.initSortable(document.querySelector('.mi-tabla'))
-// Los <th> deben tener data-col="nombre"
+// v1.2.8.83: delega en ds-components.js (única implementación). Sin data-col.
+// Asc → desc → orden original; números es-AR; fechas d/m/aaaa; .col-status ordena por estado.
 
 // ScrollSpy (nav activo por sección)
 YiQi.initScrollSpy({

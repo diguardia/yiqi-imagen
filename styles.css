@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.82";
+  --ds-version: "1.2.8.83";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -5336,3 +5336,16 @@ a.tile-row:hover { background: var(--bg-soft); }
    negros (luminancia < 0,05), que en el tema oscuro se perdian. */
 .ds-swatch { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: middle; flex-shrink: 0; }
 .ds-swatch--dark { box-shadow: 0 0 0 1px color-mix(in srgb, var(--text) 35%, transparent); }
+
+/* ── 70. ORDEN DE TABLAS (v1.2.8.83) ──
+   El orden vive en ds-components.js (una sola implementacion; el runtime
+   delega). Tres pasos por encabezado: ascendente, descendente y vuelta al
+   orden de la vista. Aca: el puntero en todo encabezado ordenable, y la
+   columna de estado (.col-status), que tambien ordena -por el nombre del
+   estado- pero mide 14 px: sin la flecha ociosa y con la de orden centrada
+   encima, para que la columna no cambie de ancho al ordenar. */
+.data-table th[aria-sort] { cursor: pointer; user-select: none; }
+.data-table th.col-status[aria-sort] { position: relative; padding-right: 4px; }
+.data-table th.col-status[aria-sort="none"]::after { content: none; }
+.data-table th.col-status[aria-sort]::after { position: absolute; top: 50%; left: 50%; right: auto; transform: translate(-50%, -50%); content: "↑"; }
+.data-table th.col-status[aria-sort="descending"]::after { content: "↓"; }

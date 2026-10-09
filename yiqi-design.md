@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.82
+# YiQi Design System — Guía maestra v1.2.8.83
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -3208,7 +3208,30 @@ function esCasiNegro(hex) {
 }
 ```
 
+## 62. Orden de tablas: una sola implementación *(v1.2.8.83)*
+
+Había tres formas de ordenar una tabla en el sistema y no ordenaban igual. `YiQi.initSortable()`
+del runtime leía mal los números con punto de miles (ponía 350 por encima de 10.857 y
+$ 284.000 por encima de $ 12.418.300) y dibujaba sus propias flechas. La de `ds-components.js`
+ordenaba las fechas como texto (1/2/2024 antes que 26/4/2022). Ahora hay **una sola**, en
+`ds-components.js`; `YiQi.initSortable(tabla)` delega en ella (si la página no la cargó, la
+carga de la misma carpeta; ya no hace falta `data-col`).
+
+- **Tres pasos por encabezado:** ascendente → descendente → **orden de la vista**. El orden por
+  defecto no se pierde: vuelve el de las filas tal como llegaron y `aria-sort` pasa a `none`.
+- **Números en es-AR:** «10.857», «175,73», «$ 12.418.300». Columna `.num` o celdas que son números.
+- **Fechas d/m/aaaa**, con hora opcional, se ordenan como fechas.
+- **La columna de estado ordena** por el nombre del estado (el `title` del punto). Su flecha
+  aparece centrada solo cuando está ordenada, para que la columna no cambie de ancho.
+- `data-sort` en una celda sigue ordenando por algo distinto de lo que muestra.
+- No ordenan: el encabezado con la casilla de selección y los vacíos que no sean `.col-status`.
+- Teclado: Enter o barra sobre el encabezado.
+
+**En el ERP** el orden lo hace el servidor (con paginación, ordenar solo la página visible da un
+resultado falso), pero las reglas son las mismas: tres pasos con vuelta al orden de la vista
+guardada, y la columna de estado ordenable.
+
 ---
 
-*YiQi ERP · Design System v1.2.8.82 · Última actualización: 09/10/2026*
+*YiQi ERP · Design System v1.2.8.83 · Última actualización: 09/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
