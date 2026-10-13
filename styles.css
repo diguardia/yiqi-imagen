@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.86";
+  --ds-version: "1.2.8.87";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -5406,3 +5406,36 @@ a.pr-menu-item { text-decoration: none; }
 .pr-menu-item.danger .ph { color: var(--red); }
 .pr-menu-sub { margin-left: auto; padding-left: 12px; font: 400 11px var(--mono); color: var(--muted-2); white-space: nowrap; }
 .pr-menu-item:hover .pr-menu-sub { color: inherit; opacity: .75; }
+
+/* ── 73. MENU DE ACCIONES Y DESPLEGABLE: TECLADO, SELECCION Y TEXTO LARGO (v1.2.8.87) ──
+   Pedidos del frontend del 13/10 (FE-099), que hasta ahora los resolvia con
+   reglas locales en app/globals.css:
+   - .pr-menu-item no tenia foco de teclado ni deshabilitado, y el menu se
+     recorre con flechas. Foco: el mismo anillo que .ds-picker-option.
+     Deshabilitado: igual que .btn (.45, sin puntero). Criterio de .btn: se
+     deshabilita si la accion va a estar disponible en esta vista; si no, la
+     opcion no se muestra.
+   - .pr-menu-text: el nombre de la opcion. Se corta con «…» antes que
+     .pr-menu-sub, que nunca se recorta. Tambien en el cajon del celular: una
+     opcion, un renglon (favoritos con nombre largo).
+   - .ds-picker-menu--wrap: para buscadores y combos. El panel mide lo que
+     el campo (no lo que su opcion mas larga) y un nombre largo parte en
+     renglones en vez de salirse.
+   - [aria-selected="true"] vale lo mismo que .is-active en .ds-picker-option
+     (opciones de listbox), y el ✓ de .pr-menu-item[aria-checked] tambien
+     funciona con [aria-selected].
+   - .ds-timestamp: la fecha chica de comentarios, hoja de ruta e historial.
+     Reemplaza el uso de .schema-option-id fuera del selector de esquema. */
+.pr-menu-item:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: -2px; background: var(--cyan-soft); }
+.pr-menu-item:disabled,
+.pr-menu-item[aria-disabled="true"] { opacity: .45; cursor: default; pointer-events: none; }
+.pr-menu-text { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ds-picker-menu--wrap { width: 100%; }
+.ds-picker-menu--wrap .ds-picker-option { white-space: normal; }
+.ds-picker-option[aria-selected="true"] { background: var(--cyan-soft); color: var(--cyan); font-weight: 600; }
+.ds-picker-option[aria-selected] .ph-check,
+.pr-menu-item[aria-selected] .ph-check { visibility: hidden; margin-left: auto; color: var(--cyan); }
+.ds-picker-option[aria-selected="true"] .ph-check,
+.pr-menu-item[aria-selected="true"] .ph-check { visibility: visible; }
+.pr-menu-item[aria-selected="true"] { font-weight: 600; }
+.ds-timestamp { margin: 0; font: 400 11px var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }

@@ -1,18 +1,19 @@
-DS 1.2.8.56: iconos por modulo y texto del item activo del menu en --text
+DS 1.2.8.87: menú de acciones con teclado y nombre largo cortado; [aria-selected]; .ds-picker-menu--wrap; .ds-timestamp
 
-El riel del frontend mostraba siglas (CP, RR, CC, PA, CA) porque el sistema
-no tenia un icono por modulo, y .nav-link.is-active pintaba el texto en
---cyan: 2.6:1 sobre --bg claro para 12.5px (piso 4.5). Puntos 1 y 7 de la
-cuarta pasada del frontend.
-- Mapa modulo -> icono: 16 modulos del ERP + Inicio + reserva
-  (ph-squares-four). Reemplaza la tabla generica de s9, que contradecia al
-  catalogo (Compras: shopping-cart vs Bag).
-- .nav-link.is-active y su .n-ico: --cyan -> --text. El estado lo marca el
-  fondo --cyan-soft. Medidas sin cambio (40px, 12.5px).
-- Catalogo: seccion 77, filas chg-module-icons y chg-nav-active, titular;
-  icon-card "Finanzas/Calculator" pasa a Contabilidad; Stock cube -> package
-  en los dos mockups moviles. Guia: s9 y s45.
+Pedidos del frontend del 13/10 (FE-099) que resolvía con reglas locales
+en app/globals.css:
+- .pr-menu-item:focus-visible (el anillo de .ds-picker-option) y
+  :disabled / [aria-disabled="true"] (como .btn: .45, sin puntero).
+- .pr-menu-text: el nombre de la opción se corta con «…» antes que
+  .pr-menu-sub. También en el cajón del celular (favoritos en un renglón).
+- .ds-picker-menu--wrap: el panel mide lo que el campo y la opción larga
+  parte en renglones.
+- [aria-selected="true"] en .ds-picker-option vale lo mismo que .is-active;
+  el ✓ (.ph-check) funciona con [aria-selected] en .ds-picker-option y
+  .pr-menu-item.
+- .ds-timestamp: fecha chica de comentarios, hoja de ruta e historial
+  (reemplaza .schema-option-id fuera del selector de esquema).
+- §24: el menú se da vuelta si no entra; lo mide quien lo abre.
 
-Archivos: styles.css, version.json, yiqi-runtime.js, yiqi-design.md,
-yiqi-design-system.html. (examples/showcase.html trae un cambio previo del
-02/10 sin commitear: la pestana "YiQi Frontend".)
+Archivos: styles.css (§73), version.json, yiqi-runtime.js, yiqi-design.md
+(§64), yiqi-design-system.html (novedades, cambios, §24).

@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.86
+# YiQi Design System — Guía maestra v1.2.8.87
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -2071,7 +2071,7 @@ Catálogo **§67 · `#nav-movil`**. El chrome de una app del ERP en el teléfono
 
 | patrón | dónde vive | clase |
 |---|---|---|
-| Menú de tres puntos | §24 · Dropdown | `.pr-menu` · `.pr-menu-item` · `.pr-menu-sep` · `.pr-menu-sub` |
+| Menú de tres puntos | §24 · Dropdown | `.pr-menu` · `.pr-menu-item` · `.pr-menu-text` · `.pr-menu-sep` · `.pr-menu-sub` |
 | Menú lateral | §35 · Kit base | `.sidebar` + `.nav-overlay` + `.nav-close` |
 
 **Ojo con `.pr-tabbar`:** es un segmented control horizontal, no una barra inferior.
@@ -3323,7 +3323,47 @@ a.pr-menu-item { text-decoration: none; }
 </div>
 ```
 
+## 64. Menú de acciones y desplegable: teclado, selección y texto largo *(v1.2.8.87)*
+
+Pedidos del frontend del 13/10 (FE-099). Los cinco los resolvía con reglas locales; pasan al
+sistema para que el frontend las borre.
+
+- **Foco de teclado en `.pr-menu-item`.** El menú se recorre con ↑/↓ y no tenía foco visible.
+  Lleva el mismo anillo que `.ds-picker-option`.
+- **Opción deshabilitada.** `.pr-menu-item:disabled` o `[aria-disabled="true"]`, igual que
+  `.btn`: .45 y sin puntero. Se deshabilita solo si la acción va a estar disponible en esta
+  misma vista; si nunca lo va a estar, la opción no se muestra.
+- **`.pr-menu-text`: el nombre se corta con «…».** Va dentro de la opción, antes de
+  `.pr-menu-sub`, que nunca se recorta. Vale también en el cajón del celular: una opción, un
+  renglón. Un favorito de nombre largo se lee entero en su pantalla, no en el menú.
+- **`.ds-picker-menu--wrap`.** En buscadores y combos el panel mide lo que el campo, no lo que
+  su opción más larga, y un nombre largo parte en renglones en vez de salirse.
+- **`[aria-selected]`.** En `.ds-picker-option`, `[aria-selected="true"]` vale lo mismo que
+  `.is-active`. Y el ✓ que `.pr-menu-item[aria-checked]` muestra a la derecha funciona también
+  con `[aria-selected]`, para las opciones de listbox (barra de vistas).
+- **`.ds-timestamp`.** La fecha chica de comentarios, hoja de ruta e historial: 11 px, mono,
+  `--muted`, cifras tabulares. Reemplaza el uso de `.schema-option-id` fuera del selector de
+  esquema.
+
+**Posición del menú (§24).** El menú abre hacia abajo y alineado a la izquierda de su botón
+(`.pr-menu--end` para alinearlo a la derecha). Si al abrir no entra en la pantalla o en su
+contenedor, se da vuelta: arriba en vez de abajo, o del otro lado. Lo mide quien lo abre, al
+abrir; el CSS no puede saberlo.
+
+```html
+<div class="pr-menu" role="menu">
+  <a class="pr-menu-item" role="menuitem" href="…"><i class="ph ph-buildings"></i><span class="pr-menu-text">Empresa Alícuota Distribuidora del Litoral</span><span class="pr-menu-sub">12</span></a>
+  <button class="pr-menu-item" role="menuitem" disabled><i class="ph ph-file-text"></i>Resumen de cuenta</button>
+</div>
+
+<div class="ds-picker-menu ds-picker-menu--wrap" role="listbox">
+  <button class="ds-picker-option" role="option" aria-selected="true">Cliente con nombre largo que parte en dos renglones<i class="ph ph-check"></i></button>
+</div>
+
+<p class="ds-timestamp">13/10/2026 10:55</p>
+```
+
 ---
 
-*YiQi ERP · Design System v1.2.8.86 · Última actualización: 13/10/2026*
+*YiQi ERP · Design System v1.2.8.87 · Última actualización: 13/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
