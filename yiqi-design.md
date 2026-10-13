@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.85
+# YiQi Design System — Guía maestra v1.2.8.86
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -2071,7 +2071,7 @@ Catálogo **§67 · `#nav-movil`**. El chrome de una app del ERP en el teléfono
 
 | patrón | dónde vive | clase |
 |---|---|---|
-| Menú de tres puntos | §24 · Dropdown | `.pr-menu` · `.pr-menu-item` · `.pr-menu-sep` |
+| Menú de tres puntos | §24 · Dropdown | `.pr-menu` · `.pr-menu-item` · `.pr-menu-sep` · `.pr-menu-sub` |
 | Menú lateral | §35 · Kit base | `.sidebar` + `.nav-overlay` + `.nav-close` |
 
 **Ojo con `.pr-tabbar`:** es un segmented control horizontal, no una barra inferior.
@@ -3276,7 +3276,54 @@ carga de la misma carpeta; ya no hace falta `data-col`).
 resultado falso), pero las reglas son las mismas: tres pasos con vuelta al orden de la vista
 guardada, y la columna de estado ordenable.
 
+## 63. Menú de acciones: qué va acá y qué no *(v1.2.8.86)*
+
+`.pr-menu` es la pieza de todo lo que **hace algo o lleva a algún lado**: el menú «Más» de una
+ficha (cambios de estado, reportes, eliminar), favoritos, la cuenta, las vistas.
+`.schema-option` es solo para el selector de esquema de la topbar: es grande y pesado a
+propósito, porque elegir un esquema cambia toda la app. Elegir un valor de un campo es el
+desplegable (`.ds-picker-option`), no este menú.
+
+El frontend nuevo había armado el «Más» y los favoritos con `.schema-option` porque
+`.pr-menu` tenía tres problemas, que se corrigen acá:
+
+- **Capa.** Tenía `z-index: 5`, fuera de la tabla de apilamiento de §01: el menú de un tile del
+  tablero quedaba debajo del tile de al lado. Ahora toma `--z-popover`, como `.schema-menu`.
+- **Alto.** No tenía tope: con veinte favoritos se salía de la pantalla. Toma el de
+  `.schema-menu` (`calc(100dvh - var(--topbar-h) - 24px)`) y scrollea recién cuando no entra.
+- **Eliminar.** `.danger` solo se ponía rojo al pasar el mouse. Ahora texto e ícono van en
+  `--red` siempre: es la única opción sin vuelta atrás y se reconoce antes de llegar a ella.
+  Va al final, después de `.pr-menu-sep`, y pide confirmación.
+
+Entra `.pr-menu-sub`: el dato chico a la derecha de una opción (visitas en favoritos, estado
+al que lleva una transición). Y `a.pr-menu-item` va sin subrayado, para las opciones que llevan
+a otra pantalla.
+
+```css
+.pr-menu { z-index: var(--z-popover); max-height: calc(100dvh - var(--topbar-h) - 24px); overflow-y: auto; }
+a.pr-menu-item { text-decoration: none; }
+.pr-menu-item.danger,
+.pr-menu-item.danger .ph { color: var(--red); }
+.pr-menu-sub { margin-left: auto; padding-left: 12px; font: 400 11px var(--mono); color: var(--muted-2); white-space: nowrap; }
+```
+
+```html
+<div class="pr-menu" role="menu">
+  <button class="pr-menu-item" role="menuitem"><i class="ph ph-arrow-right"></i>Dar de baja<span class="pr-menu-sub">Inactiva</span></button>
+  <div class="pr-menu-sep"></div>
+  <button class="pr-menu-item" role="menuitem"><i class="ph ph-file-text"></i>Ficha de empresa</button>
+  <div class="pr-menu-sep"></div>
+  <button class="pr-menu-item danger" role="menuitem"><i class="ph ph-trash"></i>Eliminar</button>
+</div>
+
+<!-- favoritos: cada opción lleva a otra pantalla -->
+<div class="pr-menu" role="menu">
+  <p class="pr-menu-label">Favoritos</p>
+  <a class="pr-menu-item" role="menuitem" href="…"><i class="ph ph-buildings"></i>Empresa Alícuota<span class="pr-menu-sub">12</span></a>
+</div>
+```
+
 ---
 
-*YiQi ERP · Design System v1.2.8.85 · Última actualización: 13/10/2026*
+*YiQi ERP · Design System v1.2.8.86 · Última actualización: 13/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*

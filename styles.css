@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.85";
+  --ds-version: "1.2.8.86";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -5382,3 +5382,27 @@ a.tile-row:hover { background: var(--bg-soft); }
 .ds-dropzone-file.is-error .ds-dropzone-info span { color: var(--red); }
 .ds-dropzone-note { margin: 6px 2px 0; font: 400 var(--fs-caption)/1.4 var(--sans); color: var(--muted-2); }
 @media (prefers-reduced-motion: reduce) { .ds-dropzone-progress > i { transition: none; } }
+
+/* ── 72. MENU DE ACCIONES: CAPA, ALTO Y ELIMINAR EN ROJO (v1.2.8.86) ──
+   .pr-menu es el menu de acciones y navegacion («Mas» de una ficha,
+   favoritos, cuenta, vistas). Tres problemas encontrados al revisar el
+   frontend nuevo, que por eso armo esos menus con .schema-option (la pieza
+   del selector de esquema, grande y pesada para esto):
+   - z-index: 5 no esta en la tabla de apilamiento de §01; cualquier
+     elemento posicionado del contenido le pasaba por encima (el menu de un
+     tile del tablero quedaba tapado por el tile de al lado). Toma la capa de
+     los popovers, igual que .schema-menu desde la 1.2.7.9.
+   - No tenia alto maximo: con veinte favoritos se salia de la pantalla.
+     Toma el mismo tope que .schema-menu: lo unico que limita es la pantalla.
+   - .danger solo se ponia rojo al pasar el mouse: quieto, «Eliminar» se veia
+     igual que las demas opciones. Es la unica que no tiene vuelta atras; se
+     reconoce antes de llegar a ella. Va al final, despues de .pr-menu-sep.
+   - .pr-menu-sub: el dato chico a la derecha de una opcion (visitas en
+     favoritos, estado al que lleva una transicion).
+   .schema-option queda solo para el selector de esquema. */
+.pr-menu { z-index: var(--z-popover); max-height: calc(100dvh - var(--topbar-h) - 24px); overflow-y: auto; }
+a.pr-menu-item { text-decoration: none; }
+.pr-menu-item.danger,
+.pr-menu-item.danger .ph { color: var(--red); }
+.pr-menu-sub { margin-left: auto; padding-left: 12px; font: 400 11px var(--mono); color: var(--muted-2); white-space: nowrap; }
+.pr-menu-item:hover .pr-menu-sub { color: inherit; opacity: .75; }
