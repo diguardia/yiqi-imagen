@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.87
+# YiQi Design System — Guía maestra v1.2.8.88
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -3363,7 +3363,25 @@ abrir; el CSS no puede saberlo.
 <p class="ds-timestamp">13/10/2026 10:55</p>
 ```
 
+## 65. Card que gira: las caras separadas en profundidad *(v1.2.8.88)*
+
+En `.ds-flip` las dos caras estaban en el mismo plano. Cuál se ve adelante lo decide el
+navegador, y donde `backface-visibility` falla, el frente se veía al revés a través del dorso
+(visto el 13/10/2026 en yiqi.com.ar/tornado.html). Ahora cada cara queda 1 px hacia su lado:
+la que mira al frente siempre está adelante, se oculte o no la otra. A la vista no cambia nada,
+y con `prefers-reduced-motion` las caras siguen sin transformarse.
+
+```css
+.ds-flip-in > .ds-flip-cara { transform: rotateY(0deg) translateZ(1px); }
+.ds-flip-dorso { transform: rotateY(180deg) translateZ(1px); }
+```
+
+**Fondo de la card que gira.** Si la superficie (fondo, radio, relleno) va en el contenedor
+`.ds-flip`, las caras quedan transparentes y cualquier falla del giro deja ver la otra cara.
+Conviene ponerla en cada cara (`.ds-flip-cara` y `.ds-flip-dorso`) y dejar el contenedor sin
+fondo. Así quedaron las páginas de integraciones y las landings de captación de yiqi.com.ar.
+
 ---
 
-*YiQi ERP · Design System v1.2.8.87 · Última actualización: 13/10/2026*
+*YiQi ERP · Design System v1.2.8.88 · Última actualización: 13/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*

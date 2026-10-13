@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.87";
+  --ds-version: "1.2.8.88";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -4399,7 +4399,13 @@ html[data-theme="light"] .fondo-horizonte { opacity: .38; }
   -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
 }
-.ds-flip-dorso { transform: rotateY(180deg); }
+/* v1.2.8.88 — las caras separadas 1 px en profundidad. Coplanares, el orden
+   entre las dos lo decide el navegador: donde backface-visibility falla, el
+   frente se veia al reves a traves del dorso (visto el 13/10/2026 en
+   yiqi.com.ar/tornado.html). Con 1 px de separacion, la que mira al frente
+   queda siempre adelante, se oculte o no la otra. A la vista no cambia nada. */
+.ds-flip-in > .ds-flip-cara { transform: rotateY(0deg) translateZ(1px); }
+.ds-flip-dorso { transform: rotateY(180deg) translateZ(1px); }
 .ds-flip.is-vuelta .ds-flip-in { transform: rotateY(180deg); }
 @media (hover: hover) {
   .ds-flip:hover .ds-flip-in { transform: rotateY(180deg); }
