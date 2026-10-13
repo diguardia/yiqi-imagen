@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.84";
+  --ds-version: "1.2.8.85";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -3813,7 +3813,8 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
 .statusbar-left[data-state="loading"] .ldot { background: var(--amber); }
 
 /* Punto de estado. Reutilizable fuera de la statusbar. */
-.ldot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.ldot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; background: var(--muted-2); }  /* v1.2.8.85: sin variante = gris (antes no tenia color y el punto no se veia) */
+.ldot-b { background: var(--blue);  box-shadow: 0 0 0 3px var(--blue-soft); }   /* v1.2.8.85: borrador / previo, como .badge-blue */
 .ldot-g { background: var(--green); box-shadow: 0 0 0 3px var(--green-soft); }
 .ldot-a { background: var(--amber); box-shadow: 0 0 0 3px var(--amber-soft); }
 .ldot-r { background: var(--red);   box-shadow: 0 0 0 3px var(--red-soft); }
@@ -5355,3 +5356,29 @@ a.tile-row:hover { background: var(--bg-soft); }
 .data-table th.col-status[aria-sort="none"]::after { content: none; }
 .data-table th.col-status[aria-sort]::after { position: absolute; top: 50%; left: 50%; right: auto; transform: translate(-50%, -50%); content: "↑"; }
 .data-table th.col-status[aria-sort="descending"]::after { content: "↓"; }
+
+/* ── 71. ADJUNTO: SUBIENDO, GUARDADO, ERROR Y DOS ACCIONES (v1.2.8.85) ──
+   El adjunto se guarda en el registro apenas se sube: no pasa por «Guardar»,
+   asi que «Aplicar» y «Guardar» no se activan y no habia ninguna senal de que
+   se guardo (probado en la Oportunidad #37702: solo se confirmo abriendo la
+   ficha en el ERP de antes). Tampoco habia forma de cancelar la subida ni de
+   quitar el archivo: el frontend uso el lugar de «Quitar» para «Reemplazar».
+   - .ds-dropzone-actions: hasta dos acciones a la derecha (Reemplazar y Quitar,
+     o Cancelar, o Reintentar).
+   - .is-uploading + .ds-dropzone-progress: nombre, cuanto subio y barra fina.
+   - .ds-dropzone-file.is-saved: tilde verde unos 4 s; despues vuelve al reposo.
+   - .ds-dropzone-file.is-error: no se subio, el registro quedo como estaba.
+   - .ds-dropzone-note: la aclaracion «se guarda al instante» bajo el campo. */
+.ds-dropzone-actions { display: flex; align-items: center; gap: 2px; flex-shrink: 0; }
+.ds-dropzone-actions .btn-icon { color: var(--muted); }
+.ds-dropzone-actions .btn-icon:hover { color: var(--text); }
+.ds-dropzone-progress { display: block; height: 3px; margin-top: 7px; border-radius: var(--radius-pill); background: var(--line); overflow: hidden; }
+.ds-dropzone-progress > i { display: block; height: 100%; width: 0; background: var(--cyan); border-radius: inherit; transition: width .2s linear; }
+.ds-dropzone.is-uploading { cursor: default; }
+.ds-dropzone.is-uploading:hover { background: var(--bg-soft); }
+.ds-dropzone-file.is-saved .ds-dropzone-thumb { background: var(--green-soft); color: var(--green); }
+.ds-dropzone-file.is-saved .ds-dropzone-info span { color: var(--green); }
+.ds-dropzone-file.is-error .ds-dropzone-thumb { background: var(--red-soft); color: var(--red); }
+.ds-dropzone-file.is-error .ds-dropzone-info span { color: var(--red); }
+.ds-dropzone-note { margin: 6px 2px 0; font: 400 var(--fs-caption)/1.4 var(--sans); color: var(--muted-2); }
+@media (prefers-reduced-motion: reduce) { .ds-dropzone-progress > i { transition: none; } }

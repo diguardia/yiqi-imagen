@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.84
+# YiQi Design System — Guía maestra v1.2.8.85
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -2553,9 +2553,53 @@ zona de arrastre sobre campo compacto.
 | Foco (teclado) | `:focus-within` | anillo `--cyan-night`, como `.ds-input` |
 | Con archivo | `.ds-dropzone-file` adentro | miniatura 44 (`--cyan-soft`), nombre, peso en mono, quitar |
 | Deshabilitado | `.is-disabled` | opacidad .5, sin eventos — el "disponible después de guardar" |
+| Subiendo *(v1.2.8.85)* | `.is-uploading` + `.ds-dropzone-progress` | nombre, «Subiendo · 368 de 595 KB», barra fina `--cyan`; acción «Cancelar» |
+| Guardado *(v1.2.8.85)* | `.ds-dropzone-file.is-saved` | ~4 s: miniatura `--green-soft` con tilde, «Guardado en el registro»; después vuelve al reposo |
+| Error *(v1.2.8.85)* | `.ds-dropzone-file.is-error` | miniatura `--red-soft`, «No se pudo subir. El registro quedó como estaba.», «Reintentar» |
 
 Tipografía: texto principal `--fs-body` 500, ayuda `--fs-caption`, peso del archivo en
 `--mono` 11. Sin borde punteado: el sistema es borderless, la zona se distingue por fondo.
+
+**Cuando el archivo se guarda al instante** *(v1.2.8.85)*. En la ficha del ERP el adjunto se
+guarda en el registro apenas se sube, sin pasar por «Guardar»: por eso cada paso se avisa en
+el mismo campo.
+
+- **Dos acciones** a la derecha, en `.ds-dropzone-actions`: ↻ Reemplazar y ✕ Quitar
+  (`.btn-icon.btn-icon-sm`, nombre en `aria-label`). «Quitar» no usa el lugar de otra acción.
+- **Quitar pide confirmación** (`.confirm-dialog`): «¿Quitar el adjunto? {archivo} se quita
+  del registro al instante.» No hay otra instancia para arrepentirse.
+- **Al terminar de subir:** estado `.is-saved` unos 4 s y aviso «Adjunto guardado»
+  (`.pr-toast.is-success`). Después, reposo con la nota `.ds-dropzone-note`: «Guardado en el
+  registro. Reemplazar o quitar también se guarda al instante.»
+- **Cancelar** corta la subida y deja el campo como estaba (vacío o con el archivo anterior).
+
+```html
+<!-- subiendo -->
+<div class="ds-dropzone is-uploading">
+  <div class="ds-dropzone-file">
+    <span class="ds-dropzone-thumb"><i class="ph ph-file"></i></span>
+    <div class="ds-dropzone-info"><b>Preventa_2026-10-09.pdf</b><span>Subiendo · 368 de 595 KB</span>
+      <span class="ds-dropzone-progress"><i style="width:62%"></i></span></div>
+    <div class="ds-dropzone-actions"><button class="btn btn-sm btn-ghost" type="button"><i class="ph ph-x"></i> Cancelar</button></div>
+  </div>
+</div>
+<!-- con archivo -->
+<div class="ds-dropzone">
+  <div class="ds-dropzone-file">
+    <span class="ds-dropzone-thumb"><i class="ph ph-file"></i></span>
+    <div class="ds-dropzone-info"><b>Preventa_2026-10-09.pdf</b><span>595 KB · <a href="…">Descargar</a></span></div>
+    <div class="ds-dropzone-actions">
+      <button class="btn-icon btn-icon-sm" type="button" aria-label="Reemplazar"><i class="ph ph-arrows-clockwise"></i></button>
+      <button class="btn-icon btn-icon-sm" type="button" aria-label="Quitar"><i class="ph ph-x"></i></button>
+    </div>
+  </div>
+</div>
+<p class="ds-dropzone-note">Guardado en el registro. Reemplazar o quitar también se guarda al instante.</p>
+```
+
+**Punto de estado sin variante** *(v1.2.8.85)*: `.ldot` solo es gris (`--muted-2`); antes no
+tenía color y no se veía. Nueva variante `.ldot-b` (azul, borrador o previo), para que el
+punto coincida con `.badge-blue`.
 
 ---
 
@@ -3234,5 +3278,5 @@ guardada, y la columna de estado ordenable.
 
 ---
 
-*YiQi ERP · Design System v1.2.8.84 · Última actualización: 09/10/2026*
+*YiQi ERP · Design System v1.2.8.85 · Última actualización: 13/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
