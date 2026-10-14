@@ -1,9 +1,5 @@
-DS 1.2.8.90: el tema claro deja el blanco puro; tarjetas en #fbfaf7 y toda la escala un paso más abajo
+Catálogo: la paleta de colores coincide con styles.css
 
-Pedido de Seba, 14/10/2026, elegido entre cuatro escalas (vista previa colores-claro.html).
-Bajar solo el blanco dejaba la separación tarjeta/lienzo en 1,04 y las tarjetas se perdían.
-- --bg #e9e7e1, --bg-elev #f1efe9, --card-bg #f4f2ec, --bg-elev-2 y --tile-bg #fbfaf7,
-  --bg-soft #dcdad5, --nav-item-bg #f1efe9. Separación igual que antes (1,07 / 1,19),
-  hover 1,13 / 1,21 / 1,33, texto gris en el mínimo AA o más.
-- Catálogo: swatches de Colores y changelog; titular de Novedades solo con la versión nueva.
-- yiqi-design.md §1.2 y §67; execution.md con los valores nuevos.
+- Text Muted 2 decía #625f5f · #8a8580; los valores reales son #7d7c82 (oscuro) y #636875 (claro).
+- Entran las muestras que faltaban: --card-bg (lienzo) y --tile-bg (tarjeta), las superficies del tablero que cambió la 1.2.8.90.
+Revisadas las 17 muestras de §03 contra los tokens del CSS. Pedido de Seba, 14/10/2026: el catálogo es la fuente que se mira y tiene que coincidir siempre con el CSS.
