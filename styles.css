@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.90";
+  --ds-version: "1.2.8.91";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -1114,20 +1114,14 @@ html[data-theme="light"] .more-kpis { background: transparent; }
 .panel:has(> .signal-list) { background: transparent; }
 .card { padding: 16px; }
 
-html[data-theme="light"] .card,
-html[data-theme="light"] .source-card,
-html[data-theme="light"] .kpi-card,
-html[data-theme="light"] .panel,
-html[data-theme="light"] .hero-card,
-html[data-theme="light"] .decision-card,
-html[data-theme="light"] .status-panel,
-html[data-theme="light"] .summary-card,
-html[data-theme="light"] .watchlist-card,
-html[data-theme="light"] .pulse-card,
-html[data-theme="light"] .highlight-card,
+/* v1.2.8.91 — aca habia un rgba(255,255,255,.92) para .card, .panel, .kpi-card y
+   ocho cards mas en claro. Con especificidad (0,2,1) le ganaba a los tokens: tras
+   la 1.2.8.90 las tarjetas seguian en #fdfdfd, casi blanco puro, y .panel--tile
+   nunca llegaba a --tile-bg. Las cards ya toman --card-bg en la regla base;
+   solo el banner y el login, que no estan en ella, lo declaran aca. */
 html[data-theme="light"] .runtime-banner,
 html[data-theme="light"] .login-card {
-  background: rgba(255, 255, 255, 0.92);
+  background: var(--card-bg);
 }
 
 /* KPI card */

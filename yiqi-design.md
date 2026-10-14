@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.90
+# YiQi Design System — Guía maestra v1.2.8.91
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -3440,8 +3440,13 @@ separación entre superficies quede igual:
 - Texto gris: `--muted-2` sobre `--bg` queda en 4,5, el mínimo para texto chico. No bajar más
   la escala sin oscurecer también `--muted-2`.
 - El tema oscuro no cambia. Elegido por Seba el 14/10/2026 entre cuatro escalas.
+- **v1.2.8.91:** una regla vieja pintaba `.card`, `.panel`, `.kpi-card` y ocho cards más con
+  `rgba(255,255,255,.92)` en claro y les ganaba a los tokens: seguían en `#fdfdfd`. Se quita;
+  las cards toman `--card-bg` (`#f4f2ec`) y la tarjeta de tablero `--tile-bg` (`#fbfaf7`).
+  Ninguna superficie del tema claro es `#ffffff`. No volver a fijar fondos de card por tema:
+  el tema lo resuelven los tokens.
 
 ---
 
-*YiQi ERP · Design System v1.2.8.90 · Última actualización: 14/10/2026*
+*YiQi ERP · Design System v1.2.8.91 · Última actualización: 14/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*

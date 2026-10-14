@@ -1,5 +1,8 @@
-Catálogo: la paleta de colores coincide con styles.css
+DS 1.2.8.91: las tarjetas del tema claro dejan el blanco casi puro
 
-- Text Muted 2 decía #625f5f · #8a8580; los valores reales son #7d7c82 (oscuro) y #636875 (claro).
-- Entran las muestras que faltaban: --card-bg (lienzo) y --tile-bg (tarjeta), las superficies del tablero que cambió la 1.2.8.90.
-Revisadas las 17 muestras de §03 contra los tokens del CSS. Pedido de Seba, 14/10/2026: el catálogo es la fuente que se mira y tiene que coincidir siempre con el CSS.
+- styles.css: se quita html[data-theme="light"] .card/.panel/.kpi-card/... { background: rgba(255,255,255,.92) }.
+  Le ganaba por especificidad a los tokens de la 1.2.8.90: las tarjetas seguían en #fdfdfd y .panel--tile nunca tomaba --tile-bg.
+  Ahora: cards #f4f2ec (--card-bg), tarjeta de tablero #fbfaf7 (--tile-bg). Solo .runtime-banner y .login-card declaran --card-bg.
+- Versión 1.2.8.91 en version.json, --ds-version, yiqi-runtime.js, yiqi-design.md y catálogo.
+- Catálogo: fila chg-claro-cards-sin-blanco en Novedades; la 1.2.8.90 pasa a la lista de anteriores.
+- yiqi-design.md §67: nota de la corrección.
