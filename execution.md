@@ -354,11 +354,12 @@ html[data-theme="light"] body {
 
 ```css
 html[data-theme="light"] {
-  --bg:          #eeece7;
-  --bg-elev:     #f6f4ef;
-  --bg-elev-2:   #ffffff;
-  --card-bg:     #f9f7f2;
-  --bg-soft:     #ece9e2;
+  --bg:          #e9e7e1;
+  --bg-elev:     #f1efe9;
+  --bg-elev-2:   #fbfaf7;
+  --card-bg:     #f4f2ec;
+  --tile-bg:     #fbfaf7;
+  --bg-soft:     #dcdad5;
   --line:        rgba(0,0,0,.08);
   --line-strong: rgba(0,0,0,.13);
   --text:        #17191c;

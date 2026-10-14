@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.89
+# YiQi Design System — Guía maestra v1.2.8.90
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -160,10 +160,12 @@
 ```css
 html[data-theme="light"] {
   /* Backgrounds */
-  --bg:        #eeece7;
-  --bg-elev:   #f6f4ef;
-  --bg-elev-2: #ffffff;
-  --bg-soft:   #ece9e2;
+  --bg:        #e9e7e1;   /* v1.2.8.90 */
+  --bg-elev:   #f1efe9;
+  --bg-elev-2: #fbfaf7;   /* sin blanco puro */
+  --card-bg:   #f4f2ec;
+  --tile-bg:   #fbfaf7;
+  --bg-soft:   #dcdad5;
 
   /* Borders */
   --line:        rgba(0,0,0,.08);
@@ -3418,7 +3420,28 @@ de abajo quedan atenuados y deshabilitados. Esc y Tab no se listan.
 if (window.YiQi && !YiQi.shortcuts.enabled('menu')) return;
 ```
 
+## 67. Tema claro sin blanco puro *(v1.2.8.90)*
+
+Las tarjetas (`--tile-bg`) y las superficies más altas (`--bg-elev-2`) eran `#ffffff`. Pasan a
+`#fbfaf7`, un blanco apenas cálido, y toda la escala del tema claro baja un paso para que la
+separación entre superficies quede igual:
+
+| Token | Antes | Ahora |
+|---|---|---|
+| `--bg` | `#eeece7` | `#e9e7e1` |
+| `--bg-elev` | `#f6f4ef` | `#f1efe9` |
+| `--card-bg` | `#f9f7f2` | `#f4f2ec` |
+| `--bg-elev-2` · `--tile-bg` | `#ffffff` | `#fbfaf7` |
+| `--bg-soft` (hover) | `#e1dfdb` | `#dcdad5` |
+
+- Tarjeta/lienzo 1,07 y tarjeta/fondo 1,19, como antes. Cambiar solo el blanco la dejaba en
+  1,04: en claro las tarjetas ya se distinguían poco del lienzo.
+- El hover (`--bg-soft`) sigue separando 1,13 / 1,21 / 1,33 sobre las tres superficies.
+- Texto gris: `--muted-2` sobre `--bg` queda en 4,5, el mínimo para texto chico. No bajar más
+  la escala sin oscurecer también `--muted-2`.
+- El tema oscuro no cambia. Elegido por Seba el 14/10/2026 entre cuatro escalas.
+
 ---
 
-*YiQi ERP · Design System v1.2.8.89 · Última actualización: 14/10/2026*
+*YiQi ERP · Design System v1.2.8.90 · Última actualización: 14/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*

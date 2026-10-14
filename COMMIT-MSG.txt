@@ -1,6 +1,9 @@
-Catálogo: Novedades vuelve a ser un titular corto; las versiones anteriores, en la lista que se despliega
+DS 1.2.8.90: el tema claro deja el blanco puro; tarjetas en #fbfaf7 y toda la escala un paso más abajo
 
-Desde la 1.2.8.61 cada versión anidaba la anterior en el titular («Antes, en vX…»)
-y el bloque llegó a 40 renglones. El titular dice solo la versión nueva, con tope
-de cuatro renglones; las 28 versiones de la 1.2.8.61 a la 1.2.8.88 pasan a
-#dsRnPrev, que se abre con «Ver versiones anteriores». Pedido de Seba, 14/10/2026.
+Pedido de Seba, 14/10/2026, elegido entre cuatro escalas (vista previa colores-claro.html).
+Bajar solo el blanco dejaba la separación tarjeta/lienzo en 1,04 y las tarjetas se perdían.
+- --bg #e9e7e1, --bg-elev #f1efe9, --card-bg #f4f2ec, --bg-elev-2 y --tile-bg #fbfaf7,
+  --bg-soft #dcdad5, --nav-item-bg #f1efe9. Separación igual que antes (1,07 / 1,19),
+  hover 1,13 / 1,21 / 1,33, texto gris en el mínimo AA o más.
+- Catálogo: swatches de Colores y changelog; titular de Novedades solo con la versión nueva.
+- yiqi-design.md §1.2 y §67; execution.md con los valores nuevos.

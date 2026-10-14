@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.89";
+  --ds-version: "1.2.8.90";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -225,11 +225,18 @@
 }
 
 html[data-theme="light"] {
-  --bg:          #eeece7;
-  --bg-elev:     #f6f4ef;
-  --bg-elev-2:   #ffffff;
-  --card-bg:     #f9f7f2;
-  --tile-bg:     #ffffff;
+  /* v1.2.8.90 — sin blanco puro. Las tarjetas y las superficies mas altas
+     eran #ffffff; pasan a #fbfaf7 y toda la escala baja un paso para que la
+     separacion quede igual que antes: tarjeta/lienzo 1.07, tarjeta/fondo
+     1.19. Bajar solo el blanco la dejaba en 1.04 y las tarjetas se perdian
+     en el lienzo, que en claro ya se distinguian poco. Valores de antes:
+     --bg #eeece7, --bg-elev #f6f4ef, --card-bg #f9f7f2, --bg-elev-2 y
+     --tile-bg #ffffff, --bg-soft #e1dfdb. Elegido por Seba, 14/10/2026. */
+  --bg:          #e9e7e1;
+  --bg-elev:     #f1efe9;
+  --bg-elev-2:   #fbfaf7;
+  --card-bg:     #f4f2ec;
+  --tile-bg:     #fbfaf7;
   /* v1.2.8 — de #ece9e2 a #e1dfdb. --bg-soft es la superficie de hover de
      17 reglas del sistema (nav, tabs, modales, appbar, cards, botones), y en
      claro estaba a DOS puntos de luminosidad de --bg: contraste 1.027 sobre
@@ -238,7 +245,8 @@ html[data-theme="light"] {
      1.13 / 1.21 / 1.33 — mismo orden de magnitud, hover perceptible sobre
      cualquiera de las tres. Arreglar los hovers uno por uno habria dejado
      dos lenguajes conviviendo; el defecto estaba en el token. 19/08/2026. */
-  --bg-soft:     #e1dfdb;
+  /* v1.2.8.90: baja con la escala para que el hover siga separando 1.13 / 1.21 / 1.33. */
+  --bg-soft:     #dcdad5;
   --line:        rgba(0,0,0,.08);
   --line-strong: rgba(0,0,0,.13);
   /* Mas suave en claro: sobre un fondo crudo, .55 de negro lee como
@@ -339,7 +347,7 @@ html[data-theme="light"] { color-scheme: light; }
 html[data-theme="light"] {
   --nav-label-color:        #5e5a57;
   --nav-item-text:          #17191c;
-  --nav-item-bg:            #f6f4ef;
+  --nav-item-bg:            #f1efe9;   /* v1.2.8.90: sigue a --bg-elev */
   --nav-item-border:        rgba(0, 0, 0, 0.10);
   --nav-item-hover-text:    #0a0a0b;
   --nav-item-hover-bg:      rgba(0, 159, 199, 0.10);
