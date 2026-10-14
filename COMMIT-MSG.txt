@@ -1,8 +1,3 @@
-DS 1.2.8.91: las tarjetas del tema claro dejan el blanco casi puro
+Fuentes: entra favicon.svg
 
-- styles.css: se quita html[data-theme="light"] .card/.panel/.kpi-card/... { background: rgba(255,255,255,.92) }.
-  Le ganaba por especificidad a los tokens de la 1.2.8.90: las tarjetas seguían en #fdfdfd y .panel--tile nunca tomaba --tile-bg.
-  Ahora: cards #f4f2ec (--card-bg), tarjeta de tablero #fbfaf7 (--tile-bg). Solo .runtime-banner y .login-card declaran --card-bg.
-- Versión 1.2.8.91 en version.json, --ds-version, yiqi-runtime.js, yiqi-design.md y catálogo.
-- Catálogo: fila chg-claro-cards-sin-blanco en Novedades; la 1.2.8.90 pasa a la lista de anteriores.
-- yiqi-design.md §67: nota de la corrección.
+Copia exacta de www.yiqi/favicon.svg, el mismo isotipo que las páginas del DS ya embeben en base64 (Q cian #0cf sobre #07131a). Hasta ahora el DS no lo tenía como archivo.
