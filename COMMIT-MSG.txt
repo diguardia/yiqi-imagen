@@ -1,19 +1,10 @@
-DS 1.2.8.87: menú de acciones con teclado y nombre largo cortado; [aria-selected]; .ds-picker-menu--wrap; .ds-timestamp
+DS 1.2.8.89: el tema se cambia con ⌘⇧L / Ctrl+Shift+L y todo atajo se puede apagar; YiQi.shortcuts, .ds-kbd
 
-Pedidos del frontend del 13/10 (FE-099) que resolvía con reglas locales
-en app/globals.css:
-- .pr-menu-item:focus-visible (el anillo de .ds-picker-option) y
-  :disabled / [aria-disabled="true"] (como .btn: .45, sin puntero).
-- .pr-menu-text: el nombre de la opción se corta con «…» antes que
-  .pr-menu-sub. También en el cajón del celular (favoritos en un renglón).
-- .ds-picker-menu--wrap: el panel mide lo que el campo y la opción larga
-  parte en renglones.
-- [aria-selected="true"] en .ds-picker-option vale lo mismo que .is-active;
-  el ✓ (.ph-check) funciona con [aria-selected] en .ds-picker-option y
-  .pr-menu-item.
-- .ds-timestamp: fecha chica de comentarios, hoja de ruta e historial
-  (reemplaza .schema-option-id fuera del selector de esquema).
-- §24: el menú se da vuelta si no entra; lo mide quien lo abre.
-
-Archivos: styles.css (§73), version.json, yiqi-runtime.js, yiqi-design.md
-(§64), yiqi-design-system.html (novedades, cambios, §24).
+Pedido de Seba del 14/10. Probado en el navegador: el atajo le llega a la página.
+- yiqi-runtime.js: YiQi.toggleTheme() y el atajo; YiQi.shortcuts.enabled/set
+  con la preferencia en localStorage['yiqi-shortcuts'] ({all, theme, menu…});
+  eventos yiqi:themechange y yiqi:shortcutschange; aria-keyshortcuts en los
+  botones de tema.
+- styles.css §74: .ds-kbd y .ds-kbd-or (teclas escritas, sin fondo).
+- Catálogo §86 «Atajos de teclado»: Preferencias › Atajos de teclado, API y markup.
+- yiqi-design.md §66. Versión en version.json, --ds-version, runtime y guía.

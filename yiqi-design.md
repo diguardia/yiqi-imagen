@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.88
+# YiQi Design System — Guía maestra v1.2.8.89
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -3381,7 +3381,44 @@ y con `prefers-reduced-motion` las caras siguen sin transformarse.
 Conviene ponerla en cada cara (`.ds-flip-cara` y `.ds-flip-dorso`) y dejar el contenedor sin
 fondo. Así quedaron las páginas de integraciones y las landings de captación de yiqi.com.ar.
 
+## 66. Atajos de teclado *(nuevo en v1.2.8.89)*
+
+**Cambiar entre claro y oscuro:** `⌘⇧L` en Mac, `Ctrl+Shift+L` en el resto. Lo pone
+`yiqi-runtime.js` en toda página que lo carga, incluido el ERP nuevo. Alterna entre los dos
+temas desde el que se ve; si la preferencia es «Sistema», pasa al contrario. «Sistema» se elige
+desde el selector. Probado el 14/10/2026: el navegador se lo deja a la página.
+
+**Todo atajo se puede apagar**, uno por uno o todos juntos, desde Preferencias › Atajos de
+teclado. Es un pedido de Seba y lo piden las pautas de accesibilidad para teclas sueltas como
+«/» (WCAG 2.1.4).
+
+- La preferencia vive en `localStorage['yiqi-shortcuts']` como `{all, theme, menu…}`. Lo que no
+  está guardado cuenta como prendido.
+- `YiQi.shortcuts.enabled(id)`: la app pregunta antes de actuar en sus atajos propios. Con el
+  general apagado devuelve `false` para todos.
+- `YiQi.shortcuts.set(id, on)`: lo usa la pantalla de Preferencias. `'all'` es el general.
+- `YiQi.toggleTheme()`: lo que corre el atajo.
+- Eventos en `document`: `yiqi:themechange` (cada cambio de tema, venga de donde venga; la app
+  que dibuja su propio selector lo escucha) y `yiqi:shortcutschange`.
+- Los botones de tema del DS llevan `aria-keyshortcuts`.
+
+**Preferencias › Atajos de teclado.** Pestaña propia. Arriba el interruptor general; abajo un
+renglón por atajo: nombre, qué hace, las teclas y su interruptor. Con el general apagado, los
+de abajo quedan atenuados y deshabilitados. Esc y Tab no se listan.
+
+**`.ds-kbd`** escribe las teclas: mono 11 px, `--muted`, sin fondo ni borde (el criterio de
+`.ds-input-shortcut`: es una pista, no un control). `.ds-kbd-or` separa dos alternativas.
+
+```html
+<span class="ds-kbd">⌘K</span><span class="ds-kbd-or">o</span><span class="ds-kbd">/</span>
+```
+
+```js
+// atajo propio de la app
+if (window.YiQi && !YiQi.shortcuts.enabled('menu')) return;
+```
+
 ---
 
-*YiQi ERP · Design System v1.2.8.88 · Última actualización: 13/10/2026*
+*YiQi ERP · Design System v1.2.8.89 · Última actualización: 14/10/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*

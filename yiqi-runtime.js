@@ -1,5 +1,5 @@
 /**
- * YiQi Runtime — v1.2.8.88
+ * YiQi Runtime — v1.2.8.89
  * Utilidades JS compartidas para entregables HTML standalone.
  *
  * Uso:  <script src="/system/sdk/yiqi-runtime.js"></script>
@@ -11,6 +11,9 @@
  *   YiQi.resolveTheme(v)      — resuelve 'system' al tema real del OS
  *   YiQi.cycleTheme()         — avanza Oscuro → Sistema → Claro → Oscuro
  *   YiQi.upgradeThemeToggles()— shim: cambia el toggle de 3 pasos por el de 1
+ *   YiQi.toggleTheme()        — alterna claro/oscuro (atajo ⌘⇧L / Ctrl+Shift+L)
+ *   YiQi.shortcuts.enabled(id)— ¿el atajo está prendido? ('theme', 'menu'…)
+ *   YiQi.shortcuts.set(id,on) — prende o apaga un atajo ('all' = todos)
  *   YiQi.toast(msg, type?)    — notificación flotante
  *   YiQi.initSortable(el)     — tabla HTML sorteable por columna
  *   YiQi.initScrollSpy(opts)  — nav activo por scroll
@@ -101,6 +104,8 @@
       btn.dataset.pref = v;
       btn.setAttribute('aria-label', 'Tema: ' + (_THEME_LABEL[v] || v) + '. Cambiar al siguiente.');
       btn.setAttribute('title', 'Tema · ' + (_THEME_LABEL[v] || v));
+      /* v1.2.8.89 — el atajo se anuncia al lector de pantalla. */
+      btn.setAttribute('aria-keyshortcuts', /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent || '') ? 'Meta+Shift+L' : 'Control+Shift+L');
     });
   }
 
@@ -190,6 +195,9 @@
     guardarCookieTema(v);          // para que la eleccion cruce a los subdominios
     applyTheme(v);
     updateThemeSwitch(v);
+    /* v1.2.8.89 — avisa a la app: el ERP nuevo dibuja su propio selector de
+       tema y, si el cambio vino del atajo, tiene que enterarse. */
+    try { document.dispatchEvent(new CustomEvent('yiqi:themechange', { detail: { preference: v, theme: resolveTheme(v) } })); } catch (e) {}
   }
 
   /**
@@ -223,6 +231,64 @@
       updateThemeSwitch(saved);
     });
   })();
+
+
+  /* ══════════════════════════════════════════════════════════
+     1b. ATAJOS DE TECLADO (v1.2.8.89)
+     ══════════════════════════════════════════════════════════
+     Cada atajo se puede apagar, y todos juntos también: lo pide Preferencias
+     › Atajos de teclado, y lo piden las pautas de accesibilidad para las
+     teclas sueltas como «/» (WCAG 2.1.4). La preferencia vive en
+     localStorage 'yiqi-shortcuts' como {all, theme, menu…}: lo que no está
+     guardado cuenta como prendido. La app que dibuja Preferencias escribe
+     con YiQi.shortcuts.set(); la que tiene atajos propios pregunta con
+     YiQi.shortcuts.enabled(id) antes de actuar.
+
+     Cambiar entre claro y oscuro: ⌘⇧L en Mac, Ctrl+Shift+L en el resto.
+     Alterna entre los dos temas; si la preferencia es «Sistema», pasa al
+     contrario del que se ve. «Sistema» se elige desde el selector, no desde
+     el atajo. Probado el 14/10/2026: el navegador se lo deja a la página. */
+  var SHORTCUTS_KEY = 'yiqi-shortcuts';
+  var _isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent || '');
+
+  function readShortcuts() {
+    try { return JSON.parse(localStorage.getItem(SHORTCUTS_KEY)) || {}; } catch (e) { return {}; }
+  }
+  function shortcutEnabled(id) {
+    var s = readShortcuts();
+    if (s.all === false) return false;
+    return id ? s[id] !== false : true;
+  }
+  function setShortcutEnabled(id, on) {
+    var s = readShortcuts();
+    s[id] = !!on;
+    try { localStorage.setItem(SHORTCUTS_KEY, JSON.stringify(s)); } catch (e) {}
+    try { document.dispatchEvent(new CustomEvent('yiqi:shortcutschange', { detail: s })); } catch (e) {}
+    return s;
+  }
+
+  /** Alterna claro/oscuro desde el tema que se VE, y devuelve el nuevo. */
+  function toggleTheme() {
+    var next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+    setTheme(next);
+    return next;
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.defaultPrevented || e.repeat) return;
+    if (e.code !== 'KeyL' || !e.shiftKey || e.altKey) return;
+    var primary = _isMac ? (e.metaKey && !e.ctrlKey) : (e.ctrlKey && !e.metaKey);
+    if (!primary || !shortcutEnabled('theme')) return;
+    e.preventDefault();
+    toggleTheme();
+  });
+
+  var ShortcutsAPI = {
+    enabled: shortcutEnabled,
+    set: setShortcutEnabled,
+    /** Texto del atajo de tema para mostrar en pantalla. */
+    themeLabel: function () { return _isMac ? '⌘⇧L' : 'Ctrl+Shift+L'; }
+  };
 
 
   /* ══════════════════════════════════════════════════════════
@@ -933,7 +999,11 @@
     applyTheme:   applyTheme,
 
     cycleTheme:   cycleTheme,
+    toggleTheme:  toggleTheme,
     upgradeThemeToggles: upgradeThemeToggles,
+
+    /* Atajos de teclado */
+    shortcuts:    ShortcutsAPI,
 
     /* UI */
     toast:          toast,
@@ -954,7 +1024,7 @@
     picker: PickerAPI,
 
     /* Meta */
-    version: '1.2.8.88',
+    version: '1.2.8.89',
   };
 
 }(window));
