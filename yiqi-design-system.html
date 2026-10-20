@@ -340,7 +340,7 @@ body.preview-open .ds-layout { display: none !important; }
 <span class="ds-nav-label">Marketplace</span>
 <a class="ds-nav-item" href="#app-banners"><span class="ds-nav-num">40</span> Banners de apps</a>
 <a class="ds-nav-item" href="#mb-fhead"><span class="ds-nav-num">41</span> Header de ficha</a>
-<a class="ds-nav-item" href="#mb-price"><span class="ds-nav-num">42</span> Card de pricing</a>
+<a class="ds-nav-item" href="#mb-price"><span class="ds-nav-num">42</span> Card de precio</a>
 <a class="ds-nav-item" href="#mb-details"><span class="ds-nav-num">43</span> Card de detalles</a>
 <a class="ds-nav-item" href="#mb-dev"><span class="ds-nav-num">44</span> Card de desarrollador</a>
 <a class="ds-nav-item" href="#mb-share"><span class="ds-nav-num">45</span> Menú de compartir</a>
@@ -5374,35 +5374,9 @@ ana · prov · inv · pos · pick · cons
 <section class="ds-section" id="mb-price">
 <div class="ds-section-header">
 <div class="ds-section-kicker">42 · Marketplace</div>
-<h2 class="ds-section-title">Card de pricing + estimador</h2>
-<p class="ds-section-sub">Bloque comercial de la ficha. Trial, filas Activación/Abono, <strong>estimador</strong> con el primitivo <em>Slider</em> (§21) y output, CTAs (<code>.btn</code>) y nota de consulta gratis / operación paga.</p>
+<h2 class="ds-section-title">Card de precio</h2>
+<p class="ds-section-sub">Precio vigente de las apps del Marketplace desde el 20/10/2026: <strong>sin alta, solo servicio mensual</strong>, montos netos + IVA. Variante <strong>A · precio fijo</strong> (<code>.mb-price-big</code> con <code>.n</code> y <code>.u</code>, <code>.mb-price-sub</code>, fila <code>.mb-pline</code> «Alta · Sin costo») y variante <strong>B · por cotización</strong> («A medida» + CTA de color de app). Reemplaza al estimador anterior, que se dio de baja el 20/10/2026. En el sitio el dato sale de <code>price</code> en <code>apps-data.js</code> (número o <code>"quote"</code>); sin <code>price</code>, la card no se muestra.</p>
 <a class="ds-xref" href="examples/showcase.html?tab=marketplace&amp;card=card-mb-price"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
-</div>
-<div class="mb-card mb-stack">
-<span class="mb-trial"><i class="ph ph-clock"></i> Prueba gratis 30 días · sin tarjeta</span>
-<div>
-<div class="mb-pline"><span>Activación (única vez)</span><b>Financiable en cuotas</b></div>
-<div class="mb-pline"><span>Abono mensual</span><b>Según uso</b></div>
-</div>
-<div>
-<div class="mb-k">Estimá tu abono</div>
-<div class="mb-est-lab">Módulos activos <b>3</b></div>
-<div class="pr-slider"><input type="range" min="1" max="10" value="3" aria-label="Módulos activos"></div>
-<div class="mb-est-lab">Usuarios activos <b>8</b></div>
-<div class="pr-slider"><input type="range" min="1" max="50" value="8" aria-label="Usuarios activos"></div>
-<div class="mb-est-out"><div class="n">$ 65.000</div><div class="l">por mes (estimado)</div></div>
-</div>
-<div style="display:grid;gap:10px"><button class="mb-cta" style="--accent:var(--green);--accent-ink:#ffffff">Probar gratis</button><button class="btn btn-ghost">Pedir asesoramiento</button></div>
-<div class="mb-note"><i class="ph ph-info"></i><span>Consultar el stock es gratis; se cobra la operación (ajustes y sincronización).</span></div>
-</div>
-</section>
-
-<section class="ds-section" id="mb-price-fijo">
-<div class="ds-section-header">
-<div class="ds-section-kicker">42b · Marketplace</div>
-<h2 class="ds-section-title">Card de precio fijo / por cotización</h2>
-<p class="ds-section-sub">Precio vigente de las apps del Marketplace desde el 20/10/2026: <strong>sin alta, solo servicio mensual</strong>, montos netos + IVA. Variante <strong>A · precio fijo</strong> (<code>.mb-price-big</code> con <code>.n</code> y <code>.u</code>, <code>.mb-price-sub</code>, fila <code>.mb-pline</code> «Alta · Sin costo») y variante <strong>B · por cotización</strong> («A medida» + CTA de color de app). Reemplaza al estimador de §42 en las fichas. En el sitio el dato sale de <code>price</code> en <code>apps-data.js</code> (número o <code>"quote"</code>); sin <code>price</code>, la card no se muestra.</p>
-<a class="ds-xref" href="examples/showcase.html?tab=marketplace&amp;card=card-mb-price-fijo"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
 </div>
 <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start"><div class="mb-card mb-stack" style="max-width:360px">
 <div>

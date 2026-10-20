@@ -3479,12 +3479,7 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
 .mb-trial{font:600 10px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--green);background:var(--green-soft);border-radius:var(--radius-pill);padding:4px 10px;display:inline-flex;align-items:center;gap:6px;margin-bottom:14px}
 .mb-pline{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--line);font:400 13px var(--sans);color:var(--muted)}
 .mb-pline b{font:600 13px var(--sans);color:var(--text)}
-.mb-est-lab{font:500 12px var(--sans);color:var(--muted-2);display:flex;justify-content:space-between;margin:12px 0 5px}
-.mb-est-lab b{color:var(--text);font-family:var(--mono)}
-.mb-est-out{margin-top:14px;padding:12px 14px;background:var(--cyan-soft);border-radius:var(--radius-sm);text-align:center}
-.mb-est-out .n{font:800 26px var(--display);color:var(--text)}
-.mb-est-out .l{font:500 11px var(--sans);color:var(--muted-2)}
-/* Precio fijo / por cotización (§42 · variante sin estimador). Sin alta: solo servicio mensual, montos netos + IVA. */
+/* Precio fijo / por cotización (§42). Sin alta: solo servicio mensual, montos netos + IVA. */
 .mb-price-big{display:flex;align-items:baseline;gap:6px}
 .mb-price-big .n{font:600 32px/1.1 var(--display);color:var(--text);letter-spacing:-.01em}
 .mb-price-big .u{font:500 14px var(--sans);color:var(--muted)}
