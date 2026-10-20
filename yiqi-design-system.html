@@ -5397,6 +5397,32 @@ ana · prov · inv · pos · pick · cons
 </div>
 </section>
 
+<section class="ds-section" id="mb-price-fijo">
+<div class="ds-section-header">
+<div class="ds-section-kicker">42b · Marketplace</div>
+<h2 class="ds-section-title">Card de precio fijo / por cotización</h2>
+<p class="ds-section-sub">Precio vigente de las apps del Marketplace desde el 20/10/2026: <strong>sin alta, solo servicio mensual</strong>, montos netos + IVA. Variante <strong>A · precio fijo</strong> (<code>.mb-price-big</code> con <code>.n</code> y <code>.u</code>, <code>.mb-price-sub</code>, fila <code>.mb-pline</code> «Alta · Sin costo») y variante <strong>B · por cotización</strong> («A medida» + CTA de color de app). Reemplaza al estimador de §42 en las fichas. En el sitio el dato sale de <code>price</code> en <code>apps-data.js</code> (número o <code>"quote"</code>); sin <code>price</code>, la card no se muestra.</p>
+<a class="ds-xref" href="examples/showcase.html?tab=marketplace&amp;card=card-mb-price-fijo"><i class="ph ph-anchor-simple"></i> Ver en vivo</a>
+</div>
+<div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start"><div class="mb-card mb-stack" style="max-width:360px">
+<div>
+<div class="mb-k">Precio</div>
+<div class="mb-price-big"><span class="n">$ 135.000</span><span class="u">/mes</span></div>
+<div class="mb-price-sub">Montos netos + IVA</div>
+</div>
+<div><div class="mb-pline"><span>Alta</span><b>Sin costo</b></div></div>
+<button class="btn btn-ghost">Pedir asesoramiento</button>
+</div>
+<div class="mb-card mb-stack" style="max-width:360px">
+<div>
+<div class="mb-k">Precio</div>
+<div class="mb-price-big"><span class="n">A medida</span></div>
+<div class="mb-price-sub">Se cotiza según tu operación.</div>
+</div>
+<button class="mb-cta" style="--accent:var(--amber);--accent-ink:#0f1013">Pedir cotización</button>
+</div></div>
+</section>
+
 <section class="ds-section" id="mb-details">
 <div class="ds-section-header">
 <div class="ds-section-kicker">43 · Marketplace</div>
