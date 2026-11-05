@@ -1,5 +1,5 @@
 /**
- * YiQi Runtime — v1.2.8.91
+ * YiQi Runtime — v1.2.8.92
  * Utilidades JS compartidas para entregables HTML standalone.
  *
  * Uso:  <script src="/system/sdk/yiqi-runtime.js"></script>
@@ -558,7 +558,17 @@
           El marcado canonico esta en el catalogo, seccion 08 - Logo.
        2. Cargar este archivo. Los logos presentes se animan solos al cargar.
        3. Para repetir:  YiQi.logo.play(svg, { force:true })
+          Solo la Q y los puntos, sin la subida: play(svg, { only:'q' }).
           data-axis="y" | "x" | "z" cambia el giro de la Q.
+       4. Repeticion por inactividad (v1.2.8.92): data-idle="<ms>". Si la
+          pantalla queda quieta ese tiempo —sin teclas, mouse, toques ni
+          scroll— repite solo la Q y los puntos, y sigue cada <ms> mientras
+          siga quieta. Cualquier actividad reinicia la cuenta. El logo del
+          login (.yiqi-login-logo) la trae por defecto a 8000 ms;
+          data-idle="off" la apaga. No corre con la pestana oculta.
+       5. data-loop="<gap>": repite la Q y los puntos cada 1450 + gap ms,
+          haya o no actividad. Estaba documentado desde v1.2.7 y el motor
+          no lo implementaba; se repone en v1.2.8.92.
      Respeta prefers-reduced-motion salvo force:true.
      ═══════════════════════════════════════════════════════════════════════ */
   var LogoAPI = (function (global) {
@@ -596,20 +606,69 @@
     if (reduceMotion() && !opts.force) { reset(svg); return; }
     const ease = 'cubic-bezier(.22,1,.36,1)';
     const A = (c, frames, o) => $(svg,c) && $(svg,c).animate(frames, Object.assign({fill:'both'}, o));
-    const rise = [{opacity:0,transform:'translateY(7px)'},{opacity:1,transform:'translateY(0)'}];
-    A(PARTS.y,   rise, {duration:T.body*k, delay:T.yDelay*k,   easing:ease});
-    A(PARTS.i1s, rise, {duration:T.body*k, delay:T.i1sDelay*k, easing:ease});
-    A(PARTS.i2s, rise, {duration:T.body*k, delay:T.i2sDelay*k, easing:ease});
+    const onlyQ = opts.only === 'q';
+    /* only:'q' = repeticion: sin la subida y sin la espera inicial de la Q */
+    const q0 = onlyQ ? 0 : T.qDelay;
+    if (!onlyQ) {
+      const rise = [{opacity:0,transform:'translateY(7px)'},{opacity:1,transform:'translateY(0)'}];
+      A(PARTS.y,   rise, {duration:T.body*k, delay:T.yDelay*k,   easing:ease});
+      A(PARTS.i1s, rise, {duration:T.body*k, delay:T.i1sDelay*k, easing:ease});
+      A(PARTS.i2s, rise, {duration:T.body*k, delay:T.i2sDelay*k, easing:ease});
+    }
     const qf = qFrames(axis);
-    A(PARTS.q,   qf.frames, {duration:T.qDur*k, delay:T.qDelay*k, easing:qf.easing});
-    A(PARTS.i1d, qf.frames, {duration:T.qDur*k, delay:(T.qDelay+T.dotGap1)*k, easing:qf.easing});
-    A(PARTS.i2d, qf.frames, {duration:T.qDur*k, delay:(T.qDelay+T.dotGap2)*k, easing:qf.easing});
+    A(PARTS.q,   qf.frames, {duration:T.qDur*k, delay:q0*k, easing:qf.easing});
+    A(PARTS.i1d, qf.frames, {duration:T.qDur*k, delay:(q0+T.dotGap1)*k, easing:qf.easing});
+    A(PARTS.i2d, qf.frames, {duration:T.qDur*k, delay:(q0+T.dotGap2)*k, easing:qf.easing});
+  }
+
+  /* Repeticion por inactividad (data-idle) y en intervalo fijo (data-loop).
+     Un solo temporizador y un solo juego de listeners pasivos para todos los
+     logos de la pagina: el costo es un setTimeout. */
+  const IDLE_DEFAULT = 8000;
+  const idleLogos = new Map();
+  const wired = new WeakSet();
+  let idleTimer = null;
+  function idleMs(svg){
+    const v = svg.dataset.idle;
+    if (v === 'off' || v === '0') return 0;
+    if (v) return +v || IDLE_DEFAULT;
+    return svg.classList.contains('yiqi-login-logo') ? IDLE_DEFAULT : 0;
+  }
+  function armIdle(){
+    clearTimeout(idleTimer);
+    if (!idleLogos.size) return;
+    idleTimer = setTimeout(fireIdle, Math.min.apply(null, Array.from(idleLogos.values())));
+  }
+  function fireIdle(){
+    if (!document.hidden) idleLogos.forEach(function(ms, svg){
+      if (svg.isConnected) play(svg, { only:'q' }); else idleLogos.delete(svg);
+    });
+    armIdle();
+  }
+  let listening = false;
+  function listen(){
+    if (listening) return; listening = true;
+    ['keydown','pointerdown','pointermove','wheel','touchstart','input','scroll'].forEach(function(e){
+      global.addEventListener(e, armIdle, { passive:true, capture:true });
+    });
+  }
+  function wire(svg){
+    if (wired.has(svg)) return; wired.add(svg);
+    const ms = idleMs(svg);
+    if (ms) { idleLogos.set(svg, ms); listen(); armIdle(); }
+    const gap = svg.dataset.loop;
+    if (gap != null && gap !== 'off') {
+      const id = setInterval(function(){
+        if (!svg.isConnected) { clearInterval(id); return; }
+        if (!document.hidden) play(svg, { only:'q' });
+      }, 1450 + (+gap || 2600));
+    }
   }
     /* autoInit sirve para HTML estatico. En una SPA —React, Vue— el script
        corre antes de que el framework monte: no encuentra ningun logo y no
        pasa nada. Por eso init() es publico: la app lo llama despues del
        primer render. Es idempotente. */
-    function init(root){ (root || document).querySelectorAll('[data-yiqi-logo]').forEach(function(svg){ play(svg); }); }
+    function init(root){ (root || document).querySelectorAll('[data-yiqi-logo]').forEach(function(svg){ if (!wired.has(svg)) play(svg); wire(svg); }); }
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function(){ init(); });
     else init();
     global.YiQiLogo = { play: play, reset: reset, init: init };
@@ -1024,7 +1083,7 @@
     picker: PickerAPI,
 
     /* Meta */
-    version: '1.2.8.91',
+    version: '1.2.8.92',
   };
 
 }(window));

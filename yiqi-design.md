@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.91
+# YiQi Design System — Guía maestra v1.2.8.92
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -1719,15 +1719,29 @@ input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:foc
 }
 ```
 
-### Logo animado en loop *(nuevo en v1.2.7)*
-Variante del motor `YiQiLogo` (§0): animar **solo el flip de la Q y los dos puntos** (sin el "rise" de las letras), en loop, con `data-loop="<gapMs>"`:
+### Logo animado: repetición *(v1.2.7; inactividad nueva en v1.2.8.92)*
+Al cargar, el motor `YiQiLogo` (§0) corre la animación completa: suben las letras, gira la Q y caen los puntos (1,25 s). Las repeticiones animan **solo la Q y los dos puntos**, sin la subida (0,99 s), con los mismos fotogramas y curvas.
+
+| Modo | Atributo | Cuándo repite |
+|---|---|---|
+| Inactividad | `data-idle="<ms>"` | Tras `<ms>` sin teclas, mouse, toques ni scroll, y cada `<ms>` mientras siga quieto. Cualquier actividad reinicia la cuenta. |
+| Intervalo fijo | `data-loop="<gap>"` | Cada `1450 + gap` ms, haya o no actividad. |
 
 ```html
-<svg data-yiqi-logo data-axis="y" data-loop="2600" ...> … </svg>
+<!-- El logo del login la trae por defecto: 8000 ms -->
+<svg class="yiqi-login-logo" data-yiqi-logo ...> … </svg>
+<!-- Apagarla en un login -->
+<svg class="yiqi-login-logo" data-yiqi-logo data-idle="off" ...> … </svg>
+<!-- Activarla en otro logo -->
+<svg data-yiqi-logo data-idle="8000" ...> … </svg>
 ```
 
-- Reproduce el flip al cargar y lo repite cada `~1450ms + gap`.
-- Respeta `prefers-reduced-motion` (no loopea).
+- **El login la trae por defecto** (`.yiqi-login-logo` → 8000 ms): si la pantalla queda quieta, hay movimiento. Decidido por Seba el 05/11/2026. Lo mismo en React: `<YiQiLogoAnimated idle={8000} />` (template/login), que antes repetía cada 4 s sin mirar la actividad.
+- No corre con la pestaña oculta ni con `prefers-reduced-motion`.
+- Costo: un `setTimeout` y listeners pasivos compartidos por todos los logos de la página.
+- `data-loop` estaba documentado desde v1.2.7 pero el motor del runtime (v1.2.7.9) no lo implementaba: se repuso en v1.2.8.92.
+- Para repetir a mano: `YiQi.logo.play(svg, { only: 'q' })`.
+- **Cómo saber si una app usa la animación canónica:** carga `yiqi-runtime.js` del CDN y el SVG lleva `data-yiqi-logo`. Que repita o no ya no sirve como prueba.
 
 ### Tamaño del logo — token `--login-logo-w` *(nuevo en v1.2.7)*
 
@@ -3448,5 +3462,5 @@ separación entre superficies quede igual:
 
 ---
 
-*YiQi ERP · Design System v1.2.8.91 · Última actualización: 14/10/2026*
+*YiQi ERP · Design System v1.2.8.92 · Última actualización: 05/11/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*

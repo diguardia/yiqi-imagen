@@ -6,7 +6,10 @@ type Axis = 'x' | 'y'
 
 interface YiQiLogoAnimatedProps {
   className?: string
+  /** Repite cada 1450 + loop ms, haya o no actividad. 0 = no. */
   loop?: number
+  /** v1.2.8.92: repite la Q y los puntos tras `idle` ms sin actividad y cada `idle` ms mientras siga quieto. 0 = no. Igual que data-idle del runtime. */
+  idle?: number
   axis?: Axis
   title?: string
 }
@@ -35,7 +38,8 @@ function qFrames(axis: Axis): Keyframe[] {
 
 export function YiQiLogoAnimated({
   className = '',
-  loop = 2600,
+  loop = 0,
+  idle = 8000,
   axis = 'y',
   title = 'YiQi',
 }: YiQiLogoAnimatedProps) {
@@ -80,11 +84,28 @@ export function YiQiLogoAnimated({
     let id: number | undefined
     if (!reduce && loop) id = window.setInterval(play, 1450 + loop)
 
+    // Inactividad: mismo criterio que data-idle en yiqi-runtime.js (v1.2.8.92)
+    let idleId: number | undefined
+    const events = ['keydown', 'pointerdown', 'pointermove', 'wheel', 'touchstart', 'input', 'scroll']
+    const arm = () => {
+      window.clearTimeout(idleId)
+      idleId = window.setTimeout(() => {
+        if (!document.hidden) play()
+        arm()
+      }, idle)
+    }
+    if (!reduce && idle) {
+      events.forEach((e) => window.addEventListener(e, arm, { passive: true, capture: true }))
+      arm()
+    }
+
     return () => {
       if (id) window.clearInterval(id)
+      window.clearTimeout(idleId)
+      events.forEach((e) => window.removeEventListener(e, arm, { capture: true }))
       clear()
     }
-  }, [loop, axis])
+  }, [loop, idle, axis])
 
   return (
     <svg

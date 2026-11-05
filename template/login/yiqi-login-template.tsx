@@ -122,7 +122,7 @@ export function YiQiLoginTemplate({
     <main className="login-screen">
       <section className="login-stage" aria-label="Inicio de sesion YiQi">
         <div className="login-brand">
-          <YiQiLogoAnimated className="yiqi-login-logo" loop={2600} />
+          <YiQiLogoAnimated className="yiqi-login-logo" idle={8000} />
           <p className="yiqi-login-description">
             <strong>{appName}.</strong> {description}
           </p>

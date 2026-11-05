@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="system">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PREVIEW · Banners de apps con abstractos — no es el DS</title>
+<!-- 29/10/2026 — Revisión de los 12 banners de app (§40) con los colores del
+     Marketplace y los abstractos. Usa el styles.css y el app-banner.js LOCALES.
+     Si se aprueba, se documenta en el catálogo y este archivo se borra. -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css">
+<script src="./yiqi-runtime.js" defer></script>
+<script src="./components/app-banner.js" defer></script>
+<style>
+  body{margin:0;background:var(--bg);color:var(--text);font:400 14px/1.4 var(--sans);padding:32px 0 80px}
+  .pv-head{max-width:1080px;margin:0 auto 8px;padding:0 24px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+  .pv-head h1{font:800 24px/1.1 var(--display);margin:0}
+</style>
+</head>
+<body>
+<div class="pv-head"><h1>Banners de apps · 12</h1><div class="theme-toggle" role="group" aria-label="Tema"><button class="theme-opt" data-val="dark"></button><button class="theme-opt" data-val="system"></button><button class="theme-opt" data-val="light"></button></div></div>
+  <app-banner app="ana"></app-banner>
+  <app-banner app="prov"></app-banner>
+  <app-banner app="pos"></app-banner>
+  <app-banner app="supply"></app-banner>
+  <app-banner app="inv"></app-banner>
+  <app-banner app="pick"></app-banner>
+  <app-banner app="cons"></app-banner>
+  <app-banner app="fac"></app-banner>
+  <app-banner app="recep"></app-banner>
+  <app-banner app="rent"></app-banner>
+  <app-banner app="vantig"></app-banner>
+  <app-banner app="antualia"></app-banner>
+</body>
+</html>
