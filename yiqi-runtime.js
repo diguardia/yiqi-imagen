@@ -567,7 +567,8 @@
           login (.yiqi-login-logo) la trae por defecto a 8000 ms;
           data-idle="off" la apaga. No corre con la pestana oculta.
        5. data-loop="<gap>": repite la Q y los puntos cada 1450 + gap ms,
-          haya o no actividad. Estaba documentado desde v1.2.7 y el motor
+          haya o no actividad. No corre si el logo tiene inactividad activa
+          (el login la trae por defecto): para usarlo, data-idle="off". Estaba documentado desde v1.2.7 y el motor
           no lo implementaba; se repone en v1.2.8.92.
      Respeta prefers-reduced-motion salvo force:true.
      ═══════════════════════════════════════════════════════════════════════ */
@@ -656,8 +657,11 @@
     if (wired.has(svg)) return; wired.add(svg);
     const ms = idleMs(svg);
     if (ms) { idleLogos.set(svg, ms); listen(); armIdle(); }
+    /* Si el logo repite por inactividad, data-loop no corre: los dos juntos
+       daban una repeticion cada ~4 s (Centro de costos trae data-loop="2600"
+       en su login). Para usar data-loop en un login: data-idle="off". */
     const gap = svg.dataset.loop;
-    if (gap != null && gap !== 'off') {
+    if (!ms && gap != null && gap !== 'off') {
       const id = setInterval(function(){
         if (!svg.isConnected) { clearInterval(id); return; }
         if (!document.hidden) play(svg, { only:'q' });

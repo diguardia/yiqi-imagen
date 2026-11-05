@@ -1725,7 +1725,7 @@ Al cargar, el motor `YiQiLogo` (§0) corre la animación completa: suben las let
 | Modo | Atributo | Cuándo repite |
 |---|---|---|
 | Inactividad | `data-idle="<ms>"` | Tras `<ms>` sin teclas, mouse, toques ni scroll, y cada `<ms>` mientras siga quieto. Cualquier actividad reinicia la cuenta. |
-| Intervalo fijo | `data-loop="<gap>"` | Cada `1450 + gap` ms, haya o no actividad. |
+| Intervalo fijo | `data-loop="<gap>"` | Cada `1450 + gap` ms, haya o no actividad. No corre si el logo tiene inactividad activa: en un login, poner además `data-idle="off"`. |
 
 ```html
 <!-- El logo del login la trae por defecto: 8000 ms -->
