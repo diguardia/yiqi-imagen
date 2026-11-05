@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.92
+# YiQi Design System — Guía maestra v1.2.8.93
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -527,6 +527,15 @@ sidebar. Centrarlo haría saltar el contenido al colapsar el sidebar, y va contr
 el idioma que el DS ya venía usando componente por componente: todas las grillas
 del tablero son `auto-fill` con techo más `justify-content: start`. El tope de
 página es esa misma decisión un nivel más arriba.
+
+**Filas al inicio, no estiradas** *(v1.2.8.93)*. `.content` lleva
+`align-content: start`. `.app-shell` tiene `min-height: 100vh` y `.content` es su
+item, así que mide al menos la ventana; con el valor por defecto (`normal`, que
+en una grilla se comporta como `stretch`) las filas automáticas se repartían ese
+sobrante. En una pantalla corta de Contable (ventana de 1289 px) el encabezado
+medía 354 px en vez de 116 —un hueco de ~190 px arriba— y un aviso de tres
+renglones medía 336 px en vez de 97. Una pantalla corta se lee desde arriba: lo
+que sobra queda al final, no entre los bloques.
 
 **Por qué 1200.** Descontados los 72px de padding quedan 1128 útiles, que dan 4
 columnas de `.kpi-grid` a 273px y 3 de `.dashboard-grid` a 368px. Con 1400 entra
@@ -3462,5 +3471,5 @@ separación entre superficies quede igual:
 
 ---
 
-*YiQi ERP · Design System v1.2.8.92 · Última actualización: 05/11/2026*
+*YiQi ERP · Design System v1.2.8.93 · Última actualización: 05/11/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*

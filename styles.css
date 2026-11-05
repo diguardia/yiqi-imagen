@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.92";
+  --ds-version: "1.2.8.93";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -602,6 +602,13 @@ html[data-theme="light"] .brand-logo-light { display: block; }
   grid-template-columns: minmax(0, 1fr);
   gap: 20px;
   min-width: 0;
+  /* v1.2.8.93 — filas al inicio, no estiradas. .app-shell tiene min-height:
+     100vh y .content es su item, asi que mide al menos la ventana; con el
+     align-content por defecto (normal = stretch) las filas auto repartian
+     ese sobrante. Medido en una pantalla corta de contable.yiqi.com.ar a
+     1289px de alto: el encabezado medía 354px en vez de 116 (hueco de
+     ~190px arriba) y un aviso de 3 renglones medía 336px en vez de 97. */
+  align-content: start;
   /* v1.2.8.37 — sin margin-inline a proposito: alineado a la izquierda, no
      centrado. .content es el segundo item del grid de .app-shell, asi que con
      un max-width definido el stretch resuelve a start y queda pegado al
