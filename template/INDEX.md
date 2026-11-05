@@ -25,3 +25,4 @@ Do not read this when:
 | `analytics-pro-banner/` | HTML host for web component | A page needs the canonical Analytics Pro promo banner. |
 | `email/` | HTML email base (Mailchimp) | Se arma un mail de campaña o transaccional. Estilos inline (excepción: no consume styles.css). |
 | `security/` | API route, Docker and CI defaults | A server-backed application is created or gains a new runtime/deployment pipeline. |
+| `en-desarrollo/` | HTML página "En desarrollo" | Un subdominio de app todavía no está disponible (contable, stocktalle…): página por defecto o 404. |
