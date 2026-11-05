@@ -1087,7 +1087,7 @@
           <input type="checkbox" name="remember"> Mantener sesión iniciada
         </label>
         <button class="btn btn-primary login-submit" type="submit" id="login-submit">Iniciar sesión</button>
-        <a class="login-hint" href="#login" onclick="return false" style="justify-self:start;text-decoration:none">¿Olvidaste tu contraseña?</a>
+        <button class="login-hint" type="button" style="justify-self:start">¿Olvidaste tu contraseña?</button>
       </form>
     </div>
     <div style="text-align:center;font:500 11px var(--mono);color:var(--muted-2)"><a href="https://www.yiqi.com.ar" style="color:var(--muted-2);text-decoration:none">www.yiqi.com.ar</a></div>
@@ -3357,7 +3357,7 @@
     'calendar','clock','timer','hourglass','alarm',
     'check','check-circle','x','x-circle','warning','warning-circle','info','question','prohibit',
     'magnifying-glass','funnel','sort-ascending','list','dots-three','plus','minus','pencil-simple','trash','copy','share-network','download-simple','upload-simple','arrow-right','caret-down',
-    'file-text','folder','clipboard-text','note','book-open','printer','paperclip',
+    'file-text','folder','clipboard-text','note','book','book-open','printer','paperclip',
     'house','map-pin','globe','phone','link','star','heart','bookmark','flag','lightning','sparkle','robot'];
   ICONS=ICONS.filter(function(v,i){ return ICONS.indexOf(v)===i; });
   /* El clipboard es del DS: YiQi.copy.text(). Antes esta galeria tenia su

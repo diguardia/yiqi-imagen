@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.93
+# YiQi Design System — Guía maestra v1.2.8.94
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -1366,7 +1366,7 @@ Familia canónica en `styles.css`: `.ds-input`, `.ds-select`, `.ds-textarea`, co
 
 ### Banner de apps (Marketplace) *(nuevo en v1.2.7)*
 
-Banner promocional por app del Marketplace. Web component `<app-banner app="…">` (`ana | prov | inv | pos | pick | cons`), con variante `variant="vertical"`. Paleta invertida (tarjeta clara) como el banner de Analytics Pro; gradiente sutil con el acento. **El acento es 100% por token, uno por app, NUNCA cyan** (el cyan es la marca madre YiQi, presente solo en el logo del lockup).
+Banner promocional por app del Marketplace. Web component `<app-banner app="…">` (`ana | prov | inv | pos | pick | cons`), con variante `variant="vertical"`. Paleta invertida (tarjeta clara) como el banner de Analytics Pro; gradiente sutil con el acento. **El acento es 100% por token, uno por app, NUNCA cyan** (el cyan es la marca madre YiQi, presente solo en el logo del lockup). **El botón «Conocer la app» lleva a `https://www.yiqi.com.ar/app.html?id=<app>`, absoluto** *(v1.2.8.94)*: con el link relativo daba 404 en cualquier sitio que no fuera `www.yiqi` (el showcase y las previews), igual que el link a iAready, que ya era absoluto. El SVG del lockup ya no lleva `id="Layer_1"`: con un banner por app la página repetía el id.
 
 | App | Acento (token) | Estado |
 |---|---|---|
@@ -3471,5 +3471,5 @@ separación entre superficies quede igual:
 
 ---
 
-*YiQi ERP · Design System v1.2.8.93 · Última actualización: 05/11/2026*
+*YiQi ERP · Design System v1.2.8.94 · Última actualización: 05/11/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
