@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.94
+# YiQi Design System — Guía maestra v1.2.8.95
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -129,11 +129,28 @@
   --space-7: 32px;
   --space-8: 48px;
 
-  /* Border radius */
+  /* Border radius · escala (los componentes no la usan directo: ver §3.2) */
+  --radius-2xs:  2px;
   --radius-xs:   6px;
   --radius-sm:   10px;
   --radius:      14px;
+  --radius-md:   var(--radius);   /* obsoleto: era 16 */
+  --radius-lg:   18px;
+  --radius-xl:   24px;
   --radius-pill: 999px;
+
+  /* Border radius · roles (v1.2.8.95) */
+  --radius-panel:    var(--radius-xl);    /* paneles anchos, heros, modales */
+  --radius-card:     var(--radius-lg);    /* tarjetas, tablas, hojas */
+  --radius-block:    var(--radius);       /* avisos y bloques dentro de una tarjeta */
+  --radius-item:     var(--radius-sm);    /* opciones de menú, links del nav, botones chicos y de ícono, tooltips */
+  --radius-detail:   var(--radius-xs);    /* checkbox, atajos de teclado, piezas mínimas */
+  --radius-hairline: var(--radius-2xs);   /* barras y marcas de pocos píxeles */
+  --radius-button:   var(--radius);       /* botones */
+  --radius-field:    var(--radius);       /* campos: input, select, textarea, buscador, dropzone */
+  --radius-popover:  var(--radius);       /* menús flotantes y toasts */
+  --radius-control:  var(--radius-pill);  /* filtros, chips, badges, toggles, selectores en barra */
+  --radius-track:    var(--radius-pill);  /* pistas, barras de progreso, scrollbars */
 
   /* Elevation / Shadows */
   --shadow-sm: 0 1px 3px rgba(0,18,28,.30);
@@ -330,7 +347,7 @@ Bloque de aclaración dentro de una sección. **Borderless:** se separa por fond
 ```css
 .ds-note {
   background: var(--bg-elev);
-  border-radius: var(--radius);
+  border-radius: var(--radius-block);
   padding: 14px 16px;
   font: 400 13px/1.55 var(--sans);
   color: var(--muted);
@@ -382,7 +399,7 @@ no al marco fijo. Lo pone `styles.css`; las apps no agregan ni quitan esas líne
 /* ✅ Correcto — card borderless */
 .card {
   background: var(--bg-elev);
-  border-radius: var(--radius);
+  border-radius: var(--radius-card);
   box-shadow: var(--shadow-sm);   /* profundidad por sombra */
 }
 
@@ -402,10 +419,10 @@ Callouts, notas y cards con borde en **un solo lado** (`border-left` o `border-t
 
 ```css
 /* ❌ No permitido — acento lateral */
-.callout { border-left: 3px solid var(--amber); border-radius: var(--radius-lg); }
+.callout { border-left: 3px solid var(--amber); border-radius: var(--radius-card); }
 
 /* ✅ Correcto — fondo tonal borderless */
-.callout { background: var(--amber-soft); border-radius: var(--radius-lg); }
+.callout { background: var(--amber-soft); border-radius: var(--radius-card); }
 ```
 
 ---
@@ -423,6 +440,41 @@ Las reglas del sistema no son gusto de nadie: cada una aplica un principio con m
 | La elevación significa | Material Design, elevación semántica (2014) | Tres niveles de fondo + tabla de apilamiento (§6.9) |
 | Leyes de interacción | Fitts (1954) · Hick (1952) · Jakob (Nielsen, 2000) | Inputs 16px en táctil, picker en vez de pills, patrones del OS en §30 |
 | Accesibilidad como piso | WCAG 2.2 (2023) | Contraste en ambos temas, `:focus-visible`, `prefers-reduced-motion`, tema `system` |
+
+### 3.2 Radios por rol *(nuevo en v1.2.8.95)*
+
+Catálogo **§06 · `#radius`** · showcase `?tab=mockups&card=card-radios`.
+
+Un componente no elige su radio: usa el de su **rol**. Los roles se definen una sola vez en `:root` sobre la escala; cambiar el criterio de un rol es cambiar una línea.
+
+| Rol | Radio | Para qué |
+|---|---|---|
+| `--radius-control` | píldora | Filtros, chips, badges, toggles, selectores en barra |
+| `--radius-track` | píldora | Pistas, barras de progreso, scrollbars |
+| `--radius-button` | 14 | Botones |
+| `--radius-field` | 14 | Campos: input, select, textarea, buscador, dropzone |
+| `--radius-popover` | 14 | Menús flotantes y toasts |
+| `--radius-panel` | 24 | Paneles anchos, heros, modales |
+| `--radius-card` | 18 | Tarjetas, tablas, hojas |
+| `--radius-block` | 14 | Avisos y bloques dentro de una tarjeta |
+| `--radius-item` | 10 | Opciones de menú, links del nav, botones chicos y de ícono, tooltips |
+| `--radius-detail` | 6 | Checkbox, atajos de teclado, piezas mínimas |
+| `--radius-hairline` | 2 | Barras y marcas de pocos píxeles |
+
+**Reglas**
+
+- Un `border-radius` vale un rol, `0`, `50%` (círculos) o `inherit`. Nunca un número ni un paso de la escala.
+- Para una pieza nueva se elige el rol que le corresponde. Si ninguno sirve, se propone un rol nuevo; no se escribe un valor.
+- Un control dentro de una barra (filtro, selector, chip) es `--radius-control`; un campo donde se escribe es `--radius-field`, también en el header.
+- Las superficies se anidan de mayor a menor: panel > card > block > item > detail.
+- `--radius-md` (era 16) queda obsoleto, como alias de `--radius`. El 16 desaparece: a la vista no se distinguía del 14 ni del 18.
+- Lo verifica `scripts/check-radius.js` (`npm run test:radius`): falla si `styles.css` tiene un radio que no sea un rol.
+
+**Por qué.** Medido en `styles.css` v1.2.8.94: 198 declaraciones sobre 7 pasos de escala, 15 valores a mano y ninguna regla de cuál usar. Los controles usaban 6 radios distintos y las superficies 9.
+
+**Pendiente.** El control mira solo `styles.css`. `ds-doc.css`, `site.css`, los estilos en línea del catálogo y los componentes en JS todavía usan la escala directa.
+
+---
 
 ## 4. Token `--text-cyan-muted` *(nuevo en v1.2.5)*
 
@@ -487,7 +539,7 @@ Barras de scroll con **track oscuro** y **thumb sutil**, definidas en `styles.cs
 * { scrollbar-width: thin; scrollbar-color: var(--line-strong) var(--bg); }
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: var(--radius-pill); border: 2px solid var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: var(--radius-track); border: 2px solid var(--bg); }
 ::-webkit-scrollbar-thumb:hover { background: var(--muted-2); }
 ```
 
@@ -629,7 +681,7 @@ El sidebar puede colapsar a un **rail de solo iconos** (240px → 68px). El bot�
   width: 30px; height: 30px; margin: auto 0 0 auto;
   position: sticky; bottom: 0;
   background: transparent; border: 1px solid var(--line);
-  border-radius: var(--radius-sm); color: var(--muted); cursor: pointer;
+  border-radius: var(--radius-item); color: var(--muted); cursor: pointer;
 }
 .sidebar-collapse svg { transition: transform .18s ease; }
 
@@ -646,7 +698,7 @@ El sidebar puede colapsar a un **rail de solo iconos** (240px → 68px). El bot�
   position: absolute; left: calc(100% + 12px); top: 50%;
   transform: translateY(-50%);
   background: var(--bg-elev-2); color: var(--text);
-  border: 1px solid var(--line-strong); border-radius: var(--radius-sm);
+  border: 1px solid var(--line-strong); border-radius: var(--radius-item);
   padding: 5px 10px; font: 500 12px var(--sans); white-space: nowrap;
   box-shadow: var(--shadow-md); opacity: 0; pointer-events: none;
 }
@@ -775,7 +827,7 @@ El botón hamburguesa es **`.nav-hamburger`** (36×36). Va **a la derecha** del 
 ```css
 .btn {
   display: inline-flex; align-items: center; gap: 7px;
-  padding: 10px 16px; border-radius: var(--radius);
+  padding: 10px 16px; border-radius: var(--radius-button);
   border: none; font: 600 13px var(--sans);
   transition: all var(--transition-base); cursor: pointer;
 }
@@ -818,7 +870,7 @@ El botón hamburguesa es **`.nav-hamburger`** (36×36). Va **a la derecha** del 
 ```css
 .badge {
   display: inline-flex; align-items: center;
-  padding: 3px 9px; border-radius: var(--radius-pill);
+  padding: 3px 9px; border-radius: var(--radius-control);
   font: 600 11px var(--mono); letter-spacing: .04em;
   /* sin border — borderless philosophy */
 }
@@ -842,7 +894,7 @@ Etiquetas de capacidad del producto. Usan `cyan-soft` background sin dot. Para m
 ```css
 .tag {
   display: inline-flex; align-items: center;
-  padding: 5px 10px; border-radius: var(--radius-pill);
+  padding: 5px 10px; border-radius: var(--radius-control);
   background: var(--cyan-soft); color: var(--cyan);
   font: 700 10px var(--mono); text-decoration: none;
 }
@@ -858,7 +910,7 @@ Etiquetas de capacidad del producto. Usan `cyan-soft` background sin dot. Para m
 ```css
 .card {
   padding: 20px;
-  border-radius: var(--radius);
+  border-radius: var(--radius-card);
   background: var(--bg-elev);
   box-shadow: var(--shadow-sm);   /* profundidad por sombra, no por borde */
 }
@@ -883,7 +935,7 @@ Etiquetas de capacidad del producto. Usan `cyan-soft` background sin dot. Para m
 .input {
   width: 100%; padding: 9px 12px;
   border: 1px solid var(--line);  /* controles interactivos sí llevan borde */
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-item);
   background: var(--bg-elev-2); color: var(--text);
   font: 400 14px var(--sans);
   transition: border-color 160ms, box-shadow 160ms;
@@ -900,7 +952,7 @@ Etiquetas de capacidad del producto. Usan `cyan-soft` background sin dot. Para m
 ```css
 /* El componente se llama .mod-card (styles.css §40), no .module-card.
    El nombre de esta copia no existia en ninguna hoja. 11/08/2026. */
-.mod-card { border: none; border-radius: var(--radius-lg); background: var(--bg-elev-2); overflow: hidden; }
+.mod-card { border: none; border-radius: var(--radius-card); background: var(--bg-elev-2); overflow: hidden; }
 .mod-card:hover { box-shadow: 0 0 0 1px rgba(0, 204, 255, .14) inset; }
 .mod-card.open .mod-card-header-left { color: var(--text-cyan-muted); background: var(--cyan-soft); }
 ```
@@ -913,7 +965,7 @@ Etiquetas de capacidad del producto. Usan `cyan-soft` background sin dot. Para m
   grid-template-columns: minmax(0, 1fr);  /* v1.2.8.70 */
   gap: 18px;
   padding: 20px;
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-panel);
 }
 ```
 
@@ -974,7 +1026,7 @@ El `display: block` de `.product-sku` **es parte del componente**. Sin él, el `
 ```css
 .nav-item {
   display: flex; align-items: center; gap: 10px;
-  padding: 8px 10px; border-radius: var(--radius-sm);
+  padding: 8px 10px; border-radius: var(--radius-item);
   font: 500 13px var(--sans); color: var(--muted);
   transition: all var(--transition-base);
 }
@@ -1116,7 +1168,7 @@ Badge de estado para tablas de coherencia contable — compara totales entre com
 .switch-track {
   position:relative; width:40px; height:22px; flex-shrink:0;
   background:var(--bg-soft);
-  border-radius:999px;
+  border-radius:var(--radius-control);
   box-shadow:var(--shadow-sm);   /* profundidad por sombra, no borde */
   transition:background 200ms ease;
 }
@@ -1156,7 +1208,7 @@ Badge de estado para tablas de coherencia contable — compara totales entre com
 .checkbox {
   width:18px; height:18px; flex-shrink:0;
   background:var(--bg-soft);
-  border-radius:var(--radius-sm);
+  border-radius:var(--radius-detail);
   box-shadow:var(--shadow-sm);   /* profundidad por sombra, no borde */
   display:grid; place-items:center;
   transition:background 180ms ease, box-shadow 180ms ease;
@@ -1200,7 +1252,7 @@ Componente de búsqueda borderless. Implementado en `site.css`.
                 width: 15px; height: 15px; color: var(--muted-2); pointer-events: none; }
 .search-input { width: 100%; height: 44px; padding: 0 40px;
                 background: var(--bg-elev-2); border: 1px solid transparent;
-                border-radius: var(--radius); color: var(--text);
+                border-radius: var(--radius-field); color: var(--text);
                 font: 400 13px var(--sans); outline: none; caret-color: var(--cyan); }
 .search-input::placeholder { color: var(--muted-2); }
 .search-input:focus { border-color: rgba(0,204,255,.3);
@@ -1212,7 +1264,7 @@ Componente de búsqueda borderless. Implementado en `site.css`.
 .search-kbd   { position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
                 font: 500 10px var(--mono); color: var(--muted-2);
                 background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12);
-                border-radius: 4px; padding: 1px 5px; pointer-events: none; }
+                border-radius: var(--radius-detail); padding: 1px 5px; pointer-events: none; }
 .search-kbd.hidden { opacity: 0; }
 /* Sin ícono izquierdo */
 .search-input--no-icon { padding-left: 14px; }
@@ -1231,14 +1283,14 @@ Filtro de rango temporal del topbar (Analytics Pro y paneles). Input compuesto: 
 .range-filter {
   display: inline-flex; align-items: center; gap: 2px;
   padding: 2px;
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-control);
   background: var(--bg-elev-2);
 }
 .range-btn {
   padding: 6px 14px;
   font: 500 13px var(--sans); color: var(--muted);
   background: transparent; border: none;
-  border-radius: var(--radius-pill);     /* pill, sin divisores */
+  border-radius: var(--radius-control);     /* pill, sin divisores */
 }
 .range-btn:hover         { background: var(--bg-soft); color: var(--text); }
 .range-btn.is-active     { background: var(--cyan-soft); color: var(--cyan); font-weight: 600; }
@@ -1267,7 +1319,7 @@ Botón **borderless** de ícono solo (`.btn-icon`), para cualquier acción que s
 ```css
 .btn-icon, .close-btn {
   display: grid; place-items: center; width: 38px; height: 38px;
-  border: none; border-radius: var(--radius-sm);
+  border: none; border-radius: var(--radius-item);
   background: transparent; color: var(--muted); cursor: pointer;
 }
 .btn-icon:hover         { color: var(--text); background: var(--bg-soft); }
@@ -1889,7 +1941,7 @@ Hero de cierre del flujo de picking: se muestra cuando todos los artículos pend
 .pk-done{
   display:flex; flex-direction:column; align-items:center; text-align:center;
   gap:14px; max-width:380px; margin:0 auto; padding:36px 28px;
-  background:var(--bg-elev); border-radius:var(--radius-md); box-shadow:var(--shadow-lg);
+  background:var(--bg-elev); border-radius:var(--radius-block); box-shadow:var(--shadow-lg);
   animation:hfIn .3s ease;
 }
 .pk-done-icon{
@@ -1924,7 +1976,7 @@ Variante tonal del primitivo de toast (§26) para confirmaciones de peso, como e
 .pr-toast.is-success .ph{ color:var(--green); }
 .pr-toast.is-success strong{ color:var(--green); }
 .pr-toast.is-success span{ color:var(--green); opacity:.8; }
-.pr-toast-close{ flex-shrink:0; margin-left:auto; width:22px; height:22px; display:grid; place-items:center; border:none; border-radius:var(--radius-sm); background:none; color:var(--muted); opacity:.65; cursor:pointer; font-size:13px; transition:opacity .15s; }
+.pr-toast-close{ flex-shrink:0; margin-left:auto; width:22px; height:22px; display:grid; place-items:center; border:none; border-radius:var(--radius-item); background:none; color:var(--muted); opacity:.65; cursor:pointer; font-size:13px; transition:opacity .15s; }
 .pr-toast-close:hover{ opacity:1; }
 .pr-toast.is-success .pr-toast-close{ color:var(--green); }
 ```
@@ -2125,7 +2177,7 @@ aunque en castellano las dos se digan «tabs».
 ```css
 .ds-applist        { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px }
 .ds-applist-item   { display:grid; justify-items:center; gap:6px; text-decoration:none }
-.ds-applist-ico    { width:44px; height:44px; border-radius:var(--radius);
+.ds-applist-ico    { width:44px; height:44px; border-radius:var(--radius-block);
                      background:var(--bg-elev-2); color:var(--muted) }
 .ds-applist-item.is-active .ds-applist-ico { background:var(--cyan-soft); color:var(--cyan) }
 
@@ -2135,10 +2187,10 @@ aunque en castellano las dos se digan «tabs».
 .ds-bottomnav-item.is-active { color:var(--cyan) }
 
 .ds-fab            { position:absolute; right:16px; bottom:16px; width:52px; height:52px;
-                     border-radius:var(--radius-pill); background:var(--cyan);
+                     border-radius:var(--radius-control); background:var(--cyan);
                      color:var(--accent-ink); box-shadow:var(--shadow-md) }
 
-.ds-sheet          { border-radius:var(--radius-lg) var(--radius-lg) 0 0;
+.ds-sheet          { border-radius:var(--radius-card) var(--radius-card) 0 0;
                      background:var(--bg-elev); box-shadow:var(--shadow-lg) }
 .ds-sheet-grab     { width:36px; height:4px; background:var(--line-strong); margin:0 auto 12px }
 .ds-sheet-item.is-danger { color:var(--red) }
@@ -2271,7 +2323,7 @@ tarjeta, y un 20% más de filas en cualquier lista**.
 .panel--tile {
   padding: 12px;
   gap: 10px;
-  border-radius: var(--radius-lg);   /* v1.2.8.47 */
+  border-radius: var(--radius-card);   /* v1.2.8.47 */
 }
 
 .data-table--compact th,
@@ -2420,7 +2472,7 @@ ERP, con los comentarios de los dos bugs que costó resolverlo.
 .modal-panel {
   width: min(680px, 100%);
   padding: 22px;
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-panel);
   background: var(--tile-bg);   /* v1.2.8.55: era --bg-elev-2, ver §44 */
   box-shadow: var(--shadow-lg);
   max-height: calc(100dvh - 48px);
@@ -2497,7 +2549,7 @@ debajo de una lista de opciones. Si ese fondo no coincide, no es este componente
 .doc-tab  { height: 36px; padding: 0 6px 0 14px; gap: 5px;
             background: transparent; color: var(--muted);
             font: 500 13px var(--sans);
-            border-radius: var(--radius-sm) var(--radius-sm) 0 0 }
+            border-radius: var(--radius-item) var(--radius-item) 0 0 }
 .doc-tab.is-active { background: var(--card-bg); color: var(--text); font-weight: 600 }
 
 .doc-tab-menu { display: none }
@@ -2506,7 +2558,7 @@ debajo de una lista de opciones. Si ese fondo no coincide, no es este componente
 .doc-tab--fija .doc-tab-close { display: none }
 
 .doc-tabs-panel { background: var(--card-bg); padding: 20px;
-                  border-radius: 0 var(--radius-lg) var(--radius-lg) var(--radius-lg) }
+                  border-radius: 0 var(--radius-panel) var(--radius-panel) var(--radius-panel) }
 ```
 
 ### HTML
@@ -3471,5 +3523,5 @@ separación entre superficies quede igual:
 
 ---
 
-*YiQi ERP · Design System v1.2.8.94 · Última actualización: 05/11/2026*
+*YiQi ERP · Design System v1.2.8.95 · Última actualización: 16/11/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
