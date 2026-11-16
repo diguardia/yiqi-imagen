@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.95
+# YiQi Design System — Guía maestra v1.2.8.96
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -638,6 +638,8 @@ html[data-theme="light"] .topbar {
   background: rgba(238,236,231,.88);
 }
 ```
+
+**Header de app *(v1.2.8.96)*.** En escritorio `.app-topbar` usa tres columnas (`minmax(0,1fr) auto minmax(0,1fr)`): el bloque central cae en el centro exacto de la barra aunque los lados midan distinto. A la derecha, al final, el bloque de cuenta (`.account-block`): empresa y usuario juntos, en el mismo lugar en el ERP y en las apps. «Cerrar sesión» va dentro del menú de la cuenta. En celular, sin cambios: logo y menú.
 
 ### Sidebar
 
@@ -1824,7 +1826,9 @@ Marco común para todas las apps YiQi del marketplace: **topbar + sidebar + áre
 |-------|-------|-------|
 | Barra superior | `.topbar` | Sticky, alto 56px, fondo translúcido + `backdrop-filter: blur(16px)`, borde inferior `--line`. |
 | Pill de producto | `.t-pill` | Mono 10px mayúsculas, borde `--line`, fondo `--bg-elev-2`, color `--muted`. |
-| Chip de cuenta | `.account-chip` | Avatar inicial + usuario (`--muted`) + esquema (`--text`) en sans. |
+| Bloque de cuenta *(v1.2.8.96)* | `.account-block` | Empresa y usuario juntos, al final de la barra: `.schema-toggle` (con `.topbar-schema-logo` si hay logo) + `.account-menu`. Igual en el ERP y en todas las apps. |
+| Menú de la cuenta *(v1.2.8.96)* | `.account-menu` + `.account-menu-trigger` + `.account-menu-panel` | El avatar (`.avatar`, 32 px) abre un `.pr-menu.pr-menu--end` con nombre, dato secundario, opciones y «Cerrar sesión». |
+| Chip de cuenta *(obsoleto desde v1.2.8.96)* | `.account-chip` | Usar `.account-block`. Se conserva hasta que migren las apps. |
 | Selector de esquema | `.schema-toggle` | Botón `aria-haspopup` con menú de esquemas borderless (apps multi-esquema). |
 | Actualizar | `.btn-refresh` | Botón **solo ícono** (`ph-arrows-clockwise`), pill `--cyan-soft-2`/`--cyan`; re-renderiza la vista. |
 | Cerrar sesión | `.btn-exit` | Pill `--bg-elev-2`/`--muted`; hover `--red`. |
@@ -3523,5 +3527,5 @@ separación entre superficies quede igual:
 
 ---
 
-*YiQi ERP · Design System v1.2.8.95 · Última actualización: 16/11/2026*
+*YiQi ERP · Design System v1.2.8.96 · Última actualización: 16/11/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*

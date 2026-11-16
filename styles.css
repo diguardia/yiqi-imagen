@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.95";
+  --ds-version: "1.2.8.96";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -1559,6 +1559,8 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
 
 
 /* ── 23. ACCOUNT CHIP ─────────────────────────────────────── */
+/* Obsoleto desde v1.2.8.96: usar .account-block (seccion 24 bis). Se conserva
+   hasta que migren las apps que lo usan (Contable, Analytics Pro). */
 /* v1.2.5: inputs mantienen borde — account chip es un control */
 /* v1.2.7.3: borderless — el chip de cuenta no lleva fondo ni borde en la barra */
 .account-chip {
@@ -1677,6 +1679,48 @@ html[data-theme="light"] .kpi-trend-grid { stroke: rgba(16, 36, 54, 0.12); }
 
 .schema-option-name { font-size: 13px; font-weight: 600; }
 .schema-option-id   { color: var(--muted); font-size: 11px; font-family: var(--mono); }
+
+/* ── 24 bis. BLOQUE DE CUENTA (v1.2.8.96) ─────────────────────
+   Empresa y usuario juntos, al final de la barra, en el mismo lugar en el ERP
+   y en todas las apps. Reemplaza a .account-chip (usuario + esquema al centro),
+   que queda obsoleto hasta que migren Contable y Analytics Pro.
+   Markup: .account-block > .schema-toggle (con .topbar-schema-logo opcional)
+                          + .account-menu > .avatar.account-menu-trigger
+                                          + .pr-menu.pr-menu--end.account-menu-panel */
+.account-block {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 2px 2px 4px;
+  border-radius: var(--radius-control);
+  background: var(--bg-soft);
+}
+.account-block .schema-toggle { background: transparent; gap: 8px; }
+.account-block .schema-toggle:hover { background: var(--bg-elev); }
+
+/* Logo de la empresa (ISOLOGO del cliente en Parametros). Sin logo no se muestra
+   nada, ni un hueco. Copiado del ERP nuevo (yiqi-app-shell.css): mismo criterio,
+   sin recortar logos apaisados. Dentro del bloque baja a 22 px. */
+.topbar-schema-logo { display: block; height: 32px; width: auto; max-width: 96px; object-fit: contain; border-radius: var(--radius-item); }
+.account-block .topbar-schema-logo { height: 22px; max-width: 72px; border-radius: var(--radius-detail); }
+
+/* Menu de la cuenta. Copiado del ERP nuevo (account-menu.tsx, FE-092 punto 9):
+   el avatar abre un .pr-menu con el nombre, las opciones de la cuenta y
+   «Cerrar sesion». Avatar de 32 px (el .avatar del DS mide 36). */
+.account-menu { position: relative; }
+.account-menu .account-menu-trigger { width: 32px; height: 32px; padding: 0; border: 0; cursor: pointer; font-size: 11px; transition: box-shadow var(--tr); }
+.account-menu .account-menu-trigger:hover,
+.account-menu .account-menu-trigger[aria-expanded="true"] { box-shadow: 0 0 0 3px var(--cyan-soft); }
+.account-menu .account-menu-trigger:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: 2px; }
+.account-menu-panel { display: grid; gap: 2px; }
+.account-menu .account-menu-panel { width: min(280px, calc(100vw - 32px)); }
+.account-menu-id { padding: 6px 8px 8px; border-bottom: 1px solid var(--line); margin-bottom: 4px; min-width: 0; }
+.account-menu-name { display: block; font: 600 13px var(--sans); color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.account-menu-mail { display: block; margin-top: 2px; font: 400 12px var(--sans); color: var(--muted-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.account-menu-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 4px 8px; }
+.account-menu-label { font: 500 12px var(--sans); color: var(--muted); }
+.account-menu-row .range-btn { padding: 5px 12px; font-size: 12px; display: inline-flex; align-items: center; }
 
 /* ── 25. SESSION WARNING ──────────────────────────────────── */
 .session-warning {
@@ -3638,6 +3682,17 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
 .app-topbar { grid-column: 1 / -1; display: grid;
   grid-template-columns: auto minmax(280px, 1fr) auto; align-items: center;
   gap: 14px; padding: 8px 28px 10px; }
+/* v1.2.8.96 — En escritorio, tres columnas: el bloque central cae en el centro
+   exacto de la barra aunque los lados midan distinto, como el ERP nuevo
+   (yiqi-frontend, FE-092 punto 9). Antes el centro arrancaba pegado al nombre
+   de la app, y cada una lo centraba a mano (Analytics Pro, informes). En
+   celular sigue la regla de abajo: logo y menu. */
+@media (min-width: 981px) {
+  .app-topbar { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); }
+  .app-topbar > .topbar-l { grid-column: 1; justify-self: start; }
+  .app-topbar > .topbar-c { grid-column: 2; justify-content: center; }
+  .app-topbar > .topbar-r { grid-column: 3; justify-self: end; }
+}
 
 .topbar-logo { display: inline-flex; align-items: center; line-height: 0; }
 .topbar-logo-svg { height: 34px; width: auto; display: block; margin-left: -9px; }  /* v1.2.8.60: 39 -> 34 con la topbar de 48; escala, no deforma */
