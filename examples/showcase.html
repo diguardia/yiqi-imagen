@@ -18,6 +18,8 @@
 <!-- <app-banner> es un web component propio: sin este script la card de
      Marketplace muestra el hueco y nadie se entera de por que. -->
 <script src="../components/app-banner.js" defer></script>
+<script src="../components/mcp-anim.js" defer></script>
+<script src="../components/apps-apilado.js" defer></script>
 <style>
   /* ── Layout de la página (solo composición; los estilos de componente vienen del DS) ── */
   /* El alto descuenta la statusbar fija: si no, la barra tapa el contenido.
@@ -557,6 +559,7 @@
     <button class="sc-tab" role="tab" id="sctab-movil" aria-controls="tab-movil" data-target="tab-movil" aria-selected="false"><i class="ph ph-device-mobile"></i> Móvil</button>
     <button class="sc-tab" role="tab" id="sctab-marketplace" aria-controls="tab-marketplace" data-target="tab-marketplace" aria-selected="false"><i class="ph ph-storefront"></i> Marketplace</button>
     <button class="sc-tab" role="tab" id="sctab-botones" aria-controls="tab-botones" data-target="tab-botones" aria-selected="false"><i class="ph ph-cursor-click"></i> Botones</button>
+    <button class="sc-tab" role="tab" id="sctab-sitio" aria-controls="tab-sitio" data-target="tab-sitio" aria-selected="false"><i class="ph ph-globe"></i> Sitio</button>
     </div>
     <nav class="sc-toplinks" aria-label="Recursos del Design System">
     <a class="sc-toplink" href="../template/INDEX.md"><i class="ph ph-copy"></i> Templates</a>
@@ -586,6 +589,7 @@
     <button class="sc-drawer-link" data-tab="tab-tablas"><i class="ph ph-table"></i> Tablas</button>
     <button class="sc-drawer-link" data-tab="tab-iconos"><i class="ph ph-smiley"></i> Iconos</button>
       <button class="sc-drawer-link" data-tab="tab-movil"><i class="ph ph-device-mobile"></i> Móvil</button>
+    <button class="sc-drawer-link" data-tab="tab-sitio"><i class="ph ph-globe"></i> Sitio</button>
   </div>
   <div class="sc-drawer-group">
     <span class="sc-drawer-label">Recursos</span>
@@ -2847,6 +2851,69 @@
      El navegador lo izaba a primer hijo del <body>, asi que al abrir la
      pestana Marketplace la barra superior quedaba 1245px mas abajo — se
      leia como "se rompio el header". Va con los otros ocho paneles. -->
+<div class="sc-panel" id="tab-sitio" role="tabpanel" aria-labelledby="sctab-sitio">
+<section class="sc-section">
+  <h2 class="sc-section-h">Sitio &middot; componentes de la home</h2>
+  <p class="sc-section-sub">Las seis piezas de la home de yiqi.com.ar que entraron al DS en v1.2.8.97, corriendo con <code>styles.css</code>. Cada una enlaza a su secci&oacute;n del cat&aacute;logo.</p>
+  <div class="sc-grid">
+      <article class="sc-card" id="card-web-hero-pill">
+        <div class="sc-card-h"><span class="sc-card-title">P&iacute;ldora del hero</span><a class="ds-xref" href="../yiqi-design-system.html#web-hero-pill"><i class="ph ph-anchor-simple"></i> Ver fuente</a><button type="button" class="ds-copy" data-ds-copy="card" aria-label="Copiar markup del componente" title="Copiar markup"><i class="ph ph-copy"></i></button></div>
+        <p class="sc-card-sub">Anuncio arriba del titular.</p>
+        <div class="sc-stage"><div style="display:flex;justify-content:center;padding:24px"><a class="hero-pill" href="#card-web-hero-pill"><span class="hero-pill-a">YiQi + Tiendanube<span class="hero-pill-x"> · Stock, pedidos y facturaci&oacute;n</span></span><span class="hero-pill-b">Ver &rarr;</span></a></div></div>
+      </article>
+      <article class="sc-card" id="card-web-bif">
+        <div class="sc-card-h"><span class="sc-card-title">Solapas de bifurcaci&oacute;n</span><a class="ds-xref" href="../yiqi-design-system.html#web-bif"><i class="ph ph-anchor-simple"></i> Ver fuente</a><button type="button" class="ds-copy" data-ds-copy="card" aria-label="Copiar markup del componente" title="Copiar markup"><i class="ph ph-copy"></i></button></div>
+        <p class="sc-card-sub">Parten la p&aacute;gina en ramas.</p>
+        <div class="sc-stage"><div class="bif-zone" id="scBif" style="margin-top:20px;border-radius:var(--radius-card);overflow:hidden">
+  <div class="bif-notch" role="tablist" aria-label="Ramas">
+    <button type="button" class="px-tab" role="tab" aria-selected="true" aria-controls="scBifErp"><span class="px-ic px-ic-erp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>YiQi ERP</button>
+    <button type="button" class="px-tab" role="tab" aria-selected="false" aria-controls="scBifApps"><span class="px-ic px-ic-apps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l9 5-9 5-9-5 9-5z"/><path d="M3 12l9 5 9-5"/><path d="M3 17l9 5 9-5"/></svg></span>Apps<span class="px-l"> · iA Ready</span></button>
+    <button type="button" class="px-tab" role="tab" aria-selected="false" aria-controls="scBifMcp"><span class="px-ic px-ic-mcp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>MCP<span class="px-l"> de YiQi</span></button>
+  </div>
+  <div class="bif-panel" id="scBifErp" role="tabpanel" style="padding:40px 24px;text-align:center;color:var(--muted)">Rama del ERP</div>
+  <div class="bif-panel" id="scBifApps" role="tabpanel" hidden style="padding:40px 24px;text-align:center;color:var(--muted)">Rama de Apps</div>
+  <div class="bif-panel" id="scBifMcp" role="tabpanel" hidden style="padding:40px 24px;text-align:center;color:var(--muted)">Rama del MCP</div>
+</div>
+<script>(function(){var z=document.getElementById('scBif');if(!z)return;var t=[].slice.call(z.querySelectorAll('.px-tab'));t.forEach(function(b){b.addEventListener('click',function(){t.forEach(function(o){var on=o===b;o.setAttribute('aria-selected',String(on));document.getElementById(o.getAttribute('aria-controls')).hidden=!on;});});});})();</script>
+</div>
+      </article>
+      <article class="sc-card" id="card-web-px-bar">
+        <div class="sc-card-h"><span class="sc-card-title">Barra de producto</span><a class="ds-xref" href="../yiqi-design-system.html#web-px-bar"><i class="ph ph-anchor-simple"></i> Ver fuente</a><button type="button" class="ds-copy" data-ds-copy="card" aria-label="Copiar markup del componente" title="Copiar markup"><i class="ph ph-copy"></i></button></div>
+        <p class="sc-card-sub">Sobre el mockup de cada rama.</p>
+        <div class="sc-stage"><div class="card" style="padding:24px 0 32px">
+  <div style="height:140px;margin:0 32px;border-radius:var(--radius-card);background:linear-gradient(var(--bg-elev-2),var(--bg-soft))"></div>
+  <div class="px-bar"><span class="px-ic px-ic-erp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span><span class="px-bar-txt"><b>YiQi ERP</b><span>M&aacute;s de 15 a&ntilde;os con pymes, 100&nbsp;% en la nube.</span></span><a href="#card-web-px-bar">Ver m&oacute;dulos</a></div>
+</div></div>
+      </article>
+      <article class="sc-card" id="card-web-form-modal">
+        <div class="sc-card-h"><span class="sc-card-title">Formulario en ventana</span><a class="ds-xref" href="../yiqi-design-system.html#web-form-modal"><i class="ph ph-anchor-simple"></i> Ver fuente</a><button type="button" class="ds-copy" data-ds-copy="card" aria-label="Copiar markup del componente" title="Copiar markup"><i class="ph ph-copy"></i></button></div>
+        <p class="sc-card-sub">El Demo Form en un velo.</p>
+        <div class="sc-stage"><div class="card" style="display:flex;justify-content:center;padding:32px"><button type="button" class="btn btn-ghost" data-sc-form-modal-open>Abrir la ventana</button></div>
+<div class="form-modal" id="scFormModal" role="dialog" aria-modal="true" aria-label="Contactar ahora">
+  <div class="demo-form-wrap">
+    <button type="button" class="form-modal-close" data-sc-form-modal-close aria-label="Cerrar">&times;</button>
+    <div class="hf-header"><div class="hf-title">Contactar ahora</div><div class="hf-sub">Nuestro equipo te responder&aacute; en menos de 24 hs.</div></div>
+    <div class="hf-step active"><div class="hf-field"><input class="input" placeholder="Nombre" aria-label="Nombre"></div><div class="hf-field"><input class="input" placeholder="Email de trabajo" aria-label="Email de trabajo"></div></div>
+    <div class="hf-footer" style="display:flex"><div class="hf-footer-actions"><button type="button" class="hf-btn-cta" data-sc-form-modal-close>Continuar</button></div></div>
+  </div>
+</div>
+<script>(function(){var m=document.getElementById('scFormModal');if(!m)return;document.body.appendChild(m);function c(){m.classList.remove('is-open');}document.querySelectorAll('[data-sc-form-modal-open]').forEach(function(b){b.addEventListener('click',function(){m.classList.add('is-open');});});m.querySelectorAll('[data-sc-form-modal-close]').forEach(function(b){b.addEventListener('click',c);});m.addEventListener('mousedown',function(e){if(e.target===m)c();});document.addEventListener('keydown',function(e){if(e.key==='Escape')c();});})();</script></div>
+      </article>
+      <article class="sc-card" id="card-web-mcp-anim">
+        <div class="sc-card-h"><span class="sc-card-title">Animaci&oacute;n del MCP</span><a class="ds-xref" href="../yiqi-design-system.html#web-mcp-anim"><i class="ph ph-anchor-simple"></i> Ver fuente</a><button type="button" class="ds-copy" data-ds-copy="card" aria-label="Copiar markup del componente" title="Copiar markup"><i class="ph ph-copy"></i></button></div>
+        <p class="sc-card-sub">&lt;yiqi-mcp-anim&gt;</p>
+        <div class="sc-stage"><div style="background:#F0EEE6;padding:16px;border-radius:var(--radius-card)"><yiqi-mcp-anim></yiqi-mcp-anim></div></div>
+      </article>
+      <article class="sc-card" id="card-web-apilado">
+        <div class="sc-card-h"><span class="sc-card-title">Apilado de apps en celular</span><a class="ds-xref" href="../yiqi-design-system.html#web-apilado"><i class="ph ph-anchor-simple"></i> Ver fuente</a><button type="button" class="ds-copy" data-ds-copy="card" aria-label="Copiar markup del componente" title="Copiar markup"><i class="ph ph-copy"></i></button></div>
+        <p class="sc-card-sub">Achic&aacute; la ventana para verlo.</p>
+        <div class="sc-stage"><style>@media (min-width:621px){#scApilado.app-grid-featured{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}}</style>
+<div class="app-grid-featured" id="scApilado" data-apilado style="margin-top:20px"><div class="app-card mb-appcard"><div class="mb-thumb"><div class="mb-thumb-ico"><i class="ph ph-package"></i></div></div><div class="mb-abody"><div class="mb-acat">Analytics</div><div class="mb-aname">Analytics Pro</div><div class="mb-adesc">Los indicadores de todas las áreas en una pantalla.</div><div class="mb-afoot"><span class="mb-install">Ver app</span><span class="mb-prov-t">por iAready</span></div></div></div><div class="app-card app-card--soon mb-appcard"><div class="mb-thumb"><span class="mb-state">En desarrollo</span><div class="mb-thumb-ico"><i class="ph ph-package"></i></div></div><div class="mb-abody"><div class="mb-acat">Contabilidad</div><div class="mb-aname">YiQi Contable</div><div class="mb-adesc">Contabilidad conectada al ERP.</div><div class="mb-afoot"><span class="mb-install">Ver app</span><span class="mb-prov-t">por iAready</span></div></div></div><div class="app-card mb-appcard"><div class="mb-thumb"><div class="mb-thumb-ico"><i class="ph ph-package"></i></div></div><div class="mb-abody"><div class="mb-acat">Compras</div><div class="mb-aname">Recepción de Facturas</div><div class="mb-adesc">Las facturas de proveedores llegan cargadas.</div><div class="mb-afoot"><span class="mb-install">Ver app</span><span class="mb-prov-t">por iAready</span></div></div></div><div class="app-card mb-appcard"><div class="mb-thumb"><div class="mb-thumb-ico"><i class="ph ph-package"></i></div></div><div class="mb-abody"><div class="mb-acat">Punto de venta</div><div class="mb-aname">YiQi POS</div><div class="mb-adesc">Venta de mostrador conectada al stock.</div><div class="mb-afoot"><span class="mb-install">Ver app</span><span class="mb-prov-t">por iAready</span></div></div></div><div class="app-card mb-appcard"><div class="mb-thumb"><div class="mb-thumb-ico"><i class="ph ph-package"></i></div></div><div class="mb-abody"><div class="mb-acat">Logística</div><div class="mb-aname">Picking</div><div class="mb-adesc">Preparación de pedidos desde el celular.</div><div class="mb-afoot"><span class="mb-install">Ver app</span><span class="mb-prov-t">por iAready</span></div></div></div><div class="app-card app-card--soon mb-appcard"><div class="mb-thumb"><span class="mb-state">En desarrollo</span><div class="mb-thumb-ico"><i class="ph ph-package"></i></div></div><div class="mb-abody"><div class="mb-acat">Gestión</div><div class="mb-aname">Antualia</div><div class="mb-adesc">App de un desarrollador homologado.</div><div class="mb-afoot"><span class="mb-install">Ver app</span><span class="mb-prov-t">por iAready</span></div></div></div></div></div>
+      </article>
+  </div>
+</section>
+</div>
+
 <div class="sc-panel" id="tab-marketplace" role="tabpanel" aria-labelledby="sctab-marketplace">
 <section class="sc-section">
   <h2 class="sc-section-h">Marketplace &middot; ficha y cat&aacute;logo</h2>

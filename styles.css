@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.96";
+  --ds-version: "1.2.8.97";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -5537,3 +5537,95 @@ a.pr-menu-item { text-decoration: none; }
 .ds-kbd { font: 600 11px var(--mono); color: var(--muted); white-space: nowrap; letter-spacing: .02em; }
 .ds-kbd-or { font: 400 11px var(--sans); color: var(--muted-2); margin: 0 6px; }
 
+
+/* ── 75. SITIO · COMPONENTES DE LA HOME (v1.2.8.97) ──────────────
+   Seis piezas que nacieron en la home de yiqi.com.ar el 17/11/2026 y pasan
+   al DS el 18/11 (pedido de Seba): pildora del hero, solapas de bifurcacion,
+   barra de producto, formulario en ventana, animacion del MCP (JS en
+   components/mcp-anim.js) y apilado de apps en celular (JS en
+   components/apps-apilado.js). Catalogo §87-§92 · showcase, pestana Sitio. */
+
+/* 75.1 Pildora del hero — anuncio arriba del titular: texto + «Ver →». */
+.hero-pill { display: inline-flex; align-items: stretch; border: 1px solid var(--line-strong); border-radius: var(--radius-control); background: var(--bg-elev); text-decoration: none; font: 500 13.5px var(--sans); overflow: hidden; transition: border-color var(--tr); }
+.hero-pill:hover { border-color: var(--cyan); }
+.hero-pill-a { padding: 8px 14px 8px 18px; color: var(--text); }
+.hero-pill-b { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; color: var(--muted); border-left: 1px solid var(--line-strong); }
+@media (max-width: 760px) { .hero-pill { font-size: 12.5px; } .hero-pill-x { display: none; } }
+
+/* 75.2 Solapas de bifurcacion — cuelgan del hero y parten la pagina en ramas.
+   .bif-zone es la franja; .bif-notch, la muesca con las esquinas concavas;
+   .px-tab cada solapa con su icono .px-ic; .bif-panel cada rama. */
+.bif-zone { background: var(--bg-elev); position: relative; margin-top: 72px; }
+.bif-notch { position: relative; width: max-content; max-width: calc(100% - 24px); margin: 0 auto; background: var(--bg); padding: 4px 28px 22px; border-radius: 0 0 var(--radius-panel) var(--radius-panel); display: flex; gap: 10px; justify-content: center; }
+.bif-notch::before, .bif-notch::after { content: ""; position: absolute; top: 0; width: 24px; height: 24px; }
+.bif-notch::before { left: -24px; background: radial-gradient(circle at 0 100%, transparent 23.5px, var(--bg) 24px); }
+.bif-notch::after { right: -24px; background: radial-gradient(circle at 100% 100%, transparent 23.5px, var(--bg) 24px); }
+.px-tab { display: inline-flex; align-items: center; gap: 8px; font: 500 14px var(--sans); color: var(--muted); background: var(--bg-elev); border: 0; border-radius: var(--radius-button); padding: 9px 16px; cursor: pointer; white-space: nowrap; transition: background var(--tr), color var(--tr); }
+.px-tab:hover { color: var(--text); background: var(--bg-soft); }
+.px-tab[aria-selected="true"] { background: var(--bg-elev-2); color: var(--text); box-shadow: var(--shadow-sm); }
+html:not([data-theme="light"]) .px-tab[aria-selected="true"] { background: rgba(255,255,255,.1); }
+.px-ic { width: 22px; height: 22px; border-radius: var(--radius-detail); display: grid; place-items: center; color: #fff; flex: none; }
+.px-ic svg { width: 13px; height: 13px; }
+.px-ic-erp { background: var(--cyan); }
+html:not([data-theme="light"]) .px-ic-erp { color: #07131a; }
+.px-ic-apps { background: var(--violet); }
+.px-ic-mcp { background: #c15f3c; } /* terracota de la paleta Anthropic: solo para el MCP */
+.bif-panel[hidden] { display: none; }
+@media (max-width: 760px) {
+  .bif-zone { margin-top: 36px; }
+  .bif-notch { padding: 4px 12px 16px; gap: 6px; }
+  .px-tab { font-size: 13px; padding: 8px 11px; gap: 7px; }
+  .px-l { display: none; }
+}
+
+/* 75.3 Barra de producto — oscura, montada sobre el mockup: icono, titulo,
+   texto y un boton. Una por rama de la bifurcacion. */
+.px-bar { position: relative; z-index: 3; width: calc(100% - 40px); max-width: 940px; margin: -72px auto 0; display: flex; align-items: center; gap: 16px; background: #26282b; color: #fff; border: 1px solid rgba(255,255,255,.08); border-radius: var(--radius-block); padding: 16px 18px; box-shadow: 0 18px 40px -18px rgba(0,0,0,.5); }
+.px-bar .px-ic { width: 38px; height: 38px; border-radius: var(--radius-item); background: rgba(255,255,255,.1) !important; color: #fff !important; border: 1px solid rgba(255,255,255,.12); }
+.px-bar .px-ic svg { width: 18px; height: 18px; }
+.px-bar-txt { flex: 1; min-width: 0; }
+.px-bar-txt b { display: block; font: 600 16px var(--sans); }
+.px-bar-txt span { display: block; font: 400 13.5px/1.45 var(--sans); color: rgba(255,255,255,.68); }
+.px-bar a { flex: none; font: 500 14px var(--sans); color: #141413; background: #fff; border-radius: var(--radius-item); padding: 10px 18px; text-decoration: none; white-space: nowrap; }
+@media (max-width: 760px) {
+  .px-bar { flex-wrap: wrap; margin-top: -28px; width: calc(100% - 32px); }
+  .px-bar a { width: 100%; text-align: center; }
+}
+
+/* 75.4 Formulario en ventana — el Demo Form (§demo-form) dentro de un velo.
+   .form-modal se abre con .is-open; la × (.form-modal-close) se alinea con
+   el titulo; la accion del formulario va en boton solid. */
+.form-modal { position: fixed; inset: 0; z-index: 3000; display: none; align-items: center; justify-content: center; padding: 20px; background: rgba(0,0,0,.6); overflow: auto; }
+.form-modal.is-open { display: flex; }
+.form-modal .demo-form-wrap, .form-modal .hero-form-wrap { position: relative; margin: auto; max-height: calc(100vh - 40px); overflow: auto; width: 100%; max-width: 440px; }
+.form-modal-close { position: absolute; top: 13px; right: 14px; width: 36px; height: 36px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--muted); font: 400 22px/1 var(--sans); cursor: pointer; z-index: 2; }
+.form-modal-close:hover { color: var(--text); background: var(--line); }
+@media (max-width: 760px) { .form-modal-close { top: 6px; right: 6px; } }
+.form-modal .hf-btn-cta, .form-modal .hf-btn-cta.hf-primary, html[data-theme="light"] .form-modal .hf-btn-cta { background: var(--accent); color: var(--accent-ink); }
+.form-modal .hf-btn-cta:hover, .form-modal .hf-btn-cta.hf-primary:hover, html[data-theme="light"] .form-modal .hf-btn-cta:hover { background: color-mix(in srgb, var(--accent) 88%, var(--accent-ink)); color: var(--accent-ink); }
+
+/* 75.5 Animacion del MCP — <yiqi-mcp-anim> (components/mcp-anim.js). Los
+   estilos viven en su Shadow DOM; aca solo el bloque. */
+yiqi-mcp-anim { display: block; }
+
+/* 75.6 Apilado de apps en celular — components/apps-apilado.js sobre una
+   .app-grid-featured[data-apilado]. Cada card queda fija bajo el header y la
+   siguiente la tapa; primero las disponibles. «Ver las N apps» sigue el
+   apilado hacia abajo (sin carrusel). Con data-apilado-boton="externo" el
+   boton lo pone otro elemento (evento «apilado:todas»). En escritorio, la
+   grilla de siempre. OJO: ningun ancestro puede tener overflow:hidden, o el
+   sticky se mide contra el y el apilado arranca despegado. */
+@media (min-width: 621px) {
+  .apps-apilado > .stk { display: contents; }
+  .stk-more { display: none; }
+}
+@media (max-width: 620px) {
+  .app-grid-featured.apps-apilado { display: flex; flex-direction: column; gap: 20px; padding-bottom: 48px; }
+  .apps-apilado > .stk { position: sticky; top: var(--stk-top, 110px); }
+  .apps-apilado > .stk > .app-card { transform-origin: 50% 0; will-change: transform; transition: filter .15s linear; box-shadow: 0 -1px 0 var(--line), var(--shadow-lg); }
+  .apps-apilado > .stk > .app-card:hover { box-shadow: 0 -1px 0 var(--line), var(--shadow-lg); }
+  .anim .apps-apilado > .stk > .app-card { opacity: 1; animation: none; }
+  .stk-more { margin-top: 4px; }
+  .stk-more-btn { display: flex; width: 100%; justify-content: center; }
+}
+.stk-more[hidden], .stk-more-btn[hidden], .apps-apilado > .stk[hidden] { display: none; }

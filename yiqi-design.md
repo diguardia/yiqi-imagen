@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.96
+# YiQi Design System — Guía maestra v1.2.8.97
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -3525,7 +3525,28 @@ separación entre superficies quede igual:
   Ninguna superficie del tema claro es `#ffffff`. No volver a fijar fondos de card por tema:
   el tema lo resuelven los tokens.
 
+
+## 68. Sitio: componentes de la home *(nuevo en v1.2.8.97)*
+
+Seis piezas que nacieron en la home de yiqi.com.ar el 17/11/2026 y pasan al DS el 18/11. Estilos en `styles.css` §75; catálogo §87 a §92; showcase, pestaña **Sitio**.
+
+| Pieza | Clase o etiqueta | Uso |
+|---|---|---|
+| Píldora del hero | `.hero-pill` > `.hero-pill-a` + `.hero-pill-b` | Anuncio arriba del titular: texto y «Ver →». Un solo anuncio; `.hero-pill-x` es la parte del texto que se oculta en celular. Inter 500 13,5 px, radio `--radius-control`. |
+| Solapas de bifurcación | `.bif-zone` > `.bif-notch` (`role="tablist"`) > `.px-tab` + `.bif-panel` | Cuelgan del hero y parten la página en ramas; cada solapa muestra una rama entera. La muesca tiene esquinas cóncavas (`::before`/`::after`) y radio inferior `--radius-panel`. Ícono `.px-ic` con `.px-ic-erp` (cian), `.px-ic-apps` (violeta) o `.px-ic-mcp` (terracota). `.px-l` es la parte del rótulo que se oculta en celular. |
+| Barra de producto | `.px-bar` > `.px-ic` + `.px-bar-txt` (`b` + `span`) + `a` | Barra oscura montada sobre el mockup de cada rama: ícono, nombre, una línea que complementa el título (no lo repite) y un botón. En celular el botón ocupa el ancho. |
+| Formulario en ventana | `.form-modal` (+ `.is-open`) > `.hero-form-wrap` + `.form-modal-close` | El Demo Form (§ Demo Form) dentro de un velo. La × se alinea con el título; la acción va en botón solid. Cierra con ×, Esc o clic en el velo. |
+| Animación del MCP | `<yiqi-mcp-anim>` (`components/mcp-anim.js`) | Cuatro módulos que mandan un pulso al núcleo «MCP DE YIQI» y un chat que pregunta, consulta y responde. Shadow DOM: no hereda ni pisa estilos. |
+| Apilado de apps en celular | `.app-grid-featured[data-apilado]` (`components/apps-apilado.js`) | En celular las cards se apilan al scrollear; primero las disponibles y después las en desarrollo. Muestra 4 y «Ver las N apps» sigue el apilado hacia abajo, sin carrusel. Con `data-apilado-boton="externo"` el botón lo pone otro elemento, que dispara `apilado:todas` sobre la grilla. En escritorio, la grilla de siempre. |
+
+### Reglas
+
+- Ningún ancestro del apilado puede tener `overflow: hidden`: el `position: sticky` se mide contra ese ancestro y las cards arrancan despegadas del título (pasó en la home el 17/11: 100 px de hueco).
+- La barra de producto no repite el título de su rama: lo complementa.
+- Las solapas se hacen por tres: lo que cambia en una rama cambia en las otras.
+- Desde v1.2.8.97 la muesca usa `--radius-panel` (24 px) también en escritorio; en la home era 36 px, un radio fuera de la escala.
+
 ---
 
-*YiQi ERP · Design System v1.2.8.96 · Última actualización: 16/11/2026*
+*YiQi ERP · Design System v1.2.8.97 · Última actualización: 18/11/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
