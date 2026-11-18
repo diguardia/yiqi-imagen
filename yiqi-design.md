@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.97
+# YiQi Design System — Guía maestra v1.2.8.98
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -3548,5 +3548,55 @@ Seis piezas que nacieron en la home de yiqi.com.ar el 17/11/2026 y pasan al DS e
 
 ---
 
-*YiQi ERP · Design System v1.2.8.97 · Última actualización: 18/11/2026*
+## 69. Campo de solo lectura y valor que cambió solo *(nuevo en v1.2.8.98)*
+
+Pedido 16 del frontend (`docs/pedidos-al-diseno-2026-10-01.md`). En un formulario de edición
+conviven campos que se escriben y valores que no: un calculado, un número de comprobante, un
+dato bloqueado. El frontend les copiaba el fondo gris de `.ds-input`, y el fondo de los campos
+quiere decir «acá se escribe»: no se distinguía qué se podía escribir y qué no (lo marcó
+Christian). Tampoco había regla para avisar que un valor cambió solo.
+
+```css
+.ds-field-static {            /* la misma caja que .ds-input, sin el fondo */
+  display: flex; align-items: center;
+  min-height: 36px; margin: 0; padding: 0 14px;
+  border-radius: var(--radius-field);
+  font: 400 var(--fs-body)/1.4 var(--sans); color: var(--text);
+  overflow-wrap: anywhere;
+  transition: background-color var(--tr);
+}
+.ds-field-static.is-empty { color: var(--muted-2); }
+.ds-field-static.is-num   { font-family: var(--kpi-num); font-variant-numeric: tabular-nums; }
+
+.ds-input.is-autofilled, .ds-select.is-autofilled,
+.ds-textarea.is-autofilled, .ds-field-static.is-autofilled { background-color: var(--cyan-soft); }
+```
+
+```html
+<div class="ds-field">
+  <span class="ds-label">Subtotal</span>
+  <p class="ds-field-static is-num">$ 360.000,00</p>
+</div>
+<div class="ds-field">
+  <span class="ds-label">Vendedor asignado</span>
+  <p class="ds-field-static is-empty">—</p>
+</div>
+```
+
+Reglas:
+
+- **Si tiene caja, se escribe; si no tiene, no.** El valor no editable va en `.ds-field-static`, nunca
+  con el fondo de `.ds-input` ni como input deshabilitado.
+- Mismo alto (36 px) y mismo aire (14 px) que un campo: la fila queda alineada y el valor empieza
+  donde empieza el texto de los editables de la columna.
+- La etiqueta va en `<span class="ds-label">`: no hay control al que apuntar con `for`.
+- Sin dato: «—» con `.is-empty`. Cifras: `.is-num` (tipografía tabular).
+- **Valor que cambió solo** (lo completó un cálculo o un botón): `.is-autofilled`, en editables y
+  estáticos. Fondo `--cyan-soft`, nunca borde. La app pone la clase y la saca a los ~2 s; el
+  fundido lo da la transición del campo.
+- Para una ficha que se lee entera, sin editar, va `.ds-dl` (§ Lista de datos de la ficha).
+- Antes, el frontend lo resolvía con `.entity-readonly-value` y `.entity-field-filled` en
+  `globals.css`; pasan a estas clases del DS.
+
+*YiQi ERP · Design System v1.2.8.98 · Última actualización: 18/11/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*

@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.97";
+  --ds-version: "1.2.8.98";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -3605,6 +3605,40 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
    pantalla lo resolvia con estilos sueltos. */
 .ds-field { display: grid; gap: 6px; }
 .ds-field .ds-label { margin-bottom: 0; }
+
+/* Campo de solo lectura dentro de un formulario de edicion (v1.2.8.98, §93).
+   Pedido 16 del frontend. Un calculado o un no editable entre campos que se
+   escriben: la misma caja que .ds-input (36 px, 14 de aire), sin el fondo. El
+   fondo de los campos quiere decir «aca se escribe», y con el mismo gris no se
+   distinguia que se podia escribir y que no (lo marco Christian). El valor queda
+   alineado con el texto de los editables de la columna.
+   Para una ficha que se lee entera, sin editar, va .ds-dl (§81). */
+.ds-field-static {
+  display: flex;
+  align-items: center;
+  min-height: 36px;
+  margin: 0;
+  padding: 0 14px;
+  border-radius: var(--radius-field);
+  font: 400 var(--fs-body)/1.4 var(--sans);
+  color: var(--text);
+  overflow-wrap: anywhere;
+  transition: background-color var(--tr);
+}
+.ds-field-static.is-empty { color: var(--muted-2); }
+.ds-field-static.is-num {
+  font-family: var(--kpi-num);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.01em;
+}
+
+/* Valor que cambio solo (v1.2.8.98, §93): lo completo un calculo o un boton.
+   Por fondo, nunca por borde. La app pone la clase y la saca a los ~2 s; el
+   fundido de salida lo da la transicion del propio campo. */
+.ds-input.is-autofilled,
+.ds-select.is-autofilled,
+.ds-textarea.is-autofilled,
+.ds-field-static.is-autofilled { background-color: var(--cyan-soft); }
 
 /* ── DS-03 · ENCABEZADOS DE PAGINA Y PANEL ─────────────────────
    Titulos con rol tipografico definido, en vez de escribirlos a
