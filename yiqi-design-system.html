@@ -511,6 +511,12 @@ body.preview-open .ds-layout { display: none !important; }
 <tr><th>Versión</th><th>Fecha</th><th>Tipo</th><th>Detalle</th></tr>
 </thead>
 <tbody>
+<tr id="chg-sin-title">
+<td class="mono-cell">v1.2.8.99</td>
+<td class="mono-cell">19/11/2026</td>
+<td><span class="badge badge-amber">CAMBIO</span></td>
+<td><strong>Un control que ya muestra su texto no lleva <code>title</code>.</strong> Contable y Analytics Pro le pon&iacute;an <code>title="Empresa"</code> al selector de empresa, y al pasar el mouse sal&iacute;a la etiqueta del navegador encima del nombre: repet&iacute;a lo que se ve, con la letra y el fondo del sistema operativo, fuera del DS (lo marc&oacute; Seba). El DS no lo dec&iacute;a en ning&uacute;n lado; el ERP nuevo ya lo aplicaba por su cuenta. <strong>Ahora es regla:</strong> <code>title</code> solo en un bot&oacute;n de solo &iacute;cono y en un texto cortado con elipsis. Solo documentaci&oacute;n: no cambia el CSS.<div class="chg-links"><a class="ds-xref" href="#tooltip-nativo"><i class="ph ph-anchor-simple"></i> &sect;22 Sin etiqueta nativa</a><button class="ds-copy chg-share" data-ds-copy="link" title="Copiar link a este cambio" aria-label="Copiar link a este cambio"><i class="ph ph-link"></i>Compartir</button></div></td>
+</tr>
 <tr id="chg-rail-peek-boton">
 <td class="mono-cell">v1.2.8.99</td>
 <td class="mono-cell">19/11/2026</td>
@@ -2894,6 +2900,16 @@ body.preview-open .ds-layout { display: none !important; }
 <div class="tooltip-box">Exportar a Excel (.xlsx)</div>
 <div class="tooltip-box tooltip-box--elev">Módulo en desarrollo — disponible en Q2</div>
 </div>
+<div class="subsection-title" id="tooltip-nativo">Sin etiqueta nativa en un control con texto <span class="badge badge-amber">v1.2.8.99</span></div>
+<p class="panel-description">Un control que ya muestra su texto no lleva <code>title</code>: la etiqueta del navegador repite lo que se ve, sale fuera del DS (letra y fondo del sistema operativo) y tapa lo que est&aacute; debajo. El nombre accesible es el texto visible; si hace falta otro, va en <code>aria-label</code>.</p>
+<table class="table-demo">
+<thead><tr><th>Caso</th><th><code>title</code></th><th>Por qu&eacute;</th></tr></thead>
+<tbody>
+<tr><td>Bot&oacute;n o selector con texto visible (empresa, solapa, &laquo;Exportar&raquo;)</td><td>No</td><td>Repite lo que se ve. Pas&oacute; con el selector de empresa: &laquo;Empresa&raquo; encima de &laquo;ERP Demo&raquo;.</td></tr>
+<tr><td>Bot&oacute;n de solo &iacute;cono (<code>.btn-icon</code>)</td><td>S&iacute;, igual a su <code>aria-label</code></td><td>Su nombre no se ve.</td></tr>
+<tr><td>Texto cortado con elipsis</td><td>S&iacute;, con el texto completo</td><td>Es la &uacute;nica forma de leerlo entero.</td></tr>
+</tbody>
+</table>
 <div class="subsection-title">Load progress</div>
 <div class="cat-maxw-420 cat-d-grid cat-gap-12">
 

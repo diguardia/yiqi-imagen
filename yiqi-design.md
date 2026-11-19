@@ -1385,6 +1385,8 @@ Estrella de favorito **borderless** (`.fav-star`): outline en reposo, **ámbar r
 
 **Tag** (`.tag`): pill borderless mono, `--cyan-soft`. **Tooltip** (`.tooltip-box` / `--elev`): caja borderless. Documentados en catálogo §22 → ancla `#avatar`.
 
+**Sin `title` en un control que ya muestra su texto** *(v1.2.8.99)*. La etiqueta nativa del navegador repite lo que se ve, sale con la letra y el fondo del sistema operativo (fuera del DS) y tapa lo que está debajo. Pasó con el selector de empresa de Contable y Analytics Pro: «Empresa» encima de «ERP Demo». El nombre accesible es el texto visible; si hace falta otro, va en `aria-label`. `title` queda solo para un botón de solo ícono (su nombre no se ve) y para un texto cortado con elipsis (el `title` muestra el completo). El ERP nuevo ya lo aplica (`doc-tabs-add`: «el tooltip nativo repetía lo que ya se ve»). Catálogo §22 → ancla `#tooltip-nativo`.
+
 ---
 
 ### Inputs — canónico `.ds-input`
