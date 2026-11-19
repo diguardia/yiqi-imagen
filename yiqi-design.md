@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.98
+# YiQi Design System — Guía maestra v1.2.8.99
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -2136,7 +2136,7 @@ Promovido desde `informes-yiqi/comercial.html`. El rail (`.nav-collapsed`) ya es
 | Controles al pie | `.sidebar-ctrls` | Sticky abajo. En rail pasan a columna. Ocultos bajo 980px. |
 | Fijar | `.sb-lock` + `.nav-locked` | Candado; fijado muestra `.ico-locked` en `--cyan` y cancela el peek. |
 | Flecha | `.sb-arrow` | Rota 180° en rail. |
-| Hover-peek | `.nav-peek` | El sidebar se despliega **como overlay** (`z-index: 97` + `--shadow-lg`): no empuja el contenido. |
+| Hover-peek | `.nav-peek` | El sidebar se despliega **como overlay** (`z-index: 97` + `--shadow-lg`): no empuja el contenido. El botón del pie (`.sidebar-collapse`) se queda en la misma x que en el rail: no se mueve con el peek *(v1.2.8.99)*. |
 | Tooltip | `.nav-link::after` | `attr(title)` en hover y en `:focus-visible`. Oculto en peek. |
 
 **Nombres:** `comercial.html` usa `.ds-layout`, `.nav-section-label`, `.nav-icon` y `.sidebar-theme`. El canónico usa `.app-shell`, `.nav-lbl`, `.n-ico` y `.sb-theme-switch`. Se promovió con los nombres canónicos; **comercial tiene que renombrar** para consumirlo.
@@ -3598,5 +3598,5 @@ Reglas:
 - Antes, el frontend lo resolvía con `.entity-readonly-value` y `.entity-field-filled` en
   `globals.css`; pasan a estas clases del DS.
 
-*YiQi ERP · Design System v1.2.8.98 · Última actualización: 18/11/2026*
+*YiQi ERP · Design System v1.2.8.99 · Última actualización: 19/11/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*

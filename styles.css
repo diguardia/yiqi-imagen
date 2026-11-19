@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.98";
+  --ds-version: "1.2.8.99";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -4181,7 +4181,14 @@ a.t-pill:focus-visible{ outline:2px solid var(--cyan-night); outline-offset:2px;
   padding: 0; margin: 0; overflow: visible; clip: auto; white-space: nowrap;
 }
 .nav-collapsed.nav-peek .nav-link::after { display: none; }
-.nav-collapsed.nav-peek .sidebar-ctrls { flex-direction: row; align-items: center; }
+.nav-collapsed.nav-peek .sidebar-ctrls { flex-direction: row; align-items: center; justify-content: flex-start; }
+/* v1.2.8.99 — Desplegado por hover-peek, el boton del pie se queda donde estaba en el rail.
+   Heredaba margin: auto auto 0 del rail y, con el sidebar a 240px, quedaba en el medio
+   (lo marco Seba en Contable, 19/11/2026). Ademas, si se moviera, el mouse que viene del
+   rail tendria que perseguirlo. (56 - 30) / 2 - 12 = 1: con el padding del peek (12), el
+   boton de 30 cae en la misma x que en el rail (padding 10 + 3). El catalogo lo resolvia
+   con una regla local de su demo; ahora es del sistema. */
+.app-shell.nav-collapsed.nav-peek .sidebar-collapse { margin: auto 0 0 calc((var(--sidebar-w-collapsed) - 30px) / 2 - 12px); }
 
 /* Toggle de tema: columna en rail, fila al desplegarse. */
 .nav-collapsed .sb-theme-switch { flex-direction: column; background: transparent; padding: 0; gap: 4px; }

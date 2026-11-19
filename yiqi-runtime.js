@@ -1,5 +1,5 @@
 /**
- * YiQi Runtime — v1.2.8.98
+ * YiQi Runtime — v1.2.8.99
  * Utilidades JS compartidas para entregables HTML standalone.
  *
  * Uso:  <script src="/system/sdk/yiqi-runtime.js"></script>
@@ -1087,7 +1087,7 @@
     picker: PickerAPI,
 
     /* Meta */
-    version: '1.2.8.98',
+    version: '1.2.8.99',
   };
 
 }(window));
