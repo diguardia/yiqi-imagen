@@ -6,8 +6,9 @@
     "test:detail-navigation": "node scripts/check-detail-navigation.js",
     "test:consumer-css": "node scripts/check-consumer-css.js",
     "test:radius": "node scripts/check-radius.js",
-    "test": "node scripts/check-detail-navigation.js && node scripts/check-consumer-css.js && node scripts/check-radius.js",
-    "test:clases-ds": "node scripts/check-clases-ds.js"
+    "test": "node scripts/check-detail-navigation.js && node scripts/check-consumer-css.js && node scripts/check-radius.js && node scripts/check-catalogo.js",
+    "test:clases-ds": "node scripts/check-clases-ds.js",
+    "test:catalogo": "node scripts/check-catalogo.js"
   },
   "devDependencies": {
     "@types/node": "^24.13.2",
