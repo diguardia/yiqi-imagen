@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.99";
+  --ds-version: "1.2.8.100";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -2726,6 +2726,18 @@ input:not(:placeholder-shown) ~ .ds-input-clear { display: grid; }
 .ds-input-btn svg { width: 14px; height: 14px; }
 .ds-input-btn:nth-last-child(1) { right: 4px; }
 .ds-input-btn:nth-last-child(2) { right: 36px; }
+/* v1.2.8.100 — campo numerico. input[type=number] mostraba las flechas del
+   navegador: un control del sistema operativo dentro del campo, fuera del DS,
+   que el DS nunca estilizo (lo marco Seba en el Dia de cierre de Contable).
+   Se ocultan en todo .ds-input numerico: el numero se escribe. Cuando sumar o
+   restar de a uno ayuda, va .ds-input-step: los botones menos y mas de
+   .ds-input-action.has-2, dentro del campo. Elegido entre tres a la vista
+   (flechas nativas / sin flechas / menos y mas), Seba, 19/11/2026. */
+.ds-input[type="number"] { -moz-appearance: textfield; appearance: textfield; }
+.ds-input[type="number"]::-webkit-inner-spin-button,
+.ds-input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.ds-input-step .ds-input { font-variant-numeric: tabular-nums; }
+.ds-input-step .ds-input-btn:disabled { opacity: .35; cursor: default; background: transparent; color: var(--muted-2); }
 .ds-input-icon {
   position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
   width: 16px; height: 16px; stroke: var(--muted-2); fill: none;

@@ -1,5 +1,5 @@
 /**
- * YiQi Runtime — v1.2.8.99
+ * YiQi Runtime — v1.2.8.100
  * Utilidades JS compartidas para entregables HTML standalone.
  *
  * Uso:  <script src="/system/sdk/yiqi-runtime.js"></script>
@@ -26,6 +26,7 @@
  *   YiQi.copy.init()          — engancha [data-ds-copy] (auto al cargar)
  *   YiQi.picker.set(el,v)     — desplegable .ds-picker: fija el valor
  *   YiQi.picker.value(el)     — valor actual del desplegable
+ *   YiQi.step.sync(root?)     — campo numérico .ds-input-step: apaga − / + en el mínimo y el máximo
  *
  * © 2026 YiQi S.A. — DS v1.2.8
  */
@@ -996,6 +997,46 @@
     }));
   }
 
+  /* ── Campo numérico con menos y más · .ds-input-step (v1.2.8.100) ──────────
+     Cada botón lleva data-ds-step="-1" o "1". Usa stepDown/stepUp del input,
+     así respeta min, max y step, y emite input y change para que la app se
+     entere. En el mínimo y el máximo el botón que no aplica queda apagado. */
+  function _stepSync(wrap) {
+    var inp = wrap.querySelector('input');
+    if (!inp) return;
+    var v = parseFloat(inp.value);
+    var min = inp.min !== '' ? parseFloat(inp.min) : null;
+    var max = inp.max !== '' ? parseFloat(inp.max) : null;
+    wrap.querySelectorAll('[data-ds-step]').forEach(function (b) {
+      var d = parseFloat(b.getAttribute('data-ds-step'));
+      b.disabled = !isNaN(v) && ((d < 0 && min !== null && v <= min) || (d > 0 && max !== null && v >= max));
+    });
+  }
+  var StepAPI = {
+    sync: function (root) {
+      (root || document).querySelectorAll('.ds-input-step').forEach(_stepSync);
+    }
+  };
+  document.addEventListener('click', function (ev) {
+    var b = ev.target.closest && ev.target.closest('.ds-input-step [data-ds-step]');
+    if (!b) return;
+    var wrap = b.closest('.ds-input-step');
+    var inp = wrap.querySelector('input');
+    if (!inp || inp.disabled || inp.readOnly) return;
+    ev.preventDefault();
+    if (inp.value === '') inp.value = inp.min !== '' ? inp.min : '0';
+    else if (parseFloat(b.getAttribute('data-ds-step')) < 0) inp.stepDown(); else inp.stepUp();
+    inp.dispatchEvent(new Event('input', { bubbles: true }));
+    inp.dispatchEvent(new Event('change', { bubbles: true }));
+    _stepSync(wrap);
+  });
+  document.addEventListener('input', function (ev) {
+    var wrap = ev.target.closest && ev.target.closest('.ds-input-step');
+    if (wrap) _stepSync(wrap);
+  });
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { StepAPI.sync(); });
+  else StepAPI.sync();
+
   document.addEventListener('click', function (ev) {
     var t = ev.target;
     if (!t.closest) return;
@@ -1086,8 +1127,11 @@
     /* Desplegable de selección única */
     picker: PickerAPI,
 
+    /* Campo numérico con menos y más */
+    step: StepAPI,
+
     /* Meta */
-    version: '1.2.8.99',
+    version: '1.2.8.100',
   };
 
 }(window));

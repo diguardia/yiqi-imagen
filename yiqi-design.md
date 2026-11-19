@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.99
+# YiQi Design System — Guía maestra v1.2.8.100
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -3600,5 +3600,41 @@ Reglas:
 - Antes, el frontend lo resolvía con `.entity-readonly-value` y `.entity-field-filled` en
   `globals.css`; pasan a estas clases del DS.
 
-*YiQi ERP · Design System v1.2.8.99 · Última actualización: 19/11/2026*
+## 70. Campo numérico con menos y más *(nuevo en v1.2.8.100)*
+
+`input[type="number"]` mostraba las flechas del navegador: un control del sistema operativo
+dentro del campo, con su letra y su fondo, que el DS nunca estilizó. Lo marcó Seba en el «Día»
+de la fecha de cierre de Contable. Se eligió entre tres a la vista: las flechas nativas, sin
+flechas y menos y más.
+
+```css
+.ds-input[type="number"] { -moz-appearance: textfield; appearance: textfield; }
+.ds-input[type="number"]::-webkit-inner-spin-button,
+.ds-input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.ds-input-step .ds-input { font-variant-numeric: tabular-nums; }
+.ds-input-step .ds-input-btn:disabled { opacity: .35; cursor: default; background: transparent; color: var(--muted-2); }
+```
+
+```html
+<div class="ds-input-action has-2 ds-input-step">
+  <input class="ds-input" type="number" inputmode="numeric" min="1" max="31" value="31">
+  <button class="ds-input-btn" type="button" data-ds-step="-1" aria-label="Restar uno"><i class="ph ph-minus"></i></button>
+  <button class="ds-input-btn" type="button" data-ds-step="1" aria-label="Sumar uno"><i class="ph ph-plus"></i></button>
+</div>
+```
+
+Reglas:
+
+- **Ningún `.ds-input` numérico muestra las flechas del navegador.** Se ocultan solas, sin clase.
+- Los botones son los de `.ds-input-action.has-2` (§ Input con acción al final): menos primero,
+  más al final. Sin borde, el mismo gris que las demás acciones del campo.
+- `yiqi-runtime.js` los hace andar: usa `stepDown` / `stepUp` (respeta `min`, `max` y `step`),
+  emite `input` y `change`, y apaga el botón que no aplica en el mínimo y el máximo
+  (`YiQi.step.sync()` si los valores cambian por código). Una app con su propio estado (React)
+  puede manejar el clic ella misma con el mismo markup.
+- `inputmode="numeric"` pide el teclado numérico en el celular.
+- Sin botones cuando el número es largo o no se recorre de a uno (un CUIT, un importe): ahí va
+  un `.ds-input` numérico solo.
+
+*YiQi ERP · Design System v1.2.8.100 · Última actualización: 19/11/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
