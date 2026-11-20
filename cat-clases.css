@@ -263,6 +263,7 @@
 .cat-h-56:not(#cat):not(#cat) { height: 56px; }
 .cat-h-6:not(#cat):not(#cat) { height: 6px; }
 .cat-h-600:not(#cat):not(#cat) { height: 600px; }
+.cat-h-640:not(#cat):not(#cat) { height: 640px; }
 .cat-h-8:not(#cat):not(#cat) { height: 8px; }
 .cat-h-80:not(#cat):not(#cat) { height: 80px; }
 .cat-h-9:not(#cat):not(#cat) { height: 9px; }
@@ -347,6 +348,7 @@
 .cat-maxw-390:not(#cat):not(#cat) { max-width: 390px; }
 .cat-maxw-420:not(#cat):not(#cat) { max-width: 420px; }
 .cat-maxw-44ch:not(#cat):not(#cat) { max-width: 44ch; }
+.cat-maxw-460:not(#cat):not(#cat) { max-width: 460px; }
 .cat-maxw-46ch:not(#cat):not(#cat) { max-width: 46ch; }
 .cat-maxw-480:not(#cat):not(#cat) { max-width: 480px; }
 .cat-maxw-520:not(#cat):not(#cat) { max-width: 520px; }

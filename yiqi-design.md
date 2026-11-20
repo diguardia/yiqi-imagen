@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.100
+# YiQi Design System — Guía maestra v1.2.8.101
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -754,11 +754,11 @@ Toda superposición del sistema usa esta escala. **Antes de inventar un `z-index
 |---|---|---|
 | **200** | Modal y tooltip del rail colapsado | `.sc-modal`, `.nav-collapsed .nav-link::after` |
 | **120** | Toasts | `.pr-toasts` |
-| **115** | **Drawer mobile** | `.sidebar` en `≤980px` |
+| **115** | **Drawer mobile** · chat en celular | `.sidebar` y `.ds-chat` en `≤980px` |
 | **110** | **Backdrop del drawer** | `.nav-overlay` en `≤980px` |
 | **~100** | Topbar de la app | *la declara cada app; el canónico no la fija* |
 | **97** | Statusbar · sidebar en peek | `.statusbar`, `.nav-collapsed.nav-peek .sidebar` |
-| **96** | Sidebar colapsado | `.nav-collapsed .sidebar` |
+| **96** | Sidebar colapsado · chat acoplado | `.nav-collapsed .sidebar`, `.ds-chat` en `>980px` (§71) |
 | **60** | Popovers y menús | `.kpi-help-pop` |
 | **40** | Navegación pegajosa | `.tab-nav` |
 | **20** | Menú de esquema | `.schema-menu` |
@@ -3636,5 +3636,187 @@ Reglas:
 - Sin botones cuando el número es largo o no se recorre de a uno (un CUIT, un importe): ahí va
   un `.ds-input` numérico solo.
 
-*YiQi ERP · Design System v1.2.8.100 · Última actualización: 19/11/2026*
+---
+
+## 71. Chat de producto `.ds-chat` *(nuevo en v1.2.8.101)*
+
+Panel lateral donde el usuario conversa con su ERP. Dos proveedores en el mismo panel: **su propia IA**
+(Anthropic en el MVP, con su API key, a través del MCP de YiQi) y **«YiQi»** (el YiQi Bot, montado
+como iframe). Diseño y decisiones en `yiqi-frontend/docs/chat-ia-propia.md` (cerradas el 20/11/2026).
+El lenguaje visual sale de `<yiqi-mcp-anim>` (§68): encabezado con estado, burbuja del usuario,
+«Consultando YiQi ERP», tarjeta «desde YiQi ERP» y vista previa con Cancelar / Confirmar. Aquel es de
+marketing y vive en Shadow DOM; este es el canónico, con los tokens del sistema, en claro y en oscuro.
+Catálogo §95, demo en `examples/erp-chat.html` y en el showcase (pestaña YiQi Frontend).
+
+### Dónde vive
+
+| Ancho | Comportamiento | Capa (§6.9) |
+|---|---|---|
+| **>980 px** | Acoplado a la derecha, debajo de la topbar, como la barra secundaria de VS Code. **Empuja** el contenido: la app pone `.has-chat` en un ancestro común (`<html>`, `<body>` o la raíz del shell) y el contenedor de la página se corre `--chat-w`. Ancho redimensionable de 320 a 640 px. | 96 (`--z-rail`) |
+| **≤980 px** | Pantalla completa, **por encima de la topbar**, igual que el drawer. | 115 (`--z-drawer`) |
+
+**No es modal:** sin backdrop, sin trampa de foco y sin `aria-modal`. El foco entra al textarea al
+abrir y vuelve al disparador al cerrar; Tab sale del panel a la página como desde cualquier región.
+
+```css
+.ds-chat {
+  position: fixed; top: var(--chat-top, var(--topbar-h)); right: 0; bottom: var(--chat-bottom, 0);
+  z-index: var(--z-rail);
+  width: clamp(320px, var(--chat-w, 400px), 640px);
+  display: flex; flex-direction: column;
+  background: var(--bg-elev); border-left: 1px solid var(--line);
+}
+@media (min-width: 981px) {
+  .has-chat .ds-layout, .has-chat .app-shell, .has-chat .ds-chat-push {
+    padding-right: clamp(320px, var(--chat-w, 400px), 640px);
+  }
+}
+@media (max-width: 980px) {
+  .ds-chat { inset: 0; width: 100%; height: 100dvh; z-index: var(--z-drawer); background: var(--bg); }
+}
+```
+
+Variables que pone la app: `--chat-w` (el ancho que eligió el usuario, recordado en `localStorage`),
+`--chat-top` (si su topbar no mide `--topbar-h`) y `--chat-bottom` (con `.statusbar`, vale
+`var(--statusbar-h)`). Contenedores que se corren: `.ds-layout` (el shell del frontend),
+`.app-shell` (la grilla del DS) o cualquier otro con `.ds-chat-push`.
+
+### Anatomía
+
+```html
+<!-- Disparador en la topbar: también se ve en celular, junto a la hamburguesa -->
+<button class="btn-icon btn-icon-sm ds-chat-trigger" aria-controls="chat" aria-expanded="true"
+        aria-label="Asistente de IA (Ctrl+I)"><i class="ph ph-sparkle"></i></button>
+
+<aside class="ds-chat" id="chat" aria-label="Asistente de IA">
+  <div class="ds-chat-resize" role="separator" tabindex="0" aria-orientation="vertical"
+       aria-controls="chat" aria-label="Ancho del asistente"
+       aria-valuemin="320" aria-valuemax="640" aria-valuenow="400"></div>
+
+  <header class="ds-chat-head">
+    <span class="ds-chat-prov" data-prov="anthropic" aria-hidden="true"><i class="ph ph-sparkle"></i></span>
+    <div class="ds-chat-id">
+      <h2 class="ds-chat-title">Claude <span class="ds-chat-model">· Sonnet</span></h2>
+      <p class="ds-chat-meta"><span class="ds-chat-dot" data-state="ok"></span><span>Conectado</span>
+        <span aria-hidden="true">·</span><span class="ds-chat-schema">DEMO</span></p>
+    </div>
+    <div class="ds-chat-tools">
+      <button class="btn-icon btn-icon-sm" aria-haspopup="menu" aria-expanded="false"
+              aria-controls="chat-menu" aria-label="Más opciones"><i class="ph ph-dots-three"></i></button>
+      <div class="pr-menu pr-menu--end ds-chat-menu" id="chat-menu" role="menu">…</div>
+      <button class="btn-icon btn-icon-sm" aria-label="Cerrar asistente"><i class="ph ph-x"></i></button>
+    </div>
+  </header>
+
+  <!-- Aviso de conexión, si hace falta -->
+  <div class="ds-chat-banner" data-kind="warn" role="alert">…</div>
+
+  <div class="ds-chat-body" role="log" aria-live="polite" aria-label="Conversación" tabindex="0">
+    <div class="ds-chat-msg is-user">¿Cuánto vendí en octubre por canal?</div>
+
+    <details class="ds-chat-tool" data-state="ok">
+      <summary><span class="ds-chat-q" aria-hidden="true"></span>
+        <span class="ds-chat-tool-name">Ventas por mes</span><span class="ds-chat-tool-res">12 filas</span>
+        <i class="ph ph-check-circle ds-chat-tool-st" aria-hidden="true"></i>
+        <i class="ph ph-caret-down" aria-hidden="true"></i></summary>
+      <pre class="ds-chat-tool-detail">ventas_por_mes(desde: "2026-10-01", …)</pre>
+    </details>
+
+    <div class="ds-chat-msg is-assistant ds-chat-md"><!-- markdown sanitizado -->
+      <p>… el pedido más grande fue el <a class="ds-chat-ref" href="/es/ventas/pedido/4512">
+        <i class="ph ph-receipt"></i>Pedido 4512</a>.</p>
+    </div>
+
+    <section class="ds-chat-card ds-chat-confirm" data-state="pending" aria-label="Vista previa de orden de compra">
+      <div class="ds-chat-card-src"><span class="ds-chat-q" aria-hidden="true"></span>desde YiQi ERP</div>
+      <p class="ds-chat-card-kicker">Vista previa · Orden de compra</p>
+      <ul class="ds-chat-card-rows"><li><span>Proveedor</span><span>Bulonera Sur S.R.L.</span></li>…</ul>
+      <div class="ds-chat-card-foot">
+        <span class="ds-chat-outcome" aria-live="polite"></span>
+        <button class="btn btn-sm btn-ghost">Cancelar</button>
+        <button class="btn btn-sm btn-solid">Confirmar</button>
+      </div>
+    </section>
+  </div>
+  <p class="ds-chat-sr" role="status"></p>
+
+  <footer class="ds-chat-foot">
+    <div class="ds-chat-context">
+      <span class="ds-chat-ctx"><i class="ph ph-file-text" aria-hidden="true"></i>
+        <span class="ds-chat-ctx-label">Pedido 4512</span>
+        <button class="ds-chat-ctx-x" aria-label="Quitar «Pedido 4512» del contexto"><i class="ph ph-x"></i></button></span>
+    </div>
+    <form class="ds-chat-composer">
+      <textarea class="ds-chat-input" rows="1" aria-label="Mensaje para el asistente"
+                placeholder="Pregunta lo que quieras sobre tu empresa…"></textarea>
+      <button class="ds-chat-send" type="submit" aria-label="Enviar"><i class="ph ph-arrow-up"></i></button>
+    </form>
+    <p class="ds-chat-note">Usa tu cuenta de Anthropic. Los costos los cobra Anthropic.</p>
+  </footer>
+</aside>
+```
+
+### Piezas
+
+| Pieza | Clases | Regla |
+|---|---|---|
+| Panel | `.ds-chat`, `.is-inline`, `.is-frame` | `.is-inline`: embebido en una caja (catálogo, vista previa de Preferencias), ni fijo ni acoplado. `.is-frame`: proveedor «YiQi». |
+| Borde de ancho | `.ds-chat-resize`, `.is-dragging` | Separador con teclado: ←/→ de a 16 px, Inicio/Fin al mínimo/máximo. Mientras se arrastra, `.is-chat-resizing` junto a `.has-chat`. Se oculta en ≤980 px. |
+| Encabezado | `.ds-chat-head`, `.ds-chat-prov[data-prov]`, `.ds-chat-title`, `.ds-chat-model`, `.ds-chat-meta`, `.ds-chat-dot[data-state]`, `.ds-chat-schema`, `.ds-chat-tools` | Proveedor y modelo, estado y esquema activo. `data-prov`: `anthropic` (terracota, solo para identificarlo) o `yiqi` (cian, con la Q). `data-state` del punto: `ok`, `busy`, `warn`, `error`, `off`. |
+| Menú ⋯ | `.pr-menu.pr-menu--end.ds-chat-menu`, `.ds-chat-menu-head` | El menú de acciones del DS (§63-64): proveedor (`menuitemradio`), Nueva conversación, Historial, Uso de esta conversación, Configuración de la conexión. |
+| Historial | `.ds-chat-hist`, `.ds-chat-hist-item`, `.is-current`, `.ds-chat-hist-open`, `.ds-chat-hist-title`, `.ds-chat-hist-when`, `.ds-chat-hist-acts`, `.ds-chat-hist-empty` | Segunda vista del menú, con «‹ Historial» arriba. Agrupado por fecha con `.pr-menu-label`. Renombrar y borrar aparecen al pasar o con foco; en táctil, siempre. Solo conversaciones del esquema activo. |
+| Aviso | `.ds-chat-banner[data-kind]` | `warn` (requiere reconectar, tope alcanzado), `error`, sin atributo = informativo. Por fondo, nunca por borde. Lleva su acción. |
+| Mensajes | `.ds-chat-msg.is-user`, `.is-assistant`, `.is-streaming`, `.is-error`, `.ds-chat-stopped` | Usuario: burbuja a la derecha. Asistente: sin burbuja, a todo el ancho. Error del turno: fondo rojo suave y Reintentar. |
+| Markdown | `.ds-chat-md` | Párrafos, listas, títulos chicos, código, citas y tablas compactas con scroll propio. Siempre sanitizado (`sanitize-html`). |
+| Registro | `.ds-chat-ref` | Registro nombrado en la respuesta: link a su ficha del front. |
+| Chip de tool | `.ds-chat-tool[data-state]`, `.ds-chat-tool-name`, `.ds-chat-tool-res`, `.ds-chat-tool-st`, `.ds-chat-tool-detail` | `<details>` nativo: se pliega con teclado sin JS. `running` (puntos animados, ícono `ph-circle-notch`), `ok` (`ph-check-circle`, resultado resumido: «12 filas»), `error` (fondo rojo suave, `ph-warning-circle`). |
+| Tarjeta | `.ds-chat-card`, `.ds-chat-card-src`, `.ds-chat-card-kicker`, `.ds-chat-card-rows`, `.ds-chat-card-foot` | Resultado «desde YiQi ERP». Adentro va `.ds-chat-card-rows` o `.ds-dl`. |
+| Confirmación | `.ds-chat-confirm[data-state]`, `.ds-chat-outcome`, `.ds-chat-spin` | `pending` → `running` (botones deshabilitados, «Creando…») → `done` / `cancelled` / `error`. El estado lo dice la línea de resultado, que reemplaza a los botones. |
+| Cargando | `.ds-chat-typing` (tres puntos), `.ds-chat-skel` + `.skeleton-line` | Puntos: el modelo está pensando y todavía no llegó texto. Esqueleto: se está abriendo una conversación del historial. |
+| Vacío | `.empty-state` + `.ds-chat-suggest` | Título, una línea y tres preguntas de ejemplo. Desconectado: `.empty-state[data-kind="neutral"]` con Conectar y Usar YiQi. |
+| Pie | `.ds-chat-foot`, `.ds-chat-context`, `.ds-chat-ctx`, `.ds-chat-ctx-label`, `.ds-chat-ctx-x`, `.ds-chat-composer`, `.ds-chat-input`, `.ds-chat-send`, `.is-stop`, `.ds-chat-note` | Ver reglas. |
+| Iframe | `.ds-chat-frame` | Cuerpo del proveedor «YiQi»: reemplaza a `.ds-chat-body` y el pie se esconde. |
+| Isotipo | `.ds-chat-q` | La Q de YiQi como máscara: toma el color del texto. |
+
+### Reglas
+
+- **Las escrituras pasan siempre por la tarjeta de confirmación.** Confirmar lo dispara la UI, con
+  `confirmar=true`; nunca el modelo, aunque el usuario escriba «sí». Botones reales: `.btn-ghost`
+  para Cancelar y `.btn-solid` para Confirmar.
+- **El composer crece con el texto** hasta ~8 renglones (168 px) y después hace scroll. Con
+  `field-sizing: content` donde existe; donde no, la app copia `scrollHeight` a `height` en cada
+  `input`. Enter envía, Shift+Enter hace salto de línea (y nada durante una composición IME).
+- **Enviar y detener son el mismo botón.** Mientras responde: `.is-stop`, ícono `ph-stop` y
+  `aria-label="Detener"`. Deshabilitado si el textarea está vacío. Al detener, el texto que llegó
+  queda y abajo va `.ds-chat-stopped` («Detenido por ti»).
+- **El aviso de costos va siempre** con el proveedor del usuario: «Usa tu cuenta de {proveedor}. Los
+  costos los cobra {proveedor}». Con «YiQi» no hay pie.
+- **Contexto de pantalla:** un chip por cosa que el usuario está viendo, con nombre legible y una ×
+  para quitarlo. Se manda como contexto, sin datos.
+- **Desconectado y requiere reconectar no son errores.** Desconectado: estado vacío neutral con
+  Conectar. 401 del proveedor: aviso `warn` «Requiere reconectar» con su botón; la conversación
+  queda visible y el composer se deshabilita. Un error del turno (529, red) va en el mensaje, con
+  Reintentar.
+- **Proveedor «YiQi»:** `.is-frame`, `data-prov="yiqi"` y `<iframe class="ds-chat-frame">` en lugar
+  del cuerpo. Encabezado, menú ⋯ y selector de proveedor siguen siendo del panel. Mientras
+  YiQi-WebChat no hable el mismo protocolo, sin chips de tool, tarjetas ni contexto.
+- **Accesibilidad.** `<aside aria-label>` no modal. El cuerpo es `role="log"` con
+  `aria-live="polite"`: anuncia cada mensaje nuevo. El mensaje que llega por streaming lleva
+  `aria-busy="true"` y `.is-streaming` hasta el evento `done`, para que el lector no lo lea palabra
+  por palabra. `.ds-chat-sr` (`role="status"`) anuncia lo que no es texto: «Consultando Ventas por
+  mes», «Respuesta lista». Foco visible en todo con el anillo del DS (el composer lo muestra en la
+  caja entera con `:focus-within`). Escape cierra el menú; el panel se cierra con su × o con Ctrl+I.
+- **Movimiento:** con `prefers-reduced-motion` se apagan puntos, cursor, pulso y spinner.
+
+### Para el frontend
+
+El panel vive en el app shell, fuera de la página: el estado abierto/cerrado sobrevive a la
+navegación. Al abrir en escritorio, `.has-chat` en `<html>`; `--chat-w` se guarda en `localStorage`.
+Los eventos del stream (`text_delta`, `tool_start`, `tool_end`, `confirm_required`, `done`, `error`)
+se dibujan así: `tool_start` → `.ds-chat-tool[data-state="running"]`; `tool_end` → `ok` o `error`
+con el resumen en `.ds-chat-tool-res`; `confirm_required` → `.ds-chat-confirm[data-state="pending"]`;
+`text_delta` → texto en el `.ds-chat-msg.is-assistant.is-streaming`; `done` → se sacan
+`.is-streaming` y `aria-busy`.
+
+*YiQi ERP · Design System v1.2.8.101 · Última actualización: 20/11/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*

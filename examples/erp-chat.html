@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light" style="--chat-bottom: var(--statusbar-h)">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>YiQi ERP · Asistente de IA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="../styles.css">
+<!-- Panel de chat de producto (.ds-chat, catálogo §95) sobre una ficha del ERP. Solo clases de styles.css: sin <style> propio. -->
+<script>
+(function(){ var t = new URLSearchParams(location.search).get('theme'); if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t); })();
+</script>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-l">
+    <svg class="topbar-logo-svg" viewBox="0 0 100 65" role="img" aria-label="YiQi"><path fill="var(--text)" d="M20.44,48.34l2.57-6.15-6.79-16.91c-.14-.39.07-.61.46-.61h4.97c.29,0,.57.14.68.43l3.58,10.08,3.61-10.08c.11-.29.39-.43.68-.43h4.97c.39,0,.57.21.43.61l-9.26,23.27c-.11.29-.39.43-.68.43h-4.75c-.43,0-.68-.21-.47-.64Z"/><path fill="var(--text)" d="M38.72,25.24c0-.32.25-.57.57-.57h4.89c.32,0,.57.25.57.57v16.24c0,.32-.25.57-.57.57h-4.89c-.32,0-.57-.25-.57-.57v-16.24Z"/><path fill="var(--cyan)" d="M57.91,44.78v-2.66c-2.18-.53-4.21-1.66-5.92-3.36-4.97-4.97-5.09-13.02-.03-18.08,5.09-5.09,13.14-4.97,18.11,0s5.09,13.02,0,18.11c-1.78,1.78-3.94,2.93-6.22,3.46v2.51c0,.35-.18.53-.58.53h-4.82c-.3,0-.55-.2-.55-.5ZM56.28,34.47c.5.5,1.05.9,1.65,1.2v-3.36c0-.35.18-.53.53-.53h4.87c.25,0,.53.18.53.53v3.36c.63-.33,1.23-.78,1.78-1.33,2.73-2.73,2.78-6.75.15-9.38s-6.67-2.61-9.41.13c-2.71,2.71-2.73,6.75-.1,9.38Z"/><path fill="var(--text)" d="M77.44,25.24c0-.32.25-.57.57-.57h4.89c.32,0,.57.25.57.57v16.24c0,.32-.25.57-.57.57h-4.89c-.32,0-.57-.25-.57-.57v-16.24Z"/><path fill="var(--text)" d="M38.5,18.99c0-1.77,1.35-3.19,3.23-3.19s3.23,1.42,3.23,3.19-1.38,3.23-3.23,3.23-3.23-1.42-3.23-3.23Z"/><path fill="var(--text)" d="M77.22,18.99c0-1.77,1.35-3.19,3.23-3.19s3.23,1.42,3.23,3.19-1.38,3.23-3.23,3.23-3.23-1.42-3.23-3.23Z"/></svg>
+  </div>
+  <div class="topbar-r">
+    <button class="btn-icon btn-icon-sm ds-chat-trigger" id="chat-trigger" type="button" aria-label="Asistente de IA (Ctrl+I)" title="Asistente de IA · Ctrl+I" aria-controls="chat" aria-expanded="false"><i class="ph ph-sparkle"></i></button>
+    <span class="account-chip">
+      <span class="account-user-block">
+        <span class="account-avatar" aria-hidden="true">JG</span>
+        <span class="account-user">Juan Gómez</span>
+      </span>
+      <button class="schema-toggle" type="button" aria-haspopup="listbox" aria-expanded="false">
+        <span class="schema-label">YiQi</span><span class="schema-chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+      </button>
+    </span>
+    <button class="btn-exit" type="button">Cerrar sesión</button>
+    <button class="nav-hamburger" type="button" aria-label="Abrir menú"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg></button>
+  </div>
+</header>
+
+<div class="app-shell nav-collapsed ds-chat-push">
+  <nav class="sidebar" aria-label="Módulos">
+    <div class="nav">
+      <a class="nav-link" href="#" title="Clientes y proveedores"><span class="n-ico"><i class="ph ph-users-three"></i></span><span>Clientes y proveedores</span></a>
+      <a class="nav-link is-active" href="#" title="Ventas"><span class="n-ico"><i class="ph ph-chart-line-up"></i></span><span>Ventas</span></a>
+      <a class="nav-link" href="#" title="Compras"><span class="n-ico"><i class="ph ph-shopping-cart"></i></span><span>Compras</span></a>
+      <a class="nav-link" href="#" title="Stock"><span class="n-ico"><i class="ph ph-package"></i></span><span>Stock</span></a>
+      <a class="nav-link" href="#" title="Finanzas"><span class="n-ico"><i class="ph ph-bank"></i></span><span>Finanzas</span></a>
+    </div>
+  </nav>
+
+  <main class="content" id="main-content">
+    <header class="page-header">
+      <p class="page-kicker">Ventas · Pedido</p>
+      <h1 class="page-title">Pedido 4512</h1>
+    </header>
+    <section class="panel">
+      <dl class="ds-dl">
+        <div><dt>Cliente</dt><dd>Distribuidora Andina S.A.</dd></div>
+        <div><dt>Fecha</dt><dd>18/11/2026</dd></div>
+        <div><dt>Vendedor</dt><dd>Juan Gómez</dd></div>
+        <div><dt>Canal</dt><dd>Mercado Libre</dd></div>
+        <div><dt>Estado</dt><dd><span class="badge badge-amber">Pendiente de entrega</span></dd></div>
+        <div><dt>Total</dt><dd>$ 435.600,00</dd></div>
+      </dl>
+    </section>
+    <section class="panel">
+      <table class="data-table data-table--compact">
+        <thead><tr><th>Artículo</th><th>Cantidad</th><th>Precio</th><th>Subtotal</th></tr></thead>
+        <tbody>
+          <tr><td>Tornillo autorroscante 6x40</td><td>500</td><td>$ 90,00</td><td>$ 45.000,00</td></tr>
+          <tr><td>Arandela plana 6 mm</td><td>1.000</td><td>$ 18,00</td><td>$ 18.000,00</td></tr>
+          <tr><td>Taco Fischer S8</td><td>800</td><td>$ 42,00</td><td>$ 33.600,00</td></tr>
+          <tr><td>Mecha widia 8 mm</td><td>120</td><td>$ 2.825,00</td><td>$ 339.000,00</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+</div>
+
+<aside class="ds-chat" id="chat" aria-label="Asistente de IA">
+  <div class="ds-chat-resize" id="chat-resize" role="separator" tabindex="0" aria-orientation="vertical" aria-controls="chat" aria-label="Ancho del asistente" aria-valuemin="320" aria-valuemax="640" aria-valuenow="400"></div>
+  <header class="ds-chat-head">
+    <span class="ds-chat-prov" id="chat-prov" data-prov="anthropic" aria-hidden="true"><i class="ph ph-sparkle"></i></span>
+    <div class="ds-chat-id">
+      <h2 class="ds-chat-title" id="chat-title">Claude <span class="ds-chat-model">· Sonnet</span></h2>
+      <p class="ds-chat-meta"><span class="ds-chat-dot" id="chat-dot" data-state="ok"></span><span id="chat-status">Conectado</span><span aria-hidden="true">·</span><span class="ds-chat-schema">DEMO</span></p>
+    </div>
+    <div class="ds-chat-tools">
+      <button class="btn-icon btn-icon-sm" id="chat-more" type="button" aria-label="Más opciones" aria-haspopup="menu" aria-expanded="false" aria-controls="chat-menu"><i class="ph ph-dots-three"></i></button>
+      <div class="pr-menu pr-menu--end ds-chat-menu" id="chat-menu" role="menu" aria-label="Opciones del asistente">
+        <div data-view="main">
+          <p class="pr-menu-label">Proveedor</p>
+          <button class="pr-menu-item" type="button" role="menuitemradio" aria-checked="true" data-prov="anthropic"><i class="ph ph-sparkle"></i><span class="pr-menu-text">Claude · tu cuenta</span><i class="ph ph-check"></i></button>
+          <button class="pr-menu-item" type="button" role="menuitemradio" aria-checked="false" data-prov="yiqi"><span class="ds-chat-q" aria-hidden="true"></span><span class="pr-menu-text">YiQi</span><i class="ph ph-check"></i></button>
+          <div class="pr-menu-sep" role="separator"></div>
+          <button class="pr-menu-item" type="button" role="menuitem" data-act="new"><i class="ph ph-plus"></i><span class="pr-menu-text">Nueva conversación</span></button>
+          <button class="pr-menu-item" type="button" role="menuitem" data-act="hist"><i class="ph ph-clock-counter-clockwise"></i><span class="pr-menu-text">Historial</span><i class="ph ph-caret-right pr-menu-sub"></i></button>
+          <button class="pr-menu-item" type="button" role="menuitem"><i class="ph ph-chart-bar"></i><span class="pr-menu-text">Uso de esta conversación</span><span class="pr-menu-sub">18,2 k tokens</span></button>
+          <button class="pr-menu-item" type="button" role="menuitem"><i class="ph ph-plugs-connected"></i><span class="pr-menu-text">Configuración de la conexión</span></button>
+        </div>
+        <div data-view="hist" hidden>
+          <div class="ds-chat-menu-head"><button class="btn-icon btn-icon-sm" type="button" data-act="back" aria-label="Volver"><i class="ph ph-caret-left"></i></button>Historial</div>
+          <p class="pr-menu-label">Hoy</p>
+          <ul class="ds-chat-hist">
+            <li class="ds-chat-hist-item is-current"><button class="ds-chat-hist-open" type="button" aria-current="true"><span class="ds-chat-hist-title">Ventas de octubre por canal</span><span class="ds-chat-hist-when">10:42 · DEMO</span></button><span class="ds-chat-hist-acts"><button class="btn-icon" type="button" aria-label="Renombrar «Ventas de octubre por canal»"><i class="ph ph-pencil-simple"></i></button><button class="btn-icon btn-icon-danger" type="button" aria-label="Borrar «Ventas de octubre por canal»"><i class="ph ph-trash"></i></button></span></li>
+            <li class="ds-chat-hist-item"><button class="ds-chat-hist-open" type="button"><span class="ds-chat-hist-title">Facturas vencidas de clientes mayoristas</span><span class="ds-chat-hist-when">09:15 · DEMO</span></button><span class="ds-chat-hist-acts"><button class="btn-icon" type="button" aria-label="Renombrar «Facturas vencidas de clientes mayoristas»"><i class="ph ph-pencil-simple"></i></button><button class="btn-icon btn-icon-danger" type="button" aria-label="Borrar «Facturas vencidas de clientes mayoristas»"><i class="ph ph-trash"></i></button></span></li>
+          </ul>
+          <p class="pr-menu-label">Esta semana</p>
+          <ul class="ds-chat-hist">
+            <li class="ds-chat-hist-item"><button class="ds-chat-hist-open" type="button"><span class="ds-chat-hist-title">Orden de compra de tornillería</span><span class="ds-chat-hist-when">Mar 17/11 · DEMO</span></button><span class="ds-chat-hist-acts"><button class="btn-icon" type="button" aria-label="Renombrar «Orden de compra de tornillería»"><i class="ph ph-pencil-simple"></i></button><button class="btn-icon btn-icon-danger" type="button" aria-label="Borrar «Orden de compra de tornillería»"><i class="ph ph-trash"></i></button></span></li>
+          </ul>
+        </div>
+      </div>
+      <button class="btn-icon btn-icon-sm" id="chat-close" type="button" aria-label="Cerrar asistente"><i class="ph ph-x"></i></button>
+    </div>
+  </header>
+
+  <div id="chat-banner-slot"></div>
+
+  <div class="ds-chat-body" id="chat-body" role="log" aria-live="polite" aria-label="Conversación" tabindex="0"></div>
+  <p class="ds-chat-sr" id="chat-sr" role="status"></p>
+
+  <footer class="ds-chat-foot" id="chat-foot">
+    <div class="ds-chat-context" id="chat-context">
+      <span class="ds-chat-ctx"><i class="ph ph-file-text" aria-hidden="true"></i><span class="ds-chat-ctx-label">Pedido 4512</span><button class="ds-chat-ctx-x" type="button" aria-label="Quitar «Pedido 4512» del contexto"><i class="ph ph-x"></i></button></span>
+    </div>
+    <form class="ds-chat-composer" id="chat-form">
+      <textarea class="ds-chat-input" id="chat-input" rows="1" placeholder="Pregunta lo que quieras sobre tu empresa…" aria-label="Mensaje para el asistente"></textarea>
+      <button class="ds-chat-send" id="chat-send" type="submit" aria-label="Enviar" disabled><i class="ph ph-arrow-up"></i></button>
+    </form>
+    <p class="ds-chat-note">Usa tu cuenta de Anthropic. Los costos los cobra Anthropic.</p>
+  </footer>
+</aside>
+
+<footer class="statusbar">
+  <div class="statusbar-left"><strong>Pedido 4512</strong><span class="sb-sep">·</span><span class="statusbar-desc">Ventas</span></div>
+  <div class="statusbar-right"><span class="sb-item">© 2026 YiQi S.A.</span><span class="sb-sep">·</span><span class="sb-item" id="ec-dsv">DS</span></div>
+</footer>
+
+<script>
+/* Demo del panel de chat (catalogo §95). Solo comportamiento simulado: la
+   apariencia es toda de styles.css. ?state= conversation | empty |
+   disconnected | reconnect | error | loading | yiqi · ?open=0 lo cierra ·
+   ?menu=1 | hist abre el menu ⋯ · ?ask=texto manda una pregunta. */
+(function(){
+  var q = new URLSearchParams(location.search);
+  var root = document.documentElement;
+  var chat = document.getElementById('chat'), body = document.getElementById('chat-body');
+  var trig = document.getElementById('chat-trigger'), closeB = document.getElementById('chat-close');
+  var input = document.getElementById('chat-input'), send = document.getElementById('chat-send');
+  var form = document.getElementById('chat-form'), sr = document.getElementById('chat-sr');
+  var foot = document.getElementById('chat-foot'), slot = document.getElementById('chat-banner-slot');
+  var dot = document.getElementById('chat-dot'), status = document.getElementById('chat-status');
+  var v = getComputedStyle(root).getPropertyValue('--ds-version').trim().replace(/["']/g,'');
+  if (v) document.getElementById('ec-dsv').textContent = 'DS v' + v;
+
+  /* Abrir / cerrar: .has-chat en <html> empuja el contenido en escritorio. */
+  function setOpen(o){
+    chat.hidden = !o; root.classList.toggle('has-chat', o);
+    trig.setAttribute('aria-expanded', String(o));
+    if (o) input.focus({ preventScroll: true }); else trig.focus();
+  }
+  trig.addEventListener('click', function(){ setOpen(chat.hidden); });
+  closeB.addEventListener('click', function(){ setOpen(false); });
+  document.addEventListener('keydown', function(e){
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'i') { e.preventDefault(); setOpen(chat.hidden); }
+  });
+
+  /* Ancho: --chat-w en <html>, entre 320 y 640. Arrastre y teclado. */
+  var rz = document.getElementById('chat-resize');
+  function setW(w){ w = Math.max(320, Math.min(640, Math.round(w))); root.style.setProperty('--chat-w', w + 'px'); rz.setAttribute('aria-valuenow', w); }
+  rz.addEventListener('pointerdown', function(e){
+    rz.setPointerCapture(e.pointerId); rz.classList.add('is-dragging'); root.classList.add('is-chat-resizing');
+    function mv(ev){ setW(window.innerWidth - ev.clientX); }
+    function up(){ rz.classList.remove('is-dragging'); root.classList.remove('is-chat-resizing'); rz.removeEventListener('pointermove', mv); rz.removeEventListener('pointerup', up); }
+    rz.addEventListener('pointermove', mv); rz.addEventListener('pointerup', up);
+  });
+  rz.addEventListener('keydown', function(e){
+    var w = +rz.getAttribute('aria-valuenow');
+    if (e.key === 'ArrowLeft') setW(w + 16); else if (e.key === 'ArrowRight') setW(w - 16);
+    else if (e.key === 'Home') setW(320); else if (e.key === 'End') setW(640); else return;
+    e.preventDefault();
+  });
+
+  /* Menu ⋯ con dos vistas. */
+  var more = document.getElementById('chat-more'), menu = document.getElementById('chat-menu');
+  var vMain = menu.querySelector('[data-view="main"]'), vHist = menu.querySelector('[data-view="hist"]');
+  function menuOpen(o){ menu.classList.toggle('open', o); more.setAttribute('aria-expanded', String(o)); if (!o) { vMain.hidden = false; vHist.hidden = true; } }
+  more.addEventListener('click', function(e){ e.stopPropagation(); menuOpen(!menu.classList.contains('open')); });
+  document.addEventListener('click', function(e){ if (!menu.contains(e.target)) menuOpen(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && menu.classList.contains('open')) { menuOpen(false); more.focus(); } });
+  menu.addEventListener('click', function(e){
+    var b = e.target.closest('button'); if (!b) return; e.stopPropagation();
+    if (b.dataset.act === 'hist') { vMain.hidden = true; vHist.hidden = false; vHist.querySelector('button').focus(); return; }
+    if (b.dataset.act === 'back') { vHist.hidden = true; vMain.hidden = false; return; }
+    if (b.dataset.act === 'new') { render('empty'); menuOpen(false); return; }
+    if (b.dataset.prov) { render(b.dataset.prov === 'yiqi' ? 'yiqi' : 'conversation'); menuOpen(false); return; }
+    menuOpen(false);
+  });
+
+  /* Contexto de pantalla: se puede quitar. */
+  document.getElementById('chat-context').addEventListener('click', function(e){
+    var x = e.target.closest('.ds-chat-ctx-x'); if (!x) return;
+    x.closest('.ds-chat-ctx').remove(); input.focus();
+  });
+
+  /* Piezas de la conversacion. */
+  var TOOL = function(state, name, res, detail){
+    var ico = state === 'running' ? 'ph-circle-notch' : state === 'error' ? 'ph-warning-circle' : 'ph-check-circle';
+    return '<details class="ds-chat-tool" data-state="' + state + '"><summary><span class="ds-chat-q" aria-hidden="true"></span><span class="ds-chat-tool-name">' + name + '</span>' +
+      (res ? '<span class="ds-chat-tool-res">' + res + '</span>' : '') + '<i class="ph ' + ico + ' ds-chat-tool-st" aria-hidden="true"></i><i class="ph ph-caret-down" aria-hidden="true"></i></summary>' +
+      '<pre class="ds-chat-tool-detail">' + detail + '</pre></details>';
+  };
+  var USER = function(t){ return '<div class="ds-chat-msg is-user">' + t + '</div>'; };
+  var A1 = '<div class="ds-chat-msg is-assistant ds-chat-md"><p>En octubre vendiste <strong>$ 18.420.300</strong>, un 8&nbsp;% más que en septiembre:</p>' +
+    '<table><thead><tr><th>Canal</th><th class="is-num">Ventas</th><th class="is-num">Var.</th></tr></thead><tbody>' +
+    '<tr><td>Mercado Libre</td><td class="is-num">$ 7.910.000</td><td class="is-num">+21&nbsp;%</td></tr>' +
+    '<tr><td>Mostrador</td><td class="is-num">$ 6.240.300</td><td class="is-num">+2&nbsp;%</td></tr>' +
+    '<tr><td>Mayoristas</td><td class="is-num">$ 4.270.000</td><td class="is-num">−3&nbsp;%</td></tr></tbody></table>' +
+    '<p>El que más creció fue <strong>Mercado Libre</strong>. El pedido más grande del mes fue el <a class="ds-chat-ref" href="#"><i class="ph ph-receipt" aria-hidden="true"></i>Pedido 4512</a>.</p></div>';
+  var CONFIRM = '<section class="ds-chat-card ds-chat-confirm" data-state="pending" aria-label="Vista previa de orden de compra">' +
+    '<div class="ds-chat-card-src"><span class="ds-chat-q" aria-hidden="true"></span>desde YiQi ERP</div>' +
+    '<p class="ds-chat-card-kicker">Vista previa · Orden de compra</p>' +
+    '<ul class="ds-chat-card-rows"><li><span>Proveedor</span><span>Bulonera Sur S.R.L.</span></li><li><span>Tornillo autorroscante 6x40 × 2.000</span><span>$ 168.000</span></li><li><span>Taco Fischer S8 × 1.500</span><span>$ 58.500</span></li><li><span><strong>Total</strong></span><span><strong>$ 226.500</strong></span></li></ul>' +
+    '<div class="ds-chat-card-foot"><span class="ds-chat-outcome" aria-live="polite"></span><button class="btn btn-sm btn-ghost" type="button" data-confirm="no">Cancelar</button><button class="btn btn-sm btn-solid" type="button" data-confirm="yes">Confirmar</button></div></section>';
+  var A2 = '<div class="ds-chat-msg is-assistant ds-chat-md"><p>Preparé esta vista previa con lo que falta reponer. Revísala: no se crea nada hasta que toques <strong>Confirmar</strong>.</p></div>';
+  var CONV = USER('¿Cuánto vendí en octubre por canal?') +
+    TOOL('ok', 'Ventas por mes', '12 filas', 'ventas_por_mes(desde: "2026-10-01", hasta: "2026-10-31", agrupar: "canal")\n→ 12 filas') + A1 +
+    USER('Arma una orden de compra con lo que falta reponer.') +
+    TOOL('ok', 'Reposición sin OC', '2 artículos', 'reposicion_sin_oc()\n→ 2 artículos bajo el punto de pedido') +
+    TOOL('ok', 'Crear borrador', 'vista previa', 'crear_borrador(entidad: "ORDEN_COMPRA", confirmar: false)\n→ vista previa, sin guardar') + CONFIRM + A2;
+  var EMPTY = '<div class="empty-state"><span class="empty-state-ico" aria-hidden="true"><i class="ph ph-sparkle"></i></span><p class="empty-state-title">Pregunta lo que quieras</p><p class="empty-state-msg">El asistente consulta YiQi ERP con tus permisos. Para crear o cambiar algo, siempre te pide confirmar.</p>' +
+    '<div class="ds-chat-suggest"><button type="button">¿Qué facturas están vencidas?</button><button type="button">¿Cuánto vendí este mes por canal?</button><button type="button">¿Qué pedidos faltan entregar?</button></div></div>';
+  var DISC = '<div class="empty-state" data-kind="neutral"><span class="empty-state-ico" aria-hidden="true"><i class="ph ph-plugs"></i></span><p class="empty-state-title">Conecta tu cuenta de Anthropic</p><p class="empty-state-msg">Pega una API key de console.anthropic.com una sola vez. La suscripción de Claude Pro no sirve para esto: hace falta una key de pago por uso.</p>' +
+    '<div class="empty-state-cta"><button class="btn btn-solid btn-sm" type="button">Conectar</button><button class="btn btn-sm" type="button" data-use="yiqi">Usar YiQi</button></div></div>';
+  var RECON = '<div class="ds-chat-banner" data-kind="warn" role="alert"><i class="ph ph-warning" aria-hidden="true"></i><div class="ds-chat-banner-txt"><b>Requiere reconectar.</b> Anthropic rechazó tu API key: puede haber vencido o la borraste de la consola.</div><button class="btn btn-sm" type="button">Reconectar</button></div>';
+  var ERR = '<div class="ds-chat-msg is-error" role="alert"><i class="ph ph-warning-circle" aria-hidden="true"></i><div><strong>No se pudo completar la respuesta.</strong> Anthropic está saturado (error 529). Tu pregunta no se perdió.<br><button class="btn btn-sm" type="button">Reintentar</button></div></div>';
+  var LOAD = '<div class="ds-chat-skel" aria-busy="true" aria-label="Abriendo la conversación"><span class="skeleton-line is-user"></span><span class="skeleton-line" style="width:92%"></span><span class="skeleton-line" style="width:78%"></span><span class="skeleton-line" style="width:64%"></span><span class="skeleton-line is-user" style="width:40%"></span><span class="skeleton-line" style="width:86%"></span></div>';
+  var FRAME = '<iframe class="ds-chat-frame" title="YiQi Bot" srcdoc="' +
+    "<html style='font:13px/1.5 Inter,system-ui,sans-serif;color:#7d7c82;background:transparent'><body style='margin:0;display:grid;place-items:center;height:100vh;text-align:center;padding:24px;box-sizing:border-box'>Aquí va el iframe de YiQi-WebChat, con su propio composer.</body></html>" + '"></iframe>';
+
+  function provider(p){
+    var prov = document.getElementById('chat-prov'), title = document.getElementById('chat-title');
+    prov.dataset.prov = p;
+    prov.innerHTML = p === 'yiqi' ? '<span class="ds-chat-q"></span>' : '<i class="ph ph-sparkle"></i>';
+    title.innerHTML = p === 'yiqi' ? 'YiQi <span class="ds-chat-model">· Asistente de YiQi</span>' : 'Claude <span class="ds-chat-model">· Sonnet</span>';
+    menu.querySelectorAll('[data-prov]').forEach(function(b){ b.setAttribute('aria-checked', String(b.dataset.prov === p)); });
+  }
+  function setStatus(s, t){ dot.dataset.state = s; status.textContent = t; }
+  function lock(l){ input.disabled = l; send.disabled = l || !input.value.trim(); }
+
+  function render(state){
+    var old = chat.querySelector('.ds-chat-frame'); if (old) old.remove();
+    chat.classList.toggle('is-frame', state === 'yiqi'); body.hidden = state === 'yiqi';
+    slot.innerHTML = ''; lock(false);
+    provider(state === 'yiqi' ? 'yiqi' : 'anthropic');
+    setStatus('ok', 'Conectado');
+    if (state === 'yiqi') { body.innerHTML = ''; slot.insertAdjacentHTML('afterend', FRAME); setStatus('ok', 'Disponible'); return; }
+    if (state === 'empty') body.innerHTML = EMPTY;
+    else if (state === 'disconnected') { body.innerHTML = DISC; setStatus('off', 'Sin conectar'); lock(true); }
+    else if (state === 'reconnect') { body.innerHTML = CONV; slot.innerHTML = RECON; setStatus('warn', 'Requiere reconectar'); lock(true); }
+    else if (state === 'error') { body.innerHTML = USER('¿Cuánto vendí en octubre por canal?') + TOOL('error', 'Ventas por mes', 'falló', 'ventas_por_mes(desde: "2026-10-01")\n→ error: el proveedor no respondió') + ERR; setStatus('error', 'Error'); }
+    else if (state === 'loading') { body.innerHTML = LOAD; setStatus('busy', 'Abriendo conversación'); }
+    else body.innerHTML = CONV;
+    body.scrollTop = state === 'conversation' || state === 'reconnect' ? body.scrollHeight : 0;
+  }
+  body.addEventListener('click', function(e){
+    var b = e.target.closest('button'); if (!b) return;
+    if (b.dataset.use === 'yiqi') { render('yiqi'); return; }
+    if (b.parentElement.classList.contains('ds-chat-suggest')) { input.value = b.textContent; ask(); return; }
+    var card = b.closest('.ds-chat-confirm'); if (!card || !b.dataset.confirm) return;
+    var out = card.querySelector('.ds-chat-outcome'), btns = card.querySelectorAll('[data-confirm]');
+    if (b.dataset.confirm === 'no') { card.dataset.state = 'cancelled'; out.innerHTML = '<i class="ph ph-x-circle"></i> Cancelada. No se creó nada.'; btns.forEach(function(x){ x.remove(); }); return; }
+    card.dataset.state = 'running'; btns.forEach(function(x){ x.disabled = true; });
+    b.innerHTML = '<i class="ph ph-circle-notch ds-chat-spin"></i> Creando…';
+    setTimeout(function(){ card.dataset.state = 'done'; out.innerHTML = '<i class="ph ph-check-circle"></i> Creada como borrador: <a class="ds-chat-ref" href="#">OC 0007-00000231</a>'; btns.forEach(function(x){ x.remove(); }); }, 1200);
+  });
+
+  /* Composer: crece, Enter envia, Shift+Enter hace salto de linea. */
+  function grow(){ if (CSS.supports('field-sizing', 'content')) return; input.style.height = 'auto'; input.style.height = input.scrollHeight + 'px'; }
+  input.addEventListener('input', function(){ grow(); if (!busy) send.disabled = !input.value.trim(); });
+  input.addEventListener('keydown', function(e){ if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); if (!busy) ask(); } });
+  form.addEventListener('submit', function(e){ e.preventDefault(); if (busy) stop(); else ask(); });
+
+  var busy = false, timer = null, live = null;
+  function setBusy(b){
+    busy = b; send.classList.toggle('is-stop', b);
+    send.setAttribute('aria-label', b ? 'Detener' : 'Enviar');
+    send.innerHTML = b ? '<i class="ph ph-stop"></i>' : '<i class="ph ph-arrow-up"></i>';
+    send.disabled = !b && !input.value.trim();
+    setStatus(b ? 'busy' : 'ok', b ? 'Respondiendo' : 'Conectado');
+  }
+  function add(html){ body.insertAdjacentHTML('beforeend', html); body.scrollTop = body.scrollHeight; return body.lastElementChild; }
+  function ask(){
+    var t = input.value.trim(); if (!t) return;
+    if (body.querySelector('.empty-state')) body.innerHTML = '';
+    add(USER(t.replace(/[&<>]/g, function(c){ return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; })));
+    input.value = ''; grow(); setBusy(true);
+    var typing = add('<div class="ds-chat-typing" aria-label="Pensando"><i></i><i></i><i></i></div>');
+    timer = setTimeout(function(){
+      typing.remove();
+      var tool = add(TOOL('running', 'Facturas vencidas', '', 'facturas_vencidas()'));
+      sr.textContent = 'Consultando Facturas vencidas';
+      timer = setTimeout(function(){
+        tool.dataset.state = 'ok';
+        tool.querySelector('.ds-chat-tool-st').className = 'ph ph-check-circle ds-chat-tool-st';
+        tool.querySelector('summary').insertAdjacentHTML('beforeend', '');
+        tool.querySelector('.ds-chat-tool-name').insertAdjacentHTML('afterend', '<span class="ds-chat-tool-res">3 filas</span>');
+        tool.querySelector('.ds-chat-tool-detail').textContent = 'facturas_vencidas()\n→ 3 filas';
+        live = add('<div class="ds-chat-msg is-assistant ds-chat-md is-streaming" aria-busy="true"><p></p></div>');
+        var words = 'Hay 3 facturas vencidas por un total de $ 1.284.000. La más antigua es la FAV 0001-00011980 de Distribuidora Andina, con 42 días de atraso.'.split(' ');
+        var i = 0, p = live.querySelector('p');
+        (function tick(){
+          if (i >= words.length) { done(); return; }
+          p.textContent += (i ? ' ' : '') + words[i++]; body.scrollTop = body.scrollHeight;
+          timer = setTimeout(tick, 70);
+        })();
+      }, 1100);
+    }, 700);
+  }
+  function done(){ if (live) { live.classList.remove('is-streaming'); live.removeAttribute('aria-busy'); live = null; } sr.textContent = 'Respuesta lista'; setBusy(false); }
+  function stop(){
+    clearTimeout(timer);
+    var t = body.querySelector('.ds-chat-typing'); if (t) t.remove();
+    var r = body.querySelector('.ds-chat-tool[data-state="running"]'); if (r) r.remove();
+    if (live) add('<p class="ds-chat-stopped">Detenido por ti.</p>');
+    done();
+  }
+
+  render(q.get('state') || 'conversation');
+  if (q.get('open') === '0') { chat.hidden = true; return; }
+  chat.hidden = false; root.classList.add('has-chat'); trig.setAttribute('aria-expanded', 'true');
+  if (q.get('menu')) { menuOpen(true); if (q.get('menu') === 'hist') { vMain.hidden = true; vHist.hidden = false; } }
+  if (q.get('ask')) { input.value = q.get('ask'); ask(); }
+})();
+</script>
+</body>
+</html>

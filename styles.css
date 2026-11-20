@@ -171,7 +171,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.100";
+  --ds-version: "1.2.8.101";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -5682,3 +5682,679 @@ yiqi-mcp-anim { display: block; }
   .stk-more-btn { display: flex; width: 100%; justify-content: center; }
 }
 .stk-more[hidden], .stk-more-btn[hidden], .apps-apilado > .stk[hidden] { display: none; }
+
+/* ── 76. CHAT DE PRODUCTO · .ds-chat (v1.2.8.101) ─────────────────
+   Panel lateral donde el usuario conversa con su ERP: con su propia IA
+   (Anthropic, con su API key, a traves del MCP de YiQi) o con «YiQi», el
+   YiQi Bot, montado como iframe. Diseno en yiqi-frontend,
+   docs/chat-ia-propia.md (decisiones cerradas el 20/11/2026).
+
+   El lenguaje visual sale de <yiqi-mcp-anim> (components/mcp-anim.js):
+   encabezado con estado, burbuja del usuario, «Consultando YiQi ERP»,
+   tarjeta «desde YiQi ERP» y vista previa con Cancelar / Confirmar. Aquel
+   es de marketing y vive en Shadow DOM; este es el canonico, con los
+   tokens del sistema, en claro y en oscuro.
+
+   Donde vive:
+   - >980 px: acoplado a la derecha, debajo de la topbar, como la barra
+     secundaria de VS Code. EMPUJA el contenido (no lo tapa): la app pone
+     .has-chat en un ancestro comun mientras el panel esta abierto y el
+     contenedor de la pagina se corre --chat-w. Ancho redimensionable
+     (320-640) con .ds-chat-resize; la app recuerda --chat-w.
+   - <=980 px: pantalla completa por encima de la topbar, en la capa del
+     drawer (§6.9, z 115).
+   No es modal: sin backdrop y sin trampa de foco. Catalogo §95 · guia §71. */
+
+/* 76.1 Panel y acople ------------------------------------------------ */
+.ds-chat {
+  --chat-w-min: 320px;
+  --chat-w-max: 640px;
+  position: fixed;
+  top: var(--chat-top, var(--topbar-h));
+  right: 0;
+  bottom: var(--chat-bottom, 0);
+  z-index: var(--z-rail);   /* capa del marco de la app: debajo de statusbar y topbar */
+  width: clamp(var(--chat-w-min), var(--chat-w, 400px), var(--chat-w-max));
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--bg-elev);
+  border-left: 1px solid var(--line);   /* marco de la app, como .sidebar y .topbar */
+  color: var(--text);
+  font: 400 var(--fs-body)/1.5 var(--sans);
+}
+.ds-chat[hidden] { display: none; }
+
+/* El empuje. La app pone .has-chat en <html>, <body> o la raiz del shell
+   mientras el panel esta abierto y en escritorio. Los tres contenedores de
+   pagina que existen hoy: .ds-layout (frontend, shell con margen),
+   .app-shell (grilla del DS) y .ds-chat-push (cualquier otro). */
+@media (min-width: 981px) {
+  .has-chat .ds-layout,
+  .has-chat .app-shell,
+  .has-chat .ds-chat-push {
+    padding-right: clamp(320px, var(--chat-w, 400px), 640px);
+  }
+  /* Mientras se arrastra el borde no se anima nada ni se selecciona texto. */
+  .has-chat.is-chat-resizing,
+  .has-chat.is-chat-resizing * { user-select: none; cursor: col-resize; }
+}
+
+/* Borde para redimensionar: separador accesible (flechas = 16 px,
+   Inicio/Fin = minimo/maximo). La logica es de la app. */
+.ds-chat-resize {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -4px;
+  width: 8px;
+  z-index: 1;
+  cursor: col-resize;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  touch-action: none;
+}
+.ds-chat-resize::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 3px;
+  width: 2px;
+  background: transparent;
+  transition: background var(--tr);
+}
+@media (hover: hover) { .ds-chat-resize:hover::after { background: var(--cyan-night); } }
+.ds-chat-resize:focus-visible { outline: none; }
+.ds-chat-resize:focus-visible::after,
+.ds-chat-resize.is-dragging::after { background: var(--cyan-night); }
+
+/* <=980 px: pantalla completa, por encima de la topbar (capa del drawer). */
+@media (max-width: 980px) {
+  .ds-chat {
+    inset: 0;
+    width: 100%;
+    height: 100dvh;
+    z-index: var(--z-drawer);
+    border-left: 0;
+    background: var(--bg);
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+  .ds-chat-resize { display: none; }
+  /* El disparador sigue en la topbar del celular, junto a la hamburguesa. */
+  .topbar-r > .ds-chat-trigger { display: grid; }
+}
+
+/* Variante embebida: dentro de una caja de la pagina (catalogo, showcase,
+   vista previa de Preferencias). Ni fija ni acoplada, en ningun ancho. */
+.ds-chat.is-inline {
+  position: relative;
+  inset: auto;
+  z-index: auto;
+  width: 100%;
+  height: 100%;
+  padding-top: 0;
+  border: 0;
+}
+.ds-chat.is-inline .ds-chat-resize { display: none; }
+
+/* Disparador en la topbar (.btn-icon). Abierto = cian. */
+.ds-chat-trigger[aria-expanded="true"] { color: var(--cyan); background: var(--cyan-soft); }
+
+/* 76.2 Encabezado ------------------------------------------------------ */
+.ds-chat-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: none;
+  min-height: 52px;
+  padding: 8px 8px 8px 14px;
+  border-bottom: 1px solid var(--line);
+}
+.ds-chat-prov {
+  width: 28px;
+  height: 28px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-item);
+  background: color-mix(in srgb, var(--text) 6%, transparent);
+  color: var(--muted);
+  font-size: 16px;
+}
+.ds-chat-prov[data-prov="yiqi"] { background: var(--cyan-soft); color: var(--cyan); }
+/* Terracota de la paleta de Anthropic, como .px-ic-mcp (§75.2): solo para
+   identificar al proveedor, nunca como acento de la interfaz. */
+.ds-chat-prov[data-prov="anthropic"] { background: rgba(217,119,87,.14); color: #d97757; }
+html[data-theme="light"] .ds-chat-prov[data-prov="anthropic"] { color: #c15f3c; }
+.ds-chat-id { flex: 1 1 auto; min-width: 0; display: grid; gap: 1px; }
+.ds-chat-title {
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font: 600 var(--fs-panel-title)/1.3 var(--sans);
+  letter-spacing: -.01em;
+  color: var(--text);
+}
+.ds-chat-title .ds-chat-model { font-weight: 400; color: var(--muted); }
+.ds-chat-meta {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  font: 400 var(--fs-caption)/1.3 var(--sans);
+  color: var(--muted);
+  white-space: nowrap;
+}
+.ds-chat-meta > span { overflow: hidden; text-overflow: ellipsis; }
+.ds-chat-schema { font: 500 var(--fs-caption) var(--mono); letter-spacing: .02em; }
+/* Punto de estado: como .chat-hd small::before de mcp-anim. */
+.ds-chat-dot {
+  width: 6px;
+  height: 6px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--green);
+}
+.ds-chat-dot[data-state="busy"]  { background: var(--cyan); animation: est-pulso 1.2s ease-in-out infinite; }
+.ds-chat-dot[data-state="warn"]  { background: var(--amber); }
+.ds-chat-dot[data-state="error"] { background: var(--red); }
+.ds-chat-dot[data-state="off"]   { background: var(--muted-2); }
+.ds-chat-tools { display: flex; align-items: center; gap: 2px; flex: none; position: relative; }
+
+/* Menu ⋯: un .pr-menu.pr-menu--end (§72-73) con dos vistas, acciones e
+   historial. .ds-chat-menu solo le da ancho y el alto del panel. */
+.ds-chat-menu { width: min(320px, calc(100vw - 24px)); max-height: min(480px, calc(100dvh - 96px)); }
+.ds-chat-menu-head {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 2px 6px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--line);
+  font: 600 var(--fs-body) var(--sans);
+  color: var(--text);
+}
+
+/* 76.3 Historial (vista del menu ⋯) ------------------------------------ */
+.ds-chat-hist { list-style: none; margin: 0; padding: 0; }
+.ds-chat-hist-item { position: relative; display: flex; align-items: center; border-radius: var(--radius-item); }
+.ds-chat-hist-open {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: grid;
+  gap: 1px;
+  padding: 7px 10px;
+  border: 0;
+  border-radius: var(--radius-item);
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+}
+.ds-chat-hist-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 500 12.5px/1.35 var(--sans); }
+.ds-chat-hist-when { font: 400 var(--fs-caption) var(--sans); color: var(--muted-2); }
+.ds-chat-hist-item.is-current .ds-chat-hist-title { font-weight: 600; color: var(--cyan); }
+.ds-chat-hist-acts { display: flex; gap: 2px; padding-right: 4px; opacity: 0; transition: opacity .12s; }
+.ds-chat-hist-acts .btn-icon { width: 26px; height: 26px; font-size: 14px; }
+@media (hover: hover) {
+  .ds-chat-hist-item:hover { background: var(--bg-soft); }
+  .ds-chat-hist-item:hover .ds-chat-hist-acts { opacity: 1; }
+}
+.ds-chat-hist-item:focus-within .ds-chat-hist-acts { opacity: 1; }
+@media (hover: none) { .ds-chat-hist-acts { opacity: 1; } }
+.ds-chat-hist-open:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: -2px; }
+.ds-chat-hist-empty { padding: 14px 10px; font: 400 12.5px var(--sans); color: var(--muted); }
+
+/* 76.4 Avisos de conexion: desconectado, requiere reconectar, tope ----- */
+.ds-chat-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  flex: none;
+  margin: 10px 12px 0;
+  padding: 10px 12px;
+  border-radius: var(--radius-block);
+  background: var(--cyan-soft);
+  font: 400 12.5px/1.45 var(--sans);
+  color: var(--text);
+}
+.ds-chat-banner > .ph { font-size: 17px; line-height: 1.1; color: var(--cyan); flex: none; }
+.ds-chat-banner-txt { flex: 1 1 auto; min-width: 0; }
+.ds-chat-banner-txt b { font-weight: 600; }
+.ds-chat-banner .btn { flex: none; align-self: center; }
+.ds-chat-banner[data-kind="warn"]  { background: var(--amber-soft); }
+.ds-chat-banner[data-kind="warn"] > .ph { color: var(--amber); }
+.ds-chat-banner[data-kind="error"] { background: var(--red-soft); }
+.ds-chat-banner[data-kind="error"] > .ph { color: var(--red); }
+
+/* 76.5 Cuerpo y mensajes ----------------------------------------------- */
+.ds-chat-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px 14px 20px;
+}
+.ds-chat-body:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: -2px; }
+/* Vacio y desconectado: el .empty-state (DS-04) centrado en el alto. */
+.ds-chat-body > .empty-state { margin-block: auto; }
+
+.ds-chat-msg { min-width: 0; overflow-wrap: anywhere; }
+/* Usuario: burbuja a la derecha (la .bub de mcp-anim). */
+.ds-chat-msg.is-user {
+  align-self: flex-end;
+  max-width: 85%;
+  padding: 8px 13px;
+  border-radius: var(--radius-block) var(--radius-block) var(--radius-detail) var(--radius-block);
+  background: color-mix(in srgb, var(--text) 8%, transparent);
+  white-space: pre-wrap;
+}
+/* Asistente: sin burbuja, a todo el ancho (la .ans de mcp-anim). */
+.ds-chat-msg.is-assistant { align-self: stretch; }
+/* Streaming: cursor al final del ultimo bloque. Lleva aria-busy="true". */
+.ds-chat-msg.is-streaming > :last-child::after {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: -2px;
+  border-radius: var(--radius-hairline);
+  background: var(--cyan);
+  animation: ds-chat-caret 1s steps(1) infinite;
+}
+@keyframes ds-chat-caret { 50% { opacity: 0; } }
+/* Error de un turno: mensaje del asistente con fondo rojo suave y Reintentar. */
+.ds-chat-msg.is-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-block);
+  background: var(--red-soft);
+}
+.ds-chat-msg.is-error > .ph { color: var(--red); font-size: 17px; line-height: 1.2; flex: none; }
+.ds-chat-msg.is-error .btn { margin-top: 8px; }
+/* Turno detenido por el usuario. */
+.ds-chat-stopped { font: 400 var(--fs-caption) var(--sans); color: var(--muted-2); }
+
+/* Markdown sanitizado del asistente. */
+.ds-chat-md > :first-child { margin-top: 0; }
+.ds-chat-md > :last-child { margin-bottom: 0; }
+.ds-chat-md p,
+.ds-chat-md ul,
+.ds-chat-md ol,
+.ds-chat-md pre,
+.ds-chat-md blockquote,
+.ds-chat-md table { margin: 0 0 10px; }
+.ds-chat-md ul,
+.ds-chat-md ol { padding-left: 20px; }
+.ds-chat-md li + li { margin-top: 3px; }
+.ds-chat-md h1, .ds-chat-md h2, .ds-chat-md h3, .ds-chat-md h4 {
+  margin: 14px 0 6px;
+  font: 600 var(--fs-panel-title)/1.35 var(--sans);
+  letter-spacing: -.01em;
+  color: var(--text);
+}
+.ds-chat-md strong { font-weight: 600; }
+.ds-chat-md a { color: var(--cyan); text-decoration: underline; text-underline-offset: 2px; }
+.ds-chat-md code {
+  padding: 1px 5px;
+  border-radius: var(--radius-detail);
+  background: color-mix(in srgb, var(--text) 7%, transparent);
+  font: 400 .92em var(--mono);
+}
+.ds-chat-md pre {
+  overflow-x: auto;
+  padding: 10px 12px;
+  border-radius: var(--radius-block);
+  background: color-mix(in srgb, var(--text) 5%, transparent);
+  font: 400 12px/1.5 var(--mono);
+}
+.ds-chat-md pre code { padding: 0; background: none; font: inherit; }
+.ds-chat-md blockquote { padding-left: 12px; border-left: 2px solid var(--line-strong); color: var(--muted); }
+.ds-chat-md hr { margin: 14px 0; border: 0; border-top: 1px solid var(--line); }
+/* Tablas: compactas, cifras tabulares y scroll propio si no entran. */
+.ds-chat-md table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font: 400 12px/1.4 var(--sans);
+  font-variant-numeric: tabular-nums;
+}
+.ds-chat-md th,
+.ds-chat-md td { padding: 6px 10px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
+.ds-chat-md th { font: 600 10px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted-2); }
+.ds-chat-md td.is-num, .ds-chat-md th.is-num, .ds-chat-md [align="right"] { text-align: right; }
+
+/* Registro nombrado en la respuesta: link a la ficha del front. */
+.ds-chat-ref {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 6px;
+  border-radius: var(--radius-detail);
+  background: var(--cyan-soft);
+  color: var(--cyan);
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.ds-chat-md a.ds-chat-ref { text-decoration: none; }
+.ds-chat-ref:hover { background: var(--cyan-soft-2); }
+.ds-chat-ref:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: 2px; }
+
+/* Isotipo de YiQi (la Q) como mascara: toma el color del texto. Va en el
+   chip de tool, en la tarjeta «desde YiQi ERP» y en el proveedor «YiQi». */
+.ds-chat-q {
+  display: inline-block;
+  width: 14px;
+  height: 15px;
+  flex: none;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='46.5 15.5 29 31'%3E%3Cpath d='M57.91,44.78v-2.66c-2.18-.53-4.21-1.66-5.92-3.36-4.97-4.97-5.09-13.02-.03-18.08,5.09-5.09,13.14-4.97,18.11,0s5.09,13.02,0,18.11c-1.78,1.78-3.94,2.93-6.22,3.46v2.51c0,.35-.18.53-.58.53h-4.82c-.3,0-.55-.2-.55-.5ZM56.28,34.47c.5.5,1.05.9,1.65,1.2v-3.36c0-.35.18-.53.53-.53h4.87c.25,0,.53.18.53.53v3.36c.63-.33,1.23-.78,1.78-1.33,2.73-2.73,2.78-6.75.15-9.38s-6.67-2.61-9.41.13c-2.71,2.71-2.73,6.75-.1,9.38Z'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='46.5 15.5 29 31'%3E%3Cpath d='M57.91,44.78v-2.66c-2.18-.53-4.21-1.66-5.92-3.36-4.97-4.97-5.09-13.02-.03-18.08,5.09-5.09,13.14-4.97,18.11,0s5.09,13.02,0,18.11c-1.78,1.78-3.94,2.93-6.22,3.46v2.51c0,.35-.18.53-.58.53h-4.82c-.3,0-.55-.2-.55-.5ZM56.28,34.47c.5.5,1.05.9,1.65,1.2v-3.36c0-.35.18-.53.53-.53h4.87c.25,0,.53.18.53.53v3.36c.63-.33,1.23-.78,1.78-1.33,2.73-2.73,2.78-6.75.15-9.38s-6.67-2.61-9.41.13c-2.71,2.71-2.73,6.75-.1,9.38Z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* 76.6 Chip de llamada a tool (plegable) -------------------------------
+   <details> nativo: se pliega con teclado sin JS. data-state: running |
+   ok | error. Es el «Consultando YiQi ERP…» de mcp-anim. */
+.ds-chat-tool { align-self: flex-start; max-width: 100%; }
+.ds-chat-tool > summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  max-width: 100%;
+  padding: 4px 10px 4px 8px;
+  border-radius: var(--radius-control);
+  background: color-mix(in srgb, var(--text) 6%, transparent);
+  font: 500 var(--fs-meta)/1.4 var(--sans);
+  color: var(--muted);
+  cursor: pointer;
+  list-style: none;
+  transition: background var(--tr), color var(--tr);
+}
+.ds-chat-tool > summary::-webkit-details-marker { display: none; }
+@media (hover: hover) { .ds-chat-tool > summary:hover { color: var(--text); background: var(--bg-soft); } }
+.ds-chat-tool > summary:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: 2px; }
+.ds-chat-tool .ds-chat-q { color: var(--cyan); width: 13px; height: 14px; }
+.ds-chat-tool-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.ds-chat-tool-res { flex: none; font-variant-numeric: tabular-nums; color: var(--text); }
+.ds-chat-tool-res::before { content: "· "; color: var(--muted-2); }
+.ds-chat-tool-st { flex: none; font-size: 14px; line-height: 0; }
+.ds-chat-tool > summary > .ph-caret-down { flex: none; font-size: 12px; color: var(--muted-2); transition: transform var(--tr); }
+.ds-chat-tool[open] > summary > .ph-caret-down { transform: rotate(180deg); }
+.ds-chat-tool[data-state="running"] .ds-chat-tool-name::after {
+  content: "…";
+  display: inline-block;
+  width: 1em;
+  overflow: hidden;
+  vertical-align: bottom;
+  animation: ds-chat-ellipsis 1s steps(4) infinite;
+}
+@keyframes ds-chat-ellipsis { from { width: 0; } to { width: 1.25em; } }
+.ds-chat-tool[data-state="running"] .ds-chat-tool-st { color: var(--cyan); animation: ricospin .8s linear infinite; }
+.ds-chat-tool[data-state="ok"] .ds-chat-tool-st { color: var(--green); }
+.ds-chat-tool[data-state="error"] > summary { background: var(--red-soft); color: var(--text); }
+.ds-chat-tool[data-state="error"] .ds-chat-tool-st { color: var(--red); }
+.ds-chat-tool-detail {
+  margin: 6px 0 0;
+  padding: 8px 10px;
+  border-radius: var(--radius-item);
+  background: color-mix(in srgb, var(--text) 4%, transparent);
+  font: 400 11.5px/1.5 var(--mono);
+  color: var(--muted);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* 76.7 Tarjeta de resultado «desde YiQi ERP» y de confirmacion --------- */
+.ds-chat-card {
+  align-self: stretch;
+  padding: 10px 12px 12px;
+  border-radius: var(--radius-block);
+  background: var(--bg-elev-2);
+  box-shadow: var(--shadow-sm);
+}
+html:not([data-theme="light"]) .ds-chat-card { background: var(--tile-bg); }
+.ds-chat-card-src {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  font: 500 var(--fs-caption) var(--sans);
+  color: var(--muted-2);
+}
+.ds-chat-card-src .ds-chat-q { width: 11px; height: 12px; color: var(--cyan); }
+.ds-chat-card-kicker {
+  margin: 0 0 8px;
+  font: 600 10px var(--mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.ds-chat-card .ds-dl { gap: 10px 14px; }
+.ds-chat-card-rows { list-style: none; margin: 0; padding: 0; }
+.ds-chat-card-rows li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 7px 0;
+  border-top: 1px solid var(--line);
+  font: 400 12.5px/1.4 var(--sans);
+}
+.ds-chat-card-rows li > :last-child { flex: none; font-variant-numeric: tabular-nums; color: var(--text); }
+.ds-chat-card-rows li > :first-child { min-width: 0; color: var(--muted); }
+.ds-chat-card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+}
+/* Confirmacion de escritura. data-state: pending (botones) | running
+   (Confirmar con spinner, los dos deshabilitados) | done | cancelled | error.
+   Confirmar lo dispara la UI con confirmar=true, nunca el modelo. El
+   estado lo dice la linea de resultado (.ds-chat-outcome), no un borde. */
+.ds-chat-confirm[data-state="cancelled"] .ds-chat-card-rows,
+.ds-chat-confirm[data-state="cancelled"] .ds-dl { opacity: .55; }
+.ds-chat-outcome {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: auto;
+  font: 500 var(--fs-meta)/1.4 var(--sans);
+  color: var(--muted);
+}
+.ds-chat-confirm[data-state="done"] .ds-chat-outcome { color: var(--green); }
+.ds-chat-confirm[data-state="error"] .ds-chat-outcome { color: var(--red); }
+.ds-chat-confirm .ds-chat-spin { animation: ricospin .8s linear infinite; }
+
+/* 76.8 Cargando: pensando, y conversacion que se esta abriendo --------- */
+.ds-chat-typing {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 2px;
+}
+.ds-chat-typing > i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--muted-2);
+  animation: ds-chat-bounce 1.2s ease-in-out infinite;
+}
+.ds-chat-typing > i:nth-child(2) { animation-delay: .15s; }
+.ds-chat-typing > i:nth-child(3) { animation-delay: .3s; }
+@keyframes ds-chat-bounce { 0%, 80%, 100% { opacity: .35; transform: none; } 40% { opacity: 1; transform: translateY(-3px); } }
+.ds-chat-skel { display: grid; gap: 8px; }
+.ds-chat-skel .skeleton-line { height: 10px; }
+.ds-chat-skel .is-user { justify-self: end; width: 55%; height: 30px; border-radius: var(--radius-block); }
+
+/* 76.9 Pie: contexto, composer y aviso de costos ----------------------- */
+.ds-chat-foot {
+  flex: none;
+  display: grid;
+  gap: 8px;
+  padding: 8px 12px calc(10px + env(safe-area-inset-bottom, 0px));
+}
+.ds-chat-context { display: flex; flex-wrap: wrap; gap: 6px; }
+.ds-chat-ctx {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  height: 26px;
+  padding: 0 4px 0 9px;
+  border-radius: var(--radius-control);
+  background: color-mix(in srgb, var(--text) 6%, transparent);
+  font: 500 var(--fs-caption) var(--sans);
+  color: var(--muted);
+}
+.ds-chat-ctx > .ph { font-size: 13px; color: var(--cyan); flex: none; }
+.ds-chat-ctx-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text); }
+.ds-chat-ctx-x {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+  cursor: pointer;
+}
+.ds-chat-ctx-x:hover { color: var(--text); background: var(--bg-soft); }
+.ds-chat-ctx-x:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: 1px; }
+
+.ds-chat-composer {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 6px 6px 6px 14px;
+  border-radius: var(--radius-field);
+  background: color-mix(in srgb, var(--text) 6%, transparent);
+  transition: background var(--tr);
+}
+/* El foco del textarea se muestra en la caja entera: el anillo del DS. */
+.ds-chat-composer:focus-within { outline: 2px solid var(--cyan-night); outline-offset: 2px; }
+.ds-chat-composer:has(.ds-chat-input:disabled) { opacity: .6; }
+/* Crece con el texto: field-sizing donde existe (Chromium 123+); donde no,
+   la app copia scrollHeight a height en cada input. Tope de ~8 renglones. */
+.ds-chat-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 24px;
+  max-height: 168px;
+  margin: 0;
+  padding: 5px 0;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font: 400 var(--fs-body)/1.45 var(--sans);
+  resize: none;
+  outline: none;
+  overflow-y: auto;
+  field-sizing: content;
+}
+.ds-chat-input::placeholder { color: var(--muted-2); }
+@media (pointer: coarse) { .ds-chat-input { font-size: var(--fs-input-touch); } }
+/* Enviar / detener: el mismo boton. Mientras responde lleva .is-stop,
+   icono ph-stop y aria-label «Detener». */
+.ds-chat-send {
+  width: 32px;
+  height: 32px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: 16px;
+  cursor: pointer;
+  transition: background var(--tr), opacity var(--tr), transform .12s;
+}
+.ds-chat-send:hover { background: color-mix(in srgb, var(--accent) 88%, var(--accent-ink)); }
+.ds-chat-send:active { transform: scale(.92); }
+.ds-chat-send:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: 2px; }
+.ds-chat-send:disabled { opacity: .3; cursor: default; transform: none; }
+.ds-chat-send.is-stop { background: color-mix(in srgb, var(--text) 12%, transparent); color: var(--text); }
+.ds-chat-note {
+  margin: 0;
+  font: 400 var(--fs-caption)/1.4 var(--sans);
+  color: var(--muted-2);
+  text-align: center;
+}
+.ds-chat-note a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+
+/* Estado vacio y desconectado: dos acciones lado a lado (Conectar / Usar YiQi). */
+.ds-chat .empty-state-cta { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+/* Sugerencias del estado vacio. */
+.ds-chat-suggest { display: grid; gap: 6px; width: 100%; margin-top: 8px; }
+.ds-chat-suggest button {
+  padding: 8px 12px;
+  border: 0;
+  border-radius: var(--radius-item);
+  background: color-mix(in srgb, var(--text) 5%, transparent);
+  color: var(--text);
+  font: 400 12.5px/1.4 var(--sans);
+  text-align: left;
+  cursor: pointer;
+}
+.ds-chat-suggest button:hover { background: var(--bg-soft); }
+.ds-chat-suggest button:focus-visible { outline: 2px solid var(--cyan-night); outline-offset: 2px; }
+
+/* 76.10 Proveedor «YiQi»: el cuerpo es el iframe de YiQi-WebChat -------
+   Con .is-frame el panel esconde el pie (el composer es del iframe).
+   Encabezado, menu ⋯ y selector de proveedor siguen siendo del panel. */
+.ds-chat-frame {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  border: 0;
+  background: var(--bg);
+  display: block;
+}
+.ds-chat.is-frame .ds-chat-foot { display: none; }
+
+/* Solo para lectores de pantalla: el anuncio de estado del turno. */
+.ds-chat-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ds-chat-dot[data-state="busy"],
+  .ds-chat-typing > i,
+  .ds-chat-msg.is-streaming > :last-child::after,
+  .ds-chat-tool[data-state="running"] .ds-chat-tool-name::after,
+  .ds-chat-tool[data-state="running"] .ds-chat-tool-st,
+  .ds-chat-confirm .ds-chat-spin { animation: none; }
+  .ds-chat-tool > summary > .ph-caret-down { transition: none; }
+}

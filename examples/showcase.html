@@ -2843,6 +2843,39 @@
   <p class="sc-section-sub">Las pantallas del ERP nuevo (<code>yiqisa/yiqi-frontend</code>) armadas con <code>styles.css</code> en vivo, con datos simulados. En construcci&oacute;n: se agregan de a una, aprobadas en HTML antes de entrar ac&aacute;.</p>
 </section>
   <div class="sc-grid cat-cols-1">
+    <article class="sc-card" id="card-erp-chat">
+      <div class="sc-card-h"><span class="cat-d-inline-flex cat-ai-center cat-gap-8"><span class="sc-card-title">Asistente de IA</span><span class="badge badge-cyan">NUEVO</span></span><span class="cat-d-inline-flex cat-gap-12"><a class="ds-xref" href="../yiqi-design-system.html#ds-chat"><i class="ph ph-anchor-simple"></i> Ver fuente</a><a class="ds-xref" href="erp-chat.html" target="_blank" rel="noopener"><i class="ph ph-arrow-square-out"></i> Abrir</a></span></div>
+      <p class="sc-card-sub">El panel <code class="sc-mono">.ds-chat</code> sobre una ficha del ERP (<code class="sc-mono">erp-chat.html</code>, sin CSS propio). En escritorio empuja el contenido y se redimensiona desde el borde; en el celular ocupa la pantalla. Prueba el &#8943;, el chip de tool, Confirmar, la &times; del contexto o escribe una pregunta.</p>
+      <style>
+        /* Cromo de la documentacion, no del Design System. */
+        #sc-erp-chat .sc-erp-frame{ border-radius:var(--radius-md); overflow:hidden; box-shadow:0 0 0 1px var(--line-strong); background:var(--bg); }
+        #sc-erp-chat .sc-erp-frame iframe{ width:100%; height:700px; border:0; display:block; }
+        #sc-erp-chat .ph-h{ font:600 12px var(--sans); color:var(--text); margin:18px 0 9px; }
+        #sc-erp-chat .phone{ position:relative; width:414px; max-width:100%; padding:12px; border-radius:48px; background:var(--bg-elev-2); box-shadow:0 0 0 1px var(--line-strong), 0 18px 40px rgba(0,0,0,.28); }
+        #sc-erp-chat .screen{ position:relative; border-radius:37px; overflow:hidden; isolation:isolate; background:var(--bg); }
+        #sc-erp-chat .phone iframe{ width:100%; aspect-ratio:390/844; height:auto; border:0; display:block; border-radius:37px; }
+        #sc-erp-chat .sc-chat-states{ display:flex; flex-wrap:wrap; gap:6px; margin:4px 0 2px; }
+      </style>
+      <div id="sc-erp-chat">
+        <div class="sc-chat-states" role="group" aria-label="Estado del asistente">
+          <button class="btn btn-sm btn-primary" type="button" data-st="conversation" aria-pressed="true">Conversaci&oacute;n</button>
+          <button class="btn btn-sm" type="button" data-st="empty" aria-pressed="false">Vac&iacute;o</button>
+          <button class="btn btn-sm" type="button" data-st="loading" aria-pressed="false">Cargando</button>
+          <button class="btn btn-sm" type="button" data-st="disconnected" aria-pressed="false">Desconectado</button>
+          <button class="btn btn-sm" type="button" data-st="reconnect" aria-pressed="false">Requiere reconectar</button>
+          <button class="btn btn-sm" type="button" data-st="error" aria-pressed="false">Error</button>
+          <button class="btn btn-sm" type="button" data-st="yiqi" aria-pressed="false">Proveedor YiQi</button>
+          <button class="btn btn-sm" type="button" data-st="hist" aria-pressed="false">Historial</button>
+        </div>
+        <div class="ph-h">Escritorio &middot; claro</div>
+        <div class="sc-erp-frame"><iframe data-theme="light" src="erp-chat.html?theme=light" title="Asistente de IA sobre una ficha del ERP, tema claro" loading="lazy"></iframe></div>
+        <div class="ph-h">Escritorio &middot; oscuro</div>
+        <div class="sc-erp-frame"><iframe data-theme="dark" src="erp-chat.html?theme=dark" title="Asistente de IA sobre una ficha del ERP, tema oscuro" loading="lazy"></iframe></div>
+        <div class="ph-h">Celular</div>
+        <div class="phone"><div class="screen"><iframe data-theme="" src="erp-chat.html" title="Asistente de IA en celular" loading="lazy"></iframe></div></div>
+      </div>
+      <script>(function(){var w=document.getElementById('sc-erp-chat');if(!w)return;w.querySelector('.sc-chat-states').addEventListener('click',function(e){var b=e.target.closest('[data-st]');if(!b)return;w.querySelectorAll('[data-st]').forEach(function(x){var on=x===b;x.classList.toggle('btn-primary',on);x.setAttribute('aria-pressed',String(on));});var st=b.dataset.st;w.querySelectorAll('iframe').forEach(function(f){var p=[];if(f.dataset.theme)p.push('theme='+f.dataset.theme);if(st==='hist')p.push('menu=hist');else if(st!=='conversation')p.push('state='+st);f.src='erp-chat.html'+(p.length?'?'+p.join('&'):'');});});})();</script>
+    </article>
     <article class="sc-card" id="card-erp-inicio">
       <div class="sc-card-h"><span class="sc-card-title">Tablero Inicio</span><a class="ds-xref" href="erp-inicio.html" target="_blank" rel="noopener"><i class="ph ph-arrow-square-out"></i> Abrir</a></div>
       <p class="sc-card-sub">La primera pantalla del ERP, armada solo con clases de <code class="sc-mono">styles.css</code> en vivo (<code class="sc-mono">erp-inicio.html</code>, sin CSS propio). Lo que el sistema todavía no tiene no aparece.</p>
