@@ -172,7 +172,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.104";
+  --ds-version: "1.2.8.105";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -5800,12 +5800,23 @@ yiqi-mcp-anim { display: block; }
 }
 .ds-chat.is-inline .ds-chat-resize { display: none; }
 
-/* Disparador en la topbar (.btn-icon), despues del bloque de cuenta: el globo
-   del MCP de la home en terracota. Abierto = fondo tonal del mismo color. */
-.ds-chat-trigger,
-.ds-chat-trigger:hover { color: var(--mcp); }
-.ds-chat-trigger .ds-chat-mcp { width: 17px; height: 17px; }
-.ds-chat-trigger[aria-expanded="true"] { color: var(--mcp); background: var(--mcp-soft); }
+/* Disparador en la topbar (.btn-icon), despues del bloque de cuenta. Lleva la
+   marca del asistente (.ds-chat-mark), el mismo icono de la solapa «MCP de
+   YiQi» de la home. Abierto = fondo tonal terracota alrededor de la marca. */
+.ds-chat-trigger[aria-expanded="true"] { background: var(--mcp-soft); }
+
+/* Marca del asistente: cuadro terracota con el globo en blanco, como .px-ic-mcp. */
+.ds-chat-mark {
+  width: 22px;
+  height: 22px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-detail);
+  background: var(--mcp);
+  color: var(--text-white);
+}
+.ds-chat-mark .ds-chat-mcp { width: 13px; height: 13px; }
 
 /* 76.2 Encabezado ------------------------------------------------------ */
 .ds-chat-head {

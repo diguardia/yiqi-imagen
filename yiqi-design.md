@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.104
+# YiQi Design System — Guía maestra v1.2.8.105
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -3689,9 +3689,9 @@ Variables que pone la app: `--chat-w` (el ancho que eligió el usuario, recordad
 
 ```html
 <!-- Disparador en la topbar, después del bloque de cuenta: también se ve en celular, junto a la hamburguesa.
-     El globo del MCP en terracota (--mcp), el mismo ícono de la solapa «MCP de YiQi» de la home. -->
+     La marca del asistente (.ds-chat-mark): cuadro terracota con el globo en blanco, el mismo ícono de la solapa «MCP de YiQi» de la home. -->
 <button class="btn-icon btn-icon-sm ds-chat-trigger" aria-controls="chat" aria-expanded="true"
-        aria-label="Asistente de IA (Ctrl+I)"><span class="ds-chat-mcp" aria-hidden="true"></span></button>
+        aria-label="Asistente de IA (Ctrl+I)"><span class="ds-chat-mark" aria-hidden="true"><span class="ds-chat-mcp"></span></span></button>
 
 <aside class="ds-chat" id="chat" aria-label="Asistente de IA">
   <div class="ds-chat-resize" role="separator" tabindex="0" aria-orientation="vertical"
@@ -3823,5 +3823,5 @@ con el resumen en `.ds-chat-tool-res`; `confirm_required` → `.ds-chat-confirm[
 `text_delta` → texto en el `.ds-chat-msg.is-assistant.is-streaming`; `done` → se sacan
 `.is-streaming` y `aria-busy`.
 
-*YiQi ERP · Design System v1.2.8.104 · Última actualización: 24/11/2026*
+*YiQi ERP · Design System v1.2.8.105 · Última actualización: 24/11/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
