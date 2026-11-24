@@ -172,7 +172,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.102";
+  --ds-version: "1.2.8.103";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -6021,7 +6021,7 @@ yiqi-mcp-anim { display: block; }
   font: 400 12px/1.5 var(--mono);
 }
 .ds-chat-md pre code { padding: 0; background: none; font: inherit; }
-.ds-chat-md blockquote { padding: 8px 12px; border-radius: var(--radius-item); background: color-mix(in srgb, var(--text) 5%, transparent); color: var(--muted); } /* cita: fondo tonal, nunca borde de un solo lado (v1.2.8.102) */
+.ds-chat-md blockquote { padding-left: 12px; border-left: 2px solid var(--line-strong); color: var(--muted); } /* cita: excepción declarada al borde de un solo lado (§2 de las reglas, v1.2.8.103) */
 .ds-chat-md hr { margin: 14px 0; border: 0; border-top: 1px solid var(--line); }
 /* Tablas: compactas, cifras tabulares y scroll propio si no entran. */
 .ds-chat-md table {
