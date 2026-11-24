@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="light" style="--chat-bottom: var(--statusbar-h)">
+<html lang="es" data-theme="system" style="--chat-bottom: var(--statusbar-h)">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
 <link rel="stylesheet" href="../styles.css">
 <!-- Panel de chat de producto (.ds-chat, catálogo §95) sobre una ficha del ERP. Solo clases de styles.css: sin <style> propio. -->
+<script src="../yiqi-runtime.js"></script>
 <script>
 (function(){ var t = new URLSearchParams(location.search).get('theme'); if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t); })();
 </script>
@@ -21,16 +22,10 @@
   </div>
   <div class="topbar-r">
     <button class="btn-icon btn-icon-sm ds-chat-trigger" id="chat-trigger" type="button" aria-label="Asistente de IA (Ctrl+I)" title="Asistente de IA · Ctrl+I" aria-controls="chat" aria-expanded="false"><i class="ph ph-sparkle"></i></button>
-    <span class="account-chip">
-      <span class="account-user-block">
-        <span class="account-avatar" aria-hidden="true">JG</span>
-        <span class="account-user">Juan Gómez</span>
-      </span>
-      <button class="schema-toggle" type="button" aria-haspopup="listbox" aria-expanded="false">
-        <span class="schema-label">YiQi</span><span class="schema-chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
-      </button>
-    </span>
-    <button class="btn-exit" type="button">Cerrar sesión</button>
+    <div class="account-block">
+      <button class="schema-toggle" type="button" aria-haspopup="true" aria-expanded="false"><span class="schema-label">DEMO</span><span class="schema-chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></button>
+      <div class="account-menu"><button class="avatar account-menu-trigger" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="Cuenta de Juan Gómez">JG</button></div>
+    </div>
     <button class="nav-hamburger" type="button" aria-label="Abrir menú"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg></button>
   </div>
 </header>

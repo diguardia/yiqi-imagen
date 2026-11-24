@@ -111,6 +111,7 @@
   --warm:   #b5a090;  --warm-soft:   rgba(181,160,144,.10);
   /* App brand (Marketplace) — uno por app, NO cyan */
   --violet:  #8b5cf6;  --violet-soft:  rgba(139,92,246,.12);  --violet-soft-2:  rgba(139,92,246,.18);
+  --mcp:     #c15f3c;  --mcp-soft:     rgba(193,95,60,.14);  /* terracota del MCP de YiQi (paleta Anthropic). Igual en los dos temas, como en la home */
   --orange:  #ff8a3d;  --orange-soft:  rgba(255,138,61,.12);  --orange-soft-2:  rgba(255,138,61,.18);
   --magenta: #ff5da2;  --magenta-soft: rgba(255,93,162,.12);  --magenta-soft-2: rgba(255,93,162,.18);
   /* v1.2.8.33 — WhatsApp. Es color de canal, no de marca YiQi: el verde es el
@@ -171,7 +172,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.101";
+  --ds-version: "1.2.8.102";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -5622,7 +5623,7 @@ html:not([data-theme="light"]) .px-tab[aria-selected="true"] { background: rgba(
 .px-ic-erp { background: var(--cyan); }
 html:not([data-theme="light"]) .px-ic-erp { color: #07131a; }
 .px-ic-apps { background: var(--violet); }
-.px-ic-mcp { background: #c15f3c; } /* terracota de la paleta Anthropic: solo para el MCP */
+.px-ic-mcp { background: var(--mcp); } /* terracota de la paleta Anthropic: solo para el MCP */
 .bif-panel[hidden] { display: none; }
 @media (max-width: 760px) {
   .bif-zone { margin-top: 36px; }
@@ -5827,8 +5828,7 @@ yiqi-mcp-anim { display: block; }
 .ds-chat-prov[data-prov="yiqi"] { background: var(--cyan-soft); color: var(--cyan); }
 /* Terracota de la paleta de Anthropic, como .px-ic-mcp (§75.2): solo para
    identificar al proveedor, nunca como acento de la interfaz. */
-.ds-chat-prov[data-prov="anthropic"] { background: rgba(217,119,87,.14); color: #d97757; }
-html[data-theme="light"] .ds-chat-prov[data-prov="anthropic"] { color: #c15f3c; }
+.ds-chat-prov[data-prov="anthropic"] { background: var(--mcp-soft); color: var(--mcp); }
 .ds-chat-id { flex: 1 1 auto; min-width: 0; display: grid; gap: 1px; }
 .ds-chat-title {
   margin: 0;
@@ -6021,7 +6021,7 @@ html[data-theme="light"] .ds-chat-prov[data-prov="anthropic"] { color: #c15f3c; 
   font: 400 12px/1.5 var(--mono);
 }
 .ds-chat-md pre code { padding: 0; background: none; font: inherit; }
-.ds-chat-md blockquote { padding-left: 12px; border-left: 2px solid var(--line-strong); color: var(--muted); }
+.ds-chat-md blockquote { padding: 8px 12px; border-radius: var(--radius-item); background: color-mix(in srgb, var(--text) 5%, transparent); color: var(--muted); } /* cita: fondo tonal, nunca borde de un solo lado (v1.2.8.102) */
 .ds-chat-md hr { margin: 14px 0; border: 0; border-top: 1px solid var(--line); }
 /* Tablas: compactas, cifras tabulares y scroll propio si no entran. */
 .ds-chat-md table {

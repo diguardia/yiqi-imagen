@@ -84,6 +84,7 @@
 .cat-bg-transparent:not(#cat):not(#cat) { background: transparent; }
 .cat-bg-var---red-soft-rgb-01296:not(#cat):not(#cat) { background: var(--red-soft,rgba(242,95,92,.08)); }
 .cat-bg-violet:not(#cat):not(#cat) { background: var(--violet); }
+.cat-bg-mcp:not(#cat):not(#cat) { background: var(--mcp); }
 .cat-bgi-linear-gradient-90-1913a:not(#cat):not(#cat) { background-image: linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(180deg,rgba(255,255,255,.05) 1px,transparent 1px); }
 .cat-bgi-linear-gradient-90-33b38:not(#cat):not(#cat) { background-image: linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(180deg,rgba(255,255,255,.045) 1px,transparent 1px); }
 .cat-bgi-linear-gradient-90-dd437:not(#cat):not(#cat) { background-image: linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(180deg,rgba(255,255,255,.04) 1px,transparent 1px); }

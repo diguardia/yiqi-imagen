@@ -1,4 +1,4 @@
-# YiQi Design System — Guía maestra v1.2.8.101
+# YiQi Design System — Guía maestra v1.2.8.102
 
 > Guía de referencia para implementación de UI en productos YiQi ERP. **La fuente única es este repo, `yiqi-imagen`**: `styles.css` (tokens + componentes, se publica al CDN), `yiqi-design-system.html` (catálogo), `examples/showcase.html` (showcase) y este documento. Casa única del DS desde el **11/06/2026**; `www.yiqi/` es solo el sitio y ya no aloja el Design System — lo consume del CDN como cualquier app.
 > Este archivo reemplaza cualquier versión anterior de `yiqi-design.md`.
@@ -104,6 +104,7 @@
   --violet:       #8b5cf6;  --violet-soft:  rgba(139,92,246,.12);  --violet-soft-2:  rgba(139,92,246,.18);
   --orange:       #ff8a3d;  --orange-soft:  rgba(255,138,61,.12);  --orange-soft-2:  rgba(255,138,61,.18);
   --magenta:      #ff5da2;  --magenta-soft: rgba(255,93,162,.12);  --magenta-soft-2: rgba(255,93,162,.18);
+  --mcp:          #c15f3c;  --mcp-soft:     rgba(193,95,60,.14);  /* MCP de YiQi: igual en los dos temas */
 
   /* Focus glow */
   --glow: 0 0 0 3px rgba(0,204,255,.22);
@@ -216,6 +217,7 @@ html[data-theme="light"] {
   --violet:       #7c3aed;  --violet-soft:  rgba(124,58,237,.10);  --violet-soft-2:  rgba(124,58,237,.16);
   --orange:       #e07628;  --orange-soft:  rgba(224,118,40,.10);  --orange-soft-2:  rgba(224,118,40,.16);
   --magenta:      #d6336c;  --magenta-soft: rgba(214,51,108,.10);  --magenta-soft-2: rgba(214,51,108,.16);
+  --mcp:          #c15f3c;  --mcp-soft:     rgba(193,95,60,.14);  /* MCP de YiQi: igual en los dos temas */
 
   /* Shadows (más suaves en fondo claro) */
   --shadow-sm: 0 1px 3px rgba(16,36,54,.06);
@@ -3767,7 +3769,7 @@ Variables que pone la app: `--chat-w` (el ancho que eligió el usuario, recordad
 | Historial | `.ds-chat-hist`, `.ds-chat-hist-item`, `.is-current`, `.ds-chat-hist-open`, `.ds-chat-hist-title`, `.ds-chat-hist-when`, `.ds-chat-hist-acts`, `.ds-chat-hist-empty` | Segunda vista del menú, con «‹ Historial» arriba. Agrupado por fecha con `.pr-menu-label`. Renombrar y borrar aparecen al pasar o con foco; en táctil, siempre. Solo conversaciones del esquema activo. |
 | Aviso | `.ds-chat-banner[data-kind]` | `warn` (requiere reconectar, tope alcanzado), `error`, sin atributo = informativo. Por fondo, nunca por borde. Lleva su acción. |
 | Mensajes | `.ds-chat-msg.is-user`, `.is-assistant`, `.is-streaming`, `.is-error`, `.ds-chat-stopped` | Usuario: burbuja a la derecha. Asistente: sin burbuja, a todo el ancho. Error del turno: fondo rojo suave y Reintentar. |
-| Markdown | `.ds-chat-md` | Párrafos, listas, títulos chicos, código, citas y tablas compactas con scroll propio. Siempre sanitizado (`sanitize-html`). |
+| Markdown | `.ds-chat-md` | Párrafos, listas, títulos chicos, código, citas (con fondo tonal, nunca con borde de un solo lado) y tablas compactas con scroll propio. Siempre sanitizado (`sanitize-html`). |
 | Registro | `.ds-chat-ref` | Registro nombrado en la respuesta: link a su ficha del front. |
 | Chip de tool | `.ds-chat-tool[data-state]`, `.ds-chat-tool-name`, `.ds-chat-tool-res`, `.ds-chat-tool-st`, `.ds-chat-tool-detail` | `<details>` nativo: se pliega con teclado sin JS. `running` (puntos animados, ícono `ph-circle-notch`), `ok` (`ph-check-circle`, resultado resumido: «12 filas»), `error` (fondo rojo suave, `ph-warning-circle`). |
 | Tarjeta | `.ds-chat-card`, `.ds-chat-card-src`, `.ds-chat-card-kicker`, `.ds-chat-card-rows`, `.ds-chat-card-foot` | Resultado «desde YiQi ERP». Adentro va `.ds-chat-card-rows` o `.ds-dl`. |
@@ -3818,5 +3820,5 @@ con el resumen en `.ds-chat-tool-res`; `confirm_required` → `.ds-chat-confirm[
 `text_delta` → texto en el `.ds-chat-msg.is-assistant.is-streaming`; `done` → se sacan
 `.is-streaming` y `aria-busy`.
 
-*YiQi ERP · Design System v1.2.8.101 · Última actualización: 20/11/2026*
+*YiQi ERP · Design System v1.2.8.102 · Última actualización: 24/11/2026*
 *Reemplaza todas las versiones anteriores de yiqi-design.md*
