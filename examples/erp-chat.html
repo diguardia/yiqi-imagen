@@ -21,11 +21,11 @@
     <svg class="topbar-logo-svg" viewBox="0 0 100 65" role="img" aria-label="YiQi"><path fill="var(--text)" d="M20.44,48.34l2.57-6.15-6.79-16.91c-.14-.39.07-.61.46-.61h4.97c.29,0,.57.14.68.43l3.58,10.08,3.61-10.08c.11-.29.39-.43.68-.43h4.97c.39,0,.57.21.43.61l-9.26,23.27c-.11.29-.39.43-.68.43h-4.75c-.43,0-.68-.21-.47-.64Z"/><path fill="var(--text)" d="M38.72,25.24c0-.32.25-.57.57-.57h4.89c.32,0,.57.25.57.57v16.24c0,.32-.25.57-.57.57h-4.89c-.32,0-.57-.25-.57-.57v-16.24Z"/><path fill="var(--cyan)" d="M57.91,44.78v-2.66c-2.18-.53-4.21-1.66-5.92-3.36-4.97-4.97-5.09-13.02-.03-18.08,5.09-5.09,13.14-4.97,18.11,0s5.09,13.02,0,18.11c-1.78,1.78-3.94,2.93-6.22,3.46v2.51c0,.35-.18.53-.58.53h-4.82c-.3,0-.55-.2-.55-.5ZM56.28,34.47c.5.5,1.05.9,1.65,1.2v-3.36c0-.35.18-.53.53-.53h4.87c.25,0,.53.18.53.53v3.36c.63-.33,1.23-.78,1.78-1.33,2.73-2.73,2.78-6.75.15-9.38s-6.67-2.61-9.41.13c-2.71,2.71-2.73,6.75-.1,9.38Z"/><path fill="var(--text)" d="M77.44,25.24c0-.32.25-.57.57-.57h4.89c.32,0,.57.25.57.57v16.24c0,.32-.25.57-.57.57h-4.89c-.32,0-.57-.25-.57-.57v-16.24Z"/><path fill="var(--text)" d="M38.5,18.99c0-1.77,1.35-3.19,3.23-3.19s3.23,1.42,3.23,3.19-1.38,3.23-3.23,3.23-3.23-1.42-3.23-3.23Z"/><path fill="var(--text)" d="M77.22,18.99c0-1.77,1.35-3.19,3.23-3.19s3.23,1.42,3.23,3.19-1.38,3.23-3.23,3.23-3.23-1.42-3.23-3.23Z"/></svg>
   </div>
   <div class="topbar-r">
-    <button class="btn-icon btn-icon-sm ds-chat-trigger" id="chat-trigger" type="button" aria-label="Asistente de IA (Ctrl+I)" title="Asistente de IA · Ctrl+I" aria-controls="chat" aria-expanded="false"><i class="ph ph-sparkle"></i></button>
     <div class="account-block">
       <button class="schema-toggle" type="button" aria-haspopup="true" aria-expanded="false"><span class="schema-label">DEMO</span><span class="schema-chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></button>
       <div class="account-menu"><button class="avatar account-menu-trigger" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="Cuenta de Juan Gómez">JG</button></div>
     </div>
+    <button class="btn-icon btn-icon-sm ds-chat-trigger" id="chat-trigger" type="button" aria-label="Asistente de IA (Ctrl+I)" title="Asistente de IA · Ctrl+I" aria-controls="chat" aria-expanded="false"><span class="ds-chat-mcp" aria-hidden="true"></span></button>
     <button class="nav-hamburger" type="button" aria-label="Abrir menú"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg></button>
   </div>
 </header>
@@ -73,7 +73,7 @@
 <aside class="ds-chat" id="chat" aria-label="Asistente de IA">
   <div class="ds-chat-resize" id="chat-resize" role="separator" tabindex="0" aria-orientation="vertical" aria-controls="chat" aria-label="Ancho del asistente" aria-valuemin="320" aria-valuemax="640" aria-valuenow="400"></div>
   <header class="ds-chat-head">
-    <span class="ds-chat-prov" id="chat-prov" data-prov="anthropic" aria-hidden="true"><i class="ph ph-sparkle"></i></span>
+    <span class="ds-chat-prov" id="chat-prov" data-prov="anthropic" aria-hidden="true"><span class="ds-chat-mcp"></span></span>
     <div class="ds-chat-id">
       <h2 class="ds-chat-title" id="chat-title">Claude <span class="ds-chat-model">· Sonnet</span></h2>
       <p class="ds-chat-meta"><span class="ds-chat-dot" id="chat-dot" data-state="ok"></span><span id="chat-status">Conectado</span><span aria-hidden="true">·</span><span class="ds-chat-schema">DEMO</span></p>
@@ -83,7 +83,7 @@
       <div class="pr-menu pr-menu--end ds-chat-menu" id="chat-menu" role="menu" aria-label="Opciones del asistente">
         <div data-view="main">
           <p class="pr-menu-label">Proveedor</p>
-          <button class="pr-menu-item" type="button" role="menuitemradio" aria-checked="true" data-prov="anthropic"><i class="ph ph-sparkle"></i><span class="pr-menu-text">Claude · tu cuenta</span><i class="ph ph-check"></i></button>
+          <button class="pr-menu-item" type="button" role="menuitemradio" aria-checked="true" data-prov="anthropic"><span class="ds-chat-mcp" aria-hidden="true"></span><span class="pr-menu-text">Claude · tu cuenta</span><i class="ph ph-check"></i></button>
           <button class="pr-menu-item" type="button" role="menuitemradio" aria-checked="false" data-prov="yiqi"><span class="ds-chat-q" aria-hidden="true"></span><span class="pr-menu-text">YiQi</span><i class="ph ph-check"></i></button>
           <div class="pr-menu-sep" role="separator"></div>
           <button class="pr-menu-item" type="button" role="menuitem" data-act="new"><i class="ph ph-plus"></i><span class="pr-menu-text">Nueva conversación</span></button>
@@ -235,7 +235,7 @@
   function provider(p){
     var prov = document.getElementById('chat-prov'), title = document.getElementById('chat-title');
     prov.dataset.prov = p;
-    prov.innerHTML = p === 'yiqi' ? '<span class="ds-chat-q"></span>' : '<i class="ph ph-sparkle"></i>';
+    prov.innerHTML = p === 'yiqi' ? '<span class="ds-chat-q"></span>' : '<span class="ds-chat-mcp"></span>';
     title.innerHTML = p === 'yiqi' ? 'YiQi <span class="ds-chat-model">· Asistente de YiQi</span>' : 'Claude <span class="ds-chat-model">· Sonnet</span>';
     menu.querySelectorAll('[data-prov]').forEach(function(b){ b.setAttribute('aria-checked', String(b.dataset.prov === p)); });
   }

@@ -172,7 +172,7 @@
      homologador, que audita codigo local— no pueden leer version.json.
      Se lee con getComputedStyle(...).getPropertyValue('--ds-version').
      DEBE coincidir con version.json. Ver §52. */
-  --ds-version: "1.2.8.103";
+  --ds-version: "1.2.8.104";
 
   /* Layout */
   --topbar-h:  48px;   /* v1.2.8.60: era 56. Controles de 32 + 8 arriba y abajo */
@@ -5800,8 +5800,12 @@ yiqi-mcp-anim { display: block; }
 }
 .ds-chat.is-inline .ds-chat-resize { display: none; }
 
-/* Disparador en la topbar (.btn-icon). Abierto = cian. */
-.ds-chat-trigger[aria-expanded="true"] { color: var(--cyan); background: var(--cyan-soft); }
+/* Disparador en la topbar (.btn-icon), despues del bloque de cuenta: el globo
+   del MCP de la home en terracota. Abierto = fondo tonal del mismo color. */
+.ds-chat-trigger,
+.ds-chat-trigger:hover { color: var(--mcp); }
+.ds-chat-trigger .ds-chat-mcp { width: 17px; height: 17px; }
+.ds-chat-trigger[aria-expanded="true"] { color: var(--mcp); background: var(--mcp-soft); }
 
 /* 76.2 Encabezado ------------------------------------------------------ */
 .ds-chat-head {
@@ -5825,10 +5829,13 @@ yiqi-mcp-anim { display: block; }
   color: var(--muted);
   font-size: 16px;
 }
-.ds-chat-prov[data-prov="yiqi"] { background: var(--cyan-soft); color: var(--cyan); }
-/* Terracota de la paleta de Anthropic, como .px-ic-mcp (§75.2): solo para
-   identificar al proveedor, nunca como acento de la interfaz. */
-.ds-chat-prov[data-prov="anthropic"] { background: var(--mcp-soft); color: var(--mcp); }
+/* Igual que los iconos de las solapas de la home (.px-ic): cuadro de color con
+   el glifo en blanco. YiQi en cyan con la Q; Claude con el globo del MCP en
+   terracota. --mcp identifica al asistente, no es un acento general. */
+.ds-chat-prov[data-prov="yiqi"] { background: var(--cyan); color: var(--text-white); }
+html:not([data-theme="light"]) .ds-chat-prov[data-prov="yiqi"] { color: var(--accent-ink); }
+.ds-chat-prov[data-prov="anthropic"] { background: var(--mcp); color: var(--text-white); }
+.ds-chat-prov .ds-chat-mcp { width: 15px; height: 15px; }
 .ds-chat-id { flex: 1 1 auto; min-width: 0; display: grid; gap: 1px; }
 .ds-chat-title {
   margin: 0;
@@ -6065,6 +6072,22 @@ yiqi-mcp-anim { display: block; }
   -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='46.5 15.5 29 31'%3E%3Cpath d='M57.91,44.78v-2.66c-2.18-.53-4.21-1.66-5.92-3.36-4.97-4.97-5.09-13.02-.03-18.08,5.09-5.09,13.14-4.97,18.11,0s5.09,13.02,0,18.11c-1.78,1.78-3.94,2.93-6.22,3.46v2.51c0,.35-.18.53-.58.53h-4.82c-.3,0-.55-.2-.55-.5ZM56.28,34.47c.5.5,1.05.9,1.65,1.2v-3.36c0-.35.18-.53.53-.53h4.87c.25,0,.53.18.53.53v3.36c.63-.33,1.23-.78,1.78-1.33,2.73-2.73,2.78-6.75.15-9.38s-6.67-2.61-9.41.13c-2.71,2.71-2.73,6.75-.1,9.38Z'/%3E%3C/svg%3E") center / contain no-repeat;
           mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='46.5 15.5 29 31'%3E%3Cpath d='M57.91,44.78v-2.66c-2.18-.53-4.21-1.66-5.92-3.36-4.97-4.97-5.09-13.02-.03-18.08,5.09-5.09,13.14-4.97,18.11,0s5.09,13.02,0,18.11c-1.78,1.78-3.94,2.93-6.22,3.46v2.51c0,.35-.18.53-.58.53h-4.82c-.3,0-.55-.2-.55-.5ZM56.28,34.47c.5.5,1.05.9,1.65,1.2v-3.36c0-.35.18-.53.53-.53h4.87c.25,0,.53.18.53.53v3.36c.63-.33,1.23-.78,1.78-1.33,2.73-2.73,2.78-6.75.15-9.38s-6.67-2.61-9.41.13c-2.71,2.71-2.73,6.75-.1,9.38Z'/%3E%3C/svg%3E") center / contain no-repeat;
 }
+
+/* Globo del MCP de YiQi (el icono de la solapa «MCP de YiQi» de la home) como
+   mascara: toma el color del texto. Va en el disparador, en el proveedor
+   «Claude» y en su opcion del menu. Bajado una unidad para quedar centrado. */
+.ds-chat-mcp {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  flex: none;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 16a2 2 0 0 1-2 2H7l-4 4V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 16a2 2 0 0 1-2 2H7l-4 4V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+/* Menu de proveedores: cada uno con su color, tambien al pasar el mouse. */
+.pr-menu-item[data-prov="anthropic"] > .ds-chat-mcp { color: var(--mcp); }
+.pr-menu-item[data-prov="yiqi"] > .ds-chat-q { color: var(--cyan); }
 
 /* 76.6 Chip de llamada a tool (plegable) -------------------------------
    <details> nativo: se pliega con teclado sin JS. data-state: running |

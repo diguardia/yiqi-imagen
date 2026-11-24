@@ -1,5 +1,5 @@
 /**
- * YiQi Runtime — v1.2.8.103
+ * YiQi Runtime — v1.2.8.104
  * Utilidades JS compartidas para entregables HTML standalone.
  *
  * Uso:  <script src="/system/sdk/yiqi-runtime.js"></script>
@@ -1131,7 +1131,7 @@
     step: StepAPI,
 
     /* Meta */
-    version: '1.2.8.103',
+    version: '1.2.8.104',
   };
 
 }(window));
